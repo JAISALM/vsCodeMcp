@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Large data artifacts (keep the cache, ignore generated outputs)
+data/benchmark_results.txt
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+*.tmp
+
+# NOTE: workflow_backups/ IS tracked (only ~1.4 MB) — keep it in git so
+# pre-fix workflow states are preserved. If it ever grows large, add it here
+# and run: git rm -r --cached workflow_backups
