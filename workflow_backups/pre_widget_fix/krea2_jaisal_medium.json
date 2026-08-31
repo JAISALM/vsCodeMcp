@@ -1,0 +1,1127 @@
+{
+ "id": "converted-krea2_jaisal_medium",
+ "revision": 0,
+ "last_node_id": 30,
+ "last_link_id": 13,
+ "nodes": [
+  {
+   "id": "10",
+   "type": "UNETLoader",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": [
+      "ditto_global_comfy.safetensors",
+      "ditto_global_style_comfy.safetensors",
+      "ditto_sim2real_comfy.safetensors",
+      "flux-2-klein-9b-kv-fp8.safetensors",
+      "flux-2-klein-9b.safetensors",
+      "krea2_turbo_fp8_scaled.safetensors",
+      "ltx-2.3-22b-dev.safetensors",
+      "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "qwen_image_2512_bf16.safetensors",
+      "qwen_image_2512_fp8_e4m3fn.safetensors",
+      "qwen_image_edit_2511_bf16.safetensors",
+      "rt_detr_v4-x-hgnet_fp16.safetensors",
+      "wan2.1_14B_SCAIL_2_fp16.safetensors"
+     ],
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": [
+      "default",
+      "fp8_e4m3fn",
+      "fp8_e4m3fn_fast",
+      "fp8_e5m2"
+     ],
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "krea2_turbo_fp8_scaled.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": "11",
+   "type": "CLIPLoader",
+   "pos": [
+    420,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": [
+      "gemma_3_12B_it.safetensors",
+      "gemma_3_12B_it_fp4_mixed.safetensors",
+      "gemma_3_12B_it_fp8_e4m3fn.safetensors",
+      "ltx-2.3_text_projection_bf16.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "qwen3vl_4b_fp8_scaled.safetensors",
+      "qwen3vl_8b_fp8_scaled.safetensors",
+      "qwen_2.5_vl_7b.safetensors",
+      "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "qwen_3_4b.safetensors",
+      "qwen_3_8b_fp8mixed.safetensors",
+      "t5-base.safetensors",
+      "umt5-xxl-enc-bf16.safetensors",
+      "umt5-xxl-enc-bf16_mocha.safetensors",
+      "umt5_xxl_fp16.safetensors",
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+     ],
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": [
+      "stable_diffusion",
+      "stable_cascade",
+      "sd3",
+      "stable_audio",
+      "mochi",
+      "ltxv",
+      "pixart",
+      "cosmos",
+      "lumina2",
+      "wan",
+      "hidream",
+      "chroma",
+      "ace",
+      "omnigen2",
+      "qwen_image",
+      "hunyuan_image",
+      "flux2",
+      "ovis",
+      "longcat_image",
+      "cogvideox",
+      "lens",
+      "pixeldit",
+      "ideogram4",
+      "boogu",
+      "krea2",
+      "joyimage",
+      "mage",
+      "minimax"
+     ],
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": [
+      "default",
+      "cpu"
+     ],
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+    "type": "krea2",
+    "device": "default"
+   }
+  },
+  {
+   "id": "12",
+   "type": "VAELoader",
+   "pos": [
+    840,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": [
+      "LTX23_audio_vae_bf16.safetensors",
+      "LTX23_video_vae_bf16.safetensors",
+      "Wan2_1_VAE_bf16.safetensors",
+      "ae.safetensors",
+      "flux2-vae.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_video_vae_fp16.safetensors",
+      "qwen_image_vae.safetensors",
+      "wan2.2_vae.safetensors",
+      "wan\\Wan2_1_VAE_bf16.safetensors",
+      "wan_2.1_vae.safetensors",
+      "taef1",
+      "taesd3",
+      "taesdxl",
+      "taesd",
+      "pixel_space"
+     ],
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      5,
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "qwen_image_vae.safetensors"
+   }
+  },
+  {
+   "id": "FKI2I:img",
+   "type": "LoadImage",
+   "pos": [
+    1260,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": [
+      "20260518_171625.jpg",
+      "20260518_174719.jpg",
+      "20260518_174737.jpg",
+      "3c44f3cd1855a8ae78fce76db5d30d85.jpg",
+      "51dbmrYX8GL.jpg",
+      "ChatGPT Image Apr 21, 2026, 11_48_23 PM.png",
+      "ChatGPT Image Apr 22, 2026, 12_07_31 AM.png",
+      "ComfyUI_00122_.png",
+      "ComfyUI_00125_.png",
+      "ComfyUI_00141_.png",
+      "ComfyUI_00150_.png",
+      "ComfyUI_temp_vkpht_00004_.png",
+      "DSC_0124 (2).JPG",
+      "DSC_0286.JPG",
+      "DSC_0416.JPG",
+      "DSC_0447.JPG",
+      "FK_00010_.png",
+      "FK_00067_.png",
+      "FK_00070_.png",
+      "FK_00078_.png",
+      "FK_00079_.png",
+      "FK_00084_.png",
+      "FK_00085_.png",
+      "IMG_20260512_182802.jpg",
+      "Image_00001_.png",
+      "Image_00007_.png",
+      "Image_00011_.png",
+      "Image_00013_.png",
+      "Image_00015_.png",
+      "Inglourious Basterds.jpg",
+      "bd4dc13a-fa90-447c-8fda-90a9862346e2.jpg",
+      "character_second_1_00031_.png",
+      "character_second_1_00066_.png",
+      "character_second_1_00079_.png",
+      "character_second_1_00082_.png",
+      "character_second_1_00086_.png",
+      "dataset_left_1_00002_.png",
+      "dataset_left_1_00007_.png",
+      "dataset_left_1_00015_.png",
+      "distilled image.png",
+      "example.png",
+      "face.png",
+      "front.png",
+      "jaisal_base.png",
+      "jaisal_base_final.png",
+      "jaisal_face_A.png",
+      "jaisal_face_B.png",
+      "jaisal_face_v2_A.png",
+      "jaisal_face_v2_B.png",
+      "jaisal_face_v3_A.png",
+      "jaisal_face_v3_B.png",
+      "jaisal_face_v4_A.png",
+      "jaisal_face_v4_B.png",
+      "jaisal_final_aerial_00001_.png",
+      "jaisal_krea2_2k_A.png",
+      "jaisal_krea2_2k_B.png",
+      "jaisal_krea2_2k_C.png",
+      "jaisal_krea2_2k_D.png",
+      "jaisal_krea2_base.png",
+      "jaisal_krea2_base_v2.png",
+      "jaisal_krea2_base_v3.png",
+      "jaisal_krea2_base_v4.png",
+      "jaisal_medium_00003.png",
+      "jaisal_medium_mid.png",
+      "jaisal_medium_mid2.png",
+      "jaisal_mm_final.png",
+      "jaisal_mm_long.png",
+      "jaisal_mm_start.png",
+      "jaisal_shot1.png",
+      "jaisal_shot2.png",
+      "jaisal_shot3.png",
+      "jaisal_sketch_shot1.png",
+      "jaisal_sketch_shot2.png",
+      "jaisal_sketch_shot3.png",
+      "jaisal_ss04.png",
+      "jaisal_ss04v2.png",
+      "jaisal_ss05.png",
+      "jaisal_ss05_tie_mask.png",
+      "jaisal_ss05v2.png",
+      "jaisal_ss05v3.png",
+      "jaisal_ss05v4.png",
+      "jaisal_ss06.png",
+      "jaisal_ss06v2.png",
+      "jaisal_ss08v4.png",
+      "ltx-2-is-natively-supported-in-comfyui-on-day-0-v0-xt3kagkskwbg1.webp",
+      "mask_1782630888673.png",
+      "mask_1782640860174.png",
+      "mask_1782640945060.png",
+      "mask_1782641025760.png",
+      "mask_1787737975250.png",
+      "mask_1787738042070.png",
+      "mask_1787738073942.png",
+      "mask_1787738142161.png",
+      "mask_1787738224829.png",
+      "mask_1787738293190.png",
+      "mask_1787738376395.png",
+      "mask_1787738424561.png",
+      "mask_1787738477289.png",
+      "mask_1787762086483.png",
+      "photo_2025-12-29_07-50-36.jpg",
+      "photo_2026-07-05_21-23-54.jpg",
+      "photo_2026-07-05_21-26-14.jpg",
+      "side.png",
+      "sketch_1782630764219.png",
+      "sketch_1782630885554.png",
+      "sketch_1782635539408.png",
+      "sketch_1782635798297.png",
+      "sketch_1782635957956.png",
+      "sketch_1782636248289.png",
+      "sketch_1782640638277.png",
+      "sketch_1782640942062.png",
+      "sketch_1782640949445.png",
+      "storysheet_05_rain_closeup_gust_v4_00001_.png"
+     ],
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ]
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "jaisal_medium_mid.png"
+   ],
+   "widgets_values_named": {
+    "image": "jaisal_medium_mid.png"
+   }
+  },
+  {
+   "id": "13",
+   "type": "CLIPTextEncode",
+   "pos": [
+    0,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "houses, buildings, structures, different character, different face, different boy, very pale skin, white skin, dusky skin, dark skin, shorts, short pants, bare legs, side view, rounded handrail, rounded railing, decorative railing, exotic railing, ornate railing, curved railing, fancy railing, close trees, close paddy fields, foreground trees, blurry, low quality, deformed, watermark, text, logo, cartoon, flat vector, photorealistic, photo"
+   ],
+   "widgets_values_named": {
+    "text": "houses, buildings, structures, different character, different face, different boy, very pale skin, white skin, dusky skin, dark skin, shorts, short pants, bare legs, side view, rounded handrail, rounded railing, decorative railing, exotic railing, ornate railing, curved railing, fancy railing, close trees, close paddy fields, foreground trees, blurry, low quality, deformed, watermark, text, logo, cartoon, flat vector, photorealistic, photo"
+   }
+  },
+  {
+   "id": "15",
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    420,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": [
+      "Flux2-Klein-9B-consistency-V2.safetensors",
+      "Krea2_Cinematic_Artstyle.safetensors",
+      "LTX23_audio_vae_bf16.safetensors",
+      "Qwen-Image-2512-Lightning-4steps-V1.0-fp32.safetensors",
+      "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+      "Qwen-Image-Lightning-4steps-V1.0-bf16.safetensors",
+      "Qwen-Image-Lightning-4steps-V1.0.safetensors",
+      "Qwen-Image-Lightning-8steps-V1.0.safetensors",
+      "Technically_Color_Z_Image_Turbo_v1_renderartist_2000.safetensors",
+      "Typnosis_Krea2.safetensors",
+      "Wan21_CausVid_14B_T2V_lora_rank32.safetensors",
+      "Wan21_CausVid_14B_T2V_lora_rank32_v2.safetensors",
+      "Wan21_CausVid_bidirect2_T2V_1_3B_lora_rank32.safetensors",
+      "WanAnimate_relight_lora_fp16.safetensors",
+      "Wan_2_1_I2V_14B_ChronoEdit_distill_lora_rank32.safetensors",
+      "Wuli-Qwen-Image-2512-Turbo-LoRA-2steps-V1.0-bf16.safetensors",
+      "adonis_base.safetensors",
+      "adonis_refine.safetensors",
+      "bfs_head_v1_flux-klein_9b_step3500_rank128.safetensors",
+      "flux-2-klein-9B-360-erp-outpaint-lora_V1.safetensors",
+      "gemma-3-12b-it-abliterated_lora_rank64_bf16.safetensors",
+      "krea2_darkbrush.safetensors",
+      "lenovo.safetensors",
+      "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+      "lightx2v_T2V_14B_cfg_step_distill_v2_lora_rank256_bf16.safetensors",
+      "ltx-2-19b-distilled-lora-384.safetensors",
+      "ltx-2-19b-ic-lora-detailer.safetensors",
+      "ltx-2-19b-lora-camera-control-dolly-left.safetensors",
+      "ltx-2-spatial-upscaler-x2-1.0.safetensors",
+      "ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+      "ltx-2.3-22b-distilled-lora-384.safetensors",
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors",
+      "ltx-2.3-id-lora-celebvhq-3k.safetensors",
+      "ltx-2.3-id-lora-talkvid-3k.safetensors",
+      "ltx2.3-transition.safetensors",
+      "ltx_2.3_22b_distilled_1.1_lora_dynamic_fro09_avg_rank_111_bf16.safetensors",
+      "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors",
+      "nicegirls_qwen2512.safetensors",
+      "pixel_art_style_z_image_turbo.safetensors",
+      "qwen-360-diffusion-2512-int8-bf16-v2.safetensors",
+      "qwen-cinema.safetensors",
+      "qwen-image-edit-2511-multiple-angles-lora.safetensors",
+      "refcontrol_v2_poses.safetensors",
+      "wan2.1_SCAIL_2_DPO_lora_bf16.safetensors",
+      "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+      "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors"
+     ],
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2_Cinematic_Artstyle.safetensors",
+    1.0
+   ],
+   "widgets_values_named": {
+    "lora_name": "Krea2_Cinematic_Artstyle.safetensors",
+    "strength_model": 1.0
+   }
+  },
+  {
+   "id": "29",
+   "type": "SaveImage",
+   "pos": [
+    840,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "jaisal_cut/krea2_medium_mid"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "jaisal_cut/krea2_medium_mid"
+   }
+  },
+  {
+   "id": "30",
+   "type": "PreviewImage",
+   "pos": [
+    1260,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PreviewImage"
+   },
+   "widgets_values": [],
+   "widgets_values_named": {}
+  },
+  {
+   "id": "6",
+   "type": "CLIPTextEncode",
+   "pos": [
+    0,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "An angular, 3d art style, with brush stroke color texture. Medium half shot of the same young Indian schoolboy from the reference image, around ten years old, wearing a neat school uniform of a collared shirt tucked into full-length long trousers, his left hand holding the strap of a red school bag for support after running, head and upper body in frame, standing at the middle of the stone bridge, the bridge stretching away on both sides, calm determined expression looking slightly ahead, fair skin with a slight warm tan, natural healthy complexion, not pale and not dark, plain simple square stone handrail posts and a plain flat stone railing beside him, no rounded shapes, no decorative or exotic railing details, the lush paddy fields and tall coconut palms are far in the background, distant and small, open clear sky, no houses, no buildings, soft diffused overcast light, the same angular 3d brush-stroke artstyle as the reference image, highly detailed, 16:9 widescreen"
+   ],
+   "widgets_values_named": {
+    "text": "An angular, 3d art style, with brush stroke color texture. Medium half shot of the same young Indian schoolboy from the reference image, around ten years old, wearing a neat school uniform of a collared shirt tucked into full-length long trousers, his left hand holding the strap of a red school bag for support after running, head and upper body in frame, standing at the middle of the stone bridge, the bridge stretching away on both sides, calm determined expression looking slightly ahead, fair skin with a slight warm tan, natural healthy complexion, not pale and not dark, plain simple square stone handrail posts and a plain flat stone railing beside him, no rounded shapes, no decorative or exotic railing details, the lush paddy fields and tall coconut palms are far in the background, distant and small, open clear sky, no houses, no buildings, soft diffused overcast light, the same angular 3d brush-stroke artstyle as the reference image, highly detailed, 16:9 widescreen"
+   }
+  },
+  {
+   "id": "8",
+   "type": "VAEDecode",
+   "pos": [
+    420,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 10
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      12,
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": [],
+   "widgets_values_named": {}
+  },
+  {
+   "id": "FKI2I:vae",
+   "type": "VAEEncode",
+   "pos": [
+    840,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "pixels",
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": [],
+   "widgets_values_named": {}
+  },
+  {
+   "id": "3",
+   "type": "KSampler",
+   "pos": [
+    1260,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 6
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 8
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": [
+      "euler",
+      "euler_cfg_pp",
+      "euler_ancestral",
+      "euler_ancestral_cfg_pp",
+      "heun",
+      "heunpp2",
+      "exp_heun_2_x0",
+      "exp_heun_2_x0_sde",
+      "dpm_2",
+      "dpm_2_ancestral",
+      "lms",
+      "dpm_fast",
+      "dpm_adaptive",
+      "dpmpp_2s_ancestral",
+      "dpmpp_2s_ancestral_cfg_pp",
+      "dpmpp_sde",
+      "dpmpp_sde_gpu",
+      "dpmpp_2m",
+      "dpmpp_2m_cfg_pp",
+      "dpmpp_2m_sde",
+      "dpmpp_2m_sde_gpu",
+      "dpmpp_2m_sde_heun",
+      "dpmpp_2m_sde_heun_gpu",
+      "dpmpp_3m_sde",
+      "dpmpp_3m_sde_gpu",
+      "ddpm",
+      "lcm",
+      "ipndm",
+      "ipndm_v",
+      "deis",
+      "res_multistep",
+      "res_multistep_cfg_pp",
+      "res_multistep_ancestral",
+      "res_multistep_ancestral_cfg_pp",
+      "gradient_estimation",
+      "gradient_estimation_cfg_pp",
+      "er_sde",
+      "seeds_2",
+      "seeds_3",
+      "sa_solver",
+      "sa_solver_pece",
+      "ddim",
+      "uni_pc",
+      "uni_pc_bh2",
+      "legacy_rk",
+      "rk",
+      "rk_beta",
+      "deis_3m_ode",
+      "deis_2m_ode",
+      "deis_3m",
+      "deis_2m",
+      "res_6s_ode",
+      "res_5s_ode",
+      "res_3s_ode",
+      "res_2s_ode",
+      "res_3m_ode",
+      "res_2m_ode",
+      "res_6s",
+      "res_5s",
+      "res_3s",
+      "res_2s",
+      "res_3m",
+      "res_2m"
+     ],
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": [
+      "simple",
+      "sgm_uniform",
+      "karras",
+      "exponential",
+      "ddim_uniform",
+      "beta",
+      "normal",
+      "linear_quadratic",
+      "kl_optimal",
+      "bong_tangent",
+      "beta57"
+     ],
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    999,
+    8,
+    1.0,
+    "euler",
+    "simple",
+    0.7
+   ],
+   "widgets_values_named": {
+    "seed": 999,
+    "steps": 8,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 0.7
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   "10",
+   0,
+   "15",
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   "11",
+   0,
+   "6",
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   "11",
+   0,
+   "13",
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   "FKI2I:img",
+   0,
+   "FKI2I:vae",
+   0,
+   "IMAGE"
+  ],
+  [
+   5,
+   "12",
+   0,
+   "FKI2I:vae",
+   1,
+   "VAE"
+  ],
+  [
+   6,
+   "15",
+   0,
+   "3",
+   0,
+   "MODEL"
+  ],
+  [
+   7,
+   "6",
+   0,
+   "3",
+   1,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   "13",
+   0,
+   "3",
+   2,
+   "CONDITIONING"
+  ],
+  [
+   9,
+   "FKI2I:vae",
+   0,
+   "3",
+   3,
+   "LATENT"
+  ],
+  [
+   10,
+   "3",
+   0,
+   "8",
+   0,
+   "LATENT"
+  ],
+  [
+   11,
+   "12",
+   0,
+   "8",
+   1,
+   "VAE"
+  ],
+  [
+   12,
+   "8",
+   0,
+   "29",
+   0,
+   "IMAGE"
+  ],
+  [
+   13,
+   "8",
+   0,
+   "30",
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

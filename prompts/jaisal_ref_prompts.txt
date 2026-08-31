@@ -1,0 +1,169 @@
+Jaisal Cut — Krea2 reference-image prompt set (2026-08-28)
+============================================================
+Workflow: krea2_jaisal_refs.json (Krea2 t2i, 2048x1152, LoRA Krea2_Cinematic_Artstyle @1.0)
+Save prefix: jaisal_cut/refs
+
+STRATEGY: generate this SET of Krea2-styled images, then feed them as references to
+MiniMax H3 so it holds the angular brush-stroke style across the WHOLE video (not just
+the first 2-3s). NOTE (2026-08-28): Krea2 CANNOT make a faceless character — it always
+renders a face. That's fine: the character is a NORMAL young schoolboy with short dark
+hair (face OK). Costume: rose-pink collared shirt, full-length black trousers, black
+school bag. ALWAYS emphasize "only ONE character, no other people, no duplicates" —
+Krea2 tends to duplicate the character.
+
+Every prompt starts with the locked style prefix:
+"An angular, 3d art style, with brush stroke color texture."
+
+NEGATIVE PROMPT (use for every image):
+multiple characters, more than one kid, duplicate character, 2 kids, duplicated kids, extra people, people in the water, kid in the river, kid in the water, shorts, short pants, bare legs, red bag, red school bag, school uniform, tie, necktie, blurry, low quality, deformed, watermark, text, logo, cartoon, flat vector, photorealistic, photo, different character, different costume
+
+====================================================================
+1. CHARACTER SHEET (turnaround) — the default in the workflow
+====================================================================
+An angular, 3d art style, with brush stroke color texture. A character reference turnaround sheet of a single young schoolboy - ONLY ONE character, no duplicates - shown in three views side by side (front, side, back) on a clean neutral background. The boy has short dark hair and a calm neutral face. Wearing a rose-pink collared shirt, full-length black trousers, and carrying a black school bag. Consistent proportions and costume across all three views, character model sheet, highly detailed, 16:9 widescreen
+
+====================================================================
+2. ABSTRACT (pure style / texture piece)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. An abstract composition of angular geometric shapes and thick visible brushstrokes in a moody palette - slate blue, charcoal, rose-pink accents, and warm amber highlights. Painterly color texture, matte finish, angular faceted forms, no recognizable objects, a pure style and texture study, highly detailed, 16:9 widescreen
+
+====================================================================
+3. BRIDGE — wide establishing shot (single boy ON the bridge, left side)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. WIDE shot, the camera positioned low at water level in the middle of the open river looking straight ahead perpendicular to the bridge, a wide view. Open river water fills the foreground with gentle ripples and reflections. A long STRAIGHT traditional stone bridge with a STRAIGHT flat deck (NOT arched, NOT curved) and a LOW waist-height stone handrail (NOT a tall wall, NOT chest-height) crosses the frame from the left bank to the right bank. A single young schoolboy - ONLY ONE character, no other people, no duplicates - with short dark hair, wearing a rose-pink collared shirt, full-length black trousers, and a black school bag, at the very start of the bridge on the left side, just starting to RUN along the bridge, a small figure on the stone walkway, definitely NOT in the water, feet on the bridge stones. Lush trees and tall coconut palms on both banks, rolling green hills far in the background, the sky DARK and moody, heavy overcast rain clouds, light rain beginning, dim diffused overcast light (NOT bright, NOT sunny, NOT clear sky), vast cinematic depth, highly detailed, 16:9 widescreen
+
+====================================================================
+4. MEDIUM SHOT — boy mid-bridge (style anchor)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. Medium half shot of a single young schoolboy - ONLY ONE character, no other people - with short dark hair, wearing a rose-pink collared shirt, full-length black trousers, and a black school bag, at the middle of a long STRAIGHT flat stone bridge (NOT arched, NOT curved) with a LOW waist-height stone handrail (NOT a tall wall, NOT chest-height), the bridge stretching away on both sides, plain simple square stone handrail posts, in a natural three-quarter view, rain falling, rain streaks visible, his shirt getting wet, NOT looking at the camera, NOT facing the camera directly, lush trees and tall coconut palms far in the background, distant and small, moody DARK overcast sky, heavy rain, dim diffused overcast light (NOT bright, NOT sunny, NOT clear sky), highly detailed, 16:9 widescreen
+
+====================================================================
+5. CLOSE-UP — head + shoulders (style anchor)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. Close-up of a single young schoolboy - ONLY ONE character - head and shoulders, short dark hair, a calm neutral expression, wearing a rose-pink collared shirt, the collar and shoulders visible, a black school bag strap over one shoulder, the background a soft-focus STRAIGHT flat stone bridge (NOT arched, NOT curved) with a LOW waist-height stone handrail (NOT a tall wall, NOT chest-height), plain simple SQUARE stone handrail posts (NOT rounded, NOT decorative) and distant trees, moody overcast light, highly detailed, 16:9 widescreen
+
+====================================================================
+6. WATER — underwater / river surface (for the jump + title)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. A FULLY UNDERWATER shot in a wide open natural Kerala river, the ENTIRE frame is underwater, no waterline, no half-water-half-bridge split, the camera positioned low in the water looking STRAIGHT UP, directly vertical, no tilt, no diagonal, the long stone bridge with its arches and the dark moody sky seen THROUGH the rippling water surface from below, refracted and distorted by the water, integrated into the water (NOT a separate sky above a separate waterline), rising bubbles, a single young schoolboy - ONLY ONE character - with short dark hair, rose-pink collared shirt, black trousers, black school bag - sinking downward, his FACE clearly visible and turned toward the camera, body in a natural sinking and drifting pose with arms and legs loosely spread and floating, NOT standing upright, NOT turned with his back to the camera, into deep open water, the water is open and unbounded on ALL sides with NO visible river bed, NO sand, NO pebbles, NO bottom in view (NOT a canal, NOT a bund, NOT concrete walls, NOT brick walls, NOT stone walls, NOT any man-made walls or embankments under or beside the water), the water fades into dark open depth below, generous negative space in the open water for a title, the water is dark and moody matching the rain (NOT bright, NOT sunny, a single moody tone), the sky seen through the water is DARK and moody, heavy overcast post-rain clouds, dim grey light filtering down through the water (NOT a bright sky, NOT blue sky, NOT sunny, NOT clear sky), highly detailed, 16:9 widescreen
+
+WATER-SPECIFIC NEGATIVE (use for THIS image only, in addition to the shared negative above):
+concrete walls, brick walls, stone walls, canal walls, bund walls, embankment walls, man-made walls, walls under the water, walls beside the water, canal, canalized river, canalized waterway, bund, embankment, concrete embankment, paved river bed, tiled river bed, straight river banks, artificial river, urban river, drainage channel, drainage canal, back to camera, turned away, facing away, back view, standing upright, standing pose, upright standing figure, feet on the ground, visible river bed, sandy river bed, pebble river bed, river bottom, sand, pebbles, stones on the bottom, shallow water, clear bottom, bright sky, blue sky, sunny sky, clear sky, bright light, sunlight, sun rays, warm light, eye-level shot, mid shot, medium shot, horizontal view, bridge at eye level, bridge in the distance, small bridge, distant bridge, half water half bridge, waterline, water surface line, horizon line, split frame, separate sky above water, sky above the waterline, tilted angle, tilted camera, diagonal view, diagonal angle, skewed perspective, dutch angle, canted horizon
+
+====================================================================
+7. MEDIUM SHOT — boy running (motion + style anchor)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. Medium shot of a single young schoolboy - ONLY ONE character, no other people - with short dark hair, wearing a rose-pink collared shirt, full-length black trousers, and a black school bag, running along the middle of a long STRAIGHT flat stone bridge (NOT arched, NOT curved) in heavy rain, rain streaks visible, water splashing on the bridge stones, his shirt SOAKED and clinging to his body, the wet fabric darker where soaked, water dripping off the shirt and trousers, his hair wet and plastered to his head, raindrops on his skin, a LOW waist-height stone handrail (NOT a tall wall, NOT chest-height) with plain simple SQUARE stone handrail posts along the bridge (NOT a royal building staircase, NOT ornate, NOT decorative), the bridge stretching away on both sides, moody dark overcast sky, dynamic running pose, highly detailed, 16:9 widescreen
+
+BRIDGE-SPECIFIC NEGATIVE (use for the on-bridge shots: bridge, medium, close-up, running, in addition to the shared negative above):
+tall handrail, handrail like a wall, chest-height handrail, high handrail, arched bridge, curved bridge, curved deck, arched deck, bent bridge, tilted bridge, diagonal bridge
+
+RUNNING-SHOT NEGATIVE (use for the running shot only, in addition to the shared negative above):
+dry shirt, dry clothes, dry hair, dry fabric, crisp dry shirt, unsoaked clothes
+
+====================================================================
+8. WIDE ANGLE — the JUMP (kid jumping off the bridge into the river)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. WIDE shot, the camera positioned low at water level in the middle of the open river looking straight ahead perpendicular to the bridge, a wide view. Open river water fills the foreground with gentle ripples and reflections. A long STRAIGHT traditional stone bridge with a STRAIGHT flat deck (NOT arched, NOT curved) and a LOW waist-height stone handrail (NOT a tall wall, NOT chest-height) crosses the frame from the left bank to the right bank. A single young schoolboy - ONLY ONE character, no other people, no duplicates - with short dark hair, wearing a rose-pink collared shirt, full-length black trousers, and a black school bag, at the start of the bridge on the left side, DIVING off the near edge of the bridge into the open river below, LIKE A DIVER, body streamlined and straight like a springboard diver, arms extended forward, head forward, legs together, mid-dive, angled DOWNWARD and TOWARD the open river water in the foreground, FACING THE CAMERA, a small figure on the bridge, his shirt SOAKED and clinging to his body, water splashing where he is about to land, rain falling, rain streaks visible. Lush trees and tall coconut palms on both banks, rolling green hills far in the background, the sky DARK and moody, heavy overcast rain clouds, dim diffused overcast light (NOT bright, NOT sunny, NOT clear sky), vast cinematic depth, highly detailed, 16:9 widescreen
+
+JUMP-SPECIFIC NEGATIVE (use for the jump shot only, in addition to the shared negative above):
+standing on the bridge, not jumping, not diving, dry shirt, dry clothes, dry hair, bright sky, blue sky, sunny sky, clear sky, arched bridge, curved bridge, tall handrail, handrail like a wall, back to camera, turned away, facing away, back view, cropped, close-up, partial body, head and shoulders only, arms and legs spread, starfish pose, low angle shot, looking up at the bridge, camera looking up, large figure, figure filling the frame, boy larger than the bridge, boy as tall as the bridge, jumping away from the river, diving away from the water, jumping onto the bridge, boy still on the bridge not in the air
+
+====================================================================
+9. DIVING POSE — white background reference (for compositing onto the wide shot)
+====================================================================
+An angular, 3d art style, with brush stroke color texture. A single young schoolboy - ONLY ONE character, no other people, no duplicates - with short dark hair, wearing a rose-pink collared shirt, full-length black trousers, and a black school bag, in a DIVING pose, body streamlined and straight like a springboard diver, arms extended forward, head forward, legs together, mid-dive, angled downward, FACING THE CAMERA, a FRONT view, his FULL BODY visible from head to toe, clear body structure, the boy is a TINY figure, as SMALL as possible, occupying only about one-fifth of the frame height, centered, with a LOT of empty white space around him, the figure small enough to fit comfortably inside a wide frame, on a CLEAN WHITE background, isolated figure, no other objects, no background elements, highly detailed, 16:9 widescreen
+
+DIVING-REFERENCE NEGATIVE (use for THIS image only, in addition to the shared negative above):
+bridge, river, water, trees, sky, landscape, environment, scenery, complex background, colored background, grey background, standing, not diving, arms and legs spread, starfish pose, cropped, partial body, head and shoulders only, large figure, figure filling the frame, big figure, figure taking up most of the frame
+
+HOW TO USE THIS REFERENCE:
+Generate this white-background diving figure with the t2i workflow (krea2_jaisal_refs.json).
+Then use it as the ANCHOR REFERENCE in the identity workflow (krea2_identity_edit.json):
+load it in the LoadImage node (72), and paste the JUMP instruction (the moody bridge scene)
+into the instruction node (84). The identity workflow regenerates the moody bridge scene
+keeping the SAME face + the diving pose from this reference. Alternatively, cut out the
+diving figure and composite it onto the wide bridge shot (refs_00016_.png) manually.
+
+====================================================================
+10. TITLE CARD — "The Jaisal Cut" (underwater, typography LoRA)
+====================================================================
+WORKFLOW: krea2_jaisal_title.json (Krea2 i2i — load the underwater shot, Cinematic LoRA
+@1.0 + Typnosis_Krea2 typography LoRA @5.0 (STR5 — the balanced-strong range that reads
+best for the title), KSampler 8 steps cfg 1, denoise 0.55).
+Load the underwater shot (refs_water.png) in the LoadImage node. The prompt keeps the
+SAME underwater scene but swaps the boy for the TITLE, and the title is FORMED FROM
+BUBBLES (each letter built from clusters of rising air bubbles) with bubbles drifting
+around it. The title has a WAVY FLOATING layout — words at slightly different heights,
+spaced apart (not cramped), letters varying in size/shape — with a SIZE HIERARCHY:
+'The' SMALL, 'Jaisal' BIG (the hero word, largest), 'Cut' MEDIUM — but the whole
+"The Jaisal Cut" stays clearly readable.
+
+POSITIVE (paste into the positive CLIPTextEncode node):
+An angular, 3d art style, with brush stroke color texture. A FULLY UNDERWATER shot in a wide open natural Kerala river, the ENTIRE frame is underwater, no waterline, no half-water-half-bridge split, the camera positioned low in the water looking STRAIGHT UP, directly vertical, no tilt, no diagonal, the long stone bridge with its arches and the dark moody sky seen THROUGH the rippling water surface from below, refracted and distorted by the water, integrated into the water, rising bubbles, the water is open and unbounded on ALL sides with NO visible river bed, NO sand, NO pebbles, NO bottom in view, the water fades into dark open depth below, the title text 'The Jaisal Cut' formed ENTIRELY from clusters of rising air bubbles, each letter built from many small and medium bubbles that glow softly against the dark water, the title words sized in a clear hierarchy - the word 'The' SMALL, the word 'Jaisal' BIG and dominant (the largest word, the hero of the title), the word 'Cut' MEDIUM (between the two), the letters and words arranged in a gentle WAVY floating layout, each word drifting at a slightly different height as if floating in the water, the words spaced apart with generous gaps between them (NOT cramped, NOT adjacent), the individual letters varying slightly in size and shape for an organic floating feel, the whole title 'The Jaisal Cut' clearly readable and centered in the generous negative space of the open water, additional bubbles drifting and rising around the title, NO person, NO boy, NO character, the water is dark and moody matching the rain, the sky seen through the water is DARK and moody, heavy overcast post-rain clouds, dim grey light filtering down through the water, highly detailed, 16:9 widescreen
+
+NEGATIVE (paste into the negative CLIPTextEncode node):
+person, boy, character, figure, human, kid, face, body, multiple characters, more than one kid, duplicate character, blurry, low quality, deformed, watermark, logo, cartoon, flat vector, photorealistic, photo, bright sky, blue sky, sunny sky, clear sky, visible river bed, sandy river bed, pebble river bed, river bottom, sand, pebbles, concrete walls, canal, bund, garbled text, misspelled text, unreadable text, distorted letters
+
+HOW TO USE:
+1. Open krea2_jaisal_title.json (FRESH tab).
+2. Load the underwater shot (refs_water.png) in the LoadImage node (30).
+3. Paste the POSITIVE above into the positive node (6), the NEGATIVE into the negative node (13).
+4. Queue. The output keeps the underwater scene but shows the title 'The Jaisal Cut'
+   (formed from bubbles) instead of the boy. Save as title_card.png.
+5. Tuning (Typnosis LoRA = node 32, denoise = KSampler node 3):
+   - STR5 (5.0) is the balanced-strong range that reads best for the title (per the
+     Typnosis notes: STR1-STR2 is most prompt-faithful; STR4+ gets more stylized and
+     compositions converge). If STR5 over-stylizes / distorts the letters, drop to 3.0-4.0.
+   - If the title text is garbled: lower denoise to 0.4 (keeps the scene, less text
+     distortion) or nudge the LoRA down.
+   - If the boy is still there: raise denoise to 0.65-0.7.
+   - If the bubbles are too sparse / the letters don't read as bubbles: strengthen the
+     bubble wording in the prompt ("each letter built from DENSE clusters of many small
+     bubbles") or raise the LoRA a touch.
+   - Wavy layout tuning: if the words come out too flat / in a straight line, strengthen
+     the wavy wording ("each word drifting at a clearly different height, a gentle S-curve
+     across the frame"). If the words get too scattered / the title stops reading as one
+     line, soften it ("a SUBTLE gentle wave, words only slightly offset in height, kept
+     close enough to read as one title").
+   - Size hierarchy tuning: the words are sized 'The' SMALL < 'Cut' MEDIUM < 'Jaisal' BIG
+     (the hero word). If 'Jaisal' isn't big enough / not dominant, strengthen it ("'Jaisal'
+     MUCH larger than the other words, the clear focal point"). If the hierarchy gets lost
+     (all words end up the same size), restate it more forcefully and/or lower denoise a
+     touch so the text layout is followed more faithfully.
+
+====================================================================
+HOW TO USE
+====================================================================
+1. Open krea2_jaisal_refs.json (FRESH tab).
+2. For each image above: paste its prompt into the positive CLIPTextEncode node, keep the
+   negative prompt, run, and save. Name the outputs:
+     refs_char_sheet.png, refs_abstract.png, refs_bridge.png, refs_medium.png,
+     refs_closeup.png, refs_water.png, refs_running.png, refs_jump.png,
+     refs_diving_white.png
+3. If a character gets DUPLICATED or lands IN THE RIVER: re-run with a different seed
+   (the KSampler seed widget) until you get a single character on the bridge.
+4. Stage the best ones into input\ as 1.png, 2.png, ... (or keep their names).
+5. Feed 2-3 of these (bridge + medium + close-up, or + water) as references to the
+   MiniMax H3 R2V workflow so it holds the style across the whole video.
+
+KNOWN KREA2 QUIRKS (2026-08-28):
+- Krea2 CANNOT make a faceless character — it always renders a face. That's fine.
+- Krea2 tends to DUPLICATE the character (multiple kids) — the prompts now say
+  "ONLY ONE character, no other people, no duplicates" and the negative prompt
+  reinforces it. If it still duplicates, re-run with a different seed.
+- The bridge prompt now pins the boy ON THE BRIDGE DECK (left side), NOT in the water.
+
+CLIMATE CONSISTENCY (2026-08-29):
+- Do NOT change the climate dramatically between shots. Once the rain starts, keep
+  ONE moody tone across all the rain/water shots (medium, close-up, water, running).
+  The underwater shot must be DARK and moody (matching the rain), NOT bright/sunny.
+  A drastic light change between shots breaks continuity and MiniMax won't bridge it.
+
+FACE / IDENTITY CONSISTENCY (2026-08-29):
+- Krea2 t2i gives a DIFFERENT face every time the character appears. To lock the
+  face, use the IDENTITY workflow `krea2_identity_edit.json` (Krea2 Identity Edit
+  v1.2, LoRA `krea2_identity_edit_v1_2.safetensors`, ref_boost=4). Load a good
+  reference (the character sheet or a clean close-up) in the LoadImage node, write a
+  plain-English instruction, and it regenerates the scene keeping the SAME face.
+  This is how we get one consistent character across all the reference images.

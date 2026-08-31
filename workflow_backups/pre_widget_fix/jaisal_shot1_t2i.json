@@ -1,0 +1,862 @@
+{
+ "id": "converted-jaisal_shot1_t2i",
+ "revision": 0,
+ "last_node_id": 0,
+ "last_link_id": 10,
+ "nodes": [
+  {
+   "id": "FK:153",
+   "type": "VAELoader",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": [
+      "LTX23_audio_vae_bf16.safetensors",
+      "LTX23_video_vae_bf16.safetensors",
+      "Wan2_1_VAE_bf16.safetensors",
+      "ae.safetensors",
+      "flux2-vae.safetensors",
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_video_vae_fp16.safetensors",
+      "qwen_image_vae.safetensors",
+      "wan2.2_vae.safetensors",
+      "wan\\Wan2_1_VAE_bf16.safetensors",
+      "wan_2.1_vae.safetensors",
+      "taef1",
+      "taesd3",
+      "taesdxl",
+      "taesd",
+      "pixel_space"
+     ],
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "flux2-vae.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "flux2-vae.safetensors"
+   }
+  },
+  {
+   "id": "FK:155",
+   "type": "CLIPLoader",
+   "pos": [
+    420,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": [
+      "gemma_3_12B_it.safetensors",
+      "gemma_3_12B_it_fp4_mixed.safetensors",
+      "gemma_3_12B_it_fp8_e4m3fn.safetensors",
+      "ltx-2.3_text_projection_bf16.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "qwen3vl_4b_fp8_scaled.safetensors",
+      "qwen3vl_8b_fp8_scaled.safetensors",
+      "qwen_2.5_vl_7b.safetensors",
+      "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "qwen_3_4b.safetensors",
+      "qwen_3_8b_fp8mixed.safetensors",
+      "t5-base.safetensors",
+      "umt5-xxl-enc-bf16.safetensors",
+      "umt5-xxl-enc-bf16_mocha.safetensors",
+      "umt5_xxl_fp16.safetensors",
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+     ],
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": [
+      "stable_diffusion",
+      "stable_cascade",
+      "sd3",
+      "stable_audio",
+      "mochi",
+      "ltxv",
+      "pixart",
+      "cosmos",
+      "lumina2",
+      "wan",
+      "hidream",
+      "chroma",
+      "ace",
+      "omnigen2",
+      "qwen_image",
+      "hunyuan_image",
+      "flux2",
+      "ovis",
+      "longcat_image",
+      "cogvideox",
+      "lens",
+      "pixeldit",
+      "ideogram4",
+      "boogu",
+      "krea2",
+      "joyimage",
+      "mage",
+      "minimax"
+     ],
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": [
+      "default",
+      "cpu"
+     ],
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      1,
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen_3_8b_fp8mixed.safetensors",
+    "flux2",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+    "type": "flux2",
+    "device": "default"
+   }
+  },
+  {
+   "id": "FK:165",
+   "type": "UNETLoader",
+   "pos": [
+    840,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": [
+      "ditto_global_comfy.safetensors",
+      "ditto_global_style_comfy.safetensors",
+      "ditto_sim2real_comfy.safetensors",
+      "flux-2-klein-9b-kv-fp8.safetensors",
+      "flux-2-klein-9b.safetensors",
+      "krea2_turbo_fp8_scaled.safetensors",
+      "ltx-2.3-22b-dev.safetensors",
+      "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "qwen_image_2512_bf16.safetensors",
+      "qwen_image_2512_fp8_e4m3fn.safetensors",
+      "qwen_image_edit_2511_bf16.safetensors",
+      "rt_detr_v4-x-hgnet_fp16.safetensors",
+      "wan2.1_14B_SCAIL_2_fp16.safetensors"
+     ],
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": [
+      "default",
+      "fp8_e4m3fn",
+      "fp8_e4m3fn_fast",
+      "fp8_e5m2"
+     ],
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "flux-2-klein-9b.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "flux-2-klein-9b.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": "FK:170",
+   "type": "EmptyFlux2LatentImage",
+   "pos": [
+    1260,
+    0
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "INT",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "INT",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptyFlux2LatentImage"
+   },
+   "widgets_values": [
+    1344,
+    768,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 1344,
+    "height": 768,
+    "batch_size": 1
+   }
+  },
+  {
+   "id": "FK:156",
+   "type": "CLIPTextEncode",
+   "pos": [
+    0,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "low quality, deformed, blurry, watermark, ugly, bad anatomy, 3d render, photorealistic, bright saturated cartoon colors, text, logo"
+   ],
+   "widgets_values_named": {
+    "text": "low quality, deformed, blurry, watermark, ugly, bad anatomy, 3d render, photorealistic, bright saturated cartoon colors, text, logo"
+   }
+  },
+  {
+   "id": "FK:166",
+   "type": "CLIPTextEncode",
+   "pos": [
+    420,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 1
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Flat 2D illustration, clean vector-like shapes, muted Kerala backwater palette (soft greens, warm earth tones, gentle overcast sky), minimal flat shading, storybook 2D animation style, restrained cinematic mood, clean line work, highly detailed, no bright cartoon colors, no 3d render, 16:9 widescreen. Character: a young Indian schoolboy about 10 years old, in a crisp white-and-blue school uniform with a red school bag. Side view: the schoolboy sprints across a traditional stone bridge over a calm flowing river, running from the left side toward the right, school bag bouncing, coconut palms and paddy fields in the background, dark rain clouds gathering on the horizon with the first streaks of rain approaching, soft diffused light."
+   ],
+   "widgets_values_named": {
+    "text": "Flat 2D illustration, clean vector-like shapes, muted Kerala backwater palette (soft greens, warm earth tones, gentle overcast sky), minimal flat shading, storybook 2D animation style, restrained cinematic mood, clean line work, highly detailed, no bright cartoon colors, no 3d render, 16:9 widescreen. Character: a young Indian schoolboy about 10 years old, in a crisp white-and-blue school uniform with a red school bag. Side view: the schoolboy sprints across a traditional stone bridge over a calm flowing river, running from the left side toward the right, school bag bouncing, coconut palms and paddy fields in the background, dark rain clouds gathering on the horizon with the first streaks of rain approaching, soft diffused light."
+   }
+  },
+  {
+   "id": "FK:169",
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    840,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 3
+    },
+    {
+     "localized_name": "shift",
+     "name": "shift",
+     "type": "FLOAT",
+     "widget": {
+      "name": "shift"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "widgets_values": [
+    3
+   ],
+   "widgets_values_named": {
+    "shift": 3
+   }
+  },
+  {
+   "id": "FK:86",
+   "type": "SaveImage",
+   "pos": [
+    1260,
+    320
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "jaisal_cut/shot1_running_rain"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "jaisal_cut/shot1_running_rain"
+   }
+  },
+  {
+   "id": "FK:152",
+   "type": "VAEDecode",
+   "pos": [
+    0,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": [],
+   "widgets_values_named": {}
+  },
+  {
+   "id": "FK:171",
+   "type": "KSampler",
+   "pos": [
+    420,
+    640
+   ],
+   "size": [
+    340,
+    180
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 4
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 7
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": [
+      "euler",
+      "euler_cfg_pp",
+      "euler_ancestral",
+      "euler_ancestral_cfg_pp",
+      "heun",
+      "heunpp2",
+      "exp_heun_2_x0",
+      "exp_heun_2_x0_sde",
+      "dpm_2",
+      "dpm_2_ancestral",
+      "lms",
+      "dpm_fast",
+      "dpm_adaptive",
+      "dpmpp_2s_ancestral",
+      "dpmpp_2s_ancestral_cfg_pp",
+      "dpmpp_sde",
+      "dpmpp_sde_gpu",
+      "dpmpp_2m",
+      "dpmpp_2m_cfg_pp",
+      "dpmpp_2m_sde",
+      "dpmpp_2m_sde_gpu",
+      "dpmpp_2m_sde_heun",
+      "dpmpp_2m_sde_heun_gpu",
+      "dpmpp_3m_sde",
+      "dpmpp_3m_sde_gpu",
+      "ddpm",
+      "lcm",
+      "ipndm",
+      "ipndm_v",
+      "deis",
+      "res_multistep",
+      "res_multistep_cfg_pp",
+      "res_multistep_ancestral",
+      "res_multistep_ancestral_cfg_pp",
+      "gradient_estimation",
+      "gradient_estimation_cfg_pp",
+      "er_sde",
+      "seeds_2",
+      "seeds_3",
+      "sa_solver",
+      "sa_solver_pece",
+      "ddim",
+      "uni_pc",
+      "uni_pc_bh2",
+      "legacy_rk",
+      "rk",
+      "rk_beta",
+      "deis_3m_ode",
+      "deis_2m_ode",
+      "deis_3m",
+      "deis_2m",
+      "res_6s_ode",
+      "res_5s_ode",
+      "res_3s_ode",
+      "res_2s_ode",
+      "res_3m_ode",
+      "res_2m_ode",
+      "res_6s",
+      "res_5s",
+      "res_3s",
+      "res_2s",
+      "res_3m",
+      "res_2m"
+     ],
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": [
+      "simple",
+      "sgm_uniform",
+      "karras",
+      "exponential",
+      "ddim_uniform",
+      "beta",
+      "normal",
+      "linear_quadratic",
+      "kl_optimal",
+      "bong_tangent",
+      "beta57"
+     ],
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    20,
+    1.0,
+    "er_sde",
+    "simple",
+    1.0
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "steps": 20,
+    "cfg": 1.0,
+    "sampler_name": "er_sde",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   "FK:155",
+   0,
+   "FK:166",
+   0,
+   "CLIP"
+  ],
+  [
+   2,
+   "FK:155",
+   0,
+   "FK:156",
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   "FK:165",
+   0,
+   "FK:169",
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   "FK:169",
+   0,
+   "FK:171",
+   0,
+   "MODEL"
+  ],
+  [
+   5,
+   "FK:166",
+   0,
+   "FK:171",
+   1,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   "FK:156",
+   0,
+   "FK:171",
+   2,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   "FK:170",
+   0,
+   "FK:171",
+   3,
+   "LATENT"
+  ],
+  [
+   8,
+   "FK:171",
+   0,
+   "FK:152",
+   0,
+   "LATENT"
+  ],
+  [
+   9,
+   "FK:153",
+   0,
+   "FK:152",
+   1,
+   "VAE"
+  ],
+  [
+   10,
+   "FK:152",
+   0,
+   "FK:86",
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

@@ -1,0 +1,238 @@
+Jaisal Cut — 2D VECTOR / LINE-ART reference-image prompt set (2026-08-31)
+============================================================================
+STYLE: 2D vector line art — a stick figure (head + hands + legs, lines only),
+clean confident line work, simple minimal drawing. NOT cartoon, NOT 3D, NOT
+photorealistic, NOT shaded. Just lines. Simple, no special effects.
+
+WORKFLOW: krea2_jaisal_refs.json (Krea2 t2i, 2048x1152)
+  UNET:  krea2_turbo_fp8_scaled.safetensors
+  LoRA:  krea2_lineart_v1_fp16.safetensors  @ strength 1.0   (the line-art LoRA)
+         (optional: chain Krea2_Cinematic_Artstyle.safetensors @ 0.4 for a touch
+          of texture — but for a PURE vector look, use the line-art LoRA alone)
+  CLIP:  qwen3vl_4b_fp8_scaled.safetensors (type krea2)
+  VAE:   qwen_image_vae.safetensors
+  KSampler: 8 steps, cfg 1.0, euler/simple, denoise 1.0 (t2i)
+Save prefix: jaisal_cut/sketch
+
+WHY THIS STYLE (2026-08-31 decision):
+The title animation is a VECTOR / LINE-ART piece — a stick figure (head + hands +
+legs, lines only) walks the bridge, throws a paper plane into the river, then jumps
+in after it. Simple, funny, no special effects. We keep it to MEDIUM SHOTS ONLY
+(NO wide shots). The line-art LoRA (krea2_lineart_v1_fp16) gives the clean 2D
+vector look.
+
+CHARACTER (the stick figure):
+A simple stick figure — a round head (a small circle, a couple of short lines for
+eyes, a tiny line for a mouth), a single line for the body, two lines for the arms,
+two lines for the legs. Clean confident line work, consistent line weight. The
+figure is a young schoolboy in a simple line-art form. ONLY ONE character, no
+duplicates.
+
+FRAMING RULE (2026-08-31):
+MEDIUM SHOTS ONLY. NO wide establishing shots, NO extreme close-ups. Every frame is
+a medium shot — the stick figure's full body (head to feet) is visible with a little
+of the bridge and river around him. The bridge and river are simple line-art
+backgrounds (a few lines for the bridge deck + handrail, a few wavy lines for the
+water).
+
+====================================================================
+SHARED STYLE PREFIX (start EVERY prompt with this)
+====================================================================
+A 2D vector line art style, clean confident line work, a simple stick figure
+character (a round head, a line body, line arms, line legs), black ink lines on a
+clean light background, flat 2D, minimal, simple, no shading, no 3d, no
+photorealistic, no cartoon shading, just lines, 16:9 widescreen
+
+====================================================================
+SHARED NEGATIVE PROMPT (use for every image)
+====================================================================
+3d, 3d render, photorealistic, photo, realistic, shading, shadow, gradient, color
+fill, flat color, cartoon, cartoon shading, cel shading, multiple characters, more
+than one figure, duplicate character, extra people, blurry, low quality, deformed,
+watermark, text, logo, wide shot, wide angle, establishing shot, extreme close-up,
+face close-up, detailed background, complex background, special effects, particles,
+glow, motion blur, large figure, figure filling the frame, big figure, figure
+taking up most of the frame, close-up of the figure, bridge without handrail, no
+handrail, plain flat water, no water dots, no water texture
+
+SCALE RULE (2026-08-31 fix): a MEDIUM shot means the figure is SMALL in the frame -
+occupying only about ONE-THIRD of the frame height, with plenty of bridge and river
+visible around him. The figure must NOT fill the frame. The bridge MUST have a LOW
+HANDRAIL (a horizontal line with small vertical post lines). The river water MUST
+be drawn as scattered small DOTS and short wavy DASHES (dots and dashes for the
+water surface), not a plain flat area.
+
+====================================================================
+1. WALKING — stick figure walks slowly on the bridge (MEDIUM shot, figure SMALL)
+====================================================================
+A 2D vector line art style, clean confident line work, black ink lines on a clean
+light background, flat 2D, minimal, simple, no shading, no 3d, no photorealistic,
+no cartoon shading, just lines, 16:9 widescreen. MEDIUM shot with the figure SMALL
+in the frame - a single simple stick figure schoolboy (a round head, a line body,
+line arms, line legs) - ONLY ONE character, no other people, no duplicates - the
+figure is SMALL, occupying only about one-third of the frame height, walking SLOWLY
+along a simple line-art stone bridge, his line legs in a slow walking stride, his
+line arms swinging gently, a small line-art school bag on his back. The bridge is
+drawn with simple lines: a flat deck line and a LOW HANDRAIL (a horizontal line
+with small vertical post lines) running along the edge of the bridge. The river
+water below is drawn as scattered small dots and short wavy dashes (dots and dashes
+for the water surface), a couple of simple line trees on the bank. The figure is
+small in the frame with plenty of bridge and river visible around him, clean simple
+line work, 16:9 widescreen
+
+====================================================================
+2. THROWING THE PAPER PLANE — stick figure throws a paper plane into the river
+(MEDIUM shot)
+====================================================================
+A 2D vector line art style, clean confident line work, black ink lines on a clean
+light background, flat 2D, minimal, simple, no shading, no 3d, no photorealistic,
+no cartoon shading, just lines, 16:9 widescreen. MEDIUM shot with the figure SMALL
+in the frame - a single simple stick figure schoolboy (a round head, a line body,
+line arms, line legs) - ONLY ONE character, no other people, no duplicates - the
+figure is SMALL, occupying only about one-third of the frame height, standing on a
+simple line-art stone bridge, one line arm extended forward having just THROWN a
+small line-art paper plane, the paper plane (a simple folded triangle of lines) is
+flying away from his hand toward the river. The bridge is drawn with simple lines:
+a flat deck line and a LOW HANDRAIL (a horizontal line with small vertical post
+lines) running along the edge of the bridge. The river water below is drawn as
+scattered small dots and short wavy dashes (dots and dashes for the water surface),
+a couple of simple line trees on the bank. The figure is small in the frame with
+plenty of bridge and river visible around him, clean simple line work, 16:9
+widescreen
+
+====================================================================
+3. JUMPING — stick figure jumps into the river after the paper plane (MEDIUM shot)
+====================================================================
+A 2D vector line art style, clean confident line work, black ink lines on a clean
+light background, flat 2D, minimal, simple, no shading, no 3d, no photorealistic,
+no cartoon shading, just lines, 16:9 widescreen. MEDIUM shot with the figure SMALL
+in the frame - a single simple stick figure schoolboy (a round head, a line body,
+line arms, line legs) - ONLY ONE character, no other people, no duplicates - the
+figure is SMALL, occupying only about one-third of the frame height, JUMPING off the
+edge of a simple line-art stone bridge into the river below, his line body in a
+mid-air jumping pose, his line arms out, his line legs bent, a small line-art paper
+plane still flying just ahead of him over the water. The bridge is drawn with
+simple lines: a flat deck line and a LOW HANDRAIL (a horizontal line with small
+vertical post lines) running along the edge of the bridge. The river water below is
+drawn as scattered small dots and short wavy dashes (dots and dashes for the water
+surface), a couple of simple line trees on the bank. The figure is small in the
+frame with plenty of bridge and river visible around him, clean simple line work,
+16:9 widescreen
+
+====================================================================
+4. TITLE — paper plane still flying + "The Jaisal Cut" (MEDIUM shot)
+====================================================================
+A 2D vector line art style, clean confident line work, black ink lines on a clean
+light background, flat 2D, minimal, simple, no shading, no 3d, no photorealistic,
+no cartoon shading, just lines, 16:9 widescreen. MEDIUM shot, a simple line-art
+scene, a small line-art paper plane (a simple folded triangle of lines) still
+flying over river water drawn as scattered small dots and short wavy dashes (dots
+and dashes for the water surface), the title text 'The Jaisal Cut' in clean simple
+line-art lettering (hand-drawn line letters, not filled, just outlined lines)
+centered in the frame, the words 'The' small, 'Jaisal' big, 'Cut' medium, a couple
+of simple line trees on the bank, NO stick figure in this frame, NO person, clean
+simple line work, 16:9 widescreen
+
+TITLE-SPECIFIC NEGATIVE (use for THIS image only, in addition to the shared
+negative above):
+stick figure, person, character, figure, human, kid, face, body, filled letters,
+solid letters, colored letters, garbled text, misspelled text, unreadable text,
+distorted letters
+
+====================================================================
+HOW TO USE
+====================================================================
+1. Open krea2_jaisal_sketch.json (FRESH tab). The LoRA node is already set to
+   krea2_lineart_v1_fp16.safetensors @ strength 1.0.
+2. For each image above: paste its prompt into the positive CLIPTextEncode node
+   (node 6), keep the shared negative prompt (node 13), run, and save. Name the
+   outputs:
+     sketch_walk.png, sketch_jump.png, sketch_title.png
+   (The walk image is the MAIN anchor - it is the first frame MiniMax animates from.
+   The throw/paper-plane moment is now part of the walk shot's action, so a separate
+   throw image is optional.)
+3. If a character gets DUPLICATED: re-run with a different seed (the KSampler seed
+   widget, node 3) until you get a single stick figure.
+4. Stage the best ones into input\ as sketch_1_walk.png, sketch_2_jump.png,
+   sketch_3_title.png.
+5. Feed them as references (ref_image_0..2) to the MiniMax H3 R2V workflow so it
+   holds the line-art style across the whole title animation.
+
+KNOWN KREA2 QUIRKS (for the line-art style):
+- Krea2 tends to DUPLICATE the character — the prompts say "ONLY ONE character, no
+  duplicates" and the negative reinforces it. If it still duplicates, re-run with a
+  different seed.
+- Krea2 may add shading / color fill even in line-art mode — the negative prompt
+  pushes against it ("no shading, no color fill, no gradient"). If it still shades,
+  lower the Cinematic LoRA strength or drop it entirely (line-art LoRA alone).
+- Keep it to MEDIUM SHOTS ONLY — the negative prompt excludes "wide shot, wide
+  angle, establishing shot, extreme close-up".
+
+====================================================================
+MINIMAX H3 R2V PROMPT (for the title animation)
+====================================================================
+Use this as the prompt for the MiniMax H3 reference-to-video workflow, feeding the
+3 sketch reference images (sketch_1_walk, sketch_2_jump, sketch_3_title) as
+ref_image_0..2. The walk image is the MAIN anchor (first frame MiniMax animates
+from). Camera terms use standard cinematography vocabulary - see
+docs/CAMERA_SHOT_VOCABULARY.md (the full StudioBinder shot-size / angle / movement /
+focus / mechanism cheatsheet with ready-to-paste phrases).
+
+subject_definitions:
+<Subject 1> is a simple 2D vector line-art stick figure schoolboy - a round head,
+a line body, line arms, line legs, clean confident line work, ONLY ONE character.
+<Subject 2> is a simple line-art stone bridge with a low handrail crossing a river
+with wavy line water.
+<Picture 1> is the first frame of [Shot 1]: the stick figure walking slowly on the
+bridge (then stopping, looking around, whistling).
+<Picture 2> is the first frame of [Shot 2]: the stick figure jumping into the river.
+<Picture 3> is the first frame of [Shot 3]: the title 'The Jaisal Cut'.
+
+summary:
+[reference generation] A simple 2D vector line-art animation in a clean confident
+line-work style. A stick figure schoolboy walks slowly on a line-art bridge, stops,
+looks around by turning his head to both sides, whistles, then jumps into the river.
+The title 'The Jaisal Cut' appears. Simple, funny, no special effects. Every frame
+is a MEDIUM shot (the figure's full body visible). All transitions are smooth and
+organic.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]-[Shot 2]): fully_preserved - the stick figure's
+round head, line body, line arms, line legs, and clean line work are retained.
+<Subject 2> (appears in [Shot 1]-[Shot 3]): fully_preserved - the line-art bridge
+with low handrail and wavy line river water are retained.
+The STYLE stays EXACTLY consistent across all shots - the same 2D vector line-art
+look, the same clean line work, the same light background - so no shot looks like a
+different scene.
+
+detailed_description:
+The target video is in a 2D vector line-art style with clean confident line work,
+a simple stick figure character, flat 2D, minimal, simple, no shading, no 3d, no
+photorealistic, no cartoon shading, just lines. All transitions between shots are
+smooth, organic, and simple. Every frame is a MEDIUM shot (the figure's full body
+visible, a little of the bridge and river around him). NO wide shots, NO extreme
+close-ups. DEEP FOCUS throughout (every line in the frame is sharp). Camera terms
+use standard cinematography vocabulary (see docs/CAMERA_SHOT_VOCABULARY.md).
+[Shot 1] At 00:00.000, a static eye-level MEDIUM shot, the camera locked and not
+moving, deep focus, opens exactly on <Picture 1>: <Subject 1> walks SLOWLY along
+the line-art bridge, his line legs in a slow walking stride, his line arms swinging
+gently, then he STOPS and LOOKS AROUND - he TURNS HIS HEAD to one side, holds, then
+TURNS HIS HEAD to the other side, looking around both ways, then WHISTLES (a small
+line-art whistle gesture, one line arm raised to his head). About 6 seconds.
+[Shot 2] At 00:06.000, a static LOW-ANGLE MEDIUM shot, the camera positioned low
+looking up at the figure, deep focus, cuts to <Picture 2>: <Subject 1> JUMPS off
+the edge of the bridge into the river below, his line body in a mid-air jumping
+pose, his line arms out, his line legs bent. About 4 seconds.
+[Shot 3] At 00:10.000, a static eye-level MEDIUM shot, the camera locked, deep
+focus, cuts to <Picture 3>: the water is calm, and the title 'The Jaisal Cut' (in
+clean line-art lettering) appears centered in the frame. NO stick figure in this
+shot. About 4 seconds.
+
+overall_soundscape:
+Simple, quiet. A few soft footsteps on the bridge as the figure walks, a short
+whistle as he looks around, a soft splash as he jumps into the river, then a calm
+quiet hush as the title appears. No music, no dialogue.
+
+non_diegetic_music:
+Only natural sounds, no musical instruments. No dialogue, no subtitles. The 'The
+Jaisal Cut' title is shown in the final shot in clean line-art lettering.

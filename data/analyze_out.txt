@@ -1,0 +1,145 @@
+============================================================
+SEARCH: ResolutionSelector definition
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy_extras\nodes_resolution.py
+total hits: 1
+============================================================
+SEARCH: 'kitchen' (case-insensitive) in core+custom .py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\main.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\cli_args.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\float.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\model_management.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\quant_ops.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\ldm\joyimage\model.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\ldm\lightricks\vae\na_diffusion_decoder.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\ldm\minimax\model.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\ldm\minimax\vae.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\ldm\modules\attention.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy\text_encoders\llama.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\comfy_extras\nodes_model_advanced.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-H3-Multishot\h3_keyframes.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-Spectrum-MiniMax-H3\tests\conftest.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\comfyui_layerstyle\py\BiRefNet_legacy\dataset.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\comfyui_layerstyle\py\BiRefNet_v2\dataset.py
+   E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\tests-unit\comfy_quant\test_mixed_precision.py
+total kitchen hits: 17
+============================================================
+WORKFLOW: video_minimax_h3_r2v+turbo.json
+top keys: ['id', 'revision', 'last_node_id', 'last_link_id', 'nodes', 'links', 'groups', 'config', 'extra', 'version']
+--- NODES ---
+  id=123 type=KSamplerSelect mode=0 widgets=['res_multistep']
+  id=126 type=BasicGuider mode=0 widgets=None
+  id=120 type=VAELoader mode=0 widgets=['minimax_h3_audio_vae_fp32.safetensors']
+  id=119 type=VAELoader mode=0 widgets=['minimax_h3_video_vae_fp16.safetensors']
+  id=128 type=CLIPLoader mode=0 widgets=['qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors', 'minimax', 'default']
+  id=129 type=RandomNoise mode=0 widgets=['151804247257910', 'randomize']
+  id=136 type=MiniMaxH3ReferenceToVideo mode=0 widgets=['', '1344', '768', '124', 'match']
+  id=125 type=SamplerCustomAdvanced mode=0 widgets=None
+  id=122 type=VAEDecode mode=0 widgets=None
+  id=121 type=VAEDecodeAudio mode=0 widgets=None
+  id=131 type=ComfyMathExpression mode=0 widgets=['max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) %...']
+  id=130 type=CreateVideo mode=0 widgets=['24', '8']
+  id=92 type=SaveVideo mode=0 widgets=['video/MiniMax_H3', 'auto', 'auto']
+  id=127 type=UNETLoader mode=0 widgets=['minimax_h3_ref2va_pruned_int8_convrot.safetensors', 'default']
+  id=146 type=LoraLoaderModelOnly mode=0 widgets=['minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors', '1']
+  id=124 type=BasicScheduler mode=0 widgets=['simple', '8', '1']
+  id=115 type=ResolutionSelector mode=0 widgets=['16:9 (Widescreen)', '0.6', '32']
+  id=132 type=PrimitiveFloat mode=0 widgets=['5']
+  id=137 type=LoadImage mode=0 widgets=['ComfyUI_00022_.png', 'image']
+  id=143 type=LoadImage mode=0 widgets=['ComfyUI_00023_.png', 'image']
+  id=139 type=LoadImage mode=0 widgets=['ComfyUI_00024_.png', 'image']
+  id=138 type=PrimitiveStringMultiline mode=0 widgets=['Use **Reference Image 1** for the cat, **Reference Image 2**...']
+--- LINKS (linkid, from_node, from_slot, to_node, to_slot, type) ---
+   [250, 120, 0, 121, 1, 'VAE']
+   [251, 119, 0, 122, 1, 'VAE']
+   [253, 129, 0, 125, 0, 'NOISE']
+   [254, 126, 0, 125, 1, 'GUIDER']
+   [255, 123, 0, 125, 2, 'SAMPLER']
+   [256, 124, 0, 125, 3, 'SIGMAS']
+   [258, 122, 0, 130, 0, 'IMAGE']
+   [259, 121, 0, 130, 1, 'AUDIO']
+   [260, 130, 0, 92, 0, 'VIDEO']
+   [261, 132, 0, 131, 0, 'FLOAT']
+   [270, 136, 0, 126, 1, 'CONDITIONING']
+   [271, 136, 1, 125, 4, 'LATENT']
+   [272, 128, 0, 136, 0, 'CLIP']
+   [273, 119, 0, 136, 1, 'VAE']
+   [274, 120, 0, 136, 2, 'VAE']
+   [275, 131, 1, 136, 13, 'INT']
+   [276, 115, 0, 136, 11, 'INT']
+   [277, 115, 1, 136, 12, 'INT']
+   [278, 137, 0, 136, 3, 'IMAGE']
+   [279, 138, 0, 136, 10, 'STRING']
+   [280, 125, 0, 122, 0, 'LATENT']
+   [281, 125, 0, 121, 0, 'LATENT']
+   [282, 139, 0, 136, 4, 'IMAGE']
+   [285, 143, 0, 136, 5, 'IMAGE']
+   [286, 127, 0, 146, 0, 'MODEL']
+   [287, 146, 0, 124, 0, 'MODEL']
+   [288, 146, 0, 126, 0, 'MODEL']
+============================================================
+WORKFLOW: mini-max-refrance-to-video-1.json
+top keys: ['id', 'revision', 'last_node_id', 'last_link_id', 'nodes', 'links', 'groups', 'config', 'extra', 'version']
+--- NODES ---
+  id=47 type=EasyCache mode=0 widgets=['0.2', '0.15', '0.95', 'True']
+  id=49 type=TorchCompileModel mode=0 widgets=['inductor']
+  id=45 type=PathchSageAttentionKJ mode=0 widgets=['auto', 'False']
+  id=20 type=RandomNoise mode=0 widgets=['28341330636170', 'fixed']
+  id=22 type=KSamplerSelect mode=0 widgets=['res_multistep']
+  id=24 type=SamplerCustomAdvanced mode=0 widgets=[]
+  id=35 type=VAEDecode mode=0 widgets=[]
+  id=19 type=ComfyMathExpression mode=0 widgets=['max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) %...']
+  id=23 type=BasicScheduler mode=0 widgets=['simple', '20', '1']
+  id=21 type=BasicGuider mode=0 widgets=[]
+  id=14 type=VAELoader mode=0 widgets=['minimax_h3_audio_vae_fp32.safetensors']
+  id=13 type=VAELoader mode=0 widgets=['minimax_h3_video_vae_fp16.safetensors']
+  id=2 type=CLIPLoader mode=0 widgets=['qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors', 'minimax', 'default']
+  id=1 type=UNETLoader mode=0 widgets=['minimax_h3_ref2va_pruned_int8_convrot.safetensors', 'default']
+  id=36 type=VAEDecodeAudio mode=0 widgets=[]
+  id=37 type=CreateVideo mode=0 widgets=['24', '8']
+  id=72 type=RTXVideoSuperResolution mode=0 widgets=['scale by multiplier', '2', 'ULTRA']
+  id=74 type=VHS_VideoCombine mode=0 widgets={'frame_rate': 24, 'loop_count': 0, 'filename_prefix': 'AnimateDiff', 'format': 'video/h264-mp4', 'pix_fmt': 'yuv420p', 'crf': 19, 'save_metadata': True, 'trim_to_audio': False, 'pingpong': False, 'save_output': True, 'videopreview': {'hidden': False, 'paused': False, 'params': {'filename': 'AnimateDiff_00097-audio.mp4', 'subfolder': '', 'type': 'output', 'format': 'video/h264-mp4', 'frame_rate': 24, 'workflow': 'AnimateDiff_00097.png', 'fullpath': 'H:\\ComfyUI\\output\\AnimateDiff_00097-audio.mp4'}}}
+  id=18 type=Float mode=0 widgets=['15']
+  id=99 type=LoadAudio mode=4 widgets=['minimax_h3_mediterranean_dance_music_5s.wav', 'None', 'None']
+  id=95 type=LoadVideo mode=4 widgets=['20260618_055359.mp4', 'image']
+  id=96 type=GetVideoComponents mode=4 widgets=[]
+  id=70 type=PrimitiveInt mode=0 widgets=['768', 'fixed']
+  id=69 type=PrimitiveInt mode=0 widgets=['1344', 'fixed']
+  id=17 type=Note mode=0 widgets=['16:9 landscape\t864 × 480\t1344 × 768\n9:16 portrait\t480 × 864\t...']
+  id=76 type=LoadImage mode=0 widgets=['vfcxz.png', 'image']
+  id=97 type=LoadImage mode=0 widgets=['dydeyt.png', 'image']
+  id=75 type=MiniMaxH3ReferenceToVideo mode=0 widgets=['Cinematic live-action film production opening title sequence...', '1344', '768', '362', 'max']
+  id=46 type=SaveVideo mode=0 widgets=[' video/MiniMax_H3', 'auto', 'auto']
+--- LINKS (linkid, from_node, from_slot, to_node, to_slot, type) ---
+   [19, 18, 0, 19, 0, 'FLOAT']
+   [21, 20, 0, 24, 0, 'NOISE']
+   [22, 21, 0, 24, 1, 'GUIDER']
+   [23, 22, 0, 24, 2, 'SAMPLER']
+   [24, 23, 0, 24, 3, 'SIGMAS']
+   [43, 24, 0, 35, 0, 'LATENT']
+   [44, 13, 0, 35, 1, 'VAE']
+   [45, 24, 0, 36, 0, 'LATENT']
+   [46, 14, 0, 36, 1, 'VAE']
+   [47, 35, 0, 37, 0, 'IMAGE']
+   [48, 36, 0, 37, 1, 'AUDIO']
+   [56, 1, 0, 45, 0, 'MODEL']
+   [59, 37, 0, 46, 0, 'VIDEO']
+   [65, 45, 0, 47, 0, 'MODEL']
+   [66, 47, 0, 49, 0, 'MODEL']
+   [67, 49, 0, 21, 0, 'MODEL']
+   [68, 49, 0, 23, 0, 'MODEL']
+   [101, 35, 0, 72, 0, 'IMAGE']
+   [102, 72, 0, 74, 0, 'IMAGE']
+   [103, 36, 0, 74, 1, 'AUDIO']
+   [104, 2, 0, 75, 0, 'CLIP']
+   [105, 13, 0, 75, 1, 'VAE']
+   [106, 14, 0, 75, 2, 'VAE']
+   [108, 76, 0, 75, 3, 'IMAGE']
+   [109, 70, 0, 75, 12, 'INT']
+   [110, 69, 0, 75, 13, 'INT']
+   [111, 19, 1, 75, 14, 'INT']
+   [112, 75, 0, 21, 1, 'CONDITIONING']
+   [113, 75, 1, 24, 4, 'LATENT']
+   [131, 95, 0, 96, 0, 'VIDEO']
+   [132, 96, 0, 75, 6, 'IMAGE']
+   [134, 97, 0, 75, 4, 'IMAGE']
+   [137, 99, 0, 75, 9, 'AUDIO']

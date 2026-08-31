@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "comfy-mcp": {
+            "type": "stdio",
+            "command": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy-mcp.exe",
+            "env": {
+                "COMFY_BIN": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy.exe"
+            }
+        }
+    }
+}

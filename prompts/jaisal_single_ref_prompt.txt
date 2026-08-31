@@ -1,0 +1,29 @@
+Jaisal Cut — single-image R2V prompt (1.png only, 2026-08-28)
+================================================================
+Usage: jaisal_lowangle.json with ONLY ref_image_0 = 1.png connected
+(unplug ref_image_1). Paste this into the prompt node (node 138).
+
+subject_definitions:
+<Subject 1> is the young boy in <Picture 1>, with short dark hair, a school uniform, and a red school bag.
+<Subject 2> is the long traditional stone bridge with continuous stone handrails crossing a wide river, in <Picture 1>.
+<Picture 1> is the first frame of [Shot 1]: the boy at the start of the bridge.
+
+summary:
+[reference generation] A 15-second cinematic sequence in an angular 3D art style with brush stroke color texture. The scene opens exactly on <Picture 1>. The boy walks the bridge, the weather turns moody, he runs through the rain, and at the middle of the bridge he jumps into the river. The camera ends underwater.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the boy's face, short dark hair, school uniform, and red school bag are retained in every shot.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the long stone bridge with continuous handrails crossing the wide river is retained. The environment stays EXACTLY as in <Picture 1> - the same bridge, the same trees, the same river banks, no new objects, no changed scenery.
+<Picture 1> ([Shot 1] first frame): fully_preserved - the boy at the start of the bridge is the opening frame.
+
+detailed_description:
+The target video is in an angular 3D art style with brush stroke color texture, cinematic lighting, and a moody rain palette. The environment stays exactly as in <Picture 1> throughout - no new trees, no new objects, no changed scenery.
+[Shot 1] A wide shot opens exactly on <Picture 1>: <Subject 1>, the young boy in a school uniform with a red school bag, stands at the start of <Subject 2>, the long stone bridge. The boy begins walking forward along the bridge. As he walks, the sky darkens into a moody overcast, the wind picks up, and rain begins to fall. The boy starts running as the rain intensifies. The camera is a static wide shot, then begins a slow push-in.
+[Shot 2] At 00:06.000, the shot cuts to a medium shot following <Subject 1> as he runs through the heavy rain along the middle of the bridge. Water splashes on the bridge stones. The camera tracks alongside the boy at running pace.
+[Shot 3] At 00:10.000, the shot cuts to a low-angle shot from the river surface: <Subject 1> stops running at the middle of the bridge and, in one cinematic leap, jumps into the river. The camera tilts down and dips into the water, ending on an underwater view with rising bubbles and the boy sinking out of sight. Generous negative space in the water for a title.
+
+overall_soundscape:
+Light wind building, rain intensifying, splashing water on the bridge stones, a big splash as the boy jumps in, then muffled underwater ambience.
+
+non_diegetic_music:
+Only natural sounds, no musical instruments. No dialogue, no text, no subtitles. The 'The Jaisal Cut' title is composited in post and is NOT rendered by the model.
