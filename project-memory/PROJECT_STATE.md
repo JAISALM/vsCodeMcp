@@ -41,6 +41,21 @@ Immediate goal: build the character/style sheet (wide base ✅, face base ✅, m
 - Transport: stdio
 - MCP is being invoked by the AI client rather than manually operated as a standalone HTTP service.
 
+### Workspace layout (reorganized 2026-08-31, now a git repo)
+
+`d:\models\vsCodeMcp\` is a **git repository** (for tracking + pushing to GitHub). Layout:
+
+- `AGENTS.md` — project instructions (root)
+- `project-memory/` — persistent memory (PROJECT_STATE, DECISIONS, EXPERIMENTS, WORKFLOW_HISTORY, CURRENT_TASK)
+- `prompts/` — all prompt `.txt` files (`jaisal_sketch_prompts.txt`, `jaisal_ref_prompts.txt`, `jaisal_identity_instructions.txt`, `jaisal_single_ref_prompt*.txt`)
+- `docs/` — reference docs (`CAMERA_SHOT_VOCABULARY.md`, `MINIMAX_H3_R2V_PROMPTING_GUIDE.md`, `HELPER_SCRIPTS.md`)
+- `utilities/` — all helper Python scripts + `run_2mp_benchmark.bat` (run with the embedded Python)
+- `data/` — data artifacts (`object_info_cache.json`, `vram_monitor.csv`, `analyze_out.txt`)
+- `workflow_backups/` — pre-fix workflow backups (tracked in git, ~1.4 MB)
+- `.github/` — copilot instructions + prompt templates
+
+**Rule: scripts live in `utilities/`, prompts in `prompts/`, docs in `docs/`, data in `data/`.** Run a script: `& "E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\python.exe" "d:\models\vsCodeMcp\utilities\<script>.py"`. Commit changes with `git add -A; git commit`.
+
 ### Paths
 
 - **Models (MAIN PATH): E:\ComfyUI_windows_portable\ComfyUI\models** — ALL models live here (diffusion_models, text_encoders, vae, loras, etc.). Check this path for model availability, NOT the comfyUi_latest path.
