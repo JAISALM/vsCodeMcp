@@ -178,6 +178,29 @@ The agent should not modify the MCP installation or configuration unless explici
 
 ---
 
+# CRITICAL: Audio — NO MUSIC (HARD RULE, all future scenes)
+
+**The user is Muslim and does NOT want instrumental music in any of their videos**
+(movies, title animations, etc.). This is a **strict, permanent guideline** for ALL
+future MiniMax H3 generations and ALL audio work in this project. See **D041** in
+`project-memory/DECISIONS.md`.
+
+For every prompt and every audio task:
+
+- **`non_diegetic_music`** MUST state: `NO music, NO instrumental music, NO musical
+  instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song. Natural ambient
+  sounds only.`
+- **`overall_soundscape`** MUST contain ONLY natural sounds (footsteps, wind, water,
+  birds, splashes, whooshes, ambient) — **never** a score, melody, instruments, or beat.
+- **Do NOT write** a cinematic score, piano, strings, or any musical description in any
+  section. If a template/example shows music, replace it with the NO-music statement.
+- This applies to MiniMax H3 video generation, ControlFoley SFX, and any post audio.
+
+The MiniMax H3 R2V prompting guide (`docs/MINIMAX_H3_R2V_PROMPTING_GUIDE.md`) carries
+this rule at the top — follow it for every R2V prompt.
+
+---
+
 # Workflow Development Rules
 
 When creating or modifying a workflow:

@@ -4,6 +4,47 @@ Newest experiments first.
 
 ---
 
+## 2026-09-03 — ControlFoley TC-V2A audio for the LOCKED video (SUCCESS after 3 bug fixes)
+
+### Goal
+
+Add a natural-sounds soundtrack to the locked video `Jaisal_Sketch_Title_00010_.mp4` (12.25s, 24fps, 1344×768) WITHOUT regenerating it, via ControlFoley TC-V2A (video + text-guided sounds).
+
+### Configuration
+
+- Workflow: `jaisal_sketch_title_audio.json` (built by `utilities/build_controlfoley_audio.py`)
+- Chain: `LoadControlFoleyModel` → `ControlFoleyGenerate` ← `LoadControlFoleyVideo` (loads `input\jaisal_sketch_title_00010.mp4`, 12.5s); `ControlFoleyGenerate` → `SaveControlFoleyAudio` (WAV) + `MuxControlFoleyAudioToVideo` (replace → MP4)
+- `ControlFoleyGenerate` prompt = the exact natural sounds in story order (footsteps on stone, gentle wind, low whistle, flowing river water, distant birds, soft whoosh as the plane is thrown, soft plop as it lands, soft whoosh as the figure jumps, soft splash as he lands, then calm water + low birds) + the D041 NO-music HARD RULE. `guidance_scale` 4.5, `num_inference_steps` `fixed`, `seed` 42, batch multipliers 40.
+- Submitted with NAMED inputs via `utilities/submit_controlfoley.py` (bypasses the UI→API converter's positional `widgets_values` misalignment for `ControlFoleyGenerate`).
+
+### What was tested
+
+ControlFoley TC-V2A on a locked video. First attempt (job `6b490126`) HUNG 2h40m with no output.
+
+### Result
+
+SUCCESS. After fixing 3 bugs (below), the job completed and produced:
+- `output\controlfoley\jaisal_sketch_title_00001_.wav` (1.03 MB) — the generated natural-sounds track
+- `output\controlfoley\jaisal_sketch_title_00002_.mp4` (13.77 MB) — the video with the new audio muxed in (replace mode)
+
+### The 3 bugs (all in the laion-clap / node-pack layer, NOT the workflow)
+
+1. **Import-time `SystemExit(2)` (the 2h40m hang).** `laion_clap/training/params.py` ran `parse_args()` at IMPORT time (via `hook.py` → `training.data` → `parse_args()`). Under ComfyUI, `sys.argv` is ComfyUI's own launch args (`--windows-standalone-build --reserve-vram 4 --enable-manager`), so argparse raised `SystemExit(2)` (a `BaseException`, which slips past the node's `except Exception`), leaving the prompt stuck. **FIX:** `params.py` `parse_args()` → `parse_known_args()[0]` (ignores unknown args). Backup: `params.py.bak_comfyfix`.
+2. **CLAP `position_ids` unexpected key.** `laion_clap/hook.py:129` `self.model.load_state_dict(ckpt)` used `strict=True`, rejecting the audioset checkpoint's extra `text_branch.embeddings.position_ids` buffer key. **FIX:** `load_state_dict(ckpt, strict=False)`. Backup: `hook.py.bak_comfyfix`.
+3. **BigVGAN `resume_download` missing arg.** The node pack's `_patch_bigvgan_from_pretrained` compat wrapper (`nodes.py`) only injected `proxies`, but the installed `huggingface_hub` now requires `resume_download` as a keyword-only arg. **FIX:** `nodes.py` `_compat_from_pretrained` now also does `kwargs.setdefault("resume_download", False)`.
+
+**Each fix revealed the next error one layer deeper** (import → CLAP load → BigVGAN load). All three are package-level, so they persist across ComfyUI restarts. A ComfyUI RESTART is required after patching `nodes.py` (it's imported at startup and cached in memory).
+
+### Performance
+
+Model load (~15 GB) + 12.5s generation completed within the 600s wait window.
+
+### Conclusion
+
+ControlFoley TC-V2A works for adding a natural-sounds track to a locked video. The 3 package bugs are now patched on disk (persist across restarts). ALWAYS keep the D041 natural-sounds-only / NO-music HARD RULE in the prompt. See D042.
+
+---
+
 ## 2026-08-26 — Jaisal Cut medium shot (i2i from face anchor)
 
 ### Goal

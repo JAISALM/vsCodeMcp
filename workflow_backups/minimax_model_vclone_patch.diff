@@ -1,0 +1,15 @@
+﻿diff --git a/comfy/ldm/minimax/model.py b/comfy/ldm/minimax/model.py
+index f745db88..7177128d 100644
+--- a/comfy/ldm/minimax/model.py
++++ b/comfy/ldm/minimax/model.py
+@@ -165,7 +165,9 @@ class Attention(nn.Module):
+         else:
+             q = self.q_norm(q.view(s, self.heads, self.head_dim))
+             k = self.k_norm(k.view(s, self.heads, self.head_dim))
+-        v = v.clone()
++        # v = v.clone()  # REMOVED: saves 2.5-4 GB per layer at 1.5-2MP.
++        # v is a view of the qkv buffer; the attention kernel only reads it,
++        # so the clone was unnecessary. See project-memory/DECISIONS.md D027.
+         q = AttentionTensorContainer(q.transpose(0, 1).unsqueeze(0))
+         k = AttentionTensorContainer(k.transpose(0, 1).unsqueeze(0))
+         v = AttentionTensorContainer(v.transpose(0, 1).unsqueeze(0))

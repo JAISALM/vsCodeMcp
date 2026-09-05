@@ -74,7 +74,9 @@ figure is SMALL, occupying only about one-third of the frame height, walking SLO
 along a simple line-art stone bridge, his line legs in a slow walking stride, his
 line arms swinging gently, a small line-art school bag on his back. The bridge is
 drawn with simple lines: a flat deck line and a LOW HANDRAIL (a horizontal line
-with small vertical post lines) running along the edge of the bridge. The river
+with small vertical post lines) running along the edge of the bridge. The bridge is HIGH above the river - a clear visible gap between the deck and
+the water below, the deck well above the water surface, so the jump into the
+river is a real drop. The river
 water below is drawn as scattered small dots and short wavy dashes (dots and dashes
 for the water surface), a couple of simple line trees on the bank. The figure is
 small in the frame with plenty of bridge and river visible around him, clean simple
@@ -153,10 +155,15 @@ HOW TO USE
    throw image is optional.)
 3. If a character gets DUPLICATED: re-run with a different seed (the KSampler seed
    widget, node 3) until you get a single stick figure.
-4. Stage the best ones into input\ as sketch_1_walk.png, sketch_2_jump.png,
-   sketch_3_title.png.
-5. Feed them as references (ref_image_0..2) to the MiniMax H3 R2V workflow so it
-   holds the line-art style across the whole title animation.
+4. Stage the best WALKING image into input\ as sketch_1_walk.png.
+5. SINGLE-IMAGE PLAN (2026-08-31): feed that ONE walking image to the MiniMax H3
+   i2v workflow jaisal_single_shot.json (LoadImage node 114 already points at
+   sketch_1_walk.png). It animates one continuous 15s shot: walk slowly -> stop ->
+   look around both sides -> whistle -> jump off the high bridge into the river ->
+   calm water + the title 'The Jaisal Cut' appears. Save prefix video/Jaisal_Sketch_Title.
+   If the single 15s shot can't hold the whole sequence, split into 2 i2v runs
+   (walk+whistle, then jump+title) and stitch in post.
+   (The multi-ref R2V prompt below is the fallback if you go back to 3 refs.)
 
 KNOWN KREA2 QUIRKS (for the line-art style):
 - Krea2 tends to DUPLICATE the character — the prompts say "ONLY ONE character, no
@@ -175,64 +182,172 @@ Use this as the prompt for the MiniMax H3 reference-to-video workflow, feeding t
 3 sketch reference images (sketch_1_walk, sketch_2_jump, sketch_3_title) as
 ref_image_0..2. The walk image is the MAIN anchor (first frame MiniMax animates
 from). Camera terms use standard cinematography vocabulary - see
-docs/CAMERA_SHOT_VOCABULARY.md (the full StudioBinder shot-size / angle / movement /
-focus / mechanism cheatsheet with ready-to-paste phrases).
+docs/CAMERA_SHOT_VOCABULARY.md.
+
+CAMERA-ANGLE RULE (2026-08-31, from the H3 camera-correction lesson): H3 has a
+strong prior to "correct" the camera back to a flattering eye-level view. So the
+camera constraint is put at the TOP as a MANDATORY highest-priority line, the
+natural angle distortion is ACCEPTED, and moving the camera to "fix" the subject is
+explicitly FORBIDDEN. Each [Shot N] restates its camera lock. See
+docs/MINIMAX_H3_R2V_PROMPTING_GUIDE.md "Forcing a specific camera angle".
+
+====================================================================
+PASTE THIS AS THE PROMPT
+====================================================================
+MANDATORY SHOT CONSTRAINT, HIGHEST PRIORITY ABOVE ALL ELSE: this is a 2D vector
+line-art animation. Every shot is a MEDIUM shot (the figure's full body visible, a
+little of the bridge and river around him). NO wide shots, NO extreme close-ups.
+The camera angle for each shot is LOCKED as stated in that shot and must NOT be
+changed. ACCEPT the natural perspective of each locked camera angle. DO NOT
+auto-adjust the camera to a more flattering angle. DO NOT move the camera to make
+the figure look better. REJECT any camera angle that is not the one stated for that
+shot.
+
+STRICTLY BLACK AND WHITE, HIGHEST PRIORITY, APPLIES TO EVERY SHOT: the whole video
+is strictly BLACK AND WHITE - black ink lines on a pure white background ONLY. NO
+color, NO grey fill, NO shading, NO warm tones, NO brown, NO cream, NO beige, NO
+paper texture, NO wooden, NO mica, NO environment, NO scene. This is a clean 2D
+vector line-art animation, black and white only.
+
+BACKGROUND LOCK, HIGHEST PRIORITY, APPLIES TO EVERY SHOT: the background is PURE
+WHITE (a clean empty white void) and it is UNCHANGED and IDENTICAL across all 3
+shots - the SAME pure white void from [Shot 1] to [Shot 3]. NO background change,
+NO background shifting, NO background morphing, NO new background elements
+appearing, NO scene change, NO environment appearing, NO wooden overlay, NO wooden
+floor, NO wooden table, NO wood grain, NO mica, NO brown tones, NO warm tones, NO
+table, NO room, NO wall, NO scene, NO environment, NO setting, NO color, NO
+shading, NO additional background elements, NO out-of-space objects. The background
+is a flat pure white void with ONLY black ink lines on it, IDENTICAL in every shot.
+
+PAPER PLANE SIZE LOCK, HIGHEST PRIORITY: the paper plane <Subject 3> stays SMALL
+the whole time - a small folded triangle of lines, never growing larger, never
+filling the screen, never becoming huge, never large, never big. It is always a
+small paper plane.
+
+PAPER PLANE IN THE AIR UNTIL 12.00 SECONDS: the paper plane <Subject 3> stays IN
+THE AIR, flying and drifting, from the moment it is thrown until 12.00 seconds. It
+does NOT touch the water, does NOT float on the water, does NOT land on the water
+before 12.00 seconds. It only floats on the water from 12.00 seconds onward.
+
+WIND, VISIBLE THROUGHOUT: visible line-art wind lines (a few short curved lines)
+show the wind blowing throughout the whole video, in every shot.
 
 subject_definitions:
 <Subject 1> is a simple 2D vector line-art stick figure schoolboy - a round head,
-a line body, line arms, line legs, clean confident line work, ONLY ONE character.
-<Subject 2> is a simple line-art stone bridge with a low handrail crossing a river
-with wavy line water.
+a line body, line arms, line legs, clean confident line work, a small line-art
+school bag on his back. ONLY ONE character, no other people, no duplicates.
+<Subject 2> is a simple line-art stone bridge with a LOW HANDRAIL (a horizontal
+line with small vertical post lines) crossing a river drawn as scattered small dots
+and short wavy dashes. The bridge is HIGH above the river - a clear visible gap
+between the deck and the water below.
+<Subject 3> is a SMALL line-art paper plane (a small folded triangle of lines). It
+stays SMALL the whole time - never growing, never filling the screen, never huge.
 <Picture 1> is the first frame of [Shot 1]: the stick figure walking slowly on the
-bridge (then stopping, looking around, whistling).
+bridge.
 <Picture 2> is the first frame of [Shot 2]: the stick figure jumping into the river.
-<Picture 3> is the first frame of [Shot 3]: the title 'The Jaisal Cut'.
+<Picture 3> is the first frame of [Shot 3]: the calm water with the small paper
+plane floating on it.
 
 summary:
 [reference generation] A simple 2D vector line-art animation in a clean confident
-line-work style. A stick figure schoolboy walks slowly on a line-art bridge, stops,
-looks around by turning his head to both sides, whistles, then jumps into the river.
-The title 'The Jaisal Cut' appears. Simple, funny, no special effects. Every frame
+line-work style, strictly BLACK AND WHITE. A stick figure schoolboy walks slowly on
+a line-art bridge, stops and looks around to both sides, throws a SMALL paper plane
+into the river, waits while the small paper plane stays IN THE AIR drifting slowly
+and the wind blows, then jumps into the river. After the figure sinks, a few small
+bubbles rise in that area. The small paper plane stays in the air until 12.00
+seconds, then floats on the water. Simple, funny, no special effects. Every frame
 is a MEDIUM shot (the figure's full body visible). All transitions are smooth and
 organic.
 
 retention_analysis:
 <Subject 1> (appears in [Shot 1]-[Shot 2]): fully_preserved - the stick figure's
-round head, line body, line arms, line legs, and clean line work are retained.
+round head, line body, line arms, line legs, line-art school bag, and clean line
+work are retained. There is ONLY ONE character - never two, never a duplicate.
 <Subject 2> (appears in [Shot 1]-[Shot 3]): fully_preserved - the line-art bridge
-with low handrail and wavy line river water are retained.
+with low handrail, the high deck above the water, and the wavy line river water are
+retained.
+<Subject 3> (appears in [Shot 1]-[Shot 3]): fully_preserved - the SMALL line-art
+paper plane is retained, staying SMALL the whole time.
 The STYLE stays EXACTLY consistent across all shots - the same 2D vector line-art
-look, the same clean line work, the same light background - so no shot looks like a
-different scene.
+look, the same clean line work, the same PURE WHITE background, strictly BLACK AND
+WHITE - so no shot looks like a different scene.
+
+GLOBAL CAMERA LOCK (applies to every shot):
+Every shot is a MEDIUM shot with DEEP FOCUS (every line in the frame is sharp).
+The camera for each shot is STATIC and LOCKED - it does NOT move, does NOT push in,
+does NOT drift, does NOT tilt, does NOT pan, does NOT zoom, does NOT orbit. The
+camera angle is exactly the one stated for that shot and is NOT changed. NO wide
+shots, NO extreme close-ups, NO eye-level cheat, NO low-angle cheat. The figure is
+NEVER duplicated, NEVER a second figure, NEVER a crowd. The background is PURE
+WHITE and IDENTICAL the whole time - NO wooden floor, NO color, NO scene clutter,
+NO background change.
 
 detailed_description:
 The target video is in a 2D vector line-art style with clean confident line work,
 a simple stick figure character, flat 2D, minimal, simple, no shading, no 3d, no
-photorealistic, no cartoon shading, just lines. All transitions between shots are
-smooth, organic, and simple. Every frame is a MEDIUM shot (the figure's full body
-visible, a little of the bridge and river around him). NO wide shots, NO extreme
-close-ups. DEEP FOCUS throughout (every line in the frame is sharp). Camera terms
-use standard cinematography vocabulary (see docs/CAMERA_SHOT_VOCABULARY.md).
-[Shot 1] At 00:00.000, a static eye-level MEDIUM shot, the camera locked and not
+photorealistic, no cartoon shading, just lines, strictly BLACK AND WHITE. All
+transitions between shots are smooth, organic, and simple. Every frame is a MEDIUM
+shot (the figure's full body visible, a little of the bridge and river around him).
+NO wide shots, NO extreme close-ups. DEEP FOCUS throughout (every line in the frame
+is sharp). The background is PURE WHITE and IDENTICAL the whole time - black ink
+lines on a clean white void ONLY, NO wooden floor, NO color, NO scene clutter, NO
+background change. The paper plane stays SMALL the whole time. The paper plane
+stays IN THE AIR until 12.00 seconds. Visible line-art wind lines show the wind
+blowing throughout.
+[Shot 1] At 00:00.000, a STATIC EYE-LEVEL MEDIUM shot, the camera locked and not
 moving, deep focus, opens exactly on <Picture 1>: <Subject 1> walks SLOWLY along
 the line-art bridge, his line legs in a slow walking stride, his line arms swinging
-gently, then he STOPS and LOOKS AROUND - he TURNS HIS HEAD to one side, holds, then
-TURNS HIS HEAD to the other side, looking around both ways, then WHISTLES (a small
-line-art whistle gesture, one line arm raised to his head). About 6 seconds.
-[Shot 2] At 00:06.000, a static LOW-ANGLE MEDIUM shot, the camera positioned low
-looking up at the figure, deep focus, cuts to <Picture 2>: <Subject 1> JUMPS off
-the edge of the bridge into the river below, his line body in a mid-air jumping
-pose, his line arms out, his line legs bent. About 4 seconds.
-[Shot 3] At 00:10.000, a static eye-level MEDIUM shot, the camera locked, deep
-focus, cuts to <Picture 3>: the water is calm, and the title 'The Jaisal Cut' (in
-clean line-art lettering) appears centered in the frame. NO stick figure in this
-shot. About 4 seconds.
+gently. He is ON the bridge. Then he STOPS and TURNS HIS HEAD to look to one side,
+then the other side, looking around both ways. Then he THROWS a SMALL line-art
+paper plane <Subject 3> into the river below - one line arm extended forward, the
+SMALL paper plane flying away from his hand toward the water. The SMALL paper plane
+stays IN THE AIR, drifting slowly, while the wind blows (visible line-art wind
+lines). He is still ON the bridge. The camera stays a locked static eye-level
+MEDIUM shot the whole time - it does NOT move, does NOT push in, does NOT tilt.
+<Subject 1> does NOT drink, does NOT hold a cup, does NOT hold a bottle, does NOT
+hold any object to his mouth, does NOT run, does NOT jump yet, is NOT duplicated.
+The background is pure white, IDENTICAL, black ink lines only. About 6 seconds.
+[Shot 2] At 00:06.000, a STATIC LOW-ANGLE MEDIUM shot, the camera positioned low
+looking UP at the figure, deep focus, cuts to <Picture 2>: <Subject 1> JUMPS off
+the edge of the high bridge into the river below, following the paper plane. He
+LEAVES the bridge - he is NO LONGER on the bridge, he is in the AIR, his line body
+in a mid-air jumping pose, his line arms out, his line legs bent, a real drop from
+the high deck into the water. The SMALL paper plane <Subject 3> is still IN THE
+AIR, drifting slowly. He is NOT walking, he is NOT on the bridge deck. The camera
+stays a locked static LOW-ANGLE MEDIUM shot the whole time - it does NOT move, does
+NOT push in, does NOT tilt, does NOT rise to eye level. <Subject 1> does NOT walk
+on the bridge after jumping, does NOT return to the bridge, does NOT drink, is NOT
+duplicated. The background is pure white, IDENTICAL, black ink lines only. About 4
+seconds.
+[Shot 3] At 00:10.000, a STATIC EYE-LEVEL MEDIUM shot, the camera locked, deep
+focus, cuts to <Picture 3>: the figure SINKS and drowns in the water, a few small
+line-art bubbles rise in that area where he sank. The SMALL paper plane <Subject 3>
+is still IN THE AIR until 12.00 seconds, then it descends and floats on the water
+surface, staying SMALL. Calm water, the small paper plane floats gently on the
+surface. NO stick figure in this shot, NO person, NO character. The camera stays a
+locked static eye-level MEDIUM shot the whole time - it does NOT move, does NOT
+push in, does NOT tilt. The background is pure white, IDENTICAL, black ink lines
+only. About 5 seconds.
+
+WHAT THE PAPER PLANE DOES NOT DO: does NOT grow larger, does NOT become huge, does
+NOT become big, does NOT fill the screen, does NOT come back toward the figure, does
+NOT fly back, does NOT touch the water before 12.00 seconds, does NOT float on the
+water before 12.00 seconds, does NOT land on the water before 12.00 seconds. It
+stays SMALL and IN THE AIR until 12.00 seconds.
+
+WHAT THE BACKGROUND DOES NOT DO: does NOT change, does NOT shift, does NOT morph,
+does NOT reveal a new scene, does NOT reveal a room, does NOT reveal a wall, does
+NOT reveal a table, does NOT reveal a floor, does NOT reveal wood, does NOT reveal
+mica, does NOT reveal color, does NOT reveal an environment, does NOT reveal a
+setting. It stays PURE WHITE and IDENTICAL across all 3 shots.
 
 overall_soundscape:
-Simple, quiet. A few soft footsteps on the bridge as the figure walks, a short
-whistle as he looks around, a soft splash as he jumps into the river, then a calm
-quiet hush as the title appears. No music, no dialogue.
+Simple, quiet. A few soft footsteps on the bridge as the figure walks, a soft
+whoosh as the paper plane is thrown, a gentle wind as the paper plane drifts in the
+air, a soft splash as the figure jumps into the river, a few soft bubble pops as the
+figure sinks, then a calm quiet hush as the paper plane floats on the water. No
+music, no dialogue.
 
 non_diegetic_music:
-Only natural sounds, no musical instruments. No dialogue, no subtitles. The 'The
-Jaisal Cut' title is shown in the final shot in clean line-art lettering.
+Only natural sounds, no musical instruments. No dialogue, no subtitles. The title
+'The Jaisal Cut' is composited in post and is NOT rendered by the model.

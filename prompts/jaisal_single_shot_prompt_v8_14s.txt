@@ -1,0 +1,224 @@
+FLAT 2D ANIMATION, NOT A PHYSICAL DRAWING, HIGHEST PRIORITY ABOVE ALL ELSE:
+This is a FLAT 2D ANIMATION, NOT a physical drawing. The line art is NOT drawn on
+paper, NOT a sketch on a sheet, NOT a photo of a drawing, NOT an illustration on a
+physical surface. There is NO paper, NO paper texture, NO paper grain, NO surface,
+NO mica, NO mica texture, NO wood grain, NO wooden texture, NO texture of any kind
+on the background. The background is a flat clean 2D watercolor scene, NOT a
+textured surface, NOT a sheet, NOT a table, NOT a floor. The whole video is a flat
+2D watercolor animation with clean line work.
+
+MANDATORY SHOT CONSTRAINT, HIGHEST PRIORITY: this is a 2D line-art + minimal
+watercolor animation. ONE continuous take. Every frame is a MEDIUM shot (the
+figure's full body visible, a little of the bridge and river around him). NO wide
+shots, NO extreme close-ups. The camera is a STATIC EYE-LEVEL MEDIUM shot for the
+whole take - it is LOCKED and does NOT move, does NOT push in, does NOT drift, does
+NOT tilt, does NOT pan, does NOT zoom, does NOT orbit. REJECT any camera angle that
+is not a static eye-level MEDIUM shot.
+
+TWO-FRAME ANIMATION (FIRST-TO-LAST), HIGHEST PRIORITY:
+This is a FIRST-TO-LAST video with TWO anchor frames.
+FIRST FRAME = <Picture 1>: the stick figure standing on the line-art bridge, plain
+black and white line art (the starting image).
+LAST FRAME = <Picture 2>: the title 'The Jaisal Cut' floating on the river water,
+colored watercolor style (the ending image).
+The video animates SMOOTHLY from the first frame to the last frame. The title in
+the last frame is EXACTLY the title image provided in <Picture 2> - do NOT alter
+its spelling, position, size, or style. The FINAL frame of the video MUST match
+<Picture 2> exactly.
+The environment between the two frames is a simple FLAT 2D WATERCOLOR scene
+generated from the text description below (a stone bridge over a river, soft pale
+blue-grey sky, soft muted blue river, soft muted green bank with simple line
+trees). NO wood, NO mica, NO paper texture, NO surface texture.
+
+ENVIRONMENT LOCK, HIGHEST PRIORITY, APPLIES TO EVERY SECOND 0.00-14.00:
+The generated environment is a simple FLAT 2D WATERCOLOR scene - a stone bridge
+crossing a river, with a soft pale blue-grey sky, a soft muted blue river, and a
+soft muted green river bank with a couple of simple line trees. The environment is
+NOT derived from <Picture 1>. Use ONLY the environment described here. The SAME
+fixed scene across all 14 seconds - the same bridge, the same river, the same sky,
+the same bank, in the same place. NO wood, NO wooden texture, NO wooden planks, NO
+wooden floor, NO wooden wall, NO wooden bridge, NO wooden architecture, NO wood
+grain, NO mica, NO mica texture, NO paper, NO paper texture, NO surface texture, NO
+indoor environment, NO room, NO table, NO walls, NO floor, NO out-of-space objects.
+The scene is a flat 2D watercolor illustration, IDENTICAL in every second.
+
+COLOR TRANSITION, HIGHEST PRIORITY: the video STARTS in plain black and white line
+art (no color, just black ink lines on a white background) for the FIRST SECOND
+(0.00-1.00). From the SECOND second (1.00) onward, the scene GAINS COLOR - the
+watercolor colors (soft pale blue-grey sky, soft muted blue river, soft muted green
+bank) fade in and the scene becomes a colored watercolor illustration. The color
+transition is smooth and gradual, NOT a sudden flash.
+
+PAPER PLANE - ONLY ONE, HIGHEST PRIORITY: there is ONLY ONE paper plane <Subject 3>
+in the whole video. NEVER two paper planes, NEVER a second paper plane, NEVER
+multiple paper planes. The figure throws ONE paper plane and only that ONE plane
+exists the whole time. The paper plane stays SMALL the whole time - a small folded
+triangle of lines, never growing larger, never filling the screen, never becoming
+huge, never large, never big.
+
+PAPER PLANE NATURAL MOTION, HIGHEST PRIORITY: the paper plane <Subject 3> is thrown
+at 4.00 seconds and flies in a NATURAL ARC - it rises slightly, then descends in a
+smooth natural curve, and LANDS on the water surface around 7.00 seconds. It does
+NOT hover, does NOT stay in the air for a long time, does NOT drift slowly for many
+seconds. It follows a natural throwing motion - up and then down, like a real paper
+plane. After it lands on the water, it floats calmly.
+
+NO BUBBLES, HIGHEST PRIORITY: there are NO bubbles in the whole video. NO air
+bubbles, NO rising bubbles, NO bubble clusters, NO bubble pops, NO bubble-formed
+anything. When the figure enters the water there is only a small splash (a few
+line-art splash lines), NO bubbles.
+
+WIND, VISIBLE THROUGHOUT: visible line-art wind lines (a few short curved lines)
+show the wind blowing throughout the whole video, in every second.
+
+subject_definitions:
+<Subject 1> is a simple 2D line-art stick figure schoolboy - a round head, a line
+body, line arms, line legs, clean confident line work, a small line-art school bag
+on his back. ONLY ONE character, no other people, no duplicates.
+<Subject 3> is a SMALL line-art paper plane (a small folded triangle of lines).
+There is ONLY ONE paper plane - never two, never a second plane. It stays SMALL the
+whole time - never growing, never filling the screen, never huge.
+
+summary:
+[reference generation] A simple FLAT 2D line-art + minimal watercolor animation in
+a clean line-work style. The video STARTS in plain black and white line art for the
+first second, then GAINS COLOR from the second second onward. A stick figure
+schoolboy walks slowly on a line-art bridge, stops and looks around to both sides,
+throws ONE small paper plane into the river (the plane flies in a natural arc and
+lands on the water), then jumps into the river and drowns. The video then animates
+to the LAST FRAME - the title 'The Jaisal Cut' floating ON THE RIVER WATER (EXACTLY
+matching <Picture 2>, the provided title image) - the figure is GONE (already
+drowned). Simple, funny, no special effects, NO bubbles. Every frame is a MEDIUM
+shot (the figure's full body visible). All transitions are smooth and organic.
+
+GLOBAL CAMERA LOCK (HIGHEST PRIORITY, APPLIES TO EVERY SECOND 0.00-14.00):
+A STATIC EYE-LEVEL MEDIUM shot for the entire take. The camera is LOCKED - it does
+NOT move, does NOT push in, does NOT drift, does NOT tilt, does NOT pan, does NOT
+zoom, does NOT orbit. DEEP FOCUS throughout (every line in the frame is sharp). NO
+wide shots, NO extreme close-ups. The figure is NEVER duplicated, NEVER a second
+figure, NEVER a crowd. There is ONLY ONE paper plane - never two. The environment is
+the SAME fixed flat 2D watercolor scene the whole time - NO wood, NO mica, NO paper
+texture, NO surface texture, NO room, NO table, NO scene change.
+
+detailed_description:
+The target video is a 14-second FLAT 2D line-art + minimal watercolor animation in
+a clean line-work style. The video STARTS in plain black and white line art (no
+color, just black ink lines on a white background) for the first second (0.00-1.00).
+From the second second (1.00) onward, the scene GAINS COLOR - the watercolor colors
+fade in and the scene becomes a colored watercolor illustration. This is a FLAT 2D
+ANIMATION, NOT a physical drawing on paper or a surface - there is NO paper, NO
+paper texture, NO mica, NO wood grain, NO surface texture. Every frame is a MEDIUM
+shot (the figure's full body visible, a little of the bridge and river around him).
+NO wide shots, NO extreme close-ups. DEEP FOCUS throughout (every line in the frame
+is sharp). The environment is the SAME fixed flat 2D watercolor scene the whole
+time - a stone bridge over a river with a soft pale blue-grey sky, a soft muted
+blue river, a soft muted green bank with a couple of simple line trees - IDENTICAL
+in every second, NO scene change, NO new elements, NO wood, NO mica, NO paper
+texture, NO surface texture, NO room, NO table. The camera is a STATIC EYE-LEVEL
+MEDIUM shot, locked, the whole time. There is ONLY ONE paper plane - never two. The
+paper plane stays SMALL the whole time. The paper plane flies in a NATURAL ARC and
+lands on the water. NO bubbles. Visible line-art wind lines show the wind blowing
+throughout.
+
+The sequence is split into 14 per-second parts. Each part names the figure's exact
+state and the one action happening in that second. The environment is the SAME fixed
+flat 2D watercolor scene in every part. There is ONLY ONE paper plane. The paper
+plane flies in a natural arc and lands on the water. NO bubbles.
+
+0.00-1.00 second: the figure is STILL, standing on the line-art bridge, NOT
+walking, NOT moving. The scene is in PLAIN BLACK AND WHITE line art (no color, just
+black ink lines on a white background). Visible line-art wind lines show the wind.
+The environment is the SAME fixed flat 2D scene (still in black and white).
+1.00-2.00 second: the scene GAINS COLOR - the watercolor colors (soft pale blue-grey
+sky, soft muted blue river, soft muted green bank) fade in smoothly. The figure
+STARTS WALKING SLOWLY along the line-art bridge, his line legs in a slow walking
+stride, his line arms swinging gently. He is ON the bridge. Visible line-art wind
+lines. The environment is the SAME fixed flat 2D watercolor scene (now colored).
+2.00-3.00 second: the figure continues WALKING SLOWLY along the line-art bridge. He
+is ON the bridge. Visible line-art wind lines. The environment is the SAME fixed
+flat 2D watercolor scene.
+3.00-4.00 second: the figure STOPS walking and TURNS HIS HEAD to look to one side
+(his left), then the other side (his right), looking around both ways. He is still
+ON the bridge. Visible line-art wind lines. The environment is the SAME fixed flat
+2D watercolor scene.
+4.00-5.00 second: the figure THROWS ONE SMALL line-art paper plane <Subject 3> into
+the river below - one line arm extended forward, the ONE SMALL paper plane flying
+away from his hand toward the water in a NATURAL ARC. There is ONLY ONE paper
+plane. He is still ON the bridge. Visible line-art wind lines. The environment is
+the SAME fixed flat 2D watercolor scene.
+5.00-6.00 second: the ONE SMALL paper plane <Subject 3> flies in a NATURAL ARC - it
+rises slightly, then descends in a smooth natural curve. The figure watches it. He
+is still ON the bridge. Visible line-art wind lines. The environment is the SAME
+fixed flat 2D watercolor scene.
+6.00-7.00 second: the ONE SMALL paper plane <Subject 3> LANDS on the water surface
+in a natural motion (NOT hovering, NOT staying in the air for a long time). It
+floats calmly on the water. The figure is still ON the bridge. Visible line-art
+wind lines. The environment is the SAME fixed flat 2D watercolor scene.
+7.00-8.00 second: the figure CROUCHES and prepares to jump, his line legs bent, his
+line arms out. The ONE SMALL paper plane <Subject 3> floats on the water. Visible
+line-art wind lines. He is still ON the bridge. The environment is the SAME fixed
+flat 2D watercolor scene.
+8.00-9.00 second: the figure JUMPS off the edge of the high bridge into the river
+below. He LEAVES the bridge - he is NO LONGER on the bridge, he is in the AIR, his
+line body in a mid-air jumping pose, his line arms out, his line legs bent, a real
+drop from the high deck into the water. The ONE SMALL paper plane <Subject 3>
+floats on the water. The environment is the SAME fixed flat 2D watercolor scene.
+9.00-10.00 second: the figure is in the AIR, falling into the water, his line body
+in a mid-air jumping pose. The ONE SMALL paper plane <Subject 3> floats on the
+water. The environment is the SAME fixed flat 2D watercolor scene.
+10.00-11.00 second: the figure LANDS in the water with a small splash (a few
+line-art splash lines, NO bubbles). He is in the water, not on the bridge. The ONE
+SMALL paper plane <Subject 3> floats on the water. The environment is the SAME
+fixed flat 2D watercolor scene.
+11.00-12.00 second: the figure SINKS and drowns in the water (NO bubbles). The ONE
+SMALL paper plane <Subject 3> floats on the water. The environment is the SAME
+fixed flat 2D watercolor scene.
+12.00-13.00 second: calm water, the ONE SMALL paper plane <Subject 3> floats
+gently on the surface. The environment is the SAME fixed flat 2D watercolor scene.
+13.00-14.00 second: the scene converges to the LAST FRAME - the title 'The Jaisal
+Cut' floating ON THE RIVER WATER, EXACTLY matching <Picture 2> (the provided title
+image - same spelling, same position, same size, same style). The title is on the
+river just like the paper plane is on the river. NO stick figure in this shot, NO
+person, NO character, NO kid - the figure has already drowned and is GONE. The
+environment is the SAME fixed flat 2D watercolor scene.
+
+WHAT THE FIGURE DOES NOT DO: does NOT drink, does NOT hold a cup, does NOT hold a
+bottle, does NOT hold any object to his mouth, does NOT run, does NOT slide, is NOT
+duplicated, is NOT a second figure, is NOT a crowd. The figure does NOT jump before
+the paper plane has landed (he waits first). The figure does NOT walk on the bridge
+after jumping, does NOT return to the bridge, does NOT reappear on the bridge.
+
+WHAT THE PAPER PLANE DOES NOT DO: there is ONLY ONE paper plane - does NOT become
+two, does NOT become a second plane, does NOT become multiple planes. The ONE paper
+plane does NOT grow larger, does NOT become huge, does NOT become big, does NOT fill
+the screen, does NOT come back toward the figure, does NOT fly back, does NOT hover,
+does NOT stay in the air for a long time, does NOT drift slowly for many seconds. It
+flies in a NATURAL ARC - up and then down - and LANDS on the water in a natural
+motion.
+
+WHAT THE ENVIRONMENT DOES NOT DO: does NOT change, does NOT shift, does NOT morph,
+does NOT reveal a new scene, does NOT reveal a room, does NOT reveal a wall, does NOT
+reveal a table, does NOT reveal a floor, does NOT reveal wood, does NOT reveal mica,
+does NOT reveal paper, does NOT reveal a surface texture, does NOT reveal an indoor
+setting, does NOT reveal new elements. It stays the SAME fixed flat 2D watercolor
+bridge-and-river scene across all 14 seconds.
+
+NO BUBBLES ANYWHERE: there are NO bubbles in the whole video - NO air bubbles, NO
+rising bubbles, NO bubble clusters, NO bubble pops, NO bubble-formed anything.
+
+overall_soundscape:
+Simple, quiet, NATURAL SOUNDS ONLY. Soft footsteps on the stone bridge as the figure
+walks, a gentle continuous wind blowing throughout, the soft flowing sound of the
+river water, a few birds chirping in the distance (natural ambient), a soft whoosh as
+the paper plane is thrown, a soft plop as the paper plane lands on the water, a soft
+splash as the figure jumps into the river, then a calm quiet hush with water and wind
+as the title appears. NO music, NO instrumental music, NO musical instruments, NO
+melody, NO beat, NO soundtrack (HARD RULE). No dialogue, NO bubble pops.
+
+non_diegetic_music:
+NO music of any kind - NO instrumental music, NO musical instruments, NO melody, NO
+beat, NO soundtrack, NO background music (HARD RULE - the creator does not promote
+instrumental music). ONLY natural ambient sounds: footsteps, wind, river water,
+birds. No dialogue, no subtitles. The title 'The Jaisal Cut' appears in the final
+second in clean line-art lettering. If the spelling comes out garbled, the title is
+composited in post (D004 fallback) using the Krea2-generated title image.

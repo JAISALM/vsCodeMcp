@@ -1,0 +1,179 @@
+FLAT 2D ANIMATION, NOT A PHYSICAL DRAWING, HIGHEST PRIORITY ABOVE ALL ELSE:
+This is a FLAT 2D ANIMATION, NOT a physical drawing. The line art is NOT drawn on
+paper, NOT a sketch on a sheet, NOT a photo of a drawing, NOT an illustration on a
+physical surface. There is NO paper, NO paper texture, NO paper grain, NO surface,
+NO mica, NO mica texture, NO wood grain, NO wooden texture, NO texture of any kind
+on the background. The background is a flat clean 2D watercolor scene, NOT a
+textured surface, NOT a sheet, NOT a table, NOT a floor. The whole video is a flat
+2D watercolor animation with clean line work.
+
+MANDATORY SHOT CONSTRAINT, HIGHEST PRIORITY: this is a 2D line-art + minimal
+watercolor animation. ONE continuous take. Every frame is a MEDIUM shot (the
+figure's full body visible, a little of the bridge and river around him). NO wide
+shots, NO extreme close-ups. The camera is a STATIC EYE-LEVEL MEDIUM shot for the
+whole take - it is LOCKED and does NOT move, does NOT push in, does NOT drift, does
+NOT tilt, does NOT pan, does NOT zoom, does NOT orbit. REJECT any camera angle that
+is not a static eye-level MEDIUM shot.
+
+REFERENCE IMAGE ROLE, HIGHEST PRIORITY:
+<Picture 1> is used ONLY as a visual reference for Subject 1's CHARACTER DESIGN
+(the stick figure's shape, line style, and proportions). DO NOT preserve, copy,
+reconstruct, or reuse the environment, background, floor, walls, architecture,
+objects, textures, colors, composition, or camera framing from <Picture 1>. The
+reference image is NOT a scene reference. The generated environment is created
+independently from the reference image, from the text description below ONLY.
+
+ENVIRONMENT LOCK, HIGHEST PRIORITY, APPLIES TO EVERY SECOND 0.00-10.00:
+The generated environment is a simple FLAT 2D WATERCOLOR scene - a stone bridge
+crossing a river, with a soft pale blue-grey sky, a soft muted blue river, and a
+soft muted green river bank with a couple of simple line trees. The environment is
+NOT derived from <Picture 1>. Use ONLY the environment described here. The SAME
+fixed scene across all 10 seconds - the same bridge, the same river, the same sky,
+the same bank, in the same place. NO wood, NO wooden texture, NO wooden planks, NO
+wooden floor, NO wooden wall, NO wooden bridge, NO wooden architecture, NO wood
+grain, NO mica, NO mica texture, NO paper, NO paper texture, NO surface texture, NO
+indoor environment, NO room, NO table, NO walls, NO floor, NO out-of-space objects.
+The scene is a flat 2D watercolor illustration, IDENTICAL in every second.
+
+PAPER PLANE - ONLY ONE, HIGHEST PRIORITY: there is ONLY ONE paper plane <Subject 3>
+in the whole video. NEVER two paper planes, NEVER a second paper plane, NEVER
+multiple paper planes. The figure throws ONE paper plane and only that ONE plane
+exists the whole time. The paper plane stays SMALL the whole time - a small folded
+triangle of lines, never growing larger, never filling the screen, never becoming
+huge, never large, never big.
+
+PAPER PLANE IN THE AIR UNTIL 9.00 SECONDS: the paper plane <Subject 3> stays IN THE
+AIR, flying and drifting, from 4.00 seconds until 9.00 seconds. It does NOT touch
+the water, does NOT float on the water, does NOT land on the water before 9.00
+seconds. It only floats on the water from 9.00 seconds onward.
+
+NO BUBBLES, HIGHEST PRIORITY: there are NO bubbles in the whole video. NO air
+bubbles, NO rising bubbles, NO bubble clusters, NO bubble pops, NO bubble-formed
+anything. When the figure enters the water there is only a small splash (a few
+line-art splash lines), NO bubbles.
+
+WIND, VISIBLE THROUGHOUT: visible line-art wind lines (a few short curved lines)
+show the wind blowing throughout the whole video, in every second.
+
+subject_definitions:
+<Subject 1> is a simple 2D line-art stick figure schoolboy - a round head, a line
+body, line arms, line legs, clean confident line work, a small line-art school bag
+on his back. ONLY ONE character, no other people, no duplicates.
+<Subject 3> is a SMALL line-art paper plane (a small folded triangle of lines).
+There is ONLY ONE paper plane - never two, never a second plane. It stays SMALL the
+whole time - never growing, never filling the screen, never huge.
+
+summary:
+[reference generation] A simple FLAT 2D line-art + minimal watercolor animation in
+a clean line-work style with soft minimal watercolor color. A stick figure schoolboy
+walks slowly on a line-art bridge, stops and looks around to both sides, throws ONE
+small paper plane into the river, waits while the small paper plane stays IN THE
+AIR drifting slowly and the wind blows, then jumps into the river. The small paper
+plane stays in the air until 9.00 seconds, then floats on the water. Simple, funny,
+no special effects, NO bubbles. Every frame is a MEDIUM shot (the figure's full
+body visible). All transitions are smooth and organic.
+
+GLOBAL CAMERA LOCK (HIGHEST PRIORITY, APPLIES TO EVERY SECOND 0.00-10.00):
+A STATIC EYE-LEVEL MEDIUM shot for the entire take. The camera is LOCKED - it does
+NOT move, does NOT push in, does NOT drift, does NOT tilt, does NOT pan, does NOT
+zoom, does NOT orbit. DEEP FOCUS throughout (every line in the frame is sharp). NO
+wide shots, NO extreme close-ups. The figure is NEVER duplicated, NEVER a second
+figure, NEVER a crowd. There is ONLY ONE paper plane - never two. The environment is
+the SAME fixed flat 2D watercolor scene the whole time - NO wood, NO mica, NO paper
+texture, NO surface texture, NO room, NO table, NO scene change.
+
+detailed_description:
+The target video is a 10-second FLAT 2D line-art + minimal watercolor animation in
+a clean line-work style with soft minimal watercolor color, a simple stick figure
+character, flat 2D, minimal, simple, no heavy shading, no 3d, no photorealistic,
+just clean lines + soft minimal watercolor color. This is a FLAT 2D ANIMATION, NOT
+a physical drawing on paper or a surface - there is NO paper, NO paper texture, NO
+mica, NO wood grain, NO surface texture. Every frame is a MEDIUM shot (the figure's
+full body visible, a little of the bridge and river around him). NO wide shots, NO
+extreme close-ups. DEEP FOCUS throughout (every line in the frame is sharp). The
+environment is the SAME fixed flat 2D watercolor scene the whole time - a stone
+bridge over a river with a soft pale blue-grey sky, a soft muted blue river, a soft
+muted green bank with a couple of simple line trees - IDENTICAL in every second, NO
+scene change, NO new elements, NO wood, NO mica, NO paper texture, NO surface
+texture, NO room, NO table. The camera is a STATIC EYE-LEVEL MEDIUM shot, locked,
+the whole time. There is ONLY ONE paper plane - never two. The paper plane stays
+SMALL the whole time. The paper plane stays IN THE AIR until 9.00 seconds. NO
+bubbles. Visible line-art wind lines show the wind blowing throughout.
+
+The sequence is split into 10 per-second parts. Each part names the figure's exact
+state and the one action happening in that second. The environment is the SAME fixed
+flat 2D watercolor scene in every part. There is ONLY ONE paper plane. The paper
+plane stays SMALL and IN THE AIR until 9.00 seconds. NO bubbles.
+
+0.00-1.00 second: the figure walks SLOWLY along the line-art bridge, his line legs
+in a slow walking stride, his line arms swinging gently. He is ON the bridge.
+Visible line-art wind lines show the wind. The environment is the SAME fixed flat 2D
+watercolor scene.
+1.00-2.00 second: the figure STOPS walking and TURNS HIS HEAD to look to one side
+(his left). He is still ON the bridge. Visible line-art wind lines. The environment
+is the SAME fixed flat 2D watercolor scene.
+2.00-3.00 second: the figure TURNS HIS HEAD to look to the other side (his right),
+looking around both ways. He is still ON the bridge. Visible line-art wind lines.
+The environment is the SAME fixed flat 2D watercolor scene.
+3.00-4.00 second: the figure THROWS ONE SMALL line-art paper plane <Subject 3> into
+the river below - one line arm extended forward, the ONE SMALL paper plane flying
+away from his hand toward the water. There is ONLY ONE paper plane. He is still ON
+the bridge. Visible line-art wind lines. The environment is the SAME fixed flat 2D
+watercolor scene.
+4.00-5.00 second: the ONE SMALL paper plane <Subject 3> flies IN THE AIR, drifting
+slowly, staying SMALL. The figure watches it. He is still ON the bridge. Visible
+line-art wind lines. The environment is the SAME fixed flat 2D watercolor scene.
+5.00-6.00 second: the figure WAITS, standing still on the bridge, watching the ONE
+SMALL paper plane <Subject 3> which is still IN THE AIR, drifting slowly. Visible
+line-art wind lines. He is still ON the bridge. The environment is the SAME fixed
+flat 2D watercolor scene.
+6.00-7.00 second: the figure CROUCHES and prepares to jump, his line legs bent, his
+line arms out. The ONE SMALL paper plane <Subject 3> is still IN THE AIR. Visible
+line-art wind lines. He is still ON the bridge. The environment is the SAME fixed
+flat 2D watercolor scene.
+7.00-8.00 second: the figure JUMPS off the edge of the high bridge into the river
+below. He LEAVES the bridge - he is NO LONGER on the bridge, he is in the AIR, his
+line body in a mid-air jumping pose, his line arms out, his line legs bent, a real
+drop from the high deck into the water. The ONE SMALL paper plane <Subject 3> is
+still IN THE AIR. The environment is the SAME fixed flat 2D watercolor scene.
+8.00-9.00 second: the figure is in the AIR, falling into the water, his line body in
+a mid-air jumping pose. The ONE SMALL paper plane <Subject 3> is still IN THE AIR.
+The environment is the SAME fixed flat 2D watercolor scene.
+9.00-10.00 second: the figure LANDS in the water with a small splash (a few
+line-art splash lines, NO bubbles). The ONE SMALL paper plane <Subject 3> finally
+descends and floats on the water surface, staying SMALL. The environment is the SAME
+fixed flat 2D watercolor scene.
+
+WHAT THE FIGURE DOES NOT DO: does NOT drink, does NOT hold a cup, does NOT hold a
+bottle, does NOT hold any object to his mouth, does NOT run, does NOT slide, is NOT
+duplicated, is NOT a second figure, is NOT a crowd. The figure does NOT jump before
+the paper plane has drifted (he waits first). The figure does NOT walk on the bridge
+after jumping, does NOT return to the bridge, does NOT reappear on the bridge.
+
+WHAT THE PAPER PLANE DOES NOT DO: there is ONLY ONE paper plane - does NOT become
+two, does NOT become a second plane, does NOT become multiple planes. The ONE paper
+plane does NOT grow larger, does NOT become huge, does NOT become big, does NOT fill
+the screen, does NOT come back toward the figure, does NOT fly back, does NOT touch
+the water before 9.00 seconds, does NOT float on the water before 9.00 seconds, does
+NOT land on the water before 9.00 seconds. It stays SMALL and IN THE AIR until 9.00
+seconds.
+
+WHAT THE ENVIRONMENT DOES NOT DO: does NOT change, does NOT shift, does NOT morph,
+does NOT reveal a new scene, does NOT reveal a room, does NOT reveal a wall, does NOT
+reveal a table, does NOT reveal a floor, does NOT reveal wood, does NOT reveal mica,
+does NOT reveal paper, does NOT reveal a surface texture, does NOT reveal an indoor
+setting, does NOT reveal new elements. It stays the SAME fixed flat 2D watercolor
+bridge-and-river scene across all 10 seconds.
+
+NO BUBBLES ANYWHERE: there are NO bubbles in the whole video - NO air bubbles, NO
+rising bubbles, NO bubble clusters, NO bubble pops, NO bubble-formed anything.
+
+overall_soundscape:
+Simple, quiet. A few soft footsteps on the bridge as the figure walks, a soft whoosh
+as the paper plane is thrown, a gentle wind as the paper plane drifts in the air, a
+soft splash as the figure jumps into the river, then a calm quiet hush as the paper
+plane floats on the water. No music, no dialogue, NO bubble pops.
+
+non_diegetic_music:
+Only natural sounds, no musical instruments. No dialogue, no subtitles. The title
+'The Jaisal Cut' is composited in post and is NOT rendered by the model.
