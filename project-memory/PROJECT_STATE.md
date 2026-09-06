@@ -94,6 +94,12 @@ Active workflows (in E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\def
 - krea2_jaisal_face_v3.json — face close-up (Anchor B), i2i
 - krea2_jaisal_medium.json — medium shot, i2i from face (new)
 - mini-max-refrance-to-video-1.json — MiniMax H3 ref-image-to-video (15s)
+- WF-H3_zuanfilm-Face_Detailer.json — **Face Detailer** (close-up / face-refine shots). Pack `Carasibana/ComfyUI-H3-FaceRefine` (cloned 2026-09-01). Model paths remapped to our files. **Needs a ComfyUI restart for the H3Face nodes to register.** See D043.
+- minimax_h3_sam_r2v_cinematic.json — **Character / Background swap** (SAM3 R2V). Pack `yujianvip/ComfyUI-SetGet-Resolver` (cloned 2026-09-01). 7 model paths remapped to our files. See D043.
+
+### H3 speed stack (SLA) — 1MP < 240 s
+
+All production MiniMax H3 workflows wire an **`H3SLAAttention` node** (Sparse Linear Attention, `ComfyUI-PlagueKind-Nodes/ComfyUI-H3-SLA-Attention`), sparsity 0.90, dense_backend `comfy_kitchen_int8`. **1MP (1344×768) H3 generation is UNDER 240 s (~4 min)** on this stack — NOT the 25–40 min full-attention figure. See **D042**. VDN-H3 (a different hybrid-attention speedup) is a deferred next step to benchmark against this SLA baseline.
 
 ## Current Strategy
 

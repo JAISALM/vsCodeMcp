@@ -612,6 +612,8 @@ User: "I think we should have went with 1MP. [log: Model Initializing ... 0/8 [1
 
 The reference video barely adds compute (it's a conditioning input, not a big cost) — the cost is **output resolution × 15s × 8 steps**.
 
+**⚠️ CORRECTION (2026-09-01) — the 25–40 min figure is for FULL-attention H3. Our ACTUAL speed stack is SLA, and 1MP generation is UNDER 240 SECONDS.** The user's production workflows (`jaisalproduction1.json`, `jaisal_2mp_test.json`, `beach_sprint_test.json`, `t2v_beach_sprint_test.json`) all wire an **`H3SLAAttention` node (id 150)** from `ComfyUI-PlagueKind-Nodes/ComfyUI-H3-SLA-Attention` (Sparse Linear Attention). Config in use: `widgets_values = [0.9, '32', 8192, 1, True, True, '0', 'comfy_kitchen', True, False, False]` → **sparsity 0.90, dense_backend = `comfy_kitchen_int8`**. With SLA, a 1MP H3 render completes in **< 240 s (~4 min)**, NOT 25–40 min. **Do NOT quote the 25–40 min estimate for our current pipeline — that number is obsolete now that SLA is in the graph.** (The 2K VRAM-thrashing diagnosis above still stands — SLA speeds the attention math but does not remove the 2K activation/VRAM pressure.) See **D042**.
+
 **Decision: set the `ResolutionSelector` (node 115) to `['16:9 (Widescreen)', 1.0, 32]` → 1344×768 (MiniMax H3 NATIVE canvas).** 1MP is what the model is designed for, fits comfortably in VRAM, and renders in a finite ~25–40 min. For 2K, the clean path is **render at 1MP → upscale** (Topaz/RTX/Hunyuan upscalers are all installed) — faster and cleaner than a direct 2K render. The reference video node (149) stays wired as the motion anchor.
 
 **Rule: do NOT render MiniMax H3 at 2K directly on a 32 GB card — the ~20 GB model + 2K activations thrash VRAM (stuck at 0/8 steps in "Model Initializing"). Render at the NATIVE 1344×768 (1.0 MP) and upscale to 2K in a separate step. Estimate render time from the user's OWN output timestamps (file mtimes), not forums — forums rarely have a clean per-GPU benchmark. A render stuck at 0/8 steps in "Model Initializing" for many minutes = VRAM thrashing, not slow sampling.**
@@ -1334,3 +1336,95 @@ The v2 no-water prompt STILL came out as a flat noise bed (user: "still the same
 ### Update 2026-09-03 (v4 — TEXT-ONLY MODE ALSO A NOISE BED; CONTROLFOLEY NOT SUITABLE)
 
 The user wants a REUSABLE production workflow (strip audio + generate SFX alone) and asked to build the text-only ControlFoley path. **Built `jaisal_sketch_title_audio.json` in TEXT-ONLY mode** via `utilities/build_controlfoley_textonly.py` (backed up the video-mode version to `workflow_backups\jaisal_sketch_title_audio_video_mode.json`): removed the Node 2→Node 3 link (video no longer feeds the generator), set Node 3's `video` input link to None, updated the prompt to a clean text-only SFX timeline (no "synced to the video"), duration 14.5. Node 2 (LoadControlFoleyVideo) still feeds Node 5 (mux) so the SFX gets muxed into the soundless video. **Re-ran → `jaisal_sketch_title_00011_.wav` + `jaisal_sketch_title_00012_.mp4`.** **Result: STILL a noise bed** — per-second RMS ~-29 to -34 dB (quieter than video mode's -24 dB but still flat), spectral centroid 6489 Hz (bright/noisy), peak/RMS 14.44. **Text-only mode did NOT produce clean discrete SFX (footsteps/whistle/splash) — it's still a broadband noise floor.** **CONCLUSION: ControlFoley is NOT suitable for clean SFX generation for this content, in EITHER video mode OR text-only mode.** It consistently produces a noise bed. **The reusable text-only workflow is still a valid production item** (the wiring is correct and reusable for other videos), but ControlFoley's SFX quality is the limitation. **Next options for clean music-free SFX:** (a) **Music separation** on the MiniMax audio (Demucs/Spleeter — NOT installed) to remove the music and keep the natural SFX (the MiniMax audio already has the natural SFX synced to the video, just mixed with music); (b) **Manual SFX** in a video editor (reliable, "old way"); (c) a different SFX-generation tool. **Rule: ControlFoley (video + text-only) produces a noise bed for this line-art video — do NOT keep burning compute on it. For clean music-free SFX, try music separation on the source audio or manual SFX.**
+
+---
+
+## D042 — SLA (Sparse Linear Attention) is the actual H3 speed stack; 1MP < 240 s
+
+Date: 2026-09-01
+Status: Active
+
+### Decision
+
+The MiniMax H3 speed stack in all production workflows is **SLA (Sparse Linear Attention)** via the **`H3SLAAttention` node** from `ComfyUI-PlagueKind-Nodes/ComfyUI-H3-SLA-Attention`. With SLA wired in, a **1MP (1344×768) H3 render completes in UNDER 240 seconds (~4 min)** — NOT the 25–40 min full-attention estimate in D026.
+
+### Reason
+
+The user's production workflows (`jaisalproduction1.json`, `jaisal_2mp_test.json`, `beach_sprint_test.json`, `t2v_beach_sprint_test.json`) all wire `H3SLAAttention` (node id 150). Config in use: `widgets_values = [0.9, '32', 8192, 1, True, True, '0', 'comfy_kitchen', True, False, False]` → **sparsity 0.90, dense_backend = `comfy_kitchen_int8`**. The user measured 1MP generation at **< 240 s** on this stack.
+
+### Alternatives considered
+
+- Quoting the D026 25–40 min figure (rejected — that is full-attention H3; SLA is in the graph and is far faster).
+- VDN-H3 (Video Delta Net) — a different hybrid-attention speedup; **deferred to a later step** (see D043). VDN 8-step turbo REPLACES the community turbo LoRAs and adds ~4.3 GB VRAM; it is a separate setup to benchmark against SLA, not a drop-in.
+
+### Result
+
+**Rule: when estimating MiniMax H3 render time on THIS machine, use the SLA stack — 1MP ≈ < 240 s. Do NOT quote 25–40 min (that is full-attention). The 2K VRAM-thrashing caveat from D026 still applies (SLA speeds attention but not 2K activation/VRAM pressure). When comparing speedups (e.g. VDN), benchmark against the SLA < 240 s baseline, not the 25–40 min figure.**
+
+---
+
+## D043 — Two new workflows ready: Face Detailer (close-ups) + SAM character/background swap
+
+Date: 2026-09-01
+Status: Active (installed; pending ComfyUI restart to register nodes)
+
+### Decision
+
+Two workflows are now installed and model-path-remapped for use in ~1–2 weeks (once the audio/dubbing path is settled):
+
+1. **Face Detailer** — `WF-H3_zuanfilm-Face_Detailer.json` (close-up / face-refine shots). Node pack = **`Carasibana/ComfyUI-H3-FaceRefine`** (cloned into `custom_nodes`). Defines `H3FaceSelect`, `H3FaceTrackCrop`, `H3FaceStitch`, `H3InjectVideoLatent`, `H3PerFrameDenoise`, `H3FaceMaskSAM`, `H3FaceTransformInfo`. Chain: `VHS_LoadVideoPath` → `H3FaceTrackCrop` (per-frame face crop, 512² canvas, `auto_capped_768`, crop_factor 0.35) → `MiniMaxH3ReferenceToVideo` → `H3InjectVideoLatent` (real frames → img2img) → `MiniMaxH3NativeAudioLock` (audio→lipsync) → `H3PerFrameDenoise` (0.8→0.35 by face size) → `er_sde` 4-step / denoise 0.45 → `VAEDecode` → `H3FaceStitch` (face_only, feather 24px) → `VHS_VideoCombine`. Key dials: base denoise 0.45, crop_factor 0.35, canvas `auto_capped_768`, turbo LoRA @ 0.75, `paste_region=face_only`.
+2. **Character / Background swap** — `minimax_h3_sam_r2v_cinematic.json`. Node pack = **`yujianvip/ComfyUI-SetGet-Resolver`** (cloned; pure frontend `GetNode`/`SetNode`, right-click canvas). Chain: `VHS_LoadVideoFFmpeg` (driving video) → `SAM3_VideoTrack` (person, thr 0.5) → `SCAIL2ColoredMask` → `ImageInvert` → `ImageAddNoise` → `ImageCompositeMasked` → `MiniMaxH3ReferenceToVideo` (refs = character sheet, masked video as `ref_video`) → `CreateVideo` → `VAEDecode` → `SaveVideo` (+ `RTXVideoSuperResolution` 2× ULTRA). `ComfySwitchNode` toggles Char Replace (True) / Background Replace (False). Prompt = "omni" structure (subject_definitions, summary `[video editing]`, integrated_multimodal_description, overall_soundscape with dialogue `<Subject 1> says <d>[Language] transcript</d>`, non_diegetic_music).
+
+### Reason
+
+The user wants close-up shots (face detailer) and character/background swap (SAM R2V) available as reference/build-on-top workflows for the Malayalam channel intro. Both were sourced from the community (reddit) and needed their model paths remapped to our layout.
+
+### Model-path remaps applied (backups saved as `*.pre-remap.bak`)
+
+- **SAM R2V** (7 nodes): UNET `minimax_h3_fl2va_pruned_int8_convrot.safetensors`; LoRA `minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors`; video VAE `minimax_h3_video_vae_fp16.safetensors`; audio VAE `minimax_h3_audio_vae_fp32.safetensors`; CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors`; SAM3 `sam3.1_multiplex_fp16.safetensors`; the NSFW `MysticXXX_MMH3-V3` LoRA (strength 0, no-op) repointed to the valid turbo LoRA so validation passes.
+- **Face Detailer** (2 nodes): LoRA `minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors`; UNET `minimax_h3_fl2va_pruned_int8_convrot.safetensors`. (Detector `bbox\face_yolov8m.pt` already matched our `models/ultralytics/bbox/` layout.)
+- **FaceRefine pip deps** installed into embedded Python: `insightface`, `scenedetect>=0.7` (`ultralytics` + `scipy` were already present).
+
+### Validation status
+
+- **SAM R2V** validates with all model paths resolving. Only error = node 153 source video (`scene_13_begging_clip01_trimmed.mp4` not in our `input/`) — user-specific driving clip. Two non-blocking warnings (SAM3 type-annotation on node 182; dangling `VAEDecodeAudio` node 121 in the original).
+- **Face Detailer** reports the 4 H3Face nodes as `unknown_class_type` — these resolve **after a ComfyUI restart** loads the newly-cloned FaceRefine pack. 5th error = node 8 source audio (`GATONIEL_2.wav`), user-specific.
+
+### Result
+
+**Rule: the two packs are cloned into `custom_nodes` and both workflows' model paths point at our real files. A ComfyUI restart is REQUIRED for the H3Face nodes to register (verify `H3FaceTrackCrop`/`H3FaceStitch`/`H3InjectVideoLatent`/`H3PerFrameDenoise`/`GetNode`/`SetNode` appear in `/object_info` after restart). The source video/audio widgets are user-specific placeholders — set them to the actual clip before running. VDN-H3 setup is DEFERRED to a later step (benchmark VDN vs the SLA < 240 s baseline).**
+
+---
+
+## D045 — NEVER run a ComfyUI workflow while a Qwen/llama.cpp session is active (contaminates benchmarks)
+
+Date: 2026-09-06
+Status: Active (HARD RULE)
+
+### Decision
+
+**Never submit a ComfyUI workflow (via MCP `run_workflow`/`run_template` or the UI) while a local Qwen/llama.cpp session is running.** The two compete for the same GPU + CPU + memory, so BOTH slow down: the LLM's reasoning gets sluggish AND the ComfyUI render gets slower. Any generation time measured under this contention is **contaminated and unusable** for a speed comparison.
+
+### Reason
+
+The user's explicit instruction (2026-09-06): "you should never run the workflow parallely when an active qwen session is going on, it will affect both the usecase, your thinking will get slow, comfyui will also be slow." This was triggered when the VDN-H3 t2v benchmark (1MP, 124 frames, 8 steps) was submitted while Qwen was active and came back at **418.22 s** — a number the user correctly judged unusable ("from this, I cannot come to a conclusion"). The 418 s is NOT a valid VDN figure.
+
+### Alternatives considered
+
+- Running the benchmark anyway and noting the caveat (rejected — the user wants a clean number to compare against the SLA < 240 s baseline, D042).
+- Reducing the workload to fit under the contention (rejected — still contaminated).
+
+### Result
+
+**Rule: before submitting ANY ComfyUI workflow for a timed/benchmark run, confirm no Qwen/llama.cpp session is active (stop it first). For benchmark comparisons (VDN vs SLA, etc.), the run MUST be done with the LLM idle so the time is clean. If a run was submitted during an active LLM session, discard its timing and re-run clean. The user will run the VDN benchmark manually (workflow `vdn_h3_t2v_benchmark.json`) to get the correct number.**
+
+### VDN-H3 setup state (recorded 2026-09-06)
+
+- **Node pack:** `Saganaki22/ComfyUI-VDN-H3` **v1.4.0** cloned into `custom_nodes` (no new Python deps — runs on ComfyUI's existing torch + safetensors). Defines `ApplyVDNH3` (simple) + `ApplyVDNH3Advanced` (ablations + fast kernels).
+- **Checkpoint (int8 ConvRot 8-step stage):** `E:\ComfyUI_windows_portable\ComfyUI\models\vdn\vdn-minimax-h3-int8-convrot-comfyui\` (source `drbaph/vdn-minimax-h3-int8-convrot-comfyui` on HF). 7 files, ~3.49 GB total: `model_spec.json` (25,705 B), `linear_branch/model_int8_convrot_comfyui.safetensors` (2.30 GB), `linear_branch/config.json`, `adapters/turbo/adapter_model.safetensors` (851 MB) + config, `adapters/default/adapter_model.safetensors` (334 MB) + config. All verified byte-for-byte against the HF API.
+- **Why int8 ConvRot (not bf16 `OpenVDN/vdn-minimax-h3`):** (1) matches our int8_convrot base model; (2) ~4.7 GB more VRAM headroom (8.3 GB free vs 3.6 GB — critical for the ~20 GB base + VAEDecode spike on the 32 GB card); (3) ~1.2× faster (branch matmuls 2.7× faster); (4) smaller download (2.2 vs 4.3 GB); (5) identical output at same seed. bf16 is the fallback if int8 misbehaves.
+- **Benchmark workflow:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\vdn_h3_t2v_benchmark.json` — validates clean (16 nodes, 0 errors). Chain: UNETLoader(`minimax_h3_fl2va_pruned_int8_convrot`) → `ApplyVDNH3Advanced` → `MiniMaxChunkFeedForward`(2, 4096) → BasicGuider → SamplerCustomAdvanced; BasicScheduler also takes model from the chunk node. `ApplyVDNH3Advanced` widgets: `["vdn-minimax-h3-int8-convrot-comfyui", true, 1, 1, "merge", "auto", "auto", true, "grouped", 1, 5, "both", true, true, false]` (turbo ON, **merge** required for the 8-step DMD stage, **fast_kernels OFF** — README warns it drifts on 8-step DMD on torch 2.10). **14 s = 345 frames** (14×24=336, snapped up to the 17k+5 grid → 345) at **1344×768 (1MP)** — set to match the PROVEN production workload `jaisal_single_shot.json` (14 s @ 1344×768 @ turbo, the workload the SLA ~250 s number was measured on) so the speed comparison is apples-to-apples. 8 steps, `er_sde`, `beta` scheduler, fixed seed 981445682258077. t2v mode (no first/last frame). NO-music prompt (D041).
+- **Run 1 (contaminated):** 124 frames (5 s), 418.22 s — INVALID (Qwen was active). Discarded.
+- **Run 2 (clean, 345 frames / 14 s / 1344×768):** **OOM at step 0** (184.21 s to fail). The linear-branch readout (`branch.py:159 frame_statistics`: `torch.matmul(vb.transpose(-1,-2), kf).float()`) holds per-frame K/V statistics for all F=102 frames in fp32 → ~31.4 GiB, blowing the 31.84 GiB limit. The vendor's ~95 s reference is 61 frames (F≈19) — 5× fewer frames.
+- **CONCLUSION: VDN-H3 is NOT viable at our production scale (14 s / 1MP) on the 32 GB card — it OOMs.** Its linear-branch memory scales with frame count (worse for longer clips — the opposite of where we need it). **SLA remains the default speed stack (D042).** Do NOT adopt VDN for 14 s / 1MP production clips.
+- **If a clean VDN number is still wanted (tomorrow):** set `branch_weights="stream"` (widget idx 5) + `retain_buffers="off"` (idx 6) to cut linear-branch memory, and/or drop to 124 frames / 1280×736. Stop the Qwen session first (D045). Full details in `EXPERIMENTS.md` (2026-09-06 VDN-H3 entry).

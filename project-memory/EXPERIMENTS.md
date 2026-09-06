@@ -4,6 +4,66 @@ Newest experiments first.
 
 ---
 
+## 2026-09-06 — VDN-H3 (Video Delta Net) benchmark vs SLA (OOM at 14 s / 1MP — NOT viable at production scale)
+
+### Goal
+
+Benchmark **VDN-H3** (Video Delta Net hybrid-attention speedup) against the **SLA** baseline (D042: 1MP < 240 s; production `jaisal_single_shot` ~250 s at 14 s / 1344×768). The user's objective: "compare with our SLA workflow generation time" — VDN was hoped to give "crazy speed for text to video... helpful for our movies, for random shots."
+
+### Setup (recorded 2026-09-06)
+
+- **Node pack:** `Saganaki22/ComfyUI-VDN-H3` **v1.4.0** cloned into `custom_nodes` (no new Python deps — runs on ComfyUI's existing torch + safetensors). Defines `ApplyVDNH3` (simple) + `ApplyVDNH3Advanced` (ablations + fast kernels).
+- **Checkpoint (int8 ConvRot 8-step stage):** `E:\ComfyUI_windows_portable\ComfyUI\models\vdn\vdn-minimax-h3-int8-convrot-comfyui\` (source `drbaph/vdn-minimax-h3-int8-convrot-comfyui` on HF). 7 files, ~3.49 GB total. `vdn_checkpoint` node value = folder name `vdn-minimax-h3-int8-convrot-comfyui` (auto-detected in the combo).
+- **Why int8 ConvRot (not bf16 `OpenVDN/vdn-minimax-h3`):** (1) matches our int8_convrot base; (2) ~4.7 GB more VRAM headroom (8.3 GB free vs 3.6 GB); (3) ~1.2× faster (branch matmuls 2.7× faster); (4) smaller download (2.2 vs 4.3 GB); (5) identical output at same seed. bf16 = fallback.
+- **Benchmark workflow:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\vdn_h3_t2v_benchmark.json` (validates clean, 16 nodes). Chain: UNETLoader(`minimax_h3_fl2va_pruned_int8_convrot`) → `ApplyVDNH3Advanced` → `MiniMaxChunkFeedForward`(2, 4096) → BasicGuider → SamplerCustomAdvanced; BasicScheduler also takes model from the chunk node. `ApplyVDNH3Advanced` widgets (positional order): `["vdn-minimax-h3-int8-convrot-comfyui", true, 1, 1, "merge", "auto", "auto", true, "grouped", 1, 5, "both", true, true, false]` = `vdn_checkpoint, apply_turbo_adapter, stage_b_strength, turbo_strength, lora_mode, branch_weights, retain_buffers, verbose, attention_backend, window_radius, window_chunk, anchor_frames, text_state, linear_branch, fast_kernels`. turbo ON, **merge** (required for the 8-step DMD stage), **fast_kernels OFF** (README: drifts on 8-step DMD on torch 2.10). 8 steps, `er_sde`, `beta` scheduler, fixed seed 981445682258077. t2v mode. NO-music prompt (D041).
+- **HF reference (from the source page):** 8 steps, er_sde/beta, **1280×736 / 61 frames**, merge, `cache_gpu` → **~95 s** (int8) / ~111 s (bf16). This is the vendor's "fast" number — a SHORT clip.
+
+### What was tested
+
+Three runs of `vdn_h3_t2v_benchmark.json`:
+
+1. **124 frames (5 s), 1344×768 — CONTAMINATED.** Submitted while a Qwen/llama.cpp session was active (violates D045). Result: **418.22 s** (8 steps @ ~60.4 s/it). **INVALID** for comparison — the LLM contention inflated it. Discarded.
+2. **345 frames (14 s), 1344×768 — OOM.** Set to match the proven production workload (`jaisal_single_shot` = 14 s / 1344×768 / turbo). First attempt interrupted at step 0 after 2:04 (cudnn SDPA warmup + linear-branch state build for a 104,129-row sequence). Second attempt (uninterrupted) **OOM'd at step 0** after 184.21 s.
+3. **The OOM (the key result):**
+   ```
+   [vdn] layout: seq 104129 rows, video [1313, 104129), F=102, S=1008, frame (24, 42), text 163 rows
+   [vdn] branch_weights=auto: model.safetensors, cache_gpu (16.5 GiB VRAM free, stage 0.00 GiB)
+   [vdn] retain_buffers=auto: retained (16.5 GiB VRAM free; stage 2.15 GiB + 10 GiB headroom)
+   ...
+   File "custom_nodes\ComfyUI-VDN-H3\vdn_h3\branch.py", line 159, in frame_statistics
+       b = torch.matmul(vb.transpose(-1, -2), kf).float()
+   torch.OutOfMemoryError: Allocation on device 0 would exceed allowed memory.
+   Currently allocated: 30.05 GiB | Requested: 1.35 GiB | Device limit: 31.84 GiB
+   Peak Usage: 32284 MiB
+   ```
+
+### Result
+
+**VDN-H3 OOMs at 14 s / 1344×768 (345 frames) on the 32 GB RTX 5090.** The failure is in the **linear-branch readout** (`branch.py:159 frame_statistics`): `b = torch.matmul(vb.transpose(-1,-2), kf).float()` — a per-frame K/V statistics matmul over **all F=102 frames × S=1008 tokens**, cast to **fp32** (`.float()` doubles the footprint). The linear branch holds per-frame statistics for the whole clip simultaneously, so its memory **scales with frame count**. At F=102 (345 frames) it needs ~31.4 GiB and blows the 31.84 GiB limit. The vendor's ~95 s reference is **61 frames (F≈19)** — 5× fewer frames — which is why it fits.
+
+### Performance
+
+| Run | Clip | Frames (F) | Result |
+|---|---|---|---|
+| 1 (contaminated) | 5 s, 1344×768 | 124 (F≈37) | 418.22 s — INVALID (Qwen active) |
+| 2 | 14 s, 1344×768 | 345 (F=102) | **OOM at step 0** (184.21 s to fail) |
+| HF reference | ~2.5 s, 1280×736 | 61 (F≈19) | ~95 s (vendor, int8) |
+
+### Conclusion
+
+**VDN-H3 is NOT viable at our production scale (14 s / 1MP) on a 32 GB card — it OOMs.** Its linear-branch memory scales with frame count, so the longer the clip the worse it gets — the exact opposite of where we need it (long movie shots). The vendor's "2 min for 15 s" marketing is for a SHORT low-res clip (61 frames), not a 345-frame 1MP render. **SLA remains the default speed stack** (D042). Do NOT adopt VDN for production 14 s / 1MP clips.
+
+### Next step (for tomorrow)
+
+If we still want a clean VDN number (to confirm the crossover point), the OOM is fixable by reducing the linear-branch memory — try, in order:
+1. **`branch_weights = "stream"`** (widget index 5, currently `"auto"`→`cache_gpu`) — streams frames through the linear branch instead of caching all F frame-statistics at once. This is THE memory lever.
+2. **`retain_buffers = "off"`** (widget index 6, currently `"auto"`→retained) — drops the 2.15 GiB retained stage buffers.
+3. **Reduce frames** to ~124 (F≈37) for a clean (Qwen-idle) run — the 5 s clip that fit in VRAM.
+4. **Reduce resolution** (e.g. 1280×736 like the vendor reference) to cut S (tokens/frame).
+Also: the `MiniMaxChunkFeedForward` node (chunks=2, seq_threshold=4096) already chunks the feed-forward but does NOT chunk the linear-branch readout — that's why the OOM still hit. A clean 124-frame run with `branch_weights=stream` is the most likely path to a valid VDN time. **Remember D045: stop the Qwen session first.**
+
+---
+
 ## 2026-09-03 — ControlFoley TC-V2A audio for the LOCKED video (SUCCESS after 3 bug fixes)
 
 ### Goal
