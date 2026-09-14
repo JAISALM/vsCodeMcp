@@ -1,0 +1,42 @@
+﻿=== T5 file search (targeted) ===
+=== AppData\Roaming ===
+
+Folder                 GB
+------                 --
+Maxon                 4.4
+Code                  3.9
+Python                2.8
+JetBrains             0.9
+Telegram Desktop      0.7
+npm                   0.6
+NVIDIA                0.3
+com.adobe.dunamis     0.2
+Postman               0.2
+ollama app.exe        0.1
+uv                    0.1
+Adobe                 0.1
+discord               0.1
+UltraViewer             0
+utorrent                0
+Ultralytics             0
+CopyTrans               0
+Blackmagic Design       0
+AMD                     0
+Wispr Flow              0
+yambur                  0
+WinRAR                  0
+Visual Studio Setup     0
+WindSolutions           0
+Notepad++               0
+docker-secrets-engine   0
+Norton                  0
+Microsoft               0
+nextjs-nodejs           0
+Docker Desktop          0
+Opera Software          0
+LM Studio               0
+OmniVoice               0
+NVIDIA Corporation      0
+Docker                  0
+
+

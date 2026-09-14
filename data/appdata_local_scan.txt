@@ -1,0 +1,69 @@
+﻿
+Folder                           GB
+------                           --
+pip                            22.8
+LTXDesktop                       10
+Programs                          6
+Temp                            5.4
+uv                              3.4
+CrashDumps                      2.8
+BraveSoftware                   1.9
+Microsoft                       1.7
+Docker                          1.6
+Postman                         1.3
+npm-cache                       1.3
+Packages                        0.9
+JetBrains                       0.9
+lm-studio-updater               0.8
+ms-playwright                   0.7
+Google                          0.6
+Discord                         0.5
+VoiceStudio (Current User)      0.4
+ltx-desktop-updater             0.3
+NVIDIA Corporation              0.2
+com.debpalash.omnivoice-studio  0.1
+NVIDIA                          0.1
+Package Cache                   0.1
+MinitoolLimited                 0.1
+OneDrive                          0
+Opera Software                    0
+VirtualStore                      0
+Temporary Internet Files          0
+system_backup_gui                 0
+WisprFlow                         0
+resmon.resmoncfg                  0
+IconCache.db                      0
+file__0.localstorage              0
+PlaceholderTileLogoFolder         0
+Phantom TKL Software              0
+PeerDistRepub                     0
+prisma-nodejs                     0
+SquirrelTemp                      0
+Sentry                            0
+Publishers                        0
+checkpoint-nodejs                 0
+CEF                               0
+cache                             0
+ConnectedDevicesPlatform          0
+Comms                             0
+comfy-cli                         0
+AMD                               0
+Adobe                             0
+.IdentityService                  0
+BitTorrentHelper                  0
+Application Data                  0
+AMD_Common                        0
+Microsoft Help                    0
+IdentityNexusIntegration          0
+History                           0
+OmniVoice                         0
+Norton                            0
+Microsoft SDKs                    0
+D3DSCache                         0
+CornerTips                        0
+copilot                           0
+docker-secrets-engine             0
+DeepFilterNet                     0
+DaVinci Resolve Welcome           0
+
+

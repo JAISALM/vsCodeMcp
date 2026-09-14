@@ -4,6 +4,85 @@ Newest experiments first.
 
 ---
 
+## 2026-09-14 — Krea2 t2i object refs: VISIBLE BULB leaks into "unseen light" prompts
+
+### Goal
+
+Generate 3 clean object reference images (soccer ball, cricket bat, paper-with-smiley)
+on a pure black background for the Shot-7 "Jaisal explodes into ideas" effect, to feed
+MiniMax H3 as object refs. The light must be top-down but the BULB must NOT appear
+in-frame (a visible bulb confuses H3 when compositing into the scene).
+
+### Setup
+
+- Workflow `krea2_object_refs.json` (3 parallel t2i branches, shared UNET/CLIP/VAE).
+- UNET `krea2_turbo_bf16`, CLIP `qwen3vl_4b_fp8_scaled` (type `krea2`), VAE
+  `qwen_image_vae`, KSampler `10 steps / cfg 1 / euler / simple`, 1024×1024.
+- **NO identity LoRA** (objects, not the character).
+- Positive: "Lit from directly above by a single UNSEEN light source — the light
+  itself is NOT visible in the frame, only its light and hard shadow."
+- Negative: `light bulb, bare bulb, lamp, visible light source, ceiling, cord, wire,
+  hanging bulb, bulb in frame` (+ color/person/duplicates/american-football).
+
+### Result
+
+- **Take `_00001_` (1:38 AM): BULB VISIBLE in all 3** — Krea2 rendered a glowing
+  bare bulb at the top of every object. The "UNSEEN light" positive + bulb negatives
+  were NOT enough on the first seed.
+- **Take `_00002_` (1:44 AM): CLEAN in all 3** — no bulb, pure black background,
+  correct objects (round soccer ball, vertical cricket bat, paper with dense
+  handwriting + curved smile line). This is the usable set.
+
+### Conclusion
+
+**Krea2 is a general model — "unseen light" is a strong hint, not a guarantee.**
+The first seed rendered the bulb; a re-roll (different seed) came out clean. The
+negative list does the heavy lifting but you may need to re-roll 1-2 seeds to get
+all three clean. **Always visually verify the bulb is gone before feeding to H3.**
+
+### Next step
+
+Use the `_00002_` set (clean). If a future object still shows a bulb, re-roll that
+branch's seed. Feed the 3 clean PNGs into the H3 R2V Shot-7 workflow.
+
+---
+
+## 2026-09-12 — Krea2 identity-edit: SCENE ANCHOR breaks the character (V3 vs V4/V5/V6 vs V7)
+
+### Goal
+
+Find why the character identity broke in V4/V5/V6 (face became a different person)
+when V3's character was good.
+
+### Setup
+
+- **V3** (`build_intro_keyframes_v3.py`): node 72 = full char ref
+  `intro_char_ref_bw.png`, node 113/92 BYPASSED (no scene anchor).
+- **V4/V5/V6**: same char ref + node 113 = empty base `intro_scene_master.png`
+  (table+chair+bulb, NO person) as a SCENE ANCHOR (node 92 enabled).
+- **V7** (`build_intro_keyframes_v7.py`): = V3's exact settings (char ref only,
+  no scene anchor).
+
+### Result
+
+- **V3 = GOOD character** (matches the reference face).
+- **V4/V5/V6 = BROKEN character** (different face, gray studio backdrop).
+- **V7 = GOOD character** (`kf2_seated_v7_00001_.png` matches the reference).
+
+### Conclusion
+
+**The scene anchor (empty base) FIGHTS the character ref → breaks identity.**
+Character shots must use the character ref ONLY. The V3 tradeoff: good character
+but a wall (right) + chair (left) + plant in the scene — fix those via
+PROMPT-ONLY (stronger negatives), NOT a scene anchor.
+
+### Next step
+
+Fix walls/chair/plant in V7 via prompt-only, regenerate the V7 set, then MiniMax
+H3.
+
+---
+
 ## 2026-09-06 — VDN-H3 (Video Delta Net) benchmark vs SLA (OOM at 14 s / 1MP — NOT viable at production scale)
 
 ### Goal

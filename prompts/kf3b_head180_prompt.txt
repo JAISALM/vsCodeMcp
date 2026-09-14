@@ -1,0 +1,79 @@
+=====================================================================
+KF3B — HEAD 180° HORROR (face over shoulder, looking at camera)
+=====================================================================
+Take this to ChatGPT and ask it to improve the wording. The GOAL:
+- Reference image = a BACK VIEW of a young man seated at a wooden
+  table (we see his back, shoulders, back of head, single bulb,
+  pure black void, B&W).
+- We want ONLY the head to twist around so his FACE is visible,
+  turned over his shoulder, looking STRAIGHT AT THE CAMERA.
+- The BODY / SHOULDERS stay in the back view (facing away).
+- The result = a creepy "ghost turned around to look at you" look.
+
+---------------------------------------------------------------------
+WHY THE CURRENT PROMPT FAILS (over-rotates to ~270°):
+- Saying "rotate 180 degrees" makes the model overshoot.
+- A human head cannot physically turn 180°, so the model is
+  confused and picks a sideways (270°) pose.
+- FIX: describe the END STATE (face visible over the shoulder,
+  looking at the camera), NOT the rotation amount.
+
+=====================================================================
+POSITIVE PROMPT (feed to Krea2 identity-edit, ref = back-view image)
+=====================================================================
+A black and white high-contrast cinematic photograph. A single young
+man with dark wavy hair and a black shirt, seated at a wooden table
+on a wooden chair, a single bare bulb hanging above, a pure black
+void background. The camera is behind him (a back view) - we see his
+back, his shoulders, and the back of his head.
+
+His head is turned completely around over his shoulder, so his FACE is
+fully visible and he is looking STRAIGHT AT THE CAMERA, his eyes
+staring directly at the viewer. His face is facing the camera head-on
+(not a side profile, not turned to the left or right). His body and
+shoulders remain in the back view, facing away from the camera - only
+his head is turned around. A slow, unsettling, horror look, like a
+ghost turning around to look at you.
+
+Everything else is exactly the same as the reference: the same wooden
+table, the same chair, the same single bulb, the same pure black void,
+the same black and white high-contrast lighting. There is ONLY ONE man
+in the frame.
+
+=====================================================================
+NEGATIVE PROMPT
+=====================================================================
+two people, multiple people, duplicate, twin, mirror image, reflection,
+second person, extra man, front view of the body, body turned around,
+shoulders turned around, face in profile, side of the face, face
+pointing sideways, face turned to the left, face turned to the right,
+face looking away from the camera, face not visible, back of head only,
+head over-rotated, 270 degree rotation, full body rotation, tilted
+camera, dutch angle, wall, bright background, white background, color,
+extra chair, objects on the table, clutter, grain, speckles
+
+=====================================================================
+KEY TIPS FOR CHATGPT / TUNING
+=====================================================================
+1. Describe the END STATE, not the rotation: "his face is visible over
+   his shoulder, looking at the camera" - NOT "rotate 180 degrees".
+2. Emphasize "face FACING THE CAMERA head-on" + negative "face in
+   profile / pointing sideways" to stop the 270° overshoot.
+3. Keep "body and shoulders stay in the back view" so only the head
+   moves.
+4. If it still overshoots: lower ref_boost (node 79) from 4 to 3 so
+   the reference's back-of-head pose pulls less, and the face-around
+   pose wins.
+5. If the face is too small / hidden: add "his face is clearly visible,
+   large in the frame, the focal point".
+6. Try 3-4 different seeds - this pose is hard and seed-sensitive.
+
+=====================================================================
+IF KREA2 STILL CANNOT DO IT (fallbacks, see D059)
+=====================================================================
+- (a) MANUAL INPAINT on the back-view frame: mask ONLY the head region,
+      prompt the face-around pose. Most controllable (same way the kf2
+      chair was solved with black-fill).
+- (b) Fresh t2i of the back-view-with-face-around (no anchor).
+- (c) ACCEPT the 90° frame (kf3c) and let MiniMax H3 do the 90->180
+      head motion in the video (H3 is good at head turns in motion).

@@ -1,0 +1,56 @@
+TOP KEYS: ['id', 'revision', 'last_node_id', 'last_link_id', 'nodes', 'links', 'groups', 'config', 'extra', 'version']
+
+NODE id=16 type=LoadImage mode=0
+  widgets_values: ["example.png", "image"]
+  inputs: [["image", "COMBO", null], ["upload", "IMAGEUPLOAD", null]]
+  outputs: [["IMAGE", "IMAGE", [14]], ["MASK", "MASK", [17]]]
+
+NODE id=17 type=JoinImageWithAlpha mode=4
+  widgets_values: []
+  inputs: [["image", "IMAGE", 14], ["alpha", "MASK", 17]]
+  outputs: [["IMAGE", "IMAGE", [16]]]
+
+NODE id=19 type=SeedVR2TorchCompileSettings mode=4
+  widgets_values: ["inductor", "default", false, false, 64, 128]
+  inputs: [["backend", "COMBO", null], ["mode", "COMBO", null], ["fullgraph", "BOOLEAN", null], ["dynamic", "BOOLEAN", null], ["dynamo_cache_size_limit", "INT", null], ["dynamo_recompile_limit", "INT", null]]
+  outputs: [["TORCH_COMPILE_ARGS", "TORCH_COMPILE_ARGS", [18, 19]]]
+
+NODE id=13 type=SeedVR2LoadVAEModel mode=0
+  widgets_values: ["ema_vae_fp16.safetensors", "cuda:0", false, 1024, 128, false, 1024, 128, "false", "none", false]
+  inputs: [["torch_compile_args", "TORCH_COMPILE_ARGS", 19], ["model", "COMBO", null], ["device", "COMBO", null], ["encode_tiled", "BOOLEAN", null], ["encode_tile_size", "INT", null], ["encode_tile_overlap", "INT", null], ["decode_tiled", "BOOLEAN", null], ["decode_tile_size", "INT", null], ["decode_tile_overlap", "INT", null], ["tile_debug", "COMBO", null], ["offload_device", "COMBO", null], ["cache_model", "BOOLEAN", null]]
+  outputs: [["SEEDVR2_VAE", "SEEDVR2_VAE", [10]]]
+
+NODE id=14 type=SeedVR2LoadDiTModel mode=0
+  widgets_values: ["seedvr2_ema_3b_fp8_e4m3fn.safetensors", "cuda:0", 0, false, "none", false, "sdpa"]
+  inputs: [["torch_compile_args", "TORCH_COMPILE_ARGS", 18], ["model", "COMBO", null], ["device", "COMBO", null], ["blocks_to_swap", "INT", null], ["swap_io_components", "BOOLEAN", null], ["offload_device", "COMBO", null], ["cache_model", "BOOLEAN", null], ["attention_mode", "COMBO", null]]
+  outputs: [["SEEDVR2_DIT", "SEEDVR2_DIT", [11]]]
+
+NODE id=18 type=Note mode=0
+  widgets_values: ["Enable to upscale alpha/mask channel along with RGB channel (for RGBA inputs)"]
+  inputs: []
+  outputs: []
+
+NODE id=20 type=Note mode=0
+  widgets_values: ["Enable torch.compile optimization. First batch has compilation overhead, but speeds up subsequent batches. Best for long videos, not single images."]
+  inputs: []
+  outputs: []
+
+NODE id=10 type=SeedVR2VideoUpscaler mode=0
+  widgets_values: [42, "randomize", 1080, 0, 1, false, "lab", 0, 0, 0, 0, "cpu", false]
+  inputs: [["image", "IMAGE", 16], ["dit", "SEEDVR2_DIT", 11], ["vae", "SEEDVR2_VAE", 10], ["seed", "INT", null], ["resolution", "INT", null], ["max_resolution", "INT", null], ["batch_size", "INT", null], ["uniform_batch_size", "BOOLEAN", null], ["color_correction", "COMBO", null], ["temporal_overlap", "INT", null], ["prepend_frames", "INT", null], ["input_noise_scale", "FLOAT", null], ["latent_noise_scale", "FLOAT", null], ["offload_device", "COMBO", null], ["enable_debug", "BOOLEAN", null]]
+  outputs: [["IMAGE", "IMAGE", [12]]]
+
+NODE id=15 type=SaveImage mode=0
+  widgets_values: ["ComfyUI"]
+  inputs: [["images", "IMAGE", 12], ["filename_prefix", "STRING", null]]
+  outputs: []
+
+LINKS:
+  link id=10 from_node=13 from_slot=0 to_node=10 to_slot=2
+  link id=11 from_node=14 from_slot=0 to_node=10 to_slot=1
+  link id=12 from_node=10 from_slot=0 to_node=15 to_slot=0
+  link id=14 from_node=16 from_slot=0 to_node=17 to_slot=0
+  link id=16 from_node=17 from_slot=0 to_node=10 to_slot=0
+  link id=17 from_node=16 from_slot=1 to_node=17 to_slot=1
+  link id=18 from_node=19 from_slot=0 to_node=14 to_slot=0
+  link id=19 from_node=19 from_slot=0 to_node=13 to_slot=0

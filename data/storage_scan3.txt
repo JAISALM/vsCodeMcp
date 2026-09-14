@@ -1,0 +1,36 @@
+﻿=== C:\ root FILES (hidden system files) ===
+
+File                GB
+----                --
+pagefile.sys      61.8
+hiberfil.sys      24.6
+Install.log          0
+swapfile.sys         0
+DumpStack.log        0
+DumpStack.log.tmp    0
+csb.log              0
+
+
+=== C:\ root FOLDERS (top-level) ===
+
+Folder                       GB
+------                       --
+Users                     159.7
+Windows                    48.4
+Program Files              40.2
+ProgramData                10.7
+Program Files (x86)         9.2
+$Recycle.Bin                2.2
+AMD                         0.1
+System Volume Information     0
+$AV_NLL                       0
+Recovery                      0
+DisplayProfiles               0
+Config.Msi                    0
+Boot                          0
+Documents and Settings        0
+PerfLogs                      0
+MSOCache                      0
+inetpub                       0
+
+

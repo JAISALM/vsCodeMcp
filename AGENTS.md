@@ -70,6 +70,24 @@ Never rely exclusively on conversation history for persistent project knowledge.
 
 # Memory Rules
 
+## CRITICAL: CONTINUOUS MEMORY UPDATES (HARD RULE)
+
+**Update project memory files IMMEDIATELY after every significant action — do NOT batch updates to session end.**
+
+After each of these events, update the relevant memory file in the SAME turn:
+
+- A new experiment is run (result, config, output paths) → `EXPERIMENTS.md` + `CURRENT_TASK.md`
+- A decision is made or confirmed by the user → `DECISIONS.md` + `CURRENT_TASK.md`
+- A new tool/script is built or a pipeline step is completed → `CURRENT_TASK.md` + `AUDIO_PIPELINE_PLAN.md` (or relevant plan)
+- A blocker is hit or a next step is identified → `CURRENT_TASK.md`
+- The user gives a new direction or constraint → `CURRENT_TASK.md` + `DECISIONS.md` (if persistent)
+
+**Why:** the user works alone and may close the session at any time. If memory is not updated in real-time, the next session loses context and the user has to re-explain everything. The chat history is temporary; the memory files are the only persistent record.
+
+**Do NOT wait for the user to say "save" or "remember" — update memory proactively after every significant step.**
+
+---
+
 ## PROJECT_STATE.md
 
 Contains the current state of the project.

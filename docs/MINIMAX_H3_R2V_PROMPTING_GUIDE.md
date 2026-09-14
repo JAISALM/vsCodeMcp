@@ -131,6 +131,54 @@ Write all six sections in English, in this order:
   space in the final shot for it.
 - **No dialogue/text** if not wanted: state "No dialogue, no text, no subtitles."
 
+## ABSENCE-FIRST rule (character-vanish keyframes, e.g. Shot 7 "Jaisal explodes into ideas")
+
+The identity/reference workflow is strongly biased toward **preserving the person**.
+If you describe the scene as "papers behind the man" or "the man sits still", the
+model locks him in as the permanent subject and the papers become a secondary
+effect — **the character STAYS** (verified 2026-09-14: the "papers drift in from
+behind the man" prompt kept the man). To get a character-free frame, make the
+**ABSENCE the primary instruction**:
+
+- **Open with the absence:** "Remove the man completely from the scene. There is
+  NO PERSON remaining in the final image."
+- **Keep the scene identical:** same table, chair, room, bulb, camera position,
+  lighting, composition — and the chair is now EMPTY.
+- **Describe a PHYSICAL burst, not a dissolve:** "papers violently erupt from the
+  exact space where the man was sitting, physically displacing him" (toward camera,
+  sideways, upward into the darkness). "Dissolve" produces a soft magical/VFX look;
+  "burst / displacement / impact" gives the violent physical transition.
+- **End with a hard FINAL STATE line:** "empty chair + explosive cloud of loose
+  papers. Absolutely no human figure."
+- **Negative prompt lists the person explicitly:** `man, person, human, face, head,
+  body, arms, hands, legs, clothing, shirt, silhouette, ghost, transparent person,
+  partial person, duplicate person, visible human, humanoid, mannequin`.
+- **If the man still appears:** drop `ref_boost` to ~2-3 (or ~1.5) so "NO PERSON"
+  wins, and/or re-roll the seed.
+
+**Two-keyframe fallback (easier for the video model):** KF7A = Jaisal + papers
+beginning to erupt → KF7B = same scene, **empty chair + papers, Jaisal completely
+absent**. The second frame is a clear destination for MiniMax H3 to animate toward.
+
+## Object-count control (duplicates + removal, learned 2026-09-14 on kf7c)
+
+When the model **duplicates objects** (2 bats, 2 balls) or **keeps items you want
+gone** (extra papers), three levers:
+
+1. **Explicit counts in the prompt:** "Keep exactly ONE cricket bat", "exactly ONE
+   round soccer ball", "exactly ONE set of stumps". Unnamed counts get duplicated.
+2. **Lead with the removal:** "REMOVE ALL the floating papers EXCEPT ONE single
+   sheet. There must be exactly ONE sheet of paper left in the entire image."
+   (Don't bury the removal at the end — make it the first instruction after the
+   scene-lock line.)
+3. **Duplicates in the negative:** `second bat, two bats, multiple bats, second
+   ball, two balls, multiple balls, extra papers, many papers`.
+4. **Pin positions explicitly:** "the ball rests on the table", "the bat stands
+   vertically, balanced on top of the ball", "the paper is attached to the HANDLE
+   of the bat" (not "on top" — say exactly where).
+5. If it still duplicates after a correct prompt → **re-roll the seed** (it's
+   sampling variance, not a prompt problem).
+
 ## Forcing a specific camera angle (the H3 camera-correction problem)
 
 H3 has a strong internal prior to "correct" the camera toward a flattering eye-level

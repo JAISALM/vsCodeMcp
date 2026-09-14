@@ -1,0 +1,242 @@
+﻿python.exe : E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\Lib\site
+-packages\torch\cuda\__init__.py:63: FutureWarning: The pynvml package is 
+deprecated. Please install nvidia-ml-py instead. If you did not install pynvml 
+directly, please report this to the maintainers of the package that installed 
+pynvml for you.
+At line:1 char:32
++ ... NG="utf-8"; & "E:\comfyUi_latest\ComfyUI_windows_portable\python_embe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (E:\comfyUi_late...pynvml for you. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  import pynvml  # type: ignore[import]
+≡ƒôè Initial CUDA memory: 29.23GB free / 31.84GB total
+ΓÜí SeedVR2 optimizations check: SageAttention Γ£à | Flash Attention Γ¥î | Triton Γ£à
+≡ƒÆí Optional: pip install flash-attn
+≡ƒöº Conv3d workaround active: PyTorch 2.12.0, cuDNN 92000 (fixing VAE 3x memory bug)
+usage: inference_cli.py [-h] [--output OUTPUT]
+                        [--output_format {mp4,png,None}]
+                        [--video_backend {opencv,ffmpeg}] [--10bit]
+                        [--model_dir MODEL_DIR]
+                        [--dit_model {seedvr2_ema_3b-Q4_K_M.gguf,seedvr2_ema_3b-Q8_0.gguf,seedvr2_ema_3b_fp8_e4m3fn.safetensors,seedvr2_ema_3b_fp16.safetensors,seedvr2_ema_7b-Q4_K_M.gguf,seedvr2_ema_7b_fp8_e4m3fn_mixed_block35_fp16.safetensors,seedvr2_ema_7b_fp16.safetensors,seedvr2_ema_7b_sharp-Q4_K_M.gguf,seedvr2_ema_7b_sharp_fp8_e4m3fn_mixed_block35_fp16.safetensors,seedvr2_ema_7b_sharp_fp16.safetensors}]
+                        [--resolution RESOLUTION]
+                        [--max_resolution MAX_RESOLUTION]
+                        [--batch_size BATCH_SIZE] [--uniform_batch_size]
+                        [--seed SEED] [--skip_first_frames SKIP_FIRST_FRAMES]
+                        [--load_cap LOAD_CAP] [--chunk_size CHUNK_SIZE]
+                        [--prepend_frames PREPEND_FRAMES]
+                        [--temporal_overlap TEMPORAL_OVERLAP]
+                        [--color_correction {lab,wavelet,wavelet_adaptive,hsv,adain,none}]
+                        [--input_noise_scale INPUT_NOISE_SCALE]
+                        [--latent_noise_scale LATENT_NOISE_SCALE]
+                        [--cuda_device CUDA_DEVICE]
+                        [--dit_offload_device DIT_OFFLOAD_DEVICE]
+                        [--vae_offload_device VAE_OFFLOAD_DEVICE]
+                        [--tensor_offload_device TENSOR_OFFLOAD_DEVICE]
+                        [--blocks_to_swap BLOCKS_TO_SWAP]
+                        [--swap_io_components] [--vae_encode_tiled]
+                        [--vae_encode_tile_size VAE_ENCODE_TILE_SIZE]
+                        [--vae_encode_tile_overlap VAE_ENCODE_TILE_OVERLAP]
+                        [--vae_decode_tiled]
+                        [--vae_decode_tile_size VAE_DECODE_TILE_SIZE]
+                        [--vae_decode_tile_overlap VAE_DECODE_TILE_OVERLAP]
+                        [--tile_debug {false,encode,decode}]
+                        [--attention_mode {sdpa,flash_attn_2,flash_attn_3,sageattn_2,sageattn_3}]
+                        [--compile_dit] [--compile_vae]
+                        [--compile_backend {inductor,cudagraphs}]
+                        [--compile_mode {default,reduce-overhead,max-autotune,max-autotune-no-cudagraphs}]
+                        [--compile_fullgraph] [--compile_dynamic]
+                        [--compile_dynamo_cache_size_limit COMPILE_DYNAMO_CACHE_SIZE_LIMIT]
+                        [--compile_dynamo_recompile_limit COMPILE_DYNAMO_RECOMPILE_LIMIT]
+                        [--cache_dit] [--cache_vae] [--debug]
+                        input
+
+SeedVR2 Video Upscaler - CLI for high-quality image/video upscaling and batch processing
+
+options:
+  -h, --help            show this help message and exit
+
+Input/Output options:
+  input                 Input: video file (.mp4, .avi, etc.), image file
+                        (.png, .jpg, etc.), or directory
+  --output OUTPUT       Output path (default: auto-generated in 'output/'
+                        directory)
+  --output_format {mp4,png,None}
+                        Output format: 'mp4' (video) or 'png' (image
+                        sequence). Default: auto-detect from input type
+  --video_backend {opencv,ffmpeg}
+                        Video encoder backend: 'opencv' (default) or 'ffmpeg'
+                        (requires ffmpeg in PATH)
+  --10bit               Save 10-bit video with x265 codec (reduces banding).
+                        Without this flag, ffmpeg uses x264 for maximum
+                        compatibility. Requires --video_backend ffmpeg
+  --model_dir MODEL_DIR
+                        Model directory (default: ./models/SEEDVR2)
+
+Model selection:
+  --dit_model {seedvr2_ema_3b-Q4_K_M.gguf,seedvr2_ema_3b-Q8_0.gguf,seedvr2_ema_3b_fp8_e4m3fn.safetensors,seedvr2_ema_3b_fp16.safetensors,seedvr2_ema_7b-Q4_K_M.gguf,seedvr2_ema_7b_fp8_e4m3fn_mixed_block35_fp16.safetensors,seedvr2_ema_7b_fp16.safetensors,seedvr2_ema_7b_sharp-Q4_K_M.gguf,seedvr2_ema_7b_sharp_fp8_e4m3fn_mixed_block35_fp16.safetensors,seedvr2_ema_7b_sharp_fp16.safetensors}
+                        DiT model to use. Options: 3B (fp16/fp8/GGUF) or 7B
+                        (fp16/fp8/GGUF). Default: 3B FP8
+
+Processing parameters:
+  --resolution RESOLUTION
+                        Target short-side resolution in pixels (default: 1080)
+  --max_resolution MAX_RESOLUTION
+                        Maximum resolution for any edge. Scales down if
+                        exceeded. 0 = no limit (default: 0)
+  --batch_size BATCH_SIZE
+                        Frames per batch (must follow 4n+1: 1, 5, 9, 13, 17,
+                        21,...). Ideally matches shot length for best temporal
+                        consistency. Higher values improve quality and speed
+                        but require more VRAM. Default: 5
+  --uniform_batch_size  Pad final batch to match batch_size. Prevents temporal
+                        artifacts caused by small final batches. Add extra
+                        compute but recommended for optimal quality.
+  --seed SEED           Random seed for reproducibility (default: 42)
+  --skip_first_frames SKIP_FIRST_FRAMES
+                        Skip N initial frames (default: 0)
+  --load_cap LOAD_CAP   Load maximum N frames from video. 0 = load all
+                        (default: 0)
+  --chunk_size CHUNK_SIZE
+                        Frames per chunk for streaming mode. When > 0,
+                        processes video in memory-bounded chunks of N frames.
+                        0 = load all frames at once (default: 0)
+  --prepend_frames PREPEND_FRAMES
+                        Prepend N reversed frames to reduce start artifacts
+                        (auto-removed). Default: 0
+  --temporal_overlap TEMPORAL_OVERLAP
+                        Frames to overlap between batches/GPUs for smooth
+                        blending (default: 0)
+
+Quality control:
+  --color_correction {lab,wavelet,wavelet_adaptive,hsv,adain,none}
+                        Color correction method: 'lab' (perceptual color
+                        matching, recommended), 'wavelet' (frequency-based),
+                        'wavelet_adaptive' (wavelet + saturation correction),
+                        'hsv' (hue-conditional), 'adain' (statistical
+                        transfer), 'none' (disabled) (default: lab)
+  --input_noise_scale INPUT_NOISE_SCALE
+                        Input noise injection scale (0.0-1.0). Adds variation
+                        to input images (default: 0.0)
+  --latent_noise_scale LATENT_NOISE_SCALE
+                        Latent noise injection scale (0.0-1.0). Adds variation
+                        to latent space (default: 0.0)
+
+Device management:
+  --cuda_device CUDA_DEVICE
+                        CUDA device(s): single '0' or multi-GPU '0,1,2'.
+                        Default: device 0
+  --dit_offload_device DIT_OFFLOAD_DEVICE
+                        DiT offload device when idle: 'none' (keep on GPU),
+                        'cpu' (offload to RAM), or GPU ID. Frees VRAM between
+                        phases. Required for BlockSwap. Default: none
+  --vae_offload_device VAE_OFFLOAD_DEVICE
+                        VAE offload device when idle: 'none', 'cpu', or GPU
+                        ID. Frees VRAM between phases. Default: none
+  --tensor_offload_device TENSOR_OFFLOAD_DEVICE
+                        Intermediate tensor storage: 'cpu' (recommended),
+                        'none' (keep on GPU), or GPU ID. Default: cpu
+
+Memory optimization (BlockSwap):
+  --blocks_to_swap BLOCKS_TO_SWAP
+                        Transformer blocks to swap for VRAM savings. 0-32 (3B)
+                        or 0-36 (7B). Requires --dit_offload_device. Not
+                        available on macOS. Default: 0 (disabled)
+  --swap_io_components  Offload DiT I/O layers for extra VRAM savings.
+                        Requires --dit_offload_device. Not available on macOS
+
+VAE tiling (for high resolution upscale):
+  --vae_encode_tiled    Enable VAE encode tiling to reduce VRAM during
+                        encoding
+  --vae_encode_tile_size VAE_ENCODE_TILE_SIZE
+                        VAE encode tile size in pixels (default: 1024).
+                        Applied to both height and width. Only used if
+                        --vae_encode_tiled is set
+  --vae_encode_tile_overlap VAE_ENCODE_TILE_OVERLAP
+                        VAE encode tile overlap in pixels (default: 128).
+                        Reduces visible seams between tiles. Only used if
+                        --vae_encode_tiled is set
+  --vae_decode_tiled    Enable VAE decode tiling to reduce VRAM during
+                        decoding
+  --vae_decode_tile_size VAE_DECODE_TILE_SIZE
+                        VAE decode tile size in pixels (default: 1024).
+                        Applied to both height and width. Only used if
+                        --vae_decode_tiled is set
+  --vae_decode_tile_overlap VAE_DECODE_TILE_OVERLAP
+                        VAE decode tile overlap in pixels (default: 128).
+                        Reduces visible seams between tiles. Only used if
+                        --vae_decode_tiled is set
+  --tile_debug {false,encode,decode}
+                        Visualize tiles: 'false' (default), 'encode', or
+                        'decode'
+
+Performance optimization:
+  --attention_mode {sdpa,flash_attn_2,flash_attn_3,sageattn_2,sageattn_3}
+                        Attention backend: 'sdpa' (default), 'flash_attn_2',
+                        'flash_attn_3', 'sageattn_2', or 'sageattn_3'
+                        (Blackwell GPUs)
+  --compile_dit         Enable torch.compile for DiT model (20-40% speedup,
+                        requires PyTorch 2.0+ and Triton)
+  --compile_vae         Enable torch.compile for VAE model (15-25% speedup,
+                        requires PyTorch 2.0+ and Triton)
+  --compile_backend {inductor,cudagraphs}
+                        Compilation backend: 'inductor' (full optimization
+                        with Triton) or 'cudagraphs' (lightweight, no kernel
+                        optimization) (default: inductor)
+  --compile_mode {default,reduce-overhead,max-autotune,max-autotune-no-cudagraphs}
+                        Optimization level: 'default' (fast compilation),
+                        'reduce-overhead' (lower overhead), 'max-autotune'
+                        (best runtime, slow compilation), 'max-autotune-no-
+                        cudagraphs' (like max-autotune without cudagraphs)
+                        (default: default)
+  --compile_fullgraph   Compile entire model as single graph (faster but less
+                        flexible). May fail with dynamic shapes (default:
+                        False)
+  --compile_dynamic     Handle varying input shapes without recompilation.
+                        Useful for different resolutions/batch sizes (default:
+                        False)
+  --compile_dynamo_cache_size_limit COMPILE_DYNAMO_CACHE_SIZE_LIMIT
+                        Max cached compiled versions per function. Increase
+                        when using many different input shapes. Higher uses
+                        more memory (default: 64)
+  --compile_dynamo_recompile_limit COMPILE_DYNAMO_RECOMPILE_LIMIT
+                        Max recompilation attempts before fallback to eager
+                        mode. Safety limit to prevent compilation loops
+                        (default: 128)
+
+Model caching (batch processing):
+  --cache_dit           Keep DiT model in memory between generations. Works
+                        with single-GPU directory processing or multi-GPU
+                        streaming (--chunk_size). Requires
+                        --dit_offload_device
+  --cache_vae           Keep VAE model in memory between generations. Works
+                        with single-GPU directory processing or multi-GPU
+                        streaming (--chunk_size). Requires
+                        --vae_offload_device
+
+Debugging:
+  --debug               Enable verbose debug logging
+
+Examples:
+
+  Basic image upscaling:
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py image.jpg
+
+  Basic video upscaling with temporal consistency:
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py video.mp4 --resolution 720 --batch_size 33
+    
+  Streaming mode for long videos with 10-bit video output (requires FFMPEG):
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py long_video.mp4 --resolution 1080 --batch_size 33 --chunk_size 330 --temporal_overlap 3 --video_backend ffmpeg --10bit
+
+  Multi-GPU processing with temporal overlap:
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py video.mp4 --cuda_device 0,1 --resolution 1080 --batch_size 81 --uniform_batch_size --temporal_overlap 3 --prepend_frames 4 
+
+  Memory-optimized for low VRAM (8GB):
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py image.png --dit_model seedvr2_ema_3b-Q8_0.gguf --blocks_to_swap 32 --swap_io_components --dit_offload_device cpu --vae_offload_device cpu
+    
+  High resolution with VAE tiling:
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py video.mp4 --resolution 1440 --batch_size 31 --uniform_batch_size --temporal_overlap 3 --vae_encode_tiled --vae_decode_tiled
+    
+  Batch directory processing:
+    python E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\seedvr2_videoupscaler\inference_cli.py media_folder/ --output processed/ --cuda_device 0 --cache_dit --cache_vae --dit_offload_device cpu --vae_offload_device cpu --resolution 1080 --max_resolution 1920

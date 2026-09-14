@@ -1428,3 +1428,824 @@ The user's explicit instruction (2026-09-06): "you should never run the workflow
 - **Run 2 (clean, 345 frames / 14 s / 1344×768):** **OOM at step 0** (184.21 s to fail). The linear-branch readout (`branch.py:159 frame_statistics`: `torch.matmul(vb.transpose(-1,-2), kf).float()`) holds per-frame K/V statistics for all F=102 frames in fp32 → ~31.4 GiB, blowing the 31.84 GiB limit. The vendor's ~95 s reference is 61 frames (F≈19) — 5× fewer frames.
 - **CONCLUSION: VDN-H3 is NOT viable at our production scale (14 s / 1MP) on the 32 GB card — it OOMs.** Its linear-branch memory scales with frame count (worse for longer clips — the opposite of where we need it). **SLA remains the default speed stack (D042).** Do NOT adopt VDN for 14 s / 1MP production clips.
 - **If a clean VDN number is still wanted (tomorrow):** set `branch_weights="stream"` (widget idx 5) + `retain_buffers="off"` (idx 6) to cut linear-branch memory, and/or drop to 124 frames / 1280×736. Stop the Qwen session first (D045). Full details in `EXPERIMENTS.md` (2026-09-06 VDN-H3 entry).
+
+## D046 — Intro-video pipeline: character consistency via ComfyUI-Continuity (no LoRA), 2K via SeedVR2 TensorRT Studio, Semantic Bridge = i2v-only
+
+Date: 2026-09-06
+Status: Active (research conclusions — do NOT re-research)
+
+### Decision
+
+For the **channel-intro monologue video** (natural face, close-up + medium shot, the user's own voice), the pipeline is:
+1. **Character consistency WITHOUT a LoRA → `ComfyUI-Continuity`** (`roadmaus/ComfyUI-Continuity`, renamed from `ComfyUI-MiniMax-Creator`). Cast-based, `@`-references, drift guard, **supports MiniMax H3, fully local**, no pip install. This is the Reddit approach the user found.
+2. **Generate → the SLA i2v workflow** (`jaisal_single_shot.json`, ~200 s, D042).
+3. **Upscale to 2K → `VRGDG-SeedVR2-TensorRT-Studio`** (`github.com/vrgamegirl19/VRGDG-SeedVR2-TensorRT-Studio`) — a **standalone Windows app** (NOT a ComfyUI node): one-click `Install SeedVR Studio.bat` + `Launch SeedVR Studio Pro.bat`, drop the video in, render 2K. **~8 min for an 8 s clip → 2K on the RTX 5090** (7B Sharp FP16). Run it AFTER ComfyUI generation.
+4. **Audio** (today's main goal).
+
+### Reason
+
+- **Upscaler:** `RTXVideoSuperResolution` (installed + registered) is FAST but does NOT add detail / natural look (user-confirmed limitation). SeedVR2 TensorRT Studio is the fully-local path that ADDS detail and is still fast (~8 min/8 s/2K on the 5090).
+- **RefMods / `.char` (malcolmrey/minimaxh3, `ComfyUI-MiniMaxH3Mod` pack, `MiniMaxH3RefModsLoader`+`MiniMaxH3RefModApply`, `models/refmods/`):** these are **pre-encoded reference-latent adapters (~1.5 MB each), ZERO-TRAINING, instant-load** — NOT a LoRA, NOT a dataset. **BUT the public ones are for OTHER people's characters (celebrities); there is NO clear public tool to create one for OUR OWN character → DEAD END for our boy.** (Answer to the user's "is this for training our own dataset or LoRA?" = **neither**.)
+- **Semantic Bridge (`speach1sdef178/MiniMax-H3-Semantic-Bridge`):** a conditioning-space adapter that improves prompt adherence. **SCOPE: i2v/FL2VA (text-conditioned) ONLY — does NOT work for Ref2VA/reference-conditioned (R2V) workflows** (model card: "Ref2VA / reference-conditioned workflows are not supported"). So it helps `jaisal_single_shot.json` (i2v) but NOT `jaisalproduction1/2.json` / `jaisal_lowangle.json` (R2V). Installed: pack `custom_nodes\MiniMax_H3_Semantic_Bridge` + adapter `E:\comfyUi_latest\...\models\semantic_bridge\MiniMaxH3_SemanticBridge_v1.safetensors`. Wired into a SEPARATE `jaisal_single_shot_semantic.json` (bridge node 300 on the conditioning path, alpha 0.10, per_token); the working `jaisal_single_shot.json` was RESTORED clean (backup `workflow_backups\jaisal_single_shot.pre_semantic_bridge.json`).
+- **FastVideo-FastH3 (t2v) = NOT a fit:** t2v-only (FL2VA/Ref2VA not distilled), built for 4×B200 datacenter GPUs in the FastVideo runtime (not ComfyUI), needs the VSA-H3 backend. Our SLA + turbo LoRA already does 4-step t2v at ~200 s on one card.
+
+### Alternatives considered
+
+- **RefMods for our own character** (rejected — no public tool to create a RefMod for a custom character; only celebrity ones exist).
+- **RTX upscaler for 2K** (rejected as the primary — fast but no detail/natural look; keep as the quick-preview option).
+- **Semantic Bridge on the R2V production workflows** (rejected — not supported for reference-conditioned generation).
+
+### Result
+
+**Rule: for the intro video — character consistency via ComfyUI-Continuity (no LoRA), generate via SLA i2v, upscale to 2K via SeedVR2 TensorRT Studio (local), then audio. Semantic Bridge is i2v-only. RefMods are a dead end for our own character. FastVideo-FastH3 is not a fit.**
+
+### GOTCHA (two ComfyUI instances)
+
+The **running** ComfyUI is the **`comfyUi_latest`** instance — its models dir is `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models`, NOT the main `E:\ComfyUI_windows_portable\ComfyUI\models` path. **Put models in the `comfyUi_latest` path or you get "Missing Models".** (This is why the Semantic Bridge adapter first showed "Missing Models" — it was in the main path.)
+
+---
+
+## D047 — Character voices: create our own via a small curated reference set (timbre swap, not TTS)
+
+Date: 2026-09-06
+Status: Active (reference-sourcing approach pending user confirmation)
+
+### Decision
+
+For the 15-character bilingual movie, do NOT rely on 15 friends' voice messages. Instead **create our own character voices** by curating a small set of DISTINCT reference voices (~4–6: young male, older male, young female, older female), assigning one per character (similar characters can share a voice type), and cloning each character's lines onto their reference via **voice conversion (timbre swap)** — OpenVoice V1 (zero-shot, validated 2026-09-06) for quick tests, RVC/GPT-SoVITS for final quality. The user dubs ALL characters (Malayalam + English) in their own voice; only the timbre is swapped.
+
+### Reason
+
+- The user dubs well and wants to dub almost all characters themselves; a timbre swap keeps their performance (pace/emotion/expression = the acting) and only changes the voice color → **non-robotic by design** (the dub is the "soul", the reference only provides the color).
+- 15 distinct friends' voices is hard to source and hard to keep consistent; a small curated set is easier to manage and consistent (same reference for all of a character's lines).
+- Female voices are just a female reference sample — same pipeline, nothing special.
+- The OpenVoice two-way test (prem↔jaisal) came out GOOD (user-confirmed), validating the zero-shot VC path.
+
+### Alternatives considered
+
+- **15 friends' voice messages** (rejected — hard to source, consistency risk, user prefers to dub all).
+- **TTS per character (IndicF5/Svara)** (fallback only — TTS is less "the user's performance"; use for characters with no reference or if VC underperforms).
+- **Reference sourcing:** (a) record real samples [CHOSEN 2026-09-07 — from VOICE NOTES]; (b) TTS speaker profiles as references (no recording, synthetic base); (c) public datasets (licensing caveats).
+
+### UPDATE (2026-09-07) — reference source = voice notes
+
+The user chose **(a) real samples from voice notes** (WhatsApp/Telegram .ogg/.m4a). Voice notes are PROVEN (the first successful test used two Opus voice notes). Collection pipeline built + tested: `collect_references.py` (batch-clean a folder of voice notes → 16 kHz mono reference files) + `convert_character.py` (per-character dub→reference-voice conversion). See `AUDIO_PIPELINE_PLAN.md` (VOICE STRATEGY section).
+
+### Result
+
+**Rule: create our own character voices from a small curated reference set (male/female/old/young) + the user's dubs + timbre-swap VC (OpenVoice now, RVC/GPT-SoVITS final). More/cleaner reference samples (30 s–1 min mono) = better, more consistent results. Same reference for all of a character's lines.** See `AUDIO_PIPELINE_PLAN.md` (VOICE STRATEGY section).
+
+## D048 — OpenVoice timbre-swap: clean SOURCES + multi-clip reference (no music, no TTS base)
+
+Date: 2026-09-07
+Status: Active (v3 Malayalam fix built + run; user to listen)
+
+### Decision
+
+For OpenVoice timbre-swap to produce NATURAL, non-robotic output, the **SOURCE** must be clean speech and the **REFERENCE** must be a list of short clean clips:
+
+1. **Multi-clip reference (not one long file):** pass the individual clean reference clips as a LIST to `extract_se` (per-clip embedding, then averaged). Never one long concatenated file — the `ref_enc` encoder was trained on short coherent utterances, so a 158 s heterogeneous blob → one blurry embedding → output stays close to the source with a muddy tint ("robotic / forcing a different audio").
+2. **Clean source (no music):** movie/source audio with a music bed → run **Demucs** `--two-stems=vocals` FIRST, then convert the clean vocals. Timbre-swap keeps the source's CONTENT and only swaps the voice color, so a music bed comes through as HUMMING.
+3. **No TTS base for natural lines:** for a natural English line, use a REAL human dub as the source (not MeloTTS). `convert()` keeps the source PROSODY and only swaps color → a robotic TTS base = robotic output.
+
+### Reason
+
+- The good prem↔jaisal test (user-confirmed) used a single ~6 s clean clip → clean embedding → good result. The bad Jaisal test used a 158 s concatenated reference → blurry embedding → robotic.
+- Spectral analysis (`scripts\analyze_source.py`) confirmed the movie clip `reference.ogg` has a music bed (flatness 0.0132, RMS std 2.6 dB) → the "only humming" in the v2 output.
+- MeloTTS base is robotic (centroid 2600 Hz, flatness 0.067) → "foreigner speaking".
+
+### Alternatives considered
+
+- **One long concatenated reference** (rejected — blurry embedding).
+- **MeloTTS base for English** (rejected for natural lines — robotic prosody).
+- **Convert movie audio directly** (rejected — music bed → humming).
+
+### Result
+
+**Rule: for OpenVoice timbre-swap — (1) multi-clip reference as a LIST, (2) Demucs `--two-stems=vocals` on any source with music, (3) real human dub (not TTS) for natural lines.** Tools: `scripts\convert_multi_ref.py`, `scripts\english_test_multi.py`, `scripts\analyze_source.py` (diagnostic). v3 Malayalam output: `03_audio_processed\ml_reference_vocals_in_jaisal_v3.wav` (clean, no humming). See `AUDIO_PIPELINE_PLAN.md` (JAISAL VOICE TEST v3 section).
+
+## D049 — Malayalam words: IndicF5 TTS (correct words) + OpenVoice (voice color); OpenVoice alone CANNOT do Malayalam words
+
+Date: 2026-09-08
+Status: Active (IndicF5 test in progress; batch Jaisal→Midhun done)
+
+### Decision
+
+OpenVoice is an **English-centric timbre swap** — it does NOT understand Malayalam words, it only swaps voice color in the frequency domain. For Malayalam (retroflex consonants, allophonic variations, complex consonant combinations), that swap **distorts the phonemes** → the voice changes correctly but the WORDS get mangled. **Flipping the conversion direction does NOT fix this** (it's a tool limitation, not a direction issue).
+
+**The fix:** use **IndicF5** (Malayalam-native TTS, proper G2P) to generate the words CORRECTLY first, then **OpenVoice** to swap the voice color. Pipeline: user dubs line → `clean_audio.py` → Whisper transcribe → IndicF5 speaks the text in the character's voice (Malayalam) / OpenVoice or GPT-SoVITS (English).
+
+**Best-option recommendation (production house):**
+1. **IndicF5 = Malayalam workhorse** (only Malayalam-native tool we have; zero-shot `model(text, ref_audio, ref_text)` = correct words + character voice).
+2. **GPT-SoVITS = English workhorse** (production-ready, zero-shot + few-shot; Malayalam support uncertain — test before committing).
+3. **Main character (user) = use clean dub directly** (no conversion = highest quality).
+
+**Reference sourcing:** Midhun's audio (`D:\voice_notes\mithun_audio\`, 3 EN + 2 ML, comprehensive) is the current test reference. **Prem audio CANNOT be used** (no permission). The user's **52-letter idea** (record 5 files covering all 52 Malayalam letters per character) gives a more complete voice embedding → better conversion.
+
+### Reason
+
+- User confirmed (2026-09-08): "the voice is good, we can see change, but the wordings are not correct... the dialogue lacks the perfection of the letters they speak in malayalam."
+- OpenVoice `convert()` preserves source CONTENT (words + prosody) and only swaps TIMBRE — a frequency-domain swap that mangles Malayalam phonemes.
+- IndicF5 is explicitly Malayalam-native (fine-tuned for 11 Indian languages) → correct G2P → correct words.
+- The user is an alone warrior aiming for Cannes — voice is the last piece (image/video models are in place).
+
+### Alternatives considered
+
+- **OpenVoice alone for Malayalam** (rejected — mangles words).
+- **Flipping the conversion direction** (rejected — doesn't fix the tool limitation).
+- **GPT-SoVITS for Malayalam** (uncertain — test before committing; use for English).
+- **A2TTS / OmniVoice** (depsek suggestions — not yet evaluated; IndicF5 is already installed and Malayalam-native).
+
+### Result
+
+**Rule: for Malayalam dialogue — IndicF5 TTS (correct words) + OpenVoice (voice color). For English — user's dub + OpenVoice (or GPT-SoVITS). Main character = clean dub directly. More/cleaner reference samples (52-letter coverage) = better results.** See `AUDIO_PIPELINE_PLAN.md` (VOICE STRATEGY + 2026-09-08 sections).
+
+---
+
+## D050 � Voice pipeline: VC (RVC/OpenVoice) for the movie, TTS (IndicF5/S2 Pro) for future kids content
+
+Date: 2026-09-08
+Status: Active
+
+### Decision
+
+**For the current 15-character bilingual movie: use VOICE CONVERSION (VC), not TTS.** The user performs ALL 15 characters' dialogue themselves (they are alone in this project, have the script, no one else is involved). VC preserves the user's performance (emotion, timing, delivery, Malayalam pronunciation) and only changes the voice identity (timbre) to the character's voice.
+
+**For future kids videos / content where natural voice is NOT needed: use TTS** (IndicF5 for Malayalam, Fish S2 Pro for multilingual) � text-to-speech, no performance required.
+
+**VC tool choice: RVC (primary) over OpenVoice (fallback).** RVC is the established VC tool � it preserves prosody (rhythm, pitch contour, emotion) while changing only timbre. OpenVoice is a pure timbre swap that keeps the user's skeleton (confirmed limitation: output "still sounds like me"). RVC trains a per-character model from 10+ min clean audio.
+
+**Workflow (per character):**
+1. User records 10+ min clean audio of the target voice (or uses existing references like Midhun's).
+2. Train RVC model on that audio (F0 extraction via RMVPE + HuBERT content features + FAISS index).
+3. User dubs the character's lines (headset, quiet room, dry).
+4. clean_audio.py (denoise + loudnorm + 16 kHz mono).
+5. RVC converts the dub ? character's voice (preserving user's performance).
+6. LatentSync lip-sync ? DaVinci Resolve mix.
+
+**Key insight (user + DeepSeek agreed):** TTS fails at Malayalam because the AI doesn't understand Malayalam prosody/pronunciation. VC sidesteps that entirely � the USER speaks the Malayalam (correct pronunciation, natural emotion), and RVC just changes the voice color. This is NOT a trade-off � it's exactly what the user wants ("without it it feels like we are doing some blind translation").
+
+**Two-track system:**
+| Track | Tool | Use case |
+|-------|------|----------|
+| **VC (movie)** | RVC (primary) / OpenVoice (fallback) | 15-character movie � user performs, VC changes voice |
+| **TTS (future)** | IndicF5 (ML) / Fish S2 Pro (multilingual) | Kids videos, content where natural voice not needed |
+
+### Reason
+
+- User confirmed (2026-09-08): "this is not the trade off, this is what actually wants... 15 voice overs i can do that because only i have the script and other people wont get involved here, its me, im alone in this."
+- TTS (Fish S2 Pro) Malayalam output sounds non-native (Tamilian accent, flat flow) � a general multilingual model approximating Malayalam.
+- VC preserves the user's actual performance (acting, emotion, timing) � the "soul" of the dialogue � and only changes the voice identity.
+- RVC is the established open-source VC tool (used by AI voice cover creators), RTX 5090-ready (~20 GB VRAM inference).
+- User can dub a kid character and "he can go away" � the RVC model persists, no need for the kid to remember/read lines.
+
+### Alternatives considered
+
+- **TTS for the movie** (rejected � Malayalam quality is the bottleneck; AI doesn't understand ML prosody).
+- **OpenVoice for the movie** (fallback � pure timbre swap, keeps user's skeleton, "still sounds like me").
+- **Seed-VC / ApexSVC** (zero-shot alternatives � no per-character training, but lower quality ceiling than trained RVC).
+- **Sarvam API** (rejected � cloud API, user wants local).
+
+### Result
+
+**Rule: movie = VC (RVC primary, OpenVoice fallback) � user performs all 15 characters, RVC changes voice identity. Future kids content = TTS (IndicF5/S2 Pro). See AUDIO_PIPELINE_PLAN.md (VOICE STRATEGY + 2026-09-08 sections).**
+
+---
+
+## D051 — The assistant runs ON the local Qwen: NEVER stop Qwen myself (user runs GPU jobs manually)
+
+Date: 2026-09-08
+Status: Active
+
+### Decision
+
+The local Qwen (`llama-server`) is the LLM that powers THIS assistant. If it is killed, the user **cannot talk to me anymore**. Therefore the assistant must **NEVER execute a command that stops/kills Qwen** (e.g. `Stop-Process -Name "llama-server"`), and must **NOT run GPU scripts that stop Qwen as a side effect** (e.g. `run_indicf5_gpu.ps1`, which stops Qwen in step 1 and restarts it in step 4).
+
+### Correct workflow for any GPU-heavy job (ComfyUI, RVC, IndicF5, etc.)
+
+1. Assistant PROVIDES the exact stop command as text for the user to run MANUALLY in their own terminal: `Stop-Process -Name "llama-server" -Force`
+2. User runs it themselves (this temporarily cuts off the chat — expected and acceptable).
+3. User runs the GPU job themselves (or tells the assistant it's done).
+4. User restarts Qwen MANUALLY: `Start-Process "D:\models\qwen\Qwen3.827BMTP.bat"`
+
+The assistant only ever PROVIDES these commands as text. It does not execute them.
+
+### Reason
+
+- User confirmed (2026-09-08): "youre running locally on my GPU, if i kill that task i cannot talk to u."
+- The assistant's own inference depends on the local Qwen process staying alive.
+- This supersedes the old pattern where GPU scripts auto-stopped/restarted Qwen — that pattern is now UNSAFE because it can kill the assistant's own runtime.
+
+### Alternatives considered
+
+- **Assistant auto-stops Qwen in a script** (rejected — kills the assistant's own LLM, user loses the chat).
+- **Run GPU jobs while Qwen is active** (rejected — D045, contaminates benchmarks + both slow down).
+
+### Result
+
+**Rule: for any GPU job, the assistant gives the user the stop/run/restart commands to run MANUALLY. The assistant never executes a Qwen stop. See user-preferences.md (CRITICAL: I run ON the local Qwen).**
+
+---
+
+## D052 — RVC inference needs the WRAPPED checkpoint, not the raw G_*.pth
+
+Date: 2026-09-08
+Status: Active
+
+### Decision
+
+For RVC inference via `infer/cli.py`, ALWAYS use the **wrapped** inference
+checkpoint (`assets/weights/<exp>.pth`), never the raw training checkpoint
+(`logs/<exp>/G_*.pth`). The raw checkpoint is `{"model": {weights}, ...}`;
+`infer/cli.py` `load_model_metadata()` requires the wrapped format
+`{"weight": {...}, "config": [18 values], "info", "sr", "f0", "version"}`.
+
+### Reason
+
+- `train/process_ckpt.py savee()` is what produces the wrapped format, but it
+  crashed on a missing `assets/weights/` dir, so the wrapped model was never
+  saved — only the raw `G_2333333.pth` existed.
+- `infer/cli.py` reads `checkpoint["weight"]["emb_g.weight"]`; the raw file
+  has no `weight` key → `Model does not contain weight/emb_g.weight`.
+- **DeepSeek's "copy G_*.pth into assets/weights" was WRONG** — copying the raw
+  file still fails (no `weight` key). The raw weights must be UNWRAPPED from
+  `["model"]` and re-wrapped into the savee() format.
+
+### Fix (applied, no re-run needed)
+
+`scripts\wrap_ckpt.py` (rvc venv, CPU-only) reads `G_2333333.pth`, unwraps
+`["model"]`, rebuilds the savee() format, saves to `assets/weights/midhun_v1_40k.pth`.
+
+### Naming rule (CRITICAL)
+
+The wrapped model MUST be named `<experiment>.pth` (e.g. `midhun_v1_40k.pth`),
+**NOT** `<experiment>_e10.pth`. `infer/vc/utils.py get_index_path_from_model()`
+strips `_e\d+_s\d+$` (requires BOTH `_e` AND `_s`); an `_e10`-only suffix is
+not stripped, so the FAISS index auto-match fails. Named `midhun_v1_40k.pth`, the
+index `assets/indices/midhun_v1_40k_added_IVF66_Flat_nprobe_1_midhun_v1_40k_v1.index`
+matches via `startswith(experiment + "_added_")`.
+
+### Verified
+
+`python -m infer.cli --model midhun_v1_40k.pth --list-speakers` → `0-108`
+(CPU-only, loads the model, exits before GPU work).
+
+### Inference command (user runs, Qwen stopped)
+
+`cd D:\models\ai-movie\repos\rvc-webui; D:\models\ai-movie\envs\rvc\Scripts\python.exe -m infer.cli --model midhun_v1_40k.pth --input <source_wav> --output D:\models\ai-movie\03_audio_processed\rvc_midhun_test.wav --f0-method rmvpe --protect 0.33 --index-rate 0.75`
+
+### Result
+
+**Rule: RVC inference = wrapped `assets/weights/<exp>.pth` (named without `_eN`),
+auto-matched index. Build it with `scripts\wrap_ckpt.py` if `savee()` never ran.**
+
+---
+
+## D053 — RVC voice quality: more Midhun data is the biggest lever; test the real source first
+
+Date: 2026-09-08
+Status: Active
+
+### Decision
+
+The Midhun RVC model (`midhun_v1_40k`, ~3.5 min training data) produces a
+recognizable Midhun voice but **quirky words** on a Jaisal source. This is NOT
+the ceiling. **Do NOT retrain immediately** — first test the REAL production
+source (the user's own dub), because the quirkiness is largely a SOURCE
+articulation mismatch (Jaisal's words + Midhun's timbre), not a model limit.
+
+### Reason
+
+- RVC is **audio→audio** (no text): the source provides words/rhythm, the model
+  provides the voice identity. A Jaisal source → Jaisal articulation + Midhun
+  timbre = quirky. A user dub → user articulation + Midhun timbre = the real
+  production result.
+- Model stability is limited by ~3.5 min of training data (2 clips).
+- **Two levers:** (1) MORE MIDHUN DATA (biggest) — 5–10 min clean, diverse
+  speech (Malayalam + English, different topics/emotions/speeds) → more
+  consistent, more Midhun-like, less quirky; (2) TUNING (quick, no retrain) —
+  `--index-rate 0.9` (stronger Midhun pull), `--protect 0.4`,
+  `--f0-method pm` (A/B vs rmvpe).
+
+### Workflow
+
+1. **Test the real source first:** user dubs a line (headset, quiet room) →
+   `clean_audio.py` → RVC convert → listen. If good → done, use for the movie.
+2. **If still weak:** collect 5–10 min clean, diverse Midhun speech →
+   `collect_references.py` → retrain via `rvc_train_midhun.py` (point at the
+   new trainset) → re-test.
+3. **Tune** (no retrain): `--index-rate 0.9`, `--protect 0.4`,
+   `--f0-method pm`.
+
+### Result
+
+**Rule: RVC quirkiness = source articulation + model stability. Test the real
+source (user dub) before retraining. More clean, diverse Midhun data is the
+biggest quality lever.**
+
+---
+
+## D054 — Intro video: Krea2 Identity Transfer (not LoRA) + Qwen3-VL prompt engine + Shot Composer
+
+Date: 2026-09-10
+Status: Active
+
+### Decision
+
+For the **Jaisal Kut channel-intro video** (`docs/INTRO_SCRIPT.md`, ~67s, B&W,
+no music, 7 shots, JAISAL + CAMERA GUY):
+
+1. **Character consistency = Krea2 Identity Transfer workflow**
+   (`krea2_identity_edit.json`, Identity Edit v1.2) — NOT a LoRA. A Krea2 **LoRA**
+   is reserved for the **movies** (full consistency across 100+ shots). The intro
+   is short, so identity transfer (ref_boost 4.0, style LoRA @ 0.7) is enough.
+   Reference set = `E:\ComfyUI_windows_portable\ComfyUI\output\Dataset\character_1`
+   (20 PNGs).
+2. **Qwen3-VL as the H3 prompt engine** —
+   `D:\models\Writing\Qwen\Qwen3-VL-32B-Instruct-MiniMax-H3-L0-49-Q4_K_M.gguf` +
+   `...-mmproj-F32.gguf` (a VLM fine-tuned for MiniMax H3 → emits H3-optimized
+   prompts). Wire it into the H3 ComfyUI pipeline so prompts are H3-tuned.
+3. **Shot Composer (open-media) = the "Blender way"** —
+   `https://github.com/Anujatk1999/open-media` (browser-based local 3D
+   shot/pose/camera composer, mannequin.js + three.js, MCP server). Previsualize
+   the hard shots (3 head-twist, 5/6 plants, 7 object assembly) → export
+   MP4/PNG → feed to H3 as a motion/pose reference.
+
+### Reason
+
+- The intro has hard VFX items (180° head twist, object assembly, plant
+  growth/death, perfect reverse) that H3 alone will struggle with. Identity
+  transfer keeps the character consistent without a training run; Shot Composer
+  gives H3 an explicit motion reference for the hard shots; Qwen3-VL makes the
+  H3 prompts adhere better.
+- Shot 4 (perfect reverse) is done in **POST** (reverse the forward take), not
+  asked of H3.
+- B&W look applied in post (consistent across shots) or baked into the Krea2
+  keyframes.
+
+### Result
+
+**Rule: intro = Krea2 Identity Transfer + Qwen3-VL prompts + Shot Composer motion
+references + H3 (SLA) + RVC audio + diegetic SFX (NO MUSIC). Movies = Krea2 LoRA.**
+Full plan: `project-memory/INTRO_VIDEO_PRODUCTION.md`.
+
+## D055 — Intro video voice assignment: JAISAL = user's own voice, CAMERA GUY = Midhun (RVC)
+
+Date: 2026-09-11
+Status: Active (HARD RULE)
+
+### Decision
+
+The user is **alone** on this project — they write the stories, turn them into
+scripts, direct, and check the camera (with AI help). They **dub ALL the
+dialogue** themselves. Voice assignment for the Jaisal Kut intro:
+
+1. **JAISAL (the main character, most of the dialogue) = the USER'S OWN VOICE.**
+   The user dubs every JAISAL line (Malayalam + English). These are cleaned
+   (`clean_audio.py`) and used as-is (the user's real voice) — NOT Midhun.
+2. **CAMERA GUY (off-screen, asks the questions) = MIDHUN'S VOICE.** The user
+   dubs the camera-guy lines (in their own voice), then RVC converts them to
+   Midhun via the existing `midhun_v2_40k` model. **No second RVC model is
+   needed** — we reuse `midhun_v2_40k` for the camera guy.
+
+This **supersedes** the 2026-09-10 plan (§10b #1) that had JAISAL = Midhun and
+CAMERA GUY = a new 26-yo male model. The roles are effectively swapped: the
+main character now carries the user's own voice (they're the face/voice of the
+channel), and the off-screen interviewer carries Midhun.
+
+### Reason
+
+- The user is the sole writer/director/performer; the main character is an
+  extension of them, so their own voice is the natural fit and avoids a
+  "not-me" feel on the hero.
+- Midhun (`midhun_v2_40k`, 6.5 min data, already trained + wrapped) is a
+  ready-made distinct voice for the interviewer — no new training run needed.
+- RVC is audio→audio: the user's camera-guy dub provides words/rhythm,
+  `midhun_v2_40k` paints Midhun's timbre.
+
+### Result
+
+**Rule: JAISAL = user's own voice (cleaned dub). CAMERA GUY = user's dub →
+RVC `midhun_v2_40k` (Midhun). The user dubs ALL lines.**
+
+### Process decision (dub-first)
+
+Because this is a fully post/AI pipeline (video is cheap + regenerable, unlike
+traditional film where footage is the scarce asset), the **audio is the timing
+spine**: each shot's duration is set by how long its line takes to say. So the
+order is **dub first → lock shot durations from the audio → generate
+keyframes + video to match → SFX + assembly**. A quick B&W tone test (1-2
+Krea2 keyframes) runs in parallel to lock the look while the dubs are recorded.
+
+## D056 — Intro keyframes v4: scene-consistency lock + per-shot minimal change + head-180 effect
+
+Date: 2026-09-11
+Status: Active
+
+### Decision
+
+After the v3 keyframe review (2026-09-11), the v4 set is built with these hard rules:
+
+1. **The BASE/scene-master image is the anchor** — it must be STRAIGHT-ON, centered, symmetric, eye-level, NO wall, NO tilt, pure blackness outside the light pool. The v3 base (kf1_scene_master_00001_.png) was rejected (tilted side shot with a wall). Regenerate it FIRST; every other shot is an identity-edit of it (or of a good shot) so the scene stays identical.
+2. **Consistency lock in EVERY prompt** — bulb position (center-top, same height), table (same size/position/centered), ONE chair (centered, no extra chairs anywhere), character (dark wavy hair, black full-sleeve shirt unbuttoned halfway). No extra changes per shot — only the specified change.
+3. **kf6 = identity edit OF kf5** — same composition, only the plants become dead + melancholy emotion. NOT a fresh generation (v3's kf6_00001 came out completely different).
+4. **kf7 props** — ALL props (bat, ball, smiley paper, mic) SMALL and ON the table, not blocking the character; ONLY ONE mic at the table.
+5. **kf3b head effect** — the HEAD ALONE rotated 180° (face visible from behind, body/shoulders stay facing away — an impossible pose), NOT a normal shoulder look-back.
+6. **No dedicated head-rotation LoRA exists on Civitai** (API search 2026-09-11: only unrelated character/pose LoRAs). kf3b is attempted PROMPT-FIRST; if Krea2 can't hold the impossible pose, options are: (a) a custom Krea2 LoRA trained on a few head-180 reference images, (b) Shot Composer (3D) for the twist, (c) post compositing (cut the head, rotate, paste).
+
+### Reason
+
+The v3 set had: off-center chair (kf1), extra chairs (kf2/kf5/kf6_00002), visible walls (kf2/kf6_00001), plants too small (kf5), kf6 composition drift, kf7 props too big + 2 mics + giant robot figure, and a tilted/walled base image. The user's rule: "I don't want to mess it up again" — so the scene is locked to ONE anchor image and each shot changes exactly one thing.
+
+### Alternatives considered
+
+- Fresh t2i per shot (rejected — composition drift, the v3 problem).
+- Custom LoRA for the head-180 effect (deferred — no public LoRA found; prompt-first, then custom LoRA / Shot Composer / post-composite fallbacks).
+
+### Result
+
+**Rule: v4 = regenerate the base image straight-on first, then identity-edit each shot from the anchor with the consistency lock; kf6 edits kf5; kf7 props small + one mic; kf3b = head-only 180° (prompt-first, no public LoRA exists).**
+
+---
+
+## D057 — Intro keyframes v5: TRAIN A KREA 2 LoRA for a natural (non-plastic) character look
+
+**Date:** 2026-09-12
+
+**Decision:** The Krea2 Identity-Edit keyframes look **plastic / AI-ish** on the
+character. The user wants a **natural** look for the intro video. **NEXT STEP =
+train a Krea 2 LoRA** (character + natural-look) if the identity-edit route can't
+crack the natural look. The user explicitly said: "update the project, that we
+need to train a KREA 2 lora."
+
+**Context / findings (2026-09-12):**
+- **Available Krea 2 LoRAs locally** (`E:\ComfyUI_windows_portable\ComfyUI\models\loras\`):
+  `Krea2_Cinematic_Artstyle.safetensors`, `krea2_darkbrush.safetensors`,
+  `krea2_identity_edit_v1_2.safetensors`, `krea2_lineart_v1_fp16.safetensors`,
+  `Typnosis_Krea2.safetensors` (unknown purpose — no metadata). **No dedicated
+  "natural / camera / realism" Krea 2 LoRA is installed.**
+- **FameGrid "Spice" Krea 2 LoRA** (Reddit r/StableDiffusion, "corrected release",
+  2026-09-12): the user shared this as a candidate for a natural look. **Could not
+  scrape the Reddit/Civitai page (JS-rendered / 403) — the user should open the
+  link and confirm what it does + download it.** If it's a natural/realism LoRA
+  for Krea 2, test it in the identity-edit workflow (node 71 LoraLoaderModelOnly)
+  before training.
+- **1-click dataset workflow exists:** `1 Click Dataset (Klein 9b).json` (Flux 2
+  Klein) — the user builds character datasets with it. **Check whether a Krea 2
+  equivalent exists** for building the training set.
+- **v5 started:** `utilities/build_intro_keyframes_v5.py` (copy of v4, writes
+  `_v5` files). **kf2 V5 = character looking at the chair, BOTH hands on the
+  table** (user's spec). Generated `kf2_seated_v5_00001_.png` — pose correct,
+  natural look, clean void.
+
+**Alternatives considered:**
+- Use an existing natural/camera LoRA (none installed for Krea 2 — see above).
+- Test the FameGrid Spice LoRA first (pending user confirmation of what it is).
+- Train a custom Krea 2 LoRA (character + natural look) — **the chosen next step**.
+
+**Status:** PENDING — (1) user confirms the FameGrid Spice LoRA + downloads it;
+(2) test it in the identity-edit workflow; (3) if insufficient, build a Krea 2
+training dataset (1-click dataset workflow) + train the LoRA.
+
+---
+
+## D058 — Intro keyframes v7: CHARACTER shots use the character ref ONLY (no scene anchor)
+
+**Date:** 2026-09-12
+
+**Decision:** CHARACTER keyframes (kf2, kf3a/b/c, kf5, kf5a, kf6, kf7a/b/c) use
+the **character ref ONLY** (node 72 = full `intro_char_ref_bw.png`, node 113/92
+BYPASSED). **Do NOT anchor character shots to the empty base** — the scene anchor
+breaks the character identity.
+
+**Root cause (user-confirmed 2026-09-12):** the scene anchor (node 113 = the
+empty base `intro_scene_master.png` = table+chair+bulb, NO person) FIGHTS the
+character ref ("put a person here" vs "empty room") → the face distorts / becomes
+a different person. Evidence: V3 (char ref only) = GOOD character; V4/V5/V6
+(char ref + empty-base scene anchor) = BROKEN character; V7 (char ref only, V3
+settings) = GOOD character again.
+
+**The V3 tradeoff (user accepted):** V3's character is good, but the scene has a
+wall (right) + chair (left) + plant. Fixing walls/chair/plant WITHOUT a scene
+anchor = **PROMPT-ONLY** (stronger negatives: no wall, one chair centered). Do
+NOT "fix" the scene by adding a scene anchor — it breaks the character.
+
+**V7 = the good-character base** (`utilities/build_intro_keyframes_v7.py`,
+workflows `krea2_intro_kf*_v7.json`). Built from V3's exact settings.
+
+**Alternatives considered:**
+- Scene anchor for consistency (REJECTED — breaks the character, the user's #1
+  priority).
+- Face-only char ref crop (REJECTED — also broke identity; see
+  `krea2-identity-face-crop-failure.md`).
+
+**Status:** V7 character VERIFIED good (`kf2_seated_v7_00001_.png`). NEXT: fix
+walls/chair/plant via prompt-only in V7, regenerate the set, then MiniMax H3.
+
+---
+
+## D059 — Head-rotation keyframes: hands/90° SOLVED via identity-edit; 180° face-at-camera UNSOLVED by Krea2
+
+**Date:** 2026-09-12
+
+**Decision:** For the Shot-3 head-twist keyframes, anchor identity-edit on the
+**GOOD FRAME** (not a fresh t2i): `kf2_hands_table` anchored on
+`kf2_00004_ref.png` (the good manual-inpaint front view); `kf3c_head90` +
+`kf3b_head180` anchored on `kf3a_headnormal_v7` (the perfect back view).
+**A 180° head rotation with the face at the camera CANNOT be done by Krea2
+identity-edit** — it over-rotates to ~270° (face sideways). Use manual inpaint
+or let MiniMax H3 do the 90→180 motion in video.
+
+**Results (user-verified 2026-09-12):**
+- `kf2_hands_table` = ✅ GOOD (both hands flat on table, facing camera).
+- `kf3c_head90` = ✅ GOOD (back view, head ~90° side profile). The camera in the
+  image is at 180 (back view), NOT 90 — user ACCEPTS this; the camera motion is
+  the MiniMax H3 CAMERA NODE's job (`H3LocalCameraEditor`, installed 2026-09-12,
+  needs ComfyUI restart + `camera_motion_h3_lora_v1_3000_pruned.safetensors`).
+- `kf3b_head180` = ❌ UNSOLVED. Anchored on the back view + "face looking
+  STRAIGHT AT THE CAMERA over the shoulder" + negatives (face in profile, 270
+  degree rotation, head over-rotated) → seeds 501/601/602 ALL over-rotated to
+  ~270° (face sideways). The body-stays-back constraint fights the head rotation.
+
+**Root cause:** Krea2 identity-edit is CONSERVATIVE and holds the reference's
+head orientation; asking it to rotate the head 180° while keeping the body in
+back view is an impossible pose it resolves by over-rotating sideways.
+
+**Alternatives for kf3b (when back):**
+- (a) MANUAL INPAINT on kf3a (like the kf2 chair black-fill) — mask the head
+  region, prompt "face turned around over shoulder looking at camera" (most
+  controllable; matches how kf2 was solved).
+- (b) Fresh t2i of the back-view-with-face-around (no anchor).
+- (c) ACCEPT kf3c 90° as the only twist anchor and let MiniMax H3 do the
+  90→180 motion itself (simplest — H3 is good at head turns in video).
+
+**Consolidated folder (user's request — ONE path):**
+`d:\models\vsCodeMcp\Jaisal-intro\kf2_headset\` = `kf2_hands_table.png`,
+`kf3a_headnormal.png` (anchor), `kf3c_head90.png`, `kf3b_head180.png` (bad —
+replace when solved).
+
+**Workflows:** `krea2_kf2_hands_table.json`, `krea2_kf3c_head90.json`,
+`krea2_kf3b_head180.json` (identity-edit clones; node 82 = [1928,1088,1],
+ref_boost 4, grounding 768, Image Comparer node 114 BYPASSED mode=4 — the
+submit script crashes on its type name otherwise). Build scripts:
+`utilities/build_kf2_head_rotation.py`, `utilities/build_kf3_head_rotation.py`,
+`utilities/run_kf3b_180_seeds.py`. Submit: `utilities/submit_krea2_workflow.py`.
+
+**Status:** hands + 90° DONE. 180° UNSOLVED (pick option a/b/c when back).
+
+---
+
+## D060 — VoiceStudio added to the voice arsenal (local ElevenLabs alternative)
+
+**Date:** 2026-09-12
+
+**Decision:** Add **VoiceStudio** (github.com/debpalash/VoiceStudio, 23.8k stars,
+AGPL-3.0, fully local) to the voice arsenal as a 5th option alongside RVC,
+OpenVoice, IndicF5, Fish S2 Pro. It is a real local ElevenLabs alternative:
+16 TTS engines (default **OmniVoice** = 600+ languages incl. Malayalam; also
+CosyVoice 3, GPT-SoVITS, VoxCPM2, IndexTTS 2.5, etc.), 11 ASR engines, video
+dubbing pipeline (transcribe → translate → preserve speakers → synthesize →
+export), zero-shot voice cloning from a 3-15s clip, voice design, MCP server
+(`http://localhost:3900/mcp`) + OpenAI-compatible API
+(`http://localhost:3900/v1`).
+
+**Why:** the movie is bilingual (Malayalam + English). OmniVoice's 600+ language
+coverage + zero-shot cloning (no training, unlike RVC) makes it a strong
+candidate for the character voices. The user's hypothesis: it may be the best of
+all 5. **Keep it READY in the arsenal; A/B test against RVC `midhun_v2_40k`
+before committing.**
+
+**Install (DONE 2026-09-12):** current-user MSI (NO admin) →
+`C:\Users\user\AppData\Local\VoiceStudio (Current User)\omnivoice-studio.exe`.
+MSI downloaded to `D:\models\VoiceStudio\VoiceStudio_Current_User_0.5.2_x64_en-US.msi`
+(177.9 MB). Launched — first-run creates the Python env (via `uv`) + downloads
+the default OmniVoice model (watch the splash). GPU = NVIDIA/CUDA-only on
+Windows (our RTX 5090 gets CUDA accel; no CUDA Toolkit install needed).
+Backend runs loopback-only on `localhost:3900`.
+
+**First voice (when the app is up):** Voice Cloning tab → add a clean 5-15s
+reference clip (e.g. a Midhun or Jaisal clean wav from
+`D:\models\ai-movie\references\`) → enter text → pick language (Malayalam /
+English) → Generate.
+
+**Triton/torch.compile OOM note (Windows):** if an engine OOMs on first
+synth, Settings → Performance → "Disable torch.compile (Windows)" (sets
+`TORCH_COMPILE_DISABLE=1`).
+
+**MCP (optional, later):** add to `.vscode\mcp.json` →
+`{"voicestudio": {"url": "http://localhost:3900/mcp"}}` (or the stdio shim
+`python -m backend.mcp_shim`).
+
+**Status:** INSTALLED + LAUNCHED. NEXT: confirm first-run bootstrap finished,
+clone a test voice, A/B vs RVC.
+
+---
+
+## D061 — kf3b 180° head shot: 2nd face reference + head-REPLACEMENT prompt (2026-09-13)
+
+Date: 2026-09-13
+Status: Active (workflow ready, awaiting user's manual seed runs)
+
+### Decision
+For the kf3b horror 180° head shot, use a **TWO-reference** identity-edit setup:
+- **Node 72 (primary/scene):** `kf3a_v7_back_ref.png` (the back-view frame being edited).
+- **Node 113 (secondary/identity):** `jaisal_face_mono_closeup.png` — a monochrome
+  face-only close-up cropped from the CORRECT character
+  (`E:\ComfyUI_windows_portable\ComfyUI\output\Dataset\character_1\Image_00001_.png`).
+- **Node 79 = `[3, 1, fit]`** — `ref_boost` (3) applies to the LAST ref = the
+  FACE (strong identity copy); `ref_boost_a` (1) applies to the FIRST ref = the
+  scene (off, just the editing base).
+- **Node 84 prompt = the user's WORKING head-REPLACEMENT prompt** (frames it as
+  "replace only the head with a frontal view of the same man's face... looking
+  directly into the camera... body/shoulders/torso facing completely away"), NOT
+  "rotate 180 degrees" (which made Krea2 over-rotate to 270°).
+
+### Reason
+The single-reference attempts (D059) all over-rotated to ~270°. The user found
+that (a) describing the END STATE (face at camera) instead of the rotation amount,
+and (b) feeding a monochrome face close-up as a 2nd reference so the model COPIES
+the actual face instead of hallucinating one, gets much closer.
+
+### Key facts
+- `Krea2EditModelPatch` boost semantics (from object_info): `ref_boost` = LAST
+  ref (subject/face), `ref_boost_a` = FIRST ref (scene). `fit_mode` = `fit`.
+- `ref_boost_mask` = optional region on the LAST ref to boost (e.g. the face).
+- Face ref script: `utilities/make_mono_face_ref.py` (crop + grayscale +
+  autocontrast). Project copy: `Jaisal-intro\kf2_headset\jaisal_face_mono_closeup.png`.
+- **CORRECT character = `character_1` dataset** — NOT the Krea2 renders in
+  `input/` (jaisal_face_*.png etc. are a DIFFERENT face). See repo memory
+  `jaisal-correct-character-reference.md`.
+
+### Status
+Workflow `krea2_kf3b_head180.json` validated clean. User runs seeds manually.
+If all seeds fail → fallbacks (a) manual inpaint on kf3a head region, (b) fresh
+t2i, (c) accept kf3c 90° + MiniMax H3 does the 90→180 motion.
+
+---
+
+## D062 — VoiceStudio model selection: OmniVoice + Whisper large-v3 only (2026-09-13)
+
+Date: 2026-09-13
+Status: Active
+
+### Decision
+For the Jaisal movie (Malayalam + English, 2 characters), install ONLY:
+- **OmniVoice** (default, k2-fsa, 2.4 GB) — 600+ langs incl. Malayalam, zero-shot.
+- **Whisper large-v3** (faster-whisper, 2.9 GB) — transcription for dubbing.
+- **Whisper Tiny** (0.1 GB) — dictation shortcut only (90+ langs, auto-detect).
+
+### Reason
+The app "recommends" a broad list for all users, but for our specific job the
+other engines are redundant or wrong-language: KittenTTS (English-only), Whisper
+Turbo/Tiny/medium/small/base (redundant with large-v3), Parakeet/Moonshine/
+Zipformer/Paraformer (EN/ZH dictation), VoxCPM2/GPT-SoVITS/MOSS/dots.tts/
+Confucius4 (other-language TTS), pyannote (multi-speaker video only). CosyVoice 3
+(9.8 GB) is the only optional A/B but only 9 langs (mostly NOT Malayalam) — skip.
+
+### Notes
+- OmniVoice weights = CC-BY-NC (non-commercial — fine for the movie).
+- VoiceStudio is NOT ElevenLabs — it's a free local 80-90% alternative. Its real
+  value: (1) 5th engine for A/B, (2) unified dubbing pipeline, (3) API/MCP
+  (localhost:3900) so the agent can drive it, (4) voice design (text→voice).
+- **Convert tab is NOT a true voice conversion** — it transcribes (Whisper) then
+  re-synthesizes (TTS), so emotion/delivery is LOST. For true voice conversion
+  (keep performance, change timbre) use **RVC**.
+- **Emotion on the default OmniVoice engine:** the #1 lever is an
+  emotionally-performed reference clip (flat ref → flat output). Plus punctuation
+  + `[pause Nms]`, `class_temperature` 0.3-0.7 + seed farming, `[laughter]`/
+  `[sigh]` tags, `whisper` style, `postprocess_output` off. The default engine
+  does NOT accept `[happy]`/`[sad]`/`[excited]` tags (it speaks the word).
+  IndexTTS 2.5 emotion sliders = no Malayalam.
+- Summary doc for asking DeepSeek/OpenAI: `Jaisal-intro\voicestudio_summary.md`.
+
+---
+
+## D063 — RVC source-leakage recipe: protect 0.0 + double pass (2026-09-13)
+
+Date: 2026-09-13
+Status: Pending A/B confirmation (recipe built, winner not yet locked)
+
+### Decision
+To reduce RVC source leakage (output still sounding like the user), use:
+1. **Clean the source** (denoise, normalize, mono) before conversion.
+2. **`--protect 0.0`** (the #1 fix — default 0.33 means "keep 33% of the
+   original voice", which is the leak).
+3. **`--index-rate 0.7-1.0`**, `--f0-method rmvpe`, pitch 0.
+4. **Double pass** — run the output through the same model a 2nd time (protect
+   0.0 again) to strip residual source character.
+5. **Light post** — high-pass 80-100 Hz, loudness normalize.
+
+### Reason
+RVC's Protect parameter is the main source-leakage dial. A double pass is the
+classic fix for "still sounds a bit like me".
+
+### Status
+A/B test pending (tomorrow): same line, 3 ways (single pass / double pass /
+double pass + post). Winner gets LOCKED as the standard RVC conversion pipeline
+for the movie (consistency across all lines). If leakage persists after the
+double pass, the ceiling is the target model quality → retrain on cleaner/longer
+data.
+
+---
+
+## D064 — C: drive cleanup: freed ~90 GB, pagefile stays on C: (2026-09-13)
+
+Date: 2026-09-13
+Status: Done
+
+### Decision
+Freed ~90 GB on C: (was 135 GB free → now 215 GB free):
+- HF cache `.cache\huggingface` (36.3 GB) — deleted (re-downloads on demand).
+- pip cache (23.9 GB) — `pip cache purge`.
+- Temp (5.4 GB) + CrashDumps (2.8 GB) — deleted.
+- **hiberfil.sys (24.6 GB) — `powercfg /h off`** (hibernation disabled; safe,
+  reversible with `powercfg /h on`).
+- **pagefile.sys (61.8 GB) — KEPT on C:** (user's decision). It's functional
+  (virtual memory), NOT junk. Moving it is fiddly + risky; resizing needs admin +
+  reboot. At 215 GB free there's no need.
+
+### Reason
+The "missing 90 GB" was the two hidden system files at C:\ root (pagefile 61.8 +
+hiberfil 24.6 = 86.4 GB) — not in the user folder. SSDs don't slow down until
+~85-90% full, so boot speed was never at risk (was ~73% full).
+
+### Notes
+- uv cache (6.1 GB) + npm cache (1.3 GB) cleanup optional (uv not on PATH →
+  delete `AppData\Local\uv\cache` directly; npm blocked by execution policy →
+  use `npm.cmd`).
+- VoiceStudio (~17 GB) fits easily in the 215 GB free.
+
+---
+
+## D065 — SeedVR2 single-IMAGE upscaling via the numz ComfyUI pack (not the Studio app)
+
+**Date:** 2026-09-13
+
+**Decision:** For 2K/4K upscaling of **single keyframe images**, use the
+**`numz/ComfyUI-SeedVR2_VideoUpscaler`** ComfyUI nodes (installed 2026-09-13),
+NOT the SeedVR2 TensorRT Studio app. The Studio app is video-oriented and its
+image jobs failed on model loading (`7B Sharp FP16` → `invalid python storage`).
+The numz pack explicitly supports single images (`batch_size=1`).
+
+**Why:** The Studio app's `POST /api/jobs` image submissions errored at 0.28
+progress (model-load crash). The numz pack's `SeedVR2VideoUpscaler` node +
+`SeedVR2LoadDiTModel`/`SeedVR2LoadVAEModel` handle a single image with
+`batch_size=1` (per the official docs: "Use 1 only for single images").
+
+**Setup done (2026-09-13):**
+- Cloned `numz/ComfyUI-SeedVR2_VideoUpscaler` →
+  `E:\comfyUi_latest\...\custom_nodes\seedvr2_videoupscaler`.
+- Installed missing dep `rotary_embedding_torch` (0.9.1).
+- **Fixed a transformers 5.9.0 bug** that blocked the import:
+  `PACKAGE_DISTRIBUTION_MAPPING["flash_attn"]` KeyErrors when flash_attn is not
+  installed. Patched 3 lines (988/1019/1030) in
+  `transformers/utils/import_utils.py` → `.get("flash_attn", [])`. Backup at
+  `import_utils.py.flash_attn_bak`. (Re-apply after any transformers upgrade.)
+- Restarted ComfyUI so the 9 SeedVR2 nodes register.
+
+**Workflow:** `seedvr2_image_upscale.json` (UI format, validated clean) built by
+`utilities/build_seedvr2_image_wf.py <input.png> [prefix]`. Native widget shapes
+(from the official `example_workflows/SeedVR2_simple_image_upscale.json`):
+- LoadImage `["<img>","image"]`
+- SeedVR2LoadDiTModel `["<model>","cuda:0",0,false,"none",false,"sdpa"]`
+- SeedVR2LoadVAEModel `["ema_vae_fp16.safetensors","cuda:0",false,1024,128,false,1024,128,"false","none",false]`
+- **SeedVR2VideoUpscaler `[42,"randomize",1440,2560,1,false,"lab",0,0,0,0,"cpu",false]`**
+  (13 values — hidden "randomize" after seed, same pattern as KSampler)
+- SaveImage `["<prefix>"]`
+
+**Settings:** `seedvr2_ema_7b_sharp_fp16.safetensors` (max quality, local),
+resolution 1440 / max 2560 (2K), batch_size 1, color_correction `lab`,
+attention `sdpa`.
+
+**CLI alternative (no ComfyUI):**
+`python custom_nodes\seedvr2_videoupscaler\inference_cli.py <img> --dit_model seedvr2_ema_7b_sharp_fp16.safetensors --resolution 1440 --max_resolution 2560 --batch_size 1 --color_correction lab`
+(needs `PYTHONIOENCODING=utf-8` on Windows).
+
+**Status:** Active. Workflow validated `valid: true`. Next: run it on the plant
+keyframes, copy 2K outputs to `Jaisal-intro\v9\`.
+
+---
+
+## D066 — Object-ref images: UNSEEN top light, NO visible bulb (2026-09-14)
+
+**Decision:** All Krea2 t2i object-reference images (soccer ball, cricket bat,
+paper-smiley — `krea2_object_refs.json`) are lit from directly above by a single
+**UNSEEN** light source. The bulb/lamp itself must NOT appear in the frame — only
+its light and hard shadow.
+
+**Reason:** A visible bare bulb in the object refs confuses MiniMax H3 when the
+objects are composited into the scene (it tries to reconcile two light sources /
+a bulb that isn't in the scene). The light *effect* (top-down, hard shadow) is
+kept; the *source* is removed.
+
+**Implementation:**
+- Positive prompts: "Lit from directly above by a single UNSEEN light source —
+  the light itself is NOT visible in the frame, only its light and hard shadow."
+- Negatives: `light bulb, bare bulb, lamp, visible light source, ceiling, cord,
+  wire, hanging bulb, bulb in frame`.
+
+**Alternatives considered:** keeping the bulb for consistency with the scene
+keyframes (rejected — H3 confusion outweighs consistency); a side light (rejected
+— breaks the top-down look of the whole film).
+
+**Status:** Active. Applies to all future object/prop reference images.

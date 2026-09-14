@@ -4,6 +4,121 @@ Newest changes first.
 
 ---
 
+## 2026-09-14 — krea2_object_refs.json (new) — Shot-7 Object Reference Generator (t2i)
+
+### Workflow
+
+`krea2_object_refs.json` (UI format, validated `valid: true` 0 errors 0 warnings,
+21 nodes) built by `utilities/build_krea2_object_refs.py`. **3 parallel Krea2 t2i
+branches** sharing UNET/CLIP/VAE loaders, each: `CLIPTextEncode`(pos) +
+`CLIPTextEncode`(neg) + `EmptySD3LatentImage [1024,1024,1]` +
+`KSampler [42,'randomize',10,1,'euler','simple',1]` + `VAEDecode` + `SaveImage`.
+
+### Objective
+
+Generate the 3 Shot-7 object references (soccer ball, cricket bat, paper-with-smiley)
+on a pure black background so MiniMax H3 can extract them as clean object refs for
+the "Jaisal explodes into ideas" effect. **NO identity LoRA** (objects, not the
+character).
+
+### Configuration
+
+- UNET `krea2_turbo_bf16.safetensors`, CLIP `qwen3vl_4b_fp8_scaled.safetensors`
+  (type `krea2`), VAE `qwen_image_vae.safetensors`.
+- KSampler `10 steps / cfg 1 / euler / simple`, 1024×1024.
+- **UNSEEN top light (D066):** positives say "Lit from directly above by a single
+  UNSEEN light source — the light itself is NOT visible in the frame, only its light
+  and hard shadow"; negatives add `light bulb, bare bulb, lamp, visible light
+  source, ceiling, cord, wire, hanging bulb, bulb in frame`.
+- Save prefixes: `jaisal_cut/obj_{soccer_ball,cricket_bat,paper_smiley}`.
+
+### Models used
+
+Krea2 turbo (bf16) + Qwen3VL 4B (krea2 type) + Qwen image VAE. All confirmed live in
+the running install (`E:\comfyUi_latest\...`).
+
+### Important parameters
+
+- Native `widgets_values` shapes copied from `krea2_identity_edit.json` (KSampler 7
+  values w/ hidden `randomize`; CLIPTextEncode `[text]`; EmptySD3LatentImage
+  `[w,h,batch]`; VAEDecode `[]`; SaveImage `[prefix]`).
+- Link integrity verified: 27 links, 0 orphan/mismatched.
+
+### Known issues
+
+- **First seed (`_00001_`) rendered a VISIBLE bulb** in all 3 (Krea2 is a general
+  model — "unseen light" is a hint, not a guarantee). **Re-roll (`_00002_`) came out
+  clean.** Always visually verify the bulb is gone.
+
+### Last successful result
+
+`_00002_` set (1:44 AM) = clean: round soccer ball, vertical cricket bat, paper with
+handwriting + smile line, all on pure black, no bulb. Copied to
+`D:\models\vsCodeMcp\Jaisal-intro\obj_refs\` (6 PNGs: 2 takes × 3 objects).
+
+### Next improvement
+
+Feed the 3 clean `_00002_` PNGs into the H3 R2V Shot-7 workflow (5-ref plan:
+ref0=empty scene, ref1=paper, ref2=bat, ref3=ball, ref4=end anchor).
+
+---
+
+## 2026-09-06 — jaisal_continuity_character.json (new) — Character Consistency (Continuity H3)
+
+### Workflow
+
+`jaisal_continuity_character.json` — a SINGLE `MiniMaxH3Creator` node (ComfyUI-Continuity, roadmaus/ComfyUI-Continuity). Continuity is an all-in-one node (NO sockets, it's an output node) — the cast, references, prompt and model selection all live in its `creator_data` JSON blob, managed by the Continuity frontend (`Ctrl+Shift+M` fullscreen editor). A "workflow" is just this one node.
+
+### Objective
+
+Character consistency WITHOUT a LoRA for the Jaisal Cut intro (natural face, close-up + medium shot). Cast-based: add the character to the cast, hang reference stills on them, write the shot with `@`-references. Fully local, supports MiniMax H3.
+
+### Configuration
+
+- All 5 H3 model slots pre-wired to files we ALREADY have (NO new downloads): FL2VA `minimax_h3_fl2va_pruned_int8_convrot.safetensors`, Ref2VA `minimax_h3_ref2va_pruned_int8_convrot.safetensors`, text encoder `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors`, video VAE `minimax_h3_video_vae_fp16.safetensors`, audio VAE `minimax_h3_audio_vae_fp32.safetensors`.
+- Widget order (15 values): `creator_data, seed, steps, cfg, sampler_name, scheduler, shift_video, shift_audio, block_cache, spectrum, spectrum_blend, sage, attention, chunk_ffn, fp16_accumulation`. Defaults: seed 0, steps 20, cfg 1.0, sampler `res_multistep`, scheduler `simple`, shift_video 12.0, shift_audio 3.0, block_cache `off`, spectrum false, spectrum_blend 0.5, sage false, attention `default`, chunk_ffn false, fp16_accumulation false.
+- `creator_data` blob: `models` = dict keyed by slot name → filename; `segments` = list of `{prompt, assets, loras, duration_s, checkpoint}`; references attached with `@` in the prompt (UI).
+- Output lands in `output/continuity/`.
+- Validates `valid: true`, 0 errors, 0 warnings.
+
+### Status
+
+BUILT + validated. **NOT YET TESTED** (user will test after some time). The prompt is a Jaisal placeholder — replace in the UI. See D046.
+
+---
+
+## 2026-09-06 — jaisal_single_shot_semantic.json (new) — SLA i2v + Semantic Bridge
+
+### Workflow
+
+`jaisal_single_shot_semantic.json` — a copy of the working `jaisal_single_shot.json` (SLA i2v, 14 s / 1344×768 / turbo 4-step) with the **MiniMax H3 Semantic Bridge** added on the conditioning path.
+
+### Objective
+
+Improve prompt adherence on the i2v (FL2VA) workflow using the Semantic Bridge conditioning-space adapter (`speach1sdef178/MiniMax-H3-Semantic-Bridge`).
+
+### Changes
+
+- Copied from the clean `jaisal_single_shot.json` (backup `workflow_backups\jaisal_single_shot.pre_semantic_bridge.json`).
+- Inserted **`SenseNovaH3DistilledBridge`** node (id 300) INSIDE the subgraph on the conditioning path: `node 104 (i2v positive) → [link 187] → node 300 (bridge) → [link 301] → node 16 (BasicGuider)`.
+- Bridge widgets: `distilled_adapter = MiniMaxH3_SemanticBridge_v1.safetensors`, **`alpha = 0.10`** (recommended start; 0.15 = stronger), `magnitude_match = per_token`.
+- SLA node (150), turbo LoRA (121), models, prompt, 1344×768/345 frames all UNCHANGED.
+- Validates `valid: true`, 0 errors (2 pre-existing harmless warnings on nodes 119/120).
+
+### Configuration
+
+- Pack: `custom_nodes\MiniMax_H3_Semantic_Bridge` (nodes `MiniMaxH3DistilledImageToVideo`, `SenseNovaH3DistilledBridge`, `SenseNovaH3ClearDistilledCache`).
+- Adapter: `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models\semantic_bridge\MiniMaxH3_SemanticBridge_v1.safetensors` (~11 MB).
+- **SCOPE: i2v/FL2VA (text-conditioned) ONLY — does NOT work for Ref2VA/R2V workflows.**
+- **Tuning:** barely any change → raise `alpha` to 0.15; output looks off → lower to 0.05. `Clear Semantic Bridge Cache` node if swapping adapters mid-session.
+- **GOTCHA:** the running ComfyUI is the `comfyUi_latest` instance — the adapter MUST be in `E:\comfyUi_latest\...\models\semantic_bridge\` (not the main `E:\ComfyUI_windows_portable\...` path) or the node shows "Missing Models".
+
+### Status
+
+Built + validated. NOT yet run. The working `jaisal_single_shot.json` was RESTORED clean (no bridge). See D046.
+
+---
+
 ## 2026-08-31 — krea2_jaisal_sketch.json (new)
 
 ### Workflow

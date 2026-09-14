@@ -1,16 +1,25 @@
 # Project State
 
-Last Updated: 2026-08-26
+Last Updated: 2026-09-14
 
 ## Current Objective
 
-Build a production-ready title video for the production house: **"The Jaisal Cut"**.
+Build the **"Jaisal Kut" channel-intro video** — a ~67s, 7-shot, **Black & White, NO
+MUSIC** (D041) cinematic intro. (Supersedes the earlier bridge/title-video pipeline.)
 
-Story: kid walks a stone bridge (wide, camera in the river) → clouds change, wind → sudden rain → kid runs → mid-bridge rain hits → close-up of face as rain comes and goes like a gust → kid stares at sky → camera pans/zooms out → "The Jaisal Cut" title where the kid becomes the dot in the J.
+Story (7 shots): walk-in → setup → slow 180° head twist (the hook) → perfect reverse →
+plants grow (dream) → plants die (limitation) → **Jaisal explodes into ideas** (papers
++ mic + cricket bat + soccer ball; Jaisal vanishes, his ideas remain). Ends on
+"നോക്കാം" (Let's see).
 
-Pipeline: 9-image story sheet (16:9, 2048×1152) → MiniMax H3 ref-image-to-video (15s) → paper-tear title clip → title composited in post (NOT rendered by the model).
+Pipeline: Krea2 Identity Edit keyframes (per shot) → MiniMax H3 ref-image-to-video →
+SeedVR2 2K upscale → VoiceStudio/RVC voice + ControlFoley SFX → assembly.
 
-Immediate goal: build the character/style sheet (wide base ✅, face base ✅, medium shot ✅, remaining frames ⏳), then wire into the MiniMax H3 video workflow.
+**Current state (2026-09-14):** ALL keyframes + object refs READY. Object refs (soccer
+ball, cricket bat, paper-smiley) generated via `krea2_object_refs.json` (clean `_00002_`
+trio in `Jaisal-intro\obj_refs\`). **NEXT: video generation (all 7 shots, esp. Shot 7
+H3 R2V) + audio (voice + SFX) → assemble the final cut.** See CURRENT_TASK.md
+"TOMORROW'S PLAN".
 
 ## Current AI Stack
 
