@@ -1,5 +1,11 @@
 {
     "servers": {
+        "github-mcp-server": {
+            "type": "stdio",
+            "command": "node",
+            "args": ["D:\\models\\vsCodeMcp\\utilities\\mcp-stub.js"],
+            "disabled": false
+        },
         "comfy-mcp": {
             "type": "stdio",
             "command": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy-mcp.exe",

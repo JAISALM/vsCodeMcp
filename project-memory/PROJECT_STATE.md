@@ -1,6 +1,18 @@
 # Project State
 
-Last Updated: 2026-10-03
+Last Updated: 2026-10-04
+
+**2026-10-04 (tooling fix, D102 update):** ComfyUI MCP verified WORKING
+(`server_info` OK: ComfyUI at 127.0.0.1:8188, comfy-cli 1.18.0, RTX 5090;
+note comfy-cli default workspace = `C:\Users\user\Documents\comfy\ComfyUI`,
+NOT the portable install). `/resume` + 4 other slash prompts are DEAD in
+VS Code 1.140 Agent Host (legacy `.github/prompts/*.prompt.md` no longer
+loaded) → **migrated all 5 to custom agents in `.github/agents/`**
+(`resume-project`, `debug-workflow`, `optimize-workflow`, `save-decision`,
+`save-session` — invoke by name). `agent-host-config.json` regenerated at
+09:21 (flag flipped back to `true`) → re-applied `githubMcpServerEnabled:
+false`; shadow-stub in `.vscode/mcp.json` is the durable layer. **PENDING:
+full VS Code restart** for the agents + flag to take effect.
 
 **Current state (2026-10-03):** **VOICESTUDIO DUB HACK CONFIRMED.** User records rough audio for each dialogue (own voice) → VoiceStudio processes → LatentSync mouth-sync. **VoiceStudio backend FIXED + UP** (venv rebuilt on Python 3.12 — the cp313 `curated-tokenizers` Cython build failure left the venv empty; `uv sync` exit 0). **JAISAL voice already cloned** (`dd8bc71f`, Malayalam) + midhun (`094d6afe`). **Ubuntu-22.04 installed** (WSL2 2.7.13) → LatentSync ready after setup. **NEXT (user):** drop per-dialogue audios in `Jaisal-intro\dubs\` (A/C/E/F1/F2/G jaisal + optional camguy). **NEXT (me):** clean-as-is default (denoise+normalize, keep delivery; A/B with Convert re-speak) → LatentSync on A, C, E, F1, F2, G. See CURRENT_TASK.md 2026-10-03.
 
@@ -69,6 +81,16 @@ resume point.
 - Current version: 0.10.0
 - Transport: stdio
 - MCP is being invoked by the AI client rather than manually operated as a standalone HTTP service.
+
+**VS Code 1.140 Agent Host + local-Qwen chat fix (2026-10-04, D102):** VS Code 1.140's
+new Agent Host sends ALL MCP tools in one request; with comfy-mcp + web-search + the
+built-in GitHub MCP the count exceeds llama.cpp's hard 128-tool cap → local-Qwen chat
+requests fail ("Cannot have more than 128 tools per request"). **GitHub MCP is
+disabled** (`githubMcpServerEnabled: false` in
+`C:\Users\user\AppData\Roaming\Code\User\globalStorage\agent-host-config.json`; set the
+same key in the VS Code Settings UI if the file gets regenerated). The Agent Host also
+no longer loads legacy `.github/prompts/*.prompt.md` slash prompts (`/resume-project`
+etc.) — those need migration to agent skills / custom agents.
 
 **Web-search + loop-guard gateway (added 2026-09-26):**
 - `web-search` MCP = `mrkrsl/web-search-mcp` v0.3.1 at `D:\MCP\web-search-mcp\` (tools: `full-web-search`, `get-web-search-summaries`, `get-single-web-page-content`). Chromium installed.
@@ -148,7 +170,9 @@ Prefer:
 
 ## Current Blockers
 
-None unless recorded here.
+None (2026-10-04: MCP verified working; `/resume` slash prompts migrated to
+custom agents in `.github/agents/`; `githubMcpServerEnabled: false` re-applied
+after config regeneration — see D102 update).
 
 ## Next Step
 
