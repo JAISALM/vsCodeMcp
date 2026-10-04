@@ -1,0 +1,20 @@
+subject_definitions:
+<Picture 1> is the FIRST frame: the table with dead plants, the papers and the microphone settled in the light, NO person.
+<Picture 2> is the LAST frame: the table with dead plants, ONLY the microphone alone in the light, NO person, NO papers.
+
+summary:
+[reference generation] A single continuous black & white, high contrast, fine film grain, 24fps take that animates smoothly from <Picture 1> (the table with dead plants, the papers and the microphone settled in the light, no person) to <Picture 2> (the table with dead plants, ONLY the microphone alone in the light, no person, no papers). The papers drift away and vanish into the darkness, leaving only the microphone alone in the light. a dark near-black room, a simple wooden table, one chair, a single bare bulb hanging directly above as the ONLY light source, casting a hard top-down shadow, everything outside the bulb's light pool fading to pure black. The room, table, chair and bulb stay EXACTLY the same so the cut to the next shot is seamless.
+
+retention_analysis:
+<Picture 1> (first frame): fully_preserved - the opening frame.
+<Picture 2> (last frame): fully_preserved - the shot ENDS exactly on this frame; ONLY the microphone is visible, NO person, NO papers.
+
+detailed_description:
+The shot BEGINS from <Picture 1> (the table with dead plants, the papers and the microphone settled in the light, no person). The papers drift away and vanish into the darkness, leaving only the microphone alone in the light. Camera: a MEDIUM shot (35mm), the camera is locked and does NOT move, push, drift, tilt, pan or zoom. The shot ENDS exactly on <Picture 2> (the table with dead plants, ONLY the microphone alone in the light, no person, no papers).
+
+overall_soundscape:
+A continuous natural ambient bed fills the ENTIRE shot with no gaps - low room tone, the faint electric hum of a bare bulb, a soft paper rustle as the papers drift away. Only these natural sounds, edge to edge.
+
+non_diegetic_music: NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song, NO score, NO background music, NO ambient music, NO cinematic score, NO soundtrack bed. Natural ambient sounds only - absolutely no music of any kind.
+
+negative: color, multiple people, second person, duplicate character, extra chairs, extra figures, fire, smoke, glowing particles, futuristic AI effects, holograms, colorful effects, bright wall, white wall, cream wall, visible ceiling, text, subtitles, watermark, logo, a person, a young man, papers

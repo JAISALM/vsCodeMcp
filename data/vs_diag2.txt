@@ -1,0 +1,11 @@
+﻿=== venv python.exe exists: True ===
+=== python version ===
+Python 3.13.6
+
+=== site-packages exists: True ===
+=== site-packages dir count: 0 ===
+=== curated-tokenizers in venv? ===
+
+=== uv version ===
+uv 0.12.13 (0ebbd9274 2026-09-10 x86_64-pc-windows-msvc)
+

@@ -1,0 +1,57 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+<Subject 1> is the young man shown in the reference images — his identity, face, hair and clothing are EXACTLY as in <Picture 1>. He is the ONLY person VISIBLE in the frame until he VANISHES in the final beat.
+<Subject 2> is a calm adult male voice (the camera guy). He is NOT visible in the frame — only his voice is heard, coming from OFF-SCREEN. He is NOT <Subject 1>.
+
+REFERENCE IMAGES (which is which, and the role of each):
+<Picture 1> = ref_image_0 = `kf7a_v4.png` — the FIRST frame: Jaisal seated at the wooden table, hands resting on the table, a single bare bulb hangs directly above, pure black void background. A few loose sheets of paper are beginning to float in from the darkness behind him. The dead/withered plants from the previous shot are still on the table.
+<Picture 2> = ref_image_1 = `mic+paper.png` — the FINAL frame: Jaisal is GONE (vanished), replaced by dozens of loose sheets of paper floating in the air around the table, and a MICROPHONE on a stand has emerged and settled on the table among the papers. The bare bulb still hangs above. Pure black void.
+<Picture 3> = ref_image_2 = `obj_cricket_bat_00002_.png` — a CRICKET BAT (isolated object on black void). This object FLYES INTO the light during the shot and settles on the table.
+<Picture 4> = ref_image_3 = `obj_soccer_ball_00002_.png` — a round SOCCER BALL (isolated object on black void). This object ROLLS INTO the light during the shot and settles on the table.
+<Picture 5> = ref_image_4 = `obj_paper_smiley_00002_.png` — a single sheet of PAPER with a simple curved smile line drawn on it (isolated object on black void). This paper SETTLES ON TOP of the cricket bat as a crude head.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: Jaisal seated at the table, dead/withered plants on the table, bare bulb above, black void. The camera is a STATIC medium-wide shot (35mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:02 — Jaisal is seated, listening. Loose sheets of paper begin to float in from the darkness BEHIND him, drifting forward through the room. The dead plants are still on the table.
+[Shot 1] 00:02–00:04 — the OFF-SCREEN male voice (<Subject 2>) asks, <d>[English] <breath> What can people expect from this channel? </d> Jaisal listens, his eyes toward the camera.
+[Shot 1] 00:04–00:07 — Jaisal speaks, FACING THE CAMERA, <Subject 1> (S1) says, <d>[English] As I said... <beat> stories, politics, sports, <beat> and a little bit of fantasy. </d> As he speaks, the dead/withered plants on the table SLOWLY SHRINK and DISAPPEAR — they wither completely and vanish, leaving the table empty. His eyes are toward the camera, a small honest look.
+[Shot 1] 00:07–00:09 — more papers drift forward. A MICROPHONE on a stand emerges SEPARATELY from the dark (NOT together with the paper burst) and settles on the table. Jaisal's eyes shift to the papers, a small thoughtful look. <Subject 1> (S1) says, <d>[English] I don't know if it'll work... <beat> Let's see. </d>
+[Shot 1] 00:09–00:11 — a CRICKET BAT (<Picture 3>) FLYES INTO the light and settles on the table. A round SOCCER BALL (<Picture 4>) ROLLS INTO the light and settles on the table. A single sheet of PAPER with a smile line (<Picture 5>) SETTLES ON TOP of the cricket bat as a crude head. Jaisal looks at the strange objects, a quiet, honest expression.
+[Shot 1] 00:11–00:13 — JAISAL himself BURSTS INTO papers — his body EXPLODES OUTWARD into dozens of loose sheets of paper that scatter and float away from where he was sitting (NOT a fade, NOT an opacity reduction — a physical BURST, papers flying out from his body like he is made of paper). The chair is now empty. The OFF-SCREEN voice (<Subject 2>) says, <d>[English] Let's see. </d>
+[Shot 1] 00:13–00:15 — the shot ends on <Picture 2>: papers floating in the air, the microphone settled on the table, cricket bat + soccer ball + smiley paper on the table, Jaisal GONE (burst into papers). The bare bulb flickers once. Pure black void.
+
+CAMERA
+STATIC medium-wide shot, 35mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+Only ONE person VISIBLE (Jaisal, <Subject 1>) until he VANISHES in the final beat (00:11–00:13). No other people, no duplicates. His face, hair and clothing stay EXACTLY as in <Picture 1> the entire shot. <Subject 2> is a VOICE ONLY — never shown. Jaisal FACES THE CAMERA — his eyes are toward the lens.
+
+PLANT BEHAVIOR (natural, slow, NOT forced)
+The dead/withered plants from the previous shot are on the table at the start. As Jaisal speaks (00:04–00:07), the plants SLOWLY SHRINK and DISAPPEAR — they wither completely and vanish, leaving the table empty. This is a natural, slow process — NOT a sudden pop-out. The plants are GONE by 00:07.
+
+OBJECT ENTRANCES (each object has a specific timing, SEQUENCED — one at a time):
+- 00:07–00:09: the MICROPHONE emerges SEPARATELY from the dark (NOT together with the paper burst) and settles on the table.
+- 00:09–00:11: the CRICKET BAT (<Picture 3>) FLYES INTO the light and settles on the table. The SOCCER BALL (<Picture 4>) ROLLS INTO the light and settles on the table. The PAPER with a smile line (<Picture 5>) SETTLES ON TOP of the cricket bat as a crude head.
+- 00:11–00:13: JAISAL BURSTS INTO papers — his body EXPLODES OUTWARD into dozens of loose sheets that scatter and float away (NOT a fade, NOT an opacity reduction — a physical BURST). The chair is now empty.
+
+MICRO-EXPRESSIONS (the performance that makes it feel real)
+- 00:00–00:02: FACES THE CAMERA, eyes toward the lens, quiet expression, LISTENING.
+- 00:02–00:04: FACES THE CAMERA, eyes toward the lens, a small thoughtful look, LISTENING to the off-screen voice.
+- 00:04–00:07: FACES THE CAMERA, lips part to speak, eyes toward the lens, a small honest look, a quiet nod as he finishes.
+- 00:07–00:09: eyes shift to the papers, a small thoughtful look, a quiet breath.
+- 00:09–00:11: eyes shift to the cricket objects, a quiet, honest, almost wry look.
+- 00:11–00:13: a small, quiet, almost-invisible nod, then he BURSTS INTO papers (his body explodes outward into floating sheets — NOT a fade).
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, the OFF-SCREEN camera guy's voice (<Subject 2>), Jaisal's voice as he speaks (natural, calm, honest), a LOUD natural PAPER BLAST sound (dozens of sheets rustling and whooshing as they scatter and float), and a very subtle soft thud as the cricket bat and soccer ball settle on the table. The paper burst (00:11–00:13) has a STRONG natural paper-rustle/whoosh sound — NOT music. NO music, NO instruments, NO melody, NO beat, NO soundtrack, NO musical tone replacing the paper sound. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, multiple people visible, duplicate character, face distortion, the camera guy visible, the camera guy in frame, glowing effects, holograms, AI glow, fire, smoke, colorful effects, static character, frozen face, no mouth movement, plants suddenly disappearing, plants popping out, objects suddenly appearing, objects popping in, Jaisal fading out, Jaisal dissolving, Jaisal opacity reducing, Jaisal disappearing like a fade, Jaisal teleporting, the microphone appearing together with the paper burst, the microphone appearing before 00:07.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium-wide shot, ONE visible character (Jaisal) who FACES THE CAMERA and SPEAKS with clear mouth movement and natural micro-expressions, an OFF-SCREEN male voice (<Subject 2>) asks the opening question and the closing line, the dead plants SLOWLY SHRINK and DISAPPEAR while Jaisal speaks (00:04–00:07), loose sheets of paper float in from the darkness, a MICROPHONE emerges SEPARATELY and settles on the table (00:07–00:09, NOT together with the paper burst), a CRICKET BAT FLYES IN + a SOCCER BALL ROLLS IN + a PAPER with a smile line SETTLES ON TOP of the bat (00:09–00:11), JAISAL BURSTS INTO papers in the final beat (00:11–00:13 — his body EXPLODES OUTWARD into floating sheets, NOT a fade), the shot ends on papers + mic + cricket objects + Jaisal gone, a LOUD natural PAPER BLAST sound (NOT music) during the burst, ZERO music, diegetic audio only, NO AI glow or holograms or colorful effects.

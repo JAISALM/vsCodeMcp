@@ -1,0 +1,5 @@
+﻿=== .python-version ===
+=== stopping app (PID 15224) ===
+app stopped: True
+=== deleting old .venv ===
+venv deleted: True

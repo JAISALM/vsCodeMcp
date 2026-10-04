@@ -1,0 +1,31 @@
+# Shot C — THE HOOK (slow head twist) — CAMERA NODE (H3LocalCameraEditor)
+#
+# Shot C uses the CAMERA NODE, not R2V. The camera node compiles the 3D trajectory
+# (azimuth 0 -> 180, at exactly the head-turn rate) into a prompt. The SCENE
+# DESCRIPTION + head-turn MOTION + ENGLISH DIALOGUE live in the camera node's
+# `instruction` widget (widgets_values[3]), appended as "Additional direction: ..."
+# to the compiled prompt.
+#
+# Camera node source (camera.py) was patched to allow subject motion + audio
+# (removed the 'Freeze the captured scene' + 'Silence.' defaults). See
+# camera.py.bak_headturn. A ComfyUI RESTART is required for the node-source edits.
+#
+# The experimental Sage VRAM patch node was BYPASSED (sageattention 1.0.6 can't
+# detect the RTX 5090 Blackwell arch). See D083.
+#
+# R2V FALLBACK: jaisal_intro_C_headtwist_180_r2v.json (kept if the camera node
+# can't turn the head).
+
+=== CAMERA NODE settings (widgets_values) ===
+- trajectory: [{"time":0,"azimuth":0,"elevation":0,"distance":1},{"time":0.5,"azimuth":90,"elevation":0,"distance":0.9},{"time":1,"azimuth":180,"elevation":0,"distance":0.8}]
+- profile: 243 frames (~10.13s)   <-- 10s (script shot C = 0:08-0:18)
+- interpolation: smooth
+- subject_framing: medium shot
+- minimax_format: compact JSON
+- orbit_direction: same as HUD   (positive azimuth = camera's RIGHT = trolley; flip to 'invert H3 orbit' if mirrored)
+- frame_mode: Freeze Frame
+- ref image (node 215): jaisal_with_hand_on_table.png  (clean frontal start, continuity from shot B)
+- SaveVideo prefix: jaisal_intro_C_headtwist_180
+
+=== CAMERA NODE instruction widget (widgets_values[3]) ===
+SCENE: A single young boy (short dark hair, rose-pink collared shirt, black trousers) is seated at a wooden table in a dark room, hands resting on the table edge. A single bare bulb hangs directly above his head, the only light source. Black & white, high contrast, fine film grain. The room, table, chair and the single bare bulb stay EXACTLY the same throughout the entire shot - do NOT change, add, remove or reposition any background element; the background is locked to the reference image. HEAD: his EYES shift first (his gaze turns toward the lens). Then his head rotates SLOWLY and deliberately to the LEFT (toward his left shoulder), in sync with the camera orbit, ending with his back to the camera and his face turned back over his shoulder. His BODY stays still and lit the same the whole time. DIALOGUE: in the second half of the shot, with his back to the camera, he speaks quietly with clear LIP MOVEMENT: <d>[English] <breath> I don't know what to say... <pause> I don't know where to start. <long pause> But... <inhale> this is where I start. <pause> So welcome to the Jaisal Kut. </d> His lips move naturally with each word. SOUND: natural ambient only - room tone, bulb hum, breath, his quiet voice. NO music. ONLY ONE boy, no duplicates.

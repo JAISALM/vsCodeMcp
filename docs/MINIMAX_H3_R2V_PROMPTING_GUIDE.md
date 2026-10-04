@@ -22,6 +22,16 @@ docs (`VIDEO_PROMPT_WRITING_GUIDE_ref_en.md` + ComfyUI MiniMax H3 tutorial).
 > any section.** If a prompt template or example shows music, replace it with the
 > NO-music statement above.
 >
+> **CRITICAL (2026-09-27, verified by failure): the no-music constraint MUST ALSO
+> appear at the VERY TOP of the prompt** — a `MANDATORY AUDIO CONSTRAINT, HIGHEST
+> PRIORITY ABOVE ALL ELSE` block before `subject_definitions`. H3 weights the first
+> few lines most; a no-music lock that lives ONLY in the bottom sections
+> (`overall_soundscape`/`non_diegetic_music`/negative) gets "treated as background
+> and ignored" — instruments (e.g. a guitar tone) leaked into shot A twice until
+> the constraint was moved to the top. Bottom sections stay as reinforcement.
+> If music STILL leaks, the guaranteed fix is post: strip H3 audio (`ffmpeg -an`)
+> and build the ambient bed in post (D090).
+>
 > See **D041** in `project-memory/DECISIONS.md`.
 
 ## When to use R2V

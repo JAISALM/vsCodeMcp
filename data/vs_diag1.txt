@@ -1,0 +1,22 @@
+﻿=== project dir ===
+
+Name          
+----          
+.venv         
+backend       
+frontend      
+omnivoice     
+CHANGELOG.md  
+pyproject.toml
+README.md     
+uv.lock       
+
+
+
+=== wheels dir (count) ===
+0
+=== search for venvs under appdata ===
+C:\Users\user\AppData\Local\com.debpalash.omnivoice-studio -> 
+C:\Users\user\AppData\Local\OmniVoice -> 
+C:\Users\user\AppData\Local\VoiceStudio (Current User) -> 
+

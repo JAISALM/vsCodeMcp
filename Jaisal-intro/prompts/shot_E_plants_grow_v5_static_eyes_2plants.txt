@@ -1,0 +1,31 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+subject_definitions:
+<Subject 1> is the young boy shown in the reference images — identity, face, hair, clothing and build come from the attached reference image, NOT from this text description.
+<Picture 1> is the FIRST frame: the young boy shown in the reference images seated at the table, the table surface bare.
+<Picture 2> is the LAST frame: the young boy shown in the reference images seated at the table, small plants and a rose now growing on the table surface.
+
+summary:
+[reference generation] A single continuous black & white, high contrast, fine film grain, 24fps take that animates smoothly from <Picture 1> (Jaisal seated, bare table) to <Picture 2> (Jaisal seated, plants and a rose growing on the table). Plants GROW (not fade in): EXACTLY TWO small plants (one on each side of his hands, matching the reference image — NO more, NO less) grow: one tiny stem pushes through the table surface, the other follows, a rose slowly opens. Jaisal SPEAKS throughout with clear mouth movement and natural micro-expressions of WONDER. A dark near-black room, a simple wooden table, one chair, a single bare bulb hanging directly above as the ONLY light source, casting a hard top-down shadow, everything outside the bulb's light pool fading to pure black. The room, table, chair and bulb stay EXACTLY the same so the cut to the next shot is seamless.
+
+retention_analysis:
+<Subject 1> (appears in this shot): fully_preserved - the young boy shown in the reference images. There is ONLY ONE character - the young boy shown in the reference images - NO other people, NO second person, NO duplicates, NO extra figures.
+<Picture 1> (first frame): fully_preserved - the opening frame.
+<Picture 2> (last frame): fully_preserved - the shot ENDS exactly on this frame.
+
+detailed_description:
+The shot BEGINS from <Picture 1> (Jaisal seated, bare table). The camera is a STATIC medium shot (50mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no push-in, no orbit. The frame size NEVER changes for the whole take.
+[Shot 1] 00:00–00:03 — his eyes are VISIBLE and directed toward the camera — a soft, natural eye contact (NOT fully staring, NOT looking down, NOT looking at the table — his eyes are clearly visible and level), a small breath of surprise catching in his chest as he begins to speak, his lips moving naturally and clearly. <Subject 1> (S1) says, <d>[English] <clears throat> No real purpose. <pause> Just telling stories. <breath> Sharing stories. </d>
+[Shot 1] 00:03–00:08 — EXACTLY TWO small plants grow — one tiny stem pushes UP through the wooden table surface on his left, then one on his right (matching the reference image — NO more than two plants, NO four plants, NO extra stems); the growth is slow and organic — the stems physically EMERGE and rise, NOT a fade-in. His eyes stay VISIBLE and level toward the camera, glancing at the stem as it pushes through, a slight, softening smile forming at the corner of his mouth, a small breath of wonder. He continues speaking, <d>[English] <uh> The stories happening around us, <pause> the ones we lived, <breath> the ones we know by hearsay. </d>
+[Shot 1] 00:08–00:13 — the two plants grow into white roses that slowly open and bloom; the camera stays COMPLETELY STILL. His eyes stay visible, directed toward the camera, a quiet, thoughtful, almost tender look settling on his face as he finishes his line, <d>[English] <long pause> I'll share them with people in an interesting way... <pause> or even if it's not. <breath> I'll just share them. </d> The shot ends EXACTLY on <Picture 2>: plants fully grown and blooming on the table, Jaisal still seated, hands on the table.
+
+overall_soundscape:
+A continuous natural ambient bed fills the ENTIRE shot with no gaps - low room tone, a soft breath, the faint electric hum of a bare bulb, a subtle dry rustle as the plants grow, and Jaisal's calm natural voice as he speaks. Only these natural sounds, edge to edge.
+
+non_diegetic_music: NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song, NO score, NO background music, NO ambient music, NO cinematic score, NO soundtrack bed. Natural ambient sounds only - absolutely no music of any kind.
+
+negative: color, multiple people, second person, duplicate character, extra chairs, extra figures, AI glow, holograms, glowing particles, bright wall, white wall, cream wall, visible ceiling, text, subtitles, watermark, logo, a second person, static character, frozen face, no mouth movement, silent character, fade-in plants, four plants, extra plants, more than two plants, extra stems, multiple stems, camera movement, zoom in, push-in, dolly, camera shake, fast zoom, sudden jump, looking down, eyes downcast, eyes hidden, face turned down, head bowed, gaze at the table.
+
+FINAL GENERATION REQUIREMENT:
+ONE continuous take, ONE character (Jaisal) who SPEAKS with clear mouth movement and natural micro-expressions of WONDER (eyes VISIBLE and directed toward the camera, a slight softening smile, a small breath of surprise), a STATIC medium shot (50mm, completely locked, NO zoom), his eyes VISIBLE and directed toward the camera (soft eye contact, NOT looking down), the table goes from EMPTY (first frame) to EXACTLY TWO PLANTS GROWN AND BLOOMING (final frame, matching the reference image), plants GROW (not fade in), ZERO music, diegetic audio only.

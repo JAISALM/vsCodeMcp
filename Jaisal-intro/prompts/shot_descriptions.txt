@@ -1,0 +1,72 @@
+# Jaisal Kut intro — per-shot descriptions for the H3 prompt model
+# Each block is the --desc text for gen_h3_prompt.py. Refs are listed in the
+# batch runner (gen_all_h3_prompts.py) in <Picture N> order.
+# LOOK: Black & white, high contrast, fine film grain, 24fps. Single bare bulb
+# top-down, hard shadow, everything outside the light pool fades to pure black.
+# ONE character (Jaisal). NO music.
+
+=== A | THE WALK IN (5s) ===
+Shot 1 - WIDE STATIC, 35mm, eye level, locked camera (no move/push/pan/zoom).
+The empty dark room: a simple wooden table, one chair, a single bare bulb
+hanging directly above, the only light source. The bulb swings gently. A chair
+scrapes across the floor. Jaisal enters from the darkness, drags the chair, and
+sits down. He ends seated at the table. Black & white, high contrast, fine film
+grain.
+
+=== B | SETUP (3s) ===
+Shot 2 - MEDIUM, 50mm, slight low angle, locked camera. Jaisal is seated at the
+table. He settles, both hands coming to rest ON the table edge (visible above
+the edge, NOT under it). Calm, still. Black & white, high contrast, fine film
+grain.
+
+=== C | THE HOOK - SLOW HEAD TWIST (camera node, ~10s) ===
+Shot 3 - CLOSE UP, 85mm, eye level. Jaisal seated, bulb directly above his head.
+Silence. His eyes shift first. His head begins to rotate SLOWLY 180 degrees
+toward the camera while his body stays still and lit the same. The camera
+rotates and pushes in at exactly the same rate. Black & white, high contrast,
+fine film grain. (This shot uses the H3LocalCameraEditor node - azimuth 0 to 180.)
+
+=== D | PERFECT REVERSE (7s) ===
+Shot 4 - MEDIUM REVERSE, 50mm. Everything reverses perfectly: the head rotation
+reverses, the camera rotation reverses, clothing motion reverses. We land on
+ordinary seated Jaisal, hands on the table. The weird version was his mind.
+Black & white, high contrast, fine film grain.
+
+=== E | DREAM - PLANTS GROW (13s) ===
+Shot 5 - MEDIUM to CLOSE push, 50mm to 85mm, slow push-in. Jaisal seated at the
+table. Plants GROW (not fade in): one tiny stem pushes through the table
+surface, another follows, a rose slowly opens, small plants populate the table.
+The room is created by the story. Black & white, high contrast, fine film grain.
+
+=== F | LIMIT - PLANTS DIE SLOW (18s) ===
+Shot 6 - CLOSE UP, 85mm. Jaisal seated, breathes, looks at the plant. While he
+admits limitation, a leaf falls, the plant bends, the rose closes, the room
+empties slowly. No AI glow, no holograms - just limitation. Black & white, high
+contrast, fine film grain.
+
+=== G | REVOLT - VANISH BURST (3s) ===
+Shot 7a - MEDIUM WIDE, 35mm. The plants are now completely dead, the room almost
+empty. Jaisal remains seated. Then DOZENS of loose sheets of paper begin to float
+in from the darkness behind him, drifting forward. A microphone emerges from the
+dark and settles among the papers. Some papers drift back and vanish. JAISAL
+himself VANISHES - he is gone, replaced by the floating papers. ABSENCE-FIRST:
+the boy is NOT visible in the end frame, only the papers and mic. Black & white,
+high contrast, fine film grain.
+
+=== H | MIC + PAPER (3s) ===
+Shot 7b - MEDIUM, 35mm. The floating papers and the microphone settle into a
+calm arrangement in the light. A few papers drift. Black & white, high contrast,
+fine film grain.
+
+=== I | MIC ALONE (2.3s) ===
+Shot 7c - MEDIUM, 35mm. The papers drift away and vanish into the darkness,
+leaving only the microphone alone in the light. Black & white, high contrast,
+fine film grain.
+
+=== J | OBJECTS JOIN (3s) ===
+Shot 7d - MEDIUM WIDE, 35mm. A cricket bat and cricket stumps fly into the
+light, and a round soccer ball rolls in underneath them. One paper with a simple
+curved smile line settles on top of the bat as a crude head. The objects are
+fragments of Jaisal's ideas. No fire, smoke, glowing particles, holograms, or
+colorful effects - only paper, physical objects, motion, shadows. Black & white,
+high contrast, fine film grain.

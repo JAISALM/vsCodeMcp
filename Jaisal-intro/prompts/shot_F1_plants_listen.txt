@@ -1,0 +1,39 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+<Subject 1> is the young man shown in the reference image — his identity, face, hair and clothing are EXACTLY as in <Picture 1>. He is the ONLY person VISIBLE in the frame.
+<Subject 2> is a calm adult male voice (the camera guy). He is NOT visible in the frame — only his voice is heard, coming from OFF-SCREEN. He is NOT <Subject 1>. <Subject 2>'s voice is AUDIO ONLY — it does NOT come from the visible character. The visible character (<Subject 1>) does NOT produce <Subject 2>'s voice and does NOT mouth it.
+<Picture 1> is the FIRST frame: Jaisal seated at the wooden table, both hands resting flat on the table, small plants and white roses GROWN and BLOOMING on the table (one on each side of his hands), a single bare bulb hangs directly above, pure black void background.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: Jaisal seated, hands on the table, plants blooming, bare bulb above, black void. The camera is a STATIC medium shot (50mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:03 — Jaisal is still, listening. His eyes are downcast, his expression quiet and heavy. The OFF-SCREEN male voice (<Subject 2>) asks, <d>[English] <breath> Why did you feel like doing this using AI? </d>
+[Shot 1] 00:03–00:06 — Jaisal's lips part and he speaks, FACING THE CAMERA, <Subject 1> (S1) says, <d>[English] <clears throat> Cinema... <beat> or if you want to tell a story... </d> His eyes stay toward the camera as he speaks, a small, honest look. A subtle frown forms at the corner of his mouth as he gathers his words.
+[Shot 1] 00:06–00:10 — <Subject 1> (S1) says, <d>[English] You need effort. </d> As he speaks, the top leaf of the left plant slowly droops, a few leaves gently fall, and the plants begin to slowly wither — but they are STILL MOSTLY ALIVE at the end of this shot. His gaze drops to the plant, a slow breath, his shoulders dropping slightly with the weight of it.
+
+CAMERA
+STATIC medium shot, 50mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+Only ONE person VISIBLE (Jaisal, <Subject 1>). No other people, no duplicates. His face, hair and clothing stay EXACTLY as in <Picture 1> the entire shot. <Subject 2> is a VOICE ONLY — never shown. Jaisal FACES THE CAMERA and LISTENS to the off-screen voice — his eyes are toward the lens, NOT down at the table.
+
+PLANT BEHAVIOR (natural, slow, NOT forced)
+The plants are ALIVE and BLOOMING at the start. As the shot progresses, the withering BEGINS naturally and SLOWLY: the top leaf of the left plant slowly droops, a few leaves gently fall, and the plants begin to slowly wither. But they are STILL MOSTLY ALIVE at the end of this shot — the death is only BEGINNING, not complete. Do NOT show fully dead or wilted plants in this shot.
+
+MICRO-EXPRESSIONS (fused into the action, like the working 17s F)
+- 00:00–00:03: eyes downcast, quiet heavy expression, a slow deliberate blink, a small quiet breath, LISTENING.
+- 00:03–00:06: lips part to speak, eyes toward the camera, a small honest look, a subtle frown forms as he gathers his words.
+- 00:06–00:10: gaze drops to the plant, a slow breath, shoulders dropping slightly with the weight, a quiet nod as he finishes.
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, the OFF-SCREEN camera guy's voice (<Subject 2>), Jaisal's voice as he speaks (natural, calm, honest, a little tired), and a very subtle dry rustle as the leaf begins to droop. NO music, NO instruments, NO melody, NO beat, NO soundtrack. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, multiple people visible, duplicate character, face distortion, the camera guy visible, the camera guy in frame, glowing effects, holograms, AI glow, fire, smoke, static character, frozen face, character looking down at the table, character facing away from the camera, character NOT facing the camera, plants fully dead, plants already dead, plants suddenly dead, forced plant death.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium shot, ONE visible character (Jaisal) who LISTENS to the off-screen voice (00:00–00:03) then SPEAKS "Cinema... or if you want to tell a story... You need effort." with clear mouth movement, an OFF-SCREEN male voice (<Subject 2>) asks the opening question, the plants are ALIVE and BLOOMING at the start and the withering BEGINS naturally and SLOWLY (top leaf droops, a few leaves fall) but they are STILL MOSTLY ALIVE at the end, ZERO music, diegetic audio only, NO AI glow or holograms.

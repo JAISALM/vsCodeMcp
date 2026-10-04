@@ -1,0 +1,35 @@
+subject_definitions:
+<Subject 1> is the boy in <Picture 1>. His identity, face, hair, clothing and build come ENTIRELY from the reference image - do not alter his appearance in any way.
+<Picture 1> is the ONLY frame anchor: the boy seated at the table, facing the camera, hands resting on the table edge.
+
+summary:
+[reference generation] A 10-second STATIC medium shot. <Subject 1> is seated at the table, facing the camera, hands on the table edge. The camera is COMPLETELY STILL - no orbit, no pan, no zoom, no movement. The boy stays in the same seated pose the whole time, speaking four quiet lines with clear lip movement. In the final seconds, as he says his last line, the words "The Jaisal Kut" flash in WHITE letters in the background behind him for a split second.
+
+retention_analysis:
+<Subject 1> (all frames): fully_preserved - his appearance is identical in every frame, exactly as in <Picture 1>.
+<Picture 1> (the whole shot): fully_preserved - the boy's pose, the table, the chair and the lighting are identical in every frame.
+
+detailed_description:
+MANDATORY SHOT CONSTRAINT, HIGHEST PRIORITY ABOVE ALL ELSE: ONE single STATIC medium shot - the camera is COMPLETELY STILL (no orbit, no pan, no zoom, no push-in, no movement of any kind). NO cuts, NO jump cuts, NO morphing. The boy stays in the SAME seated pose the entire 10 seconds - only his mouth moves (speaking) and his eyes shift subtly. His body, shoulders, arms and hands stay fixed.
+Black & white cinematic photography, high contrast, subtle fine film grain, 50mm medium shot, eye level. A single bare bulb hangs directly above the boy, the only light source. The background is a PURE BLACK VOID - featureless darkness. NO room, NO wall, NO door, NO ceiling, NO furniture, NO architecture, NO objects, NO environmental details. ONLY ONE boy, no duplicates.
+
+TITLE FLASH (the key moment):
+As the boy says his final line, the words "The Jaisal Kut" appear in clean WHITE letters in the background BEHIND the boy (in the black void, above and behind his head). The text is crisp, white, legible, centered in the upper background. It FLASHES in for a SPLIT SECOND (about one second) and is the only text in the whole shot. The spelling is EXACTLY: T-h-e J-a-i-s-a-l K-u-t. The boy stays in front of the text, unchanged.
+
+TIMELINE (one state per second):
+[0.00-1.00s] Static medium shot. The boy is seated, facing the camera, hands on the table edge. Almost completely still. His eyes shift subtly toward the lens. He says, quiet and natural, with clear lip movement: (S1) <d>[English] I don't know what to say. </d>
+[1.00-2.00s] A small pause. He is still, looking at the camera. His eyes hold the lens.
+[2.00-3.00s] He says: (S1) <d>[English] I don't know where to start. </d>
+[3.00-4.00s] A beat. He is still, looking at the camera.
+[4.00-5.00s] He says: (S1) <d>[English] But... this is where I start. </d>
+[5.00-6.00s] A beat. He is still, looking at the camera.
+[6.00-7.00s] He says: (S1) <d>[English] So welcome to the Jaisal Kut. </d>
+[7.00-8.00s] As he finishes the line, the words "The Jaisal Kut" FLASH in WHITE letters in the background behind him for a split second.
+[8.00-9.00s] The white text is gone. The boy is still, facing the camera.
+[9.00-10.00s] The boy holds his pose, facing the camera, hands on the table edge.
+
+overall_soundscape:
+Continuous natural ambient sound from edge to edge - quiet room tone, faint bare-bulb hum, the boy's breathing, his quiet voice. No other sounds.
+
+non_diegetic_music:
+NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song. Natural ambient sounds only.

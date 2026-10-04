@@ -1,0 +1,22 @@
+subject_definitions:
+<Subject 1> is the young boy shown in the reference images - identity, face, hair, clothing and build come from the attached reference image, NOT from this text description.
+<Picture 1> is the FIRST frame: the young boy shown in the reference images seated at the table, hands still low.
+<Picture 2> is the LAST frame: the young boy shown in the reference images seated at the table, both hands resting ON the table edge (visible above the edge).
+
+summary:
+[reference generation] A single continuous black & white, high contrast, fine film grain, 24fps take that animates smoothly from <Picture 1> (Jaisal seated, hands low) to <Picture 2> (Jaisal seated, both hands resting on the table edge). a dark near-black room, a simple wooden table, one chair, a single bare bulb hanging directly above as the ONLY light source, casting a hard top-down shadow, everything outside the bulb's light pool fading to pure black. The room, table, chair and bulb stay EXACTLY the same so the cut to the next shot is seamless.
+
+retention_analysis:
+<Subject 1> (appears in this shot): fully_preserved - the young boy shown in the reference images. There is ONLY ONE character - the young boy shown in the reference images - NO other people, NO second person, NO duplicates, NO extra figures.
+<Picture 1> (first frame): fully_preserved - the opening frame.
+<Picture 2> (last frame): fully_preserved - the shot ENDS exactly on this frame.
+
+detailed_description:
+The shot BEGINS from <Picture 1> (Jaisal seated, hands low). Jaisal is seated, hands still low, waiting. As he slowly brings both hands up and rests them ON the table edge (visible above the edge, NOT under it), a small smirk forms at one corner of his mouth - just a smirk, NOT a full smile, his eyes softening slightly. He takes a quiet breath and, with the smirk, says his line in Malayalam: <Subject 1> (S1) says, <d>[Malayalam] <breath> തുടങ്ങട്ടെ </d> He ends still and composed, hands on the table edge, the smirk fading to a calm settled look. Camera: a MEDIUM shot (50mm), slight low angle, the camera is locked and does NOT move, push, drift, tilt, pan or zoom. The shot ENDS exactly on <Picture 2> (Jaisal seated, both hands on the table edge, a calm settled look).
+
+overall_soundscape:
+A continuous natural ambient bed fills the ENTIRE shot with no gaps - low room tone, a soft breath, the faint electric hum of a bare bulb, the quiet creak of the chair. Only these natural sounds, edge to edge.
+
+non_diegetic_music: NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song, NO score, NO background music, NO ambient music, NO cinematic score, NO soundtrack bed. Natural ambient sounds only - absolutely no music of any kind.
+
+negative: color, multiple people, second person, duplicate character, extra chairs, extra figures, hands under the table, bright wall, white wall, cream wall, visible ceiling, text, subtitles, watermark, logo, a second person

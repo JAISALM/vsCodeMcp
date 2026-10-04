@@ -1,0 +1,49 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+<Subject 1> is the young man shown in the reference images — his identity, face, hair and clothing are EXACTLY as in <Picture 1>. He is the ONLY person VISIBLE in the frame until he BURSTS INTO papers in the final beat.
+<Subject 2> is a calm adult male voice (the camera guy). He is NOT visible in the frame — only his voice is heard, coming from OFF-SCREEN. He is NOT <Subject 1>.
+
+REFERENCE IMAGES (which is which, and the role of each):
+<Picture 1> = ref_image_0 = `kf7a_v4.png` — the FIRST frame: Jaisal seated at the wooden table, hands resting on the table, a single bare bulb hangs directly above, pure black void background. A few loose sheets of paper are beginning to float in from the darkness behind him. The dead/withered plants from the previous shot are still on the table.
+<Picture 2> = ref_image_1 = `jaisal_gone_papers_alone.png` — the FINAL frame: Jaisal is COMPLETELY GONE (burst into papers), replaced by dozens of loose sheets of paper floating in the air around the table. The chair is EMPTY. The bare bulb still hangs above. Pure black void. NO character, NO person, NO body — only papers.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: Jaisal seated at the table, dead/withered plants on the table, bare bulb above, black void. The camera is a STATIC medium-wide shot (35mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:02 — Jaisal is seated, listening. Loose sheets of paper begin to float in from the darkness BEHIND him, drifting forward through the room. The dead plants are still on the table.
+[Shot 1] 00:02–00:04 — the OFF-SCREEN male voice (<Subject 2>) asks, <d>[English] <breath> What can people expect from this channel? </d> Jaisal listens, his eyes toward the camera.
+[Shot 1] 00:04–00:06 — Jaisal speaks, FACING THE CAMERA, <Subject 1> (S1) says, <d>[English] As I said... <beat> stories, politics, sports, <beat> and a little bit of fantasy. </d> As he speaks, the dead/withered plants on the table SLOWLY SHRINK and DISAPPEAR — they wither completely and vanish, leaving the table empty. His eyes are toward the camera, a small honest look.
+[Shot 1] 00:06–00:08 — Jaisal's eyes shift to the papers, a small thoughtful look. <Subject 1> (S1) says, <d>[English] I don't know if it'll work... <beat> Let's see. </d>
+[Shot 1] 00:08–00:10 — JAISAL himself BURSTS INTO papers — his body EXPLODES OUTWARD into dozens of loose sheets of paper that scatter and float away from where he was sitting (NOT a fade, NOT an opacity reduction — a physical BURST, papers flying out from his body like he is made of paper). By the end of this beat the chair is COMPLETELY EMPTY and Jaisal is GONE. The shot ends on <Picture 2>: papers floating in the air, the chair empty, the bare bulb above, pure black void. NO character remains.
+
+CAMERA
+STATIC medium-wide shot, 35mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+Only ONE person VISIBLE (Jaisal, <Subject 1>) until he BURSTS INTO papers in the final beat (00:08–00:10). No other people, no duplicates. His face, hair and clothing stay EXACTLY as in <Picture 1> the entire shot. <Subject 2> is a VOICE ONLY — never shown. Jaisal FACES THE CAMERA — his eyes are toward the lens.
+
+PLANT BEHAVIOR (natural, slow, NOT forced)
+The dead/withered plants from the previous shot are on the table at the start. As Jaisal speaks (00:04–00:06), the plants SLOWLY SHRINK and DISAPPEAR — they wither completely and vanish, leaving the table empty. This is a natural, slow process — NOT a sudden pop-out. The plants are GONE by 00:06.
+
+THE BURST (the single most important beat — 00:08–00:10)
+At 00:08 Jaisal's body EXPLODES OUTWARD into dozens of loose sheets of paper. This is a PHYSICAL BURST — papers flying out from his body in all directions, like he is made of paper and is coming apart. NOT a fade, NOT an opacity reduction, NOT a dissolve. By 00:10 the chair is COMPLETELY EMPTY and Jaisal is GONE — only papers remain, matching <Picture 2> exactly.
+
+MICRO-EXPRESSIONS (the performance that makes it feel real)
+- 00:00–00:02: FACES THE CAMERA, eyes toward the lens, quiet expression, LISTENING.
+- 00:02–00:04: FACES THE CAMERA, eyes toward the lens, a small thoughtful look, LISTENING to the off-screen voice.
+- 00:04–00:06: FACES THE CAMERA, lips part to speak, eyes toward the lens, a small honest look, a quiet nod as he finishes.
+- 00:06–00:08: eyes shift to the papers, a small thoughtful look, a quiet breath.
+- 00:08–00:10: a small, quiet, almost-invisible nod, then he BURSTS INTO papers (his body explodes outward into floating sheets — NOT a fade).
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, the OFF-SCREEN camera guy's voice (<Subject 2>), Jaisal's voice as he speaks (natural, calm, honest), and a LOUD natural PAPER BLAST sound (dozens of sheets rustling and whooshing as they scatter and float) during the burst (00:08–00:10). The burst has a STRONG natural paper-rustle/whoosh sound — NOT music. NO music, NO instruments, NO melody, NO beat, NO soundtrack, NO musical tone replacing the paper sound. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, multiple people visible, duplicate character, face distortion, the camera guy visible, the camera guy in frame, glowing effects, holograms, AI glow, fire, smoke, colorful effects, static character, frozen face, no mouth movement, plants suddenly disappearing, plants popping out, Jaisal fading out, Jaisal dissolving, Jaisal opacity reducing, Jaisal disappearing like a fade, Jaisal teleporting, Jaisal still sitting after 00:08, Jaisal remaining visible after the burst, a person or body visible in the final frame.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium-wide shot, ONE visible character (Jaisal) who FACES THE CAMERA and SPEAKS with clear mouth movement and natural micro-expressions, an OFF-SCREEN male voice (<Subject 2>) asks the opening question, the dead plants SLOWLY SHRINK and DISAPPEAR while Jaisal speaks (00:04–00:06), loose sheets of paper float in from the darkness, and in the final beat (00:08–00:10) JAISAL BURSTS INTO papers — his body EXPLODES OUTWARD into floating sheets (NOT a fade) — leaving the chair COMPLETELY EMPTY and Jaisal GONE, ending on <Picture 2> (papers only, no character), a LOUD natural PAPER BLAST sound (NOT music) during the burst, ZERO music, diegetic audio only, NO AI glow or holograms or colorful effects.

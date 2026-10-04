@@ -1,0 +1,3 @@
+﻿python-version: none
+app running: False
+venv exists: False

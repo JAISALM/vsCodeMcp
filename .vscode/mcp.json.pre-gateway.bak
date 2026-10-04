@@ -1,0 +1,27 @@
+{
+    "servers": {
+        "comfy-mcp": {
+            "type": "stdio",
+            "command": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy-mcp.exe",
+            "env": {
+                "COMFY_BIN": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy.exe"
+            }
+        },
+        "web-search": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "D:\\MCP\\web-search-mcp\\dist\\index.js"
+            ],
+            "env": {
+                "MAX_BROWSERS": "1",
+                "BROWSER_HEADLESS": "true",
+                "BROWSER_TYPES": "chromium",
+                "BROWSER_FALLBACK_THRESHOLD": "3",
+                "DEFAULT_TIMEOUT": "6000",
+                "MAX_CONTENT_LENGTH": "10000",
+                "ENABLE_RELEVANCE_CHECKING": "true"
+            }
+        }
+    }
+}

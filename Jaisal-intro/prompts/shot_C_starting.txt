@@ -1,0 +1,51 @@
+# Shot C — THE HOOK (genuinely starting) — 2-REF R2V
+# File: jaisal_intro_C_starting_2ref.json (node 138 = prompt)
+# refs: ref_image_0=jaisal_with_hand_on_table.png (frontal START AND END)
+#       ref_image_1=jaisal_head_left_back_side.png (90deg left, MIDDLE checkpoint)
+# 240 frames (10s), 1344x768. Camera = SMOOTH ROUND TRIP: frontal -> orbit left to
+# ~90deg (Picture 2) -> back to frontal (Picture 1). Head follows the camera the whole
+# way; body stays dead still. FINAL FRAME = FIRST FRAME (frontal). Pure black void.
+# English dialogue (dub Malayalam later). NO 180deg twist, NO glitch, NO horror.
+# RULE: NO appearance text - identity comes ENTIRELY from the refs.
+
+subject_definitions:
+<Subject 1> is the boy in <Picture 1> and <Picture 2>. His identity, face, hair, clothing and build come ENTIRELY from the reference images - do not alter his appearance in any way.
+<Picture 1> is the FIRST frame AND the LAST frame: the boy seated at the table, facing the camera, hands resting on the table edge.
+<Picture 2> is the MIDDLE checkpoint: the boy seen from his left side, head turned about 90 degrees to the left, face looking directly into the camera.
+
+summary:
+[reference generation] A 10-second single continuous shot with a round-trip camera move. <Subject 1> is seated, facing the camera. The camera slowly orbits to his LEFT (to about 90 degrees, the <Picture 2> position) while his head slowly follows the camera to keep looking at the lens, then the camera slowly returns to the front. His body stays completely still the whole time. The shot ENDS exactly where it began - the final frame is <Picture 1>, the boy facing the camera.
+
+retention_analysis:
+<Subject 1> (all frames): fully_preserved - his appearance is identical in every frame, exactly as in the reference images.
+<Picture 1> (first AND last frame): fully_preserved - the opening frame and the closing frame are both exactly this image.
+<Picture 2> (middle checkpoint): fully_preserved - the camera reaches this exact left-side position at about 6 seconds.
+
+detailed_description:
+MANDATORY SHOT CONSTRAINT, HIGHEST PRIORITY ABOVE ALL ELSE: ONE single continuous shot - NO cuts, NO jump cuts, NO morphing, NO pose-to-pose jumps. The camera performs a SMOOTH ROUND TRIP: it starts exactly at <Picture 1> (frontal), slowly orbits to the boy's LEFT until it reaches the <Picture 2> position (about 90 degrees, his left side), then slowly returns to the front and ENDS exactly at <Picture 1>. The camera does NOT orbit 180 degrees, does NOT complete a full circle, does NOT stop at the back. The FINAL FRAME MUST BE <Picture 1> - the boy facing the camera, hands on the table edge, exactly matching the first frame. The boy's BODY (shoulders, torso, arms, hands, chair, table) stays COMPLETELY STILL and fixed the entire time - ONLY his head moves. His head slowly follows the camera the whole way: it turns to the LEFT as the camera orbits left, and turns back to the FRONT as the camera returns, so he keeps looking at the lens the entire time.
+Black & white cinematic photography, high contrast, subtle fine film grain, 85mm close-up feel. A single bare bulb hangs directly above the boy, the only light source. The background is a PURE BLACK VOID - featureless darkness. NO room, NO wall, NO door, NO ceiling, NO furniture, NO architecture, NO objects, NO environmental details. As the camera orbits, the background STAYS a pure black void - DO NOT reveal anything behind the boy, DO NOT generate a door or wall at the side angle. ONLY ONE boy, no duplicates.
+
+CINEMATIC BLOCKING (camera position + subject position per phase):
+PHASE 1 - STILL (frontal): camera frontal, eye level, 85mm close-up on the boy's face and shoulders. Boy facing the camera, hands on the table edge.
+PHASE 2 - ORBIT OUT (frontal to left): camera glides to the boy's LEFT, arcing around him. Boy's head follows, turning left, gaze locked on the lens.
+PHASE 3 - LEFT SIDE (about 90 degrees): camera at the boy's left side, matching <Picture 2>. Boy's head turned about 90 degrees left, face into the lens.
+PHASE 4 - ORBIT BACK (left to frontal): camera glides back to the front. Boy's head follows, turning back to the front, gaze locked on the lens.
+PHASE 5 - WELCOME (frontal): camera back at the front, matching <Picture 1>. Boy facing the camera, hands on the table edge.
+
+TIMELINE (one state per second):
+[0.00-1.00s] PHASE 1. Frontal. The boy is seated, facing the camera, hands on the table edge. Almost completely still. His eyes shift subtly toward the lens. He says, quiet and natural, with clear lip movement: (S1) <d>[English] I don't know what to say. </d>
+[1.00-2.00s] PHASE 1. A small pause. He is still, looking at the camera. His eyes hold the lens.
+[2.00-3.00s] PHASE 2. The camera begins a slow orbit to his LEFT. He says: (S1) <d>[English] I don't know where to start. </d>
+[3.00-4.00s] PHASE 2. The camera continues orbiting left. His head begins to slowly follow, turning to the LEFT, keeping his gaze on the lens.
+[4.00-5.00s] PHASE 2. The camera continues. His head continues turning left, smoothly, at the same slow rate as the camera.
+[5.00-6.00s] PHASE 3. The camera reaches his left side (about 90 degrees, the <Picture 2> position). A pause.
+[6.00-7.00s] PHASE 3. He looks directly at the camera - his head is now turned about 90 degrees to the left, face into the lens. He says: (S1) <d>[English] But... here we start. </d>
+[7.00-8.00s] PHASE 4. A beat. The camera begins to slowly return to the front. His head begins to follow back.
+[8.00-9.00s] PHASE 4. The camera continues back to the front. His head continues turning back to the front, keeping his gaze on the lens.
+[9.00-10.00s] PHASE 5. The camera is back at the front, exactly matching <Picture 1>. The boy faces the camera, hands on the table edge. He says: (S1) <d>[English] Welcome to the Jaisal Kut. </d> He holds this final pose - the final frame is <Picture 1>.
+
+overall_soundscape:
+Continuous natural ambient sound from edge to edge - quiet room tone, faint bare-bulb hum, the boy's breathing, his quiet voice. No other sounds.
+
+non_diegetic_music:
+NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song. Natural ambient sounds only.

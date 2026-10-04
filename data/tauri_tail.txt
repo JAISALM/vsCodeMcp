@@ -1,0 +1,40 @@
+﻿[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "Cython/Compiler/Visitor.py", line 699, in
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       Cython.Compiler.Visitor.MethodDispatcherTransform._dispatch_to_handler
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       TypeError: 'NoneType' object is unsliceable
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       Traceback (most recent call last):
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "<string>", line 14, in <module>
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           requires = get_requires_for_build({})
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       "C:\Users\user\AppData\Local\uv\cache\builds-v0\.tmpcUU8rq\Lib\site-packages\setuptools\build_meta.py",
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       line 333, in get_requires_for_build_wheel
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           return self._get_build_requires(config_settings, requirements=[])
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]                  ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       "C:\Users\user\AppData\Local\uv\cache\builds-v0\.tmpcUU8rq\Lib\site-packages\setuptools\build_meta.py",
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       line 301, in _get_build_requires
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           self.run_setup()
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           ~~~~~~~~~~~~~~^^
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       "C:\Users\user\AppData\Local\uv\cache\builds-v0\.tmpcUU8rq\Lib\site-packages\setuptools\build_meta.py",
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       line 317, in run_setup
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           exec(code, locals())  # noqa: S102 # exec is intentional here
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           ~~~~^^^^^^^^^^^^^^^^
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "<string>", line 185, in <module>
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "<string>", line 172, in setup_package
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       "C:\Users\user\AppData\Local\uv\cache\builds-v0\.tmpcUU8rq\Lib\site-packages\Cython\Build\Dependencies.py",
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       line 1153, in cythonize
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           cythonize_one(*args)
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           ~~~~~~~~~~~~~^^^^^^^
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       "C:\Users\user\AppData\Local\uv\cache\builds-v0\.tmpcUU8rq\Lib\site-packages\Cython\Build\Dependencies.py",
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       line 1264, in cythonize_one
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]           raise CompileError(None, pyx_file)
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       Cython.Compiler.Errors.CompileError: curated_tokenizers/_bbpe.pyx
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] 
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] 
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] hint: `curated-tokenizers` (v0.0.9) was included because `omnivoice` (v0.5.3) depends on `kittentts` (v0.8.1) which depends on `misaki[en]` (v0.9.4) which depends on `spacy-curated-transformers` (v0.3.1) which depends on `curated-tokenizers`
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] hint: Build failures usually indicate a problem with the package or the build environment
+[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Dependency install (uv sync) failed â€” often a network drop or a partial cache. "Clean & Retry" rebuilds the environment from scratch. If your network blocks PyPI, set a PyPI mirror in Settings â†’ region/mirrors (see docs/install/troubleshooting.md).
+[2026-10-03][10:15:51][app_lib::backend][ERROR] Venv bootstrap failed â€” backend not started
+[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Backend never started (never started) â€” keeping the specific failure already diagnosed

@@ -71,7 +71,7 @@ JAISAL - The stories happening around us, the ones we lived, the ones we know by
 **Shot 6 - CLOSE UP**
 Lens: 85mm
 Action: Jaisal doesn't answer immediately. Breath. Looks at plant.
-Dialogue MALAYALAM: CAMERA GUY - എന്തുകൊണ്ടാണ AI യൂസ്ചെയ്തിട്ട് ഇത്ചെയ്യണമെന്ന്തോന്നിയത
+Dialogue MALAYALAM: CAMERA GUY - എന്തുകൊണ്ടാണ AI യൂസ്ചെയ്തിട്ട് ഇത് ചെയ്യണമെന്ന്തോന്നിയത
 JAISAL - സിനിമാ അല്ലെങ്കിൽ കഥ പറയണമെങ്കിൽ അത്യാവശ്യം എഫർട്ട് വേണം അല്ലെങ്കിൽ ഒന്ന് രണ്ട് പേര്കൂടെ വേണം , ഞാനിപ്പോ ഒറ്റയ്ക്ക് ആയതുകൊണ്ട് എനിക്ക് ചെയ്യാൻ പറ്റുന്ന കാര്യങ്ങളിൽ ചില പരിമിതികൾ ഉണ്ട് അത്ആI വെച്ച് ഒരുപരിധിവരെ മറികടക്കാൻ പറ്റും എന്നാണ്പ്രതീക്ഷ അതുകൊണ്ടാണ്ആI യൂസ്ചെയ്തിട്ട് ഈ പരിപാടിപിടിക്കാം എന്നുളളൊര conclusionൽ എത്തിയത
 Dialogue ENGLISH: CAMERA GUY - Why did you feel like doing this using AI?
 JAISAL - Cinema... or if you want to tell a story...

@@ -1,0 +1,43 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+There is NO person and NO character in this shot at all. The frame contains ONLY loose sheets of paper, a wooden table, a chair, a bare bulb, and a few small objects. A calm adult male voice (the camera guy) is heard OFF-SCREEN — he is NOT visible, never shown, never in frame.
+
+REFERENCE IMAGES (which is which, and the role of each):
+<Picture 1> = ref_image_0 = `jaisal_gone_papers_alone.png` — the FIRST frame: dozens of loose sheets of paper floating in the air around a wooden table, an EMPTY chair, a single bare bulb hanging above, pure black void background. NO person, NO character, NO body — only papers.
+<Picture 2> = ref_image_1 = `mic+paper.png` — the FINAL frame: papers floating in the air, a MICROPHONE on a stand settled on the table among the papers, the bare bulb above, pure black void. NO person.
+<Picture 3> = ref_image_2 = `obj_cricket_bat_00002_.png` — a CRICKET BAT (isolated object on black void). This object FLYES INTO the light during the shot and settles on the table.
+<Picture 4> = ref_image_3 = `obj_soccer_ball_00002_.png` — a round SOCCER BALL (isolated object on black void). This object ROLLS INTO the light during the shot and settles on the table.
+<Picture 5> = ref_image_4 = `obj_paper_smiley_00002_.png` — a single sheet of PAPER with a simple curved smile line drawn on it (isolated object on black void). This paper SETTLES ON TOP of the cricket bat as a crude head.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: dozens of loose sheets of paper floating in the air around the wooden table, an EMPTY chair, a bare bulb above, pure black void. NO person in the frame. The camera is a STATIC medium-wide shot (35mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:02 — papers drift and float gently in the air around the table. The chair is empty. The bare bulb glows above.
+[Shot 1] 00:02–00:04 — the OFF-SCREEN male voice (the camera guy) says, <d>[English] Let's see. </d> The papers keep drifting.
+[Shot 1] 00:04–00:06 — a MICROPHONE on a stand emerges SEPARATELY from the dark and settles on the table among the papers.
+[Shot 1] 00:06–00:08 — a CRICKET BAT (<Picture 3>) FLYES INTO the light and settles on the table.
+[Shot 1] 00:08–00:10 — a round SOCCER BALL (<Picture 4>) ROLLS INTO the light and settles on the table. A single sheet of PAPER with a smile line (<Picture 5>) SETTLES ON TOP of the cricket bat as a crude head. The shot ends on <Picture 2>: papers floating, the microphone on the table, cricket bat + soccer ball + smiley paper on the table, the bare bulb above, pure black void. NO person at any point.
+
+CAMERA
+STATIC medium-wide shot, 35mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+There is NO person and NO character in this shot — the frame contains ONLY papers, the table, the chair, the bulb, and the small objects. The camera guy is a VOICE ONLY — never shown, never in frame. No people, no duplicates, no body, no face.
+
+OBJECT ENTRANCES (each object has a specific timing, SEQUENCED — one at a time):
+- 00:04–00:06: the MICROPHONE emerges SEPARATELY from the dark and settles on the table.
+- 00:06–00:08: the CRICKET BAT (<Picture 3>) FLYES INTO the light and settles on the table.
+- 00:08–00:10: the SOCCER BALL (<Picture 4>) ROLLS INTO the light and settles on the table. The PAPER with a smile line (<Picture 5>) SETTLES ON TOP of the cricket bat as a crude head.
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, the OFF-SCREEN camera guy's voice (the camera guy says "Let's see."), a soft natural paper-rustle as the sheets drift, and a very subtle soft thud as the cricket bat and soccer ball settle on the table. NO music, NO instruments, NO melody, NO beat, NO soundtrack, NO musical tone. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, a person, a character, a boy, a man, a body, a face, a human figure, multiple people, duplicate character, the camera guy visible, the camera guy in frame, glowing effects, holograms, AI glow, fire, smoke, colorful effects, objects suddenly appearing, objects popping in, the microphone appearing before 00:04.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium-wide shot with NO person and NO character at any point — the frame contains ONLY loose sheets of paper, a wooden table, an empty chair, a bare bulb, and small objects. An OFF-SCREEN male voice (the camera guy) says "Let's see." A MICROPHONE emerges SEPARATELY and settles on the table (00:04–00:06), a CRICKET BAT FLYES IN (00:06–00:08), a SOCCER BALL ROLLS IN + a PAPER with a smile line SETTLES ON TOP of the bat (00:08–00:10), ending on <Picture 2> (papers + mic + cricket objects, no person), ZERO music, diegetic audio only, NO AI glow or holograms or colorful effects.

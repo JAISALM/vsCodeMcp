@@ -6,6 +6,24 @@
             "env": {
                 "COMFY_BIN": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\python_embeded\\Scripts\\comfy.exe"
             }
+        },
+        "web-search": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "D:\\MCP\\mcp-gateway\\index.js"
+            ],
+            "env": {
+                "GW_BACKENDS": "web-search",
+                "GW_MAX_TOTAL_TOOL_CALLS": "30",
+                "GW_MAX_IDENTICAL_TOOL_CALLS": "2",
+                "GW_TOOL_TIMEOUT_MS": "60000",
+                "GW_MAX_REPEATED_SEQUENCE": "3",
+                "GW_MAX_WEB_SEARCH_CALLS": "8",
+                "GW_MAX_WEB_PAGE_FETCHES": "10",
+                "GW_MAX_RESEARCH_TIME_SECONDS": "120",
+                "GW_LOG_FILE": "D:\\MCP\\mcp-gateway\\gateway.log"
+            }
         }
     }
 }

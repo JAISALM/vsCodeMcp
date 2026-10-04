@@ -1,0 +1,11 @@
+File size: 14.93 GB
+  output_norm    count=0
+  lm_head        count=0
+  blk.49.        count=11
+  blk.50.        count=0
+  blk.48.        count=11
+  blk.0.         count=11
+  vision         count=58
+  embed_tokens   count=0
+  norm.          count=200
+Layer indices: min=0 max=49 count=50

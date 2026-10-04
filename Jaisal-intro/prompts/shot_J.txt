@@ -1,0 +1,24 @@
+subject_definitions:
+<Picture 1> is the FIRST frame: the table with dead plants, ONLY the microphone alone in the light, NO person, NO papers.
+<Picture 2> is a reference for the CRICKET BAT object (a vertical cricket bat on a pure black background).
+<Picture 3> is a reference for the SOCCER BALL object (a round soccer ball on a pure black background).
+<Picture 4> is a reference for the PAPER SMILEY object (a paper with a simple curved smile line on a pure black background).
+
+summary:
+[reference generation] A single continuous black & white, high contrast, fine film grain, 24fps take that animates from <Picture 1> (the table with dead plants, ONLY the microphone alone in the light, no person, no papers). A cricket bat matching <Picture 2> and cricket stumps fly into the light, and a round soccer ball matching <Picture 3> rolls in underneath them. One paper matching <Picture 4> (a simple curved smile line) settles on top of the bat as a crude head. The objects are fragments of Jaisal's ideas. The shot ENDS on the assembled objects in the light, NO person. a dark near-black room, a simple wooden table, one chair, a single bare bulb hanging directly above as the ONLY light source, casting a hard top-down shadow, everything outside the bulb's light pool fading to pure black. The room, table, chair and bulb stay EXACTLY the same so the cut to the next shot is seamless.
+
+retention_analysis:
+<Picture 1> (first frame): fully_preserved - the opening frame.
+<Picture 2> (cricket bat reference): fully_preserved - the cricket bat object.
+<Picture 3> (soccer ball reference): fully_preserved - the soccer ball object.
+<Picture 4> (paper smiley reference): fully_preserved - the paper smiley object.
+
+detailed_description:
+The shot BEGINS from <Picture 1> (the table with dead plants, ONLY the microphone alone in the light, no person, no papers). A cricket bat matching <Picture 2> and cricket stumps fly into the light, and a round soccer ball matching <Picture 3> rolls in underneath them. One paper matching <Picture 4> (a simple curved smile line) settles on top of the bat as a crude head. The objects are fragments of Jaisal's ideas. Camera: a MEDIUM WIDE shot (35mm), the camera is locked and does NOT move, push, drift, tilt, pan or zoom. The shot ENDS on the assembled objects in the light (microphone, cricket bat with the smiley paper on top, soccer ball underneath), NO person.
+
+overall_soundscape:
+A continuous natural ambient bed fills the ENTIRE shot with no gaps - low room tone, the faint electric hum of a bare bulb, a soft paper rustle, a gentle thud as the objects settle. Only these natural sounds, edge to edge.
+
+non_diegetic_music: NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song, NO score, NO background music, NO ambient music, NO cinematic score, NO soundtrack bed. Natural ambient sounds only - absolutely no music of any kind.
+
+negative: color, multiple people, second person, duplicate character, extra chairs, extra figures, fire, smoke, glowing particles, futuristic AI effects, holograms, colorful effects, bright wall, white wall, cream wall, visible ceiling, text, subtitles, watermark, logo, a person, a young man

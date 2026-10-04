@@ -1,0 +1,22 @@
+subject_definitions:
+<Subject 1> is the young boy shown in the reference images - identity, face, hair, clothing and build come from the attached reference image, NOT from this text description.
+<Picture 1> is the FIRST frame: the young boy shown in the reference images seated at the table, the table surface bare.
+<Picture 2> is the LAST frame: the young boy shown in the reference images seated at the table, small plants and a rose now growing on the table surface.
+
+summary:
+[reference generation] A single continuous black & white, high contrast, fine film grain, 24fps take that animates smoothly from <Picture 1> (Jaisal seated, bare table) to <Picture 2> (Jaisal seated, plants and a rose growing on the table). Plants GROW (not fade in): one tiny stem pushes through the table surface, another follows, a rose slowly opens, small plants populate the table. a dark near-black room, a simple wooden table, one chair, a single bare bulb hanging directly above as the ONLY light source, casting a hard top-down shadow, everything outside the bulb's light pool fading to pure black. The room, table, chair and bulb stay EXACTLY the same so the cut to the next shot is seamless.
+
+retention_analysis:
+<Subject 1> (appears in this shot): fully_preserved - the young boy shown in the reference images. There is ONLY ONE character - the young boy shown in the reference images - NO other people, NO second person, NO duplicates, NO extra figures.
+<Picture 1> (first frame): fully_preserved - the opening frame.
+<Picture 2> (last frame): fully_preserved - the shot ENDS exactly on this frame.
+
+detailed_description:
+The shot BEGINS from <Picture 1> (Jaisal seated, bare table). Plants GROW (not fade in): one tiny stem pushes through the table surface, another follows, a rose slowly opens, small plants populate the table. The room is created by the story. Camera: a MEDIUM to CLOSE push (50mm to 85mm), a slow push-in. The shot ENDS exactly on <Picture 2> (Jaisal seated, plants and a rose growing on the table).
+
+overall_soundscape:
+A continuous natural ambient bed fills the ENTIRE shot with no gaps - low room tone, a soft breath, the faint electric hum of a bare bulb, a subtle dry rustle as the plants grow. Only these natural sounds, edge to edge.
+
+non_diegetic_music: NO music, NO instrumental music, NO musical instruments, NO melody, NO beat, NO rhythm, NO soundtrack, NO song, NO score, NO background music, NO ambient music, NO cinematic score, NO soundtrack bed. Natural ambient sounds only - absolutely no music of any kind.
+
+negative: color, multiple people, second person, duplicate character, extra chairs, extra figures, AI glow, holograms, glowing particles, bright wall, white wall, cream wall, visible ceiling, text, subtitles, watermark, logo, a second person

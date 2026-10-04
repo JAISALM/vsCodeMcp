@@ -1,0 +1,41 @@
+🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+<Subject 1> is the young man shown in the reference images — his identity, face, hair and clothing are EXACTLY as in <Picture 1>. He is the ONLY person VISIBLE in the frame.
+<Subject 2> is a calm adult male voice (the camera guy). He is NOT visible in the frame — only his voice is heard, coming from OFF-SCREEN. He is NOT <Subject 1>.
+<Picture 1> is the FIRST frame: Jaisal seated at the wooden table, both hands resting flat on the table, small plants and white roses on the table (one on each side of his hands), the left plant's top leaf already drooping, a single bare bulb hangs directly above, pure black void background.
+<Picture 2> is the FINAL frame: the SAME scene, but the plants have WILTED — the roses are drooping and closing, the leaves are dry and bent, the table looks empty and lifeless. Jaisal looks up with a small, determined glint in his eyes.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: Jaisal seated, hands on the table, plants mostly blooming with the left leaf drooping, bare bulb above, black void. The camera is a STATIC medium shot (50mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:03 — Jaisal continues speaking, FACING THE CAMERA, <Subject 1> (S1) says, <d>[English] You need effort. <beat> Or you need one or two people with you. </d> His eyes are toward the camera, a slow breath, his shoulders drop slightly with the weight of it. The drooping leaf is visible in the frame but his attention is on the camera.
+[Shot 1] 00:03–00:07 — SILENT beat — his mouth stays CLOSED. A slow, heavy blink. He gives the plant a BRIEF glance, then his eyes return to the camera. A quiet, honest, almost tired look settles on his face. His shoulders drop a little more. He HOLDS this heavy, natural pause — the mood fully shifting into limitation. (NO mouth movement during this beat.)
+[Shot 1] 00:07–00:09 — the right rose begins to close and droop in the background. <Subject 1> (S1) says, FACING THE CAMERA, <d>[English] <sighs> I'm alone right now. </d> A small, quiet breath. His eyes are toward the camera.
+[Shot 1] 00:09–00:13 — SILENT beat — mouth CLOSED, a slow blink, his eyes glisten slightly, a small almost-invisible swallow. He HOLDS this quiet, heavy moment — the weight of being alone settling in. (NO mouth movement during this beat.)
+[Shot 1] 00:13–00:15 — his eyes lift, a small, determined glint returning, a quiet resolve. <Subject 1> (S1) says, FACING THE CAMERA, <d>[English] So there are some limitations to what I can do. <beat> And I'm hoping AI can help me get past some of those limitations. <breath> That's why I came to the conclusion... let's try this show using AI. </d> The plants are now fully wilted, the table looks empty and lifeless.
+
+CAMERA
+STATIC medium shot, 50mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+Only ONE person VISIBLE (Jaisal, <Subject 1>). No other people, no duplicates. His face, hair and clothing stay EXACTLY as in <Picture 1> the entire shot. <Subject 2> is a VOICE ONLY — never shown. Jaisal FACES THE CAMERA the entire shot — his eyes are toward the lens, NOT down at the table. He only gives the plants a BRIEF glance, then returns to the camera.
+
+MICRO-EXPRESSIONS (the performance that makes it feel real — the SILENT beats are the dominant feature, not the talking)
+- 00:00–00:03: FACES THE CAMERA, eyes toward the lens, a slow breath, shoulders dropping slightly with the weight.
+- 00:03–00:07: SILENT beat (4s) — mouth CLOSED, slow heavy blink, a BRIEF glance at the plant then eyes back to the camera, quiet honest almost-tired look, shoulders drop a little more, a full natural pause held. NO mouth movement.
+- 00:07–00:09: FACES THE CAMERA, a small quiet breath, a sigh, eyes toward the lens.
+- 00:09–00:13: SILENT beat (4s) — mouth CLOSED, slow blink, eyes glisten slightly, a small almost-invisible swallow, the weight of being alone settling in. NO mouth movement.
+- 00:13–00:15: eyes lift, a small determined glint, a quiet resolve as he speaks the final line FACING THE CAMERA.
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, Jaisal's voice as he speaks (natural, calm, honest, a little tired), and a very subtle dry rustle as the plants wilt. NO music, NO instruments, NO melody, NO beat, NO soundtrack. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, multiple people visible, duplicate character, face distortion, the camera guy visible, the camera guy in frame, glowing effects, holograms, AI glow, fire, smoke, static character, frozen face, talking through the pause, mouth moving during the silent beat, character looking down at the table, character facing away from the camera, character NOT facing the camera.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium shot, ONE visible character (Jaisal) who FACES THE CAMERA and SPEAKS with clear mouth movement and natural micro-expressions of the WEIGHT OF LIMITATION (slow breaths, shoulders dropping, slow blinks, a brief glance at the plant then back to the camera, a quiet honest tired look, a small determined glint at the end), the plants go from MOSTLY BLOOMING (first frame) to FULLY WILTED (final frame) — leaf droops, rose closes, room empties slowly, ZERO music, diegetic audio only, NO AI glow or holograms.
