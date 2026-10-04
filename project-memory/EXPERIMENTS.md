@@ -4,6 +4,51 @@ Newest experiments first.
 
 ---
 
+## 2026-09-29 — G FINAL RUN #6 (`jaisal_intro_G_papers_00006_.mp4`): mic fix worked, papers + smiley-pillar issues
+
+### Goal
+
+Run the final G shot (`jaisal_intro_G_revolt.json`, 15s/360f/1344×768) with the
+new small-mic keyframe (`mic_small_ref_v2_00003_.png` as ref_image_1) after the
+22-slot MiniMax fix. Verify: off-screen question, one-at-a-time objects, LOW mic
+(face visible), gradual character disappearance, bulb flicker ~14s, complete black
+15s.
+
+### Setup
+
+- 5 refs: ref_image_0=`kf7a_v4.png` (start), ref_image_1=`mic_small_ref_v2_00003_.png`
+  (end, small mic + papers), ref_image_2=`obj_cricket_bat_00002_.png`,
+  ref_image_3=`obj_soccer_ball_00002_.png`, ref_image_4=`obj_paper_smiley_00002_.png`.
+- Save prefix `jaisal_intro_G_papers` (leftover from clone) → output
+  `jaisal_intro_G_papers_00006_.mp4`. Saved to `Jaisal-intro\G_revolt_00006.mp4` +
+  frames in `Jaisal-intro\G_revolt_00006_frames\`.
+
+### Result (from extracted frames 0s/5s/8s/11s/14s)
+
+- **WORKED:** (1) **mic is now SMALL/SHORT** on a short stand, face visible (the
+  keyframe fix succeeded — the main goal); (2) character present at start (hands on
+  table, dead plants, bulb); (3) objects appear (soccer ball, smiley paper); (4)
+  **character disappearance is GRADUAL** (frame_05 = turning into papers, frame_06 =
+  gone, bulb dim, ball + papers remain); (5) ends dark.
+- **ISSUES:** (1) **PAPERS TOO MANY / FILL THE FRAME** — ~20+ papers everywhere
+  (the v2 keyframe has too many; the known paper-count issue). (2) **SMILEY PAPER ON
+  A TALL MARBLE PILLAR/COLUMN** — frame_04/05 show the smiley paper mounted on a
+  weird tall white column (artifact — the `obj_paper_smiley` ref or prompt makes it
+  a tall object instead of a flat paper on the bat). (3) off-screen question +
+  one-at-a-time timing not fully judgeable from stills (watch the video).
+
+### Conclusion / Next step
+
+The small-mic keyframe fix WORKED (mic is short, face visible, gradual
+disappearance). Two fixes needed before G is clean: (A) **paper count** — run
+`krea2_small_mic_ref_v3.json` (fewer-papers variant, already built + validated) →
+pick best → re-stage `input\mic+paper_small.png` → re-run G; (B) **smiley-pillar
+artifact** — check the `obj_paper_smiley_00002_.png` ref + the prompt's smiley
+description (should be a flat paper on the bat, not a tall pillar). Then concat all
+8 clips → upscale (SeedVR2) → dub (ControlFoley, NO MUSIC D041).
+
+---
+
 ## 2026-09-14 — Krea2 t2i object refs: VISIBLE BULB leaks into "unseen light" prompts
 
 ### Goal

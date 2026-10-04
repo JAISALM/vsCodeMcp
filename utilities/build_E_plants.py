@@ -1,0 +1,66 @@
+import json, shutil, os
+
+SRC = r"E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\jaisal_intro_D_reverse.json"
+DST = r"E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\jaisal_intro_E_plants.json"
+PROMPT_SAVE = r"d:\models\vsCodeMcp\Jaisal-intro\prompts\shot_E_plants_grow.txt"
+
+PROMPT = """🚨 HARD AUDIO RULE — NO MUSIC 🚨
+AUDIO MUST BE 100% DIEGETIC. ABSOLUTELY ZERO MUSIC OF ANY KIND. NO score, NO soundtrack, NO drone, NO pad, NO synth, NO melody, NO chords, NO rhythm, NO beat, NO percussion, NO instruments, NO guitar, NO piano, NO strings, NO drums, NO singing, NO humming, NO musical tones. ONLY natural diegetic sounds.
+
+VISUAL / CHARACTER DEFINITIONS
+<Subject 1> is the young man shown in the reference images — his identity, face, hair and clothing are EXACTLY as in <Picture 1>.
+<Picture 1> is the FIRST frame: Jaisal seated at the wooden table, both hands resting flat on the table, the table surface is EMPTY (no plants yet), a single bare bulb hangs directly above, pure black void background.
+<Picture 2> is the FINAL frame: the SAME scene, but now small plants and two white roses have GROWN on the table surface, one on each side of his hands.
+
+SHOT
+[Shot 1] At 00:00.000 — the shot begins EXACTLY on <Picture 1>: Jaisal seated, hands on the table, empty table, bare bulb above, black void. The camera is a STATIC medium shot (50mm, eye level), COMPLETELY LOCKED — no movement, no pan, no zoom, no orbit.
+[Shot 1] 00:00–00:04 — Jaisal begins to speak; his mouth moves naturally and clearly (he is talking). The table is still empty.
+[Shot 1] 00:04–00:09 — plants begin to GROW on the table: a tiny green stem pushes UP through the wooden surface on his left, then another on his right. The growth is slow and organic — the stems physically EMERGE and rise, NOT a fade-in.
+[Shot 1] 00:09–00:13 — the stems grow into two white roses that slowly open. The shot ends EXACTLY on <Picture 2>: plants fully grown on the table, Jaisal still seated, hands on the table, still speaking.
+
+CAMERA
+STATIC medium shot, 50mm, eye level, COMPLETELY LOCKED. No camera movement of any kind — no pan, no tilt, no orbit, no dolly, no zoom. The camera does not move at all.
+
+VISUAL STYLE
+Black & white, high contrast, fine film grain, deep blacks, 24fps, 16:9. Single bare bulb top-down, hard shadow, no fill light.
+
+CHARACTER CONSISTENCY
+Only ONE person (Jaisal). No other people, no duplicates. His face, hair and clothing stay EXACTLY as in <Picture 1> the entire shot.
+
+AUDIO — FINAL HARD OVERRIDE
+Diegetic ONLY: room tone, the bare bulb's faint electrical hum, Jaisal's voice as he speaks, and a very subtle soft rustle as the plants grow. NO music, NO instruments, NO melody, NO beat, NO soundtrack. If uncertain, OMIT the sound. Silence is ALWAYS preferable to music.
+
+NEGATIVE
+music, soundtrack, score, melody, beat, rhythm, instruments, guitar, piano, strings, drums, singing, humming, any musical tone, color, camera movement, pan, zoom, orbit, dolly, multiple people, duplicate character, face distortion, fade-in plants, glowing effects, holograms, fire, smoke.
+
+FINAL GENERATION REQUIREMENT
+ONE static medium shot, ONE character (Jaisal), the table goes from EMPTY (first frame) to PLANTS GROWN (final frame), plants GROW (not fade in), ZERO music, diegetic audio only."""
+
+with open(SRC, "r", encoding="utf-8") as f:
+    wf = json.load(f)
+
+def find(nid):
+    for n in wf["nodes"]:
+        if n["id"] == nid: return n
+    raise KeyError(nid)
+
+# refs
+n137 = find(137); n137["widgets_values"] = ["jaisal_with_hand_on_table.png", "image"]
+n139 = find(139); n139["widgets_values"] = ["kf5_plants_alive_v9_00004_.png", "image"]
+# length: 96 -> 312 (13s)
+n136 = find(136); n136["widgets_values"][3] = 312
+# prompt
+n138 = find(138); n138["widgets_values"] = [PROMPT]
+# chain indices: load clip 4 (D), save clip 5
+n161 = find(161); n161["widgets_values"] = ["h3_context", 4]
+n164 = find(164); n164["widgets_values"] = ["h3_context/clip", 5]
+# save prefix
+n92 = find(92); n92["widgets_values"][0] = "jaisal_intro_E_plants"
+
+with open(DST, "w", encoding="utf-8") as f:
+    json.dump(wf, f, ensure_ascii=False)
+os.makedirs(os.path.dirname(PROMPT_SAVE), exist_ok=True)
+with open(PROMPT_SAVE, "w", encoding="utf-8") as f:
+    f.write(PROMPT)
+print("Built", DST)
+print("Prompt saved", PROMPT_SAVE)

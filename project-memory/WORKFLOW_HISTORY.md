@@ -4,6 +4,159 @@ Newest changes first.
 
 ---
 
+## 2026-09-28 — krea2_identity_edit_small_mic.json (new) — Krea2 IDENTITY EDIT small-mic end reference (D096 update 7)
+
+**Purpose:** t2i-from-scratch (update 6) threw away the scene (table, papers, chair, bulb, composition) — user rejected it: "we need to give the base image and then do the I2I with identity... keep the identity transfer workflow, don't forget things." **CORRECT TOOL = Krea2 Identity Edit v1.2** (`krea2_identity_edit.json`): takes the BASE image and regenerates it keeping the scene identity, applying only the instruction. **Built via `utilities/build_krea2_identity_small_mic.py` (clones `krea2_identity_edit.json`, validates clean 0 errors/0 warnings, 15 nodes):** node 72 LoadImage = `mic+paper.png` (base scene); node 84 = instruction ("Make the microphone SMALL and COMPACT, on a SHORT LOW stand... ONLY ONE microphone... Keep EVERYTHING ELSE exactly the same: papers, table, empty chair, bare bulb, black void, B&W cinematic. Preserve the entire original image exactly. No other changes. No people."); node 85 = negative ("large/tall mic, two mics, color, people, extra objects..."); node 29 SaveImage = `jaisal_cut/mic_small_id`; node 95 (Typnosis) BYPASSED. **Kept proven identity params:** node 79 `Krea2EditModelPatch` ref_boost=4 fit, node 83 `ResolutionSelector` 16:9 2MP, node 53 KSampler 10 steps cfg 1 euler/simple denoise 1, node 71 `LoraLoaderModelOnly` `krea2_identity_edit_v1_2.safetensors` @1.0, UNET `krea2_turbo_fp8_scaled.safetensors`, CLIP `qwen3vl_4b_fp8_scaled.safetensors` type `krea2`, VAE `qwen_image_vae.safetensors`. All krea2edit nodes LIVE; identity LoRA present. **G's node 139 (ref_image_1) points at `mic+paper_small.png`.** **Status:** BUILT + VALIDATED, awaiting user run. **Run order (user, stop Qwen first, fresh tab):** run `krea2_identity_edit_small_mic.json` → `output\jaisal_cut\mic_small_id_00001_.png` → copy to `input\mic+paper_small.png` → run `jaisal_intro_G_revolt.json` → restart Qwen. **RULE: to change ONE attribute of a scene while keeping the scene, use Krea2 Identity Edit v1.2 (base image + instruction, ref_boost=4) — NOT t2i (loses scene), NOT inpaint (region-shape prior).**
+
+---
+
+## 2026-09-28 — krea2_t2i_small_mic_end.json (new) — Krea2 TEXT-TO-IMAGE small-mic end reference (D096 update 6) — SUPERSEDED by identity edit (update 7)
+
+**Purpose:** inpainting can't shrink the mic — the mask must cover the old big mic's FULL HEIGHT (head + tall stand) to erase it, so the region is TALL and the model fills it tall; "small" in the prompt can't beat the region shape + big-mic prior. **User chose: regenerate the end reference FROM SCRATCH** (no big-mic prior to fight). **Built via `utilities/build_krea2_t2i_small_mic_end.py` (validates clean 0 errors/0 warnings, 9 nodes, all standard):** UNETLoader `krea2_turbo_bf16.safetensors` + CLIPLoader `qwen3vl_4b_fp8_scaled.safetensors` type `krea2` + VAELoader `qwen_image_vae.safetensors` + CLIPTextEncode (positive = small mic on short low stand + papers + bare bulb + black void + B&W cinematic; negative = large/tall mic, color, people, chair, extra objects) + `EmptySD3LatentImage` (1920×1088) + KSampler (10 steps cfg 1.0 euler/simple denoise 1.0, seed 42 randomize) + VAEDecode + SaveImage `jaisal_cut/mic_small_end`. **G's node 139 (ref_image_1) points at `mic+paper_small.png`.** **Status:** BUILT + VALIDATED, awaiting user run. **Run order (user, stop Qwen first, fresh tab):** run `krea2_t2i_small_mic_end.json` → pick the best `output\jaisal_cut\mic_small_end_0000N_.png` → copy to `input\mic+paper_small.png` → run `jaisal_intro_G_revolt.json` → restart Qwen. **RULE: when the unwanted attribute is anchored by the region SHAPE (tall mic), regenerate from scratch (t2i), don't inpaint.**
+
+---
+
+## 2026-09-28 — krea2_inpaint_small_mic.json (new) — Krea2 INPAINT small-mic reference (D096 update 4) — SUPERSEDED by t2i (update 6)
+
+**Purpose:** Qwen-Image-Edit failed twice (empty-latent = regeneration; VAEEncode = prior too strong, mic stayed big). The proven Krea2 SAM3 inpaint workflow (`krea2_inpaint_kf2_chair.json`) can't run — its `SAM3Segment` + `CR Upscale Image` nodes are NOT loaded in the live server (no SAM3 pack installed). **FINAL: manual mask + standard Krea2 inpaint.** **Built via `utilities/build_krea2_inpaint_small_mic_v2.py` (validates clean, 0 errors, 0 warnings, 11 nodes, ALL standard nodes):** (1) `utilities/make_mic_mask.py` → `input/mic_mask.png` (white = mic region: head ellipse + stand rect + base ellipse, GaussianBlur 12) — deterministic, no model; (2) workflow: LoadImage `mic+paper.png` + LoadImage `mic_mask.png` (MASK out) → `VAEEncodeForInpaint` (pixels+vae+mask) → KSampler (Krea2 `krea2_turbo_bf16.safetensors`, CLIPLoader `qwen3vl_4b_bf16.safetensors` type `krea2`, VAELoader `qwen_image_vae.safetensors`, 8 steps cfg 1.0 euler/simple denoise 1.0) → VAEDecode → SaveImage `jaisal_cut/mic_small`. `VAEEncodeForInpaint` keeps everything OUTSIDE the mask pixel-identical, regenerates only the mic. **G's node 139 (ref_image_1) points at `mic+paper_small.png`.** **v2 RUN FAILED (user: "the same thing")** — `VAEEncodeForInpaint` + denoise 1.0 does NOT set a noise mask → regenerated the WHOLE image (papers/chair/bulb all shifted, mic still big — confirmed in `output\jaisal_cut\mic_small_00007_.png`). The mask was correct. **v3 FIX (`utilities/build_krea2_inpaint_small_mic_v3.py`, validates clean 0 errors/0 warnings, 12 nodes):** correct mechanism = **`VAEEncode` (full image) + `SetLatentNoiseMask` (mask = mic region) → KSampler** — `SetLatentNoiseMask` restricts regeneration to the masked region; everything outside stays pixel-identical. Prompt strengthened ("its top well below the height of a tall broadcast mic" + negative `tall object`). **RULE: true region inpaint = `VAEEncode` + `SetLatentNoiseMask` + KSampler — NOT `VAEEncodeForInpaint`.** **Status:** v3 BUILT + VALIDATED, awaiting user run. **Run order (user, stop Qwen first, fresh tab):** run `krea2_inpaint_small_mic.json` → copy `output\jaisal_cut\mic_small_00008_.png` (next number) to `input\mic+paper_small.png` → run `jaisal_intro_G_revolt.json` → restart Qwen.
+
+---
+
+## 2026-09-28 — qwen_edit_small_mic.json (new) — Qwen-Image-Edit small-mic reference (D096 update 3) — SUPERSEDED by Krea2 inpaint (update 4)
+
+**Purpose:** the G end reference `mic+paper.png` (1928×1088) shows a BIG broadcast mic on a tall stand — that anchors the huge mic in the G video; prompt words "small" can't beat a reference image. **Fix: EDIT the reference** with Qwen-Image-Edit-2509 GGUF to produce `mic+paper_small.png` (small compact mic on a short low stand, everything else identical), which becomes G's ref_image_1. **Built via `utilities/build_qwen_edit_small_mic.py` (validates clean, 0 errors, 0 warnings, 10 nodes).** **Chain:** LoadImage `mic+paper.png` → `TextEncodeQwenImageEdit` (positive "Make the microphone SMALL and COMPACT, on a SHORT LOW stand... Keep EVERYTHING ELSE exactly the same: papers, table, empty chair, bare bulb, black void, B&W cinematic style" + negative "large microphone, tall stand, color, people, extra objects") + `UnetLoaderGGUF` (`Qwen-Image-Edit-2509-Q8_0.gguf` 21.76 GB, fits 32 GB VRAM no offload) + **`CLIPLoader` (`qwen_2.5_vl_7b_fp8_scaled.safetensors`, `qwen_image`, `default`)** + `VAELoader` (`qwen_image_vae.safetensors`) + `EmptyQwenImageLayeredLatentImage` (1920×1088) + KSampler (8 steps, cfg 1.0, euler/simple, denoise 1.0, seed 123456789 randomize) + VAEDecode + SaveImage `jaisal_cut/mic_small`. **G's node 139 (ref_image_1) now points at `mic+paper_small.png`.** **Build bugs fixed:** (1) link 103 (VAE→node 5) was at slot 2 colliding with image — moved to slot 1 (native order clip/vae/image/prompt); (2) link 106 (negative conditioning) came from node 5 (positive) — must come from node 10 (negative TextEncode); (3) **TEXT-ENCODER DIMENSION MISMATCH** — first build used `CLIPLoaderGGUF` + `qwen3vl_4b_fp8_scaled.safetensors` (Qwen3-VL-4B, 2560-dim) → crashed at sample time `RuntimeError: Given normalized_shape=[3584], expected input with shape [*3584], but got input of size[1, 1152, 2560]`. The Qwen-Image-Edit-2509 UNet needs **3584-dim = Qwen2.5-VL-7B** → **`CLIPLoader` + `qwen_2.5_vl_7b_fp8_scaled.safetensors` + type `qwen_image`** (the 2.5-VL-7B file is `.safetensors`, not GGUF, so it needs the regular `CLIPLoader`); (4) **EDIT vs GENERATION WIRING** — user ran the first working build 6×: "no change... none of them has any changes apart from lighting". Root cause: `EmptyQwenImageLayeredLatentImage` (empty latent) + `denoise=1.0` = TEXT-TO-IMAGE, not an edit — the big-mic prior in the reference won each regeneration. **Fix: `VAEEncode` (pixels = LoadImage, vae = VAELoader) → KSampler `latent_image` = encoded latent, `denoise=1.0` (correct for a dedicated editing model), 20 steps.** **RULE: image-edit = `LoadImage → VAEEncode → KSampler(latent_image=encoded, denoise=1.0)`; never an empty latent for an edit.** **Status:** BUILT + VALIDATED (0 errors/0 warnings), awaiting user run. **Run order (user, stop Qwen first, fresh tab):** run `qwen_edit_small_mic.json` → `output\jaisal_cut\mic_small_00001_.png` → copy to `input\mic+paper_small.png` → run `jaisal_intro_G_revolt.json` (fresh tab) → restart Qwen.
+
+---
+
+## 2026-09-28 — jaisal_intro_G_revolt.json (new, then extended to 15s) — Shot G = SINGLE SEQUENTIAL take (D096)
+
+**Purpose:** the G1/G2 split (D095) was overcomplicating it. The real structure = ONE continuous take where the character STAYS PRESENT at the table while a SEQUENCE of objects appear (each triggered by its specific Malayalam word), and the character disappears at ONE clean moment. **Built `jaisal_intro_G_revolt.json`** (cloned from `jaisal_intro_G_papers.json` via `utilities/build_G_revolt_11s.py`, then extended in-place to 15s). **5 refs:** ref_image_0 = `kf7a_v4.png` (start: character at table, dead plants), ref_image_1 = `mic+paper.png` (end: papers + mic), ref_image_2 = `obj_cricket_bat_00002_.png` (node 165), ref_image_3 = `obj_soccer_ball_00002_.png` (node 166), ref_image_4 = `obj_paper_smiley_00002_.png` (node 167). **Latent chain:** Load clip 7 (F2 tail) → Save clip 8. **Chain now A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G(8).**
+
+**11s version (264f) — RUN GOOD (user: "that was good"):** sequential one-action-at-a-time: question first (00:00–00:01) → PAPERS for "കഥകൾ" (00:02–00:03) → MIC for "രാഷ്ട്രീയം" (00:03–00:04) → BAT+BALL for "കായികം" (00:04–00:05) → SMILEY PAPER for "fantasy" (00:06–00:07) → Jaisal present through the sequence → disappears on "നോക്കാം" (00:09–00:10) → camera guy "നോക്കാം" (00:10–00:11). Prompt: `Jaisal-intro/prompts/shot_G_revolt_11s.txt`.
+
+**15s version (360f) — CURRENT (D096 update):** user: "increase to 15s, the issues are the sudden removal of the character and the plant, give them proper details, second 14 light flickering, 15 complete black, rest same." **Changes:** (1) length 264→360; (2) **CHARACTER DISAPPEARANCE = 2-beat GRADUAL unraveling** — 00:09–00:10 "നോക്കാം": body BEGINS to come apart (outline softens, edges turn into paper sheets, form loses solidity — NOT a sudden pop); 00:10–00:11 COMPLETES (silhouette thins into final sheets, chair empty — SLOW, DETAILED, GRADUAL over 2s); (3) **PLANT BEHAVIOR section** — dead plants SLOWLY CRUMBLE and WITHER throughout the shot (leaves curl to dust, stems bend and sink), NOT a single-frame vanish; (4) **new tail:** 00:11–00:12 camera guy "നോക്കാം" → 00:12–00:13 still beat → **00:13–00:14 bulb FLICKERS once** → **00:14–00:15 COMPLETE BLACK, CUT TO BLACK**; (5) negatives += `Jaisal vanishing in a single frame, Jaisal popping out suddenly, the plants vanishing in a single frame, the plants popping out suddenly, the plants disappearing before the character`. **Prompt: `Jaisal-intro/prompts/shot_G_revolt_15s.txt` (14353 chars). Validates clean (0 errors, 29 nodes).**
+
+**15s v2 (D096 update 2) — CURRENT:** user: "we're almost there. the first dialogue should come from the camera man, and the mic should be a little lower so we can see the character's face." **Changes (prompt `Jaisal-intro/prompts/shot_G_revolt_15s_v2.txt`, 15290 chars, synced in-place):** (1) **CAMERA-GUY VOICE = the PROVEN F1 timing-mimic workaround** — question = FULL 3s off-screen beat (00:00–00:03, Jaisal's mouth COMPLETELY CLOSED, he only listens) → Jaisal's first line starts IMMEDIATELY after (00:03, "പറഞ്ഞപോലെ... കഥകൾ...", NO long silent gap) + SPEAKER ATTRIBUTION (CRITICAL) block (<Subject 2> = AUDIO ONLY) + negatives `Jaisal speaking the question, lip-sync to the off-screen voice, Jaisal's lips opening before 00:03, a long silent gap between the question and Jaisal's first line`; (2) **LOW MIC** — settles LOW on the table, top BELOW Jaisal's face level so his face stays visible (negatives `the microphone blocking Jaisal's face, the microphone rising above Jaisal's face level`); (3) **timing shift:** everything after the question shifts +2s (papers 00:03–00:05 → mic 00:05–00:06 → bat+ball 00:06–00:07 → fantasy 00:08–00:09 → "നോക്കാം" + disappearance 00:11–00:13 → camera guy "നോക്കാം" 00:13–00:14 → bulb flicker + COMPLETE BLACK 00:14–00:15). **Validates clean (0 errors, 29 nodes).**
+
+**15s v3 (D096 update 3) — CURRENT:** user: "the character is still speaking the dialogue, and the mic is still huge. we need a small mic." **Changes (prompt `Jaisal-intro/prompts/shot_G_revolt_15s_v3.txt`, 14862 chars, synced in-place):** (1) **QUESTION REMOVED FROM VIDEO** — the question's `<d>` line is dropped entirely; 00:00–00:03 is a pure silent-listen beat (Jaisal mouth closed), the camera-guy question is DUBBED IN POST (prompt-only attribution never fully holds, D090); (2) **SMALL MIC** — the mic is now SMALL + LOW (face visible); the huge-mic anchor is fixed by EDITING THE END REFERENCE (see `qwen_edit_small_mic.json` above) — G's node 139 (ref_image_1) now points at `mic+paper_small.png`. **Validates clean (0 errors, 29 nodes).**
+
+**Status:** 11s RUN GOOD. 15s v3 BUILT + VALIDATED, awaiting small-mic ref + user run.
+
+**Run order (user, stop Qwen first, fresh tab):** run `qwen_edit_small_mic.json` → copy `output\jaisal_cut\mic_small_00001_.png` to `input\mic+paper_small.png` → stage F2 last frame → G_revolt (15s v3) → restart Qwen.
+
+**SUPERSEDED (do NOT run):** D095 G1/G2 split (`jaisal_intro_G1_burst.json`, `jaisal_intro_G2_aftermath.json`), `jaisal_intro_G_papers.json` (15s single), `jaisal_intro_G_vanish_burst.json` (old 3s) — keep as backups.
+
+**Known issues:** none (validated clean).
+
+---
+
+## 2026-09-28 — jaisal_intro_G1_burst.json + jaisal_intro_G2_aftermath.json (new) — Shot G SPLIT (D095)
+
+**Purpose:** the single 15s shot G (`jaisal_intro_G_papers.json`) came out with the CHARACTER STAYING — as soon as the paper burst happened the character should be GONE, but the identity prior won and he "stayed". One 15s shot asked MiniMax to hold the character + shrink plants + emerge a mic + enter 3 objects + burst the character into papers — too many simultaneous events. **Split into two chained shots** so the hard "disappear" moment is isolated and the aftermath has NO character reference at all.
+
+**G1 = `jaisal_intro_G1_burst.json` (10s = 240f @ 24fps, 1344×768):** character present → camera-guy question (off-screen `<Subject 2>`) → Jaisal speaks ("As I said... stories, politics, sports, fantasy" + "I don't know if it'll work... Let's see.") + dead plants SLOWLY SHRINK and vanish → **00:08–00:10 JAISAL BURSTS INTO papers** (body EXPLODES OUTWARD, NOT a fade) → chair EMPTY. **Refs:** ref_image_0 = `kf7a_v4.png` (start: character at table, dead plants), ref_image_1 = `jaisal_gone_papers_alone.png` (END: papers only, empty chair, NO character). **2 refs only** (object-ref nodes 165/166/167 removed). **Latent chain:** Load clip 7 (F2 tail) → Save clip 8. **Prompt:** `Jaisal-intro\prompts\shot_G1_burst_10s.txt` (node 138).
+
+**G2 = `jaisal_intro_G2_aftermath.json` (10s = 240f @ 24fps, 1344×768):** **NO character at any point** — papers-only start → camera guy's OFF-SCREEN voice "Let's see." (00:02–00:04) → mic emerges SEPARATELY (00:04–00:06) → cricket bat flies in (00:06–00:08) → soccer ball rolls in + smiley paper settles on bat (00:08–00:10). **Refs:** ref_image_0 = `jaisal_gone_papers_alone.png` (start: papers only, NO character), ref_image_1 = `mic+paper.png` (end: papers + mic), + object refs `obj_cricket_bat_00002_.png` (node 165), `obj_soccer_ball_00002_.png` (node 166), `obj_paper_smiley_00002_.png` (node 167). **Latent chain:** Load clip 8 (G1 tail) → Save clip 9. **Prompt:** `Jaisal-intro\prompts\shot_G2_aftermath_10s.txt` (node 138).
+
+**WHY IT WORKS:** G2 has NO character reference, so the character CANNOT "stay" — MiniMax only has papers+objects to track. The hard "disappear" moment is isolated into G1 where the END ref (papers only, empty chair) forces the character out.
+
+**Chain now A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G1(8)→G2(9).**
+
+**Built via:** `utilities\build_G1_G2_split.py` (clones `jaisal_intro_G_papers.json`, swaps refs/prompt/length/latent, removes object-ref nodes for G1). Both validate clean (0 errors; G1 26 nodes, G2 29 nodes; 2 known harmless orphan-math warnings 131/132).
+
+**Status:** BUILT + VALIDATED. Awaiting user runs.
+
+**Run order (user, stop Qwen first, fresh tabs):** stage F2 last frame → G1 → stage G1 last frame → G2 → restart Qwen.
+
+**SUPERSEDED:** `jaisal_intro_G_papers.json` (15s single) + `jaisal_intro_G_vanish_burst.json` (old 3s) — do NOT run these; keep as backups.
+
+**Known issues:** none (validated clean).
+
+---
+
+## 2026-09-28 — jaisal_intro_F1_plants_listen.json + jaisal_intro_F2_plants_wither.json (new) — Shot F SPLIT (D094)
+
+**Purpose:** the single 17s shot F (`jaisal_intro_F_plants_die.json`) came out well (camera-guy voice, listening, plant sorrow, detailing) but `<pause>` tags didn't work (character talked through them), 17s > MiniMax ~15s limit, and micro-expressions were too weak. Split into two shots.
+**F1 = `jaisal_intro_F1_plants_listen.json` (10s = 240f @ 24fps, 1344×768):** E's ending (plants blooming) → camera-guy question (off-screen `<Subject 2>`) → Jaisal LISTENS (micro-expressions) → speaks "Cinema... or if you want to tell a story... You need effort." Plants stay mostly blooming, left plant's top leaf just begins to droop. **Refs:** ref_image_0 = `kf5_plants_alive_v9_00004_.png` (start), ref_image_1 = `kf6_plants_dead_v9_00004_.png` (end direction). **Latent chain:** `MiniMaxH3MotionContextLoadLatent` (node 161, `["h3_context", 5]`) → `MiniMaxH3MotionContext` (node 162, `[22, 24]`) → `MiniMaxH3MotionContextTrim` (node 163, `[0, 24, True]`) → `MiniMaxH3MotionContextSaveLatent` (node 164, `["h3_context/clip", 6]`). **Prompt:** `Jaisal-intro\prompts\shot_F1_plants_listen.txt` (node 138).
+**F2 = `jaisal_intro_F2_plants_wither.json` (12s = 288f @ 24fps, 1344×768):** first leaf drooping → fully wilted. "Or you need one or two people... I'm alone... limitations... let's try this show using AI." **Refs:** ref_image_0 = `shot_F1_lastframe.png` (USER STAGES after F1 run via `seedvr2_lastframe_2k.json` → `output\lastframe_2k_00001_.png` → copy to `input\shot_F1_lastframe.png`), ref_image_1 = `kf6_plants_dead_v9_00004_.png`. **Latent chain:** Load clip 6 → Save clip 7. **Prompt:** `Jaisal-intro\prompts\shot_F2_plants_wither.txt` (node 138).
+**G updated:** `jaisal_intro_G_papers.json` LoadLatent 6→**7**, SaveLatent 7→**8**. **Chain now A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G(8).**
+**PAUSE FIX (key lesson):** MiniMax does NOT honor `<pause>`/`<long pause>` timing tags in `<d>` dialogue. Instead, make the pause a VISUAL PERFORMANCE: explicit SILENT mouth-closed beats as action lines ("SILENT beat — his mouth stays CLOSED. A slow, heavy blink. His gaze drops to the plant. A quiet, honest, almost tired look settles. His shoulders drop a little more. (NO mouth movement during this beat.)") + dedicated MICRO-EXPRESSIONS section (slow blink, gaze drop, subtle frown, small breath, shoulders dropping, eyes glisten, small swallow, determined glint) + negatives `talking through the pause, mouth moving during the silent beat`. Mood shift (bloom→wilt, hope→limitation→resolve) carried by VISUALS + plant action.
+**Built via:** `utilities\build_F1_F2.py` (clones F, sets length 240/288, swaps prompt, sets F2 ref_image_0, bumps F2 latent 6→7, bumps G 7→8). All 3 validate clean (0 errors, 2 known harmless orphan-math warnings 131/132).
+**Status:** BUILT + VALIDATED. Awaiting user runs (morning of 2026-09-29).
+**Run order (user, stop Qwen first, fresh tabs):** F1 → stage F1 last frame → F2 → G → restart Qwen.
+**Known issues:** none (validated clean). `jaisal_intro_F_plants_die.json` (the original single 17s F) is now SUPERSEDED by F1+F2 — keep as backup.
+
+---
+
+## 2026-09-20 — Continuation packs installed (Ep29 consistent-audio + NikoDemon80 latent-tail)
+
+**Installed (staged into `custom_nodes\`, ComfyUI restart pending):**
+
+- **`SatoDive/Minimax-H3-Latent-Continuation`** (24★, MIT, HEAD 4142527) — the
+  **Ep29 consistent-audio continuation pack** (D092). All 8 Ep29 node classes
+  confirmed present in source: `MiniMaxH3EasyVideoTailSlicer_SatoDive`,
+  `MiniMaxH3EasySegmentDecode_SatoDive`, `MiniMaxH3EasyModelAdapter_SatoDive`,
+  `MiniMaxH3EasyStitchContinuation_SatoDive`, `MiniMaxH3EasySegmentRender_SatoDive`,
+  `MiniMaxH3EasySaveLatent_SatoDive`, `MiniMaxH3EasyLoadLatent_SatoDive`,
+  `MiniMaxH3EasyContextSegments_SatoDive`. No extra pip deps.
+- **`NikoDemon80/ComfyUI-H3-Motion-Context`** (988★, v0.6.2, HEAD 5335715) —
+  visual latent-tail slicing (D091). Nodes: H3 Motion Context, Trim,
+  Save/Load Latent pair, Chain, Seam Probe. No extra pip deps.
+
+**Ep29 workflow** (`E:\minimax_workflow\Ep29 MiniMaxH3_Continuation_Workflow.json`,
+UI format) — consistent-audio continuation for small English stories. Already
+installed deps: KJNodes, Pixaroma, rgthree. **Verify after restart (install pack
+if red):** `MiniMaxH3SigmaShift` + `MiniMaxH3DualClockSamplerT8` (H3 sampler
+pack), `H3SLAAttention` + `MiniMaxH3MemoryEfficientSageAttentionPatch` +
+`SolAttnPatch` (SLA attention), `JWFloatToInteger` + `VRAMCleanup`/`RAMCleanup`
+(utility nodes).
+
+**Status:** staged, NOT yet registered (needs ComfyUI restart). **NEXT:** restart
+→ open Ep29 → confirm no red nodes → test D→E continuation with audio continuity.
+
+---
+
+## 2026-09-20 — Shot D SeedVR2 pipeline wired (upscale + last-frame 2K)
+
+Shot D v3 (aggressive non-speaking) = GOOD (user confirmed). Wired the SeedVR2
+pipeline for take `jaisal_intro_D_reverse_00006_.mp4` via
+`utilities/wire_seedvr2_shot_D.py` (both validate clean 0 errors 0 warnings):
+
+- **`seedvr2_video_upscale.json`**: LoadVideo (node 21) =
+  `jaisal_intro_D_reverse_00006_.mp4` (staged to `input\`); SaveVideo (node 23)
+  prefix = `intor_selected_Upscale/upscaled_D` →
+  `output\intor_selected_Upscale\upscaled_D_00001_.mp4` (1920×1080 2K, SeedVR2
+  7B Sharp FP16, batch 33, lab color, offload cpu).
+- **`seedvr2_lastframe_2k.json`**: LoadVideo (node 21) =
+  `jaisal_intro_D_reverse_00006_.mp4` (the ORIGINAL take — the workflow's
+  internal upscaler re-upscales the last frame to 2K, so NO manual copy of the
+  upscaled video is needed); GetImageRangeFromBatch (node 30) = `[-1, 1]` (last
+  frame); SaveImage (node 31) prefix = `lastframe_2k` →
+  `output\lastframe_2k_00001_.png` (shot D's 2K last frame).
+- Both SeedVR2 models confirmed present (`seedvr2_ema_7b_sharp_fp16.safetensors`
+  16.48 GB + `ema_vae_fp16.safetensors` 0.50 GB in `models\SEEDVR2\`).
+
+**Run order (user, stop Qwen first):** `seedvr2_video_upscale.json` →
+`seedvr2_lastframe_2k.json` → copy `lastframe_2k_00001_.png` to `Jaisal-intro\` +
+stage `input\shot_D_lastframe.png` → prep Shot E (Jaisal SPEAKING, plants grow)
+with `ref_image_0` = `shot_D_lastframe.png`.
+
+---
+
+## 2026-09-15 — seedvr2_video_upscale.json (new) — SeedVR2 2K Video Upscaler
+
+### Workflow
+
+`seedvr2_video_upscale.json` (UI format, validated `valid: true` 0 errors 0 warnings, 7 nodes) built by `utilities/build_seedvr2_video_upscale.py` — cloned from the OFFICIAL `custom_nodes/seedvr2_videoupscaler/example_workflows/SeedVR2_HD_video_upscale.json` so all native widget shapes are preserved.
+
+**Chain:** `LoadVideo` (node 21, `widgets_values=[filename, "image"]`, default = `jaisal_intro_A_walkin_00005_.mp4`) → `GetVideoComponents` (node 22) → `JoinImageWithAlpha` (node 17, alpha input left None) → `SeedVR2VideoUpscaler` (node 10, `widgets_values=[42, 'fixed', 1080, 0, 33, True, 'lab', 3, 0, 0, 0, 'cpu', False]` — seed 42, resolution **1080 shortest-edge** (1376×768 → **1920×1080**), batch_size 33, uniform_batch True, color_correction lab, temporal_overlap 3, offload cpu) ← `SeedVR2LoadDiTModel` (node 14, `['seedvr2_ema_7b_sharp_fp16.safetensors', 'cuda:0', 0, False, 'cpu', False, 'sdpa']` — **7B Sharp FP16 = max quality**, 15.35 GB, confirmed in `E:\ComfyUI_windows_portable\ComfyUI\models\SEEDVR2\`) + `SeedVR2LoadVAEModel` (node 13, `['ema_vae_fp16.safetensors', 'cuda:0', True, 1024, 128, True, 768, 128, 'false', 'cpu', False]` — tiled encode/decode) → `CreateVideo` (node 24, fps from source) → `SaveVideo` (node 23, prefix `intor_selected_Upscale/upscaled`).
+
+**Purpose:** upscale the 3 selected intro shots (A/B/C, all 1376×768 @ 24fps) to 1920×1080. **Run 3×** — swap the LoadVideo filename each time (A is default; then `jaisal_intro_B_setup_00003_.mp4`, then `jaisal_intro_C_starting_2ref_00006_.mp4`). All 3 staged into `input\`. Outputs: `output\intor_selected_Upscale\upscaled_00001_.mp4` (A), `_00002_` (B), `_00003_` (C) in run order — rename after.
+
+**Status:** Built + validated, NOT yet run (user runs — stop Qwen first). **NEXT:** after upscaling, take the LAST FRAME of the upscaled C video → feed it to shot D's workflow as the start ref (avoids the stitching glitch).
+
+---
+
 ## 2026-09-14 — krea2_object_refs.json (new) — Shot-7 Object Reference Generator (t2i)
 
 ### Workflow

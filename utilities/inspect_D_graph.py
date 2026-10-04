@@ -1,0 +1,22 @@
+import json
+
+path = r"E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\jaisal_intro_D_reverse.json"
+with open(path, "r", encoding="utf-8") as f:
+    wf = json.load(f)
+
+print("last_node_id=", wf.get("last_node_id"), "last_link_id=", wf.get("last_link_id"))
+print("=== D NODES ===")
+for n in wf["nodes"]:
+    nid = n.get("id"); ntype = n.get("type")
+    wv = n.get("widgets_values")
+    wvs = wv if not (isinstance(wv, list) and len(str(wv)) > 90) else str(wv)[:90] + "..."
+    print(f"\n[{nid}] {ntype}  widgets={wvs}")
+    for i in n.get("inputs", []):
+        print(f"    in  {i.get('name'):26s} {i.get('type'):14s} link={i.get('link')}")
+    for o in n.get("outputs", []):
+        print(f"    out {o.get('name'):26s} {o.get('type'):14s} links={o.get('links')}")
+
+print("\n=== D LINKS ===")
+for l in wf.get("links", []):
+    if isinstance(l, list) and len(l) >= 6:
+        print(f"  link {l[0]}: node {l[1]} slot {l[2]} -> node {l[3]} slot {l[4]} ({l[5]})")

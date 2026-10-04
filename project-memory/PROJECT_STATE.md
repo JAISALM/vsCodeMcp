@@ -1,6 +1,8 @@
 # Project State
 
-Last Updated: 2026-09-14
+Last Updated: 2026-10-03
+
+**Current state (2026-10-03):** **VOICESTUDIO DUB HACK CONFIRMED.** User records rough audio for each dialogue (own voice) → VoiceStudio processes → LatentSync mouth-sync. **VoiceStudio backend FIXED + UP** (venv rebuilt on Python 3.12 — the cp313 `curated-tokenizers` Cython build failure left the venv empty; `uv sync` exit 0). **JAISAL voice already cloned** (`dd8bc71f`, Malayalam) + midhun (`094d6afe`). **Ubuntu-22.04 installed** (WSL2 2.7.13) → LatentSync ready after setup. **NEXT (user):** drop per-dialogue audios in `Jaisal-intro\dubs\` (A/C/E/F1/F2/G jaisal + optional camguy). **NEXT (me):** clean-as-is default (denoise+normalize, keep delivery; A/B with Convert re-speak) → LatentSync on A, C, E, F1, F2, G. See CURRENT_TASK.md 2026-10-03.
 
 ## Current Objective
 
@@ -15,11 +17,29 @@ plants grow (dream) → plants die (limitation) → **Jaisal explodes into ideas
 Pipeline: Krea2 Identity Edit keyframes (per shot) → MiniMax H3 ref-image-to-video →
 SeedVR2 2K upscale → VoiceStudio/RVC voice + ControlFoley SFX → assembly.
 
-**Current state (2026-09-14):** ALL keyframes + object refs READY. Object refs (soccer
-ball, cricket bat, paper-smiley) generated via `krea2_object_refs.json` (clean `_00002_`
-trio in `Jaisal-intro\obj_refs\`). **NEXT: video generation (all 7 shots, esp. Shot 7
-H3 R2V) + audio (voice + SFX) → assemble the final cut.** See CURRENT_TASK.md
-"TOMORROW'S PLAN".
+**Current state (2026-10-02 EOD):** **DUB ROUTE CONFIRMED. Video stays locked. User going to sleep, resumes tomorrow.** The G re-run test came out **fundamentally broken** (random cuts, zero prompt adherence, music) — NOT a bad seed. The workflow/latent/refs/prompt are all correct on disk; the cause is a **runtime issue** (unverified). **DECISION:** the 8 finalized clips are the asset (locked). **TWO versions from one video:** (1) **ENGLISH** = MiniMax native audio (already in the clips, consistent) — **done.** (2) **MALAYALAM** = user's dub (6 Jaisal lines: A, C, E, F1, F2, G) + **LatentSync** (re-animates the mouth) + **English subs** (for the audience). Camera guy = muted (cards = questions). **NO RVC needed.** **NEXT (user, tomorrow):** (1) record 6 Jaisal lines (Malayalam) — Dolby On / Riverside / PC mic → drop in `Jaisal-intro\dubs\`; (2) confirm WSL2 reboot (LatentSync needs it); (3) assemble video in DaVinci (clips + cards, 72s). **NEXT (me):** LatentSync pass on the 6 speaking shots. **HARD RULE (new):** before any re-run, verify ComfyUI state + latent file + refs + prompt, and run 1 seed first. See D098/D099/D100 + CURRENT_TASK.md.
+
+**Current state (2026-10-01):** **PRODUCTION MOVIE PIPELINE LOCKED (D097)** — the Jaisal-intro is the first instance of a reusable DUB-FIRST pipeline (SCRIPT → DUB → CLEAN → [RVC camera-guy] → LIP-SYNC (LatentSync) → SUBTITLES → DaVinci ASSEMBLY). **User-confirmed:** FINAL = **72s (1:12)** (cards OVERLAP clips, not full 3s segments — NOT the 82.34s raw concat); **card audio is NOT muted** (clip audio continues under the card = audio continuity); order = dub → lip-sync → subtitles → final; recording app = **Audacity** (mono/16-bit/48kHz/WAV); lip-sync = LatentSync on speaking shots (A, C, E, F1, F2, G), WSL2 reboot pending. **NEXT (user, NOW):** record ALL lines in Audacity (Jaisal + camera guy, one take each) + reboot (WSL2→LatentSync). **THEN (me):** clean_audio.py → RVC camera-guy lines (midhun_v2_40k) → LatentSync → re-time .srt to 72s cut → DaVinci assembly. See D097 + CURRENT_TASK.md.
+
+**Current state (2026-09-29, EOD):** ALL 8 FINAL CLIPS DONE + **ALL UPSCALED** (2520×1440 @ 24fps, via `D:\models\SeedVR2-TensorRT-Studio` — TensorRT browser app; the earlier disk-full failure was fixed by deleting 85 GB of `*.pt` checkpoint cache, D: now ~198 GB free). **English subtitles + 4 black question cards BUILT** (unverified): `Jaisal-intro\subs\jaisal_intro_english.srt` (15 cues, Jaisal's lines only) + `Jaisal-intro\subs\cards\card_{B,D,F,G}_*.mp4` (2520×1440 @ 24fps, 3s, Malayalam + English, built via `utilities\build_question_cards.py` using ffmpeg `subtitles`/libass for proper Malayalam shaping). **TOMORROW (plan prepared, no action taken — user: "dont act now"):** Phase 0 (no GPU): verify card Malayalam rendering + re-time .srt to the actual concatenated timeline (order `A→card_B→B→C→card_D→D→E→card_F→F1→F2→card_G→G`). Phase 1 (GPU, user): DUB Malayalam (user's voice, RVC/OpenVoice; Jaisal's lines mouth-synced, camera-guy's lines over the cards; NO MUSIC D041). Phase 2 (GPU, user): LatentSync mouth-sync on speaking shots (A, C, E, F1, F2, G). Phase 3 (user, manual): DaVinci assembly (timeline + burn subtitles + swap dub audio + natural SFX + export). Subtitles = permanent decision for the intro AND the main movie. See CURRENT_TASK.md resume point + DECISIONS.md D096 updates 15-17.
+
+**Current state (2026-09-26):** HARD DEADLINE = finish the intro video TODAY (2026-09-26). The A→B cut is visible because the bare bulb's OSCILLATION stops at the cut (shot B starts from A's static last frame). **FIX (user decision, supersedes the "bulb already flickering" idea) = REMOVE the oscillation ENTIRELY — bulb FULLY STATIC in shot A** (A's last frame = still bulb → static shot B cuts seamlessly; B needs no bulb-continuity prompting). APPLIED to `jaisal_intro_A_walkin.json` node 138 (swing line → COMPLETELY STILL + summary lock + negatives; backup `workflow_backups\jaisal_intro_A_walkin.json.pre_static_bulb.bak`; validates clean). B unchanged (already static-bulb). NEXT: user runs A → upscale → lastframe_2k → B's ref_image_0 = A's last frame → run B. Continuation verdict: **NikoDemon80 = visual latent-tail** (use for the A→B→C visual chain); **Ep29 = consistent-audio** (use for the speaking shots). Both packs CONFIRMED installed + registered in ComfyUI 0.34.3. **Neutral upscale (ffmpeg lanczos 2x)** for today's assembly; SeedVR2 parked (plastic look). WanAnimate/viggle nodes registered (parked for object-assembly shots G/J). See CURRENT_TASK.md 2026-09-26.
+
+**Current state (2026-09-20):** Shots A/B/C done. **Shot D v3 (aggressive
+non-speaking) = GOOD** (user confirmed); SeedVR2 upscale + last-frame-2K pipeline
+wired for take `jaisal_intro_D_reverse_00006_.mp4` (user runs). **Plastic-look
+problem diagnosed** (H3 prior + SeedVR2 amplification + chain compounding) →
+user's locked direction: **Option 1 natural keyframe anchors + neutral upscaling +
+Option 2 (2-3 refs/shot) + seamless continuation (NO hard cuts) + minimal drift**.
+**Continuation packs INSTALLED (staged, ComfyUI restart pending):**
+`SatoDive/Minimax-H3-Latent-Continuation` (Ep29 consistent-audio route, D092) +
+`NikoDemon80/ComfyUI-H3-Motion-Context` v0.6.2 (visual latent-tail, D091).
+**ComfyUI version = 0.34.3** (confirmed via `/system_stats`). **NEXT (user, next
+week, stop Qwen first):** restart ComfyUI → verify Ep29 workflow loads (check
+SLA/sampler/utility nodes) → test D→E continuation (Ep29 vs NikoDemon80) → prep
+Shot E (Jaisal SPEAKING, plants grow; `ref_image_0` = `shot_D_lastframe.png`)
+with 2-3 natural refs + minimal drift → neutral upscale test. See CURRENT_TASK.md
+resume point.
 
 ## Current AI Stack
 
@@ -49,6 +69,12 @@ H3 R2V) + audio (voice + SFX) → assemble the final cut.** See CURRENT_TASK.md
 - Current version: 0.10.0
 - Transport: stdio
 - MCP is being invoked by the AI client rather than manually operated as a standalone HTTP service.
+
+**Web-search + loop-guard gateway (added 2026-09-26):**
+- `web-search` MCP = `mrkrsl/web-search-mcp` v0.3.1 at `D:\MCP\web-search-mcp\` (tools: `full-web-search`, `get-web-search-summaries`, `get-single-web-page-content`). Chromium installed.
+- **Loop-guard gateway** `D:\MCP\mcp-gateway\index.js` (zero-dep Node stdio) sits in front of web-search and enforces hard tool-call limits (total cap, identical-call cap, repeated-sequence, 2-failure block, web budget). `mcp.json` routes `web-search` through it (`GW_BACKENDS=web-search`); `comfy-mcp` stays DIRECT. Backup: `mcp.json.pre-gateway.bak`.
+- **ComfyUI MCP has NO open-web search.** Its "search" verbs are registry/catalog lookups only (`models search` = HF/Civitai, `nodes search` = node-pack registry, `templates` = gallery catalog, `knowledge` = local RAG). Its "stay updated" mechanism = registry/catalog refresh: `comfy outdated` (surfaces as `server_info.freshness`), `comfy update`, `templates refresh`, `nodes refresh`. So ComfyUI MCP stays current on its own domain (models/packs/templates/version) but does NOT do open-web research — that's what web-search-mcp + gateway cover. No overlap; ComfyUI MCP left untouched.
+- **MCP is CLIENT-attached, not model-attached.** The gateway/web-search/ComfyUI-MCP are configured in the clients (Copilot `mcp.json`, Kilo `globalStorage\kilocode.kilo-code\settings\mcp_settings.json` — Kilo configured 2026-09-26). They work regardless of how the model is launched (`.bat` or llama.cpp web UI). The **llama.cpp web UI is NOT an MCP client** — it's a plain chat frontend, so it has NO tools; use Copilot/Kilo for tool work. Usage guide: `docs/WEB_MCP_USAGE_GUIDE.md` (coding + movie-pipeline research: two-tier = ComfyUI registry first, then web for Reddit/X/GitHub community knowledge; x.com = summaries only, docs.comfy.org = SPA needs browser search).
 
 ### Workspace layout (reorganized 2026-08-31, now a git repo)
 

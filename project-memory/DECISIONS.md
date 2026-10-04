@@ -2249,3 +2249,1452 @@ keyframes (rejected — H3 confusion outweighs consistency); a side light (rejec
 — breaks the top-down look of the whole film).
 
 **Status:** Active. Applies to all future object/prop reference images.
+
+---
+
+## D067 — Two new H3 node packs installed: H3-Relight + Neons Style Explorer (2026-09-14)
+
+**Decision:** Installed two custom-node packs into the RUNNING install
+(`E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\`):
+1. **`H3-Relight-Minimax-ComfyUI`** (NyckM / bruxosdovfx, v1.1.2) — a 3D
+   lighting studio for MiniMax H3: up to 3 lights on a 3D dome + reference
+   sphere + a relight prompt for H3 Edit, following MiniMax's Relight skill.
+   Nodes: `H3RelightEditor` ("Relight H3 · BruxosDoVFX"), `H3SunPosition`
+   ("Sun / Sol H3 · BruxosDoVFX"). Deps `numpy` + `tzdata` — BOTH already
+   present in the embedded Python (numpy 2.2.6). Purpose: better lighting when
+   the final act comes in.
+2. **`ComfyUI-NeonsStyleExplorer`** (Neon-Sparks, v2.4.5) — a hand-written
+   style-prefix catalog (natural language or booru tags) + preview gallery.
+   Nodes: `NeonsStyleExplorer`, `NeonsStyleExplorerEncode`,
+   `NeonsGalleryCapture`, `NeonsLoraExplorer`. Pure Python, NO extra deps.
+   Purpose: different styles for a SEPARATE video concept (not the current
+   intro).
+
+**Reason:** Relight = future lighting control for the intro's final act;
+StyleExplorer = style variety for other concepts.
+
+**Status:** Cloned + verified (node classes confirmed in `__init__.py`/
+`nodes.py`). **NEEDS A COMFYUI RESTART** to register the nodes (user runs it —
+D051). After restart, verify via `/object_info` that `H3RelightEditor`,
+`H3SunPosition`, `NeonsStyleExplorer` are live.
+
+**NOTE:** the Relight `__init__` registers a `/bruxos_h3/sun` route via
+`PromptServer.instance` — that only exists inside a running ComfyUI, so an
+out-of-context import test raises `AttributeError: type object 'PromptServer'
+has no attribute 'instance'`. That is a FALSE ALARM; the pack loads fine when
+ComfyUI starts it.
+
+---
+
+## D068 � Intro shot C (180� twist) = camera node + SLA speed stack (2026-09-14)
+
+**Decision:** The 180� head-twist shot (Shot C) uses the `H3LocalCameraEditor`
+camera node (`minimaxH3Camera_v20.json` subgraph template) with the attention
+backend swapped to our proven **H3SLAAttention** speed stack (sparsity 0.90,
+block 32, dense_backend `comfy_kitchen`) and the LoRA set to
+`minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors`.
+
+**Reason:** The shared camera template referenced `EastMoeSolAttn` (from the
+uninstalled `eastmoe/ComfyUI-Sol-Attn` pack) and a missing
+`fl2v_turbo_8step` LoRA. Rather than install a new pack, we reuse the SLA
+stack already in every production workflow (D042) � no new dependencies, same
+~4 min/shot speed.
+
+**Implementation:** `utilities/patch_intro_C_sla.py` patches the subgraph
+internal nodes (138 EastMoeSolAttn?H3SLAAttention, 121 LoRA?4step turbo).
+Camera trajectory: azimuth 0?90?180 over the take, distance 1?0.8 (slight
+push-in), source image `jaisal_head_left_back_side.png`.
+
+**Status:** Active. `jaisal_intro_C_headtwist_180.json` validates clean.
+
+---
+
+## D069 � Intro shots run at 1 MP (not 2 MP); refs ONLY from the keyframes folder (2026-09-14)
+
+**Decision:** All 10 intro shot workflows run at **1 MP** (`ResolutionSelector`
+megapixels = 1, 16:9). The R2V node's width/height are LINKED from the
+ResolutionSelector, so this is the real resolution control. All reference images
+come from ONE place: `D:\models\vsCodeMcp\Jaisal-intro\keyframes\` (14 files).
+
+**Reason:** User ran shot A at 2 MP and it took **2.3 min for 12%** � too slow.
+User confirmed **1 MP / 0.98 MP is what works** for MiniMax H3. Also the builder
+had left a stray template ref `jaisal_4_middle.png` (node 148) in A/B/D/E/F/G/H/I
+that is NOT in the keyframes folder � user: "do not mix it up, all keyframes kept
+in one place."
+
+**Implementation:** `utilities/fix_intro_workflows.py` (run 2026-09-14):
+(1) ResolutionSelector megapixels 2 -> 1 on all 10; (2) removed the stray
+`jaisal_4_middle.png` LoadImage + its link + cleared the R2V ref slot it fed;
+(3) fixed the prompt bug `<Subject 1> is <Subject 1> is` -> `<Subject 1> is`.
+Also wired J's 4th ref (`obj_paper_smiley` node 151) whose `ref_image_3` input
+`link` field was `None` while link 303 existed (multi-ref slot-index bug) ->
+set `ref_image_3.link = 303`.
+
+**SLA note:** SLA IS correctly wired (LoRA -> H3SLAAttention -> BasicGuider ->
+Sampler) and enabled � the slowness was the 2 MP resolution, NOT SLA.
+
+**Status:** Active. All 10 validate clean (0 errors; J's orphan warning resolved).
+
+---
+
+## D070 � Intro shot length bug: hidden math node forced 15s on every shot (2026-09-14)
+
+**Decision:** The R2V node's `length` input must be UNLINKED from the hidden
+`ComfyMathExpression` node so each shot uses its WIDGET length value.
+
+**Reason:** The builder left the R2V `length` input LINKED from a
+`ComfyMathExpression` (node 131) fed by a `PrimitiveFloat` (node 132) = **15
+(seconds)**. The math node computed `max(5, round(15*24))` = 360 -> 362 frames
+= **15.1s**, OVERRIDING the widget. So every shot ran at 15s even though the
+widget showed the correct per-shot length (A=124=5.2s, B=73=3s, D=175=7.3s,
+E=311=13s, F=430=17.9s, G/H/J=73=3s, I=56=2.3s). User: "i dont want to repeat
+again and again, we need a 5 second video, you created a 15 second video."
+
+**Implementation:** `utilities/fix_intro_lengths.py` (run 2026-09-14) set the
+R2V `length` input `link` to `None` on all 9 R2V shots (A,B,D,E,F,G,H,I,J).
+The orphaned math node 131 + primitive 132 are left in place (harmless - the
+server prunes them; validation shows 2 `node_not_reachable` warnings, no
+errors). Shot C is the camera node (length is camera-driven, no change).
+
+**Status:** Active. All 9 R2V shots now run at their widget length.
+
+---
+
+## D071 � Use the purpose-built H3 prompt model for R2V prompts (2026-09-14)
+
+**Decision:** Generate/refine MiniMax H3 R2V prompts with
+`Qwen3-VL-32B-Instruct-MiniMax-H3-L0-49-Q4_K_M.gguf` (14.93 GB) + its
+`mmproj` (2.38 GB) at `D:\models\Writing\Qwen\`, launched via
+`run-minimax-h3-heretic.bat` (llama-server on **port 8104**, ctx 32768).
+
+**Reason:** Hand-crafted R2V prompts kept getting the structure wrong - a generic
+"school kid" instead of OUR character, and `<Picture N>` tags that didn't match
+the actual reference images. This model is a **vision-language** model
+fine-tuned on MiniMax H3 prompt data, so we feed it the ACTUAL reference images +
+a short shot description and it writes a proper 6-section H3 prompt that matches
+what's really in the images. It is a SEPARATE llama-server (port 8104) - it does
+NOT stop Qwen, and it's a quick job (not a long render), so it's fine to run
+while Qwen is up.
+
+**Implementation:** `utilities/gen_h3_prompt.py` (single shot: `--desc` +
+`--refs` in `<Picture N>` order -> OpenAI-compatible chat API on 8104) +
+`utilities/gen_all_h3_prompts.py` (batch all 10; refs ONLY from the keyframes
+folder, 2-3 per shot per D020). Shot descriptions in
+`Jaisal-intro\prompts\shot_descriptions.txt`. Output:
+`Jaisal-intro\prompts\shot_<X>.txt`.
+
+**Status:** Active. Scripts built + parser verified. Awaiting the model being
+launched on 8104, then run `gen_all_h3_prompts.py`.
+
+---
+
+## D072 � Pruned H3 model CANNOT generate prompts; use hand-crafted R2V prompts (2026-09-14)
+
+**Decision:** The `Qwen3-VL-32B-Instruct-MiniMax-H3-L0-49` model is **pruned**
+(layers 0-49, NO `output_norm`, NO `lm_head`) - it is a **text encoder only**
+(for ComfyUI conditioning via the `Nif00/ComfyUI-GGUF` fork), NOT a text
+generator. It CANNOT write prompts. The `run-minimax-h3-heretic.bat` fails with
+`tensor 'output_norm.weight' not found` because the model has no output head.
+
+**Reason:** Inspected the GGUF tensor list: `output_norm: 0`, `lm_head: 0`,
+layers 0-49 (50 layers). The HF repo (`nif0/Qwen3-VL-32B-Instruct-MiniMax-H3-GGUF`)
+confirms: "Pruned layers after 49 as they arent needed for use with MiniMax H3"
+and "Can be used in ComfyUI with my fork of City96's ComfyUI-GGUF."
+
+**Implementation:** Wrote all 10 R2V prompts by hand via
+`utilities/write_intro_prompts.py` (output: `Jaisal-intro\prompts\shot_<X>.txt`).
+Each prompt: (1) describes OUR character (Jaisal: short dark hair, rose-pink shirt,
+black trousers, black bag) - not a generic "school kid"; (2) tags `<Picture N>`
+to the ACTUAL reference images for that shot, in order; (3) uses the proper 6-section
+H3 R2V structure, tight (no 500-word bloat); (4) NO MUSIC (D041). Shot J has exactly
+4 refs (mic-alone start + 3 object refs) - the END state is described in words, never
+tagged with a `<Picture N>` that has no matching image. Wired into the 9 R2V
+workflows via `utilities/wire_intro_prompts.py` (node 138 = PrimitiveStringMultiline).
+Shot C (camera node) left as-is (camera-driven prompt).
+
+**Status:** Active. All 9 R2V workflows validate clean (0 errors; 2 harmless
+`node_not_reachable` warnings from the orphaned math nodes 131/132).
+
+---
+
+## D073 � Intro shot lengths: per-shot widget values (2026-09-14)
+
+**Decision:** Each intro shot uses its WIDGET length value (not the hidden 15s math
+node). Per-shot lengths: A=124f (5.2s), B=73f (3s), D=175f (7.3s), E=311f (13s),
+F=430f (17.9s), G=73f (3s), H=73f (3s), I=56f (2.3s), J=73f (3s). Shot C = camera
+node (length camera-driven).
+
+**Reason:** The builder left the R2V `length` input LINKED from a hidden
+`ComfyMathExpression` (node 131) fed by `PrimitiveFloat` (node 132) = 15
+seconds -> computed 362 frames = 15.1s, OVERRIDING the widget. User: "we need a 5
+second video, you created a 15 second video."
+
+**Implementation:** `utilities/fix_intro_lengths.py` unlinked the R2V `length`
+input on all 9 R2V shots. The orphaned math node 131 + primitive 132 are left in
+place (harmless - the server prunes them).
+
+**Status:** Active. All 9 R2V shots now run at their widget length.
+
+## D074 — MiniMax H3 audio: the model's own prior adds music; fix = strengthen the audio sections + ControlFoley post (2026-09-14)
+
+**Decision:** The "music" the user hears in a generated shot is NOT from the prompt
+(the prompt already says `non_diegetic_music: NO music...` and a natural-only
+`overall_soundscape`). It is the **MiniMax H3 model's own audio prior** — H3
+generates NATIVE audio and has a strong "add a cinematic score / ambient music
+bed" bias that a thin soundscape line cannot fully suppress.
+
+**Fix (two layers):**
+1. **Prompt layer (applied to all 10 shots):** make `overall_soundscape` a
+   CONTINUOUS natural bed that fills the whole shot edge-to-edge (room tone,
+   bulb hum, chair scrape, breath, creak) so there is no "gap" for the model to
+   fill with music; and make `non_diegetic_music` an EXPLICIT exhaustive
+   no-music list (NO score, NO background music, NO ambient music, NO cinematic
+   score, NO soundtrack bed). `wire_intro_prompts.py` re-wires all 9 R2V shots.
+2. **Post layer (the reliable fix):** the H3-native audio is unreliable for the
+   no-music rule. The PROVEN path is **ControlFoley TEXT-ONLY SFX** (see
+   `build_controlfoley_textonly.py`): strip the H3 audio (`ffmpeg -an`), generate
+   a clean natural-SFX bed from a text prompt (with a music-free negative prompt),
+   and mux it onto the video. This is the production audio path for the intro.
+
+**Reason:** User: "we want surrounding sound or digestive sound but no music, but
+i hear a music." The prompt was already correct, so the music is model-side.
+
+**Status:** Active. Prompt layer applied to all 10 shots. ControlFoley post is the
+fallback if a re-run still has music.
+
+## D075 — MiniMax H3 RAM spike (~56 GB) is model weights + activations; prevent by freeing between shots (2026-09-14)
+
+**Decision:** Running a MiniMax H3 R2V workflow spikes system RAM to ~56 GB,
+forcing a ComfyUI restart before Qwen can come back up. This is EXPECTED, not a
+bug.
+
+**Why (measured model sizes):**
+- UNET `minimax_h3_ref2va_pruned_int8_convrot.safetensors` = **19.53 GB**
+- CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` = **14.61 GB**
+- LoRA `minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors` = **1.82 GB**
+- Total weights ≈ **36 GB** — which EXCEEDS the 32 GB RTX 5090 VRAM. So ComfyUI
+  loads the weights into system RAM first (safetensors → RAM), then streams the
+  layers that fit into VRAM and keeps the OVERFLOW in system RAM. That overflow
+  (weights that don't fit in 32 GB VRAM) is the dominant RAM consumer. On top:
+  the video latents (1344×768 × 124 frames) + audio latents + SLA attention
+  buffers + Python/PyTorch overhead. That is how it reaches ~56 GB.
+- **CORRECTION (2026-09-14):** an earlier note said "the 32B Qwen3-VL text
+  encoder runs on CPU (RAM)" — that was WRONG. The CLIP text encoder runs on
+  GPU like the rest. The real reason for the RAM spike is the 36 GB of weights
+  exceeding the 32 GB VRAM (forcing RAM offload) + the generation working set.
+
+**Prevention (do NOT restart ComfyUI between shots — just free memory):**
+1. **Between shots:** call `free_memory` (MCP) — unloads the UNET/CLIP/LoRA from
+   VRAM and resets the executor cache. This drops the working set so the next
+   shot reloads cleanly without a full restart.
+2. **Before Qwen:** after the LAST shot, `free_memory` again, then restart Qwen.
+   The weights are reloaded on demand per shot, so you do NOT need to restart
+   ComfyUI to bring Qwen back — just free the models first.
+3. **Do NOT run Qwen + H3 simultaneously** (D045 / user rule) — they compete for
+   the 32 GB VRAM and system RAM. Stop Qwen for the H3 batch, restart it after.
+4. **Batch the shots:** run all 10 shots in ONE ComfyUI session (free_memory
+   between each) rather than restart-per-shot — faster and avoids the restart
+   churn.
+
+**Status:** Active. Use `free_memory` between shots and before restarting Qwen.
+
+## D076 — MiniMax H3 acting = VISUAL micro-expressions + AUDIO emotion tags, fused (2026-09-14)
+
+**Decision:** To make Jaisal's face ACT (not just pose), use the r/StableDiffusion
+"pushing AI emotions" technique: **one fused sentence** describing the subtle facial
+movement *while* the line is delivered, with audio emotion tags inside the dialogue.
+Full guide: `docs/MINIMAX_H3_MICRO_EXPRESSIONS.md`.
+
+**Key rules:**
+1. **LEAD WITH THE EYES** — the eyes are the primary micro-expression channel
+   ("his eyes shift first, then the head rotates").
+2. **FUSE** the micro-expression with the action/dialogue (not a separate "he looks
+   sad" note).
+3. **Dialogue format** `<d>[Language] ... </d>` with emotion tags inside
+   (`<breath>`, `<pause>`, `<long pause>`, `<sighs>`, `<i>word</i>`, `<stutter>`,
+   `<catches breath>`, `<softer>`, `<mhm>`, `<phew>`, etc.).
+4. **NO MUSIC (D041):** do NOT use `<humming>` / melody tags in the intro — only
+   natural-speech tags.
+5. **Melody/humming** needs a `ref_audios` reference (`<Audio 1>`) — NOT used here.
+
+**Per-shot micro-expressions** (in the doc): A=wary entry + breath; B=calm still
+look; C=**the hook** (eyes shift first, head rotates SLOWLY 180°, eyes stay locked);
+D=expression eases back to ordinary; E=wonder, eyes follow the stem, softening
+smile; F=weight of limitation, slow breath, gaze drops, subtle frown; G=faint wry
+half-smile, small shrug, then vanishes.
+
+**AUDIO PATH (decide per-shot, do NOT change workflows yet):**
+- **Path 1 — MiniMax NATIVE audio:** dialogue in the prompt as `<d>[Language] ...
+  </d>`; MiniMax generates voice + lip motion. Fast, but a GENERIC voice (NOT the
+  user's), Malayalam likely weak.
+- **Path 2 — VC + LatentSync (D050):** user dubs Malayalam → RVC/OpenVoice →
+  LatentSync lip-sync. The user's ACTUAL voice, correct Malayalam.
+- **The VISUAL micro-expressions apply in BOTH paths** — always prompt them.
+- **NEXT:** run shot A first (visual micro-expressions only, no dialogue), judge the
+  face acting, THEN pick the audio path.
+
+**Settings note:** the post uses 30 steps + First Block Cache + res_multistep +
+sage2++ + NO LoRA + a custom FL2VA→REF2VA FP8 finetune. We keep our turbo 4-step +
+SLA speed stack (D014) — the ACTING comes from the prompt, not the settings.
+
+**Status:** Active. Technique documented; apply per-shot micro-expressions; audio
+path pending the shot-A test.
+
+## D077 — Dialogue = ENGLISH placeholder (native `<d>` tags) for dubbing; shot B = SMIRK only (2026-09-14)
+
+**Decision:** The user will DUB the dialogue in Malayalam later. So for now, prompt
+the lines in **ENGLISH** (the script's English lines) via MiniMax NATIVE audio
+(`<d>[English] ... </d>` tags). The English audio is a PLACEHOLDER — it gives the
+model mouth movement + timing to dub over; the final Malayalam dub replaces it
+(Path 2: VC + LatentSync, D050). This is the "something to fill up" the user
+asked for.
+
+**Shot B (setup) specifics (user direction 2026-09-14):**
+- **SMIRK only, NOT a full smile** — "a small smirk at one corner of his mouth,
+  just a smirk, NOT a full smile, his eyes softening slightly" as his hands rise
+  to the table edge.
+- **Dialogue = MALAYALAM TEST (user: "i wonder if we put malayalam audio will it
+  be able to do something? let's do that in this video itself"):** Jaisal says
+  **തുടങ്ങട്ടെ** ("Let's start", his first script line) in Malayalam:
+  `<d>[Malayalam] <breath> തുടങ്ങട്ടെ </d>`. This is a TEST of whether MiniMax H3
+  can actually SPEAK Malayalam (vs mangling it). If it speaks it cleanly → we can
+  use native Malayalam audio directly (skip the dub). If it mangles it → fall back
+  to the English placeholder + Malayalam dub (Path 2).
+- The smirk fades to a calm settled look by the end frame.
+
+**Status:** Active. Shot B wired with smirk + Malayalam "തുടങ്ങട്ടെ" test. Run it and
+judge: does MiniMax speak the Malayalam cleanly? Then apply the winning pattern to
+the other dialogue shots (C, D, E, F, G).
+
+## D078 — Shot C (head-twist hook) converted from CAMERA NODE to R2V (2026-09-14)
+
+**Decision:** Shot C is now an **R2V workflow** (`jaisal_intro_C_headtwist_180_r2v.json`),
+NOT the camera node. Built via `utilities/build_C_r2v.py` (copies shot B's proven R2V
+model chain, swaps the refs + prompt + length).
+
+**Why:** the original shot C used `H3LocalCameraEditor` (the camera node), whose source
+literally says *"Freeze the captured scene in world space while the camera moves;
+preserve identities, materials and lighting."* The camera node can ONLY move the
+camera — it CANNOT turn the subject's head. But the hook IS the head turning 180°, so
+the camera node is the wrong tool. R2V lets the head turn AND lets Jaisal speak the
+Malayalam dialogue.
+
+**Shot C R2V config:**
+- `ref_image_0` = `jaisal_head_left_back_side.png` (start: head facing left-back)
+- `ref_image_1` = `jaisal_head_180_dergree.png` (end: head turned 180° to camera)
+- length = **240 frames (~10s)** (matches the script 0:08-0:18)
+- 1344×768 (1MP), SaveVideo prefix `jaisal_intro_C_headtwist_180`
+- **Micro-expressions:** EYES shift FIRST (gaze turns to the lens before anything
+  moves), then the head rotates SLOWLY/deliberately 180° while the BODY stays still
+  and lit the same, eyes LOCKED on the lens the whole turn.
+- **Dialogue (Malayalam, native):** `<d>[Malayalam] <breath> എന്താ പറയേണ്ടത്
+  അറിയില്ല... <pause> എവിടുന്നാ തുടങ്ങേണ്ടത് എന്നറിയില്ല. <long pause> പക്ഷേ...
+  <inhale> ഇതാണ് എൻറെ തുടക്കം. <pause> സോ വെൽക്കം ടു ദി ജൈസൽ കട്ട്. </d>`
+- `wire_intro_prompts.py` now includes shot C (key "C" → the R2V file). `shot_C.txt`
+  updated to the R2V prompt.
+
+**Status:** Active. Shot C R2V validates clean (0 errors). The old camera-node file
+(`jaisal_intro_C_headtwist_180.json`) is kept but superseded.
+
+## D079 — Shot C: REVERT to the CAMERA NODE (subject CAN move via the instruction widget) (2026-09-14)
+
+**Decision (CORRECTS D078):** shot C goes back to the **camera node**
+(`jaisal_intro_C_headtwist_180.json`), NOT the R2V conversion. The R2V file
+(`jaisal_intro_C_headtwist_180_r2v.json`) is kept as a fallback.
+
+**Why (user + the node author):** the camera node's "Freeze the captured scene" line
+is the **DEFAULT** because the node is built for **training Gaussians** (3D splats
+need a static scene). But the author (NyckM, r/StableDiffusion "H3 camera control
+update" + github.com/NyckM/BruxosSplat) confirms the subject **CAN move** — you just
+add the motion to the prompt. The camera node's real advantage is the **precise
+camera orbit** (azimuth 0→180 at exactly the head-turn rate), which is exactly what
+the script wants ("the camera rotates and pushes in at exactly the same rate as the
+head turns"). R2V can only *approximate* that in text.
+
+**How (two surgical edits to the node source, backed up as
+`experimental.py.bak_headturn`):**
+1. `experimental.py` line ~30: the default source line changed from *"Freeze the
+   captured scene in world space while the camera moves"* → *"The subject may act
+   (e.g. turn the head) while the camera moves; preserve identities, materials and
+   lighting."*
+2. `experimental.py` line ~56: dropped the trailing *"Silence."* so dialogue audio
+   is allowed.
+3. The camera node's **`instruction` widget** (widgets_values[3]) now carries the
+   head-turn motion + Malayalam dialogue (set via
+   `utilities/update_C_camera_instruction.py`): eyes shift first → head rotates
+   SLOWLY 180° at the same rate as the camera orbit → body stays still → he speaks
+   `<d>[Malayalam] <breath> എന്താ പറയേണ്ടത് അറിയില്ല... </d>`.
+
+**IMPORTANT:** the node-source edits require a **ComfyUI restart** to take effect
+(the running ComfyUI still has the old `experimental.py` loaded). The workflow file
+itself is ready.
+
+**Status:** Active. Shot C = camera node (precise orbit) + instruction (head-turn
+motion + Malayalam dialogue). R2V version kept as fallback.
+
+## D080 — Shot C = 2-STEP head turn (C1 normal→90°, C2 90°→180°), R2V (2026-09-14)
+
+**Decision (user: "should we not give the last frame of the second video and then
+do a rotate to the 180 degree... or 2 step is needed, from the normal one to 90
+degree with camera and then from that frame last image to the back twisted one?"):**
+Shot C is a **2-STEP R2V head turn**, NOT a single 180° take and NOT the camera node.
+
+**Why 2-step:** (1) **Continuity** — shot C must START from shot B's exact last
+frame (`jaisal_with_hand_on_table.png` = normal frontal) for a seamless cut, NOT
+from the 90° frame. (2) **Reliability** — a full 180° head turn in one take is a
+big ask; two 90° steps are far more reliable, and the 90° frame is the SHARED
+anchor so C1→C2 cuts seamlessly.
+
+**The two workflows (both R2V, built via `utilities/build_C1_C2.py`, both validate
+clean 0 errors, 120 frames ~5s each, 1344×768):**
+- **C1** `jaisal_intro_C1_headturn_90.json`: `jaisal_with_hand_on_table.png` (normal
+  frontal, B's end) → `jaisal_head_left_back_side.png` (90° left-back). **NO
+  dialogue** (the turn happens silently). Eyes shift first, head rotates SLOWLY to
+  the left-back side, body stays still.
+- **C2** `jaisal_intro_C2_headturn_180.json`: `jaisal_head_left_back_side.png` (90°)
+  → `jaisal_head_180_dergree.png` (180° back-twisted, face turned back over the
+  shoulder). **Malayalam dialogue** (the creepy reveal): `<d>[Malayalam] <breath>
+  എന്താ പറയേണ്ടത് അറിയില്ല... </d>`.
+
+**Keyframes (verified visually):** `jaisal_with_hand_on_table.png` = facing camera,
+hands on table (normal); `jaisal_head_left_back_side.png` = seen from left-back,
+head turned left (~90°); `jaisal_head_180_dergree.png` = back to camera, FACE turned
+back toward the camera over the shoulder (the creepy 180° twist).
+
+**Status:** Active. C1 + C2 ready. The single-take R2V
+(`jaisal_intro_C_headtwist_180_r2v.json`) and camera-node
+(`jaisal_intro_C_headtwist_180.json`) versions are kept as alternatives.
+
+## D081 — Shot C = SINGLE 3-ref R2V head turn (normal→90°→180°), locked camera, 10s (2026-09-14)
+
+**Decision (user: "its definitely moving [C1] but the head first looks like the
+right side... we can add 3 reference, 90 degree one and full 180 degree one and
+see once? i feel like its very much doable, but we might need to add prompt for
+slowing down, the shot is 10 second bcs we have a dialogue with head twisted 180
+degree so we should time that, lets add dialogue also"):** shot C is a **SINGLE
+3-ref R2V** head turn (NOT the 2-step, NOT the camera node). Built via
+`utilities/build_C_3ref.py` → `jaisal_intro_C_headturn_3ref.json` (validates clean
+0 errors, 23 nodes).
+
+**Config:**
+- `ref_image_0` = `jaisal_with_hand_on_table.png` (normal frontal, B's end frame)
+- `ref_image_1` = `jaisal_head_left_back_side.png` (90° left-back, MIDDLE anchor)
+- `ref_image_2` = `jaisal_head_180_dergree.png` (180° back-twist, END)
+- **240 frames (~10s)**, 1344×768, SaveVideo prefix `jaisal_intro_C_headturn_3ref`
+- **LOCKED camera** (no camera node) — the head does all the motion.
+
+**Timing (the user's key ask):** the turn happens in the **first ~5s** (eyes shift
+first, head rotates SLOWLY to the LEFT through the 90° anchor at ~5s), then the
+head **HOLDS at 180°** (back to camera, face turned back over the shoulder) while
+he speaks the Malayalam dialogue in the **second ~5s**.
+
+**Direction fix:** the head turns to the **LEFT** (toward his left shoulder), NOT
+right — the prompt says "to the LEFT (toward his left shoulder, NOT to the right)"
+and the negative adds "head turning to the right, head turning right".
+
+**Status:** Active. 3-ref shot C ready. C1/C2 (2-step) + camera-node + single-2-ref
+versions kept as alternatives.
+
+---
+
+## D082 — Shot C = CAMERA NODE (trolley orbit) + head turn LEFT + ENGLISH dialogue (2026-09-14)
+
+**Decision (user: "that was messy, it didnt follow the camera angle, and the
+dialogue lets keep it in english for now, malayalam i will dub later, we need
+some lip movement thats it. the prompt didnt have the camera movement, camera
+should be moving like we have in the camera node. we are going to look left side
+meaning the camera must rotate on the right side it should move like in trolley
+and the head should follow (head will be left side) since camera and face are
+opposite. lets use camera node if we want, we need max perfection"):** the 3-ref
+R2V (D081) came out MESSY and had NO camera movement. Reverting to the **CAMERA
+NODE** (`jaisal_intro_C_headtwist_180.json`, node 127 `H3LocalCameraEditor`) for
+the smooth trolley-like orbit. Dialogue is **ENGLISH** for now (user will dub
+Malayalam later) with **clear lip movement**.
+
+**Config:**
+- **Reference image** = `jaisal_with_hand_on_table.png` (clean frontal start,
+  continuity from shot B) — the camera orbits 180° from frontal to back.
+- **Trajectory** (unchanged): `0° → 90° (t=0.5) → 180° (t=1)`, distance 1→0.9→0.8
+  (slow push-in), profile `124 frames (~5.17s)`, interpolation `smooth`.
+- **orbit_direction** = `same as HUD` (index 7) → positive azimuth = camera's
+  RIGHT = trolley. If the orbit comes out mirrored, flip this widget to
+  `invert H3 orbit`.
+- **Instruction** (node 127, index 3): head turns SLOWLY to the **LEFT** (toward
+  his left shoulder), ending back-to-camera with face turned back over the
+  shoulder; body stays still; in the second half he speaks ENGLISH with clear
+  LIP MOVEMENT: `<d>[English] <breath> I don't know what to say... <pause> I
+  don't know where to start. <long pause> But... <inhale> this is where I start.
+  <pause> So welcome to the Jaisal Kut. </d>`; natural ambient only, NO music.
+
+**Source patch (REQUIRES ComfyUI RESTART):** `camera.py` (backup
+`camera.py.bak_headturn`) — the base camera path (`experiment_mode='Off'`)
+hardcoded `sound='Silence.'` and `forbid='...no subject rotation...'`, which
+froze the subject and killed the dialogue. Patched (via
+`utilities/patch_camera_audio.py`, compiles clean): (1) `sound` → natural
+ambient + voice (NO music); (2) `forbid` → allows the head turn (body stays
+still); (3) `preserve` → relaxed so the head may turn; (4) both `plan_text`
+paths (non-sections + H3-sections) emit the ambient/voice soundscape instead of
+`Silence.`/`N/A`.
+
+**Why camera node over R2V:** the user wants the smooth trolley orbit the camera
+node produces (the R2V 3-ref had no camera movement and was messy). The camera
+node compiles the trajectory into a precise prompt; the head turn + dialogue come
+from the instruction widget.
+
+**Status:** Active. `jaisal_intro_C_headtwist_180.json` updated (ref +
+instruction), validates clean 0 errors. **ComfyUI restart REQUIRED** to load the
+patched `camera.py`. 3-ref R2V (D081) + C1/C2 kept as alternatives.
+
+---
+
+## D083 — Shot C: BYPASS the experimental Sage VRAM patch (Blackwell/sageattention 1.0.6) (2026-09-14)
+
+**Problem (user: "got this issue ... sageattention is not new enough version or
+could not determine CUDA architecture, cannot apply MiniMax H3 Memory Efficient
+Sage Attention Patch"):** shot C's model chain (inside the subgraph) contained the
+**experimental `MiniMaxH3MemoryEfficientSageAttentionPatch`** node (KJNodes,
+internal node 136). It needs a `sageattention` that recognizes the RTX 5090's
+Blackwell arch (SM_120 / capability (12,0)); the installed **sageattention 1.0.6**
+does NOT (torch 2.12.0+cu130 detects the 5090 fine, but sage 1.0.6 predates
+Blackwell). The node raised a RuntimeError and aborted the run.
+
+**Fix (via `utilities/fix_C_sage_bypass.py`, backup `*.json.bak_sage`):**
+**bypassed node 136** — retargeted link 404 (origin 6 UNETLoader) from 136 → 137
+(ModelAttentionBackend), removed link 269 (136→137) and node 136. New chain:
+`6 (UNET) → 137 (ModelAttentionBackend 'comfy kitchen attention') → 138
+(H3SLAAttention) → 121 (LoraLoader turbo) → 122 (switch)`. This keeps the proven
+`H3SLAAttention` speed stack; we only drop the experimental sage VRAM patch.
+Validates clean 0 errors (node count 40→39).
+
+**Why bypass (not upgrade sage):** the sage patch is an *experimental* peak-VRAM
+reduction. The H3SLAAttention node (138) is the actual speed/VRAM stack we rely
+on, and it does NOT use sageattention — so dropping 136 loses nothing for our
+pipeline. Upgrading sageattention to a Blackwell build is a separate, riskier
+change (recompile wheels) not needed to run the shot.
+
+**Status:** Active. `jaisal_intro_C_headtwist_180.json` no longer contains the
+sage patch node. If a future shot's template re-introduces the sage patch node,
+apply the same bypass (or upgrade sageattention).
+
+---
+
+## D084 — Shot C: 10s timing + scene description in the instruction (background lock) (2026-09-14)
+
+**Problem (user: "the camera is moving correctly and character is somewhat
+looking at it, but the problem is it didnt create the proper video meaning
+timing is 5 seconds, and the background had changed, lets give our prompt now
+along with camera movement"):** the camera-node run (a) was only **5s** (profile
+was `124 frames (~5.17s)`) but the script's shot C is **0:08–0:18 = 10s**; (b)
+the **background drifted** because the camera node's compiled prompt is thin
+(trajectory + a short head-turn instruction) — it had NO scene description, so
+the model re-invented the room.
+
+**Fix (via `utilities/update_C_10s_background.py`):**
+1. **Profile `124 frames (~5.17s)` → `243 frames (~10.13s)`** (camera node
+   widget idx 1). The video node's `length` is wired from the camera node's
+   frame-count output (slot 5), so the 10s propagates automatically.
+2. **Enriched the `instruction` widget** (idx 3) with the full SCENE description
+   (boy at wooden table, dark room, single bare bulb above head, B&W high
+   contrast fine grain) + a HARD BACKGROUND LOCK ("the room, table, chair and
+   the single bare bulb stay EXACTLY the same throughout - do NOT change, add,
+   remove or reposition any background element; the background is locked to the
+   reference image") + the head-turn-LEFT motion + the ENGLISH dialogue with lip
+   movement + natural ambient / NO music.
+
+**Wiring facts (verified):** video node 201 (MiniMaxH3ImageToVideo) inside the
+subgraph: `length` (slot 7) ← subgraph `length` input ← camera node slot 5
+(frame count from profile); `prompt` (slot 4) ← camera node slot 4 (compiled
+prompt incl. the instruction field). So profile + instruction are the only two
+dials needed.
+
+**Status:** Active. `jaisal_intro_C_headtwist_180.json` = 243 frames (~10.13s),
+enriched instruction, validates clean 0 errors. `shot_C.txt` updated to match.
+
+---
+
+## D085 — Shot C: ABANDON the camera node, back to 3-ref R2V with guide-based prompt (2026-09-14)
+
+**Problem (user: "the camera node is acting up, colors changed, face drifted, i
+dont think its capable of doing this consistent 10 seconds apart from gaussian or
+small 2 or 3 second. lets switch to the normal workflow, and get it done.
+prompting is needed here, check the guide"):** the camera node (D082/D084) cannot
+hold a consistent 10s — colors changed and the face drifted. The camera node is
+prompt-only (no camera adapter), so over a long take the model's priors take over.
+
+**Decision:** shot C = **3-ref R2V** (`jaisal_intro_C_headturn_3ref.json`) — the
+refs anchor the face at 3 exact poses, so identity holds across the whole 10s.
+The camera node workflow (`jaisal_intro_C_headtwist_180.json`) is kept but
+abandoned for shot C.
+
+**Prompt (node 138, via `utilities/update_C_3ref_prompt.py`, saved to
+`Jaisal-intro\prompts\shot_C_3ref.txt`):** full guide 6-section structure:
+- **MANDATORY SHOT CONSTRAINT at the top** (guide rule: H3 weights the first lines
+  most): "the camera is completely static and locked - NO camera movement, NO pan,
+  NO orbit, NO zoom, for the entire 10 seconds"
+- **Face locked to refs:** "His face, hair, clothing and build come from the
+  reference images, NOT from this text description" + `fully_preserved` on all 3
+  pictures
+- **3 anchors with timings:** <Picture 1> = first frame (frontal, hands on table);
+  <Picture 2> = head passes through the 90° left-back pose at ~2.5s; <Picture 3> =
+  final frame (back to camera, face over shoulder) reached at ~5s and held
+- **Head turn LEFT** in the first half (eyes shift first, body still), **English
+  dialogue with clear lip movement** in the second half (dub Malayalam later)
+- Background locked to the refs; natural ambient only; NO music (D041)
+
+**Status:** Active. `jaisal_intro_C_headturn_3ref.json` = 240 frames (10s),
+1344×768, 3 refs, validates clean 0 errors. This is the shot-C production path.
+
+**CORRECTION (user: "how the fuck or where i mentioned it has to be rose pink
+shirt? ... is this the reason why we have added references?"):** the first version
+of this prompt wrote appearance text ("short dark hair, rose-pink collared shirt,
+black trousers") — WRONG. The refs ARE the identity source; any appearance text
+competes with them (and "rose-pink" is a color description in a B&W video — a
+contradiction). **FIXED via `utilities/fix_C_3ref_no_appearance.py`:** ALL
+appearance text removed. `<Subject 1>` is now defined ONLY by the pictures: "His
+identity, face, hair, clothing and build come ENTIRELY from the reference images -
+do not alter his appearance in any way."
+
+**RULE (permanent, all R2V prompts): NEVER describe the character's appearance in
+the prompt when reference images carry the identity.** The prompt describes ONLY:
+poses, actions, camera, scene, sound, dialogue. Identity = refs. (This matches the
+existing "character identity comes from the reference IMAGE, not text description"
+rule — I violated it here and the user called it out.)
+
+---
+
+## D086 — Shot C REDESIGNED: "genuinely starting" (no 180° twist, no glitch) (2026-09-14)
+
+**Decision (user: "i feel like we should reconsider the approach... I would make
+the opening almost awkwardly simple... Black screen. Room tone. Bulb hum. Chair
+scrape. Jaisal enters. Sits. Looks at camera. 'I don't know what to say.' Small
+pause. Camera begins moving. 'I don't know where to start.' Camera reaches 90°.
+Pause. He looks at the camera. 'But... here we start.' Beat. 'Welcome to the
+Jaisal Kut.' Cut to the next scene. No glitch. No horror. No 180° impossible
+neck... I'd choose this version over the 180° twist. It fits the channel you're
+actually describing much better." + "we have a and b ready already, lets start
+from C, B's last shot is jaisal with his hand on the table, so lets work on C as
+independent one and close it"):** the 180° head-twist hook is DROPPED. Shot C is
+now a **simple, human "genuinely starting" moment** — the strange visuals come
+AFTER the viewer has accepted the person.
+
+**Built (`jaisal_intro_C_starting_2ref.json`, via
+`utilities/build_C_starting_2ref.py`, validates clean 0 errors, 22 nodes):**
+- **2 refs:** `ref_image_0` = `jaisal_with_hand_on_table.png` (frontal START —
+  B's last frame, continuity) → `ref_image_1` = `jaisal_head_left_back_side.png`
+  (90° left, head into lens, END). The 180° ref (node 152) removed.
+- **240 frames (10s)**, 1344×768, SaveVideo prefix `jaisal_intro_C_starting_2ref`.
+- **Camera = ONE slow 90° orbit to his LEFT** (counter-clockwise from above),
+  start = <Picture 1>, end = <Picture 2>. Explicitly NOT 180°, NOT a full circle,
+  NOT returning to start.
+- **Head follows the camera** (turns left to keep looking at the lens); **body
+  stays completely still** (shoulders/torso/arms/hands/chair/table fixed).
+- **PER-SECOND TIMELINE** (guide technique — the user's key ask: "minimax should
+  have prompt for seconds (each second)"): 10 segments, one state per second:
+  0-1s still + eyes shift + "I don't know what to say"; 1-2s pause, eyes hold;
+  2-3s camera begins orbiting left + "I don't know where to start"; 3-6s head
+  slowly follows the camera; 6-7s camera reaches his left side (~90°), pause;
+  7-8s head ~90° into lens + "But... here we start"; 8-9s beat; 9-10s "Welcome
+  to the Jaisal Kut", holds the <Picture 2> pose.
+- **Micro-expressions:** eyes shift first, gaze holds the lens, quiet natural
+  delivery, clear lip movement.
+- **Background = PURE BLACK VOID** (locked per-second): no room/wall/door/ceiling/
+  furniture/architecture revealed during the orbit; single bare bulb = only light.
+- **English dialogue** (dub Malayalam later): "I don't know what to say." / "I
+  don't know where to start." / "But... here we start." / "Welcome to the Jaisal
+  Kut." NO glitch, NO horror, NO 180° twist.
+- Prompt saved to `Jaisal-intro\prompts\shot_C_starting.txt`.
+
+**Superseded (kept as alternatives):** `jaisal_intro_C_headturn_3ref.json` (3-ref
+180° twist), `jaisal_intro_C_headtwist_180.json` (camera node), C1/C2 (2-step).
+
+**CORRECTION (user: "i dont want the last frame to be the backside, i want the
+last 'welcome to the jaisal kut' to be the first frame we gave... we need
+cinematic blocking and shot division"):** the camera is now a **SMOOTH ROUND
+TRIP** (via `utilities/update_C_starting_roundtrip.py`): frontal (<Picture 1>) →
+orbit left to ~90° (<Picture 2>, the middle checkpoint) → **back to frontal
+(<Picture 1>)**. The **FINAL FRAME = THE FIRST FRAME** (frontal, hands on table)
+— so the cut to shot D is seamless. The head follows the camera the WHOLE way
+(turns left as the camera orbits left, turns back as it returns), so he keeps
+looking at the lens; body stays dead still. Added **CINEMATIC BLOCKING** (5
+phases: STILL frontal / ORBIT OUT / LEFT SIDE ~90° / ORBIT BACK / WELCOME
+frontal) + a **per-second TIMELINE** (one state per second, each naming camera
+position + subject position + dialogue beat). Dialogue beats: 0-1s "I don't know
+what to say"; 2-3s "I don't know where to start"; 6-7s "But... here we start";
+9-10s "Welcome to the Jaisal Kut" (final frame = <Picture 1>). Validates clean 0
+errors.
+
+**NEXT (user, submit today):** run `jaisal_intro_C_starting_2ref.json` (stop Qwen
+first); judge: does the camera do the round trip smoothly? does the head follow
+while the body stays still? does the FINAL frame = the FIRST frame (frontal)?
+does the dialogue land on the beats? then prep shot D.
+
+---
+
+## D087 — Shot C = SINGLE STATIC MEDIUM SHOT + white "The Jaisal Kut" title flash (2026-09-15)
+
+**Decision (user: "i feel like we dont need to do the rotation or anything, just a
+static medium shot, cutting with perfect shot division... when the character says
+welcome to the jaisal cut, in the background of the character we should write it in
+white letters like a flash for a split second"):** the D086 round-trip camera orbit
+is DROPPED. Shot C is now a **SINGLE STATIC MEDIUM SHOT** (50mm, eye level, camera
+COMPLETELY STILL — no orbit/pan/zoom). The boy stays in the same seated pose the
+whole 10s; only his mouth moves (speaking) + eyes shift subtly. All 4 English lines
+in one take with clear lip movement. **TITLE FLASH:** as he says the final line
+("So welcome to the Jaisal Kut"), the words **"The Jaisal Kut" flash in WHITE
+letters in the background BEHIND him** (in the black void, above/behind his head)
+for a SPLIT SECOND (~1s), then gone. Spelling locked exactly: T-h-e J-a-i-s-a-l
+K-u-t.
+
+**Built (`jaisal_intro_C_starting_2ref.json`, via `utilities/rebuild_C_static.py`,
+validates clean 0 errors, 21 nodes):**
+- **SINGLE ref:** `ref_image_0` = `jaisal_with_hand_on_table.png` (frontal, hands
+  on table). The 90° ref (node 139) + its link (301) DELETED; `ref_image_1` link
+  cleared → None.
+- **Prompt (node 138) rewritten** to the static-shot + title-flash structure
+  (saved `Jaisal-intro\prompts\shot_C_static.txt`): MANDATORY SHOT CONSTRAINT =
+  camera COMPLETELY STILL (no orbit/pan/zoom), boy stays in same pose, only mouth
+  moves; 50mm medium, eye level, single bare bulb, PURE BLACK VOID background, ONE
+  boy; a dedicated **TITLE FLASH** section (white "The Jaisal Kut" behind him,
+  split second, exact spelling); per-second TIMELINE with the 4 lines on beats
+  (0-1s "I don't know what to say"; 2-3s "I don't know where to start"; 4-5s "But...
+  this is where I start"; 6-7s "So welcome to the Jaisal Kut"; 7-8s the white title
+  FLASHES behind him; 8-10s he holds the pose).
+- **240 frames (10s), 1344×768** (unchanged).
+- **NO MUSIC** (D041): `non_diegetic_music` = natural ambient only.
+
+**WHY static:** a round-trip orbit over 10s is where face/color drift crept in
+(D085/D082). A locked static medium shot is far more reliable — the model only has
+to hold a pose + speak, not move the camera. Clean shot division (cut between B and
+D in assembly) reads more cinematic than a slow orbit.
+
+**RISK:** the model rendering the white "The Jaisal Kut" text is unreliable at
+spelling (D004) and timing a split-second flash to the exact word. **FALLBACK if
+the text comes out garbled / mistimed / not at all:** composite the white title
+flash in POST (DaVinci Resolve) over the clean video, timed to the "Welcome" line
+(matches D004 — title never rendered by the model). The video itself stays clean
+either way.
+
+**CORRECTION (2026-09-15, after the first run): the in-video title flash DID NOT
+GO WELL — the FACE GOT DISTORTED.** Asking MiniMax to render text + hold a face +
+speak all at once is too much pressure; the face (the priority) suffers first
+because the model's attention goes to the text. **DECISION: REMOVE the title from
+the video entirely.** The title is done in POST: the user takes the LAST FRAME of
+the video, creates a NEW image with the text added, and uses that (then the white
+"The Jaisal Kut" flash is a post effect over the clean video). **Rebuilt via
+`utilities/rebuild_C_static_notext.py`** (validates clean 0 errors): (1) removed
+the TITLE FLASH section + the text from the 7-8s timeline beat (now a still beat);
+(2) added a **FACE CLARITY lock** (face SHARP/CLEAR/IN FOCUS/HIGH DETAIL in every
+frame, does NOT distort/blur/morph/change shape, exactly as in <Picture 1>);
+(3) added **NO text/letters/words/title/watermark/graphics** to the background
+lock (so the model doesn't hallucinate text on its own). Prompt saved
+`Jaisal-intro\prompts\shot_C_static_notext.txt`. **RULE: do NOT ask MiniMax to
+render text in a face shot — it distorts the face. Keep the video text-free; add
+any title in POST.**
+
+**NEXT (user):** (a) stop Qwen; (b) run `jaisal_intro_C_starting_2ref.json`
+(no-text version); (c) judge: is the camera truly static? is the FACE sharp/clear
+in every frame (the main issue)? does he speak all 4 lines with clear lip
+movement? (d) then the user takes the LAST FRAME → adds the white "The Jaisal
+Kut" text in a new image → post; (e) then prep shot D (the perfect reverse).
+**RULES:** NO MUSIC (D041); user runs GPU jobs manually (I never stop Qwen);
+artifacts in `Jaisal-intro\`.
+
+
+## D088 — Last-frame→2K stitch pipeline (video last frame as next shot's start ref) (2026-09-15)
+
+**Decision:** to stitch shots seamlessly (no glitch), the NEXT shot's 
+ef_image_0
+(start anchor) = the **last frame of the previous shot's video, upscaled to 2K** —
+NOT a separately-generated keyframe. Built as a single one-run workflow
+seedvr2_lastframe_2k.json (via utilities/build_seedvr2_lastframe_2k.py,
+validates clean 0 errors 0 warnings).
+
+**Pipeline:** LoadVideo → GetVideoComponents → GetImageRangeFromBatch
+(start_index=-1, 
+um_frames=1 = last frame; KJNodes, source-confirmed
+start_index==-1 → len-1) → SeedVR2VideoUpscaler (atch_size=1, 1080
+shortest-edge → 1920×1080, seedvr2_ema_7b_sharp_fp16 + ema_vae_fp16) →
+SaveImage (prefix lastframe_2k). Works on the original OR already-upscaled
+video (the upscaler re-upscales to 2K either way).
+
+**Reason:** the last frame of shot N is the EXACT end state; feeding it as shot
+N+1's start ref makes the cut seamless (same pose/room/lighting). A fresh
+keyframe risks a mismatch. 2K (1920×1080) matches H3's 16:9 1344×768 aspect.
+
+**Alternatives considered:** (a) separate Krea2 keyframe per shot (rejected —
+mismatch risk + extra work); (b) ffmpeg last-frame extract + separate SeedVR2
+image run (rejected — two steps, this is one).
+
+**Status:** ACTIVE. **RULE: for every shot, last frame (2K) → next shot's
+ref_image_0.**
+
+**KEY LESSON (2026-09-15): native UI links are ARRAYS
+[id, from_node, from_slot, to_node, to_slot, type], NOT dicts.** A
+machine-built file with dict links is silently ignored by the UI→API converter
+(validator: 
+ode_not_reachable_from_output on every node +
+
+equired_input_missing on the save node). Emit links as arrays.
+
+
+## D089 — Shot D = CONTINUATION from C's last frame (reverse dropped) (2026-09-15)
+
+**Decision:** the script's Shot 4 "PERFECT REVERSE" (everything reverses, 180 head
+twist undone) is DROPPED — shot C no longer has the twist (D086/D087 made it a
+static medium shot), so there is nothing to reverse. **Shot D is now a
+CONTINUATION:** Jaisal stays seated in exactly C's last frame; the camera guy
+(off-screen) asks "What's the purpose of this channel?"; Jaisal gives a subtle
+LISTENING reaction (eyes shift, thoughtful expression, brief pause, tiny head
+tilt). **The camera guy's line is DUBBED IN POST** (Midhun voice, D055) — the
+video itself = Jaisal listening + ambient, NO in-video dialogue, NO music (D041).
+
+**Config (`jaisal_intro_D_reverse.json`, via `utilities/setup_shot_D_continuation.py`,
+validates clean 0 errors):** ref_image_0 = ref_image_1 = `shot_C_lastframe.png`
+(C's last frame as BOTH start and end anchor — locks the pose, seamless cut).
+Prompt = listening shot (node 138). Length 175 frames (~7.3s, script 0:18-0:25).
+1344x768, 1 MP.
+
+**Reason:** a single shared anchor (C's exact last frame) makes the cut seamless
+and keeps the pose locked; a listening beat is the natural bridge to shot E
+(plants grow). The off-screen question is audio-only (post dub) so MiniMax is
+not asked to render a second person or in-video dialogue.
+
+**Status:** ACTIVE. **RULE: shot D = continuation + listening reaction; camera
+guy's line dubbed in post.**
+
+---
+
+## D090 — Shot D = PURE SILENT reaction; dialogue REMOVED from the video (2026-09-20)
+
+**Decision:** the v4 off-screen-voice approach (a `<Subject 2>` off-screen
+camera-guy voice + a `<d>` line + "lips stay CLOSED" lip-lock) STILL made H3
+animate the boy's mouth (take `jaisal_intro_D_reverse_00004_` = lip-sync / the
+boy appears to talk). **Shot D is now a PURE SILENT reaction shot:** the
+in-video dialogue is REMOVED ENTIRELY (no `<d>` line, no `<Subject 2>`
+off-screen voice). The boy is a silent listener/reactor (mouth CLOSED, lips
+NEVER move; only eyes shift, thoughtful expression, quiet breath, tiny head
+movement). The camera guy's line is DUBBED IN POST (Midhun voice, D055/D089).
+
+**Config (`jaisal_intro_D_reverse.json`, via `utilities/fix_shot_D_silent.py`,
+validates clean 0 errors):** node 138 prompt rewritten — no `<d>`, no
+`<Subject 2>`; `overall_soundscape` = ambient only + "NO voice and NO speech in
+this take"; negatives add `any speech, any voice, any dialogue, the boy's jaw
+moving`. Refs/length (96f/4s) unchanged.
+
+**Reason:** H3 animates the VISIBLE person's mouth whenever ANY dialogue line is
+present — an off-screen `<Subject 2>` tag + lip-lock wording is NOT enough to
+keep the only visible person's lips closed. Removing the dialogue from the video
+entirely is the reliable way to keep the character silent.
+
+**Status:** ACTIVE. **RULE: when the visible character must NOT talk, REMOVE the
+dialogue from the video (pure silent reaction) and DUB the line in post — do NOT
+rely on an off-screen-voice tag to hold the visible person's lips closed.**
+
+**Update 2026-09-20 (v2 — HARD SILENT-AUDIO LOCK + post-strip):** removing the
+dialogue (v1) was NOT enough — H3's **audio prior** (person facing camera =
+talking) leaked **speech-like GIBBERISH** (not our line). Per the R2V guide's
+"No dialogue/text if not wanted" rule, the prompt now carries a HARD SILENT lock
+(`overall_soundscape` = "COMPLETE SILENCE except a faint ambient bed… NO human
+voice, NO speech, NO talking, NO words, NO gibberish"; `non_diegetic_music` +
+negatives forbid ALL voice/speech/words/gibberish/vocalization). **BUT the
+GUARANTEED fix is post:** the camera guy's line is dubbed in post anyway, so the
+H3 audio is throwaway — **strip it (`ffmpeg -i <take>.mp4 -an -c:v copy
+<take>_silent.mp4`) and build the audio track in post** (ambient + Midhun dub).
+**RULE: a prompt-only silent lock helps but is NOT guaranteed to stop H3's
+speech prior — for a silent-character shot, STRIP the H3 audio in post and build
+the audio track in post.**
+
+**Update 2026-09-20 (v3 — AGGRESSIVE NON-SPEAKING, GPT prompt adopted):** the v2
+hard silent-audio lock was STILL not enough — H3 moved the boy's mouth because
+(a) the *concept* of "listening to an off-screen question" primes a talking face,
+and (b) a slightly-open/neutral mouth in the reference gets animated. **Fix (via
+`utilities/fix_shot_D_silent_v3.py`, validates clean 0 errors):** adopted GPT's
+AGGRESSIVE NON-SPEAKING prompt (2 tweaks: dropped "before speaking"; negative
+`boy standing/walking/entering` → `person ...`). The prompt now: (1) `<Subject 1>`
+= the person from the reference image (NOT "young boy" — avoids identity/facial
+drift); (2) a dedicated **CRITICAL PERFORMANCE RULE** block (DOES NOT SPEAK, NO
+dialogue, mouth FULLY CLOSED first-to-last, lips/jaw completely still, teeth never
+visible, no lip-sync/whisper/speech sounds); (3) the **listening/off-screen-question
+concept REMOVED entirely** (the shot is just "a quiet natural moment"; dialogue
+added in post); (4) per-second timeline; (5) CAMERA LOCK; (6) `overall_soundscape`
+= diegetic room tone only + "ABSOLUTELY NO HUMAN VOICE / NO SPEECH / NO WORDS / NO
+VOCALIZATION"; (7) comprehensive speech-movement negative. **NEW DOC:
+`docs/PROMPTING_ISSUES_LOG.md`** (15 H3 R2V prompting issues + how we overcame
+them + silent/speaking checklists). **RULE: for a silent-character shot — remove
+the listening/reacting-to-a-question concept entirely, define the person via
+`<Subject 1>` + the reference image (not "young boy"), make the non-speaking
+instruction AGGRESSIVE (dedicated rule block + strong negative), hard silent-audio
+lock, check the reference's mouth is closed, keep it short (4s), and STRIP the H3
+audio in post (guaranteed).**
+
+## D091 — Seamless shot-to-shot continuation: use NikoDemon80/ComfyUI-H3-Motion-Context (latent tail slicing)
+
+**Date:** 2026-09-20
+**Decision:** For seamless (no-hard-cut) integration between shots, install
+**NikoDemon80/ComfyUI-H3-Motion-Context** (988 stars). It slices the previous
+clip's LATENT TAIL bit-for-bit and feeds it as context to the next clip — no
+decode/resize/re-encode between clips, so no seam.
+**Reason:**
+- Our ComfyUI is **0.34.3** (confirmed via `/system_stats`) — this pack needs
+  **0.34.0+** for arbitrary keyframe anchors. ✅ Compatible.
+- It works on our standard H3 model files (all present).
+- The alternative **Herrgotts-H3-Infinite-Continuation-Suite** needs a ComfyUI
+  with **PR #15375** (native H3 AV-mask) — we are on a stable 0.34.3, NOT that
+  PR build. ❌ Not compatible without a risky ComfyUI upgrade.
+- **Adudeguyman/ComfyUI-H3-Project-Suite** is a fork of NikoDemon80's and
+  **CONFLICTS with it** (can't run both) — only 35 stars, adds a project-manager
+  UI we don't need. ❌ Skip.
+**Caveat (IMPORTANT):** our production workflow uses the **turbo LoRA** +
+Spectrum. The pack's README warns **turbo LoRA + Spectrum cost audio in
+chains** — H3 emits 32 kHz audio. Since we STRIP H3 audio in post anyway
+(D090), this caveat is acceptable for us (we don't rely on chained H3 audio).
+**Config (from README):** `context_length` 22, `audio_context_length` 24,
+`context_latent` through a Save/Load Latent pair, `Trim match_tail` ON,
+`Spectrum` OFF. Use the **"airlock" prompting** technique: open the next clip
+holding the previous clip's exact closing framing (no dialogue, ~2s), then cut
+to the new setup.
+**Alternatives considered:** Herrgotts (needs PR #15375 — incompatible),
+Adudeguyman (conflicts with NikoDemon80, low stars).
+**Status:** DECIDED — install NikoDemon80/ComfyUI-H3-Motion-Context.
+**NOTE on the `.char` workflow** (`E:\minimax_workflow\minimax-h3-guided-
+consistent-characters-via-reference-identity-face-body-cloths.inline-graph.json`):
+it is a **Comfy Cloud / Comfy-Org "inline-graph"** format (top keys
+`app/graph/params/prompt/target/version/coreType`). Its nodes are
+`character/references`, `character/write`, `character/encode` (face-detect
+yunet + face-recog sface) + `minimax/h3-reference-to-video`. The `character/*`
+nodes are a **Comfy Cloud hosted feature, NOT a local node pack** — so that
+workflow runs on Comfy Cloud, not our local ComfyUI. It is a REFERENCE for the
+face-encode consistency APPROACH, not something we install locally.
+
+## D092 — Consistent-AUDIO continuation: SatoDive/Minimax-H3-Latent-Continuation (the Ep29 pack)
+
+**Date:** 2026-09-20
+**Decision:** For **consistent AUDIO across continued shots** (telling small stories in
+English), use **SatoDive/Minimax-H3-Latent-Continuation** (24★, MIT) — the pack
+behind the user-found **`Ep29 MiniMaxH3_Continuation_Workflow.json`**. It does
+segment render + **stitch continuation with audio continuity** (the
+`MiniMaxH3Easy*_SatoDive` node family).
+**Reason:** the user found the Ep29 workflow specifically for "consistent audio as
+well for minimax … useful for telling small stories in english." This is the
+**audio-continuity** complement to D091 (NikoDemon80 = visual latent-tail
+continuity). Both are now installed.
+**Installed (staged, no restart yet):** cloned into `custom_nodes\` on 2026-09-20.
+All 8 Ep29 node classes confirmed present in the pack source:
+`MiniMaxH3EasyVideoTailSlicer_SatoDive`, `MiniMaxH3EasySegmentDecode_SatoDive`,
+`MiniMaxH3EasyModelAdapter_SatoDive`, `MiniMaxH3EasyStitchContinuation_SatoDive`,
+`MiniMaxH3EasySegmentRender_SatoDive`, `MiniMaxH3EasySaveLatent_SatoDive`,
+`MiniMaxH3EasyLoadLatent_SatoDive`, `MiniMaxH3EasyContextSegments_SatoDive`.
+**Ep29 workflow also needs (already installed ✅):** KJNodes
+(`PathchSageAttentionKJ`, `ModelPreviewOverrideKJ`), Pixaroma
+(`PixaromaMonitor`, `PixaromaRunTimer`), rgthree (`Label (rgthree)`), SLA
+attention (`H3SLAAttention`, `MiniMaxH3MemoryEfficientSageAttentionPatch`,
+`SolAttnPatch` — verify these resolve; if not, install the SLA pack),
+`MiniMaxH3SigmaShift` + `MiniMaxH3DualClockSamplerT8` (verify; if not, install
+the H3 sampler pack), `JWFloatToInteger` + `VRAMCleanup`/`RAMCleanup` (utility
+nodes — verify).
+**NEXT (user, stop Qwen first):** restart ComfyUI → open Ep29 workflow → confirm
+no red nodes → test a D→E continuation with audio continuity.
+**Status:** DECIDED + INSTALLED (staged).
+
+## D093 — H3 long-video pipeline: adopt pmhaidn/ComfyUI-Minimax-H3-Extender (seam smoothing + latent extend); skip MultiRef/ttulttul/Continuum
+
+**Date:** 2026-09-28
+**Decision:** For the Jaisal intro's long-video assembly (A→B→C→D→E→F→G), adopt **pmhaidn/ComfyUI-Minimax-H3-Extender** (GPL-3.0, 10★) as the **seam-smoothing + latent-extend** layer on top of the existing NikoDemon80 Motion-Context chain (D091). Use its `MiniMaxH3VideoMerge` node (`seam_smooth=1` Farneback optical-flow seam smoothing + `color_match="seam_fade"` luminance/chrominance cosine-fade over 24 frames) to smooth the E→F and F→G seams, and `MiniMaxH3VideoExtender`/`MiniMaxH3LoopTrim` for latent-based extension if needed. **Skip** the other 4 researched repos for now:
+- **seitanism/ComfyUI-H3-Motion-Context-MultiRef** = a FORK of our installed NikoDemon80 pack (masked keyframes, AV Bridge/Extension, V2V transfer, 2MP de-roping; Update 9 2026-09-05). Installing alongside the original → **node-ID conflict** (same class names). Only adopt if we later want its masked-keyframe/AV-bridge features AND are willing to replace the original pack.
+- **ttulttul/ComfyUI-Minimax-H3-Continuation** (v0.6.3) = redundant latent-tail continuation — duplicates what NikoDemon80 already does. Skip.
+- **ukr8b3g-cmyk/ComfyUI-H3-Continuum** (V3.8X2) = heavyweight production sampler (chunked gen, review-each-chunk, Run Storage, Masked-AV 22-frame, Second Pass). Needs ComfyUI ≥0.32 (we're on 0.34.3 ✅) but is a **different workflow paradigm** + has **open Issue #13 (long-continuation drift)**. Revisit only if the simple chain proves insufficient.
+- **Adudeguyman/ComfyUI-H3-Project-Suite** = already ruled out (D091 — conflicts with NikoDemon80).
+- **RefMod safetensors** (from the Reddit thread) = dead-end for our character (D046 — public RefMods are other people's characters).
+
+**CRITICAL CONFLICT FOUND + RESOLVED:** both the Extender and the original NikoDemon80 pack register 3 identical class types: `MiniMaxH3MotionContext`, `MiniMaxH3MotionContextLoadLatent`, `MiniMaxH3MotionContextSaveLatent`. Since `ComfyUI-H3-Motion-Context` loads before `ComfyUI-Minimax-H3-Extender` (alphabetical folder order), the Extender's **manual** `MiniMaxH3MotionContext` (widget layout: `conditioning, vae, latent, context_frames IMAGE, context_length, encode_mode, anchor_mode, crop, audio_context_length, audio_mode, target_start`) would silently override the original's **auto** node (widgets `[22, 24]`) that our F/G workflows use (F nodes 161/162/164) → F/G would break. **FIX APPLIED:** renamed the Extender's 3 conflicting class-type keys in `custom_nodes\ComfyUI-Minimax-H3-Extender\nodes.py` `NODE_CLASS_MAPPINGS`/`NODE_DISPLAY_NAME_MAPPINGS`:
+- `MiniMaxH3MotionContext` → **`MiniMaxH3MotionContextManual`** (display "MiniMax H3 Motion Context (Manual)")
+- `MiniMaxH3MotionContextSaveLatent` → **`MiniMaxH3SaveLatent`** (display "MiniMax H3 Save AV Latent")
+- `MiniMaxH3MotionContextLoadLatent` → **`MiniMaxH3LoadLatent`** (display "MiniMax H3 Load AV Latent")
+The Extender's unique nodes (`MiniMaxH3VideoExtender`, `MiniMaxH3VideoMerge`, `MiniMaxH3LoopTrim`) were already conflict-free. **VERIFIED post-restart (2026-09-28):** all 6 Extender nodes + all 6 original-pack nodes (`MiniMaxH3MotionContext`, `MiniMaxH3MotionContextLoadLatent`, `MiniMaxH3MotionContextSaveLatent`, `MiniMaxH3MotionContextTrim`, `MiniMaxH3MotionContextChain`, `MiniMaxH3MotionContextSeamProbe`) present in live `/object_info` → both packs coexist. `jaisal_intro_F_plants_die.json` re-validated **clean (0 errors, 2 known harmless orphan-math warnings 131/132)**.
+**Install details:** cloned to `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-Minimax-H3-Extender\` (nodes.py, av_timing.py, h3_audio_grid.py, patch_layout.py, patch_payload.py). Only dep = `opencv-python` (already present: opencv 4.12.0 in embedded Python). Auto-applies hot-patches at load (layout patch, payload patch preventing Ref2VA overwriting motion context, Turbo LoRA `_make_adaln_forward` patch). Example workflows: `video_minimax_h3_r2v_extend_pre_latent.json` (pure latent, recommended) + `video_minimax_h3_r2v_extend_video.json` (external MP4).
+**Reason:** the user's production pipeline (Reddit "long minimaxh3 videos" thread) centers on chained workflows with seam handling; the Extender is the drop-in seam-smoothing + extend layer that complements (not replaces) our Motion-Context latent-tail chain.
+**Status:** DECIDED + INSTALLED + CONFLICT RESOLVED + VERIFIED. ComfyUI restarted (PID 31556) to register the pack.
+**NEXT:** (a) user runs F (stop Qwen first, fresh tab) → judge → `clip_00006`; (b) user runs G → `clip_00007`; (c) optionally wire `MiniMaxH3VideoMerge` (seam_smooth=1, color_match=seam_fade) into the E→F / F→G seams for a smoother cut; (d) concatenate A→G (Trim removes 22 pinned head frames) → single 2K upscale → post audio (NO MUSIC, D041).
+
+## D094 — Shot F SPLIT into F1 + F2 (pause fix + 15s-limit fix + stronger micro-expressions)
+
+**Date:** 2026-09-28
+**Decision:** the single 17s shot F (`jaisal_intro_F_plants_die.json`) came out WELL (camera-guy voice good, character listens, plant sorrow good, detailing good) BUT had 3 problems: (1) **`<pause>`/`<long pause>` tags did NOT work** — the character just talked through them (MiniMax ignores timing tags in dialogue); (2) **17s > MiniMax's ~15s limit** (it "will fail" beyond that); (3) **micro-expressions too weak** — felt like continuous talking, no cinematic narrative feel. **FIX: split F into TWO shots:**
+- **F1 = `jaisal_intro_F1_plants_listen.json` (10s = 240f):** E's ending (plants blooming) → camera-guy question → Jaisal LISTENS (micro-expressions) → speaks "Cinema... or if you want to tell a story... You need effort." Plants stay mostly blooming, left plant's top leaf just begins to droop. **Refs:** ref_image_0 = `kf5_plants_alive_v9_00004_.png` (start), ref_image_1 = `kf6_plants_dead_v9_00004_.png` (end direction). **Latent:** Load clip 5 → Save clip 6.
+- **F2 = `jaisal_intro_F2_plants_wither.json` (12s = 288f):** first leaf drooping → fully wilted. "Or you need one or two people... I'm alone... limitations... let's try this show using AI." **Refs:** ref_image_0 = `shot_F1_lastframe.png` (USER STAGES after F1 run — see run order), ref_image_1 = `kf6_plants_dead_v9_00004_.png`. **Latent:** Load clip 6 → Save clip 7.
+- **G updated:** `jaisal_intro_G_papers.json` LoadLatent 6→**7**, SaveLatent 7→**8** (chain now A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G(8)).
+**PAUSE FIX (the key lesson):** MiniMax does NOT honor `<pause>`/`<long pause>` timing tags in `<d>` dialogue — the character talks through them. **Instead, make the pause a VISUAL PERFORMANCE:** explicit SILENT mouth-closed beats written as action lines ("SILENT beat — his mouth stays CLOSED. A slow, heavy blink. His gaze drops to the plant. A quiet, honest, almost tired look settles. His shoulders drop a little more. (NO mouth movement during this beat.)") + a dedicated **MICRO-EXPRESSIONS** section (slow blink, gaze drop, subtle frown, small breath, shoulders dropping, eyes glisten, small swallow, determined glint) + negatives `talking through the pause, mouth moving during the silent beat`. The mood shift (bloom→wilt, hope→limitation→resolve) is carried by the VISUALS + the plant action, not by timing tags.
+**TIMING:** user extended to 10s/12s (from 8s/10s) — "the whole mood should change with this dialogue, with passion... that little stop and being natural is actually necessary in this intro." Both under the 15s limit.
+**Built via `utilities\build_F1_F2.py`** (clones F, sets length 240/288, swaps prompt, sets F2 ref_image_0 = `shot_F1_lastframe.png`, bumps F2 latent 6→7, bumps G 7→8). All 3 workflows validate clean (0 errors, 2 known harmless orphan-math warnings 131/132). Prompts saved `Jaisal-intro\prompts\shot_F1_plants_listen.txt` + `shot_F2_plants_wither.txt`.
+**F1/F2 FIX (2026-09-28, after first F1 run):** user ran F1 — dialogue good, BUT (1) **the dead-plant ref (ref_image_1 = `kf6_plants_dead_v9`) FORCED the plant death** — MiniMax saw the end-state and jumped to it, instead of the natural slow wither (leaves falling, plants slowly dying) that the original 17s F did well. (2) **character looked WAY TOO DOWN** — the prompt's repeated "eyes downcast / gaze drops to the plant" made him stare at the table instead of facing the camera / listening to the camera guy. **FIX (via `utilities\fix_F1_noref.py` + prompt edits):** (a) **F1 = FIRST-REF-ONLY** — removed node 139 (LoadImage `kf6_plants_dead_v9`) + link 317 + cleared node 136 `ref_image_1` link; F1 now has ONLY ref_image_0 = `kf5_plants_alive_v9` (blooming start). The prompt guides the natural slow wither: "top leaf slowly droops, a few leaves gently fall, plants begin to slowly wither — but STILL MOSTLY ALIVE at the end. Do NOT show fully dead plants." (b) **FACES THE CAMERA** — both F1 + F2 prompts now say Jaisal FACES THE CAMERA, eyes toward the lens, LISTENING to the off-screen voice; only a BRIEF glance at the plant then back to the camera. Added negatives `character looking down at the table, character facing away from the camera, character NOT facing the camera` (F1 also `plants fully dead, plants already dead, plants suddenly dead, forced plant death`). **F2 KEEPS the dead-plant ref** (ref_image_1 = `kf6_plants_dead_v9`) — that's where it's SUPPOSED to end fully wilted; only its character-facing was fixed. **Both re-validated clean (0 errors).** **LESSON: a dead/end-state reference image FORCES the model to jump to that state — for a shot where the change should be SLOW and natural, use FIRST-REF-ONLY (start anchor) + let the PROMPT guide the gradual change; reserve the end-state ref for the shot that's SUPPOSED to end there. And "gaze drops to the plant" repeated too many times makes the character stare at the table — anchor them FACING THE CAMERA with only a BRIEF glance.**
+**F1 SPEAKER-ATTRIBUTION FIX (2026-09-28, 2nd + 3rd attempt — user ran F1 twice, both times Jaisal SPOKE the off-screen question instead of it being heard as an off-screen voice):**
+- **Attempt 2 (prompt sharpening — FAILED):** added a SPEAKER ATTRIBUTION (CRITICAL) block + heavy lip-lock language ("mouth COMPLETELY CLOSED, does NOT mouth the question") + negatives `Jaisal speaking the question, lip-sync to the off-screen voice`. **Still failed** — Jaisal spoke the question.
+- **ANALYSIS (why the 17s F `jaisal_intro_F_plants_die_00001_` WORKED — user's hypothesis confirmed):** the 17s F's TIMING is the key: (1) question at 00:00–00:03 (3s, off-screen), (2) Jaisal's first line starts IMMEDIATELY at 00:03 (no long silent gap), (3) micro-expressions FUSED into the speaking lines ("as he speaks, a leaf falls..."). The model sees a clear pattern: off-screen question → character responds → the question reads as "background" because the character's own speech anchors him as the speaker of the RESPONSE. F1 BROKE this by compressing the question to 2s + inserting a long explicit "SILENT thinking beat — mouth CLOSED" (3s) + heavy lip-lock language — the long silence + lip-lock backfired, the model "filled" the silence by having the character mouth the question.
+- **Attempt 3 (TIMING MIMIC — current, BUILT + VALIDATED):** F1 prompt rewritten to mimic the 17s F exactly: 00:00–00:03 question (listening, eyes downcast) → 00:03–00:06 Jaisal's first line RIGHT AFTER ("Cinema... or if you want to tell a story...") → 00:06–00:10 "You need effort." + plant-wither micro-expressions fused in. REMOVED: the long silent beat, the SPEAKER ATTRIBUTION block, the heavy lip-lock language, the "Jaisal speaking the question" negatives. Micro-expressions fused into the action (like the 17s F). F1 = first-ref-only (blooming start) + natural slow wither (still mostly alive at end) — unchanged from attempt 2. **Validates clean (0 errors).**
+- **RULE: for an off-screen question + character response, the character's first line must start IMMEDIATELY after the question (no long silent gap). A long explicit "silent beat" + heavy lip-lock language makes H3 mouth the question. Mimic the timing of a WORKING take.**
+- **FALLBACK if attempt 3 still fails (D090, guaranteed):** strip the H3 audio in post (`ffmpeg -i <take>.mp4 -an -c:v copy <take>_silent.mp4`) + dub the camera-guy question in post — the video shows Jaisal LISTENING (silent), the question is added as audio in post.
+**F1 TIMING-MIMIC WORKED (2026-09-28, user: "that came good"):** the 17s-F timing mimic (question 00:00–00:03 → first line 00:03 → "You need effort." 00:06) fixed the speaker-attribution — the question is now heard as an off-screen voice, Jaisal does NOT mouth it. **F1 is DONE.**
+**G EXTENDED TO 15s + 5 REFS + PLANT-SHRINKING (2026-09-28, user: "lets extend it to 15 seconds... precisely mention the ref images, which is which, and whats the role of it... minimax can handle 9 ref image and 3 videos, so it can handle it pretty much... lets go for the final shot"):** G was 11s (264f) with 2 refs (kf7a_v4 start + mic+paper end). **FIX (via `utilities\build_G_v2_15s.py`):** (1) **length 264 → 360 (15s)**; (2) **3 new LoadImage nodes** (165/166/167) for the object refs, wired to node 136 `ref_image_2/3/4` (slots 5/6/7, links 318/319/320); (3) **prompt rewritten** (`Jaisal-intro\prompts\shot_G_papers_v2_15s.txt`) with a **REFERENCE IMAGES section** that precisely defines each ref by name + role: `<Picture 1>` = `kf7a_v4.png` (START — Jaisal seated, dead plants on table, papers floating in), `<Picture 2>` = `mic+paper.png` (END — Jaisal gone, papers + mic), `<Picture 3>` = `obj_cricket_bat_00002_.png` (CRICKET BAT — flies in 00:09–00:11), `<Picture 4>` = `obj_soccer_ball_00002_.png` (SOCCER BALL — rolls in 00:09–00:11), `<Picture 5>` = `obj_paper_smiley_00002_.png` (SMILEY PAPER — settles on top of bat). **PLANT-SHRINKING (Option A, user's choice):** the dead plants from F2's end SLOWLY SHRINK and DISAPPEAR while Jaisal speaks (00:04–00:07) — NOT simultaneous with the mic/papers (Option B rejected: too many things at once = cluttered). **TIMING:** 00:00–00:02 papers float in → 00:02–00:04 camera guy's question → 00:04–00:07 Jaisal speaks "As I said... stories, politics, sports, fantasy" + plants shrink → 00:07–00:09 mic emerges + "I don't know if it'll work... Let's see." → 00:09–00:11 cricket bat + soccer ball + smiley paper enter → 00:11–00:13 Jaisal VANISHES + camera guy "Let's see." → 00:13–00:15 end on papers + mic + cricket objects + Jaisal gone. **Validates clean (0 errors, 29 nodes).** **RULE: for a shot with multiple object entrances, assign each object ref an EXPLICIT job + timing in the prompt (per the R2V guide) — don't just dump refs. And sequence the visual changes (one major change at a time) rather than simultaneous (cluttered). MiniMax handles up to 9 refs + 3 videos, so 5 refs is fine.**
+**F2 EXTENDED TO 15s + SILENT BEATS AS DOMINANT FEATURE (2026-09-28, user: "F2 can be 15s... he is continuously speaking instead of expressing"):** F2 was 12s with 3s silent beats → the character rushed through the lines (continuous talking). **FIX:** extended to **15s (360f)** and made the **SILENT beats the dominant feature** (4s each): 00:00–00:03 "You need effort. Or you need one or two people with you." → **00:03–00:07 SILENT beat (4s)** (slow heavy blink, brief glance at plant, quiet honest tired look, shoulders dropping, NO mouth movement) → 00:07–00:09 "I'm alone right now." → **00:09–00:13 SILENT beat (4s)** (slow blink, eyes glisten, small swallow, weight of being alone settling, NO mouth movement) → 00:13–00:15 "So there are some limitations... let's try this show using AI." (determined glint). The MICRO-EXPRESSIONS section now explicitly states "the SILENT beats are the dominant feature, not the talking." **Validates clean (0 errors).** **RULE: when a character "continuously speaks instead of expressing," extend the shot length + make the silent/expression beats LONGER (4s) so they dominate — the character needs ROOM to express (slow blink, gaze drop, shoulders dropping, eyes glisten, swallow) between lines, not a rush to the next line.**
+**Status:** DECIDED + BUILT + VALIDATED. F1 DONE (timing-mimic worked). F2 15s + dominant silent beats READY. Awaiting user run.
+**RUN ORDER (user, stop Qwen first, fresh tabs):** (1) run F1 → judge (starts on E's ending? listens with micro-expressions? leaf starts drooping?) → `clip_00006`; (2) **stage F1's last frame:** `seedvr2_lastframe_2k.json` (LoadVideo = F1 take) → `output\lastframe_2k_00001_.png` → copy to `input\shot_F1_lastframe.png` (F2's ref_image_0 already points there); (3) run F2 → judge (starts on F1's ending? plants fully wilt by end? determined glint?) → `clip_00007`; (4) run G → `clip_00008`; (5) restart Qwen. **THEN:** concatenate A→B→C→D→E→F1→F2→G (Trim removes 22 pinned head frames) → single 2K upscale → post audio (NO MUSIC, D041).
+
+### D094b — G1 issues fixed in prompt (2026-09-15)
+- **G1 result:** (1) music instead of paper-blast sound, (2) Jaisal FADED (opacity) instead of bursting into papers, (3) mic came WITH the paper burst.
+- **Fixes in shot_G_papers_v2_15s.txt:**
+  1. **Paper-blast sound:** AUDIO section now says LOUD natural PAPER BLAST (rustling/whooshing sheets) + explicit 'NOT music' on the burst.
+  2. **Burst not fade:** 00:11-00:13 now says Jaisal BURSTS INTO papers — body EXPLODES OUTWARD into sheets that scatter (NOT a fade/opacity reduction). NEGATIVE: 'Jaisal fading out, dissolving, opacity reducing, disappearing like a fade'.
+  3. **Mic separate:** 00:07-00:09 mic emerges SEPARATELY from the dark (NOT together with the paper burst). NEGATIVE: 'microphone appearing together with the paper burst, microphone appearing before 00:07'.
+- **Lesson:** MiniMax defaults to FADE for 'disappears' — must say BURST/EXPLODES + negative 'fading/dissolving/opacity'. And simultaneous entrances (mic + papers) get merged — sequence them with explicit 'SEPARATELY' + timing.
+
+### D095 — G split into G1 (burst) + G2 (aftermath) (2026-09-28)
+- **Problem:** single 15s G kept the character "staying" — as soon as the paper burst happened the character should be GONE, but MiniMax left him in frame.
+- **Decision:** split G into TWO chained shots so the hard "disappear" moment is isolated and the aftermath has NO character reference at all:
+  - **G1 `jaisal_intro_G1_burst.json`** (10s/240f): ref_image_0=`kf7a_v4.png` (character at table), ref_image_1=`jaisal_gone_papers_alone.png` (papers only, empty chair). Character present -> speaks -> **BURSTS INTO papers -> GONE** by 00:08-00:10. End ref anchors "character gone". Load clip 7 (F2 tail) -> save clip 8.
+  - **G2 `jaisal_intro_G2_aftermath.json`** (10s/240f): ref_image_0=`jaisal_gone_papers_alone.png` (papers only, NO character), ref_image_1=`mic+paper.png` (papers+mic), + object refs cricket bat/soccer ball/smiley paper. **NO character at all** — camera guy's off-screen voice "Let's see." + mic emerges + objects enter. Load clip 8 (G1 tail) -> save clip 9.
+- **Why it works:** G2 has no character reference, so the character CANNOT "stay" — MiniMax only has papers+objects to track. The burst is isolated into G1 where the end ref (papers only) forces the character out.
+- **Latent chain now:** A(1)->B(2)->C(3)->D(4)->E(5)->F1(6)->F2(7)->G1(8)->G2(9).
+- **Old files superseded:** `jaisal_intro_G_papers.json` (15s single) and `jaisal_intro_G_vanish_burst.json` (old 3s) are now superseded by G1+G2.
+- **Prompts:** `Jaisal-intro/prompts/shot_G1_burst_10s.txt`, `Jaisal-intro/prompts/shot_G2_aftermath_10s.txt`.
+- **Build script:** `utilities/build_G1_G2_split.py` (clones G_papers, swaps refs/prompt/length/latent, removes object-ref nodes for G1).
+
+### D096 — G = SINGLE 11s SEQUENTIAL take (supersedes D095 G1/G2 split) (2026-09-28)
+- **User correction:** the G1/G2 split was overcomplicating it. The real structure (from the user's pasted prompt) is ONE continuous 11s take where the transformation is SEQUENTIAL, not simultaneous:
+  1. Camera guy asks the question FIRST (00:00–00:01).
+  2. Each object is triggered by its SPECIFIC WORD: PAPERS for "കഥകൾ" (stories, 00:02–00:03), MICROPHONE for "രാഷ്ട്രീയം" (politics, 00:03–00:04), CRICKET BAT + SOCCER BALL for "കായികം" (sports, 00:04–00:05), PAPER SMILEY on the bat for "fantasy" (00:06–00:07).
+  3. ONE ACTION AT A TIME — NOT a 9-second paper explosion. The PAUSE after each word gives MiniMax time to physically appear + settle each object.
+  4. Jaisal REMAINS PRESENT through the whole object sequence and DISAPPEARS at ONE clean moment on "നോക്കാം" (00:09–00:10) — chair empty, objects remain.
+  5. Camera guy answers "നോക്കാം" (00:10–00:11), bulb flickers, CUT TO BLACK.
+- **Why the split was wrong:** splitting into G1 (burst) + G2 (aftermath) put the object-entrances in G2 with NO character, but the user wants the character PRESENT while the objects appear (he watches them), and the disappearance is ONE clean beat, not a "burst". The sequential single take keeps the character in frame for the whole object sequence.
+- **Built:** `jaisal_intro_G_revolt.json` (11s/264f, 1344×768, 5 refs: kf7a_v4 start, mic+paper end, obj_cricket_bat, obj_soccer_ball, obj_paper_smiley). Latent: Load clip 7 (F2 tail) → Save clip 8. Prompt: `Jaisal-intro/prompts/shot_G_revolt_11s.txt`. Built via `utilities/build_G_revolt_11s.py` (clones G_papers, length 360→264, swaps prompt). Validates clean (0 errors, 29 nodes).
+- **Chain now A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G(8).** (G = single 11s take, NOT G1+G2.)
+- **SUPERSEDED:** D095 G1/G2 split (`jaisal_intro_G1_burst.json`, `jaisal_intro_G2_aftermath.json`) — keep as backups, do NOT run. `jaisal_intro_G_papers.json` (15s) + `jaisal_intro_G_vanish_burst.json` (old 3s) also superseded.
+- **KEY LESSON:** for a shot where a character watches a SEQUENCE of objects appear, keep it ONE continuous take with the character PRESENT, trigger each object by its specific word, use pauses + micro-expressions to give MiniMax time per object, and make the disappearance ONE clean beat (not a burst). Do NOT split into character-present + character-absent shots.
+
+### D096 update — G_revolt extended to 15s + GRADUAL disappearance (2026-09-28)
+- **User verdict on the 11s G_revolt run: "that was good"** — the sequential one-action-at-a-time structure WORKED (objects on their words, character at the table makes sense).
+- **Changes (user's ask):** (1) length 11s → **15s (360f)**; (2) fix the SUDDEN removal of the character AND the plant — give both proper gradual detail; (3) second 14 = bulb flicker, second 15 = COMPLETE BLACK; (4) everything else stays the same.
+- **New timing (15s):** 00:00–00:01 question → 00:01–00:02 "പറഞ്ഞപോലെ..." → 00:02–00:03 PAPERS ("കഥകൾ") → 00:03–00:04 MIC ("രാഷ്ട്രീയം") → 00:04–00:05 BAT+BALL ("കായികം") → 00:05–00:06 "പിന്നെ..." → 00:06–00:07 SMILEY PAPER ("fantasy") → 00:07–00:08 "ഇതൊക്കെയാണ് ഉദ്ദേശിക്കുന്നത്" → 00:08–00:09 "നടക്കുമോ എന്നറിയില്ല..." → **00:09–00:10 "നോക്കാം" — Jaisal BEGINS to come apart (outline softens, edges turn into paper sheets, form loses solidity — NOT a sudden pop)** → **00:10–00:11 disappearance COMPLETES (silhouette thins into final sheets, chair empty — SLOW, DETAILED, GRADUAL over 2s)** → 00:11–00:12 camera guy "നോക്കാം" → 00:12–00:13 still beat → **00:13–00:14 bulb FLICKERS once** → **00:14–00:15 COMPLETE BLACK, CUT TO BLACK**.
+- **PLANT BEHAVIOR section added:** dead plants SLOWLY CRUMBLE and WITHER throughout the shot (leaves curl to dust, stems bend and sink) — gradual, detailed, NOT a single-frame vanish; they crumble away as the new objects appear.
+- **CHARACTER DISAPPEARANCE section added:** dedicated 2-beat gradual unraveling (00:09–00:11) with explicit "NOT a sudden pop / NOT a single-frame cut / NOT a teleport" wording.
+- **Negatives added:** `Jaisal vanishing in a single frame, Jaisal popping out suddenly, the plants vanishing in a single frame, the plants popping out suddenly, the plants disappearing before the character`.
+- **Prompt:** `Jaisal-intro/prompts/shot_G_revolt_15s.txt` (14353 chars). Workflow `jaisal_intro_G_revolt.json` updated in place (length 264→360, prompt swapped). Validates clean (0 errors, 29 nodes).
+- **KEY LESSON:** when a disappearance looks "sudden", give it a DEDICATED 2-second gradual process with per-second detail (outline softens → edges turn to paper → silhouette thins → chair empty) + negatives for single-frame vanish/pop-out/teleport. Same for plants: crumble/wither over the whole shot, not a single-frame vanish.
+
+### D096 update 2 — G_revolt v2: camera-guy voice timing + LOW mic (2026-09-28)
+- **User verdict on the 15s G run: "we're almost there"** — two corrections: (1) the FIRST dialogue (the question) should come from the CAMERA MAN (off-screen), not be mouthed by Jaisal; (2) the mic should settle a LITTLE LOWER so Jaisal's face stays visible.
+- **Fix 1 — camera-guy voice (the PROVEN F1 timing-mimic workaround, UPDATE 4):** (a) question gets a FULL 3s off-screen beat (00:00–00:03) with Jaisal's mouth COMPLETELY CLOSED (he only listens); (b) Jaisal's first line starts IMMEDIATELY after the question (00:03, "പറഞ്ഞപോലെ... കഥകൾ...") — NO long silent gap (a long silent beat + heavy lip-lock makes H3 mouth the question); (c) dedicated SPEAKER ATTRIBUTION (CRITICAL) block: two distinct speakers, <Subject 2> is AUDIO ONLY, Jaisal's mouth moves ONLY for his own lines; (d) negatives: `Jaisal speaking the question, the visible character speaking the off-screen line, lip-sync to the off-screen voice, Jaisal's lips opening before 00:03, a long silent gap between the question and Jaisal's first line`.
+- **Fix 2 — LOW mic:** the microphone settles LOW on the table — its top stays BELOW Jaisal's face level so his face remains fully visible and unobstructed (stated in the 00:05–00:06 beat, the CHARACTER CONSISTENCY section, and negatives `the microphone blocking Jaisal's face, the microphone rising above Jaisal's face level`).
+- **Timing shift:** everything after the question shifts +2s (question 00:00–00:03 → papers 00:03–00:05 → mic 00:05–00:06 → bat+ball 00:06–00:07 → "പിന്നെ" 00:07–00:08 → fantasy 00:08–00:09 → "ഇതൊക്കെ..." 00:09–00:10 → "നടക്കുമോ..." 00:10–00:11 → "നോക്കാം" + disappearance begins 00:11–00:12 → completes 00:12–00:13 → camera guy "നോക്കാം" 00:13–00:14 → bulb flicker + COMPLETE BLACK 00:14–00:15).
+- **Prompt:** `Jaisal-intro/prompts/shot_G_revolt_15s_v2.txt` (15290 chars), synced into `jaisal_intro_G_revolt.json` node 138. Validates clean (0 errors, 29 nodes).
+- **RULE:** for an off-screen question + character response, use the F1 timing-mimic (3s question beat, mouth closed, first line IMMEDIATELY after, no long silent gap) — this is the proven workaround. Keep objects LOW so they don't block the character's face.
+
+### D096 update 3 — Qwen-Image-Edit small-mic reference (2026-09-28)
+- **User verdict on the v2 G run:** the character STILL mouths the off-screen question AND the mic is STILL huge. Two fixes: (1) remove the question's `<d>` line from the video entirely (00:00–00:03 = pure silent-listen beat) + DUB the camera-guy question in post (prompt-only attribution never fully holds, D090); (2) the mic is anchored huge by the END REFERENCE `mic+paper.png` (1928×1088, big broadcast mic on a tall stand) — prompt words "small" cannot beat a reference image.
+- **Fix 1 — question removed from video:** `shot_G_revolt_15s_v3.txt` (14862 chars) drops the question's `<d>` line; 00:00–00:03 is a pure silent-listen beat (Jaisal mouth closed), the question is DUBBED IN POST.
+- **Fix 2 — small-mic reference via Qwen-Image-Edit:** built `qwen_edit_small_mic.json` (via `utilities/build_qwen_edit_small_mic.py`, validates clean 0 errors/0 warnings, 10 nodes) to EDIT `mic+paper.png` → `mic+paper_small.png` (small compact mic on a short low stand, everything else identical). Chain: LoadImage `mic+paper.png` → `TextEncodeQwenImageEdit` (positive "Make the microphone SMALL and COMPACT, on a SHORT LOW stand... Keep EVERYTHING ELSE exactly the same" + negative "large microphone, tall stand, color, people, extra objects") + `UnetLoaderGGUF` (`Qwen-Image-Edit-2509-Q8_0.gguf` 21.76 GB, fits 32 GB VRAM no offload) + **`CLIPLoader` (`qwen_2.5_vl_7b_fp8_scaled.safetensors`, `qwen_image`, `default`)** + `VAELoader` (`qwen_image_vae.safetensors`) + `EmptyQwenImageLayeredLatentImage` (1920×1088) + KSampler (8 steps, cfg 1.0, euler/simple, denoise 1.0) + VAEDecode + SaveImage `jaisal_cut/mic_small`. **G's node 139 (ref_image_1) now points at `mic+paper_small.png`.**
+- **Build bugs fixed:** (1) link 103 (VAE→node 5) was at slot 2 colliding with image — moved to slot 1 (native order clip/vae/image/prompt); (2) link 106 (negative conditioning) came from node 5 (positive) — must come from node 10 (negative TextEncode); (3) **TEXT-ENCODER DIMENSION MISMATCH** — first build used `CLIPLoaderGGUF` + `qwen3vl_4b_fp8_scaled.safetensors` (Qwen3-VL-4B, 2560-dim) which crashed at sample time with `RuntimeError: Given normalized_shape=[3584], expected input with shape [*3584], but got input of size[1, 1152, 2560]`. The Qwen-Image-Edit-2509 UNet's `txt_norm` needs **3584-dim = Qwen2.5-VL-7B**. **Fix: `CLIPLoader` (not GGUF) + `qwen_2.5_vl_7b_fp8_scaled.safetensors` + type `qwen_image`.** (4) **EDIT vs GENERATION WIRING (user: "no change, qwen edit doesnt work like that... none of them has any changes apart from lighting")** — the first working build used `EmptyQwenImageLayeredLatentImage` (empty latent) + `denoise=1.0` = **TEXT-TO-IMAGE**, not an edit: it re-drew the scene from scratch each run, so the big-mic prior in `mic+paper.png` won and only lighting varied (6 runs, all identical). **Fix: encode the ACTUAL input image with `VAEEncode` (pixels = LoadImage, vae = VAELoader) and feed that latent to the KSampler; `denoise=1.0` is CORRECT for a dedicated editing model (it's trained to preserve the input while applying the edit — unlike base SD where 1.0 = full regeneration); 20 steps (not 8).** **RULE: image-edit = `LoadImage → VAEEncode → KSampler(latent_image=encoded, denoise=1.0)`. NEVER use an empty latent for an edit — that's generation, not editing.**
+- **RULE:** when a reference image anchors an unwanted attribute (huge mic), EDIT THE REFERENCE with an image-edit model (Qwen-Image-Edit GGUF) rather than fighting it with prompt words. When a character mouths an off-screen line, REMOVE the line from the video + dub it in post (prompt-only attribution never fully holds).
+
+### D096 update 4 — small-mic ref = Krea2 INPAINT with MANUAL mask (supersedes update 3 Qwen-Image-Edit) (2026-09-28)
+- **Qwen-Image-Edit failed twice:** (a) empty-latent + denoise 1.0 = text-to-image regeneration (big-mic prior won, only lighting varied); (b) VAEEncode + denoise 1.0 = the edit model's prior is too strong, mic stayed big. **The Krea2 SAM3 inpaint workflow (`krea2_inpaint_kf2_chair.json`) is the proven tool, but its `SAM3Segment` + `CR Upscale Image` nodes are NOT loaded in the live server (no SAM3 pack installed) → that clone can't run.**
+- **FINAL: manual mask + standard Krea2 inpaint.** (1) `utilities/make_mic_mask.py` → `input/mic_mask.png` (white = mic region: head ellipse + stand rect + base ellipse, GaussianBlur 12) — DETERMINISTIC, no model, no SAM3; (2) `utilities/build_krea2_inpaint_small_mic_v2.py` → `krea2_inpaint_small_mic.json` (validates clean 0 errors/0 warnings, 11 nodes, ALL standard nodes): LoadImage `mic+paper.png` + LoadImage `mic_mask.png` (MASK out) → `VAEEncodeForInpaint` (pixels+vae+mask) → KSampler (Krea2 `krea2_turbo_bf16.safetensors`, CLIPLoader `qwen3vl_4b_bf16.safetensors` type `krea2`, VAELoader `qwen_image_vae.safetensors`, 8 steps cfg 1.0 euler/simple denoise 1.0) → VAEDecode → SaveImage `jaisal_cut/mic_small`. `VAEEncodeForInpaint` keeps everything OUTSIDE the mask pixel-identical, regenerates only the mic. **G's node 139 (ref_image_1) points at `mic+paper_small.png`.**
+- **RULES:** (a) when a reference anchors an unwanted attribute, INPAINT that region rather than full-image edit/regeneration; (b) **before handing a workflow to the user, confirm every node class is in the LIVE `/object_info`** (custom packs may not be loaded after a restart) — verify, don't guess; (c) verify before the user babysits — no more unverified handoffs (the user called out looping 4× this session).
+
+### D096 update 5 — INPAINT MECHANISM FIX: `VAEEncodeForInpaint` is NOT a true inpaint (2026-09-28)
+- **User verdict on the v2 inpaint run: "the same thing"** — mic still big, whole scene shifted. **Root cause: `VAEEncodeForInpaint` does NOT set a noise mask** — with `denoise=1.0` it regenerated the WHOLE image, so the big-mic prior won again (confirmed by inspecting `output\jaisal_cut\mic_small_00007_.png`: papers/chair/bulb all re-drawn, mic unchanged). **The mask itself was CORRECT** (verified visually — clean head+stand+base coverage).
+- **FIX (v3, `utilities/build_krea2_inpaint_small_mic_v3.py` → `krea2_inpaint_small_mic.json`, validates clean 0 errors/0 warnings, 12 nodes):** the correct ComfyUI inpaint mechanism = **`VAEEncode` (full image) + `SetLatentNoiseMask` (mask = mic region) → KSampler**. `SetLatentNoiseMask` is what actually restricts regeneration to the masked region; everything OUTSIDE stays pixel-identical. Chain: LoadImage `mic+paper.png` + LoadImage `mic_mask.png` (MASK out) → `VAEEncode` (pixels+vae) → `SetLatentNoiseMask` (samples+mask) → KSampler (Krea2 `krea2_turbo_bf16.safetensors`, CLIPLoader `qwen3vl_4b_bf16.safetensors` type `krea2`, VAELoader `qwen_image_vae.safetensors`, 8 steps cfg 1.0 euler/simple denoise 1.0) → VAEDecode → SaveImage `jaisal_cut/mic_small`. Prompt strengthened: "its top well below the height of a tall broadcast mic" + negative `tall object`.
+- **RULE: true region inpaint = `VAEEncode` + `SetLatentNoiseMask` + KSampler — NOT `VAEEncodeForInpaint` (that node does not set a noise mask, so denoise=1.0 regenerates the whole image).**
+
+### D096 update 6 — small-mic end ref = Krea2 TEXT-TO-IMAGE from scratch (user-chosen, supersedes update 5 inpaint) (2026-09-28)
+- **Why inpaint can't work here:** the mask must cover the old big mic's FULL HEIGHT (head + tall stand) to erase it, so the inpaint region is TALL — the model fills a tall region with a tall mic; "small" in the prompt can't beat the region shape + the big-mic prior. Every inpaint attempt (Qwen edit, Krea2 inpaint) came out "the same thing."
+- **User chose: regenerate the end reference FROM SCRATCH** (Krea2 t2i) — no big-mic prior to fight. Tradeoff accepted: papers/chair/bulb won't be pixel-identical to the original, but that's fine for an R2V anchor (MiniMax animates between start and end).
+- **Built `krea2_t2i_small_mic_end.json` via `utilities/build_krea2_t2i_small_mic_end.py` (validates clean 0 errors/0 warnings, 9 nodes, all standard):** UNETLoader `krea2_turbo_bf16.safetensors` + CLIPLoader `qwen3vl_4b_fp8_scaled.safetensors` type `krea2` + VAELoader `qwen_image_vae.safetensors` + CLIPTextEncode (positive = "A SMALL compact studio microphone on a SHORT LOW stand, sitting low on a weathered wooden table, its top well below the height of a tall broadcast mic. Loose sheets of paper with dense handwriting float in the air. A single bare bulb hangs from a thin wire above. Pure black void background. B&W high-contrast cinematic, fine film grain, static camera, medium-wide" + negative = "large microphone, tall stand, broadcast mic, tall object, color, people, a chair, extra objects, ...") + `EmptySD3LatentImage` (1920×1088, matching the original) + KSampler (10 steps cfg 1.0 euler/simple denoise 1.0, seed 42 randomize) + VAEDecode + SaveImage `jaisal_cut/mic_small_end`.
+- **RULE: when the unwanted attribute is anchored by the region SHAPE (a tall mic), inpainting can't shrink it — regenerate the reference from scratch (t2i) so there's no prior to fight. Inpaint only works when the region is small/localized.**
+
+### D096 update 7 — small-mic end ref = Krea2 IDENTITY EDIT v1.2 (user-chosen, supersedes update 6 t2i) (2026-09-28)
+- **User rejected t2i-from-scratch:** "this is the reason why i was against creating newly, it completely misses out the basic... we need to give the base image and then do the I2I with identity... the current one has lots of changes especially the table environment etc, keep the identity transfer workflow, don't forget things." t2i threw away the scene (table, papers, chair, bulb, composition).
+- **CORRECT TOOL = Krea2 Identity Edit v1.2** (`krea2_identity_edit.json`): takes the BASE image (`mic+paper.png`) and regenerates it keeping the scene identity, applying only the instruction. **Built `krea2_identity_edit_small_mic.json` via `utilities/build_krea2_identity_small_mic.py` (clones `krea2_identity_edit.json`, validates clean 0 errors/0 warnings, 15 nodes):** node 72 LoadImage = `mic+paper.png` (base scene); node 84 = instruction ("Make the microphone SMALL and COMPACT, on a SHORT LOW stand... ONLY ONE microphone... Keep EVERYTHING ELSE exactly the same: papers, table, empty chair, bare bulb, black void, B&W cinematic. Preserve the entire original image exactly. No other changes. No people."); node 85 = negative ("large/tall mic, two mics, color, people, extra objects..."); node 29 SaveImage = `jaisal_cut/mic_small_id`; node 95 (Typnosis typography LoRA) BYPASSED (mode 4, not needed for a mic edit). **Kept the proven identity params:** node 79 `Krea2EditModelPatch` ref_boost=4 (fidelity dial) fit_mode=fit, node 83 `ResolutionSelector` 16:9 2MP, node 53 KSampler 10 steps cfg 1 euler/simple denoise 1, node 71 `LoraLoaderModelOnly` `krea2_identity_edit_v1_2.safetensors` @1.0, UNET `krea2_turbo_fp8_scaled.safetensors`, CLIP `qwen3vl_4b_fp8_scaled.safetensors` type `krea2`, VAE `qwen_image_vae.safetensors`. All krea2edit nodes confirmed LIVE in `/object_info`; identity LoRA present.
+- **RULE: to change ONE attribute of a scene while keeping the scene (table/papers/chair/bulb/composition), use the Krea2 Identity Edit v1.2 workflow (base image in node 72 + plain-English instruction in node 84, ref_boost=4) — NOT t2i-from-scratch (loses the scene) and NOT inpaint (region-shape prior). This is the project's standard scene-preserving edit tool (D023).**
+
+### D096 update 8 � remove EXTRA mic via manual-mask INPAINT (supersedes update 7's 2-mic output) (2026-09-28)
+- **User verdict on the identity-edit outputs (mic_small_id_00001/2): "we have 2 mics, remove the extra; others are fine."** Both takes came out with the small silver mic on the short stand (GOOD) PLUS an extra black mic on the left (REMOVE).
+- **User chose manual-mask inpaint** ("i will manually draw"). **Built `krea2_inpaint_remove_mic.json` via `utilities/build_krea2_inpaint_remove_mic.py` (validates clean 0 errors/0 warnings, 12 nodes, all standard):** LoadImage `mic_small_id_00001_.png` (base, staged to input) + LoadImage `remove_mic_mask.png` (MASK out) ? `VAEEncode` ? `SetLatentNoiseMask` ? KSampler (Krea2 `krea2_turbo_bf16.safetensors`, CLIPLoader `qwen3vl_4b_bf16.safetensors` type `krea2`, VAELoader `qwen_image_vae.safetensors`, 8 steps cfg 1.0 euler/simple denoise 1.0) ? VAEDecode ? SaveImage `jaisal_cut/mic_single`.
+- **MASK RULE:** white = the extra black mic (head + stand + base + its shadow), black = everything else. Mask must be 1928�1088 (same size as base). A placeholder all-black mask was created at `input\remove_mic_mask.png` � user draws over it (or any mask file picked in the LoadImage node).
+- **Prompt:** positive = "Remove the extra black microphone... Keep ONLY the small silver microphone on its short low stand... area becomes plain empty weathered wooden table surface matching surrounding wood grain and lighting"; negative = `microphone, mics, two microphones, extra microphone, black microphone, mic stand, ...`.
+- **NEXT (user, stop Qwen first, fresh tab):** (1) draw the mask (white over the black mic only); (2) run `krea2_inpaint_remove_mic.json` ? `output\jaisal_cut\mic_single_00001_.png`; (3) pick best ? copy to `input\mic+paper_small.png`; (4) run `jaisal_intro_G_revolt.json` (v3 prompt) ? judge; (5) restart Qwen.
+- **RULE: when a generated ref has ONE unwanted object among good content, manual-mask inpaint (VAEEncode + SetLatentNoiseMask) removes just that region � everything outside the mask stays pixel-identical.**
+
+### D096 update 8 fix � MASK FORMAT BUG: ComfyUI LoadImage MASK = 1 - alpha (2026-09-28)
+- **User: "i painted over the other mic, it didnt get removed, whats happening?"** First run was a NO-OP.
+- **ROOT CAUSE (verified in nodes.py):** `LoadImage` MASK output = `1 - alpha` � a grayscale (mode L) mask has NO alpha channel -> ALL-ZERO mask -> `SetLatentNoiseMask` keeps everything -> output = input. ALSO: the MaskEditor saves to `clipspace-paint-*.png` / `clipspace-mask-*.png`, NOT to the workflow's mask filename (`remove_mic_mask.png` stayed the all-black placeholder).
+- **FIX:** `utilities/convert_paint_to_mask.py` � takes the user's paint layer (`clipspace-paint-1790600217258.png`, mic region OPAQUE on transparent bg), INVERTS the alpha (`255 - alpha`), feathers edges (GaussianBlur 8), saves proper RGBA `remove_mic_mask.png` (transparent = regenerate). `utilities/overlay_mic_mask.py` renders the regenerate region in RED on the base to verify placement (confirmed: covers the tall black mic head+stand+base, small silver mic untouched). `utilities/inspect_mic_mask.py` = diagnostic (mode/alpha/white-coverage).
+- **RULE: manual-mask inpaint mask files MUST be RGBA with the remove-region TRANSPARENT (alpha=0). Verify with an overlay before the user runs. A grayscale white-region mask is a silent no-op.**
+
+### D096 update 8 fix 2 � CORRECTED: standard single-LoadImage inpaint (user called out 5h looping) (2026-09-28)
+- **User: "its one of the easiest way for an editing model... you're trying to avoid some nodes and we are ending up wasting 5 hours for a simple inpainting."**
+- **CORRECTION: `VAEEncodeForInpaint` DOES set the latent `noise_mask`** (verified in nodes.py source: returns `{"samples": t, "noise_mask": mask_erosion.round()}` + zeroes masked pixels). The D096-update-5 claim was WRONG.
+- **FINAL = clone the PROVEN `krea2_kf2_manual_inpaint.json`** (worked for the kf2 chair) via `utilities/rebuild_remove_mic_inpaint.py`: ONE `LoadImage` (base = `mic_small_id_00001_.png`) whose MASK output (1-alpha) feeds `VAEEncodeForInpaint` + `SetLatentNoiseMask`; user paints directly on the base image (right-click -> Open in Mask Editor); chain `LoadImage -> VAEEncodeForInpaint -> SetLatentNoiseMask -> KSampler -> VAEDecode -> ImageCompositeMasked -> SaveImage` (`jaisal_cut/mic_single`). Validates clean 0 errors. NO separate mask file, NO alpha-conversion scripts.
+- **RULE: when a proven workflow exists, CLONE it � swap only image filename + prompts + save prefix. Do not hand-build, do not re-derive mechanisms, do not loop.**
+
+### D096 update 8 fix 3 � FINAL: Qwen-Image-Edit-2509 instruction-based edit (supersedes all inpaint attempts) (2026-09-28)
+- **User: "this aint working... the workflow i tried now is just a cut paste version of photoshop with bad IQ."** All generation-model inpaint routes (Krea2 VAEEncodeForInpaint, SetLatentNoiseMask, manual masks) failed or were no-ops.
+- **FINAL TOOL = Qwen-Image-Edit-2509 (dedicated INSTRUCTION-BASED editing model)** � image + natural-language instruction -> edit. NO mask, NO painting. It understands objects ("the black microphone") and finds them itself.
+- **Built `qwen_edit_remove_mic.json` via `utilities/build_qwen_edit_remove_mic.py` (clones the WORKING `qwen_edit_small_mic.json` wiring, validates clean 0 errors, 10 nodes):** LoadImage `mic_small_id_00001_.png` -> `TextEncodeQwenImageEdit` (positive = "Remove the black microphone on the right side... Keep ONLY the small silver microphone... area becomes plain empty weathered wooden table surface... Keep EVERYTHING ELSE exactly the same") + `UnetLoaderGGUF` (`Qwen-Image-Edit-2509-Q8_0.gguf` 21.76 GB) + `CLIPLoader` (`qwen_2.5_vl_7b_fp8_scaled.safetensors`, `qwen_image`, `default`) + `VAEEncode` (the ACTUAL input image) + KSampler (20 steps cfg 1.0 euler/simple denoise 1.0 � correct for a dedicated edit model) + VAEDecode + SaveImage `jaisal_cut/mic_single`.
+- **RULE: for object-level edits (remove/replace ONE object, keep the scene), use an instruction-based editing model (Qwen-Image-Edit-2509), NOT a generation model + mask. Generation-model inpaint = "photoshop with bad IQ" (user's words). Clone the working `qwen_edit_small_mic.json` wiring � do not hand-build.**
+
+### D096 update 9 — ComfyUI UPDATED to v0.37.0-45 (latest master) + node verification (2026-09-28)
+- **User direction: "first thing first Update comfyui, update frontend and backend to the latest."**
+- **DONE:** E: install updated v0.34.3 -> **v0.37.0-45-g8d534945** (latest master; latest tag v0.37.4). git stash preserved the D027 VRAM patch; after update, upstream ALREADY removed .clone() (line 177 now  = v.view(s, self.heads, self.head_dim)) so **D027 is now built into upstream — no patch needed**. ComfyUI restarted (PID 4624), server up on 8188.
+- **NODE VERIFICATION (all critical packs LIVE in v0.37.0-45):** H3SLAAttention, MiniMaxH3ReferenceToVideo, MiniMaxH3MotionContext(+Save/LoadLatent), MiniMaxH3VideoExtender, Krea2EditModelPatch, H3FaceSelect, ControlFoleyGenerate, SeedVR2VideoUpscaler, TextEncodeQwenImageEdit, UnetLoaderGGUF, VAEEncodeForInpaint, SetLatentNoiseMask, ImageCompositeMasked, MiniMaxH3EasyVideoTailSlicer_SatoDive, H3LocalCameraEditor — ALL OK (2527 total nodes). SetNode (SetGet-Resolver) NOT in object_info — that pack's nodes did not register; NOT needed for the mic-removal task.
+- **VERIFICATION GOTCHA:** /object_info returns a JSON STRING; PowerShell ConvertFrom-Json FAILS on duplicate keys (ClownOptions_Frameweights/ClownOptions_FrameWeights). Use the embedded Python (E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\python.exe) with json.load (tolerates dup keys, keeps last) to parse + check node presence.
+- **EDITING MODELS PRESENT (main path E:\ComfyUI_windows_portable\ComfyUI\models):** Qwen-Image-Edit-2509 (unet/Qwen-Image-Edit-2509-Q8_0.gguf 20.27 GB + 	ext_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors 8.74 GB + ae/qwen_image_vae.safetensors 0.24 GB) = READY. Flux-2-Klein-9B (diffusion_models/flux-2-klein-9b.safetensors 16.91 GB + lux-2-klein-9b-kv-fp8.safetensors 9.14 GB + ae/flux2-vae.safetensors) present BUT its T5 CLIP is MISSING (clip folder only has MiniMax H3 mmproj) — NOT ready without downloading the CLIP.
+- **RULE: after a ComfyUI update, re-verify every critical node class is in the LIVE /object_info before handing a workflow (custom packs may fail to register). Parse object_info with Python, not PowerShell ConvertFrom-Json.**
+
+### D096 update 10 — krea2T2iI2iInpaint2pass_v15 made RUNNABLE (production 2-pass pipeline) (2026-09-28)
+- **User: "lets install those nodes and make it work... these are production pipeline we cannot say this is not working when we are going to continuously use these items for next weeks."**
+- **Workflow E:\Krea2\krea2T2iI2iInpaint2pass_v15.json** (47 nodes + 1 subgraph; T2I/I2I/Inpaint 2-pass). 3 real blockers found + fixed:
+  1. **ApplyKrea2NegPiP** (node 285, MODEL+CLIP passthrough that applies a negative-pipe to the model) — the installed comfyui-negpip-zimage is a VENDORED version that intentionally omits the standalone node (its docstring says so; it only registers NegPipPrompt). **FIX: cloned upstream lue-pen5805/ComfyUI-krea2-negpip** into custom_nodes\ComfyUI-krea2-negpip (imports only core comfy modules — no extra pip deps), restarted ComfyUI -> node LIVE (2528 nodes). Schema: model+clip required, value_strength (default 1.0), patch_txtfusion_refiners, block_start/end/stride.
+  2. **VAE krea2RealVae_v10.safetensors** (node 37) not on disk -> swapped to **qwen_image_vae.safetensors**.
+  3. **UNet Krea2_Turbo_convrot_int8mixed.safetensors** (node 259) not on disk -> swapped to **krea2_turbo_fp8_scaled.safetensors** (the Krea2 model used in all our other workflows -> consistent behavior).
+- **FIXED COPY:** user\default\workflows\krea2T2iI2iInpaint2pass_v15_fixed.json (via utilities\fix_2pass_models.py). Original preserved.
+- **VALIDATION:** 3 real blockers gone. Remaining 5 "errors" = Fast Groups Muter/Bypasser (rgthree) = FRONTEND-ONLY canvas widgets (rgthree-comfy installed -> render fine in UI; validator flags them because they're not server nodes; 7 warnings confirm the server PRUNES them -> no execution effect). NOT blockers. Generation chain intact.
+- **RULE: a workflow's "unknown_class_type" errors for rgthree Fast Groups Muter/Bypasser + Note are FALSE POSITIVES — they're frontend-only widgets, not server nodes. Check the warnings: if they "feed no output node / server prunes it", they don't block the run. Only unknown_class_type on a node that IS in the execution chain is a real blocker.**
+- **RULE: after installing a node pack, restart ComfyUI (Stop-Process the main.py PID, Start-Process with the SAME flags --windows-standalone-build --reserve-vram 4 --enable-manager), then verify the node is in /object_info before handing the workflow.**
+
+### D096 update 11 — krea2T2iI2iInpaint2pass_v15 EXPLAINED + CONFIGURED (bf16 krea + turbo LoRA) (2026-09-28)
+- **User: "i really need an explanation for this workflow... where should i paint or what... we will go with bf16 krea, and use turbo lora, and vae is already in place, lets set it up, there are some toggles which are custom nodes... i see load image is currently bypassed, so lets make this workflow work and then if it works we will document for future use."**
+- **WHAT IT IS:** a Krea2 T2I/I2I/Inpaint **2-pass** workflow (fast 1st-pass KSampler + Clownshark 2nd-pass subgraph for quality) with optional "bells and whistles" toggles.
+- **3 MODES (pick one via bottom-of-canvas rgthree Fast Groups toggles):** T2I (no base image) / I2I full image (LoadImage, whole image) / Inpaint (LoadImage + painted mask, region only). **Ships in T2I mode -> that's why LoadImage is BYPASSED (normal, not a bug).**
+- **TOGGLES (rgthree Fast Groups, bottom of canvas):** Whatcha Up To? (text2image|image2image), Full Image i2i = On | Inpainting = Off (i2i Entire Image group), Latent Size (Aspect Ratio|Custom Size), Bells and Whistles (Turbo LoRA?|Negative Conditioning|Enhancer|Misc Quality Functions), untitled muter (2nd Pass group). **INPAINT RECIPE:** Whatcha Up To?->image2image; Full Image i2i->OFF; Latent Size->Aspect Ratio; Bells and Whistles->enable Turbo LoRA? + Negative Conditioning.
+- **WHERE TO PAINT (inpaint):** set LoadImage to base image -> right-click LoadImage -> "Open in Mask Editor" -> paint the REGENERATE region WHITE -> mask feeds InpaintModelConditioning. **POLARITY CAVEAT:** LoadImage MASK = 1-alpha; if it regenerates the complement, invert the mask.
+- **CONFIGURED COPY user\default\workflows\krea2_2pass_bf16_turbo.json (via utilities\configure_2pass.py):** UNet=krea2_turbo_bf16.safetensors (26 GB), Turbo LoRA=krea2_turbo_lora_rank_64_bf16.safetensors @1.0 (enabled in active Power Lora Loader node 279, feeds BOTH passes), VAE=krea2RealVae_v10.safetensors (now available on live server), CLIP=qwen3vl_4b_fp8_scaled.safetensors type krea2, LoadImage=mic_small_id_00001_.png. **NOTE:** author says enable Turbo LoRA only for RAW Krea2; we use Turbo base so it's redundant-but-harmless (toggle off if results look off).
+- **MODEL CHAIN:** UNETLoader+CLIPLoader -> ApplyKrea2NegPiP (neg-pipe) -> Krea2T-Enhancer(bypassed) -> ModelSamplingFlux(bypassed)->CFGOverride(bypassed) -> Power Lora Loader(Turbo LoRA) -> [1st pass KSampler 307 (20 steps cfg1 exp_heun_2_x0_sde) + 2nd pass Clownshark subgraph 186] -> previews + Image Saver Simple.
+- **VALIDATION:** 5 unknown_class_type errors = Fast Groups Muter/Bypasser (rgthree) = FALSE POSITIVES (frontend-only, server prunes). All real nodes clean.
+- **DOC:** docs\KREA2_2PASS_WORKFLOW_GUIDE.md (full guide: modes, toggles, where-to-paint, model chain, run steps, setup scripts).
+- **RULE: this is a PRODUCTION pipeline the user will reuse for weeks — keep it working + documented. The bottom-of-canvas rgthree Fast Groups toggles are the mode selectors; LoadImage bypassed = T2I mode (normal).**
+
+### D096 update 12 — krea2_2pass_bf16_turbo.json set to INPAINT mode + mic-removal prompt (2026-09-28)
+- **User: "i dont see you updated the prompt, negative prompt and the image is not active also, just update as per our requirement."**
+- **WHY image was "not active":** the workflow ships in **T2I mode** (LoadImage bypassed). Mode is controlled by node modes because the **Any Switch (rgthree)** nodes output the FIRST NON-EMPTY input (Latent switch 271: any_01=EmptyLatentImage/T2I, any_02=InpaintModelConditioning/i2i; MaskChoice 298: any_01=SolidMask/full, any_02=LoadImage MASK/painted).
+- **INPAINT MODE set (via utilities\set_2pass_inpaint.py):** LoadImage(265)=active (image=mic_small_id_00001_.png), ImageResizeKJv2(296)=active (1920x1088 landscape), InpaintModelConditioning(267)=active, EmptyLatentImage(254)=BYPASSED, SolidMask(297)=BYPASSED, denoise=1.0.
+- **NO separate negative box** — negatives are (word:-1.0) tags INSIDE the positive prompt (node 247); ApplyKrea2NegPiP makes them work on Krea2. Prompt set to mic-removal: "Plain empty weathered wooden table surface, ... static camera (black microphone:-1.0) (microphone:-1.0) (mic stand:-1.0) (tall object:-1.0) (color:-1.0) (people:-1.0) (extra objects:-1.0)".
+- **VALIDATES clean** (5 false-positive Fast Groups errors only; warnings 7->5).
+- **NEXT (user, stop Qwen first, fresh tab):** open krea2_2pass_bf16_turbo.json -> right-click LoadImage -> Open in Mask Editor -> paint the black mic region WHITE -> Queue Prompt -> judge (black mic gone, silver mic + table + papers + chair + bulb intact) -> if it regenerates the COMPLEMENT, invert the mask (LoadImage MASK = 1-alpha).
+- **RULE: when a workflow "looks wrong" (image bypassed, no negative box), it's usually in a different MODE — check node modes (0=active/4=bypassed) + Any Switch first-non-empty logic, not the prompt. Set mode by flipping node modes, then set prompt/negatives.**
+
+### D096 update 13 — krea2_2pass_bf16_turbo.json switched to I2I FULL-IMAGE (table empty base) (2026-09-28)
+- **User: "this is worse, the inpainting is bad than the photoshop generative fill... lets go with i2i workflow with the base image D:\models\vsCodeMcp\Jaisal-intro\keyframes, 1) table empty... lets do that same way, paper with small mic, or a small mic should be enough."**
+- **INPAINT REJECTED** (worse than Photoshop generative fill). **NEW APPROACH = I2I FULL-IMAGE from the clean base 	able empty.png** (2550x1440, B&W: weathered table + empty chair + bare bulb + black void) -> regenerate the whole scene adding a SMALL compact mic + loose papers, keeping the table/chair/bulb/void/B&W style.
+- **DONE (via utilities\set_2pass_i2i_table.py):** (1) staged 	able empty.png -> input\; (2) **I2I FULL-IMAGE MODE:** LoadImage(265)=active (	able empty.png), SolidMask(297)=ACTIVE (full-image mask = i2i, not painted), InpaintModelConditioning(267)=active, EmptyLatentImage(254)=BYPASSED, ImageResizeKJv2(296)=1920x1088 (16:9, matches base aspect), **denoise(270)=0.7** (partial: keep scene, add mic+paper); (3) **PROMPT (node 247)** = "A weathered wooden table with a single empty wooden chair behind it, a single bare bulb hanging from a thin wire above, pure black void background. On the table sits a SMALL compact studio microphone on a SHORT LOW stand, with a few loose sheets of paper with dense handwriting scattered on the table surface. B&W high-contrast cinematic, fine film grain, static camera, medium-wide (large microphone:-1.0) (tall stand:-1.0) (tall object:-1.0) (color:-1.0) (people:-1.0) (extra objects:-1.0) (multiple microphones:-1.0)". **VALIDATES clean** (5 false-positive Fast Groups errors only).
+- **NEXT (user, stop Qwen first, fresh tab):** (1) Stop-Process -Name "llama-server" -Force; (2) open **krea2_2pass_bf16_turbo.json** (fresh tab); (3) Queue Prompt -> judge: **small mic (not tall) + paper on table, table/chair/bulb/void/B&W intact?** (4) **IF mic too big/tall:** lower denoise to 0.5 (keeps more base) or strengthen (tall stand:-1.0); **IF it ignores the base:** raise denoise toward 0.8; (5) copy best -> input\mic+paper_small.png; (6) run **jaisal_intro_G_revolt.json** -> clip_00008; (7) Start-Process "D:\models\qwen\Qwen3.827BMTP.bat".
+- **RULE: when region INPAINT comes out worse than a full-scene regen, switch to I2I FULL-IMAGE from a clean base (SolidMask active = full-image mask, denoise 0.5-0.8 partial) — regenerate the whole scene adding the object, keep the base's composition/style. denoise is the keep-base-vs-add-object dial.**
+
+### D096 update 14 — small-mic ref = CLEAN KREA2 I2I (base image + good prompt) — the "same trick" (2026-09-28)
+- **User: "no no, not the t2i, its i2i with good prompt and better base image... how we created the papers one, lets do the mic also."** (rejected the 2-pass inpaint workflow AND t2i).
+- **THE TRICK (same as the refs):** i2i = **LoadImage (better base) + good prompt + partial denoise** -> Krea2 regenerates the scene keeping the base's composition/style, applying the prompt. NOT t2i (no base), NOT the 2-pass inpaint workflow.
+- **BUILT krea2_i2i_small_mic.json via utilities\build_krea2_i2i_small_mic.py (validates clean 0 errors/0 warnings, 10 nodes):**
+  - **Base = 	able empty.png** (2550x1440, B&W: weathered table + empty chair + bare bulb + black void — the BETTER base, no mic to fight) staged to input\.
+  - Chain: LoadImage -> VAEEncode -> **KSampler (denoise 0.6, 10 steps, cfg 1, euler/simple)** -> VAEDecode -> SaveImage jaisal_cut/mic_small_i2i. UNET krea2_turbo_bf16.safetensors, CLIP qwen3vl_4b_fp8_scaled.safetensors type krea2, VAE qwen_image_vae.safetensors.
+  - **GOOD PROMPT (positive):** "A weathered wooden table with a single empty wooden chair behind it, a single bare bulb hanging from a thin wire above, pure black void background. On the table sits a SMALL compact studio microphone on a SHORT LOW stand, with a few loose sheets of paper with dense handwriting scattered on the table surface. Black and white, high contrast, clean smooth image, no grain, static camera, medium-wide."
+  - **NEGATIVE:** "color, ... large microphone, tall stand, tall object, multiple microphones, broadcast mic, big mic".
+- **NEXT (user, stop Qwen first, fresh tab):** (1) Stop-Process -Name "llama-server" -Force; (2) open **krea2_i2i_small_mic.json** (fresh tab); (3) Queue Prompt -> output\jaisal_cut\mic_small_i2i_00001_.png; (4) judge: **small mic (not tall) + papers on table, table/chair/bulb/void/B&W intact?** (5) **denoise is the dial:** mic too big/tall or base drifted -> lower to 0.4-0.5 (keeps more base); scene not changing enough -> raise to 0.7-0.8; (6) copy best -> input\mic+paper_small.png; (7) run **jaisal_intro_G_revolt.json** -> clip_00008; (8) Start-Process "D:\models\qwen\Qwen3.827BMTP.bat".
+- **RULE: for a scene ref with ONE changed object (small mic), use CLEAN KREA2 I2I = better base image (no unwanted object) + good prompt + partial denoise (0.4-0.8). NOT t2i (loses the scene), NOT the 2-pass inpaint workflow (worse than Photoshop). denoise = keep-base-vs-apply-prompt dial.**
+
+### D096 update 15 — SeedVR2 batch upscale = TensorRT STUDIO (not the ComfyUI JSON) + disk-full root cause (2026-09-29)
+- **User: "we have all the videos here in the folder... how can i start, is it a batch job in comfyui? or should i try the first one now? i prefer doing 1st one and then batch running all the items."** then **"not the json, this D:\models\SeedVR2-TensorRT-Studio this is studio right"** then **"the seevr workflow went well for the first 2 videos... but got the above error for the third video... i stopped qwen and comfyui, only vram consumer was seedvr2."**
+- **DECISION: the batch upscaler = the STANDALONE `D:\models\SeedVR2-TensorRT-Studio` (TensorRT-accelerated browser app at `http://127.0.0.1:7870/`), NOT the ComfyUI `seedvr2_batch_upscale.json`.** The Studio is faster (TensorRT VAE decode), has preview/compare/side-by-side, resumable long renders, and the models are already there (`models\SEEDVR2\seedvr2_ema_7b_sharp_fp16.safetensors` + `ema_vae_fp16.safetensors` + 3B/fp8 variants). Launch: `D:\models\SeedVR2-TensorRT-Studio\Launch SeedVR Studio Pro.bat`.
+- **ONE-BY-ONE is the Studio's native mode** (drop a clip → pick 7B Sharp FP16 + 1080p/1440p + `lab` color → preview → full render). The ComfyUI JSON is a single-clip preview tool only (re-point the `video` widget + re-queue 16× for 8 clips×2 res) — NOT a true batch tool.
+- **DISK-FULL ROOT CAUSE (the 3rd-video error):** the `RuntimeError: ios_base::badbit set: iostream stream error` + `unexpected pos 896 vs 790` at `torch.save` is a **DISK-WRITE failure, NOT a VRAM error** (user correctly ruled out Qwen/ComfyUI). **D: and E: were at 0 GB free.** Each Studio render writes **~875 MB `decoded_XXX.pt`** (decoded pixel frames, float32, per 21-frame temporal chunk) + **~21 MB `vae_latent_XXX.pt`** per chunk → a 15s clip = 17 chunks ≈ 15 GB. Across 12 job folders that's **196 `.pt` files = 85 GB** of regenerable checkpoint cache (for resumable renders + non-destructive finishing). Videos 1&2 fit; by video 3 the drive was full → `torch.save` failed.
+- **FIX APPLIED:** deleted all 196 `*.pt` files (85 GB) from `D:\models\SeedVR2-TensorRT-Studio\outputs` — **kept all 24 `*.mp4` results** (75 MB). D: went from 0 GB → **~198 GB free** (verified via `Get-PSDrive`; `Get-Volume` gave a STALE 0 GB read — use `Get-PSDrive` for authoritative free space).
+- **RULE: the Studio's `outputs\` fills the disk with `.pt` checkpoint cache (99% of the folder). Delete `*.pt` after each finished clip (keep `*.mp4`): `Get-ChildItem "D:\models\SeedVR2-TensorRT-Studio\outputs" -Recurse -File -Filter "*.pt" | Remove-Item -Force`. A 3 TB F: drive (3 TB free) is available for future heavy outputs if D: gets tight.**
+- **PLASTIC-LOOK ANSWER (user's question):** SeedVR2 is a GENERATIVE upscaler (7B diffusion re-renders, not a sharpener) → it CAN smooth the hand-drawn brush-stroke/paper texture into a too-clean/CG look. The `sharp` variant preserves the most texture (least plastic). For the B&W sketch style, a NON-generative sharpener (4x-UltraSharp/Real-ESRGAN) is the fallback if it goes smooth/CG. Test clip A at 1080p first, judge the brush texture in the Compare view.
+- **STATUS: user ran the first 2 clips successfully ("i m okay with the result"), 3rd failed on disk-full (now fixed). NEXT: re-run the 3rd clip + continue A→G one-by-one in the Studio, deleting `.pt` between clips.**
+
+### D096 update 16 — Post-production plan: black-screen questions + MALAYALAM subtitles + dub (2026-09-29)
+- **User: "i will edit it in davinci... im thinking we should have a black screen with letters for the camera guy's question instead of keeping the frame still, because most questions take more than 2 seconds... also we can add subtitles... adding subtitles to the video, keeping it in malayalam, so people can still watch the content, the same way im intending for my main movie also... tomorrow we can dub and complete the progress, 4-5 hours work, we will smash it in the morning."**
+- **DECISION 1 — BLACK-SCREEN QUESTION CARDS:** the camera guy's questions are OFF-SCREEN (Jaisal's mouth closed) and run >2s. Instead of holding a still frame, insert a **black screen with the question text (Malayalam)** as an intentional "interviewer asks" beat. This is a **DaVinci Resolve edit** (insert black clip + text), NOT a generation task. Applies to all camera-guy questions (shots B, D, F, G).
+- **DECISION 2 — MALAYALAM SUBTITLES (permanent, for the intro AND the main movie):** burn **Malayalam** subtitles into the video so the content is watchable. **MiniMax H3 CANNOT do this** — H3 is a video *generation* model (prompt→new video); it does NOT take existing footage and burn captions in. Subtitles are a POST task. **Best options:** (a) **DaVinci Resolve Subtitles tab** (auto-generate from the Malayalam dub via speech-to-text, OR type manually) — best since the user is already editing there; (b) **Whisper** (local) transcribe the dub → `.srt`; (c) **manual `.srt`** built from the exact Malayalam dialogue in `docs\INTRO_SCRIPT.md` (most accurate — known script, no transcription errors) → burn in DaVinci or ffmpeg. **RECOMMENDATION: manual `.srt` from the script (or DaVinci's subtitle tab) — no transcription guesswork. Offer to generate the `.srt` from `INTRO_SCRIPT.md`.**
+- **TOMORROW'S PLAN (user: ~4-5h, morning, "smash it"):** (1) finish the SeedVR2 batch upscale (re-run 3rd clip + continue A→G, delete `.pt` between clips); (2) **DUB** the Malayalam dialogue (user's voice, RVC/OpenVoice — see `AUDIO_PIPELINE_PLAN.md`); (3) **LatentSync** mouth-sync to the dub; (4) **DaVinci assembly**: concat 8 clips A(1)→B(2)→C(3)→D(4)→E(5)→F1(6)→F2(7)→G(8), insert black-screen question cards, add Malayalam subtitles, swap in the dub audio track. **NO MUSIC (D041) — diegetic/natural sound only.**
+- **RULE: subtitles + question cards + dub + mouth-sync are ALL post-production (DaVinci + Whisper/LatentSync), NOT generation-model tasks. MiniMax H3 generates video from prompts; it does not caption existing footage.**
+
+### D096 update 17 — English subtitles + black question cards BUILT + assembly plan prepared (2026-09-29)
+- **User: "i've completed all the upscaling, need english subtitles, thats the pending item along with the dialogue in black screen"** then **"wait, we can do this tmrw, plan how to do this, prepare the plan, dont act now."**
+- **STATUS (all 8 clips upscaled = 2520×1440 @ 24fps):** (1) **English .srt** `Jaisal-intro\subs\jaisal_intro_english.srt` — 15 cues, **Jaisal's lines ONLY** (camera-guy's lines excluded — they live on the black cards). (2) **4 black question cards** `Jaisal-intro\subs\cards\` (`card_B_you_ready`, `card_D_purpose`, `card_F_why_ai`, `card_G_expect`) — 2520×1440 @ 24fps, 3s each, Malayalam (large white) + English (smaller grey). Built via `utilities\build_question_cards.py`.
+- **TECH LESSON (Malayalam rendering):** ffmpeg `drawtext` (libfreetype) does NOT do complex-script shaping → mangles Malayalam combining marks. **CORRECT ROUTE = ffmpeg `subtitles` filter (libass + HarfBuzz + fribidi — all present in the D:\ffmpeg build).** The build writes a per-card `.ass` file (PlayResX/Y = 2520×1440, `{\pos(x,y)}` overlays, styles `Mal` = Arial Unicode MS 120 white / `Eng` = Arial 58 grey) and runs ffmpeg with `cwd=OUT` + a RELATIVE `.ass` filename — because absolute Windows paths in the filtergraph break on the drive-colon (`fontfile=C\:/...` fails to parse). **RULE: for complex-script (Malayalam) text on video, use the `subtitles`/`ass` filter (libass), NOT `drawtext`; pass the .ass as a relative filename with cwd set to its folder.**
+- **UNVERIFIED:** the card Malayalam rendering has NOT been visually checked yet (Phase 0 tomorrow: extract a frame, view it; if mangled, swap font to `Nirmala.ttc`).
+- **TOMORROW'S ASSEMBLY PLAN (phased, in CURRENT_TASK.md):** Phase 0 (no GPU): verify cards + re-time .srt to the ACTUAL concatenated timeline (real clip lengths A=5.17, B=2.13, C=9.21, D=3.54, E=12.75, F1=9.21, F2=14.17, G=14.17; order `A→card_B→B→C→card_D→D→E→card_F→F1→F2→card_G→G`). Phase 1 (GPU, user): DUB (Malayalam, user's voice, RVC/OpenVoice; Jaisal's lines mouth-synced, camera-guy's lines over the cards; NO MUSIC D041). Phase 2 (GPU, user): LatentSync mouth-sync on speaking shots (A, C, E, F1, F2, G). Phase 3 (user, manual): DaVinci assembly (timeline + burn subtitles + swap dub audio + natural SFX + export).
+
+---
+
+## D097 — PRODUCTION MOVIE PIPELINE (reusable, DUB-FIRST) — the Jaisal-intro is the first instance (2026-10-01)
+
+Date: 2026-10-01
+Status: Active (standing pipeline for ALL future films, not just the intro)
+
+### Decision
+
+The Jaisal-intro is the **first instance** of a **reusable production movie
+pipeline**. The user will repeat this for more films, so it is captured here as the
+standing process. **Order is DUB-FIRST** (audio is the timing spine):
+
+```
+SCRIPT → DUB (user) → CLEAN (clean_audio.py) → [RVC for camera-guy lines]
+       → LIP-SYNC (LatentSync, speaking shots) → SUBTITLES (re-time .srt to final cut)
+       → ASSEMBLY (DaVinci: concat + cards + dub audio + natural SFX + burn subs + export)
+```
+
+### Locked facts (user-confirmed 2026-10-01)
+
+1. **FINAL LENGTH = 72s (1:12), NOT 82.34s.** The 4 black question cards are NOT
+   full 3s segments — they **OVERLAP the clips** (e.g. card_B overlaps shot C), so
+   the net timeline is 72s. Do NOT time the .srt against the raw 82.34s concat;
+   time it against the FINAL DaVinci cut (72s).
+2. **Card audio is NOT muted.** When a card is shown, the underlying clip's audio
+   CONTINUES under it (the camera-guy line plays over the card while the scene
+   audio carries) → the audience gets audio continuity. Cards are a VIDEO overlay
+   on top of the continuing clip, not a silent black segment.
+3. **Order:** user dubs → we lip-sync → we add subtitles → final. (Dub first, then
+   sync, then subs.)
+4. **Voice assignment (D055):** JAISAL = user's own voice (as-is, no RVC); CAMERA
+   GUY = user's dub → RVC `midhun_v2_40k` (Midhun timbre).
+5. **NO MUSIC (D041):** natural SFX only (footsteps, wind, water, breath, ambient).
+6. **Recording app = Audacity** (free): mono, 16-bit, 48 kHz, export WAV, quiet
+   room, headset, one take per line. (Fallback: Windows Voice Recorder — fine since
+   `clean_audio.py` denoises/normalizes.)
+7. **Lip-sync = LatentSync** on the SPEAKING shots only (A, C, E, F1, F2, G).
+   Listening shots (B, D) have the mouth closed → no sync needed. LatentSync needs
+   WSL2 (installed, **reboot pending**). Fallback: if the dub's timing is close to
+   the generated mouth, skip lip-sync and just swap the audio track.
+8. **DIALOGUE LANGUAGE = MALAYALAM.** The dub is in Malayalam (user speaks
+   Malayalam). The English `.srt` subtitles are for the AUDIENCE (non-Malayalam
+   viewers). The camera-guy lines are ALSO Malayalam (dubbed by user → RVC Midhun).
+   The H3-generated video has English placeholder audio (stripped in post).
+9. **PIPELINE CAPTURE (post-intro):** after the intro is complete, build a
+   **COMPLETE REFERENCE FOLDER** for the next project — all workflows, references
+   (keyframes, object refs), the script, latent chain details, prompting ideas,
+   card/subtitle pipeline, audio pipeline, assembly notes. Goal: a reusable
+   "loop engineering" template for continuous video production.
+
+### Per-film steps (the repeatable checklist)
+
+- **Phase 0 (user):** record ALL lines (Jaisal + camera guy) in Audacity → drop raw
+  files in a folder.
+- **Phase 1 (me, no GPU):** `clean_audio.py` → 16 kHz mono clean wavs. Camera-guy
+  lines → RVC `midhun_v2_40k` (Midhun). Jaisal lines → as-is.
+- **Phase 2 (GPU, user runs — stop Qwen first):** LatentSync mouth-sync on speaking
+  shots (A, C, E, F1, F2, G).
+- **Phase 3 (me + user):** re-time the `.srt` to the FINAL 72s DaVinci cut; user
+  fine-tunes in DaVinci's Subtitles page.
+- **Phase 4 (user, DaVinci):** concat clips + cards (cards OVERLAP clips, audio
+  continues under cards) → place dub audio (Jaisal on speaking shots, camera guy on
+  cards) → add natural SFX (NO music) → burn subtitles → export.
+
+### Rules
+
+- NO MUSIC (D041). User runs GPU jobs (I never stop Qwen, D051). Artifacts in
+  `Jaisal-intro\` (never loose in ComfyUI output). Cards overlap clips + audio
+  continues (audio continuity). Final = 72s.
+
+---
+
+## D098 — Dub inside DaVinci Resolve + camera guy MUTED (card = question) (2026-10-02)
+
+Date: 2026-10-02
+Status: Active (supersedes the camera-guy RVC plan in D097)
+
+### Decision
+
+1. **Dub inside DaVinci Resolve** (built-in voice-over recording) — NOT Audacity. The user
+   records Jaisal's lines directly on the timeline while watching the video, so the lines
+   are timed to the actual mouth movement. No going back and forth between apps.
+2. **CAMERA GUY = MUTED (no voice).** The 4 black question cards ARE the questions (visual
+   text only). The audio under each card = ambient / background noise or a Jaisal line (NOT
+   the camera guy's voice). This eliminates the need for RVC `midhun_v2_40k` and the camera
+   guy's 5 takes.
+3. **6 takes total** (Jaisal only: A, C, E, F1, F2, G) — down from 11.
+4. **Lip-sync:** only if the mouth is clearly off. The user times the dub to the existing
+   mouth inside DaVinci; if close enough, skip LatentSync and just use the dub audio. If a
+   shot's mouth is off, export that shot's dub audio (WAV) → LatentSync → re-import.
+
+### Reason
+
+- Dubbing inside DaVinci = perfect timing (watch the video, record at the playhead).
+- Removing the camera guy's voice = a big simplification (no RVC, fewer takes, the card
+  carries the question visually).
+- The card is a video overlay on the continuing clip (audio continuity, per D097).
+
+### Alternatives considered
+
+- Audacity recording + import (rejected — going back and forth, harder to time against the
+  video).
+- Camera guy voiced off-screen + RVC Midhun (rejected — the user wants the card to be the
+  question, no camera guy voice).
+
+### Result
+
+Dubbing script reduced to 6 Jaisal takes. RVC `midhun_v2_40k` no longer needed for the
+intro. The card is a silent visual question with ambient / Jaisal audio underneath.
+
+---
+
+## D099 — H3 is text-to-voice only; LatentSync is the bridge for THIS intro; LTX-2 (audio-driven) for FUTURE movies (2026-10-02)
+
+Date: 2026-10-02
+Status: Active
+
+### Decision
+
+1. **MiniMax H3 audio = built-in TTS from the prompt's dialogue tags. It has NO audio
+   input** — you cannot feed it a Malayalam dub and have it mimic. So "dub first → feed to
+   H3" is NOT possible. The mouth in the generated clips is from the English placeholder.
+2. **THIS intro (video already done): LatentSync is the bridge.** Dub the 6 Jaisal lines
+   (Malayalam) → LatentSync re-animates the mouth on the 6 speaking shots (A, C, E, F1,
+   F2, G) to match the dub → swap audio. Do NOT regenerate the video.
+3. **FUTURE movies: flip to DUB-FIRST with an AUDIO-DRIVEN model = LTX-2 (Lightricks).**
+   LTX-2 is a DiT-based audio-video foundation model that generates video FROM audio
+   (voice drives motion/pacing/mouth — "audio-to-video"). Dub first → generate with LTX-2
+   → the mouth matches by construction, no LatentSync needed.
+4. **Recording device:** of the user's options, **Nothing Earbuds (in-ear) = best** (mic in
+   the ear canal, close to mouth, rejects room noise). Phone is acceptable. In DaVinci,
+   MUTE the timeline audio while recording (watch the mouth for timing only; don't let the
+   timeline sound bleed into the take), speak into the earbuds, import, nudge to align,
+   then `clean_audio.py`.
+
+### Reason
+
+- H3's audio is generated, not input-driven — so the dub must be matched in post
+  (LatentSync) for the already-generated intro.
+- LTX-2's audio-driven generation is the cleaner forward pipeline (dub-first, mouth
+  matches by construction).
+
+### Alternatives considered
+
+- Regenerate the intro video with the Malayalam dub (rejected — H3 can't take audio input;
+  and the video is already done + upscaled).
+- Phone recording (acceptable but more room noise than the in-ear earbuds).
+
+### Result
+
+This intro: LatentSync bridge. Future movies: LTX-2 audio-driven, dub-first.
+
+---
+
+## D100 — TWO-VERSION strategy (English = MiniMax native, Malayalam = dub + LatentSync) + ADR recording workflow (2026-10-02)
+
+Date: 2026-10-02
+Status: Active
+
+### Decision
+
+1. **TWO versions from ONE video:**
+   - **ENGLISH version:** use MiniMax H3's **native audio as-is**. The same model generated every line → the voice is **consistent across all shots automatically** (no dub, no LatentSync). The mouth is already correct (it IS the English mouth). Camera guy muted (cards = questions).
+   - **MALAYALAM version:** the user's **dub** + **LatentSync** (re-animates the mouth to the dub) + **English subtitles** (for the audience).
+   - One video → two deliverables. The English version is basically free (already in the clips).
+2. **Recording workflow (ADR-style, simplified for solo):**
+   - Production standard = **ADR (Automated Dialogue Replacement)**: actor watches the picture on ONE monitor, records into a mic, the **DAW** (Reaper/Pro Tools/Audacity) is on the SECOND monitor. Engineer times it.
+   - **Solo simplification:** since LatentSync re-animates the mouth to match the dub, the dub does **NOT** need to be frame-synced during recording. Record each line **cleanly** at a natural pace, place it at the right spot in DaVinci, LatentSync makes the mouth match. The two-monitor dance is OPTIONAL.
+   - **Best phone app:** **Dolby On** (free, iOS+Android, built-in AI noise reduction, "voice" mode) or **Riverside** (pro, records locally at 48 kHz, noise suppression). Avoid built-in Voice Memos (no noise reduction). `clean_audio.py` denoises + normalizes afterward.
+3. **Repeatable for future films:** record clean lines → place in editor → English = native audio, Malayalam = dub + LatentSync + subs.
+
+### Reason
+
+- MiniMax's native audio is consistent across shots (same model) → the English version needs no dub.
+- LatentSync decouples the dub from the mouth → the recording doesn't need frame-sync, which is what makes the workflow scale to a full feature film.
+
+### Alternatives considered
+
+- Frame-synced recording (two-monitor ADR) — works but unnecessary, since LatentSync re-animates the mouth.
+- Regenerating the video for the Malayalam version — rejected (H3 can't take audio input; the video is already done + upscaled).
+
+### Result
+
+Two versions from one video. English = free (native audio). Malayalam = dub + LatentSync + English subs. Recording = clean standalone lines (Dolby On / Riverside), no frame-sync needed.
+
+### Update 2026-10-02 — G Malayalam re-run TEST FAILED (inconsistent)
+
+User asked whether MiniMax could generate the Malayalam dialogue natively (re-run G with the
+Malayalam prompt). The re-run (`jaisal_intro_G_papers_00009_.mp4`) came out **inconsistent
+with the locked clips** ("THIS WAS SO BAD, NOTHING WORKS, THE SHOTS ARE NOT CONSISTENT").
+**Root cause:** re-running a shot is a brand-new stochastic generation — it cannot match the
+locked 7 clips (character/objects/timing/style). **Confirmed decision:** the VIDEO STAYS
+LOCKED (the 8 locked clips are the asset; the `00009` test take is discarded). Malayalam
+audio = DUB + LatentSync (post), NOT a MiniMax re-run. The English version keeps MiniMax
+native audio (consistent, already done).
+
+### Update 2026-10-02 (v3) — MiniMax Malayalam TTS = UNRELIABLE (gibberish on long lines) → dub + LatentSync confirmed
+
+User: "THE FINALIZED TAKE HAS GIBBERISH SPEAKING IN MALAYALAM AFTER KATHAKAL, RASHTREEYA." **VERDICT:** MiniMax H3's native Malayalam audio is clean for the first ~2 words ("കഥകൾ, രാഷ്ട്രീയം") then **gibberish** on the long line. **MiniMax Malayalam TTS is UNRELIABLE for long lines.** **CONFIRMED DECISION:** the Malayalam version = **user's dub + LatentSync** (the only reliable path — clean Malayalam from the user's voice, LatentSync re-animates the mouth). The English version keeps MiniMax native audio (English is clean). **LESSON (agent error):** I assumed the finalized take's audio was clean Malayalam without ever hearing it — the user knows the output, the agent does not. **Never assume audio quality; the user's ears are the ground truth.**
+
+### Update 2026-10-02 (v2) — CORRECTION: re-running is FINE (fresh-take workflow); the test was a bad seed
+
+User pushback: "we had done this before, why are you saying this is not possible? just the dialogue
+alone has to be different, we have latent, refs etc." **USER IS RIGHT.** "Can't reproduce the exact
+take" is NOT a blocker — the project has ALWAYS worked with fresh takes (the whole A→G chain was
+built this way; the original G was a fresh take too). The `00009` test was probably just a BAD
+SEED (a bad roll). **THE FIX: run multiple seeds (3-5), pick the best** — the established workflow.
+**G is the last shot (nothing downstream) → safe to re-run freely.** **PLAN:** re-run G, 3-5 seeds,
+pick the best, judge the Malayalam audio. If good → use it, then re-run the other shots (A, C, E,
+F1, F2) with Malayalam dialogue. If bad → fall back to dub + LatentSync. **SEED RULE:** record the
+seed of every good take (fix the `RandomNoise` node to a fixed seed, or note the seed from the run
+log) so a good take can be reproduced.
+
+### Update 2026-10-02 — CORRECTED diagnosis: setup WAS identical; the seed is the only variable
+
+User pushed back: "we have latent input, so at least the setup should be the same." **VERIFIED
+CORRECT.** The G workflow's setup is identical across runs: `MiniMaxH3MotionContextLoadLatent`
+clip_index=7 (F2's tail) + 5 refs + the Malayalam prompt + SLA. The ONLY variable = the
+**`RandomNoise` node (node 129) set to `randomize`** (seed `125001602048036`) feeding
+`SamplerCustomAdvanced` → every run gets a fresh random seed. The latent + refs anchor the
+start/end/objects/motion-continuity, but the MIDDLE of the shot is a fresh stochastic
+generation. **The original G seed was NOT recorded → the exact original take CANNOT be
+reproduced.** **STANDING RULE: record the seed of every good take** (set the RandomNoise node
+to a fixed seed, or note the seed from the run log) so a good take can be reproduced exactly.
+The locked clips are the only copies of their takes.
+
+---
+
+## D101 — VOICESTUDIO DUB HACK: user records per-dialogue audio → VoiceStudio → LatentSync (2026-10-03)
+
+Date: 2026-10-03
+Status: Active (supersedes the "record clean standalone lines in DaVinci" plan in D098/D100 for the Malayalam dub)
+
+### Decision
+
+1. **User records rough audio for EACH dialogue** (own voice, any app — Dolby On / phone /
+   DaVinci voice-over) → drops files in `Jaisal-intro\dubs\` (naming: `A_jaisal.wav`,
+   `C_jaisal.wav`, `E_jaisal.wav`, `F1_jaisal.wav`, `F2_jaisal.wav`, `G_jaisal.wav`,
+   optional `B/D/F/G_camguy.wav`).
+2. **VoiceStudio processes each take** (backend `localhost:3900`, OpenAI-compatible API
+   `/v1/audio/speech`, JAISAL clone = `dd8bc71f` Malayalam, midhun = `094d6afe`):
+   - **Default = CLEAN-AS-IS** — denoise + normalize the user's take, keep THEIR delivery
+     (most natural, preserves performance).
+   - **A/B option = Convert / re-speak** — Whisper transcribes the take → TTS re-speaks it
+     in the JAISAL clone (very clean + consistent, but flatter — loses exact delivery).
+3. **LatentSync** (WSL2 Ubuntu-22.04) mouth-syncs the processed audio on the 6 speaking
+   shots (A, C, E, F1, F2, G).
+4. **WHY:** removes the "record perfectly timed lines" hassle — the user just records each
+   line roughly; VoiceStudio cleans it and LatentSync makes the mouth match. The recording
+   does NOT need frame-sync (LatentSync re-animates the mouth).
+
+### Environment fixes (2026-10-03)
+
+- **VoiceStudio venv was BROKEN** — created on Python 3.13.6, where `curated-tokenizers`
+  v0.0.9 (transitive dep of KittenTTS) has no cp313 wheel → `uv sync` fell back to a source
+  build that hit a Cython 3.x bug (`'NoneType' object is unsliceable`) → venv left EMPTY
+  (0 site-packages) → backend never started. **FIX:** deleted the venv, rebuilt on
+  **Python 3.12.11** (has prebuilt wheels), `uv sync` exit 0 (304 packages). Backend now UP.
+- **Ubuntu-22.04 installed** (user ran `wsl --install -d Ubuntu-22.04`, provisioned, user
+  account `user` created). WSL2 = 2.7.13.0. LatentSync ready after repo clone + model
+  download inside Ubuntu.
+
+### Alternatives considered
+
+- Record clean standalone lines in DaVinci (D098/D100) — rejected for the Malayalam dub:
+  the user prefers to record rough per-dialogue takes and let VoiceStudio clean them.
+- MiniMax native Malayalam (D100) — rejected: gibberish on long lines.
+
+### Result
+
+Malayalam dub = user's rough per-dialogue recordings → VoiceStudio (clean-as-is default) →
+LatentSync mouth-sync. English version still = MiniMax native audio (unchanged).
