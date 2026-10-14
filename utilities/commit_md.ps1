@@ -21,7 +21,10 @@ Set-Location $repo
 git add -- '*.md'
 git add -- '.gitignore'
 
-if (git diff --cached --quiet) {
+# `git status --porcelain` (after the adds above) accounts for line-ending
+# normalization; `git diff --cached` can show phantom CRLF-only diffs.
+$changed = (git status --porcelain --untracked-files=no).Trim()
+if ($changed -eq "") {
   Write-Output "commit_md: no .md changes to commit (already up to date)."
 } else {
   $summary = git diff --cached --stat | Select-Object -Last 1
