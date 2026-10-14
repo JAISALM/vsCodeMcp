@@ -21,9 +21,10 @@ Set-Location $repo
 git add -- '*.md'
 git add -- '.gitignore'
 
-# `git status --porcelain` (after the adds above) accounts for line-ending
-# normalization; `git diff --cached` can show phantom CRLF-only diffs.
-$changed = (git status --porcelain --untracked-files=no).Trim()
+# Scoped to exactly what this script manages. The repo carries runtime noise
+# (.comfy/runs.jsonl, .vscode/mcp.json) that is tracked and always "modified" —
+# an unscoped status check would false-positive on those.
+$changed = (git status --porcelain --untracked-files=no -- '*.md' '.gitignore').Trim()
 if ($changed -eq "") {
   Write-Output "commit_md: no .md changes to commit (already up to date)."
 } else {
