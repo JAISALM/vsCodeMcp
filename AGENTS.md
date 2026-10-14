@@ -550,6 +550,31 @@ Then provide a concise understanding of:
 
 Then continue the work.
 
+**Writer-task shortcut (2026-10-14):** if the user asks to "continue the script" /
+"continue writing" (Episode 1 or any future episode), the entry point is the
+**self-contained resume brief**:
+
+```
+episode1\CONTINUE_SCRIPT.md
+```
+
+Read it, write the ONE new file it names (e.g. `episode1\episode1_script_part2.md`),
+touch nothing else.
+
+### Writer-model boundary (2026-10-14)
+
+The **writer model (Gemma4-31B QAT)** is used for creative output only and is
+deliberately weak at agentic work. Hard rules:
+
+- The writer model **must NOT edit any existing project file** — memory, decisions,
+  docs, scripts, workflows. It may **create new files only** (e.g. a new
+  `episode1\episode1_script_partN.md`).
+- **All edits to existing project files** (memory updates, decision records, commits,
+  the D131 safety-commit) are done by the **agent model (Qwen)** session or
+  explicitly by the user — never by the writer model.
+- Frame writer tasks as ONE action: "read the brief, write this one new file" —
+  never multi-step file juggling.
+
 ---
 
 # CRITICAL: Daily .md safety-commit standard (2026-10-14, D131)

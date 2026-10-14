@@ -27,3 +27,17 @@
 - **What goes into git (refined 2026-10-14):** `.md` files = always (auto). **Workflow JSONs = manual, only when reusable/needed in the future** (Episode 1 ones: `episode1\workflows\`). Generated images/audio/video = never.
 - **Restore recipe:** `git log --oneline -- <file>` → `git checkout <commit> -- <file>`.
 - **Status:** Active. Also recorded in AGENTS.md ("Daily .md safety-commit standard").
+
+## D132 — Writer-model boundary + resume brief (2026-10-14)
+- **Decision:** the **writer model (Gemma4-31B QAT)** does creative output ONLY — it
+  **never edits existing project files**; it may **create new files only** (e.g.
+  `episode1\episode1_script_partN.md`). All edits to existing files (memory, decisions,
+  docs, commits) are done by the **agent model (Qwen)** session or the user.
+- **Resume brief:** `episode1\CONTINUE_SCRIPT.md` = the self-contained entry point for
+  "continue the script" — the writer reads it, writes the ONE new file it names, touches
+  nothing else. Framing rule: writer tasks are always ONE action, never multi-step
+  file juggling (Gemma is weak at agentic work).
+- **Reason:** makes "start a new session → 'let's continue the script'" reliable:
+  AGENTS.md points to the brief; the brief carries all canon (characters, motifs,
+  milestones, anchor line, NO-MUSIC rule).
+- **Status:** Active. Also recorded in AGENTS.md ("Writer-model boundary").
