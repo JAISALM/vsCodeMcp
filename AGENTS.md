@@ -590,8 +590,10 @@ powershell -ExecutionPolicy Bypass -File "D:\models\vsCodeMcp\utilities\commit_m
 ```
 
 This commits all `.md` files + `.gitignore` with a timestamped message (no-op if
-nothing changed). A Windows scheduled task **`VsCodeMcp-MdDailyCommit`** runs it
-daily at **22:30** as a safety net, so even a session that forgets is covered.
+nothing changed) and **pushes `origin/main` to GitHub** (`JAISALM/vsCodeMcp`) —
+a failed push never fails the local commit; the next run retries it. A Windows
+scheduled task **`VsCodeMcp-MdDailyCommit`** runs it daily at **22:30** as a
+safety net, so even a session that forgets is covered.
 
 **If a `.md` file is ever corrupted or deleted, restore it from git:**
 
