@@ -23,14 +23,19 @@ git add -- '.gitignore'
 
 if (git diff --cached --quiet) {
   Write-Output "commit_md: no .md changes to commit (already up to date)."
-  exit 0
+} else {
+  $summary = git diff --cached --stat | Select-Object -Last 1
+  $stamp = Get-Date -Format "yyyy-MM-dd HH:mm"
+  $msg = "md-safety-commit $stamp - all .md changes (daily standard)"
+
+  git commit -m $msg | Out-Null
+  Write-Output "commit_md: committed."
+  git log -1 --format="commit_md: %h %s"
+  Write-Output ("commit_md: {0}" -f $summary)
 }
 
-$summary = git diff --cached --stat | Select-Object -Last 1
-$stamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-$msg = "md-safety-commit $stamp - all .md changes (daily standard)"
-
-git commit -m $msg | Out-Null
-Write-Output "commit_md: committed."
-git log -1 --format="commit_md: %h %s"
-Write-Output ("commit_md: {0}" -f $summary)
+# Always try to push so the GitHub remote (origin/main) is the true safety net
+# (D131). A failed push (offline / no credentials) never fails the local commit —
+# the next run retries it.
+$pushOut = git push origin main 2>&1 | Out-String
+Write-Output ("commit_md: push -> " + (($pushOut.Trim() -replace "`r?`n", " ")))
