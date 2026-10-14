@@ -14,3 +14,22 @@ Thumbs.db
 # NOTE: workflow_backups/ IS tracked (only ~1.4 MB) — keep it in git so
 # pre-fix workflow states are preserved. If it ever grows large, add it here
 # and run: git rm -r --cached workflow_backups
+
+# Images (standard 2026-10-14: keep the repo text-only for NEW images.
+# The ~129 images already tracked (Jaisal-intro keyframes/refs) STAY tracked -
+# gitignore only stops NEW files. Force-track one if ever needed: git add -f)
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.bmp
+*.tif
+*.tiff
+
+# Media / large binaries (same standard: never commit new media into the repo)
+*.mp4
+*.wav
+*.blend
+*.blend1
+*.log

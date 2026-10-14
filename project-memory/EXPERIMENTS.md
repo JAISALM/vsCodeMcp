@@ -4,6 +4,352 @@ Newest experiments first.
 
 ---
 
+## 2026-10-12 — BOAR-GRAVE CAMREF VIDEO + S&R converter root-cause + FaceRefine install
+**Goal:** (a) get the blockout camera-motion clip out of Blender for the SAM3 R2V pipeline; (b) make the FaceRefine boar-grave workflow validate clean; (c) install the FaceRefine pack for long-shot facial consistency.
+
+**Results:**
+- **Blender 5.2 video-output dead ends (2 failures):** (1) `scene.action.fcurves` — `'Action' object has no attribute 'fcurves'` (unified action system) → skip the interpolation loop, default bezier is fine for a slow push-in. (2) `render.image_settings.file_format = 'FFMPEG'` — **FFMPEG is NOT in this build's enum** (`AVIF/JPEG/OPEN_EXR/PNG/WEBP/BMP/CINEON/DPX/IRIS/JPEG2000/HDR/TARGA/TARGA_RAW/TIFF`); Scene has no video-related properties at all. **WORKING ROUTE: render a PNG frame sequence (`bpy.ops.render.render(animation=True)`) → encode with the bundled `imageio_ffmpeg` binary** (`python_embeded\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe`, `-framerate 24 -i frame_%04d.png -c:v libx264 -pix_fmt yuv420p -crf 19`). 72 frames @ 1280×720 → `boar_grave_talking_camref.mp4` (292 KB). Silhouette state (char1 BLUE/char2 RED, dummy hidden) rendered first, then colors restored + dummy unhidden + .blend saved.
+- **S&R converter gotcha (root-caused in source, `comfy_cli\workflow_to_api.py` `_schema_for`):** a node with `type: UNETLoader` but `properties["Node name for S&R"]: "UnetLoaderGGUF"` (a class that EXISTS in `/object_info` — UnetLoaderGGUF requires only `unet_name`) gets its WIDGET MAPPING done against UnetLoaderGGUF's schema while the API node's `class_type` stays `UNETLoader` (which requires `weight_dtype`) → converted prompt lacks `weight_dtype` → validator `required_input_missing` **even with correct `widgets_values` + `widgets_values_named`**. Minimal-file bisection (positional-only variants all pass; named-dict variants pass when S&R = real class). **FIX: set S&R = `UNETLoader`.** After the fix, `H3_FaceRefine_boar_grave.json` validates 0 errors/0 warnings. **RULE: for machine-built/template nodes, always align `Node name for S&R` with the actual `type` class.**
+- **FaceRefine install state:** pack was already cloned (custom_nodes\ComfyUI-H3-FaceRefine); deps present (ultralytics 8.4.80, insightface 1.0.1, scenedetect 0.7.1, scipy, onnxruntime-gpu with CUDA provider); **only true gap = `face_yolov8m.pt` → downloaded (50.8 MB) to `models\ultralytics\bbox\`**. H3 node classes resolve in the live server (validation found no unknown-node errors) → no restart needed for the boar-grave variant to run.
+- **Model re-org fallout (D120):** the user's saved H3 workflows carry stale subfolder-prefixed names (`H3\...`, `h3\...`, `MiniMax H3\...`) + replaced model variants (int8→pruned_int8 UNET, 8step→4step-768p turbo LoRA, heretic int8 clip→nvfp4_awq). Fixed in both new boar-grave workflows from the validator's closest-match suggestions. **Do NOT re-download — the models exist at the models root.**
+
+**Conclusion:** both boar-grave workflows ready + validate clean; nothing executed (user rule: no ComfyUI runs while Qwen is up; screenplay first).
+
+---
+
+## 2026-10-12 — BOAR-GRAVE SCENE BLOCKOUT (parambu): 5-camera angles via Blender MCP
+**Goal:** build the user's boar-grave scene (char1 inside a grave hole digging, char2 + dummy at the edge, dead boar, Kerala parambu with 2 coconut trees + half-broken fence, morning light) as a gray-box blockout with 5 shot cameras, to test the blockout → Krea2 → MiniMax H3 R2V route (D118).
+
+**Iteration log (v1→v4):**
+- **v1:** solid ground plane COVERED the hole (hole box was under an opaque plane → hole invisible from above, CU camera ray hit the plane). LONG shot from the south put the fence behind the camera. REVERSE camera at char2's shoulder landed INSIDE his head sphere → blank gray frame. GROUND camera at the hole's west end was 1.2 m from char1's body → point-blank.
+- **Fixes:** (1) replaced the ground plane with 4 ground boxes leaving a REAL hole opening (x −2.3..0.3, y −0.78..0.78); (2) moved long camera to the north side (8, 7, 6.5) so the fence (y=−8) reads in the background; (3) pulled reverse camera outside char2's body (2.6, 2.2, 1.9, lens 65) → OTS with his shoulder as a corner element, high angle on char1; (4) ground camera offset south inside the hole (−2.1, −0.4, −1.3) aiming at the men's HEADS (z=1.5) so the sight line clears over char1's head — they appear over his shoulder against the sky (the user's trench-reference look); (5) removed the two east rim mounds that blocked the CU; final CU at (0.4, 1.2, 0.9) looking down at char1's head.
+- **Char1 position:** moved to the east part of the hole (x=−0.5) so the ground-level view along the hole stays open.
+
+**Result:** all 5 angles readable as blockout: `boar_grave_{cu,long,ground,reverse,low}.png` (1280×720 EEVEE). `.blend` SAVED at `data\boar_grave_scene.blend` (52 objects; cameras named `cam_cu/cam_long/cam_ground/cam_reverse/cam_low`).
+
+**Lessons:**
+- A blockout "hole" needs a real opening in the ground (4-box ring) — a box under a solid plane is invisible from above and blocks camera rays.
+- Shoulder-height cameras land INSIDE the block figure's head sphere — aim from outside the body, not from the shoulder point itself.
+- A figure standing in the middle of a small hole blocks every line of sight to the far edge — aim at the far figures' HEADS (z≈1.5) so the sight line clears over the middle figure's head.
+- Always SAVE the `.blend` in the same call as the renders — the D112 grave blockout was never saved and had to be lost.
+
+**User feedback round (2026-10-12, v5→v7):**
+- CU "just a plate in the ground" → cause: only the head poked above the rim, body hidden. FIX: made the hole shallower (depth 0.6 m, unfinished) so char1's SHOULDERS are above the rim; bigger head block (r 0.26) + shovel handle in front of the head → reads as a crouching person with a tool.
+- Ground-level "too much height" → cause: 1.6 m deep hole forced the camera to look up at the men's heads/sky. FIX: shallow hole (0.6 m) → camera nearly level at the men's TORSOS; men's heads appear over the east rim.
+- char1 "just a tiny spherical shape, no presence" → FIX: wider shoulders, head above rim, char1 shifted to the WEST part of the hole so the ground-level line of sight to the men opens up over his left shoulder. Men moved CLOSE to the rim (0.65 m); boar just behind them.
+- **Blockout readability lesson:** a figure in a small hole is only readable from the angle if part of it (shoulders/head) is above the rim — depth vs pose must be chosen per shot, and the hole is "unfinished" so the rim is ragged with mounds.
+
+**Next:** user judges the 5 blocking angles → Krea2 style-locked reference set for this scene (D021) → MiniMax H3 R2V.
+
+---
+
+## 2026-10-12 — BLENDER MCP END-TO-END (full 26-tool server + headless bridge): scene build + render VERIFIED
+**Goal:** verify the full 26-tool Blender MCP (D106 update) works in DSH and can construct + render a scene with zero manual Blender work.
+
+**Config:** headless bridge `blender --background --online-mode --python D:\MCP\blender_mcp\start_bridge.py` (port 9876, background job `pwsh-14`), full server `blender-mcp.exe` (26 tools), Blender 5.2 (`C:\Program Files\Blender Foundation\Blender 5.2`).
+
+**Result: PASS.** (1) bridge up on first boot. (2) MCP round-trip OK (`get_objects_summary` = default scene). (3) `execute_blender_code` built an 11-object Kerala-style blockout from pure code (grass ground, house cube, slanted-slab roof, 2 trees = cylinder trunks + sphere canopies, character = cylinder body + sphere head, sun, camera). (4) one iteration (fan-cone roof → slanted slab; camera pulled back). (5) `BLENDER_EEVEE` 1024×576 render → `data\blender_mcp_test.png` (508 KB). (6) `.blend` saved (135 KB — openable in GUI).
+
+**Gotchas learned:**
+- Blender 5.2: `bpy.types.Scene.bl_rna.properties["render_engine"]` → KeyError (RNA lookup changed) — use try/except assignment over candidate engine IDs; working ID = **`BLENDER_EEVEE`** (no `BLENDER_EEVEE_NEXT` in 5.2).
+- `bpy.ops` in the headless bridge is fine for primitives/materials/render/save.
+- The bridge process must stay alive (keep the .bat window / job open); next session restart via `start_blender_bridge.bat` or a background job.
+
+**Conclusion:** director-seat workflow fully proven — describe scene in words → agent writes + executes bpy → verifies visually → iterates. Ready for the grave-scene rebuild (D112) via this route.
+
+---
+
+## 2026-10-11 — Web fetch pipeline tests (Reddit / X / Arena)
+**Goal:** establish which web sources are fetchable from this machine anonymously vs. need credentials.
+
+**Config / tested:**
+- Reddit `www/old/api` + `.json` via web_fetch: 403/redirect-to-login (UA-blocked).
+- Reddit `.json` via `curl.exe` with custom descriptive User-Agent (`linux:movie-project-research:v1.0`): **still 403** (189KB shreddit block page) — anonymous UA tricks are dead from this IP.
+- Reddit via redlib mirrors: mostly dead (catsarch=Anubis proof-of-work, privacydev=502, bloat.cat=DNS fail, perennialte.ch=shut down 2026-08-31). **`red.artemislena.eu` WORKED** (full thread content) — keep as fallback, don't rely on it.
+- X single-tweet syndication endpoint: `https://cdn.syndication.twimg.com/tweet-result?id=<id>&lang=en&token=<token>` with `token = Math.round((id/1e15)*PI, 5)` — **WORKS ANONYMOUSLY** (tested tweet id=20 → "just setting up my twttr"). Profiles/timelines/search are NOT covered — need `ct0` cookie or paid API.
+- `arena.ai/leaderboard/*` — client-rendered SPA, fetch returns title only; API route 403 "Route not allowed". Not scrapeable from here (user to paste top-5 if needed).
+- My `web_search` tool — FAILS in local-model sessions: `DeepSeek search has no API key for DEEPSEEK_API_KEY` (store via credentials service / web Models page / env, or use a DeepSeek-Account model which searches via account sign-in).
+
+**Result:** anonymous = X single tweets only. **Needed credentials (user offered to share 2026-10-11):** (1) `DEEPSEEK_API_KEY` → fixes built-in `web_search` for all sessions (biggest win); (2) Reddit **script app** client_id/secret (reddit.com/prefs/apps → "create another app" → script) → direct Reddit API; (3) optional X `ct0` cookie → profiles/timelines. Storage plan: user-level env vars on this machine (local only). Awaiting user's choice.
+
+**Lesson:** measure which mirror/endpoint actually works before promising a source; mirrors churn fast.
+
+**Update (same day): Reddit credential setup.** User shared Reddit account (suspicious-walk-815) + X Google sign-in for "just for fetching purpose" — stored `REDDIT_USER`/`REDDIT_PASS` as user env vars. **Form-post web login = DEAD:** current shreddit /login page is a JS shell (8.4KB, zero scripts, no csrf token in HTML) — the classic `name="csrf"` + form POST flow no longer exists; new-device logins also trigger CAPTCHA/verify. **CHOSEN ROUTE = browser session cookie:** user logs in once in their own browser, F12 → Application → Cookies → copies `reddit_session` value → stored as `REDDIT_SESSION_COOKIE` env var → all .json fetches work with it. Same pattern for X: copy `auth_token` + `ct0` from x.com cookies → `X_AUTH_TOKEN`/`X_CT0` env vars (X Google-sign-in password NOT stored — unusable programmatically, least-privilege). Awaiting the cookie values from the user.
+
+**Update 2 (same day): Why web MCP "stopped working" — DIAGNOSED.** User asked why ChatGPT/DeepSeek can fetch but "we" can't. Architecture answer: the local MODEL has zero network — all web access is via harness tools: (a) built-in `web_search` (deepsearch backend, needs DEEPSEEK_API_KEY — MISSING → broken), (b) **web-search MCP** (`D:\MCP\web-search-mcp` = mrkrsl/web-search-mcp v0.3.1 — **no API keys**, multi-engine Bing/Brave/DDG via **headless Chromium** (playwright, chromium-1234 installed ✓) — a real browser that CAN solve Reddit's JS challenge). DIAGNOSIS: MCP server 100% HEALTHY (live standalone handshake test: init OK, tools = full-web-search / get-web-search-summaries / get-single-web-page-content, no stderr). Gateway log shows successful calls through 2026-10-08 ("it was working previously" = TRUE). BUT the running GUI (PID 20468, started 10:52 PM) has **NO gateway child process** → MCP not attached → this session has no MCP tools. **FIX: user opens a NEW session in the GUI (MCP attaches per session); if tools still absent, Ctrl+C the GUI + rerun (`pnpm dev:web`), then new session.** Then I can `get-single-web-page-content` on Reddit URLs (headless Chromium runs the challenge JS) — the ChatGPT-equivalent route, no credentials. Optional: DEEPSEEK_API_KEY also fixes built-in web_search.
+
+---
+
+## 2026-10-08 — pe3 run #6 (user run, update-10 mirrored prompts) — CHAR1 ≈ CHAR2 CONVERGENCE (my over-mirror)
+
+### Config
+
+Update-10 prompts (char1 identity mirrored from char2's structure).
+
+### Result (agent viewed char1_a_00006 + char1_b_00006)
+
+- **char1_b face ≈ char2 face** — the mirrored identity (90% identical text) made
+  the model render the same person for both characters. User: "now the char1
+  looks exactly like char2, cant you simply generate 2 different characters?"
+- **char1_a clothing drift**: cream button-up + shorts + flip-flops instead of
+  the dark t-shirt (a full-body walking shot gives the model room to drift
+  clothing).
+
+### Diagnosis
+
+Over-mirroring (agent mistake): only hair/shirt distinguished the chars; t2i
+faces are also a per-draw lottery — similar young-Malayali-man prompts converge.
+
+### Fix (D108 update 11, char1 files validate clean)
+
+char1 identity de-merged: round youthful face / softer features, wavy hair
+DOWN and loose ("NOT tied up, NOT in a bun, NOT a topknot"), sparse short
+beard, dark t-shirt re-anchored in every scene line. char2 untouched.
+**Structural reality:** prompt-only can't guarantee two distinct consistent
+characters → **`krea2_char_dataset_lock.json` built** (6 identity-edit branches,
+ref_boost 4, 896×1120): pick best face per char → load into REF node → queue →
+face-locked dataset.
+
+---
+
+## 2026-10-08 — pe3 run #5 (user run, update-9 prompts) — char2_c WIN + char1_c STYLE COLLAPSE (anime/painting + 2nd person)
+
+### Config
+
+PE on, update-9 prompts (masculine anchors, per-scene beard, focus anchor,
+saree-block negative).
+
+### Result (agent viewed)
+
+- **char2_c = the target image**: man-bun, white tee, clearly visible short
+  dark beard with moustache, face in focus, rainy Kerala street. The char2
+  text (man-bun + dense-beard structure) simply works.
+- **char1_c: gender FIXED (man, beard) but style collapsed** — painted/anime
+  look + a second anime-style boy in frame. The style collapse was possible
+  because the negative had no anime/cartoon/painting terms.
+
+### Fix (D108 update 10, all six validate clean)
+
+User directive: "copy the similar text from char2". char1 identity mirrored
+from char2's proven structure (masculine face/jawline, concrete "clearly
+visible short dark BEARD… dark facial hair you can see on his face" wording
+adapted to the patchy spec, "NOT tied up in a bun", wavy hair kept); char1_c
+scene = char2_c's proven text ("wavy hair" instead of "man-bun") + focus
+anchor; negative += "anime, cartoon, illustration, painting, drawing, sketch,
+stylized, 3d render, cgi, mixed art styles" in all six files. char2 prompts
+untouched.
+
+### Next step
+
+User re-runs `krea2_t2i_char1_pe3.json` (char2 pair optional — already good).
+char1_c is still the risky branch (frontal + wavy hair); re-roll if needed.
+
+---
+
+## 2026-10-08 — pe3 run #4 (user run, PE on + concise prompts) — char1_c GENDER FLIP + char2 BEARD UNSTABLE + char2_c OUT OF FOCUS
+
+### Config
+
+PE on (temp 0.7, seed 42), concise ~200-235-word prompts (update 8), GPT
+negative. Output 896×1120.
+
+### Result (agent viewed the images)
+
+- **char1_c = young woman in a yellow saree with nose ring** — total subject
+  swap. Diagnosis: "Kerala" ×4 + soft-feature words + frontal street shot →
+  Krea2's dominant "Kerala woman in saree" prior overrode the man/beard
+  instructions. char1_a/b (partial-face shots) stayed male.
+- **char2_a = short dark beard VISIBLE in profile** — the beard DOES render on
+  some draws (it's draw-dependent, not impossible). char2_b/c = faint stubble
+  only.
+- **char2_c = face out of focus** (street sharp, face soft).
+
+### Fix (D108 update 9, all six files validate clean)
+
+Masculine anchors in char1 identity + tail ("masculine face and masculine
+features, masculine jaw"); beard repeated per scene line for BOTH chars (a/b/c)
++ char2 beard visually concrete ("dark facial hair you can see on his face, NOT
+just a shadow"); char2_c focus anchor ("Sharp focus on the man's face, his face
+is the main subject, crisp facial detail"); negative += "saree, sari,
+traditional dress, nose ring, feminine features".
+
+### Next step
+
+User re-runs the pe3 pair. If frontal char2 beard still fails → Identity Edit
+with the bearded profile (char2_a_00006) as reference (ref_boost 4).
+
+### Side note
+
+PE-expansion probe inconclusive: port 8100 serves the 27B agent model; a raw
+/completions call is not a faithful replica of the TextGenerate node's request.
+
+---
+
+## 2026-10-08 — pe3 run #3 (user run, GPT prompts + PE off) — QUALITY REGRESSION — REVERTED TO PROVEN CONFIG
+
+### Goal
+
+GPT-rewritten 320-380-word prompts + PE expansion OFF (raw passthrough).
+
+### Result (user verdict: "the newly created items are shit")
+
+All six worse than the PE-on runs. User attached the 6 "nearly perfect" earlier
+images (char1 a/b/c 1152×2048 + char2 a/b/c 896×1120, all PE-on) as the
+quality target: correct scenes, clothing, candid Krea2 realism — char2 just
+lacks the beard.
+
+### Diagnosis
+
+1. **PE OFF removed the expansion** that the proven images had (temp 0.7, seed
+   42) — raw prompts change Krea2's conditioning distribution → realism drop.
+2. **GPT put negative vocabulary in the positive prompt** ("NO TEXT anywhere: no
+   subtitles, captions, dialogue, speech bubbles...") — self-trigger risk on a
+   model that rendered subtitles; 370 words dilute identity/beard tokens.
+
+### Fix (D108 update 8, all six files validate clean)
+
+PE back ON (original 13-slot shape + 13-key named dict); prompts = proven
+concise style (~200-235 words) with Malayali anchor + concrete char2 beard
+("5-7 days growth, slightly dense, more than stubble, NOT clean-shaven");
+zero text-vocabulary in positives; GPT's 127-word negative kept (in the
+negative, where it belongs).
+
+### RULES
+
+- PE-off on these workflows = quality downgrade (re-test before ever flipping
+  again).
+- Negative-style instructions ONLY in the negative prompt.
+- Char prompts stay in the ~130-240 word band.
+
+---
+
+## 2026-10-08 — pe3 896×1120 dataset run #2 (user run) — SUBJECT COLLAPSE + IDENTITY DRIFT + BEARD STILL MISSING
+
+### Goal
+
+First 896×1120 pe3 run (char1_a/b/c + char2_a/b/c, PE on, seed 42, temp 0.7).
+
+### Result (agent viewed all 6 fresh images)
+
+- **char1_a: total collapse** — young WOMAN in knit cardigan, mountain background,
+  garbled burned-in subtitles ("1 can't generate of thije thaun..."). Wrong gender,
+  wrong location, text artifacts. (Previous 1152 run of the SAME expanded prompt was
+  correct → bad KSampler seed draw; PE-on expansion is an uncontrolled factor.)
+- **char1_b/c:** right type (wavy hair, dark tee, houseboat / rain street correct)
+  but DIFFERENT faces from each other (t2i has no face anchor) and generic
+  South-Asian look (user: "lack malayali touch").
+- **char2_a/c:** man-bun + white tee + scenes correct, but effectively CLEAN-SHAVEN
+  — "slightly dense short beard" wording did not render (Krea2 prior: young man =
+  clean-shaven). User: "still doesnt have beard, dont you understand?"
+
+### Diagnosis
+
+1. Weak subject anchor → seed variance flips gender/scene (char1_a).
+2. No Malayali-specific identity words → generic look.
+3. Beard phrase too abstract for Krea2 → dropped.
+4. **Identity drift between scenes is inherent to t2i** — no face reference = new
+   face every draw. Only fix = Krea2 Identity Edit (D023) face lock.
+5. PE-on expansion (temp 0.7) = uncontrolled creative text → off for the dataset.
+
+### Fix (see D108 update 6 — all six files, validate clean)
+
+Malayali anchor + male-only + concrete beards + no-text/no-woman tail + extended
+negative + PE OFF (raw prompt; 3-value off-mode widget shape). GPT-ready package at
+`d:\models\vsCodeMcp\prompts\char_dataset_gpt_package.txt` (user may hand to GPT).
+
+### Next step
+
+User re-runs the pe3 pair (fresh tabs). If faces still drift between scenes →
+face-lock pass via `krea2_identity_edit.json` (ref_boost 4) using the best face.
+
+---
+
+## 2026-10-08 (incident) — "both workflows return the same image, no beard" — ROOT CAUSE: empty prompt list in base files
+
+### Goal
+
+User ran the character workflows and both came out as the SAME beardless face. Diagnose.
+
+### Diagnosis (files on disk, verified by agent)
+
+- `krea2_t2i_char1.json` + `krea2_t2i_char2.json`: **node 200 (PixaromaPromptEach) `widgets_values = []`** — the 6-row prompt list was wiped (UI re-saved the files when the user ran them in the UI — D100 corruption class). The rows survived only in `properties.promptEachState.rows` (UI state — the backend does NOT read it; it reads positional `widgets_values` → empty prompt → model default → identical generic image, no beard, no character hair).
+- The `_pe`/`_pe3` files were fine in `widgets_values` BUT carried the OLD beard wording in `widgets_values_named.prompt` — and the frontend may prefer the named dict, so the last run likely used the old wording.
+
+### Fix (all validated clean: 13/13/13/13/25/25 nodes, 0 errors)
+
+- Rebuilt node 200 rows in both base files (rows 1-3 = exact scene prompts from the _pe3 TG nodes; rows 4-6 campus/temple/auto-rickshaw reconstructed in the same candid style — original 4-6 text lost to the wipe) + synced `promptEachState.rows`.
+- Final beard spec (D108 u4) applied in all six files: char1 = PATCHY visible beard (not full), char2 = slightly DENSE visible beard — in `widgets_values`, `widgets_values_named`, and `promptEachState.rows`.
+
+### RULES
+
+- A custom node's row data can live in `properties.*State.rows` (UI) AND `widgets_values` (runtime) — sync BOTH; `widgets_values_named` (frontend-preferrable) too.
+- An empty-prompt run = the model's generic default (same face, no beard) — if a workflow's prompt widgets look empty in the UI, don't run it.
+- Dataset runs = the `_pe3` files (they have no node 200).
+
+---
+
+## 2026-10-08 (round 2) — VISUAL verification of the 6-image dataset (agent vision live, D111 VERIFIED)
+
+### Goal
+
+Now that `read_image` works (D111 active in the new session), judge all six
+pe3 dataset images visually: identity consistency, scene fidelity, beard,
+realism.
+
+### Result (agent visual judgment, all six viewed)
+
+- **Identity consistency: EXCELLENT** — char1 (wavy hair, dark tee) is the
+  SAME person in all three scenes (a backwater looking-back / b houseboat / c
+  rainy street); char2 (man-bun, white tee) is the SAME person across all
+  three and UNMISTAKABLY a different person from char1. The dataset goal
+  (3 coherent shots per character) is achieved.
+- **Scene fidelity: all 6 match their prompts** — mist, backwater path,
+  houseboat with swans, monsoon rain (wet hair + raindrops on shirt), Kerala
+  street with bikes/stalls. Phone-shot candid look, natural light, no
+  AI-look — matches the user's "realism is good".
+- **char1 beard:** renders as short patchy-to-medium 5-day stubble — matches
+  the user-approved look ("chara 1's beard is perfect").
+- **char2 beard:** this run (done ~30 min before this verification, still
+  1152×2048 = the STALE latent) shows only light stubble — the run likely
+  predates the dense-beard wording. The on-disk `_pe3` files now carry the
+  dense wording + 896×1120 latent (verified on disk) → the NEXT run (fresh
+  tab) is the definitive one. Fallback if char2 beard still too light:
+  strengthen the wording ("dense, covering the chin and jawline, clearly
+  more than stubble").
+- **Resolution note:** all six current files are 1152×2048 (stale canvas
+  run); files on disk are 896×1120 → one more re-run = final dataset.
+
+### Conclusion
+
+Dataset structure + identity + scenes: APPROVED. Final re-run at 896×1120
+(char2 dense beard) = the definitive 6-image set. D111 VERIFIED: agent can
+view images (read_image returned the images and the agent judged them).
+
+---
+
+## 2026-10-08 — pe3 CHARACTER DATASET run #1 (1152×2048) — realism APPROVED; softness + aspect → 896×1120 re-run
+
+### Goal
+
+Verify the 3-branch PE dataset workflows (`krea2_t2i_charN_pe3.json`): 3 images per character (backwater looking-back / houseboat / monsoon rain), same identity, LoRA-stack realism.
+
+### Setup
+
+- 3 PE branches per character (TextGenerate seed 42 on Qwen3VL 4B; KSampler seeds 42/43/44 randomize; 10 steps cfg 1 euler/simple denoise 1), 1152×2048, Krea2-realism-V2 @1.0 + famegrid_spicy @0.7 + FameGridColorFinish (1.0/0.6).
+
+### Result (user verdict)
+
+- "came out pretty neat... the realism is good" — LoRA stack + PE expansion = **approved quality** (PE variance technique confirmed production-worthy for characters).
+- char1's FULL unkempt beard = perfect. char2's SHORT patchy beard = too little → denser wording (D108 update 3).
+- **Issues:** (1) softness at 100% zoom — 1152×2048 (2.36 MP) is an upscale from Krea2's ~1 MP native; (2) 9:16 portrait too tall for dataset use.
+
+### Conclusion / Next
+
+- **Fix (applied):** all six char workflows → **896×1120 (exactly 1 MP, 4:5)**; re-run both `_pe3.json` (char2 with denser beard) = the 6-image dataset; keepers optionally `seedvr2_image_upscale.json` (2K, 1440×2560).
+- **RULE: for Krea2 t2i, stay in the ~1 MP native class (896×1120 4:5); get more pixels with SeedVR2 2K post, NOT by upscaling the latent.**
+
+---
+
 ## 2026-09-29 — G FINAL RUN #6 (`jaisal_intro_G_papers_00006_.mp4`): mic fix worked, papers + smiley-pillar issues
 
 ### Goal
@@ -492,3 +838,134 @@ Keep
 Workflow work on top of the memory layer (jaisal/krea2 image chain, MiniMax H3 video).
 
 ---
+
+## 2026-10-08 — Krea 2 dataset test + partial batch (character-2 ref)
+**Goal:** verify Krea 2 identity-edit produces natural, realistic character images
+for the dataset (ref = character-2/Image_00001, boy on stone bridge).
+**Config:** krea2_turbo_fp8_scaled + identity LoRA v1.2 @1.0 + RawGirlV3 @1.2,
+Krea2EditModelPatch ref_boost 4.0 fit, KSampler 10 steps cfg 1 euler simple
+denoise 1, 2048×1152, grounding_px 768.
+**Results:**
+- Test run: `krea2_dataset_test_00001_.png` (44s) → natural bridge scene,
+  consistent face/costume, real skin, no plastic. PASS.
+- Batch (REST script `utilities\krea2_dataset_batch.py`) stopped by user after
+  2 images (Qwen was running → parallel-rule violation):
+  - `krea2_ds_00001_.png` → natural frontal headshot, 85mm overcast. EXCELLENT.
+  - `krea2_ds_00002_.png` → candid city street walk, 35mm wet street. EXCELLENT.
+  Both copied to `E:\ComfyUI_windows_portable\ComfyUI\output\Dataset\krea2_character_2\`.
+- Timing: ~180s per image on RTX 5090 (10 steps).
+**Conclusion:** Krea 2 + identity LoRA + RawGirlV3 is the dataset generator.
+Full 20-image batch now via `krea2_1click_dataset.json` (PixaromaPromptEach).
+**Next:** user runs the 1-click workflow; review 20 outputs; pick master image.
+
+## 2026-10-08 — Krea 2 identity-edit 20-image dataset run: FAILED (dummy faces)
+**Goal:** 20 varied-scene images of the character via `krea2_1click_dataset.json`
+(ref = Flux Klein character-2 bridge image).
+**Result:** user verdict → images distorted / not natural, eyes and facial
+expression "like a dummy with no human touch", no realism.
+**Root cause:** the identity-edit workflow INHERITS the reference image's face
+quality. The Flux Klein reference face was already expressionless/dummy, so the
+identity LoRA (ref_boost 4.0) faithfully reproduced the dummy face in every scene.
+**Conclusion:** do NOT build the dataset on top of a Flux Klein image. Generate
+the character FROM SCRATCH with Krea 2 t2i first (`krea2_t2i_character.json`,
+6 face candidates), pick the best face, then re-run the dataset with that ref.
+**Next:** user runs the t2i workflow; pick best face; re-run dataset.
+
+## 2026-10-08 — Krea 2 t2i face candidates: RawGirlV3 = WRONG LoRA (failed)
+
+**Goal:** generate 6 face candidates for the character via krea2_t2i_character.json.
+**Config (first build):** UNET krea2_turbo_fp8_scaled + RawGirlV3 @1.0, schoolboy CHAR.
+**Result:** FAILED — user: images came out as a KID, and RawGirlV3 is a FEMALE LoRA
+(wrong for a male character). Also Krea2-realism-V2 was not wired in at all.
+**Fix:** LoRA → Krea2-realism-V2.safetensors @1.0, CHAR → 26-year-old adult Indian
+man. Rebuilt + validated clean. Awaiting user's manual run.
+**Lesson:** check LoRA gender/subject match before wiring; the realism LoRA we
+searched for (RudySen Krea2-realism-V2) must be in the chain for photoreal output.
+## 2026-10-08 — Krea 2 t2i: two bearded characters + iPhone LoRA (PENDING user run)
+
+**Goal:** 12 face candidates — 6 for the FULL-beard character, 6 for the
+SHORT-patchy-beard character. Both 26yo Kerala men, lean-but-fit, NOT well
+groomed.
+**Config:** UNET krea2_turbo_fp8_scaled + Krea2-realism-V2 @1.0 +
+famegrid_spicy_3167060 (iPhone look) @0.7, 1152x2048 portrait, 10 steps cfg 1.
+**Status:** awaiting user's manual run (prefix krea2_t2i_face).
+**Watch for:** beard density (full vs short must be distinguishable), lean build
+(no bulky), Kerala look, iPhone-natural feel vs over-processed.
+## 2026-10-08 — Krea 2 t2i 12-candidate run: SAME GUY + 30+ LOOK (failed)
+
+**Goal:** 12 candidates (6 full-beard + 6 short-beard) from one workflow.
+**Result:** FAILED per user: (1) both characters came out as the SAME guy
+(second was just the first with a shorter beard — the beard was the only
+distinguishing feature), (2) faces looked 30+, not 26, (3) "template AI
+people" look, not natural Kerala everyman.
+**Root cause:** one shared character description + beard as the only variable
+= same face. No youth emphasis in the prompt. Generic "Indian man" = default
+AI South-Indian template.
+**Fix (D108 update):** two SEPARATE workflows with genuinely distinct
+characters (face shape, hair, beard, shirt all different), strong YOUTH
+emphasis ("mid-20s, youthful fresh face, no wrinkles" + negative "older man,
+30s, 40s, 50s, aged face"), and a Kerala everyman look described by PHYSICAL
+FEATURES (warm medium-brown natural skin, natural unstyled hair, soft
+youthful features, ordinary young man, not a model) — NOT by naming "Kerala"
+or any actor. Reference photos studied: Naslen (mid-20s, round soft face,
+tousled hair, light stubble, warm medium-brown skin = best youth reference),
+Nivin Pauly + Dulquer (photos were of them at ~40 — angular vs round face
+range only).
+**Status:** awaiting user run of krea2_t2i_char1.json + krea2_t2i_char2.json.
+## 2026-10-08 — Krea 2 t2i: STOCK-PHOTO FRAMING = PLASTIC LOOK (failed, root cause found)
+
+**Goal:** natural Kerala everyman look, not "average AI".
+**Result:** FAILED per user: still plastic, stock-image, no Kerala touch, no
+actor resemblance.
+**ROOT CAUSE (the big lesson):** the prompts were POSED STUDIO HEADSHOTS —
+"85mm lens f/2.8, sharp focus on the eyes, plain muted background" +
+over-emphasized "ultimate photorealism". That recipe makes the model render a
+hyper-perfect airbrushed stock-photo face. The framing, not the LoRA, was the
+problem.
+**Fix (2nd round):** CANDID ENVIRONMENTAL phone-shot framing in real Kerala
+settings (backwater path, houseboat, monsoon rain, college campus, temple
+wall, auto-rickshaw). NO lens specs, NO "plain background", NO posed
+headshots. Negative prompt now includes "studio portrait, posed, plain
+background, headshot, stock photo, professional photography, shallow depth of
+field, bokeh, hyper-realistic, over-processed". Hair per user: Char 1 =
+MEDIUM WAVY hair (loose, messy); Char 2 = LONG hair tied up in a loose
+man-bun/topknot (Gareth Bale 2018 style — user: "it's not haram to grow the
+hair").
+**Also:** tried to pull 20s-era actor photos (Nivin in Thattathin Marayathu
+2012, Dulquer in 1983 2013) — Wikipedia film posters were too low-res to be
+useful; the Naslen mid-20s photo remains the best youth reference.
+**Status:** awaiting user run of the rebuilt char1/char2 workflows.
+
+## 2026-10-08 — FameGridColorFinish "not registering" = FALSE ALARM (diagnostic lesson)
+
+**Symptom:** after cloning `custom_nodes\ComfyUI-FameGridColorFinish` +
+restarting ComfyUI, the node appeared ABSENT from `/object_info`; both
+char1/char2 workflows failed validation (`unknown_class_type` node 302). No
+"failed to import" error in the log.
+**Root cause (3 masking factors):**
+1. `data\object_info_cache.json` was STALE (pre-dated the node pack).
+2. `ConvertFrom-Json` CRASHED on a duplicate key in the 6MB object_info
+   (`ClownOptions_Frameweights` vs `ClownOptions_FrameWeights`), so the
+   "0 matches" check never actually ran — the "not registered" conclusion
+   was built on a parser failure, not real data.
+3. The node pack is SILENT on import (no log line), so its absence from the
+   log looked like a failure.
+**Verified (live server 8188):** `FameGridColorFinish` IS registered
+(`FameGrid` 116x, `ColorFinish` 2x in live object_info). Schema: required
+`image`; optional `color_strength` (FLOAT default 1.0), `sharpen_strength`
+(FLOAT default 0.6); output `image`. Both workflows VALIDATE CLEAN (13
+nodes, 0 errors).
+**LESSON (persist):** to check node registration, query the LIVE
+`/object_info` via `Invoke-WebRequest` + `[regex]::Matches` on the raw
+string. Do NOT trust the stale cache file, and do NOT `ConvertFrom-Json`
+the full object_info (duplicate keys crash the parser).
+**Status:** RESOLVED. Ready for user's manual run of char1/char2.
+## 2026-10-08 — Muse-Glimmer-30B ctx fit on RTX 5090 32GB (MEASURED, result PENDING probe)
+
+Goal: determine how much context Muse-Glimmer-30B (18.7GB Q5_K_M) can actually run on the 5090 — user challenged the agent's initial "~70GB KV at 260K" claim (it was an unmeasured architecture guess — RETRACTED).
+Measured (live process command line + nvidia-smi):
+- Agent's own 27B NVFP4 server (port 8100) runs `--ctx-size 260000`, q8_0 KV, flash-attn, MTP → **29.4GB / 32.6GB used** (2.8GB free).
+- Weight sizes: 27B NVFP4 = 14.47GB; Muse Q5 = 18.72GB.
+Result: 260K ctx provably fits a 14.5GB NVFP4 model on this card (barely). Muse is 4.25GB heavier in weights — 260K for Muse likely does NOT fit (that's the headroom the 27B's KV occupies), but exact fit depends on Muse's architecture (layer/KV-head count) — unverified.
+Action: `D:\models\Writing\probe-muse-ctx.bat` built — tries 260000→131072→98304→65536→32768, first ctx that boots wins, leaves that server running on 8101. User runs it with port 8100 stopped (card needs full 32GB; the agent cannot test while its own server serves the session).
+**RESULT (2026-10-08 22:53): 260000 FITS — the probe's FIRST attempt booted Muse at full 260K ctx and /v1/models returned 200** (user ran the probe WITHOUT stopping 8100; Muse still booted, so the original `Run-Muse-Glimmer.bat` ctx is safe on this machine). Caveat measured at coexistence: with both servers running, GPU = 31.9/32.6GB and BOTH are slow (Muse 2.3 tok/s, agent 27B 1.4 tok/s on 16-token test) — for real writing speed, stop 8100 and let Muse own the card. The agent's "likely doesn't fit" prediction was WRONG (KV turned out lighter than estimated — Muse's architecture is KV-efficient); the original "~70GB KV" guess was also wrong in the other direction. Lesson: measure, don't estimate. `run-muse-32k.bat` stays as a conservative fallback; the original 260K bat is now proven.

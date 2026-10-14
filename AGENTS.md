@@ -312,6 +312,29 @@ LoadImage has TWO inputs: `image` (`type='COMBO'`) AND `upload`
 This is the ground-truth shape — machine-built LoadImage nodes matching this render
 the image dropdown + "choose file to upload" button + preview correctly in the UI.
 
+### TextGenerate `sampling_mode` is a DYNAMIC combo — widget count changes with it (2026-10-08 lesson)
+
+`TextGenerate` (the Qwen/llama.cpp prompt-expansion node) has a `sampling_mode`
+combo with keys **`on`** and **`off`**. The node's widget count CHANGES with the
+mode:
+- `sampling_mode = "on"` → the node exposes the full 13 widgets
+  `[prompt, max_length, sampling_mode, temperature, top_k, top_p, min_p,
+  repetition_penalty, seed, presence_penalty, thinking, use_default_template,
+  mtp]` — a 13-value `widgets_values` array.
+- `sampling_mode = "off"` → the node exposes ONLY **3** widgets
+  `[prompt, max_length, sampling_mode]`. Any leftover temperature/top_k/.../mtp
+  values shift the mapping and the converter reports shape_mismatch errors
+  (e.g. `thinking: expected BOOLEAN, got float`, `mtp: 0.95 not in options`,
+  `use_default_template: expected BOOLEAN, got int`).
+
+**Rule:** when flipping a `TextGenerate` node to `sampling_mode = "off"`, set
+`widgets_values = [prompt, 1024, "off"]` (3 values) AND shrink
+`widgets_values_named` to `{"prompt":..., "max_length":..., "sampling_mode":...}`
+(drop the temperature/top_k/top_p/min_p/repetition_penalty/seed/presence_penalty/
+thinking/use_default_template/mtp keys). When flipping back to `"on"`, restore the
+full 13-value array + all named keys. Verify with `mcp_validate.py` after.
+See D108 update 6.
+
 ### i2i pose/atmosphere edits (2026-08-27 lesson)
 
 When an i2i must change ONLY atmosphere/climate and preserve the character pose

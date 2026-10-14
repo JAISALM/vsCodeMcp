@@ -4,6 +4,150 @@ Newest changes first.
 
 ---
 
+## 2026-10-12 — BUILT `minimax_h3_boar_grave_talking_r2v.json` (VALIDATE CLEAN, 0 errors) + `H3_FaceRefine_boar_grave.json` (VALIDATE CLEAN, 0 errors/0 warnings) — boar-grave talking scene ready (D119/D120)
+
+**`minimax_h3_boar_grave_talking_r2v.json`** — the talking scene (char1 in the hole + char2 + dummy at the rim). Base = user's `minimax_h3_sam_r2v_2char_cinematic.json` (82 nodes). Edits: node 153 video = `boar_grave_talking_camref.mp4` (start_time 0); refs 137/143 = `boar_char1/char2_identity.png` (Krea2 face_00001 copies in `input/`), 142 = `boar_char1_pose_digging.png` + 139 = `boar_env_parambu.png` (pending Krea2 t2i); node 138 = `[video editing]` blue→char1 (rose-pink shirt, crouched digging) / red→char2 (white tee) + third plain man, parambu env, slow push-in, 2 timed shots, natural-only soundscape, NO MUSIC (D041); node 305 prefix `boar_grave`; models fixed per D120 (pruned int8 UNET, 4step 768p turbo LoRA, nvfp4_awq CLIP, root VAEs, SAM3 root ckpt — the template's `H3\`/`h3\`/`sam3\` subfolder names were stale after the models re-org). **Validates clean** (2 pre-existing pipeline warnings = ImageBlend type mismatch + VAEDecodeAudio unreachable, present in the user's original template too). **RUN (after screenplay, stop Qwen first):** Queue → `output\boar_grave_00001.mp4`.
+
+**`H3_FaceRefine_boar_grave.json`** — long-shot facial consistency (D120): Auto-Select template adapted — video = `output\boar_grave_00001.mp4`, refs = both identities, char1 subject prompt, models = installed stack. **Fix applied: node 108 `properties["Node name for S&R"]` = `UnetLoaderGGUF` → `UNETLoader`** (the converter uses S&R as the schema class → weight_dtype was being dropped; gotcha + root cause in D120). Run AFTER the R2V take; multi-person = chain per subject (README in the boar-grave kit).
+
+**Also:** boar-grave kit staged at `E:\minimax_workflow\blender+minimax\boar_grave\` (blend + 5 renders + camref mp4 + identity refs + both workflows + README); `face_yolov8m.pt` → `models\ultralytics\bbox\`; FaceRefine example templates saved (`H3_Face_Refine_Auto/Manual_Select.json`); camref render route = Blender PNG frames → `imageio_ffmpeg` binary encode (Blender 5.2 has NO FFMPEG image_format + `Action.fcurves` absent — skip interpolation).
+
+---
+
+## 2026-10-08 — BUILT `krea2_dataset_char1.json` + `krea2_dataset_char2.json` — 20-image-per-character DATASET pipeline (143 nodes each, validate clean); DELETED `krea2_char_dataset_lock.json` (user: "clear that workflow")
+
+**Purpose:** the character dataset for LoRA training (D113). **Structure:** shared chain UNET `krea2_turbo_fp8_scaled` → LoraLoader `krea2_identity_edit_v1_2`@1.0, CLIPLoader `qwen3vl_4b_fp8_scaled` (krea2), VAELoader `qwen_image_vae` → 3 anchor LoadImage refs (id 210/211/212 = `krea2_ds_cN_ref_{a,b,c}.png` — user-approved anchors pre-copied to `input/`) → **17 identity-edit branches** (ids 300-435, 8 nodes each): VAEEncode(ref) + Krea2EditGroundedEncode (scene instruction, grounding_px 512) + negative encode (cfg>1 only) + EmptySD3LatentImage 896×1120 + Krea2EditModelPatch (ref_boost 4, ref_boost_a 1, fit) + KSampler (10 steps, cfg 1, euler/simple, denoise 1, seed randomize base 5000+num) + VAEDecode + SaveImage `krea2_ds_cN_XX`. **Scene list (17):** backwater-mist frontal close-up / temple-wall 3-4 / palm-path back / auto-rickshaw market / ferry deck / fishing jetty / coconut grove / houseboat edge / awning rain / dusk streetlamp / beach back / college bench / courtyard close-up / paddy field / houseboat-bow profile / rain-face close-up / water-edge jetty. **Anchor cycling:** frontal scene → ref c, 3/4 → ref b, profile/back → ref a. **char1 traits:** wavy medium hair down, round face, light stubble, dark tee; **char2:** man-bun, angular face, CLEAN-SHAVEN (user's approved anchors — beard spec superseded), white tee. char1 anchors 1152×2048, char2 896×1120; all outputs 896×1120. Builder bug history: closure `global lid` NameError → state dict; branch-13 patch id collided with Note (400) → Note moved to 500. **Next:** user queues both (fresh tabs) → 34 images → user review → keep 20/char → character LoRA training.
+
+---
+
+## 2026-10-08 — BUILT `krea2_char_dataset_lock.json` — 2-character FACE-LOCKED dataset pipeline (54 nodes, validate clean) — **DELETED 2026-10-08** (user: "the workflow which you created is also not working / not getting what i wanted, lets clear that workflow")
+
+**Purpose:** the reliable character-dataset route after t2i face-lottery proved
+unreliable for "two different consistent characters". **Structure:** shared
+chain — UNETLoader `krea2_turbo_fp8_scaled` → LoraLoader `krea2_identity_edit_v1_2`@1.0
+(NO style/RawGirlV3 LoRA), CLIPLoader `qwen3vl_4b_fp8_scaled` (krea2),
+VAELoader `qwen_image_vae` → 2 LoadImage ref slots (id 210 = char1 REF, id 211
+= char2 REF; user loads the picked best-face image) → **6 identity-edit
+branches** (char1_a/b/c, char2_a/b/c; node ids 300-347): VAEEncode(ref) +
+Krea2EditGroundedEncode (scene instruction, grounding_px 512) + negative encode
+(cfg>1 only) + EmptySD3LatentImage 896×1120 + Krea2EditModelPatch (ref_boost 4,
+ref_boost_a 1, fit_mode fit) + KSampler (10 steps, cfg 1, euler/simple, denoise
+1, seed randomize) + VAEDecode + SaveImage `krea2_charN_face_X`. **USAGE:**
+pick best char1 + char2 t2i images → load into REF nodes → Queue → 6
+face-locked 896×1120 images. Bad branch → re-queue that branch only (new
+seed). Builder: machine-built (pattern: `krea2_identity_edit.json` v1.2,
+D023/D025). char1 instructions carry "wavy hair down, sparse beard, dark
+tee"; char2 "man-bun, short dark beard, white tee" + "Preserve the exact
+facial identity". **Status: ready for user pick-and-lock.**
+
+---
+
+## 2026-10-08 — (discovered, pre-existing) `E:\minimax_workflow\blender+minimax\` — Blender→MiniMax H3 R2V pipeline package (D112)
+
+**Location:** `E:\minimax_workflow\blender+minimax\` (created 2026-10-06/07, same batch as the `kerala_grave` blockout renders in `D:\MCP\blender_mcp\renders\`). **Purpose:** render a scene in Blender as blocks (blockout) + a 5s square camera-motion reference → create the finished scene in **MiniMax H3 R2V**.
+**Core workflow: `video_minimax_h3_r2v-workflow.json` (UI format, 25 nodes, 27 links):** `MiniMaxH3ReferenceToVideo` **node 136** (widgets `['', 1344, 768, 124, 'match']` = prompt, width 1344, height 768, 124 frames (5s @ 25fps), mode 'match') ← LoadImage 137 `character-ref-2.png` (**CHARACTER identity ref**) + LoadImage 139 `environment_reference.png` (**ENVIRONMENT ref**) + **LoadVideo 142 `camera_reference_5s_square (1).mp4`** (**CAMERA MOTION/TIMING ref** — R2V accepts a video reference) → SaveVideo 92 prefix `video/MiniMax_H3`. **Demo variant:** `video_minimax_h3_r2v_blender_Comfyui_demo.json` (29 nodes, same core 136/92 + LoadImage 153).
+**Camera reference source:** `camera_reference_5s_square.blend` + `.mp4` (5s, square) built per `blender_camera_motion_prompt.txt` (Blender-MCP prompt: mannequin on checkerboard, soft light; speed-ramp orbit — quick settled holds + fast travels; single extreme closeup ~3.75s (both eyes visible); ends exactly at opening framing for a seamless loop; save editable .blend + render square mp4).
+**R2V prompt template:** `minimax_h3_reference_to_video_prompt.txt` (female + male character variants): Image 1 = character identity (face/hair/outfit/proportions preserved), Image 2 = environment (place character there, extend with parallax, preserve style), supplied video = **CAMERA MOVEMENT AND TIMING ONLY** ("Do not copy its mannequin, gray background, checkerboard floor, lighting"). 5s sequence: frontal waist-up → quick push/ease → alternating L/R 3/4 sweeps → max ~35° at 2.8–3.0s → low side view 3.0–3.3s → single ECU 3.57–3.73s (both eyes, eye contact) → pull back to exact opening framing at 5.0s (seamless loop); motion blur on fast moves, crisp on holds.
+**Also in package:** `Blender_to_MiniMax_Complete_Guide.pdf` (14.7 MB), `character-ref.png` / `character-ref (1).png` / `character-ref-2.png`, `environment_ref.png`, `video_minimax_h3_r2v-workflow.png` (screenshot).
+**Application to the GRAVE scene (plan, after character lock-in):** environment ref = `D:\MCP\blender_mcp\renders\kerala_grave_side.png` (or `kerala_grave_upper.png`), character ref = locked dataset face image, camera ref = the 5s square ref (or a grave-specific one) → H3 R2V 1344×768 124f 'match' → finished grave scene. **User: the two existing blockout angles (side + upper) are ENOUGH — no rebuild.** Note: the `MiniMaxH3ReferenceToVideo` widget shape `[prompt, width, height, frames, 'match']` is native-verified from this file.
+
+---
+
+## 2026-10-08 — ALL SIX char workflows: REVERT to proven config (PE ON + concise prompts, D108 update 8)
+
+**Trigger:** run #3 (GPT 320-380-word prompts + PE off) came out worse than the
+PE-on runs — user attached the 6 "nearly perfect" earlier images as the
+quality target. **Changes (all six files, validate clean):** (1) PE back ON —
+TG 310/311/312 (and _pe TG 310) restored to the original 13-slot shape
+`[prompt, 1024, "on", 0.7, 64, 0.95, 0.05, 1.05, 42, 0.0, false, true,
+"off"]` + full 13-key `widgets_values_named` — the exact config that produced
+the attached images; (2) prompts = proven concise style (~200-235 words):
+identity block (Malayali anchor, male only, concrete beards — char2 "about 5-7
+days of growth, slightly dense, more than stubble, NOT clean-shaven") + scene
+(a = backwater three-quarter looking-back with beard on jaw side, b =
+houseboat three-quarter profile, c = rain street with wet hair/beard + neutral
+expression) + candid tail; (3) zero text/subtitle vocabulary in positives —
+all no-text/no-woman/no-multi-people terms live ONLY in node 301 (GPT's
+127-word negative kept); (4) base-file rows 1-3 = the concise prompts (rows
+4-6 kept). **RULE: PE off = quality downgrade on these workflows;
+negative-style instructions only in the negative; ~130-240 word band.**
+
+---
+
+## 2026-10-08 — ALL SIX char workflows: GPT-rewritten prompts wired in (D108 update 7)
+
+**Input:** user's GPT pass on our package →
+`d:\models\vsCodeMcp\prompts\KREA2_character_dataset_rewritten_2026-10-08.md`
+(6 prompts char1_a/b/c + char2_a/b/c, 320-380 words each, repeated identity +
+beard blocks, per-scene no-text/no-woman anchors, extended 127-word negative).
+**Wiring:** `_pe3` files TG 310/311/312 = charN_a/b/c; `_pe` files TG 310 =
+charN_a; base files node 200 rows 1-3 = charN_a/b/c (rows 4-6 campus/temple/
+auto-rickshaw kept as-is); node 301 negative = GPT's (all 6 files). All six
+validate clean (13/13/13/13/25/25 nodes, 0 errors). **Loop NOT started (user
+instruction).** Run = the `_pe3` pair in fresh tabs → 6 images at 896×1120.
+
+---
+
+## 2026-10-08 — ALL SIX char workflows: Malayali anchor + concrete beards + PE OFF + text/woman negatives (after failed 896×1120 run #2)
+
+**Trigger:** user's pe3 run #2 (896×1120) — char1_a = woman + mountains +
+garbled burned-in subtitles; char1_b/c = right type, different faces, "lack
+malayali touch"; char2 = no visible beard. **Changes (all six files, validate
+clean):** (1) every prompt now starts "A candid phone snapshot of a 26-year-old
+young Malayali man from Kerala, India (South Indian features, warm
+medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl),
+..."; (2) beards made concrete — char1 "a short PATCHY BEARD (clearly visible
+sparse uneven patches of dark hair on the chin and jawline, more than a
+clean-shaven face, NOT a full beard, short and uneven, not well groomed)",
+char2 "a clearly visible short dark BEARD on the chin and jawline (about 5-7
+days of growth, slightly dense, a little more than stubble, NOT clean-shaven,
+NOT a full long beard, short and a bit uneven, not well groomed)"; (3) every
+prompt ends "ONLY ONE man in focus, no other people in the foreground, no text,
+no subtitles, no captions, no watermark, no logo, no speech bubbles, no
+dialogue text."; (4) negative (node 301) extended with text/subtitles/captions/
+words/letters/writing/watermark/logo/screenshot/social media overlay/woman/
+girl/female/other people/multiple people; (5) **PE expansion OFF** — TextGenerate
+`sampling_mode = "off"` in all 4 PE files (raw prompt passthrough; KSampler
+randomize keeps draw variance). **GOTCHA (AGENTS.md lesson):** `sampling_mode`
+is a DYNAMIC combo — `off` mode has only 3 widgets; `widgets_values` must be
+`[prompt, 1024, "off"]` + 3-key named dict (the 13-slot on-mode array broke
+validation: thinking got float, mtp got 0.95). **GPT-ready package:**
+`d:\models\vsCodeMcp\prompts\char_dataset_gpt_package.txt` (identity blocks +
+all 6 exact prompts + negatives + acceptance criteria + ask of GPT). **Face
+drift is inherent to t2i** — lock = `krea2_identity_edit.json` (ref_boost 4)
+after picking the best face.
+
+---
+
+## 2026-10-08 (incident fix) — krea2_t2i_char1.json + krea2_t2i_char2.json REPAIRED (node 200 prompt list wiped by UI re-save) + final beard spec across all six files
+
+**Incident:** user's run = same beardless face from both base files. **Root cause:** node 200 (PixaromaPromptEach) `widgets_values` wiped to `[]` when the UI re-saved the files (rows survived only in `properties.promptEachState.rows`, which the backend does NOT read → empty prompt → model default). **Fix:** node 200 rows rebuilt — rows 1-3 = exact scene prompts (backwater looking-back / houseboat / monsoon rain, taken from the _pe3 TG nodes), rows 4-6 = campus / temple wall / auto-rickshaw reconstructed in the same candid phone-shot style (original 4-6 text lost to the wipe); `promptEachState.rows` synced. **Beard spec finalized (D108 u4):** char1 = "a PATCHY beard (clearly visible short sparse patches on the chin and jaw, more than clean-shaven, short and uneven, NOT a full beard, not well groomed)"; char2 = "a slightly DENSE short beard (clearly visible on the chin and jaw, a little more than stubble, short and a bit uneven, NOT a full long beard, not well groomed)" — applied in all six files in `widgets_values` + `widgets_values_named` + `promptEachState.rows` (the PE files' named dicts had kept the OLD wording — the frontend may prefer named, so both were synced). All six validate clean (13/13/13/13/25/25 nodes, 0 errors, 0 warnings). **Dataset runs = the `_pe3` files (no node 200); base files repaired but watch for another empty-prompt-list UI wipe.**
+
+---
+
+## 2026-10-08 — krea2_t2i_char1_pe3.json + krea2_t2i_char2_pe3.json (new) — 3-image CHARACTER DATASET PE (D110 update) + resolution/beard changes across ALL char workflows
+
+**Purpose:** single-prompt PE (D110) = good realism but ONE image per character; goal = 3 images per character for the dataset. **Built via `utilities\build_krea2_t2i_char_pe3.py`** (clones char files, removes `PixaromaPromptEach` node 200 + link 11, adds the 3rd branch + TG nodes 310/311/312). **3 PE branches per character** (each = TextGenerate → CLIPTextEncode → KSampler → VAEDecode → FameGridColorFinish → SaveImage; shared UNET(55)/CLIPLoader(56)/VAELoader(57)/LoRA(96 Krea2-realism-V2 @1.0 → 97 famegrid_spicy @0.7)/latent(82)/negative(301)):
+- **a** = row 1 backwater "looking back" (approved): TG 310 → 300 → KS 53 (seed 42) → 54 → 302 → SI 29, prefix `krea2_charN_face_a`
+- **b** = row 2 houseboat: TG 311 → 313 → KS 314 (seed 43) → 315 → 316 → SI 317, prefix `_b`
+- **c** = row 3 monsoon rain: TG 312 → 318 → KS 319 (seed 44) → 320 → 321 → SI 322, prefix `_c`
+
+All TG: on-mode 13-slot `widgets_values`, PE seed 42, max_length 1024, thinking OFF, mtp off. KSampler 10 steps cfg 1 euler/simple denoise 1, `control_after_generate` "randomize". New links: 14/15 (branch A TG), 36 = 56→313.clip, 37 = 56→318.clip (each cloned CLIPTextEncode needs its OWN clip link — builder bug caught by validation). 25 nodes / 36 links, both files validate clean (0 errors, 0 warnings). Rows 4–6 (campus, temple wall, auto-rickshaw) = one-line prompt-widget swap.
+
+**Changes across ALL char workflows (char1, char2, _pe ×2, _pe3 ×2 — all re-validated clean):**
+- **Resolution:** EmptySD3LatentImage(82) 1152×2048 → **896×1120 (exactly 1 MP, 4:5; both dims multiples of 32)** — user verdict: soft at 100% (2.36 MP upscale from ~1 MP native) AND 9:16 too tall.
+- **char2 beard:** "a SHORT patchy beard (short length, sparse, not well groomed, NOT a full beard)" → "a SHORT dense beard (clearly visible on the chin and jaw, more than just stubble, short and a bit uneven, NOT a full long beard, not well groomed)" — 14 occurrences (char2.json 6 rows + _pe 2 + _pe3 6). char1 beard UNCHANGED (perfect).
+
+**2K keepers (optional):** `seedvr2_image_upscale.json` — SeedVR2 7B sharp DiT (`seedvr2_ema_7b_sharp_fp16.safetensors`) + ema VAE, `SeedVR2VideoUpscaler` @ 1440×2560; set LoadImage node 1 = keeper png + SaveImage node 5 prefix, Queue → `output\seedvr2_2k_*_00001_.png`.
+
+**Status:** BUILT + VALIDATED, awaiting user re-run (D100: stop Qwen first, fresh tab). Old 1152×2048 a/b/c outputs superseded. **RULE: keep Krea2 t2i in the ~1 MP native class (896×1120 4:5); for more pixels, SeedVR2 2K post — don't upscale the latent.**
+
+---
+
+## 2026-10-08 — krea2_t2i_char1_pe.json + krea2_t2i_char2_pe.json (new) — Krea 2 single-prompt PE variance (D110)
+
+**Purpose:** no-LoRA character variance for the char1/char2 t2i workflows (D108) using the built-in `TextGenerate` LLM expansion (Reddit PSA technique — Qwen3VL 4B text encoder expands ONE strong prompt; variance = PE seed (dramatic) + KSampler seed (fine)). **Built via `utilities\build_krea2_t2i_char_pe.py`** (clones char1/char2, removes `PixaromaPromptEach` node 200 + link 11, inserts node 310 `TextGenerate`). **Chain:** UNETLoader(55 `krea2_turbo_fp8_scaled.safetensors`) → LoraLoaderModelOnly(96 `Krea2-realism-V2.safetensors` @1.0) → LoraLoaderModelOnly(97 `famegrid_spicy_3167060.safetensors` @0.7) → KSampler(53: seed 42, randomize, 10 steps, cfg 1, euler/simple, denoise 1) ← EmptySD3LatentImage(82, 1152×2048); CLIPLoader(56 `qwen3vl_4b_fp8_scaled.safetensors` type krea2) → CLIPTextEncode positive(300).text ← **TextGenerate(310).generated_text** (link 15) ← 310.clip (link 14 from 56); negative = CLIPTextEncode(301) as before; VAEDecode(54) → FameGridColorFinish(302, 1.0/0.6) → SaveImage(29, prefixes `krea2_char1_face`/`krea2_char2_face`). **Node 310 `TextGenerate` (on-mode, 13-slot expanded widgets_values):** prompt = one strong prompt per character (char1: round face, wavy hair, full beard, dark tee, backwater path; char2: angular face, man-bun, short patchy beard, white tee, same scene) = row 1 of the removed 6-row set; sampling_mode ON {temperature 0.7, top_k 64, top_p 0.95, min_p 0.05, repetition_penalty 1.05, **seed 42**, presence_penalty 0.0}, max_length 1024, thinking OFF, use_default_template ON, mtp OFF. **Variance nobs:** PE seed = node 310 `sampling_mode.seed` (dramatic); KSampler seed = node 53 "randomize" (fine, fresh each run). **Models used:** krea2_turbo_fp8_scaled.safetensors, qwen3vl_4b_fp8_scaled.safetensors, qwen_image_vae.safetensors, Krea2-realism-V2.safetensors, famegrid_spicy_3167060.safetensors (all present at main models path). **Important custom nodes:** none (TextGenerate + FameGridColorFinish; both core/verified live). **Resolution:** 1152×2048 portrait. **Known issues:** none — both VALIDATE CLEAN (13 nodes, 0 errors, 0 warnings, mcp validate_workflow, live 8188). **Last successful result:** n/a (awaiting user run). **Next improvement:** after user judges takes — tune PE temperature/max_length, or sampling_mode OFF for raw-prompt runs. **Run order (user, stop Qwen first, fresh tab):** open `_pe.json` → Queue Prompt → `output\krea2_charN_face_0000N_.png`.
+
 ## 2026-09-28 — krea2_identity_edit_small_mic.json (new) — Krea2 IDENTITY EDIT small-mic end reference (D096 update 7)
 
 **Purpose:** t2i-from-scratch (update 6) threw away the scene (table, papers, chair, bulb, composition) — user rejected it: "we need to give the base image and then do the I2I with identity... keep the identity transfer workflow, don't forget things." **CORRECT TOOL = Krea2 Identity Edit v1.2** (`krea2_identity_edit.json`): takes the BASE image and regenerates it keeping the scene identity, applying only the instruction. **Built via `utilities/build_krea2_identity_small_mic.py` (clones `krea2_identity_edit.json`, validates clean 0 errors/0 warnings, 15 nodes):** node 72 LoadImage = `mic+paper.png` (base scene); node 84 = instruction ("Make the microphone SMALL and COMPACT, on a SHORT LOW stand... ONLY ONE microphone... Keep EVERYTHING ELSE exactly the same: papers, table, empty chair, bare bulb, black void, B&W cinematic. Preserve the entire original image exactly. No other changes. No people."); node 85 = negative ("large/tall mic, two mics, color, people, extra objects..."); node 29 SaveImage = `jaisal_cut/mic_small_id`; node 95 (Typnosis) BYPASSED. **Kept proven identity params:** node 79 `Krea2EditModelPatch` ref_boost=4 fit, node 83 `ResolutionSelector` 16:9 2MP, node 53 KSampler 10 steps cfg 1 euler/simple denoise 1, node 71 `LoraLoaderModelOnly` `krea2_identity_edit_v1_2.safetensors` @1.0, UNET `krea2_turbo_fp8_scaled.safetensors`, CLIP `qwen3vl_4b_fp8_scaled.safetensors` type `krea2`, VAE `qwen_image_vae.safetensors`. All krea2edit nodes LIVE; identity LoRA present. **G's node 139 (ref_image_1) points at `mic+paper_small.png`.** **Status:** BUILT + VALIDATED, awaiting user run. **Run order (user, stop Qwen first, fresh tab):** run `krea2_identity_edit_small_mic.json` → `output\jaisal_cut\mic_small_id_00001_.png` → copy to `input\mic+paper_small.png` → run `jaisal_intro_G_revolt.json` → restart Qwen. **RULE: to change ONE attribute of a scene while keeping the scene, use Krea2 Identity Edit v1.2 (base image + instruction, ref_boost=4) — NOT t2i (loses scene), NOT inpaint (region-shape prior).**
@@ -972,3 +1116,58 @@ Simple single-shot (NOT the 500-word R2V structure): opens exactly on `<Picture 
 ### Next improvement
 
 - Run, review in ComfyUI. If the jump-to-river is too much for one shot, split into two i2v runs (walk→run→jump, then underwater) and stitch in post, or drop the jump and end on the run.
+
+## krea2_1click_dataset.json (2026-10-08)
+**Purpose:** one-Run 20-image Krea 2 character dataset (same boy, 20 scenes).
+**Status:** BUILT + validates clean; awaiting user's manual run.
+**Location:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\krea2_1click_dataset.json`
+**Models:** krea2_turbo_fp8_scaled (UNET), qwen3vl_4b_fp8_scaled (CLIP, type krea2),
+qwen_image_vae, krea2_identity_edit_v1_2 @1.0, RawGirlV3 @1.2.
+**Custom nodes:** Krea2EditModelPatch + Krea2EditGroundedEncode (comfyui-krea2edit),
+PixaromaPromptEach (ComfyUI-Pixaroma).
+**Resolution:** 2048×1152 (16:9).
+**Key params:** ref_boost 4.0, fit, grounding_px 768, 10 steps, cfg 1, euler/simple,
+denoise 1. Ref image `krea2_test_ref.png`.
+**Known issues:** none (validates clean). Second-ref group + Typnosis LoRA bypassed.
+**Builder:** `d:\models\vsCodeMcp\utilities\build_krea2_1click_dataset.py`.
+**Next improvement:** after the 20-image run, pick the best master image and build
+the character sheet from it.
+
+## krea2_t2i_character.json (2026-10-08)
+**Purpose:** generate the character FROM SCRATCH with Krea 2 t2i → 6 face
+candidates in one Run; pick the best face as the MASTER reference.
+**Status:** BUILT + validates clean; awaiting user's manual run.
+**Location:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\krea2_t2i_character.json`
+**Models:** krea2_turbo_fp8_scaled (UNET), qwen3vl_4b_fp8_scaled (CLIP, type
+krea2), qwen_image_vae, RawGirlV3 @1.0. NO reference image, NO identity LoRA.
+**Resolution:** 1152×2048 portrait.
+**Key params:** 10 steps, cfg 1, euler/simple, denoise 1.
+**Builder:** `d:\models\vsCodeMcp\utilities\build_krea2_t2i_character.py`.
+**Next improvement:** after picking the best face, use it as ref in
+`krea2_1click_dataset.json` (node 72).
+
+## krea2_t2i_char1.json + krea2_t2i_char2.json (2026-10-08)
+**Purpose:** generate TWO distinct 26yo Kerala male characters FROM SCRATCH
+with Krea 2 t2i — 6 candid-environmental face candidates each; pick the best
+face per character as the MASTER reference.
+**Status:** BUILT + BOTH VALIDATE CLEAN (13 nodes, 0 errors); awaiting user's
+manual run. FameGridColorFinish node 302 confirmed registered (false-alarm
+blocker resolved 2026-10-08).
+**Location:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\krea2_t2i_char1.json` / `krea2_t2i_char2.json`
+**Models:** krea2_turbo_fp8_scaled (UNET), qwen3vl_4b_fp8_scaled (CLIP, type
+krea2), qwen_image_vae. LoRA chain: Krea2-realism-V2 @1.0 (node 96) ->
+famegrid_spicy_3167060 @0.7 (node 97). NO reference image, NO identity LoRA.
+**Resolution:** 1152×2048 portrait.
+**Key params:** 10 steps, cfg 1, euler/simple, denoise 1.
+**Node 302:** FameGridColorFinish (color_strength 1.0, sharpen_strength 0.6)
+wired VAEDecode(54) -> 302 -> SaveImage(29), links 10 & 13.
+**Char 1:** ROUND soft face, MEDIUM WAVY hair (loose, messy), FULL unkempt
+beard, dark t-shirt. Prefix `krea2_char1_face`.
+**Char 2:** ANGULAR face + jawline, LONG hair tied-up man-bun (Gareth Bale
+2018), SHORT patchy beard, white t-shirt. Prefix `krea2_char2_face`.
+**Framing:** CANDID ENVIRONMENTAL phone-shots in real Kerala settings (backwater
+path, houseboat, monsoon rain, college campus, temple wall, auto-rickshaw).
+NO lens specs, NO posed headshots. Negative kills the stock-photo look.
+**Builder:** `d:\models\vsCodeMcp\utilities\build_krea2_t2i_characters.py`.
+**Next improvement:** after picking the best face per character, use it as ref
+in `krea2_1click_dataset.json` (node 72) for the 20-image dataset.

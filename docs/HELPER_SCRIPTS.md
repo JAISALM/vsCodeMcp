@@ -1,6 +1,6 @@
 # Helper Python Scripts — Knowledge Transfer
 
-Last updated: 2026-08-27
+Last updated: 2026-10-12
 
 ## Why these scripts exist
 
@@ -82,6 +82,13 @@ with the embedded Python:
 |---|---|
 | `download_turbo_lora.py` | Downloads `minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors` (1.96 GB) from HuggingFace (Comfy-Org/MiniMax-H3) directly to the **main model path** `E:\ComfyUI_windows_portable\ComfyUI\models\loras\`. Needed because the MCP `download_model` tool targets comfy-cli's default workspace (`C:\Users\user\Documents\comfy\ComfyUI`), NOT our main path. |
 
+### Audio processing (dubbing pipeline, 2026-10-05)
+
+| Script | What it does |
+|---|---|
+| `clean_dub.py` | **THE dub cleaner (use this).** Full chain: Demucs vocal separation (neural, CUDA, ~2s/line, VoiceStudio venv) → `clean_audio.py` on the vocals stem. Strips background sound + echo MIXED INTO the voice (a gate can't — it only removes noise quieter than the voice). Run: `python clean_dub.py <input> [out_dir]`. Outputs: `<stem>_cleaned_48k.wav` (the dub, demucs+gate+normalize), `<stem>_cleaned_16k.wav` (pipeline), `<stem>_demucs_vocals_48k.wav` (demucs only, A/B), `<stem>_no_vocals_48k.wav` (what was removed — bg+echo, A/B). |
+| `clean_audio.py` | **File-level voice cleaning** (the file equivalent of NVIDIA Broadcast's live noise removal). Decodes any audio format via ffmpeg → highpass 80 Hz → STFT spectral gate (noise floor from quietest 10% of frames) → normalize to -1 dBFS → writes `<stem>_cleaned_48k.wav` (editing) + `<stem>_cleaned_16k.wav` (LatentSync pipeline). Run: `python clean_audio.py <input> [out_dir]`. **LIMIT (2026-10-05):** the gate only removes noise QUIETER than the voice — background/echo mixed into speech passes through. For that, use `clean_dub.py` (Demucs). File-level dereverb was tried and FAILED on speech-dominant clips (eats the voice). Echo is best fixed at the SOURCE: record in a soft room (closet full of clothes, closed door, fan off). See D104. |
+
 ### Memory maintenance
 
 | Script | What it does |
@@ -114,3 +121,16 @@ with the embedded Python:
 - **ComfyUI is not under comfy-cli control** (portable launcher) → MCP `restart_comfyui` fails; restart manually (Stop-Process the `main.py` PID, relaunch with the same args).
 - **Workflow JSON gotcha:** `widgets_values` (positional) and `widgets_values_named` (dict) can disagree; the frontend may prefer the named one. Update both.
 - **CRITICAL — workflow format:** ComfyUI's UI (drag-drop + Workflows tab) only renders **UI format** (`nodes` = list of node objects + `links` array). **API/prompt format** (flat dict `{node_id: {class_type, inputs}}`) shows an **empty canvas** when dragged. MCP `run_workflow`/`validate_workflow` accept BOTH (they convert UI→API internally), so **always save workflows in UI format** — it's the universal format. When building a workflow from scratch, emit UI format. If a file is API format, run `convert_api_to_ui.py` on it. (All 19 previously-broken jaisal/krea2 workflows were converted 2026-08-27; originals kept as `*.json.api.bak`.)
+
+---
+
+## Screenplay capture (2026-10-12, D121)
+
+| Script / file | What it does |
+|---|---|
+| `dictate_malayalam.py` | **LIVE read-aloud dictation** — speak the scene in Malayalam; faster-whisper large-v3 (GPU) transcribes each sentence at your speech pauses and **types the Malayalam script into the active window** (SendInput `KEYEVENTF_UNICODE` — verified via `--test`, which opens Notepad and types a Malayalam line). Appends every line to `data\dictation_log.txt` (timestamped). Deps: faster-whisper 1.2.1 + pynput + sounddevice (all in the portable python). First run downloads `Systran/faster-whisper-large-v3` (~1.5 GB). Mic auto-picks "Microphone (Realtek(R) Audio)" (`--device N` to override; the NVIDIA Broadcast device is visible too but its AI filters can chew on speech). Tunables: `--threshold 0.012` (RMS trigger), `--silence 0.9` (sentence-end gap), `--lang ml` (empty = auto). Esc stops. |
+| `transcribe_malayalam.py` (pre-existing, D116) | **Batch** Whisper flow — record in Audacity/phone → `<name>.ml.txt` with [mm:ss] timestamps. Stays the RECORDING-based fallback + feeds the dub pipeline. |
+| `prompts\screenplay_bilingual_malayalam_english.txt` | **Bilingual screenplay pass** (the user's explicit ask — script in BOTH languages): per scene, every line as Malayalam (colloquial Keralite spoken register) + English (subtitle-ready) pair; character names locked across the block (Malayalam + transliteration list at the end); Whisper transcription errors auto-repaired with "(check:)" flags; format preserved. Run per scene in the DSH writing chat. |
+| `prompts\manglish_to_malayalam.txt` (pre-existing, D116) | Fast-typing route conversion — Manglish → Malayalam (single language). Superseded for OUTPUT by the bilingual pass, but still fine for quick single-language drafts. |
+
+**Pipeline (D121):** read-aloud `dictate_malayalam.py` (or type Manglish) → bilingual pass per scene → **user's Gemma 31b QAT suggestions pass** → screenplay locked → film pipeline (D119/D120).
