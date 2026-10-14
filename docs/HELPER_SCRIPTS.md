@@ -134,3 +134,14 @@ with the embedded Python:
 | `prompts\manglish_to_malayalam.txt` (pre-existing, D116) | Fast-typing route conversion — Manglish → Malayalam (single language). Superseded for OUTPUT by the bilingual pass, but still fine for quick single-language drafts. |
 
 **Pipeline (D121):** read-aloud `dictate_malayalam.py` (or type Manglish) → bilingual pass per scene → **user's Gemma 31b QAT suggestions pass** → screenplay locked → film pipeline (D119/D120).
+
+---
+
+## Repo maintenance (2026-10-14, D131)
+
+| Script / task | What it does |
+|---|---|
+| `utilities\commit_md.ps1` | **Daily .md safety-commit standard.** Commits ALL `.md` files + `.gitignore` with a timestamped message (no-op when nothing changed). Run manually after changing any `.md`: `powershell -ExecutionPolicy Bypass -File "D:\models\vsCodeMcp\utilities\commit_md.ps1"`. Also runs automatically daily at 22:30 via Windows scheduled task **`VsCodeMcp-MdDailyCommit`** (safety net if a session forgets). |
+| `utilities\fix_mojibake.ps1` | Repairs CP1252/CP437 double-encoded (mojibake) text: per non-ASCII run, round-trips the bytes through CP1252 (then CP437) → UTF-8 and keeps the result only if every character is on the document whitelist (arrows/em-dashes/×/°/Malayalam/⚠…). Safe for mixed files (clean runs untouched), never writes partial results. Dry-run by default; `-Apply` writes. Used 2026-10-14 on the 6 `data/` files that survived the session-nuke. |
+
+**Restore a nuked/corrupted `.md` file:** `git log --oneline -- <file>` → `git checkout <commit> -- <file>`.

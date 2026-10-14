@@ -15,3 +15,4 @@ Moving from the "Ground Reality" (First Half) to the "Mind-Trip" (Second Half).
 - **First Half:** Fully scripted with high-depth dialogues, cinematic transitions (Coconut Tree Wipe), and emotional beats.
 - **Second Half:** Transitioning into the 1950 World Cup (Black & White).
 - **VRAM Management:** STOP Qwen 8100 when running Gemma writers to avoid OOM.
+- **Git Safety Net (D131):** all `.md` files committed via `utilities\commit_md.ps1` (scheduled task `VsCodeMcp-MdDailyCommit`, daily 22:30). Nuked/corrupted files are restored from git history.

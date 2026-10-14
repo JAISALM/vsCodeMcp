@@ -552,6 +552,35 @@ Then continue the work.
 
 ---
 
+# CRITICAL: Daily .md safety-commit standard (2026-10-14, D131)
+
+A session once nuked `project-memory/` state and task files (2026-10-14). The git
+commit history is now the safety net for ALL `.md` files (memory, docs, scripts, root).
+
+**After changing any `.md` file (especially `project-memory/*.md`), commit it in the
+same turn** — do not batch to session end:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "D:\models\vsCodeMcp\utilities\commit_md.ps1"
+```
+
+This commits all `.md` files + `.gitignore` with a timestamped message (no-op if
+nothing changed). A Windows scheduled task **`VsCodeMcp-MdDailyCommit`** runs it
+daily at **22:30** as a safety net, so even a session that forgets is covered.
+
+**If a `.md` file is ever corrupted or deleted, restore it from git:**
+
+```powershell
+git -C D:\models\vsCodeMcp log --oneline -- <file>      # find the last good commit
+git -C D:\models\vsCodeMcp checkout <commit> -- <file>  # restore it
+```
+
+`.gitignore` keeps the repo text-only: new images (`*.png`/`*.jpg`/...) and media
+(`*.mp4`/`*.wav`/`*.blend`/`*.log`) are never committed (previously tracked images
+stay tracked). Do not `git add -A` this repo.
+
+---
+
 # Important Principle
 
 The user's chat history is temporary context.

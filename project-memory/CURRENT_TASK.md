@@ -12,3 +12,10 @@
 **Pending Technicals:**
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
+
+**Project files (read these when resuming):**
+- `episode1_script_part1.md` — full Episode 1 script (Part 1 / first half; ends at the B&W transition — **second half NOT written yet** = the work above)
+- `episode1_first_half.md` — first-half sequence summary
+- `narrative_map.md` — characters, symbols, concept map
+- `scripts\first_script.md` + `scripts\episode1_structure_prompt.txt` — earlier structure drafts
+- `docs\` — pipeline guides; `utilities\commit_md.ps1` — daily .md safety-commit (D131)
