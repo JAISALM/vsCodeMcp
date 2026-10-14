@@ -579,6 +579,14 @@ git -C D:\models\vsCodeMcp checkout <commit> -- <file>  # restore it
 (`*.mp4`/`*.wav`/`*.blend`/`*.log`) are never committed (previously tracked images
 stay tracked). Do not `git add -A` this repo.
 
+**What goes into git (2026-10-14 refinement):**
+- **`.md` files** (memory, docs, scripts, root) — always (daily auto-commit).
+- **Workflow JSONs** — ONLY when reusable and needed in the future (manual commit,
+  never auto). Episode 1 reusable workflows live in `episode1/workflows/` (see its
+  README). One-shot tests / broken attempts: never commit.
+- **Images / audio / video / other generated media** — never (gitignored; they stay
+  on disk under `data/` and the ComfyUI outputs).
+
 ---
 
 # Important Principle
