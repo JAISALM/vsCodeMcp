@@ -1,4 +1,4 @@
-﻿[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "Cython/Compiler/Visitor.py", line 699, in
+[2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]         File "Cython/Compiler/Visitor.py", line 699, in
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       Cython.Compiler.Visitor.MethodDispatcherTransform._dispatch_to_handler
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       TypeError: 'NoneType' object is unsliceable
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps]       Traceback (most recent call last):
@@ -35,6 +35,6 @@
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] 
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] hint: `curated-tokenizers` (v0.0.9) was included because `omnivoice` (v0.5.3) depends on `kittentts` (v0.8.1) which depends on `misaki[en]` (v0.9.4) which depends on `spacy-curated-transformers` (v0.3.1) which depends on `curated-tokenizers`
 [2026-10-03][10:15:51][app_lib::bootstrap][INFO] [installing_deps] hint: Build failures usually indicate a problem with the package or the build environment
-[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Dependency install (uv sync) failed â€” often a network drop or a partial cache. "Clean & Retry" rebuilds the environment from scratch. If your network blocks PyPI, set a PyPI mirror in Settings â†’ region/mirrors (see docs/install/troubleshooting.md).
-[2026-10-03][10:15:51][app_lib::backend][ERROR] Venv bootstrap failed â€” backend not started
-[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Backend never started (never started) â€” keeping the specific failure already diagnosed
+[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Dependency install (uv sync) failed — often a network drop or a partial cache. "Clean & Retry" rebuilds the environment from scratch. If your network blocks PyPI, set a PyPI mirror in Settings → region/mirrors (see docs/install/troubleshooting.md).
+[2026-10-03][10:15:51][app_lib::backend][ERROR] Venv bootstrap failed — backend not started
+[2026-10-03][10:15:51][app_lib::bootstrap][ERROR] Backend never started (never started) — keeping the specific failure already diagnosed

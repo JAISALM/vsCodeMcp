@@ -1,4 +1,4 @@
-﻿python.exe : E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\Lib\site
+python.exe : E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\Lib\site
 -packages\torch\cuda\__init__.py:63: FutureWarning: The pynvml package is 
 deprecated. Please install nvidia-ml-py instead. If you did not install pynvml 
 directly, please report this to the maintainers of the package that installed 
@@ -12,7 +12,7 @@ At line:1 char:32
  
   import pynvml  # type: ignore[import]
 ≡ƒôè Initial CUDA memory: 29.23GB free / 31.84GB total
-ΓÜí SeedVR2 optimizations check: SageAttention Γ£à | Flash Attention Γ¥î | Triton Γ£à
+G�� SeedVR2 optimizations check: SageAttention G�� | Flash Attention G�� | Triton G��
 ≡ƒÆí Optional: pip install flash-attn
 ≡ƒöº Conv3d workaround active: PyTorch 2.12.0, cuDNN 92000 (fixing VAE 3x memory bug)
 usage: inference_cli.py [-h] [--output OUTPUT]
