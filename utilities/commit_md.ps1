@@ -35,7 +35,18 @@ if (git diff --cached --quiet) {
 }
 
 # Always try to push so the GitHub remote (origin/main) is the true safety net
-# (D131). A failed push (offline / no credentials) never fails the local commit —
-# the next run retries it.
-$pushOut = git push origin main 2>&1 | Out-String
-Write-Output ("commit_md: push -> " + (($pushOut.Trim() -replace "`r?`n", " ")))
+# (D131). `git push -q` is silent on success; a failed push never fails the
+# local commit (the next run retries it).
+try {
+  $prevEAP = $ErrorActionPreference
+  $ErrorActionPreference = 'Continue'
+  $pushOut = (git push -q origin main 2>&1 | Out-String).Trim()
+  $ErrorActionPreference = $prevEAP
+  if ($LASTEXITCODE -eq 0 -and $pushOut -eq "") {
+    Write-Output "commit_md: push OK (origin/main up to date)"
+  } else {
+    Write-Output ("commit_md: PUSH FAILED - local commits still safe: " + $pushOut)
+  }
+} catch {
+  Write-Output ("commit_md: PUSH ERROR - local commits still safe: " + $_.Exception.Message)
+}
