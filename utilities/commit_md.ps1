@@ -23,8 +23,9 @@ git add -- '.gitignore'
 
 # Scoped to exactly what this script manages. The repo carries runtime noise
 # (.comfy/runs.jsonl, .vscode/mcp.json) that is tracked and always "modified" —
-# an unscoped status check would false-positive on those.
-$changed = (git status --porcelain --untracked-files=no -- '*.md' '.gitignore').Trim()
+# an unscoped status check would false-positive on those. Out-String keeps the
+# empty-output case a real string (command substitution yields $null otherwise).
+$changed = (git status --porcelain --untracked-files=no -- '*.md' '.gitignore' | Out-String).Trim()
 if ($changed -eq "") {
   Write-Output "commit_md: no .md changes to commit (already up to date)."
 } else {
