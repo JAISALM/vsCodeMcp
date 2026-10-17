@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Krea2 Realism V1 A/B test (2026-10-17, D133) — IN PROGRESS
+- User downloads `Krea2Realism_V1.safetensors` (13.14 GB FP8, HF `RudySen/Krea2-Realism-Checkpoint`) **via browser** (agent download aborted per user) and drops it into `E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\`.
+- A/B workflow prepared: `data\krea2_abtest_realism.json` — old `krea2_turbo_fp8_scaled` @10 steps vs new `Krea2Realism_V1` @6 steps (author's sweet spot), same seed 42, euler/simple, cfg 1, 1152×1792 (2MP).
+- **Next steps:** (1) verify model visible: `GET http://127.0.0.1:8188/models/diffusion_models` (server restart may be needed for the UNETLoader combo list); (2) run the A/B via MCP `run_workflow` (API format); (3) user judges realism; (4) if good → swap Krea2 base in workflows (keep old files).
+- **Reddit recipe:** redlib mirror `safereddit.com` works for blocked reddit posts (see D133).
+
 **Project files (read these when resuming) — Episode 1 hub = `episode1\`:**
 - `episode1\DECISIONS_EPISODE1.md` — **story decisions** (characters, metaphors, scene beats) — read first
 - `episode1\episode1_script_part1.md` — full Episode 1 script (Part 1 / first half; ends at the B&W transition — **second half NOT written yet** = the work above)

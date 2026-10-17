@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-10-17 — Krea2 Realism V1 A/B realism test (PREPARED, awaiting user's model drop)
+**Goal:** decide whether `Krea2Realism_V1` (RudySen; FP8 merge of his Realism Checkpoint + V3 LoRA) replaces the current Krea2 base (`krea2_turbo_fp8_scaled`) for realism (D133).
+
+**Setup (prepared, NOT yet run):** `data\krea2_abtest_realism.json` — two parallel chains: UNETLoader `krea2_turbo_fp8_scaled` (10 steps, its normal setting) vs `Krea2Realism_V1` (6 steps, author's sweet spot); same seed 42, euler/simple, cfg 1.0, 1152×1792 (2MP — author's recommended resolution); shared CLIP `qwen3vl_4b_fp8_scaled` (type krea2) + VAE `qwen_image_vae`. Prompt = clean project-relevant scene (schoolboy, rose shirt, black trousers + bag, on a Kerala stone bridge over a backwater, monsoon moody light); negatives against duplicates/plastic skin. Output prefixes `krea2_abtest/OLD_turbo_fp8_s10` vs `krea2_abtest/NEW_realism_v1_s6`.
+
+**Notes:** user downloads the 13.14 GB file via browser (agent-side download started then aborted per user instruction; the leftover `.part` was deleted). Target dir = shared tree `E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\` — the running 8188 server (the `E:\comfyUi_latest` install) scans it via the `extra_model_paths.yaml` `production` profile.
+
+**Result:** PENDING — run A/B after the user places the file; user judges realism; swap decision follows.
+
+---
+
 ## 2026-10-12 — BOAR-GRAVE CAMREF VIDEO + S&R converter root-cause + FaceRefine install
 **Goal:** (a) get the blockout camera-motion clip out of Blender for the SAM3 R2V pipeline; (b) make the FaceRefine boar-grave workflow validate clean; (c) install the FaceRefine pack for long-shot facial consistency.
 
