@@ -40,10 +40,14 @@ Our movie pipeline already IS the app: Krea2 character sheet → identity-edit f
 - **Identity-edit LoRA license:** it's ours (trained 2026-08-29, D023) — safe to publish; confirm no third-party weights inside.
 
 ## Status
-- [ ] User: sign up (typeform) — first 200 credits
+- [x] User: sign up (typeform) — done 2026-10-18
 - [ ] User: create public GitHub repo
-- [ ] Repo skeleton + README + LICENSE
-- [ ] 3 workflows packaged (UI format)
+- [x] Repo skeleton + README + LICENSE — `challenge\story-short\` (README, LICENSE, MODELS.md, docs/PIPELINE.md)
+- [x] 3 workflows packaged (UI format) — `challenge\story-short\workflows\` via `challenge\build_public_workflows.py`:
+      - `01_character_sheet.json` (source `krea2_t2i_character.json`; removed Pixaroma node + spicy LoRA; generic prompt) — **validates 0/0**
+      - `02_identity_refset.json` (source `krea2_identity_edit.json`; removed Typnosis + RawGirlV3 LoRAs; rewire 71→79; generic refs/instruction) — **validates 0/0**
+      - `03_h3_r2v_2ref.json` (source `beach_sprint_test.json`; generic 3-anchor prompt + ref names) — **validates 0/0**
+      - All: no partner nodes, spends_credits false (open-weights clean)
 - [ ] Model download doc (exact files + HF links)
 - [ ] Local dry-run of each workflow
 - [ ] comfy-cli Build + deployment test

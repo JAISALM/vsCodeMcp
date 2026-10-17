@@ -18,17 +18,15 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
-## Krea2 Realism V1 A/B test (2026-10-17, D133) — IN PROGRESS
-- User downloads `Krea2Realism_V1.safetensors` (13.14 GB FP8, HF `RudySen/Krea2-Realism-Checkpoint`) **via browser** (agent download aborted per user) and drops it into `E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\`.
-- A/B workflow prepared: `data\krea2_abtest_realism.json` — old `krea2_turbo_fp8_scaled` @10 steps vs new `Krea2Realism_V1` @6 steps (author's sweet spot), same seed 42, euler/simple, cfg 1, 1152×1792 (2MP).
-- **Next steps:** (1) verify model visible: `GET http://127.0.0.1:8188/models/diffusion_models` (server restart may be needed for the UNETLoader combo list); (2) run the A/B via MCP `run_workflow` (API format); (3) user judges realism; (4) if good → swap Krea2 base in workflows (keep old files).
-- **Reddit recipe:** redlib mirror `safereddit.com` works for blocked reddit posts (see D133).
+## Krea2 Realism V1 A/B test (2026-10-17, D133) — A/B DONE, AWAITING USER VERDICT
+- **Download:** terminal resume (user-sanctioned after 2 failed browser downloads) via `utilities\download_krea2_realism_resume.py` (Range-resumable). **COMPLETED 2026-10-18:** `E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\Krea2Realism_V1.safetensors` = exactly 13,141,769,680 bytes (verified); server lists it in `/models/diffusion_models` — no restart needed.
+- **A/B run DONE 2026-10-18** (`data\krea2_abtest_realism.json`, seed 42, same prompt): outputs `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\output\krea2_abtest\OLD_turbo_fp8_s10_00001_.png` vs `NEW_realism_v1_s6_00001_.png`. Agent read: both good; NEW slightly more natural skin/texture + more dynamic framing — but one seed only. **User judges; if NEW wins → swap Krea2 base (keep old files).** Suggested: 2-3 more seeds before swapping.
 
-## Open Source Higgsfield challenge — "Story-Short" (2026-10-17, D134) — ACTIVE PARALLEL TRACK
-- Plan + checklist: `challenge\CHALLENGE_PLAN.md`. Deadline **10/30 9am PT**; user GO-confirmed 10/17.
-- Targets: H3 bonus ($1,000 credits) + Open Weights Only (5090). Entry = 3-workflow app (Krea2 sheet → identity refset → H3 R2V), open-weights, no partner nodes, ffmpeg assembly.
-- **User TODO (urgent):** sign up at `form.typeform.com/to/Ayn9Cwfj` (first 200 get free credits) + create public GitHub repo.
-- **Agent next steps:** repo skeleton → package 3 workflows (UI format) → comfy-cli Build + cloud deployment test → 2-3 showcase outputs → demo video → submit.
+## Open Source Higgsfield challenge — RESCOPE to "character-consistent short app" (D135, 2026-10-18) — BUILDING
+- **Entry (user-approved 2026-10-18):** character-consistent short app = our `krea2_identity_edit` face-lock front-end (workflows 01/02) + 2-anchor H3 shots + **obvpm-timeline engine** (public, credited) + ffmpeg assembly. Targets: **Most Viral + Open Weights (5090) + H3 bonus ($1K credits)**; Most Innovative claim dropped (frontier = obvpm/LongTakeNoCuts/clown-anchoring/fizgig — all public, all credited).
+- **Folder:** `challenge\consistent-short\` (new; user pushes as a NEW public GitHub repo — user's only TODO, plus final submit). `CHALLENGE_PLAN.md` (D134) kept for the cloud-ops steps.
+- **Done 2026-10-18:** packs installed + obvpm updated to v0.2.16 (see D135); `04_h3_timeline_r2v.json` adapted + **validates 0 errors**; smoke test queued (job `62c47768` — 5 s bridge shot from Jaisal refs).
+- **Next:** confirm smoke-test video → app README + MODELS credits → 2-3 demo shots + demo video → comfy-cli cloud Build test → submit typeform `V1dSQrkS` before **10/30 9am PT**.
 
 **Project files (read these when resuming) — Episode 1 hub = `episode1\`:**
 - `episode1\DECISIONS_EPISODE1.md` — **story decisions** (characters, metaphors, scene beats) — read first
