@@ -24,6 +24,12 @@ model (Qwen) updates memory + commits afterwards.
 - **Next steps:** (1) verify model visible: `GET http://127.0.0.1:8188/models/diffusion_models` (server restart may be needed for the UNETLoader combo list); (2) run the A/B via MCP `run_workflow` (API format); (3) user judges realism; (4) if good → swap Krea2 base in workflows (keep old files).
 - **Reddit recipe:** redlib mirror `safereddit.com` works for blocked reddit posts (see D133).
 
+## Open Source Higgsfield challenge — "Story-Short" (2026-10-17, D134) — ACTIVE PARALLEL TRACK
+- Plan + checklist: `challenge\CHALLENGE_PLAN.md`. Deadline **10/30 9am PT**; user GO-confirmed 10/17.
+- Targets: H3 bonus ($1,000 credits) + Open Weights Only (5090). Entry = 3-workflow app (Krea2 sheet → identity refset → H3 R2V), open-weights, no partner nodes, ffmpeg assembly.
+- **User TODO (urgent):** sign up at `form.typeform.com/to/Ayn9Cwfj` (first 200 get free credits) + create public GitHub repo.
+- **Agent next steps:** repo skeleton → package 3 workflows (UI format) → comfy-cli Build + cloud deployment test → 2-3 showcase outputs → demo video → submit.
+
 **Project files (read these when resuming) — Episode 1 hub = `episode1\`:**
 - `episode1\DECISIONS_EPISODE1.md` — **story decisions** (characters, metaphors, scene beats) — read first
 - `episode1\episode1_script_part1.md` — full Episode 1 script (Part 1 / first half; ends at the B&W transition — **second half NOT written yet** = the work above)
