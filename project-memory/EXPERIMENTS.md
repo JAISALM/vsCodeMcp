@@ -4,6 +4,20 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — Timeline workflow 04 headless smoke test: 3 failures → converter root cause (D136)
+**Goal:** run `challenge\consistent-short\workflows\04_h3_timeline_r2v.json` headless via MCP (5 s 1344×768 Jaisal bridge shot, refs `jaisal_1_longshot.png`/`jaisal_4_middle.png` via LoadImage nodes 2001/2002, 2-anchor prompt on subgraph node 763).
+
+**Failure log:**
+1. **Run `5b73ef50`:** `Unbundle: nothing is set as 'h3_clip_vaes'` at node 1379 (Unbundle). 1379 had no `in` link → execution root → ran before SetNode 1373. Fix attempt: ordering link 3002 (1373→1379) + `in` input created — file verified correct.
+2. **Run `62c47768`:** IDENTICAL error, `executed: []`, `current_inputs` missing `in` → the MCP converter dropped link 3002 despite the UI file being correct.
+3. **Root cause (D136):** converter treats `SetNode`/`GetNode` as UI-only (not emitted; absent from object_info) → any link to them is orphan-stripped; obvpm `Unbundle.get` widget constants are never honored. Author's subgraphs are intact internally (port links `origin_id:-10`); only the canvas Set/Get layer is dead headless.
+4. **Run `50dc0581` (after rewiring 6 Unbundles to real sources):** critical path PROVED — 28 nodes executed incl. 797 (R2V node), 1221 (timeline), 1356, all re-wired Unbundles (1379/1376/1374/1390/1392/1449/1629). New failure at `1488:1481` (upscale-engine internal Unbundle) — its `in` port's source was GetNode 1490 reading a constant (`h3_engine_settings`) that NOTHING sets → orphan-stripped.
+5. **Final fix:** engine `in` ports (1359/1488) ← 1457 LazyCaseSwitch output (timeline-selected engine settings); seed ports ← 765 SeedNode. Validates 0 errors (11 warnings = author's default-off optional groups). **Run 4 `41787e45` pending.**
+
+**Lesson (permanent, D136):** headless runs of UI-format files with KJNodes Set/Get or obvpm Bundle/Unbundle constant plumbing are silently degraded by `comfy_cli\workflow_to_api.py`. Wire real emitted sources; never rely on the constant layer.
+
+---
+
 ## 2026-10-17 — Krea2 Realism V1 A/B realism test (PREPARED, awaiting user's model drop)
 **Goal:** decide whether `Krea2Realism_V1` (RudySen; FP8 merge of his Realism Checkpoint + V3 LoRA) replaces the current Krea2 base (`krea2_turbo_fp8_scaled`) for realism (D133).
 
