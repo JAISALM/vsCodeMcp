@@ -51,8 +51,10 @@ Stage 4: ASSEMBLY — video editor (mux audio + video + title)
 - Workflows: `krea2_jaisal_title_moody.json` (moody title), `krea2_identity_edit.json`
   (Identity Edit v1.2 — locks the face across shots, ref_boost 4.0, style LoRA
   `Krea2_Cinematic_Artstyle.safetensors` @ 0.7 wired as node 95).
-- Character (D022): normal young schoolboy, short dark hair, rose-pink collared
-  shirt, black trousers, black school bag. SINGLE character, no duplicates.
+- Characters (D137, re-scoped 2026-10-18): char1 (Jaisal) ~26, wavy black hair,
+  slim, plain black t-shirt; char2 (Zidhan) ~26, top bun, slim, plain white
+  t-shirt. Face refs `krea2_char{1,2}_face_{a,b,c}_*.png` (ComfyUI output).
+  (Old D022 schoolboy character deprecated.) SINGLE character per shot, no duplicates.
 - Climate consistency (D024): ONE moody tone across all shots; square bridge
   handrails; open river.
 

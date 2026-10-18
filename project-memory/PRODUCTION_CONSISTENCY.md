@@ -37,9 +37,11 @@
   time of day, weather) stored in this file.
 
 ### Layer 3 — COSTUME / PROPS
-- **Costume lock**: rose-pink collared shirt, full-length black trousers, black
-  school bag (D022). Generate a COSTUME reference (flat-lay or on-body) and
-  reuse. Do NOT change wardrobe between shots unless the story demands it.
+- **Costume lock (D137, 2026-10-18 re-scope)**: char1 (Jaisal) = plain black
+  t-shirt, slim build, wavy black hair; char2 (Zidhan) = plain white t-shirt,
+  black hair in a loose top bun. Face references: `krea2_char{1,2}_face_{a,b,c}_*.png`
+  in ComfyUI output (2026-10-08 set). (OLD D022 schoolboy costume deprecated.)
+  Do NOT change wardrobe between shots unless the story demands it.
 - **Props**: mic, papers, etc. — each prop gets a reference image if it
   appears in multiple shots.
 - Rule: one clear reference OWNS identity; wardrobe/environment refs have

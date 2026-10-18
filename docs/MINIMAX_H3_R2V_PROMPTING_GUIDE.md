@@ -84,7 +84,7 @@ Write all six sections in English, in this order:
 1. **`subject_definitions`** — define each referenced content unit and its label.
    One line per item. Name the source asset when provenance matters.
    ```
-   <Subject 1> is the young boy in <Picture 1>, <Picture 2>, <Picture 3>, with short dark hair, a school uniform, and a red school bag.
+   <Subject 1> is the man in <Picture 1>, <Picture 2>, <Picture 3>, with wavy black hair, slim build, plain black t-shirt.
    <Picture 1> is the first frame of [Shot 1], a wide establishing shot of the boy on the stone bridge.
    ```
 
@@ -97,7 +97,7 @@ Write all six sections in English, in this order:
 
 3. **`retention_analysis`** — one line per reference label, with a relationship marker.
    ```
-   <Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the boy's face, hair, uniform, and red bag are retained.
+   <Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the man's face, hair, and black t-shirt are retained.
    <Picture 1> ([Shot 1] first frame): fully_preserved - the wide base-scene composition is the opening frame.
    ```
 

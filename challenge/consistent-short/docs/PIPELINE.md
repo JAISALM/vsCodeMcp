@@ -13,8 +13,9 @@ it's shorter than a week of trial and error.
   - it tends to **duplicate the character** → always say "ONLY ONE character,
     no other people, no duplicates".
   - it cannot make a faceless character — a normal face is the way.
-  - keep the costume description exact and repeated (e.g. "rose-pink collared
-    shirt, full-length black trousers, black school bag").
+  - keep the costume description exact and repeated (e.g. char1 = "wavy black
+    hair, slim build, plain black t-shirt"; char2 = "black hair in a loose top
+    bun, slim build, plain white t-shirt" — see D137).
 - Natural-language prompts work best; natural skin texture, no "AI look" in the
   negative prompt.
 

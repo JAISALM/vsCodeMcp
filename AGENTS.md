@@ -435,20 +435,26 @@ whole video. Do NOT use a frame-by-frame Krea2 i2i pipeline (extra work).
 **Rule: for style-consistent video, build a Krea2-styled reference set first and feed
 2-3 of it to MiniMax.** See D021.
 
-### The Jaisal Cut character (2026-08-28 decision)
+### The characters (2026-10-18 re-scope, D137 — supersedes the old schoolboy character)
 
-The character is a **normal young schoolboy with short dark hair** (face OK). Costume:
-**rose-pink collared shirt, full-length black trousers, black school bag** (NOT the old
-red bag / school uniform).
-**Krea2 CANNOT make a faceless character** — it always renders a face (the faceless
-idea was dropped 2026-08-28; user accepted a normal face).
-**Krea2 quirks:** it tends to DUPLICATE the character (multiple kids) and can place
-the boy IN THE RIVER instead of on the bridge. Every prompt says "ONLY ONE character,
-no other people, no duplicates" and the bridge prompt pins him "ON THE BRIDGE DECK,
-left side, NOT in the water". If it still duplicates/misplaces, re-run with a
-different seed.
-**Rule: normal boy (short dark hair), rose shirt, black pant, black bag, SINGLE
-character, on the bridge.** See D022.
+The character set is now **two adult men** (the old "young schoolboy, rose-pink
+shirt, black trousers, school bag" description is DEPRECATED — never prompt it
+again):
+- **char1 (Jaisal)** — ~26-year-old Indian man, **wavy black hair, slim build,
+  plain black t-shirt**.
+- **char2 (Zidhan)** — ~26-year-old Indian man, **black hair in a loose top bun,
+  slim build, plain white t-shirt**.
+- **Canonical face references (Krea2-generated, 2026-10-08):**
+  `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\output\` —
+  `krea2_char1_face_{a,b,c}_*.png` and `krea2_char2_face_{a,b,c}_*.png`
+  (a = misty forest profile, b = wooden boat golden hour, c = rainy street frontal).
+- **Krea2 CANNOT make a faceless character** — it always renders a face.
+- **Krea2 quirks:** it tends to DUPLICATE the character — every prompt says "ONLY
+  ONE character, no other people, no duplicates". If it duplicates, re-run with a
+  different seed.
+**Rule: the lead characters are the two adult men above (char1/char2); lock faces
+with their `krea2_char{1,2}_face_*` references (identity-edit, ref_boost 4.0,
+D023). No schoolboy, no violet uniform, no hat.** See D022 (history), D137.
 
 ### Face consistency: Krea2 Identity Edit v1.2 (2026-08-29)
 

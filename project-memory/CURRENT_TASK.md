@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Character re-scope (2026-10-18, D137) — OLD schoolboy character DEPRECATED
+- **New characters (user-directed):** char1 (Jaisal) ~26, wavy black hair, slim, plain black t-shirt; char2 (Zidhan) ~26, top bun, slim, plain white t-shirt. Face refs: `output\krea2_char{1,2}_face_{a,b,c}_*.png` (2026-10-08; a = misty forest profile, b = boat golden hour, c = rainy street).
+- **Cleanup done:** AGENTS.md character section, PRODUCTION_CONSISTENCY.md costume lock, both challenge PIPELINE.md files, INTRO_VIDEO_PLAN.md, R2V guide examples — all updated. Violet-uniform/hat kid prompt verified already gone from all files. `prompts\jaisal_identity_instructions.txt` = OLD character (superseded).
+- **Re-anchored A/B (D133 redo):** `data\krea2_abtest_char1.json` (validates 0/0) — char1 + char2 t2i, same prompt+seed on OLD turbo s10 vs NEW Krea2Realism_V1 s6, euler/simple cfg 1, 1152×1792. Job `30869cc1` queued 2026-10-18.
+- **Open:** episode1 script still says "Jaisal (16, rose-pink shirt)" — user to confirm story age. Challenge demo shots (04 workflow) must be re-pointed to char1/char2 refs (currently still wired to the old Jaisal bridge refs).
+
 ## Krea2 Realism V1 A/B test (2026-10-17, D133) — A/B DONE, AWAITING USER VERDICT
 - **Download:** terminal resume (user-sanctioned after 2 failed browser downloads) via `utilities\download_krea2_realism_resume.py` (Range-resumable). **COMPLETED 2026-10-18:** `E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\Krea2Realism_V1.safetensors` = exactly 13,141,769,680 bytes (verified); server lists it in `/models/diffusion_models` — no restart needed.
 - **A/B run DONE 2026-10-18** (`data\krea2_abtest_realism.json`, seed 42, same prompt): outputs `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\output\krea2_abtest\OLD_turbo_fp8_s10_00001_.png` vs `NEW_realism_v1_s6_00001_.png`. Agent read: both good; NEW slightly more natural skin/texture + more dynamic framing — but one seed only. **User judges; if NEW wins → swap Krea2 base (keep old files).** Suggested: 2-3 more seeds before swapping.
