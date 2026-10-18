@@ -4,6 +4,12 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — v4 emotional-moment prompts — faces come alive; Zidane halal cut ✓
+- **Trigger:** user: faces "look like someone did cloning from a wood or wall — no human emotion at all"; also **Zidane hair spec changed: no waves — "normal hair, short hairstyle, halal cut"** (short sides, natural short top); Jaisal keeps medium wavy.
+- **Fix:** neutral dead-on gazes read wooden → prompts rewritten as CANDID EMOTIONAL MOMENTS (the raw model comes alive with a moment, not a pose): Jaisal = "soft tired thoughtful expression, eyes a little distant as if about to say something, head turned slightly, not posing"; Zidane = "small easy half-smile, soft warm eyes, as if someone off camera just said something, head turned slightly, not posing" + "neat short halal-style haircut, short sides, natural short top, NO wavy hair".
+- **Result:** `char_v4\zidane_00001` — short halal cut ✓, relaxed half-smile ✓, alive ✓ (2MP/10s, best Zidane so far). `char_v4\jaisal_00001` — medium wavy ✓, pensive quiet moment (4MP/10s) — better than before but still the more neutral of the two; stronger emotion (tired half-smile) if user wants a push.
+- **Pending verdict:** lock both / re-roll Jaisal with more expression.
+
 ## 2026-10-18 — 02 settings sweep — texture fix: 10 steps (not 6); 4MP duplicates on zidane ref
 - **Trigger:** user flagged the pure-base A/B images: "clearly wrong with the texture, it feels like a AI… some settings is clearly OFF."
 - **Root cause:** 02 was running **6 steps** — the Krea2Realism author's t2i sweet spot, which does NOT apply to the identity-edit LoRA's pipeline. The identity pack's own note: "Turbo model: 10 steps… 8 = stronger instruction adherence, 12 = more face detail, 10 = balanced." Under-stepping the identity-edit = under-resolved, plasticky texture.

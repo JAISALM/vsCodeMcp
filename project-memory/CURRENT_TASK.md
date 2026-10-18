@@ -18,6 +18,11 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## v4 emotional frames (2026-10-18) — pending user verdict
+- User: v3/sweep faces "wood or wall, no human emotion"; **Zidane hair re-specified: short halal cut, no waves** (military/bun both deprecated); Jaisal = medium wavy (kept).
+- v4 = candid emotional moments in prompts. **Zidane `char_v4\zidane_00001` = halal cut ✓ + half-smile ✓ (best so far)**. Jaisal `char_v4\jaisal_00001` = pensive, still the neutral one — may push expression harder.
+- **After verdict:** lock refs → re-point 04 demo → demo short.
+
 ## Settings sweep — 02 runs at 10 steps now (2026-10-18)
 - **User:** A/B images "feel like AI, some settings are clearly OFF." Root cause: 02 ran 6 steps (t2i sweet spot) — the identity-edit pack's design point is **10 steps** ("12 = more face detail").
 - **Sweep:** Jaisal 10s@4MP clean + best detail (`char_sweep\jaisal_s10_4mp_00001`); Zidane @4MP DUPLICATED (seeds 77/78, grounding 384 didn't help — tracks 4MP on this ref); Zidane 10s@2MP clean (`char_sweep\zidane_s10_2mp_00001`).
