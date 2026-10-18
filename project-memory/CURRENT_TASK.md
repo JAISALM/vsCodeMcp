@@ -471,7 +471,20 @@ model (Qwen) updates memory + commits afterwards.
   pillow 13 (rembg requires <13) → when ComfyUI is next stopped:
   `python_embeded\python.exe -m pip install "numpy<2.3" "pillow<13"` (docs §5). User must
   RESTART ComfyUI once before running 09j (the failed run may have cached the backend error).
-- **NEXT:** user queues 10a v2 once (3 candidates) → pick best frontal → 03_hd_upscale
-  4x → swap canonical refs (keep old as `_34view`) → re-run 05d/05e/08j (+09j after
-  restart for llama_cpp) with the new face → user picks winning route → flip everything
-  to Zidane (builders + 10a zidane variant) → Klein dataset → LoRA.
+- **10a v2 RAN (user, 02:45-02:46 IST):** 3 candidates `FACEFRONTAL_JAISAL_a/_b/_c`
+  (896×1120, no OOM). **USER PICKED `b`** → installed as NEW CANONICAL
+  `input\jaisal_portrait_HD.png` (2.07 MB, 896×1120). Old 3/4 base backed up as
+  `jaisal_portrait_HD_34view.png` (34.89 MB). Verified frontal: both eyes fully open and
+  symmetric, dead-center, wavy hair down, sparse patchy beard, black tee — exact design
+  match. NO upscale needed: all 4 sheet routes resize refs internally (H3 max ref size,
+  krea2edit grounding_px 768, 09j ~1536²), so the 1MP source is sufficient.
+- **WIRING CONFIRMED (`verify_jaisal_wiring.py`):** all 4 sheet workflows already
+  reference the canonical `jaisal_portrait_HD.png` by filename (both UI + project
+  copies): 05d node 71 (+72 kit) · 05e node 25 · 08j node 72 · 09j node 470 — the file
+  swap IS the wiring; zero workflow edits needed.
+- **USER PLAN (in flight):** stopping Qwen + ComfyUI, restarting both (the ComfyUI
+  restart also clears any cached llama_cpp backend error from the failed 09j run), then
+  running ALL 4 sheet routes (05d/05e/08j/09j) with the new frontal base.
+- **NEXT:** user runs the 4 routes → compare sheets on the new frontal anchor (eyes the
+  key criterion) → user picks winning route → flip everything to Zidane (builders + 10a
+  zidane variant → frontal Zidane base) → Klein dataset → LoRA.
