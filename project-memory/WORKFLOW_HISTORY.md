@@ -4,6 +4,35 @@ Newest changes first.
 
 ---
 
+## 2026-10-18 — BUILT 8 SHEET-TEST workflows (D144) — `07_kit_ref_{jaisal,zidane}.json` (kit flat-lays) + `05a/05b/05c_charsheet_*.json` (A/B/C routes × 2 chars) — ALL VALIDATE CLEAN
+
+**Purpose:** the user-directed A/B/C character-sheet test (which route wins) + the team-kit refs
+(D144: blue/dark-green jerseys, fist-crest "PALESTINE RESISTANCE", name on back, track pants).
+
+**`07_kit_ref_{jaisal,zidane}.json`** — 01-based Krea2 t2i (8 steps D142) → 1152×1152 jersey+track-
+pants flat-lays. **Both ran first try** (crest + PALESTINE RESISTANCE text legible).
+→ `input\{jaisal,zidane}_kit_ref.png`.
+
+**`05a_charsheet_H3_{char}.json`** (A = 2BZ H3 2-stage, stage 2 OFF): node 16 =
+`{char}_portrait_HD.png`, node 21 = `{char}_kit_ref.png`, 22/57/58/59 =
+`neutral_placeholder.png`, node 106 = `charsheet/H3_{CHAR}_3VIEW`. **Stage-2-only nodes DELETED
+(111/125/126/127)** + the character master prompt injected into **node 24's text** (H3 prompt
+slot is linked from 24 — the node's own prompt widget is runtime-ignored). A-jaisal ran:
+face+kit excellent, but **single cinematic view, not the 3-panel sheet** (H3 layout weakness).
+
+**`05b_charsheet_QWEN_{char}.json`** (B = LEEBLAAB Qwen Image 2.1): 470 = `{char}_portrait_HD.png`,
+459 widget0 = 10-section 7-zone design-sheet prompt (per char), **subgraph internals patched**
+(451 = `qwen_image_2.1_bf16`, 453 = `qwen3vl_8b_int8_convrot`, 454 = `qwen_image_2.1_vae_bf16` —
+instance widgets are runtime-ignored), 461 = `charsheet/QWEN_{CHAR}`. 30 steps.
+
+**`05c_charsheet_KREA2_{char}.json`** (C = Krea2 t2i strip): 01-based, 300 = 3-view strip prompt
+(front/side/back, kit + name-on-back), 82 = [2048,1152], 29 = `charsheet/KREA2_{CHAR}`, 8 steps.
+
+**Builder:** `utilities\make_abc_sheet_variants.py` (regenerates all 6). **Status:** all 6 queued
+(prompt ids in CURRENT_TASK.md); A-jaisal done, A-zidane running.
+
+---
+
 ## 2026-10-18 — BUILT `03_hd_upscale.json` (VALIDATE CLEAN, 4 nodes) + Real-ESRGAN x4plus model — HD CHARACTER-REF PIPELINE (D142)
 
 **Purpose:** true-HD clarity for character t2i refs (user: "clarity too off — cant we generate HD?").

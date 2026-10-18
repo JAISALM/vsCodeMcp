@@ -4,6 +4,30 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 22:0x — CHARACTER SHEET A/B/C TEST (in progress — user-directed)
+- **Trigger:** user: "p3 is the one you're suggesting, but lets try 2 workflows and test it, is p3
+  minimax one? ... lets try with qwen 2.1 and krea2 also, which is the best, so lets try ABC
+  testing" + kit spec: **Jaisal = royal blue jersey+track pants, Zidane = dark green, both with
+  white clenched-fist roundel crest (PALESTINE RESISTANCE) on chest, name on back — "same team,
+  different years".** See D144.
+- **Kit refs (Krea2 t2i, D142 recipe, 8 steps):** `07_kit_ref_{jaisal,zidane}.json` →
+  `input\jaisal_kit_ref.png` (royal blue) + `input\zidane_kit_ref.png` (dark green) — **BOTH
+  RAN FIRST TRY: crest + "PALESTINE RESISTANCE" text legible, white side stripes, clean flat-lays**
+  (~20 s each).
+- **6 variants** built by `utilities\make_abc_sheet_variants.py` (all validated valid:true):
+  A = `2BZ_H3_character_sheet_2stage - {char}.json` · B = `LEEBLAAB-QwenImage21-Character-SHEET -
+  {char}.json` · C = `07c_krea2_3view_sheet_{char}.json`. Prompt ids in CURRENT_TASK.md.
+- **A-jaisal RESULT (job bb7a4fcd, ~15 min):** 2880×2880. Face EXCELLENT (wavy hair ✓ patchy
+  beard ✓ Indian skin ✓) + royal blue jersey with the fist-crest ✓. **BUT: single full-body
+  photo, NOT the 3-view sheet** — H3 ignored the "three equal vertical photographs" instruction;
+  cinematic palace-corridor background (not neutral studio); the folded track pants from the
+  flat-lay ref were rendered as **the character HOLDING a folded pant** while wearing black
+  shorts. **Verdict data point: route A transfers identity+kit strongly but follows LAYOUT
+  instructions weakly (it's a video model).**
+- **Pending:** A-zidane (running) → B-jaisal → B-zidane → C-jaisal → C-zidane. Then user picks
+  the winning route.
+- **Status:** RUNNING.
+
 ## 2026-10-18 20:0x — HD CLARITY pipeline: portrait close-up + 4x Real-ESRGAN (03_hd_upscale)
 - **Trigger:** user: "whatever under v7 is not up to the mark, clarity too off — cant we generate HD?"
   Files ARE 2048×1152 (> full-HD) but the face gets only ~700px in the wide frame → soft at 100%.
