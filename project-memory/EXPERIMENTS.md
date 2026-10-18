@@ -4,6 +4,14 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — char sheets v2 (author's recipe + distinct faces) — faces FIXED, char2 scene drift
+- **Trigger:** user flagged (a) char1/char2 sheets looked like the SAME guy, (b) output not "ultra realistic" like the Reddit post's examples — "we are not following the instructions."
+- **Author's recipe (re-fetched the post via red.artemislena.eu — safereddit now Anubis-gated; author u/rynaleopard):** natural language, describe scene/lighting/clothing/expression; specific clothing; **2MP+ resolution** (trained on high-res only — 4K renders directly, 1MP shows noise); **euler + simple, 4–8 steps, 6 = sweet spot**; drop-in Krea2 checkpoint replacement. RawGirl lineage = "raw, unposed, zero-AI-gloss" → **candid unposed phrasing** matters.
+- **Config:** rewrote prompts as candid unposed natural-language descriptions with DISTINCT faces from the 10/08 refs — char1 = shoulder-length messy waves, slight five-o'clock shadow, narrow face, serious; char2 = top bun, rounder full face, light olive skin, thick brows, relaxed. `utilities\char_sheet_v2.py` / `refset_v2.py` (char1|char2 args).
+- **Result:** char1 sheet (wavy hair + light stubble, wet black tee, village road) now matches the face ref well; char2 clearly different (bun, rounder face, clean-shaven). Identity held sheet→refset on both. Outputs `char_sheet\char{1,2}_00002_.png`, `char_refset\char{1,2}_00002_.png`.
+- **Open issue:** char2 refset scene = brick-city canal (not Kerala backwater) — identity-edit carries the SHEET's scene/tone (D025). Fix options: accept the canal-boat shot, or build the char2 sheet already in the boat scene (changes the sheet face — new t2i seed → new face, breaks identity lock) — DECISION PENDING.
+- **LESSON (headless seeds):** MCP headless runs use the KSampler seed VALUE verbatim — the `control_after_generate='randomize'` widget is UI-only. A "fresh seed" rerun requires actually changing the seed number in widgets_values. (Verified: two headless runs of the same workflow produced byte-identical outputs.)
+
 ## 2026-10-18 — Krea2 A/B on REAL characters (char1/char2) — Krea2Realism_V1 WON, locked in
 - **Goal:** user re-anchored the character set (D137) and asked for the Krea2 A/B redone on the actual characters (not the old schoolboy) — same scene+seed on both bases.
 - **Config:** `data\krea2_abtest_char1.json` — char1 (rainy street, black tee) + char2 (boat, white tee), 1152×1792, euler/simple, cfg 1.0, denoise 1; OLD `krea2_turbo_fp8_scaled` 10 steps vs NEW `Krea2Realism_V1` 6 steps; same seed per character (42/77). Job `30869cc1`.

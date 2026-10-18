@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Character sheets v3 — FACE-ONLY close-ups (2026-10-18, user-directed)
+- **User directive:** v2 scene sheets "look awful, something is off — don't put anything about the background in the prompt, we want clear face images FIRST." → sheet prompts rewritten as face-only close-ups, ZERO scene/background words (`char_sheet_v3.py`), per-character distinct faces, explicit seeds (headless seed lesson).
+- **Done:** `char_sheet\char1_00003_.png` (wavy shoulder hair, 5-o'clock shadow, narrow face, black tee) + `char_sheet\char2_00003_.png` (top bun, rounder face, thicker brows, white tee). Both clean plain-background close-ups, RAW skin quality, clearly different people. Copied to `input\char{1,2}_sheet.png` (overwriting v2 scene sheets).
+- **Pending user verdict** on the two faces (char2 came out with light chin shadow despite clean-shaven ask — minor).
+- **After verdict:** refset stage (02) uses these face refs + scene instructions (char1 bridge / char2 boat) — the scene words live ONLY in the refset instruction, not the sheet.
+
 ## Krea2 base LOCKED IN + character sheets DONE (2026-10-18)
 - **User verdict:** Krea2Realism_V1 wins the A/B → locked in as the Krea2 base (D133 resolved).
 - **Done:** app workflows `01_character_sheet`/`02_identity_refset` swapped to `Krea2Realism_V1` (6 steps, euler/simple, cfg 1; V2 LoRA zeroed in 01; old files kept as `*_oldturbo.json`).
