@@ -53,6 +53,27 @@ browser, F12 → Application → Cookies → www.reddit.com → copy the `reddit
 share it. The helper auto-solves the JS challenge and persists the new cookie
 (`C:\Users\user\.dsh\fetch_creds\reddit_cookies.txt`). This route is proven (worked 2026-10-11).
 
+### Root-cause finding (2026-10-18 17:45, user asked "why can't DSH/MCP do this when VS Code could?")
+- **The web MCP IS fully capable for the open web** (proven: HF README, repo tree, 6 link-follows
+  all extracted fine). No DSH/MCP defect, no code change needed, cookies NOT needed for normal
+  sites.
+- **Reddit is gated on the server side**, two layers:
+  1. JS bot-challenge ("Prove your humanity") for anonymous/headless clients — plain-HTTP
+     fetchers (MCP single-page AND MCP search-tool link-follower BOTH hit it) can't execute JS.
+  2. **IP burst-block** — ~12 requests/short window from one IP → temporary
+     "blocked due to a network policy" page (403s on EVERYTHING incl. cookie'd requests).
+     Observed ~17:00–17:40 IST, **cleared ~17:45** (anonymous curl then returned a real
+     `theme-beta` page shell).
+- Even unchallenged, modern reddit pages are a JS SPA (`theme-beta`) — text fetchers see the
+  shell, not the post.
+- **Why VS Code could show posts:** almost certainly a browser-based web tool (real Chrome
+  passes the challenge) or a moment when the IP wasn't challenged. Verify via the tool name in
+  the VS Code agent transcript.
+- **Reliable no-cookie route = user's browser console one-liner** (logged in):
+  `copy((await fetch('https://www.reddit.com/comments/<ID>/.json?limit=20',{credentials:'include'})).text())`
+  → paste JSON back. Fallbacks: fresh `reddit_session` cookie for the helper; jina proxy after
+  13:04 UTC.
+
 ## Per-post explanations (inferred from matching local workflow + README + titles — post bodies pending)
 
 ### P1 — "MiniMax H3 image generation: create consistent character" (r/comfyui 1wxixua)
