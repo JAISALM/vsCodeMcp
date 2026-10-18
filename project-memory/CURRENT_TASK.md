@@ -18,7 +18,17 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
-## 🔴 CHARACTER SHEET route analysis (2026-10-18, user-directed — TOP)
+## Resume plan (user-directed 19:01 IST — TOP)
+- User: "start where we left off, with the krea2 character, for jaisal and zidane, and then the character sheet."
+- **Order:** (1) Krea2 identity work for Jaisal + Zidane from the LOCKED v6 sheets (02 identity refset:
+  char1 = bridge scene, char2 = boat scene — 10 steps euler/simple cfg 1, ref_boost 4.0, g768, 2MP),
+  (2) then the new H3 character-sheet route (ranked P3 → P4 → P1 in CHARACTER_SHEET.md — route pick still
+  needs explicit user confirmation; P3 recommended: 2 HF model downloads + toobusy + pysssss packs).
+- ComfyUI server bring-up needed first (crashed ~17:12). User's "start where we left off" = go-ahead.
+- **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
+  DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).
+
+## 🔴 CHARACTER SHEET route analysis (2026-10-18, user-directed)
 - User re-shared 5 reddit posts (P1 1wxixua, P2 1vov6jb, P3 1w2dujd, P4 1wsb4h3, P5 1wsee1y) + HF `PoopMan333/H3_Character_Sheet_Generator` + local folder `E:\minimax_workflow\character_sheet\` (4 workflows placed by user).
 - **Reference file created: `project-memory\CHARACTER_SHEET.md`** — full source list, per-post explanations, local-workflow↔post mapping, model/pack gap analysis, fetch-route status.
 - **Done:** HF README fetched (complete); all 4 local workflows node-analyzed; model + pack availability checked.

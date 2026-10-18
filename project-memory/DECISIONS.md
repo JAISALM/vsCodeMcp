@@ -127,3 +127,22 @@
   a gate).
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
+
+## D139 — DSH + GHCP (GitHub Copilot / VS Code agent) cross-client collaboration verified (2026-10-18)
+- **Milestone (user-approved "we did good"):** the two agent clients worked as one pipeline —
+  GHCP (VS Code agent) diagnosed DSH's Reddit gap, built `utilities\reddit_browser_fetch.py`
+  (Playwright Chromium + persistent profile), and documented it; DSH then took the helper,
+  ran it on all 5 posts headless (no session), fixed its `is_gated` false-positive, added
+  `extract_reddit_text.py`, and folded all post bodies into `CHARACTER_SHEET.md`. User
+  confirmed the collaboration worked well.
+- **Persistent pattern (how to work across clients):**
+  - Agents can build tools FOR each other: a helper committed to `utilities/` is immediately
+    usable by the other client via its shell. The git repo is the hand-off channel.
+  - **DSH can now fetch JS-gated pages itself** (Reddit et al.) via the shell-callable helper —
+    no session/cookies needed for public posts. DSH's built-in web fetch stays for the open
+    web (text-only is fine there).
+  - **Verification discipline worked:** each client's claims were independently re-verified
+    (DSH re-ran the helper 5/5; the "reCAPTCHA tier" verdict from both clients turned out to
+    be a shared false positive — the bare `recaptcha` shell script tag).
+- **Status:** Active pattern — reuse for any future JS-gated fetch need (civitai, HF gated
+  pages, etc.).
