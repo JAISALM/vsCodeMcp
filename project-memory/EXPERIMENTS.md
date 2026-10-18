@@ -24,7 +24,12 @@ Newest experiments first.
   pixels ON THE FACE, not just a bigger canvas.
 - **LOCKED HD CHARACTER REF PIPELINE:** 01 t2i (D142 clean recipe, **portrait 1152×2048 close-up,
   head+shoulders**) → copy to input/ → 03_hd_upscale (Real-ESRGAN x4plus 4x) → 4608×8192 HD.
-- **Status:** DONE — awaiting user verdict on the face; then Jaisal same pipeline.
+- **Status:** DONE — user approved the Zidane HD face.
+- **Jaisal FINAL (same pipeline, seed 42, MEDIUM close-up = head+upper chest per user):**
+  01 t2i clean recipe 1152×2048 → `refset_v7\jaisal_portrait_00001` (wavy medium hair ✓,
+  small patchy beard ✓, black tee ✓, slim ✓, natural skin ✓) → 03 4x →
+  **`refset_v7\jaisal_portrait_HD_00001`** (4608×8192).
+  **FINAL PAIR for character sheet + dataset:** `zidane_portrait_HD_00001` + `jaisal_portrait_HD_00001`.
 
 ## 2026-10-18 19:5x — Reddit Krea2 research: skin-detail quality + settings (user-shared threads)
 - **Trigger:** user: "skin is kinda off, like grains, do we need more clarity? check the web" + 2 threads:

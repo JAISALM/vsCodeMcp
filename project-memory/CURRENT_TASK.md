@@ -71,6 +71,13 @@ model (Qwen) updates memory + commits afterwards.
   `data\reddit_krea2\imgs\` (zidane_portrait_HD_preview.jpg + zidane_HD_face_1600.jpg).
   **AWAITING USER VERDICT** on this face → Jaisal same pipeline → character sheet (P3).
   NOTE: HF gating may block the P3 model downloads → ask user for an HF token at P3 prep.
+- **FINAL CHARACTER PAIR DONE (20:1x IST):** user approved Zidane HD + asked Jaisal medium close-up
+  (same pipeline, seed 42): `refset_v7\jaisal_portrait_00001` (base 1152×2048 — wavy medium hair ✓
+  small patchy beard ✓ black tee ✓) → `refset_v7\jaisal_portrait_HD_00001` (4608×8192, photo-grade
+  face crop verified). **THE FINAL REFS:** `zidane_portrait_HD_00001_.png` + `jaisal_portrait_HD_00001_.png`
+  (both 4608×8192, in output\refset_v7\; portrait bases also copied to input\). User: "lets create
+  final 2 images so we can build character sheet and data sets". **NEXT: character sheet (P3) prep
+  needs GO — AND an HF token (HF now 401s gated model files).**
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).
