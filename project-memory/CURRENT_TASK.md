@@ -386,6 +386,23 @@ model (Qwen) updates memory + commits afterwards.
   `extra_model_paths.yaml` (base_path `E:/ComfyUI_windows_portable/ComfyUI`) makes the main
   tree's models visible to the latest server (video VAE + Qwen3VL-32B H3 GGUF CLIPs +
   Singularity/fl2va/viggle UNET variants all usable).
+- **USER FEEDBACK (01:21 IST): "you're copying the workflows but the prompt is not... just update
+  the prompt. And for other workflows as well, you have to copy the prompting technique they gave,
+  not just the normal ones"** — we had replaced the authors' H3 prompt with our own generic 3-view
+  sheet prompt. **BOTH author workflows (civitai cgpixel23 + patreon) share ONE sprite-sheet
+  template** (verified: identical text, node 28 widget): `subject_definitions: <CHARACTER> character
+  from <Picture 1> META for composition:` + `summary: [reference generation] static image of sprite
+  sheet, keep the exactly same art style of <Picture 1>` + `detailed_description`: 1. LEFT portrait
+  (head+chest) closeup · 2. CENTER full-body 3 angles (front/side/back) · 3. RIGHT 6 round images
+  (2x3 vertical narrow row): single eye, lips, single ear (in circle), hair color, skin texture,
+  outfit texture. **FIX (`fix_h3_author_prompts.py` + both builders synced):** 05e (single ref) =
+  author template verbatim structure, the author's EMPTY 'META for composition:' field filled with
+  our kit + crest spec (text-specified); 05d (2 refs) = same template with <Picture 2> = our kit
+  flat-lay ref anchoring the emblem/kit color from the image (the author's 10-ref workflow only
+  ever referenced <Picture 1> — we wire the kit ref to <Picture 2>). Both files (UI + project)
+  updated + revalidated 0/0. LESSON: when adapting an author workflow, copy their PROMPT
+  TECHNIQUE (layout, tags, structure), only inject our character identity + kit spec into the
+  author's own template fields.
 - **NEXT:** user runs 05d/05e/08j (09j after restart + PE model lands) → compare Jaisal
-  sheets per route → user picks winner → flip to Zidane (same builders, char=zidane) → Klein
-  dataset → LoRA.
+  sheets per route → user picks winner → flip to Zidane (same builders — now with the
+  author-technique prompts) → Klein dataset → LoRA.
