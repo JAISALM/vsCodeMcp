@@ -424,6 +424,41 @@ model (Qwen) updates memory + commits afterwards.
   (legacy_unload False, n_ubatch 512, n_threads 0, n_threads_batch 0, flash_attn True,
   offload_kqv True, ctx_checkpoints 0, stream False). Dropped any widgets_values_named.
   → **09j validates 0 errors / 0 warnings.**
-- **NEXT:** user runs all 4 (05d/05e/08j/09j) → compare Jaisal sheets per route → user picks
-  winner → flip to Zidane (same builders — now with the author-technique prompts) → Klein
-  dataset → LoRA.
+- **USER RAN THE BATCH (01:51-02:01 IST, own relaunch, Qwen killed via pwsh-101):**
+  - `H3WIDE_JAISAL_00002` (05d, author-technique prompt) — best identity hold of the three;
+    left closeup face slightly wider than ref, eyes a bit glassy.
+  - `KREA2_JAISAL_ID_00001` (08j) — face good, EYES FLAT/DULL = Krea2's known model trait
+    (open criterion), not ref-related.
+  - `H3FIZ_JAISAL_00001` (05e, SLA stack) — face came out slightly YOUNGER/softer than ref;
+    SLA didn't visibly ruin eyes this time (83.8% sparse, 200 dense fall-throughs).
+  - 09j FAILED: `RuntimeError [QwenVL] llama_cpp is unavailable — No module named 'llama_cpp'`
+    (runtime import inside ensure_llama_cpp_backend).
+- **USER QUESTION (02:10 IST): "some issue with eyes in all sheets — is it because our base
+  image is not a straight face but sideways? do we need a new base image?"** VERIFIED:
+  `jaisal_portrait_HD.png` (4608×8192) IS a ~35-degree 3/4 view (downscaled check
+  `data\jaisal_portrait_HD_small.jpg`). Diagnosis: H3 sheets must extrapolate the FRONT view
+  from a 3/4 source → eye region (highest identity density) gets re-synthesized → glassy/
+  drifted eyes; Krea2's dull eyes are model-specific, not ref-related. **ANSWER: yes — new
+  frontal base recommended (also protects the future Klein dataset from learning Jaisal as a
+  3/4 character).**
+- **BUILT `10a_frontal_base_jaisal.json`** (builder `make_frontal_base_jaisal.py`, validates
+  0/0, UI + project): 02-identity-edit with 72 = 113 = `jaisal_portrait_HD.png` (double
+  identity anchor), 84 = frontal-face instruction (both eyes open/symmetric, dead-center,
+  neutral, black t-shirt, 85mm), 85 negative + asymmetric-eyes terms, 83 = 9:16 (Portrait
+  Widescreen) @ 16 MP → ~3072×5461, 53 seed → randomize (queue 3-4, keep best), 29 →
+  `charsheet/FACEFRONTAL_JAISAL`. ref_boost 2.5 kept moderate so the model can re-pose
+  3/4 → frontal. NOT run — user runs it. Winner becomes the new canonical face (rename old
+  to `jaisal_portrait_HD_34view.png`); then re-run the winning sheet route(s) + same for
+  Zidane.
+- **09j FIXED (pending user restart):** installed `llama-cpp-python 0.4.3+cu130` (JamePeng
+  fork, cp313 win_amd64 wheel, `data\llama_cpp_python-0.4.3+cu130...whl`) into the embedded
+  python (3.13.12) — matches ComfyUI's torch cu130. Verified:
+  `from llama_cpp.llama_chat_format import Qwen3VLChatHandler, Qwen25VLChatHandler` OK +
+  ggml/llama DLLs load. **CONFLICTS TO PIN LATER (server must be stopped — numpy loaded by
+  the running process):** wheel pulled numpy 2.3.2 (opencv-python 4.12 requires <2.3) +
+  pillow 13 (rembg requires <13) → when ComfyUI is next stopped:
+  `python_embeded\python.exe -m pip install "numpy<2.3" "pillow<13"` (docs §5). User must
+  RESTART ComfyUI once before running 09j (the failed run may have cached the backend error).
+- **NEXT:** user runs 10a (3-4 seeds) → pick best frontal face → swap canonical refs →
+  re-run 05d/05e/08j with the new face → user picks winning route → flip everything to
+  Zidane (builders + 10a zidane variant) → Klein dataset → LoRA.
