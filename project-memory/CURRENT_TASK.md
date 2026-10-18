@@ -180,17 +180,35 @@ model (Qwen) updates memory + commits afterwards.
   use terminal + `--workspace` for node installs). pysssss = **ComfyUI-Custom-Scripts ALREADY
   PRESENT** (repo = `pythongosssss/ComfyUI-Custom-Scripts`; `pythonguru/comfyui-custom-nodes` 404s).
   **Both P3 deps ready.**
-- **Model downloads RUNNING (job pwsh-183 after pwsh-175 killed, `utilities\download_models_parallel.py`
-  — Range-resumable, ~39GB parallel):**
-  P3 sheet: `models\vae\minimax_h3_t1_image_vae_step1597.safetensors` (5GB) +
+- **KLEIN 9B MODELS ALREADY EXIST (user: "i think i already have these models")** — in the
+  **MAIN tree** `E:\ComfyUI_windows_portable\ComfyUI\models`: `diffusion_models\flux-2-klein-9b.safetensors`
+  (16.9GB) + `flux-2-klein-9b-kv-fp8.safetensors` (9.1GB) + `text_encoders\qwen_3_8b_fp8mixed.safetensors`
+  (8.1GB) + `vae\flux2-vae.safetensors` (0.3GB) + 3 klein LoRAs in `loras\`:
+  `bfs_head_v1_flux-klein_9b_step3500_rank128` (face-swap), `Flux2-Klein-9B-consistency-V2`,
+  `flux-2-klein-9B-360-erp-outpaint-lora_V1`. **The dataset workflow runs in the MAIN tree's
+  ComfyUI** (its custom_nodes have `comfyui-custom-scripts` + `ComfyUI-Flux2Klein-Enhancer`;
+  NOT running right now — only the latest-tree server on 8188 is up).
+- **Previous dataset runs FOUND** (user ran it before): `E:\ComfyUI_windows_portable\ComfyUI\output\Dataset\`
+  = `character_1\` (20 imgs) + `character-2\` (20 imgs) + `krea2_character_2\` (2 imgs) —
+  Image_1 = crisp 1136×912 frontal headshot (85mm style, white bg) — quality excellent.
+- **Dataset run PREP DONE (20:4x):** HD faces copied to MAIN tree `input\` as
+  `jaisal_portrait_HD.png` + `zidane_portrait_HD.png` (35MB each); **2 ready variants written**
+  to `E:\Flux_klein\`: `1 Click Dataset (Klein 9b) - jaisal.json` (ref=jaisal HD →
+  SaveImage `Dataset\Jaisal\Image`) + `... - zidane.json` (ref=zidane HD → `Dataset\Zidane\Image`).
+  Script: `utilities\make_klein_dataset_variants.py`. **Runs in the user's main-tree ComfyUI**
+  (user loads variant + queues — they've done it twice; or I launch that instance and drive
+  via REST). OUTPUT FOLDERS = auto-created by SaveImage prefix.
+- **ORDER CONFIRMED WITH USER: CHARACTER SHEET FIRST** ("before that we need to go for
+  character sheet right?") — sheet (P3 2BZ H3) from the 2 HD faces → user approval → then
+  the 2 dataset runs above.
+- **P3 SHEET MODEL DOWNLOAD RUNNING (job pwsh-196, `utilities\download_p3_sheet_models.py`,
+  ~13.6GB → LATEST-tree models dir = where the sheet runs on the MCP-managed server):**
+  `models\vae\minimax_h3_t1_image_vae_step1597.safetensors` (5GB) +
   `models\text_encoders\gemma4_e4b_it_fp8_scaled.safetensors` (8.6GB, resumed from 797MB).
-  **FLUX.2 KLEIN 9B (user 20:31: "we will use flux klein 9B which is dense, we are aiming for
-  quality not garbage ... heavy weights which will fit our 32GB VRAM + 64GB RAM"):**
-  `models\diffusion_models\flux-2-klein-9b.safetensors` (17.3GB, OPEN repo
-  `black-forest-labs/FLUX.2-klein-9B`) + `models\text_encoders\qwen_3_8b_fp8mixed.safetensors`
-  (8.3GB, `Comfy-Org/vae-text-encorder-for-flux-klein-9b/split_files/text_encoders`) +
-  `models\vae\flux2-vae.safetensors` (0.3GB — **ALREADY DONE**). 4B parts deleted.
-  **All repos OPEN — no HF token needed.**
+  (The Klein 9B set needed NO download — already in the main tree, see above.
+  The earlier 9B download plan — `black-forest-labs/FLUX.2-klein-9B` +
+  `Comfy-Org/vae-text-encorder-for-flux-klein-9b`, all OPEN repos, no token — is now
+  only a backup route.)
 - **User's flux klein workflows = `E:\Flux_klein\` (7 files, user-placed 20:31)** — logged in
   **`docs\EXTERNAL_WORKFLOW_SOURCES.md`** (also covers `E:\minimax_workflow\` — the earlier
   shared location). **THE DATASET WORKFLOW = `1 Click Dataset (Klein 9b).json`** (user: "this is
