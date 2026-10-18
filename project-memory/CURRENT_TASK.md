@@ -241,6 +241,12 @@ model (Qwen) updates memory + commits afterwards.
   - C-jaisal `ad36b40c-a13c-4582-904f-62a409b9f4b2` · C-zidane `a2e0f4fe-63e7-4cf3-a46c-ccbba716e093`
   Outputs → `output\charsheet\H3_{JAISAL,ZIDANE}_3VIEW`, `QWEN_{...}`, `KREA2_{...}`.
   Files in UI workflows folder + project copies `05a/05b/05c_charsheet_*.json`.
+  **ALL 6 RUNS DONE + 1 A-jaisal retry (`501d79f7` → `H3_JAISAL_3VIEW_00002`). RESULTS:**
+  C (Krea2) = 2/2 excellent 3-view sheets (kit + crest + name-on-back all correct, ~30 s/run)
+  · A (H3) = 1.5/2 (Zidane sheet perfect; Jaisal run 1 = single view, run 2 = perfect sheet —
+  H3 node has NO seed input = stochastic) · B (Qwen 2.1) = 0/2 (1024-token truncation killed
+  the sheet layout; Zidane came out with wrong hair). **NEXT: USER PICKS THE ROUTE**
+  (recommendation = C/Krea2; A as backup if the user prefers its studio look).
 - **KIT IDENTITY LOCKED (user, same message):** both characters = **soccer jersey + track pants**.
   **Jaisal = royal blue kit, Zidane = dark green kit** — both with a white clenched-fist roundel
   crest ("PALESTINE RESISTANCE") on the left chest, **player name in white on the jersey back**,
@@ -262,6 +268,6 @@ model (Qwen) updates memory + commits afterwards.
   454 VAE), not the instance widgets — patched internals to `qwen_image_2.1_bf16` (13.25GB,
   copied main→latest) + `qwen3vl_8b_int8_convrot` (8.71GB, copied) + `qwen_image_2.1_vae_bf16`
   (0.63GB, copied). All three copied main-tree→latest-tree.
-- **NEXT:** collect the 6 outputs → present A/B/C comparison to user (user picks the best
-  sheet route) → then the 2 Klein-9B dataset runs (`E:\Flux_klein\1 Click Dataset (Klein 9b) - {jaisal,zidane}.json`)
-  → LoRA training.
+- **NEXT:** user picks the winning route (presented: C recommended) → then the 2 Klein-9B
+  dataset runs (`E:\Flux_klein\1 Click Dataset (Klein 9b) - {jaisal,zidane}.json`) → LoRA
+  training.

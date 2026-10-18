@@ -24,9 +24,27 @@ Newest experiments first.
   flat-lay ref were rendered as **the character HOLDING a folded pant** while wearing black
   shorts. **Verdict data point: route A transfers identity+kit strongly but follows LAYOUT
   instructions weakly (it's a video model).**
-- **Pending:** A-zidane (running) → B-jaisal → B-zidane → C-jaisal → C-zidane. Then user picks
-  the winning route.
-- **Status:** RUNNING.
+- **FULL RESULTS (all 6 runs + 1 A-jaisal retry):**
+  - **A = H3 2BZ** (2880², ~15 min/run, NO seed input on the H3 node = stochastic):
+    - Jaisal run 1 (`H3_JAISAL_3VIEW_00001`): single cinematic full-body photo (palace
+      background, HOLDING a folded pant, black shorts) — layout instruction ignored.
+    - Jaisal run 2 (`H3_JAISAL_3VIEW_00002`, retry): **PERFECT 3-VIEW SHEET** — front/side/back,
+      neutral grey studio, full blue kit + PALESTINE RESISTANCE crest + "JAISAL" on back;
+      nits: bare feet, faint geometric jersey pattern.
+    - Zidane (`H3_ZIDANE_3VIEW_00001`): **PERFECT 3-VIEW SHEET** — front/side/back, full dark
+      green kit + crest + "ZIDANE" on back, black cleats. Best-looking sheet of the test.
+  - **B = LEEBLAAB Qwen 2.1** (3360×1888, 30 steps): **0/2** — Jaisal = oil-painting-style
+    portrait on a GOLDEN STAR background (no sheet, no kit); Zidane = single headshot with
+    **WRONG HAIR (blonde curls)** + white tee. Root cause: the 10-section ~4500-char prompt
+    exceeds `TextEncodeQwenImage21`'s 1024-token cap → TRUNCATED → layout sections lost.
+    Route B unusable as a sheet generator in this configuration.
+  - **C = Krea2 t2i** (2048×1152, ~30 s/run, D142 recipe): **2/2 EXCELLENT** —
+    `KREA2_JAISAL_00001` + `KREA2_ZIDANE_00001` = clean 3-view strips, correct faces, full
+    kits (crest + white stripes + name on back rendered correctly both times).
+- **VERDICT:** **C (Krea2) wins on reliability** (2/2 first-try, ~30 s, zero new infra, uses
+  the locked base). A = highest ceiling when it works (Zidane sheet is the most "pro"), but
+  seedless + ~15 min/run + 1-of-2 Jaisal failures = retry cost. B = ruled out (truncation).
+- **Status:** DONE — awaiting user's route pick.
 
 ## 2026-10-18 20:0x — HD CLARITY pipeline: portrait close-up + 4x Real-ESRGAN (03_hd_upscale)
 - **Trigger:** user: "whatever under v7 is not up to the mark, clarity too off — cant we generate HD?"

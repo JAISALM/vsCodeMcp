@@ -147,8 +147,9 @@
   (451/453/454), not the instance widgets; models `qwen_image_2.1_bf16` (13.25GB) +
   `qwen3vl_8b_int8_convrot` (8.71GB) + `qwen_image_2.1_vae_bf16` (0.63GB) copied
   main-tree→latest-tree.
-- **Status:** all 6 variants built + validated + queued (prompt ids in CURRENT_TASK.md);
-  awaiting results → user picks the best route.
+- **Status:** DONE — all 6 runs + A-jaisal retry complete. **C (Krea2) = 2/2 excellent sheets;
+  A (H3) = 1.5/2 (no seed = stochastic, 15 min/run); B (Qwen 2.1) = 0/2 (prompt truncation at
+  1024 tokens → layout lost).** Awaiting user's route pick (agent recommendation: C).
 
 ## D143 — FLUX.2 KLEIN 9B DENSE for the LoRA dataset workflow (2026-10-18, user call)
 - **Decision:** use **FLUX.2 [klein] 9B** (not 4B) for the character-dataset stage — "we are
