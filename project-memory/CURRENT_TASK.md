@@ -180,17 +180,31 @@ model (Qwen) updates memory + commits afterwards.
   use terminal + `--workspace` for node installs). pysssss = **ComfyUI-Custom-Scripts ALREADY
   PRESENT** (repo = `pythongosssss/ComfyUI-Custom-Scripts`; `pythonguru/comfyui-custom-nodes` 404s).
   **Both P3 deps ready.**
-- **Model downloads RUNNING (job pwsh-175, `utilities\download_models_parallel.py`, ~29GB parallel):**
+- **Model downloads RUNNING (job pwsh-183 after pwsh-175 killed, `utilities\download_models_parallel.py`
+  — Range-resumable, ~39GB parallel):**
   P3 sheet: `models\vae\minimax_h3_t1_image_vae_step1597.safetensors` (5GB) +
-  `models\text_encoders\gemma4_e4b_it_fp8_scaled.safetensors` (8.6GB).
-  FLUX.2-klein DATASET workflow: `models\diffusion_models\flux-2-klein-base-4b.safetensors`
-  (7.4GB) + `models\text_encoders\qwen_3_4b.safetensors` (7.7GB) + `models\vae\flux2-vae.safetensors`
-  (0.3GB) — all from open repo `Comfy-Org/vae-text-encorder-for-flux-klein-4b/split_files/`.
-  **If any 401 → user HF token needed.**
-- **User's flux klein workflow = the installed `one-node-flux-2-klein` one-node** (FRONTEND-DRIVEN —
-  run from UI, not MCP). User said "i have one flux klein workflow which i remember you already have
-  logged" — logged investigation exists (EXPERIMENTS 2026-08-26: node + missing models); the
-  workflow FILE itself not in memory → **USER WILL PROVIDE IT**.
+  `models\text_encoders\gemma4_e4b_it_fp8_scaled.safetensors` (8.6GB, resumed from 797MB).
+  **FLUX.2 KLEIN 9B (user 20:31: "we will use flux klein 9B which is dense, we are aiming for
+  quality not garbage ... heavy weights which will fit our 32GB VRAM + 64GB RAM"):**
+  `models\diffusion_models\flux-2-klein-9b.safetensors` (17.3GB, OPEN repo
+  `black-forest-labs/FLUX.2-klein-9B`) + `models\text_encoders\qwen_3_8b_fp8mixed.safetensors`
+  (8.3GB, `Comfy-Org/vae-text-encorder-for-flux-klein-9b/split_files/text_encoders`) +
+  `models\vae\flux2-vae.safetensors` (0.3GB — **ALREADY DONE**). 4B parts deleted.
+  **All repos OPEN — no HF token needed.**
+- **User's flux klein workflows = `E:\Flux_klein\` (7 files, user-placed 20:31)** — logged in
+  **`docs\EXTERNAL_WORKFLOW_SOURCES.md`** (also covers `E:\minimax_workflow\` — the earlier
+  shared location). **THE DATASET WORKFLOW = `1 Click Dataset (Klein 9b).json`** (user: "this is
+  what we are going to use"): 23 nodes, Ref-Latent-Controller by u/Capitan01R (Reddit 1se5a5z);
+  models = `flux-2-klein-9b` + `qwen_3_8b_fp8mixed` (type **flux2**) + `flux2-vae`; LoadImage
+  node 76 = char's reference face (default `ref_woman.png` → swap to our HD face in input/);
+  node 377 `CR Prompt List` = embedded dataset prompt set; 768×1120 (3:4) output; SaveImage
+  node 280 prefix `Dataset\Test_woman\Image` → rename per character. Copy already in UI
+  workflows folder (kept in triage).
+- **USER-WORKFLOWS FOLDER TRIAGED (20:35, user ask: 245 files "not good"):** 34 KEPT
+  (current pipeline + tools — see `docs\WORKFLOW_TRIAGE_2026-10-18.md`), **211 MOVED** (not
+  deleted) to `user\default\workflows_archive\2026-10-18\` (manifest inside; script
+  `utilities\triage_user_workflows.py`). `character sheet\` subfolder kept. NOTE:
+  `episode1\workflows\` has only a README — archive is the Episode-1 files' only backup.
 - **CONCRETE PLAN (presented to user):** (1) char sheet P3 (2BZ H3 2-stage) from the 2 HD faces →
   user-approved sheet; (2) LoRA DATASET via FLUX.2-klein one-node (EDIT mode: HD face ref →
   15-25 scene/angle/lighting variations per character, curated); (3) train character LoRA

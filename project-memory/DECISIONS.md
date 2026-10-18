@@ -128,6 +128,22 @@
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
 
+## D143 — FLUX.2 KLEIN 9B DENSE for the LoRA dataset workflow (2026-10-18, user call)
+- **Decision:** use **FLUX.2 [klein] 9B** (not 4B) for the character-dataset stage — "we are
+  aiming for quality not garbage ... stick with the more heavy weights which will fit our
+  hardware" (32 GB VRAM, 64 GB RAM).
+- **Workflow:** `E:\Flux_klein\1 Click Dataset (Klein 9b).json` (user-selected: "this is what
+  we are going to use") — Ref-Latent-Controller (u/Capitan01R), one reference face in → full
+  dataset set out (768×1120).
+- **Models (all open-source, no token):** `flux-2-klein-9b.safetensors` (17.3 GB,
+  `black-forest-labs/FLUX.2-klein-9B`) + `qwen_3_8b_fp8mixed.safetensors` (8.3 GB,
+  `Comfy-Org/vae-text-encorder-for-flux-klein-9b`) + `flux2-vae.safetensors` (0.3 GB, done).
+- **Why fits:** 9B bf16 ≈ 17 GB < 32 GB VRAM; text encoder offloads to 64 GB RAM after encoding.
+- **External source locations now logged** in `docs\EXTERNAL_WORKFLOW_SOURCES.md`
+  (`E:\Flux_klein\` + `E:\minimax_workflow\`); user-workflows folder triaged (D143 companion:
+  `docs\WORKFLOW_TRIAGE_2026-10-18.md` — 34 kept / 211 archived, reversible).
+- **Status:** Active — models downloading (job pwsh-183).
+
 ## D142 — T2I CHARACTER RECIPE: natural language + clean negative + 8 steps (2026-10-18, A/B-proven)
 - **Problem:** t2i character faces "kinda off, like grains". Web research (Krea2 V2 thread, u/rynaleopard):
   crisp results = **natural-language 4-5 sentence prompts, NOT tag stacking** + simple workflow;
