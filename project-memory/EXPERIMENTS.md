@@ -4,6 +4,39 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 19:2x — refset_v6 face diagnosis — "wood / waxy, no skin tone" (user-flagged)
+- **User:** the bench-pair faces "don't look natural at all, no skin tone, feel like a wood" — same complaint as v3/v5.
+- **Diagnosis (NOT a settings bug — three compounding factors):**
+  1. **The identity edit clones the REF's face RENDERING, not just the identity.** ref_boost 4.0 +
+     g768 grounding anchor the face region to the sheet's face pixels — INCLUDING the sheet's
+     flat, even-lit, pale skin rendering. The anchored face region doesn't receive the scene's
+     light → a studio-lit pale face inside a bright street scene = "wood".
+  2. **Repeat of D025 (2026-08-29):** neutral sheet ref → studio-lit face that clashes with the
+     scene (v5 hit this). D023's correct order — t2i the base scene FIRST, then lock the face —
+     was skipped: we fed the sheet directly as the scene base.
+  3. **The negative FIGHTS the anchor:** "waxy skin, smooth skin, airbrushed" negatives fight the
+     4.0 anchor's smoothness → a desaturated muddy mid-state instead of photographic skin.
+- **Evidence:** the sheet's face (`char2_sheet.png`) is actually decent (warm, natural) — the
+  degradation happened IN the edit, not in the ref.
+- **A/B VERDICT (19:3x IST, Zidane bench, seed 77, same seed all 3):**
+  - **Control b40** (flat daylight, anti-smooth negatives) = pale/waxy/"wood" (the flagged issue).
+  - **b25** (boost 2.5, golden hour, clean negative, warm-skin positive) = **WINNER** — warm
+    natural skin with flush ✓, identity tight ✓, centered on bench ✓, half-smile ✓.
+    `refset_v6\zidane_bench_b25_00001_.png`.
+  - **b20** (boost 2.0, same) = natural skin ✓ but identity slightly looser (features a touch
+    more generic). `refset_v6\zidane_bench_b20_00001_.png`.
+- **SETTINGS LOCKED for 02 identity-edit scene refs:** `ref_boost` **2.5** (NOT 4.0 — 4.0 clones
+  the ref's flat face rendering), **warm scene light in the instruction** (golden hour), **NO
+  anti-smooth-skin negatives** (they fight the anchor → muddy mid-state), warm-skin positive
+  ("warm natural skin tone with visible pores and a subtle flush"). Negative = identity-safety
+  only ("stick figure, duplicate character, multiple people, watermark, logo"), g768.
+- **Jaisal golden-hour bench DONE** (same recipe, char1_sheet.png, seed 42) →
+  `refset_v6\jaisal_bench_golden_00001_.png` — warm skin ✓ (wood fixed), wavy hair ✓, black tee +
+  dark trousers ✓, patchy beard ✓, slim ✓; expression reads neutral (half-smile didn't come
+  through), seated at the bench edge.
+- **Status:** A/B done, golden-hour pair complete; recipe locked (boost 2.5 + warm light + clean
+  negative); next = H3 character-sheet route.
+
 ## 2026-10-18 19:1x — refset_v6 bench pair — identity refset from the LOCKED v6 sheets
 - **Goal:** identity refset (character-in-scene refs for the consistent short) from the locked v6
   sheets (D138). 02 re-pointed to the v6 sheets — it was still on the old 10-08 anchors

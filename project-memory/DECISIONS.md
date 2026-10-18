@@ -128,6 +128,23 @@
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
 
+## D140 — 02 identity-edit scene-ref recipe locked (2026-10-18, A/B-proven)
+- **Problem:** bench-pair faces "wood/waxy, no skin tone" (same as v3/v5). Root cause: ref_boost
+  4.0 clones the REF's face RENDERING (the sheet's flat even-lit pale face) into the scene — the
+  anchored face region doesn't receive scene light — AND the anti-smooth-skin negative fights the
+  anchor → desaturated muddy mid-state. Repeat of D025 (neutral ref → studio-lit face).
+- **A/B (Zidane bench, seed 77, same seed all):** b40 = wood; **b25 = natural warm skin, identity
+  tight (WINNER)**; b20 = natural but identity slightly looser.
+- **LOCKED settings for 02 scene refs:** `ref_boost` **2.5** (not 4.0) · **warm scene light in the
+  instruction** (golden hour) · **NO anti-smooth-skin negatives** (negative = identity-safety only:
+  "stick figure, duplicate character, multiple people, watermark, logo") · **warm-skin positive**
+  ("warm natural skin tone with visible pores and a subtle flush") · g768 · 10 steps euler/simple
+  cfg 1 · 2MP.
+- **Outputs:** `refset_v6\zidane_bench_b25_00001_.png` + `refset_v6\jaisal_bench_golden_00001_.png`
+  (golden-hour bench pair, natural skin).
+- **Status:** Active recipe. If a face still reads flat: warm the REF itself or use two-image mode
+  (scene base + sheet as PERSON ref).
+
 ## D139 — DSH + GHCP (GitHub Copilot / VS Code agent) cross-client collaboration verified (2026-10-18)
 - **Milestone (user-approved "we did good"):** the two agent clients worked as one pipeline —
   GHCP (VS Code agent) diagnosed DSH's Reddit gap, built `utilities\reddit_browser_fetch.py`

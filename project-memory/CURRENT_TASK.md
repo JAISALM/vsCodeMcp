@@ -28,8 +28,15 @@ model (Qwen) updates memory + commits afterwards.
   10-08 anchors to the v6 sheets; bench pair generated: `output\refset_v6\zidane_bench_00001_.png`
   (seed 77, halal cut ✓ white tee ✓ half-smile ✓) + `output\refset_v6\jaisal_bench_00001_.png`
   (seed 42, wavy ✓ black tee ✓ — sits at bench edge, neutral expression). 02 file left in Run-B state
-  (char1/Jaisal bench). AWAITING USER VERDICT on the pair (re-roll options: Jaisal centered-on-bench /
-  more expression; or new scenes).
+  (char1/Jaisal bench).
+- **Face issue RESOLVED (19:4x IST):** A/B (b40/b25/b20, seed 77) proved it = ref_boost 4.0 cloning
+  the sheet's flat face rendering + anti-smooth-skin negative fighting the anchor (D025 repeat).
+  **RECIPE LOCKED:** ref_boost **2.5** + warm scene light (golden hour) + **no** anti-smooth-skin
+  negative + warm-skin positive. Golden-hour bench pair: `refset_v6\zidane_bench_b25_00001_.png`
+  (warm skin ✓ identity tight ✓) + `refset_v6\jaisal_bench_golden_00001_.png` (warm skin ✓ wavy ✓
+  black tee ✓ — expression neutral, seated at bench edge). 02 file left in Jaisal golden-hour state.
+  AWAITING USER VERDICT on the pair → then H3 character-sheet route (P3 prep needs GO: 2 HF model
+  downloads + toobusy + pysssss packs).
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).
