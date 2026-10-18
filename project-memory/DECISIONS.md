@@ -151,6 +151,55 @@
   A (H3) = 1.5/2 (no seed = stochastic, 15 min/run); B (Qwen 2.1) = 0/2 (prompt truncation at
   1024 tokens → layout lost).** Awaiting user's route pick (agent recommendation: C).
 
+## D145 — Crest spec v2: fist roundel ONLY, no text (2026-10-18, user-directed — supersedes D144 crest)
+- **User:** "the jersey should have the crest with logo only, we dont need palestine resistance
+  in the logo, lets not make it obvious, but i want to have the emblem showing solidarity with
+  them" → the chest emblem is a **white clenched-fist roundel ONLY** (thin circle, line-art fist,
+  subtle) — **NO "PALESTINE RESISTANCE" wordmark, no slogan, no letters of any kind**.
+- **Prompts:** all sheet/kit prompts updated (A master + detail_description, B TEAM row →
+  "SOLIDARITY" + CREST MACRO "(no text)", C prompt) and NEGATIVES add "words, letters, slogan".
+  Builders: `utilities\make_kit_ref_workflows.py` + `make_abc_sheet_variants.py`.
+- **Kit refs regenerated:** 07_kit_ref_{jaisal,zidane} (seeds 13/29, prefixes `_00002`) →
+  `input\{jaisal,zidane}_kit_ref.png` (overwrote old text-crest refs) — both verified first-try.
+- **Status:** Active. The old "PALESTINE RESISTANCE" wordmark spec is DEPRECATED.
+
+## D146 — H3 sheet anti-plastic recipe: no turbo, no Spectrum, 30-step vanilla (2026-10-18, user-shared thread)
+- **User:** "all of them looks plastic like — check this post [1wzcu5v]" (the H3 plastic-look
+  thread) + the LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler repo link.
+- **Thread findings (saved `data\h3_plastic_look`):** top answer = 2-pass latent upscale
+  (half-res 20 steps no turbo → turbo 8-step @4 steps 0.35 denoise); 0.98 MP = H3's trained
+  default res; **strong counter (lavinia12345): "latent upscale is shit... vanilla minimax
+  model 30 steps, er_sde/beta57, 1 MP is good. Any use of lightning/turbo LoRAs, the Spectrum
+  node, or PlagueKind's SLA node screw up eyes (even more)"**; turbo LoRA needs the H3 AdaLN
+  LoRA Fix (`h3_silu_turb_grid` + PlagueKind node) at strength 0.70–0.85 if ever used.
+- **Decision for our H3 sheet routes:** the wide variant (05d) runs **vanilla 30 steps,
+  er_sde + beta scheduler, NO turbo/lightning LoRA, NO Spectrum node** (turbo + Spectrum
+  DELETED from the civitai/cgpixel23 base). LBH latent upscaler pack (already installed) +
+  3D bf16 model downloaded (`models\latent_upscale_models\minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors`)
+  kept as an optional 2nd-pass refinement — NOT in the main chain yet.
+- **Status:** Active for the 05d wide variant; re-evaluate after user sees the outputs.
+
+## D147 — New sheet routes from user downloads (2026-10-18): cgpixel23 wide H3 + Qwen-2.1-LLM-architect
+- **User drag-dropped** `E:\minimax_workflow\character_sheet\1CJX8DERQKDMG6Z2C5QC4D6HW0.png`
+  (civitai post 31291351 image, 4096×1536) — civitai embeds the FULL workflow as plain-text
+  `workflow`/`prompt` tEXt chunks (NOT base64; `utilities\parse_new_user_downloads.py`
+  extracts). The embedded = cgpixel23's wide multi-panel H3 sheet (sprite-sheet layout:
+  portrait closeup + 3-angle full-body + 6 detail circles). **Adapted → `05d_charsheet_H3_wide_{char}.json`**
+  (our 2 refs, author's test/NSFW/style LoRAs stripped, D146 anti-plastic chain, t1 image VAE,
+  4096×1536, R2V 6-section sheet prompt).
+- **User downloaded** `E:\minimax_workflow\character_sheet\Qwen Image 2.1 Character Design
+  Sheet.json` — **LLM-architect design**: `ThinkingLLM_QwenVL_GGUF_Advanced` (local GGUF
+  `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf`, temp 0.95, system prompt "Character Sheet Prompt
+  Architect", `{{name}}` StringReplace) writes the sheet prompt at runtime → explains the
+  author's working 12K-char sheets that defeated our static LEEBLAAB prompt (B-route 0/2).
+- **Pack installed:** `custom_nodes\ComfyUI-ThinkingLLM` (goodguy1963 v2.5.8 — GGUF variant
+  + HF-weights variant `ThinkingLLM_QwenVL(_Advanced)`; deps mostly present, missing =
+  llama_cpp GGUF wheel + tiktoken). PE-I2I GGUF models downloading
+  (`ComfyUI\LLM\GGUF\`, HF `prithivMLmods/Qwen-Image-2.1-PE-I2I-GGUF`). **Server restart
+  pending** to load the pack; workflow adaptation (our refs/chars) after restart.
+- **Status:** 05d wide variant queued for the first test run; Qwen-LLM-architect route =
+  NEXT after the server restart.
+
 ## D143 — FLUX.2 KLEIN 9B DENSE for the LoRA dataset workflow (2026-10-18, user call)
 - **Decision:** use **FLUX.2 [klein] 9B** (not 4B) for the character-dataset stage — "we are
   aiming for quality not garbage ... stick with the more heavy weights which will fit our

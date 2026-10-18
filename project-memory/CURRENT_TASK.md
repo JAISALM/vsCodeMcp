@@ -271,3 +271,87 @@ model (Qwen) updates memory + commits afterwards.
 - **NEXT:** user picks the winning route (presented: C recommended) → then the 2 Klein-9B
   dataset runs (`E:\Flux_klein\1 Click Dataset (Klein 9b) - {jaisal,zidane}.json`) → LoRA
   training.
+
+## 🔴 ABC ROUND 2 — CREST SPEC CHANGE + NEW WORKFLOWS (2026-10-18 23:3x IST)
+- **USER CREST SPEC CHANGE (D145):** "the jersey should have the crest with logo only... not
+  obvious... emblem showing solidarity" → crest = **white clenched-fist roundel ONLY, NO text**
+  (the old "PALESTINE RESISTANCE" wording is out). All prompts updated
+  (`make_kit_ref_workflows.py` + `make_abc_sheet_variants.py`: A master/detail, B TEAM row →
+  "SOLIDARITY", B CREST MACRO, C prompt) + NEG adds "words, letters, slogan".
+- **USER FEEDBACK ON ABC RESULTS:** (1) Krea2 "some issue with the details such as eyes";
+  (2) "qwen is wrong, we didnt get the character sheet at all" + user downloaded a NEW Qwen
+  workflow `E:\minimax_workflow\character_sheet\Qwen Image 2.1 Character Design Sheet.json`
+  = **LLM-architect design**: subgraph 549 `ThinkingLLM_QwenVL_GGUF_Advanced` (local GGUF
+  `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf`, temp 0.95) with system prompt "Character Sheet Prompt
+  Architect" + `{{name}}` StringReplace → the LLM WRITES the sheet prompt at runtime (that's
+  how the author got a working 12K-char sheet). Subgraph[0] internals = same as LEEBLAAB.
+  **Node pack `ThinkingLLM_QwenVL_GGUF_Advanced` was MISSING → INSTALLED:
+  `custom_nodes\ComfyUI-ThinkingLLM` (goodguy1963, v2.5.8 — has BOTH the GGUF variant AND an
+  HF-weights variant `ThinkingLLM_QwenVL(_Advanced)` that needs no llama_cpp; deps:
+  transformers 5.9 ✓ bitsandbytes ✓ faster_whisper ✓; missing = llama_cpp GGUF backend wheel
+  + tiktoken). Server NOT yet restarted to load it.**
+- **USER: the minimax (P1/civitai) "just 3 images, the workflow and reddit post had few more
+  — check it again [1wxixua]"** → re-fetched: P1 = u/cgpixel23's H3 IMAGE-GEN sheet: 4096×1536
+  wide canvas, author's prompt = sprite-sheet layout (left portrait closeup + center 3-angle
+  full-body + right 6 detail circles) = "few more images". User drag-dropped the civitai post
+  image (`E:\minimax_workflow\character_sheet\1CJX8DERQKDMG6Z2C5QC4D6HW0.png`, 4096×1536) with
+  the FULL embedded workflow (civitai stores it as plain-text `workflow`/`prompt` tEXt chunks —
+  NOT base64; extractor `utilities\parse_new_user_downloads.py`). Mapped: 45 nodes, H3 R2V
+  node 28 `[prompt, 4096, 1536, 5, 'max']` + 9 refs via ImageScaleToTotalPixels; UNET
+  `minimax_h3_ref2va_pruned_int8` ✓, CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq` ✓, VAE
+  `minimax_h3_video_vae_int8_convrot` (on disk per validator; we use the t1 IMAGE vae instead),
+  audio VAE ✓; author's 5 LoRAs (test/NSFW/style) stripped; **ALL node types available locally
+  (toobusy 0.5.6 stack) — only `ThinkingLLM_QwenVL_GGUF_Advanced` was missing.**
+- **USER: "all of them looks plastic like — check this post [1wzcu5v]"** (the H3 plastic-look
+  thread) → findings saved `data\h3_plastic_look`: (a) top answer = **2-pass latent upscale**
+  (pass 1 = half-res 20 steps NO turbo LoRA; pass 2 = turbo 8-step @4 steps 0.35 denoise);
+  (b) **0.98 MP = H3's trained default res** (use float primitive); (c) counter-comment
+  (lavinia12345): "latent upscale is shit... **vanilla minimax model 30 steps er_sde/beta57,
+  1 MP is good. Any use of lightning/turbo LoRAs, the Spectrum node, or PlagueKind's SLA node
+  screw up eyes**"; (d) turbo LoRA needs H3 AdaLN LoRA Fix (`h3_silu_turb_grid` + PlagueKind
+  node or larryvrh loader), strength 0.70–0.85. **Action: built the wide variant WITHOUT turbo
+  + Spectrum (30-step vanilla er_sde/beta).**
+- **NEW WIDE VARIANT (05d, user's "few more images" request):**
+  `utilities\make_h3_wide_sheet.py` → `05d_charsheet_H3_wide_{jaisal,zidane}.json` (UI +
+  project copies): civitai/cgpixel23 workflow adapted — 10 author refs → OUR 2 refs
+  (`<char>_portrait_HD.png` ref_image_0 + `<char>_kit_ref.png` ref_image_1); author's
+  test/NSFW/style LoRA chain (18/19/20/21) + TurboLoRA 39 + Spectrum 41 DELETED (anti-plastic);
+  chain = UNET 10 → SigmaShift 40 → AttentionBackend 60 → EasyCache 42 → {BasicScheduler 7
+  beta 30 steps, KSamplerSelect 6 er_sde, RandomNoise 12 fixed seed, BasicGuider 9,
+  SamplerCustomAdvanced 8} → FizgigH3StillDecode 64 → SaveImage 68. VAE 2 →
+  `minimax_h3_t1_image_vae_step1597`. Canvas 4096×1536, H3 node length 5, ref_image_size max.
+  Prompt = R2V 6-section 3-view sheet, NEW CREST SPEC. **BUILDER GOTCHA: the UI→API converter
+  reads the inputs[].link FIELDS, not just the links array — rewiring a link means syncing the
+  target node's input `link` field (40/42 model inputs), else the chain silently breaks.**
+  VALIDATES 0/0. **RUNS QUEUED 00:2x IST: jaisal `ebb3b88f` · zidane `54afafe1` →
+  `output\charsheet\H3WIDE_{JAISAL,ZIDANE}`.**
+- **KIT REFS REGENERATED (new crest):** 07_kit_ref_{jaisal,zidane} rebuilt (fist-only-crest
+  prompt, seeds 13/29, prefixes `_00002`) → `jaisal_kit_ref_00002_00001_.png` +
+  `zidane_kit_ref_00002_00001_.png` — BOTH VERIFIED (subtle line-art fist roundel, no text,
+  correct kit colors, clean flat-lays) → staged to `input\{jaisal,zidane}_kit_ref.png`
+  (overwrote the old text-crest refs).
+- **SHEET ROUND 2 RESULTS (new-crest prompts):** C×2 rerun (`cd2e7b6f`/`bbc351c1`) →
+  `KREA2_{JAISAL,ZIDANE}_00002_.png` — **BOTH EXCELLENT** (3-view, new text-free fist roundel,
+  correct kit + name, good faces — eyes fine this round). A×2 rerun (`a223c93e`/`8d53f0ed`) →
+  `H3_JAISAL_3VIEW_00003_.png` = **MISS (3rd Jaisal stochastic fail: man on sofa holding
+  folded blue pants, face cropped)** vs `H3_ZIDANE_3VIEW_00002_.png` = **PERFECT SHEET**
+  (3-view, fist roundel, name on back; nits: black boots instead of white). **Scoreboard:
+  Zidane = H3 reliable (2/2) · Jaisal = H3 unreliable (0/3 on this route — scene-prior
+  hijacks: palace, single view, sofa) → Jaisal's sheet must come from Krea2 (C) or the wide
+  variant.**
+- **PACKS/MODELS INSTALLED THIS SPAN:** (1) `ComfyUI-ThinkingLLM` cloned (v2.5.8; needs
+  server restart); (2) `Comfyui_Minimax_h3_latent_Upscaler` (LBH-123-AI) ALREADY PRESENT in
+  latest-tree custom_nodes (single `__init__.py` + `nodes/` module; models folder =
+  `models\latent_upscale_models\`) — **model DOWNLOADED:**
+  `minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors` (0.64 GB, HF
+  `LBH-123-AI/Minimax_h3_latent_Upscaler` — neural 24ch-latent upscaler, 2D+3D conv nodes,
+  1.0–4× scales, Split-Upscale hires-fix nodes; "saves time, not VRAM"); (3) PE-I2I GGUF
+  downloading to `ComfyUI\LLM\GGUF\`: `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf` +
+  `Qwen-Image-2.1-PE-I2I.mmproj-bf16.gguf` (HF `prithivMLmods/Qwen-Image-2.1-PE-I2I-GGUF`,
+  job pwsh-60) — the EXACT model the user's new Qwen workflow expects.
+- **AWAITING:** wide-variant outputs (ebb3b88f/54afafe1) → then RESTART server (kill pid 2608 +
+  relaunch, or `comfy launch` after kill — NOT comfy-cli-managed) to load ThinkingLLM → adapt
+  the user's new Qwen-2.1-LLM-architect workflow (our refs + chars + on-disk model names;
+  GGUF node needs the llama_cpp vision wheel OR swap to the HF-weights
+  `ThinkingLLM_QwenVL_Advanced` node variant) → test → USER PICKS ROUTE → Klein dataset →
+  LoRA.

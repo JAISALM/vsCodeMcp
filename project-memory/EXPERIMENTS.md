@@ -1250,6 +1250,56 @@ Action: `D:\models\Writing\probe-muse-ctx.bat` built — tries 260000→131072�
 **RESULT (2026-10-08 22:53): 260000 FITS — the probe's FIRST attempt booted Muse at full 260K ctx and /v1/models returned 200** (user ran the probe WITHOUT stopping 8100; Muse still booted, so the original `Run-Muse-Glimmer.bat` ctx is safe on this machine). Caveat measured at coexistence: with both servers running, GPU = 31.9/32.6GB and BOTH are slow (Muse 2.3 tok/s, agent 27B 1.4 tok/s on 16-token test) — for real writing speed, stop 8100 and let Muse own the card. The agent's "likely doesn't fit" prediction was WRONG (KV turned out lighter than estimated — Muse's architecture is KV-efficient); the original "~70GB KV" guess was also wrong in the other direction. Lesson: measure, don't estimate. `run-muse-32k.bat` stays as a conservative fallback; the original 260K bat is now proven.
 ## 2026-10-18 — Krea2 Realism A/B (DONE) + obvpm timeline smoke test (RUNNING)
 
+## 2026-10-18 — ABC sheet round 2: new-crest reruns + H3 wide multi-panel variant (QUEUED)
+
+**Context:** user changed the crest spec (D145 — fist roundel ONLY, no text) and raised:
+Krea2 eye-detail issues, Qwen "we didnt get the character sheet at all" (→ downloaded the new
+LLM-architect Qwen workflow), the P1/civitai workflow had "few more" images (→ drag-dropped the
+civitai image with the embedded cgpixel23 wide H3 workflow), and "all of them looks plastic
+like" (→ shared the plastic-look thread [1wzcu5v] + the LBH latent-upscaler repo).
+
+**Kit refs (new crest):** 07_kit_ref_{jaisal,zidane} rebuilt (fist-only prompt, seeds 13/29) →
+`jaisal_kit_ref_00002_00001_.png` + `zidane_kit_ref_00002_00001_.png` — **BOTH first-try
+correct** (subtle line-art fist roundel, no text, correct kit colors, clean flat-lays) →
+staged to `input\{jaisal,zidane}_kit_ref.png` (overwrote the text-crest refs).
+
+**Sheet reruns (new-crest prompts):**
+- C×2 (Krea2 t2i, `cd2e7b6f`/`bbc351c1`) → `KREA2_{JAISAL,ZIDANE}_00002_.png` — **BOTH
+  EXCELLENT**: 3-view strips, new text-free fist roundel, correct kit + back name, good faces
+  (eyes fine this round). C = 2/2 across both rounds.
+- A×2 (H3 2BZ, `a223c93e`/`8d53f0ed`) → `H3_JAISAL_3VIEW_00003_.png` = **3rd Jaisal
+  stochastic FAIL** (man sitting on a sofa holding folded blue pants with a pen, face cropped,
+  no sheet) vs `H3_ZIDANE_3VIEW_00002_.png` = **PERFECT SHEET** (3-view, fist roundel, ZIDANE
+  on back; nits: black boots not white). **Scoreboard: H3 = Zidane 2/2, Jaisal 0/3** (scene
+  priors hijack Jaisal's runs: palace → single view → sofa).
+
+**Wide multi-panel variant (NEW, `05d_charsheet_H3_wide_{char}.json`):** built from the
+civitai-embedded cgpixel23 workflow (45 nodes, all types available locally): our 2 refs
+(HD face + new kit ref), author's test/NSFW/style LoRA chain stripped, **D146 anti-plastic
+chain** (no turbo LoRA, no Spectrum; vanilla 30-step er_sde/beta), t1 image VAE, 4096×1536
+canvas, R2V 6-section 3-view sheet prompt (new crest spec). **Builder gotcha: the UI→API
+converter reads the inputs[].link fields, not just the links array — rewired links require
+syncing the target node's input `link` field** (first build failed validation: node 7/9 model
+missing + 10/60 unreachable until 40/42's `link` fields were synced to the new link ids).
+Validates 0/0. **Runs queued: jaisal `ebb3b88f` · zidane `54afafe1`** →
+`output\charsheet\H3WIDE_{JAISAL,ZIDANE}`.
+
+**Plastic-look thread findings (data\h3_plastic_look):** 2-pass latent upscale recipe (top
+answer) vs lavinia12345's counter: "vanilla 30 steps er_sde/beta57, 1 MP is good; turbo
+lightning LoRAs, the Spectrum node, or PlagueKind's SLA screw up eyes"; 0.98 MP = H3's
+trained default res; turbo needs the H3 AdaLN LoRA Fix (PlagueKind `h3_silu_turb_grid`,
+strength 0.70–0.85).
+
+**Installs this span:** `ComfyUI-ThinkingLLM` (goodguy1963 v2.5.8 — GGUF + HF-variant
+ThinkingLLM_QwenVL nodes; deps OK except llama_cpp GGUF wheel + tiktoken) · LBH
+`Comfyui_Minimax_h3_latent_Upscaler` (already installed) + 3D bf16 model (0.64 GB →
+`models\latent_upscale_models\`) · PE-I2I GGUF downloading (`Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf`
++ mmproj-bf16, HF prithivMLmods) → `ComfyUI\LLM\GGUF\`. **Server restart pending** (server
+pid 2608 is NOT comfy-cli-managed — `comfy stop` can't kill it; kill + `comfy launch` needed)
+to load ThinkingLLM for the user's new Qwen-2.1-LLM-architect workflow.
+
+## 2026-10-18 — Krea2 Realism A/B (DONE) + obvpm timeline smoke test (RUNNING)
+
 **Krea2 Realism V1 A/B** (D133): terminal-resumed download completed at exactly 13,141,769,680 bytes; server listed the model without restart. A/B run (seed 42, same bridge prompt): output\krea2_abtest\OLD_turbo_fp8_s10_00001_.png vs NEW_realism_v1_s6_00001_.png. Agent read: both high quality; NEW = slightly more natural skin texture + more dynamic (non-symmetric) framing; OLD = more dramatic sky + centered composition. Single-seed — user verdict pending; suggested 2-3 more seeds before swapping the base.
 
 **obvpm-timeline smoke test** (D135): installed comfyui-obvpm-timeline 0.1.4 + updated comfyui-obvpm to v0.2.16 + ComfyUI-MiniMax-H3-Turbo + ComfyUI-Fizgig-H3-Tweaks; restarted 8188; all nodes registered (verified via Python JSON parse of /object_info — PowerShell ConvertFrom-Json crashes on the duplicate ClownOptions_Frame* keys). Adapted h3_obvpm_timeline_r2v_v0.1.4-007A.json → challenge\consistent-short\workflows\04_h3_timeline_r2v.json:
