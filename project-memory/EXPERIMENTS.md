@@ -4,6 +4,19 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — Krea2 A/B on REAL characters (char1/char2) — Krea2Realism_V1 WON, locked in
+- **Goal:** user re-anchored the character set (D137) and asked for the Krea2 A/B redone on the actual characters (not the old schoolboy) — same scene+seed on both bases.
+- **Config:** `data\krea2_abtest_char1.json` — char1 (rainy street, black tee) + char2 (boat, white tee), 1152×1792, euler/simple, cfg 1.0, denoise 1; OLD `krea2_turbo_fp8_scaled` 10 steps vs NEW `Krea2Realism_V1` 6 steps; same seed per character (42/77). Job `30869cc1`.
+- **Result:** NEW base rendered both characters closer to the 10/08 face refs (younger, clean-shaven, natural skin); OLD turbo drifted toward bearded/older faces. **User verdict: "realism output is better, let's lock in."**
+- **Action taken:** `Krea2Realism_V1.safetensors` locked in as the Krea2 base in app workflows `01_character_sheet` + `02_identity_refset` (backups `*_oldturbo.json`); KSampler steps 10→6 (euler/simple cfg 1 = author's setting); 01's extra `Krea2-realism-V2` LoRA zeroed (pure base = approved A/B look); prompts/negatives rewritten for char1/char2 (beard added to negatives).
+- **Conclusion:** Krea2Realism_V1 (6 steps, euler/simple, cfg 1) is the Krea2 base for all app work. D133 RESOLVED.
+
+## 2026-10-18 — char1/char2 character sheets + identity refsets on the new base
+- **Goal:** "we haven't created the worksheet [character sheet] for our characters yet" — generate sheets + identity refsets for the challenge app on the locked-in base.
+- **Config:** `01_character_sheet.json` (Krea2Realism_V1, 1152×2048, 6 steps, V2 LoRA @ 0) → `02_identity_refset.json` (Krea2Realism_V1 + identity-edit LoRA v1.2 @ ref_boost 4, 1920×1088, 6 steps). char1 = misty path sheet → stone-bridge refset; char2 = boat sheet → boat refset.
+- **Result:** all 4 clean — faces match the 10/08 refs well, costumes right (black tee / white tee), **identity held sheet→refset on the new base** (identity-edit LoRA is compatible with Krea2Realism_V1). Outputs: `output\char_sheet\char{1,2}_00001_.png`, `output\char_refset\char{1,2}_00001_.png`; refs copied to `input\char{1,2}_sheet.png`.
+- **Conclusion:** the 4 images are the app's canonical char1/char2 refs for the demo short.
+
 ## 2026-10-18 — Timeline workflow 04 headless smoke test: 3 failures → converter root cause (D136)
 **Goal:** run `challenge\consistent-short\workflows\04_h3_timeline_r2v.json` headless via MCP (5 s 1344×768 Jaisal bridge shot, refs `jaisal_1_longshot.png`/`jaisal_4_middle.png` via LoadImage nodes 2001/2002, 2-anchor prompt on subgraph node 763).
 
@@ -1006,4 +1019,4 @@ Action: `D:\models\Writing\probe-muse-ctx.bat` built — tries 260000→131072�
 - **Set/Get ordering fix:** published file's Unbundle 'h3_clip_vaes' (1379) has no input link → executes as a root BEFORE SetNode 'h3_clip_vaes' (1373) runs → runtime error "nothing is set as 'h3_clip_vaes'". Fix: ordering link 3002 (1373.0 → 1379.0). **Lesson: in the author's UI the wire exists; the published file's get-widget-only Unbundles/GetNodes are execution-order roots — add SetNode→Unbundle ordering links for headless runs.**
 - wired Jaisal bridge refs (native LoadImage nodes 2001/2002) into R2V node 797 ref_image_0/1; 2-anchor 16:9 prompt on subgraph node 763; ResolutionSelector 1086 → 16:9.
 - **Validates 0 errors** (26 expected warnings = author's default-muted optional groups). Run 1 failed (h3_clip_vaes) → fixed → run 2 62c47768 in flight.
-**Status:** smoke-test video pending.
+**Status (UPDATED 2026-10-18): smoke test PASSED** — run 5 (`b6774902`) rendered `output\clip_00001.mp4` (5.17 s, 1376×768 h264 24fps + AAC) + `clip_00001.mctx.safetensors` (14.7 MB) + `clip_00001.cond.safetensors` (98 MB) in ~200 s. Frames at 0.5/2.5/4.5 s consistent (schoolboy, rose shirt, black bag — note: OLD character, demo shot refs must be re-pointed to char1/char2). Notes: style drifted toward 3D-animated vs photoreal refs (vanilla engine preset `er_sde` 4-step re-sample); one tiny distant figure on the bridge at ~2.5 s.

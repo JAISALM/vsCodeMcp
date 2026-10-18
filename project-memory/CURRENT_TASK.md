@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Krea2 base LOCKED IN + character sheets DONE (2026-10-18)
+- **User verdict:** Krea2Realism_V1 wins the A/B → locked in as the Krea2 base (D133 resolved).
+- **Done:** app workflows `01_character_sheet`/`02_identity_refset` swapped to `Krea2Realism_V1` (6 steps, euler/simple, cfg 1; V2 LoRA zeroed in 01; old files kept as `*_oldturbo.json`).
+- **Character sheets + refsets generated (new base):** `output\char_sheet\char{1,2}_00001_.png` + `output\char_refset\char{1,2}_00001_.png` (char1 = misty path → bridge; char2 = boat). Identity held sheet→refset. Refs in `input\char{1,2}_sheet.png`. These 4 are the app's canonical char1/char2 refs.
+- **Remaining today:** user pick of canonical sheet (or keep 10/08 face set) · re-point 04 demo shot refs (2001/2002) from the old Jaisal bridge refs to `char_refset/char1` + a char1 second-frame ref · run the char1 bridge shot end-to-end on the timeline · episode1 age question (script says Jaisal 16).
+
 ## Character re-scope (2026-10-18, D137) — OLD schoolboy character DEPRECATED
 - **New characters (user-directed):** char1 (Jaisal) ~26, wavy black hair, slim, plain black t-shirt; char2 (Zidhan) ~26, top bun, slim, plain white t-shirt. Face refs: `output\krea2_char{1,2}_face_{a,b,c}_*.png` (2026-10-08; a = misty forest profile, b = boat golden hour, c = rainy street).
 - **Cleanup done:** AGENTS.md character section, PRODUCTION_CONSISTENCY.md costume lock, both challenge PIPELINE.md files, INTRO_VIDEO_PLAN.md, R2V guide examples — all updated. Violet-uniform/hat kid prompt verified already gone from all files. `prompts\jaisal_identity_instructions.txt` = OLD character (superseded).
