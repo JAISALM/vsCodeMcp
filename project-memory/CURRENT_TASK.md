@@ -171,3 +171,28 @@ model (Qwen) updates memory + commits afterwards.
 - `episode1\first_script.md` + `episode1\episode1_structure_prompt.txt` — earlier outline + the Gemma structure prompt (@8106)
 - `episode1\workflows\` — reusable Episode 1 workflow JSONs (see its README)
 - `docs\` — pipeline guides; `utilities\commit_md.ps1` — daily .md safety-commit (D131)
+
+## Character pipeline prep (2026-10-18 20:2x IST) — PACKS DONE, MODELS DOWNLOADING
+- **User GO for packs + downloads** ("lets proceed with other packs installation ... download items parallely").
+- **Packs:** toobusy **0.5.6 INSTALLED** via terminal `python_embeded\python.exe -m comfy_cli
+  --workspace "E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI" node install toobusy` (MCP
+  `install_node` targets WRONG default workspace `C:\Users\user\Documents\comfy\ComfyUI` — always
+  use terminal + `--workspace` for node installs). pysssss = **ComfyUI-Custom-Scripts ALREADY
+  PRESENT** (repo = `pythongosssss/ComfyUI-Custom-Scripts`; `pythonguru/comfyui-custom-nodes` 404s).
+  **Both P3 deps ready.**
+- **Model downloads RUNNING (job pwsh-175, `utilities\download_models_parallel.py`, ~29GB parallel):**
+  P3 sheet: `models\vae\minimax_h3_t1_image_vae_step1597.safetensors` (5GB) +
+  `models\text_encoders\gemma4_e4b_it_fp8_scaled.safetensors` (8.6GB).
+  FLUX.2-klein DATASET workflow: `models\diffusion_models\flux-2-klein-base-4b.safetensors`
+  (7.4GB) + `models\text_encoders\qwen_3_4b.safetensors` (7.7GB) + `models\vae\flux2-vae.safetensors`
+  (0.3GB) — all from open repo `Comfy-Org/vae-text-encorder-for-flux-klein-4b/split_files/`.
+  **If any 401 → user HF token needed.**
+- **User's flux klein workflow = the installed `one-node-flux-2-klein` one-node** (FRONTEND-DRIVEN —
+  run from UI, not MCP). User said "i have one flux klein workflow which i remember you already have
+  logged" — logged investigation exists (EXPERIMENTS 2026-08-26: node + missing models); the
+  workflow FILE itself not in memory → **USER WILL PROVIDE IT**.
+- **CONCRETE PLAN (presented to user):** (1) char sheet P3 (2BZ H3 2-stage) from the 2 HD faces →
+  user-approved sheet; (2) LoRA DATASET via FLUX.2-klein one-node (EDIT mode: HD face ref →
+  15-25 scene/angle/lighting variations per character, curated); (3) train character LoRA
+  (trainer availability = next gap to audit); (4) wire char LoRA into 01 t2i recipe → face-locked
+  everywhere (replaces identity-edit machinery).
