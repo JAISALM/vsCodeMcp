@@ -128,6 +128,22 @@
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
 
+## D141 — CHARACTER PIPELINE PIVOT: identity-edit DROPPED for char-refs (2026-10-18, user call)
+- **User:** identity-edit outputs "pretty much off" (waxy/long faces) — "let's get rid of that and get a normal picture";
+  frustration that simple items are tiring "because we don't have a proven workflow/pipeline yet".
+- **Decision:** NO more identity-edit for character refs/sheets. The **t2i path is the proven one**
+  (v6 sheets = pure t2i, user-approved). New pipeline:
+  1. **Normal t2i pictures** (01, v6 recipe: Krea2Realism_V1 + V2 LoRA @1.0, kr2realism trigger, 8 steps,
+     2MP, explicit seeds, clean neutral bg, "NOT elongated", warm-skin positive, D140 negative rules).
+  2. **Character sheet** (H3 2BZ 2-stage, P3 route — see D138/CHARACTER_SHEET.md) from the approved t2i face.
+  3. **LoRA training dataset** — the consistent set (sheets + t2i pics).
+  4. **Train the character LoRA** — the LoRA itself becomes the face-lock for all future refs/sheets/frames.
+     No identity-edit machinery.
+- **Status:** Active. 02 identity-edit stays available ONLY for scene edits the user explicitly asks for,
+  with the D140 recipe.
+- **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
+  natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
+
 ## D140 — 02 identity-edit scene-ref recipe locked (2026-10-18, A/B-proven)
 - **Problem:** bench-pair faces "wood/waxy, no skin tone" (same as v3/v5). Root cause: ref_boost
   4.0 clones the REF's face RENDERING (the sheet's flat even-lit pale face) into the scene — the

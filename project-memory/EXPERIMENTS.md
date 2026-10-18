@@ -4,6 +4,22 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 19:5x — refset_v7 NORMAL t2i character pics (no identity edit — D141 pivot)
+- **Trigger:** user: identity-edit outputs "pretty much off" — drop identity edit, get NORMAL pictures,
+  then character sheet, then LoRA training dataset.
+- **Config:** 01 t2i (Krea2Realism_V1 + Krea2-realism-V2 @1.0, qwen3vl_4b_fp8_scaled krea2,
+  qwen_image_vae, 8 steps euler/simple cfg 1, 2MP 16:9, kr2realism trigger, clean neutral bg,
+  "NOT elongated", warm-skin positive; 01's stock negative kept).
+- **Outputs (pure t2i, zero identity edit):**
+  - `refset_v7\jaisal_t2i_base_00001` (seed 42) — wavy black hair ✓, thin patchy beard ✓, black tee +
+    dark trousers ✓, slim ✓, clean cream backdrop ✓, natural warm skin ✓, relaxed half-smile ✓.
+  - `refset_v7\zidane_t2i_base_00001` (seed 77) — halal short cut (short sides, no waves) ✓, thin
+    patchy beard ✓, white tee + dark trousers ✓, athletic build ✓, clean backdrop ✓, natural skin ✓.
+- **Note:** these are NEW t2i faces (not the v6-approved faces) — in the D141 pipeline these t2i
+  faces BECOME the character anchor if the user approves; the character LoRA (step 4) is what
+  makes the face consistent everywhere afterwards.
+- **Status:** AWAITING USER VERDICT on both faces → then H3 character sheet (P3) → LoRA dataset.
+
 ## 2026-10-18 19:4x — refset_v7 sheet-bg character refs — clean neutral background via two-stage
 - **Trigger:** user: faces "still not convincing", Jaisal "long face", wants "proper background… helpful for character reference sheet".
 - **Why single-image mode FAILED at background change (refset_v7\jaisal_sheet):** the REF's scene is

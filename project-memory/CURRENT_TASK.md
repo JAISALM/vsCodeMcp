@@ -44,6 +44,14 @@ model (Qwen) updates memory + commits afterwards.
   char1_sheet person, boost 2.5) → **`refset_v7\jaisal_face_lock_00001` = current best Jaisal
   char-ref** (v6 identity ✓ clean background ✓ not-elongated ✓ natural skin ✓).
   **Zidane same pipeline PENDING (GO).** 02 left in two-image Jaisal face-lock state.
+- **⚠ PIPELINE PIVOT (user, 19:5x IST — D141):** identity-edit outputs "pretty much off" —
+  **identity-edit DROPPED for char-refs**. New pipeline: normal t2i pics → H3 character sheet
+  (P3) → LoRA training dataset → **train character LoRA** (the LoRA is the face-lock; no more
+  identity-edit machinery). **Normal t2i pics DONE** (01, no identity edit):
+  `refset_v7\jaisal_t2i_base_00001` (seed 42, wavy ✓ black tee ✓ clean bg ✓ natural face) +
+  `refset_v7\zidane_t2i_base_00001` (seed 77, halal cut ✓ white tee ✓ clean bg ✓ natural face).
+  AWAITING USER VERDICT on these faces → then character sheet (P3 prep needs GO: 2 model
+  downloads + toobusy + pysssss packs) → LoRA dataset.
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).
