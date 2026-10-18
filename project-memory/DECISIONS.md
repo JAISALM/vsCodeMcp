@@ -252,6 +252,23 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D147 — krea2edit N² attention-bias ceiling + face bases are t2i-only (2026-10-19)
+- **Hard limit discovered (user's 10a v1 OOM):** `comfyui-krea2edit._ref_attn_bias` allocates
+  `torch.zeros(1, 1, L, L)` over the combined target+ref sequence — **O(N²) VRAM**. 16MP
+  output + 2 full-size refs → L ≈ 136k → a **72.92 GiB** single tensor → OOM on a 32GB 5090
+  (only 11 GB free at the step). Author's own note in 02: "1MP is the sweet spot".
+- **Rule:** krea2edit (identity-edit) runs stay at **≤ ~2MP total** (target+refs). For bigger
+  outputs use plain t2i (no ref attention → sdpa/flash, no N² allocation) + pick-from-seeds.
+- **Face/character bases = FRESH T2I only** (extends D141): identity-edit is a LOCKING tool —
+  every i2i pass degrades quality; it must not CREATE a face. Proven creation recipe
+  (`krea2_t2i_char1_pe3.json`): author character prefix verbatim + scene clause, 896×1120
+  1MP 4:5 latent, 3 KSampler seeds per queue, author's anti-studio negative, then 4x upscale
+  (`03_hd_upscale.json`). **10a v2 = exactly this** (frontal clause replaces scene clause;
+  3 candidates `FACEFRONTAL_JAISAL_a/_b/_c`; TextGenerate/PE nodes dropped — Qwen stopped —
+  full prompt straight into CLIPTextEncode).
+- **Status:** Active constraint. Any future identity-edit build: check target MP × ref count
+  against the ~2MP ceiling BEFORE queuing.
+
 ## D140 — 02 identity-edit scene-ref recipe locked (2026-10-18, A/B-proven)
 - **Problem:** bench-pair faces "wood/waxy, no skin tone" (same as v3/v5). Root cause: ref_boost
   4.0 clones the REF's face RENDERING (the sheet's flat even-lit pale face) into the scene — the

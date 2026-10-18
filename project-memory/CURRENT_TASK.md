@@ -441,15 +441,27 @@ model (Qwen) updates memory + commits afterwards.
   drifted eyes; Krea2's dull eyes are model-specific, not ref-related. **ANSWER: yes — new
   frontal base recommended (also protects the future Klein dataset from learning Jaisal as a
   3/4 character).**
-- **BUILT `10a_frontal_base_jaisal.json`** (builder `make_frontal_base_jaisal.py`, validates
-  0/0, UI + project): 02-identity-edit with 72 = 113 = `jaisal_portrait_HD.png` (double
-  identity anchor), 84 = frontal-face instruction (both eyes open/symmetric, dead-center,
-  neutral, black t-shirt, 85mm), 85 negative + asymmetric-eyes terms, 83 = 9:16 (Portrait
-  Widescreen) @ 16 MP → ~3072×5461, 53 seed → randomize (queue 3-4, keep best), 29 →
-  `charsheet/FACEFRONTAL_JAISAL`. ref_boost 2.5 kept moderate so the model can re-pose
-  3/4 → frontal. NOT run — user runs it. Winner becomes the new canonical face (rename old
-  to `jaisal_portrait_HD_34view.png`); then re-run the winning sheet route(s) + same for
-  Zidane.
+- **10a v1 (identity-edit @16MP) OOM'd on user's run (02:26 IST):** krea2edit
+  `_ref_attn_bias` allocates an N² attention-bias matrix (target+2-ref sequence ~136k
+  tokens → `torch.zeros(1,1,L,L)` = **72.92 GiB**) — impossible on 32GB. Author's own
+  note in 02: "1MP is the sweet spot". ALSO user correctly objected that identity-edit
+  (i2i) LOSES quality (it is a locking tool, not a face-creation tool).
+- **REBUILT 10a as v2 = FRESH T2I (builder `make_frontal_base_jaisal.py` rewritten,
+  validates 0/0, UI + project):** cloned `krea2_t2i_char1_pe3.json` (the PROVEN
+  approved-face recipe) and deleted the 3 TextGenerate nodes (Qwen stopped) → full prompt
+  straight into CLIPTE 300/313/318 (widget-driven, text links cleared). Prompt = author's
+  verbatim character prefix (Malayali man, round face, medium wavy hair down, sparse
+  patchy beard, lean, dark t-shirt) + FRONTAL clause (dead-center, both eyes fully open
+  and symmetric, NO side angle/profile/3-4, 85mm face-focus) + author's tail (candid
+  phone-snapshot look). Author's proven anti-studio negative VERBATIM (includes bad-eyes
+  terms). 3 parallel branches, KSampler seeds 42/43/44 randomize → **3 candidates in ONE
+  queue**. Latent 82 = [896, 1120, 1] (1MP 4:5 — the exact proven face latent; approved
+  faces were made here then 4x-upscaled). LoRA chain Krea2-realism-V2 @1.0 →
+  famegrid_spicy @0.7 untouched. Save prefixes `FACEFRONTAL_JAISAL_a/_b/_c`.
+  **PIPELINE: queue 10a once → pick best frontal (identity match, symmetric eyes) →
+  run it through `03_hd_upscale.json` (proven 4x) → new `jaisal_portrait_HD.png`
+  (rename old to `jaisal_portrait_HD_34view.png`) → re-run sheet routes with the new
+  anchor → same flow for Zidane.**
 - **09j FIXED (pending user restart):** installed `llama-cpp-python 0.4.3+cu130` (JamePeng
   fork, cp313 win_amd64 wheel, `data\llama_cpp_python-0.4.3+cu130...whl`) into the embedded
   python (3.13.12) — matches ComfyUI's torch cu130. Verified:
@@ -459,6 +471,7 @@ model (Qwen) updates memory + commits afterwards.
   pillow 13 (rembg requires <13) → when ComfyUI is next stopped:
   `python_embeded\python.exe -m pip install "numpy<2.3" "pillow<13"` (docs §5). User must
   RESTART ComfyUI once before running 09j (the failed run may have cached the backend error).
-- **NEXT:** user runs 10a (3-4 seeds) → pick best frontal face → swap canonical refs →
-  re-run 05d/05e/08j with the new face → user picks winning route → flip everything to
-  Zidane (builders + 10a zidane variant) → Klein dataset → LoRA.
+- **NEXT:** user queues 10a v2 once (3 candidates) → pick best frontal → 03_hd_upscale
+  4x → swap canonical refs (keep old as `_34view`) → re-run 05d/05e/08j (+09j after
+  restart for llama_cpp) with the new face → user picks winning route → flip everything
+  to Zidane (builders + 10a zidane variant) → Klein dataset → LoRA.
