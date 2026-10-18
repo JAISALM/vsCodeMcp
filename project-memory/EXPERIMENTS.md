@@ -4,6 +4,26 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 19:1x — refset_v6 bench pair — identity refset from the LOCKED v6 sheets
+- **Goal:** identity refset (character-in-scene refs for the consistent short) from the locked v6
+  sheets (D138). 02 re-pointed to the v6 sheets — it was still on the old 10-08 anchors
+  (`zidane_ref.png` / `ref_person.png`).
+- **Config (02 single-image mode, 113/92 bypassed):** UNET `Krea2Realism_V1` + V2 LoRA @1.0
+  (node 97), `qwen3vl_4b_fp8_scaled` (krea2 CLIP), `qwen_image_vae`; identity-edit v1.2 LoRA
+  `ref_boost` 4.0 + `g768` (nodes 79/85); KSampler **10 steps euler/simple cfg 1** (node 53);
+  2MP 16:9 (node 83); anti-AI negative (node 85).
+- **Runs:** A = `char2_sheet.png` (v6 Zidane) → `output\refset_v6\zidane_bench_00001_.png`
+  (seed 77 fixed); B = `char1_sheet.png` (v6 Jaisal) → `output\refset_v6\jaisal_bench_00001_.png`
+  (seed 42 fixed). Both ~1928×1088.
+- **Result:** A (Zidane bench) = halal cut ✓ no waves ✓, white tee + dark trousers ✓, thin patchy
+  beard ✓, athletic build ✓, half-smile ✓, single character ✓, clean daylight. B (Jaisal bench) =
+  medium wavy hair ✓, slim ✓, black tee + dark trousers ✓, patchy beard ✓; he sits at the edge of
+  the bench (not centered on it) and reads neutral rather than half-smile.
+- **Conclusion:** identity holds from the v6 sheets; the bench pair is a consistent same-location
+  duo. 02 now permanently points at the v6 sheets (Run-B state: char1/Jaisal).
+- **Next:** user verdict on the pair → re-point 04 demo shot refs → H3 character-sheet route
+  (P3 recommended in CHARACTER_SHEET.md).
+
 ## 2026-10-18 — v5/v6 V2-LoRA + kr2realism trigger + clean-weather sheets — the civitai recipe
 - **Trigger:** user: v4/sweep faces "wood or wall, no emotion"; **Zidane hair = short halal cut, no waves** (final spec); "texture/realism missing… compare with what others on the internet are producing" (civitai V2-LoRA examples, `civitai.red/images/135654365`); **base checkpoint is majorly NSFW** → every prompt must name full clothing; "try the v2 lora version now".
 - **civitai V2-LoRA recipe extracted:** prompts start with the **`kr2realism` trigger tag**, natural casual scenes, explicit clothing.

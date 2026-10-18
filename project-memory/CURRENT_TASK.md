@@ -20,11 +20,17 @@ model (Qwen) updates memory + commits afterwards.
 
 ## Resume plan (user-directed 19:01 IST — TOP)
 - User: "start where we left off, with the krea2 character, for jaisal and zidane, and then the character sheet."
-- **Order:** (1) Krea2 identity work for Jaisal + Zidane from the LOCKED v6 sheets (02 identity refset:
-  char1 = bridge scene, char2 = boat scene — 10 steps euler/simple cfg 1, ref_boost 4.0, g768, 2MP),
-  (2) then the new H3 character-sheet route (ranked P3 → P4 → P1 in CHARACTER_SHEET.md — route pick still
-  needs explicit user confirmation; P3 recommended: 2 HF model downloads + toobusy + pysssss packs).
-- ComfyUI server bring-up needed first (crashed ~17:12). User's "start where we left off" = go-ahead.
+- **Order:** (1) Krea2 identity work for Jaisal + Zidane from the LOCKED v6 sheets (02 identity refset —
+  10 steps euler/simple cfg 1, ref_boost 4.0, g768, 2MP), (2) then the new H3 character-sheet route
+  (ranked P3 → P4 → P1 in CHARACTER_SHEET.md — route pick still needs explicit user confirmation;
+  P3 recommended: 2 HF model downloads + toobusy + pysssss packs).
+- **Step 1 DONE 19:15 IST:** server found UP (pid 26288 — user restarted it). 02 re-pointed from old
+  10-08 anchors to the v6 sheets; bench pair generated: `output\refset_v6\zidane_bench_00001_.png`
+  (seed 77, halal cut ✓ white tee ✓ half-smile ✓) + `output\refset_v6\jaisal_bench_00001_.png`
+  (seed 42, wavy ✓ black tee ✓ — sits at bench edge, neutral expression). 02 file left in Run-B state
+  (char1/Jaisal bench). AWAITING USER VERDICT on the pair (re-roll options: Jaisal centered-on-bench /
+  more expression; or new scenes).
+- **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).
 
