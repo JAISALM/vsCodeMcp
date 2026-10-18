@@ -403,6 +403,27 @@ model (Qwen) updates memory + commits afterwards.
   updated + revalidated 0/0. LESSON: when adapting an author workflow, copy their PROMPT
   TECHNIQUE (layout, tags, structure), only inject our character identity + kit spec into the
   author's own template fields.
-- **NEXT:** user runs 05d/05e/08j (09j after restart + PE model lands) → compare Jaisal
-  sheets per route → user picks winner → flip to Zidane (same builders — now with the
-  author-technique prompts) → Klein dataset → LoRA.
+- **09j FULLY UNBLOCKED (01:30 IST): all 4 Jaisal workflows now runnable, no pending gates.**
+  1) PE-I2I GGUF download finished (job pwsh-60): `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf` (5.24GB) +
+  `mmproj-bf16.gguf` (0.86GB). CRITICAL GOTCHA: download landed in `ComfyUI\LLM\GGUF\` but the
+  pack scans `models_dir/LLM/GGUF` = **`ComfyUI\models\LLM\GGUF\`** (`_resolve_base_dir`:
+  relative base_dir joins `folder_paths.models_dir`) → copied both files there → after restart
+  `[local] Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf` IS in the model_name combo (97→98 options).
+  2) SERVER RESTARTS DONE: killed old unmanaged pid 2608 → `launch_comfyui(extra_args
+  ["--reserve-vram","4","--enable-manager"])` pid 9008 → then `restart_comfyui` pid 22080.
+  Server is NOW COMFY-CLI-MANAGED (restart_comfyui works — future restarts easy).
+  ThinkingLLM nodes verified loaded (all 4 variants).
+  3) NODE 549 WIDGET FIX (`fix_09j_thinkingllm_widgets.py`): author's subgraph-internal
+  ThinkingLLM node carried a 34-value widgets_values from a DIFFERENT pack version; installed
+  v2.5.8 has 29 widgets (object_info input_order). Rebuilt positional array = author values where
+  1:1 mappable (model '[local] PE-I2I', device auto, preset '💬 Custom prompt + image (no
+  preset)', max_tokens 32768, temperature 1, top_p 0.9 [link 949 → 0.95 at runtime], rep 1,
+  frame_count 10, ctx 32768, n_batch 512, gpu_layers 26, image_max_tokens 4096, top_k 20,
+  pool 4194304, keep_loaded False, seed 1, 'fixed', enable_thinking True,
+  auto_finalization_retry True, hf_token '') + installed defaults for version-artifact slots
+  (legacy_unload False, n_ubatch 512, n_threads 0, n_threads_batch 0, flash_attn True,
+  offload_kqv True, ctx_checkpoints 0, stream False). Dropped any widgets_values_named.
+  → **09j validates 0 errors / 0 warnings.**
+- **NEXT:** user runs all 4 (05d/05e/08j/09j) → compare Jaisal sheets per route → user picks
+  winner → flip to Zidane (same builders — now with the author-technique prompts) → Klein
+  dataset → LoRA.
