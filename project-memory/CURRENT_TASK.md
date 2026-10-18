@@ -18,6 +18,11 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## v6 clean-weather V2-LoRA sheets (2026-10-18) — PENDING USER VERDICT (top)
+- User: v4/sweep "wood or wall, no emotion"; **Zidane = short halal cut (final)**; texture/realism gap vs civitai V2-LoRA; **base is NSFW → always explicit clothing**; sheets = normal weather, no rain/boat.
+- **v6 = 01 t2i, V2 LoRA @1.0, `kr2realism` trigger, 8 steps, portrait** — `char_v6\jaisal_v2lora_00001`, `char_v6\zidane_v2lora_00001` — best sheets so far (weather clean, beards visible, halal cut, photographic texture).
+- **Next after verdict:** lock sheets → identity refset from CLEAN sheets (no rain carry-over) → 04 demo → demo short.
+
 ## v4 emotional frames (2026-10-18) — pending user verdict
 - User: v3/sweep faces "wood or wall, no human emotion"; **Zidane hair re-specified: short halal cut, no waves** (military/bun both deprecated); Jaisal = medium wavy (kept).
 - v4 = candid emotional moments in prompts. **Zidane `char_v4\zidane_00001` = halal cut ✓ + half-smile ✓ (best so far)**. Jaisal `char_v4\jaisal_00001` = pensive, still the neutral one — may push expression harder.

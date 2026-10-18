@@ -4,6 +4,14 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — v5/v6 V2-LoRA + kr2realism trigger + clean-weather sheets — the civitai recipe
+- **Trigger:** user: v4/sweep faces "wood or wall, no emotion"; **Zidane hair = short halal cut, no waves** (final spec); "texture/realism missing… compare with what others on the internet are producing" (civitai V2-LoRA examples, `civitai.red/images/135654365`); **base checkpoint is majorly NSFW** → every prompt must name full clothing; "try the v2 lora version now".
+- **civitai V2-LoRA recipe extracted:** prompts start with the **`kr2realism` trigger tag**, natural casual scenes, explicit clothing.
+- **v5 (02 identity + V2 LoRA @1.0, "no rain" in prompt):** faces/hair correct (Zidane halal cut ✓) BUT **rain still rendered — D025 carry-over: the user-picked refs are rainy-street images, so the rain comes from the REF, not the instruction.**
+- **v6 (01 t2i, no ref, V2 LoRA @1.0, kr2realism, 8 steps, portrait 1152×2048):** `char_v6\jaisal_v2lora_00001` + `char_v6\zidane_v2lora_00001` — normal clear weather ✓, no boat ✓, thin beards visible ✓, Zidane halal cut + half-smile ✓, Jaisal wavy + calm ✓, photographic texture (no more wooden).
+- **LESSON:** (1) `kr2realism` trigger + V2 LoRA = the civitai-grade realism route on this base. (2) Identity-edit output weather = the REF's weather (D025) — to control scene weather, generate the base sheet t2i first, then use the CLEAN sheet as the identity ref. (3) NSFW base → clothing must always be explicit.
+- **Pending:** user verdict on v6 → lock as canonical sheets → identity refset from the clean sheets.
+
 ## 2026-10-18 — v4 emotional-moment prompts — faces come alive; Zidane halal cut ✓
 - **Trigger:** user: faces "look like someone did cloning from a wood or wall — no human emotion at all"; also **Zidane hair spec changed: no waves — "normal hair, short hairstyle, halal cut"** (short sides, natural short top); Jaisal keeps medium wavy.
 - **Fix:** neutral dead-on gazes read wooden → prompts rewritten as CANDID EMOTIONAL MOMENTS (the raw model comes alive with a moment, not a pose): Jaisal = "soft tired thoughtful expression, eyes a little distant as if about to say something, head turned slightly, not posing"; Zidane = "small easy half-smile, soft warm eyes, as if someone off camera just said something, head turned slightly, not posing" + "neat short halal-style haircut, short sides, natural short top, NO wavy hair".
