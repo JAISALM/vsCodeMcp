@@ -355,3 +355,37 @@ model (Qwen) updates memory + commits afterwards.
   GGUF node needs the llama_cpp vision wheel OR swap to the HF-weights
   `ThinkingLLM_QwenVL_Advanced` node variant) → test → USER PICKS ROUTE → Klein dataset →
   LoRA.
+- **WIDE VARIANT RESULTS (00:3x IST):** BOTH EXCELLENT — `H3WIDE_JAISAL_00001_.png` (first-ever
+  H3 Jaisal sheet! 3-view, identity held, crest + name correct, white boots, natural skin) +
+  `H3WIDE_ZIDANE_00001_.png` (same quality). Wide canvas = the fix for Jaisal's square-canvas
+  scene-prior hijacks.
+- **USER DIRECTIVE (00:55 IST): "create 3 workflows, 1 minimax, 1 krea2, 1 qwen 2.1, assign
+  jaisals image, READY NOT RUN — I will do it manually. Give me 3 names. If Jaisal's is good,
+  we try zidane's."** → DELIVERED (all in ComfyUI workflows tab + project copies, all validated):
+  1. `05d_charsheet_H3_wide_jaisal.json` — MiniMax H3 Fizgig (civitai/cgpixel23) wide sheet,
+     2 refs, vanilla 30-step. (Already test-ran successfully = H3WIDE_JAISAL above.)
+  2. `08j_KREA2_JAISAL_sheet.json` — Krea2 Identity Edit v1.2, node 72 =
+     `jaisal_portrait_HD.png` (identity), kit in the instruction text (new crest spec, no text),
+     ref_boost 2.5, 10 steps, 16:9 2MP. Builder: `make_3way_jaisal_sheets.py` +
+     `fix_08j_dangling.py` (dangling VAEEncode 92 removed).
+  3. `09j_QWEN21_JAISAL_sheet.json` — user's LLM-architect file adapted: 470 =
+     `jaisal_portrait_HD.png` (→ RTX-VSR resize → PE-LLM + Qwen anchor), 481 = "JAISAL",
+     subgraph internals 451/453 → on-disk `qwen_image_2.1_bf16` + `qwen3vl_8b_int8_convrot`,
+     61 → `charsheet/QWEN21_JAISAL`. **GATES: server restart (ThinkingLLM node) + PE-I2I GGUF
+     download (pwsh-60, ~5GB) into `ComfyUI\LLM\GGUF\`.**
+- **USER DIRECTIVE (01:10 IST): "MiniMax H3 Fizgig this is a workflow we have, set it up too"
+  → `minimaxh sheet patreon.json` in the user's folder = THE Fizgig one (FizgigH3StillDecode +
+  SLA-attention subgraph 325-329). DELIVERED: `05e_charsheet_H3_fizgig_jaisal.json`
+  (builder `make_h3_fizgig_jaisal.py`, validates 0/0): author's design kept (single ref =
+  `jaisal_portrait_HD.png` node 25; author's video-VAE; vanilla 25-step beta er_sde; author's
+  SLA subgraph untouched; 4096×1536) — SWAPS (author files not on disk): 71 UNET →
+  `minimax_h3_ref2va_pruned_int8_convrot`, 72 CLIPLoaderGGUF (author's Q2_K GGUF missing) →
+  CLIPLoader + `qwen3vl_32b_minimax_h3_nvfp4_awq` (proven), 68 → `charsheet/H3FIZ_JAISAL`,
+  358 `LoadImageListFromDir` DELETED (orphaned + class not installed). **HEADS-UP given: the
+  SLA stack = the thread's "screws up eyes" suspect.** KEY DISCOVERY: latest-tree
+  `extra_model_paths.yaml` (base_path `E:/ComfyUI_windows_portable/ComfyUI`) makes the main
+  tree's models visible to the latest server (video VAE + Qwen3VL-32B H3 GGUF CLIPs +
+  Singularity/fl2va/viggle UNET variants all usable).
+- **NEXT:** user runs 05d/05e/08j (09j after restart + PE model lands) → compare Jaisal
+  sheets per route → user picks winner → flip to Zidane (same builders, char=zidane) → Klein
+  dataset → LoRA.
