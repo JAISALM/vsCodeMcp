@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Jaisal/Zidane re-scope + V2-LoRA A/B (2026-10-18, user-directed — supersedes v3 face sheets)
+- **User rejected v2/v3 sheets** ("trash, unworthy"). Picked exact face anchors: Jaisal = `char1_NEW_realism_s6_00001` (A/B output), Zidane = `krea2_char1_face_c_00001`. Corrected specs: Jaisal slim + medium wavy hair + thin beard; **Zidane athletic/muscular (not chubby) + SHORT military cut (bun spec deprecated) + thin beard**. Prompt style = author's cinematic natural language (user pasted the author's car prompt).
+- **Done:** refs → `input\jaisal_ref.png`/`zidane_ref.png`; 02 gained V2-LoRA node 97 (pure vs +V2 @1.0); 4-way grid `output\char_ab\` (jaisal/zidane × pure/v2, author-style scenes: bridge / boat). Identity held both faces.
+- **Read:** Jaisal pure≈v2 (near-identical). Zidane: pure = short crop (≈ military cut ✓), v2 = wavy like ref. Thin beard faint.
+- **Pending user verdict:** variant per character + beard strength + Zidane build. Then lock refs → re-point 04 demo shot → demo short.
+
 ## Character sheets v3 — FACE-ONLY close-ups (2026-10-18, user-directed)
 - **User directive:** v2 scene sheets "look awful, something is off — don't put anything about the background in the prompt, we want clear face images FIRST." → sheet prompts rewritten as face-only close-ups, ZERO scene/background words (`char_sheet_v3.py`), per-character distinct faces, explicit seeds (headless seed lesson).
 - **Done:** `char_sheet\char1_00003_.png` (wavy shoulder hair, 5-o'clock shadow, narrow face, black tee) + `char_sheet\char2_00003_.png` (top bun, rounder face, thicker brows, white tee). Both clean plain-background close-ups, RAW skin quality, clearly different people. Copied to `input\char{1,2}_sheet.png` (overwriting v2 scene sheets).

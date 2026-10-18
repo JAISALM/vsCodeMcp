@@ -4,6 +4,12 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — Jaisal/Zidane identity-locked A/B: pure base vs +Krea2-realism-V2 LoRA (user's face picks)
+- **Goal:** user rejected v2/v3 sheets ("trash"), picked exact face anchors (Jaisal = `char1_NEW_realism_s6_00001`, Zidane = `char1_face_c_00001`), corrected specs (Jaisal slim + medium wavy + thin beard; Zidane athletic/muscular + short military cut + thin beard), asked to compare against the old "v2" setup (Krea2-realism-V2 LoRA @1.0), and to use the author's cinematic natural-language prompt style.
+- **Config:** 02 identity-edit with user refs as `input\jaisal_ref.png`/`zidane_ref.png` (identity LoRA @1.0, ref_boost 4.0, grounding 768, 2048×1152, 6 steps euler/simple cfg 1). New node 97 `Krea2-realism-V2.safetensors` inserted (55→97→71→79) — strength 0.0 = pure, 1.0 = V2. `setup_02_v2lora.py` + `set_02_ab.py <char> <pure|v2>`. Seeds 42/77.
+- **Result:** 4-way grid `output\char_ab\{jaisal,zidane}_{pure,v2}_00001_.png`. Identity held from both user-picked refs; characters look distinct. Jaisal pure≈v2 (face-locked, LoRA barely moves it). Zidane: **pure = short textured crop (matches user's "military cut")**, v2 = wavy medium (matches ref). Thin beard present but faint. Scenes OK (bridge / canal-boat golden hour, ref tone per D025).
+- **Pending:** user verdict on which variant per character + whether to strengthen the thin beard / push Zidane's build more muscular.
+
 ## 2026-10-18 — char sheets v2 (author's recipe + distinct faces) — faces FIXED, char2 scene drift
 - **Trigger:** user flagged (a) char1/char2 sheets looked like the SAME guy, (b) output not "ultra realistic" like the Reddit post's examples — "we are not following the instructions."
 - **Author's recipe (re-fetched the post via red.artemislena.eu — safereddit now Anubis-gated; author u/rynaleopard):** natural language, describe scene/lighting/clothing/expression; specific clothing; **2MP+ resolution** (trained on high-res only — 4K renders directly, 1MP shows noise); **euler + simple, 4–8 steps, 6 = sweet spot**; drop-in Krea2 checkpoint replacement. RawGirl lineage = "raw, unposed, zero-AI-gloss" → **candid unposed phrasing** matters.
