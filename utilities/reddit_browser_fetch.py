@@ -46,8 +46,18 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 
 def is_gated(html: str) -> bool:
+    # NOTE: a bare "recaptcha" substring is NOT a reliable gate signal — the
+    # standard Reddit page shell includes a recaptcha script tag even on fully
+    # rendered post pages (observed 2026-10-18: rendered 1 MB post DOM still
+    # contained 'recaptcha' at offset ~1598, while the post content was intact).
+    # The reliable signal is the challenge PAGE TITLE.
     head = html[:30000].lower()
-    return ("prove your humanity" in head) or ("recaptcha" in head)
+    if "reddit - prove your humanity" in head:
+        return True
+    if "prove your humanity" in head:
+        # Only treat as gated when no post content actually rendered.
+        return "shreddit-post" not in html
+    return False
 
 
 def main():
