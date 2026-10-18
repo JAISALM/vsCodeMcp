@@ -62,6 +62,15 @@ model (Qwen) updates memory + commits afterwards.
   download_reddit_images,expand_reddit_images}.py` (lightbox click = full-res image extraction).
   **AWAITING USER PICK: zidane_clean8 vs zidane_clean16 face** → then Jaisal same recipe (small
   patchy beard unchanged) → character sheet (P3).
+- **HD CLARITY pipeline (20:0x IST):** user: v7 clarity "too off — cant we generate HD?". Built
+  `03_hd_upscale.json` (LoadImage → UpscaleModelLoader `RealESRGAN_x4plus.pth` (63MB, from mirror
+  repo `schwgHao/RealESRGAN_x4plus` — HF now 401s the original, GATED) → ImageUpscaleWithModel
+  (input name `upscale_model`) → SaveImage). Ran: 01 portrait close-up 1152×2048 (seed 77, clean
+  recipe) → `refset_v7\zidane_portrait_00001` → 4x → **`refset_v7\zidane_portrait_HD_00001` =
+  4608×8192 37MP — photo-grade face (individual hairs, pores, no grain)**. Preview crops in
+  `data\reddit_krea2\imgs\` (zidane_portrait_HD_preview.jpg + zidane_HD_face_1600.jpg).
+  **AWAITING USER VERDICT** on this face → Jaisal same pipeline → character sheet (P3).
+  NOTE: HF gating may block the P3 model downloads → ask user for an HF token at P3 prep.
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).

@@ -4,6 +4,23 @@ Newest changes first.
 
 ---
 
+## 2026-10-18 — BUILT `03_hd_upscale.json` (VALIDATE CLEAN, 4 nodes) + Real-ESRGAN x4plus model — HD CHARACTER-REF PIPELINE (D142)
+
+**Purpose:** true-HD clarity for character t2i refs (user: "clarity too off — cant we generate HD?").
+**Location:** `challenge\consistent-short\workflows\03_hd_upscale.json` (UI format).
+**Structure:** LoadImage (1; file in `input/`) → UpscaleModelLoader (2; `RealESRGAN_x4plus.pth` in
+`models\upscale_models\`) → ImageUpscaleWithModel (3; input name is **`upscale_model`**, not `model`
+— the first version failed validation) → SaveImage (4; prefix `refset_v7/zidane_portrait_HD`).
+**Pipeline:** 01 t2i (D142 clean recipe, **portrait 1152×2048 head+shoulders close-up** — the face
+framing is the key lever) → copy output to `input/` (LoadImage rule) → run 03 → **4608×8192 (37MP)**.
+**Result:** `refset_v7\zidane_portrait_HD_00001` = photo-grade face at ~1:1 (individual eyebrow/beard
+hairs, pores, catchlight, no grain).
+**Model source:** `https://huggingface.co/schwgHao/RealESRGAN_x4plus/resolve/main/RealESRGAN_x4plus.pth`
+(63MB; HF now 401s the original `xinntao/Real-ESRGAN` repo — gated).
+**Next improvement:** Jaisal same pipeline; then feed the HD faces into the H3 character sheet (P3).
+
+---
+
 ## 2026-10-12 — BUILT `minimax_h3_boar_grave_talking_r2v.json` (VALIDATE CLEAN, 0 errors) + `H3_FaceRefine_boar_grave.json` (VALIDATE CLEAN, 0 errors/0 warnings) — boar-grave talking scene ready (D119/D120)
 
 **`minimax_h3_boar_grave_talking_r2v.json`** — the talking scene (char1 in the hole + char2 + dummy at the rim). Base = user's `minimax_h3_sam_r2v_2char_cinematic.json` (82 nodes). Edits: node 153 video = `boar_grave_talking_camref.mp4` (start_time 0); refs 137/143 = `boar_char1/char2_identity.png` (Krea2 face_00001 copies in `input/`), 142 = `boar_char1_pose_digging.png` + 139 = `boar_env_parambu.png` (pending Krea2 t2i); node 138 = `[video editing]` blue→char1 (rose-pink shirt, crouched digging) / red→char2 (white tee) + third plain man, parambu env, slow push-in, 2 timed shots, natural-only soundscape, NO MUSIC (D041); node 305 prefix `boar_grave`; models fixed per D120 (pruned int8 UNET, 4step 768p turbo LoRA, nvfp4_awq CLIP, root VAEs, SAM3 root ckpt — the template's `H3\`/`h3\`/`sam3\` subfolder names were stale after the models re-org). **Validates clean** (2 pre-existing pipeline warnings = ImageBlend type mismatch + VAEDecodeAudio unreachable, present in the user's original template too). **RUN (after screenplay, stop Qwen first):** Queue → `output\boar_grave_00001.mp4`.

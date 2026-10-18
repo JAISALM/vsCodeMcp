@@ -4,6 +4,28 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 20:0x — HD CLARITY pipeline: portrait close-up + 4x Real-ESRGAN (03_hd_upscale)
+- **Trigger:** user: "whatever under v7 is not up to the mark, clarity too off — cant we generate HD?"
+  Files ARE 2048×1152 (> full-HD) but the face gets only ~700px in the wide frame → soft at 100%.
+- **Model:** `RealESRGAN_x4plus.pth` (63MB) → `E:\comfyUi_latest\...\models\upscale_models\`.
+  **Source lesson:** HF now 401s `xinntao/Real-ESRGAN` (gated) — hf-mirror also 401; worked via
+  public mirror repo `https://huggingface.co/schwgHao/RealESRGAN_x4plus/resolve/main/RealESRGAN_x4plus.pth`.
+  **HF is gating models — the P3 sheet downloads (Mamad8/MiniMax-H3-Image-VAE, Comfy-Org/Gemma4) may
+  need an HF token → ASK USER for one when P3 prep starts.**
+- **Workflow:** `challenge\consistent-short\workflows\03_hd_upscale.json` (UI format): LoadImage
+  (input/ file) → UpscaleModelLoader(RealESRGAN_x4plus) → ImageUpscaleWithModel (input name is
+  `upscale_model`, NOT `model` — validate catches it) → SaveImage.
+- **Run:** 01 t2i (D142 clean recipe, seed 77, **portrait 1152×2048 close-up** — head+shoulders,
+  face ≈ 50% of frame) → `refset_v7\zidane_portrait_00001` → copy to input/ → 03 4x upscale →
+  `refset_v7\zidane_portrait_HD` (4608×8192, 37MP — true HD+).
+- **RESULT:** `zidane_portrait_HD_00001` = **4608×8192 (37MP, 36MB PNG)** — face crop at ~1:1 detail
+  shows individual eyebrow/beard hairs, natural pores, warm flush, eye catchlight = **photo-grade
+  clarity, grain GONE**. Portrait close-up framing (face ≈ 50% of frame) was the key lever — more
+  pixels ON THE FACE, not just a bigger canvas.
+- **LOCKED HD CHARACTER REF PIPELINE:** 01 t2i (D142 clean recipe, **portrait 1152×2048 close-up,
+  head+shoulders**) → copy to input/ → 03_hd_upscale (Real-ESRGAN x4plus 4x) → 4608×8192 HD.
+- **Status:** DONE — awaiting user verdict on the face; then Jaisal same pipeline.
+
 ## 2026-10-18 19:5x — Reddit Krea2 research: skin-detail quality + settings (user-shared threads)
 - **Trigger:** user: "skin is kinda off, like grains, do we need more clarity? check the web" + 2 threads:
   K1 = u/rynaleopard "Krea2-realism-V2 is finally here" (civitai red 2728365, HF RudySen/Krea2-realism-V2),
