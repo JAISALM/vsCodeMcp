@@ -41,6 +41,7 @@ consistent character").
 
 | Route | Result |
 |---|---|
+| **`utilities\reddit_browser_fetch.py` (REAL local Chromium, persistent profile)** | **PROVEN pipeline** — renders full `shreddit` DOM (1 MB). Reddit currently at reCAPTCHA tier (IP escalation); non-gated sites (HF) extract clean. See below. |
 | MCP `get-single-web-page-content` → reddit.com | 403 "Prove your humanity" (JS challenge) |
 | harness `web_fetch` → reddit `.json` | 403 |
 | `utilities\reddit_fetch.py` (session-cookie helper) | 403 ×3 — the `REDDIT_SESSION_COOKIE` env (from 2026-10-11) is stale |
@@ -102,6 +103,16 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   2. **VS Code integrated browser as the reader** (proven working right now) — open the
      URL, `readPage`, paste the extraction. Zero engineering, no session.
   3. **Logged-in browser one-liner** (challenge never applies to a session).
+
+## DSH capability fix (2026-10-18 18:15 IST) — real-browser fetch helper
+
+**Built & proven:** `d:\models\vsCodeMcp\utilities\reddit_browser_fetch.py`
+- Drives the **local Playwright Chromium** (`C:\Users\user\AppData\Local\ms-playwright\chromium-1234\chrome-win64\chrome.exe`) with a **persistent profile** (`C:\Users\user\.dsh\fetch_creds\browser_profile`) — the exact mechanism VS Code's integrated browser uses.
+- Run with **system Python** (`C:\Program Files\Python310\python.exe` — has `playwright` installed; the embedded ComfyUI python does NOT, and pip there is network-stuck).
+- Usage: `python "d:\models\vsCodeMcp\utilities\reddit_browser_fetch.py" <url> [--text] [--out file.html] [--headed]`
+- **Proven:** rendered 1 MB of real `shreddit-post` DOM from P1; extracted full HF repo page text clean.
+- **Current state:** Reddit is at the **reCAPTCHA tier** from this IP (afternoon burst). The helper correctly detects and reports the tier (`jsc_token` = arithmetic/solvable, `recaptcha` = escalated). When the tier drops back to arithmetic (hours), the same helper passes. `--headed` is the most reliable mode.
+- **This is the answer to "make DSH capable":** DSH's web profile is a text-only HTTP fetcher (curl) — it cannot execute JS, so it can never pass the challenge. The fix is this helper: DSH (or the user) runs it via the shell tool instead of its built-in web fetch for Reddit. No DSH config change needed — it's a shell-callable script.
 
 ## Per-post explanations (inferred from matching local workflow + README + titles — post bodies pending)
 

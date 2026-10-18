@@ -104,6 +104,13 @@ with the embedded Python:
 | `convert_api_to_ui.py` | **Converts API-format workflows to UI format** (the universal format that renders in the UI AND works in MCP). Backs up each original as `<name>.json.api.bak` before overwriting. Uses `object_info_cache.json` schemas for input/output types and widget ordering. Emits both `widgets_values` (positional) and `widgets_values_named` (dict). |
 | `object_info_cache.json` | Cached `/object_info` from the live server (node schemas: input types, output types, `input_order`). Refresh by re-fetching if new node packs are added. |
 
+### Web fetching (2026-10-18)
+
+| Script | What it does |
+|---|---|
+| `reddit_fetch.py` | Text-only (curl) Reddit fetcher. Auto-solves the **arithmetic** JS challenge (`jsc_token`, solution = input+input) and persists cookies to `~\.dsh\fetch_creds\reddit_cookies.txt`. Needs `REDDIT_SESSION_COOKIE` env. **Cannot** pass the reCAPTCHA tier or any JS-only gate. |
+| `reddit_browser_fetch.py` | **REAL local Chromium** (Playwright, `C:\Users\user\AppData\Local\ms-playwright\chromium-1234`) with a **persistent profile** (`~\.dsh\fetch_creds\browser_profile`) — the exact mechanism VS Code's integrated browser uses. Executes the challenge JS, renders the full `shreddit` SPA. Run with **system Python** (`C:\Program Files\Python310\python.exe` — has `playwright`; the embedded ComfyUI python does NOT). Usage: `python "d:\models\vsCodeMcp\utilities\reddit_browser_fetch.py" <url> [--text] [--out file.html] [--headed]`. Proven 2026-10-18: rendered 1 MB P1 DOM; extracted HF repo text clean. Reports the gate tier it hits (`arithmetic-jsc` vs `reCAPTCHA`). |
+
 ### Output artifacts
 
 | File | What it is |
