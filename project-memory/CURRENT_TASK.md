@@ -22,10 +22,30 @@ model (Qwen) updates memory + commits afterwards.
 - User re-shared 5 reddit posts (P1 1wxixua, P2 1vov6jb, P3 1w2dujd, P4 1wsb4h3, P5 1wsee1y) + HF `PoopMan333/H3_Character_Sheet_Generator` + local folder `E:\minimax_workflow\character_sheet\` (4 workflows placed by user).
 - **Reference file created: `project-memory\CHARACTER_SHEET.md`** — full source list, per-post explanations, local-workflow↔post mapping, model/pack gap analysis, fetch-route status.
 - **Done:** HF README fetched (complete); all 4 local workflows node-analyzed; model + pack availability checked.
-- **Reddit post bodies: ALL routes blocked** (reddit direct/helper 403 — `REDDIT_SESSION_COOKIE` stale from 10-11; mirrors dead/Anubis-gated; r.jina.ai unblocks **13:04 UTC = 18:34 IST** 10-18). Clean fix = user refreshes the cookie (F12 → reddit_session).
-- **Key findings:** P1 ≈ PoopMan333 360°-orbit H3 sheet (best model match: ref2va + VAEs + turbo4step all present; gaps = int8_convrot 32B CLIP, v4 turbo LoRA); P2 ≈ `LocationOrbitSheetH3.json` (3 models + OrbitSheets pack missing); P3 ≈ `2BZ_H3_character_sheet_2stage_v1_EN.json` (toobusy + pysssss packs missing); P4 ≈ `minimaxh sheet patreon.json` (Fizgig stills + fused ref-delta turbo8 — 2 models missing); P5 ≈ `LEEBLAAB-QwenImage21-Character-SHEET.json` (models present; bf16 run CRASHED the server ~17:12; multi-angle format REJECTED by user).
+- **MILESTONE (18:25–18:35 IST): ALL 5 post bodies FETCHED — from DSH itself**, no session, via new
+  helper `utilities\reddit_browser_fetch.py` (local Playwright Chromium, persistent profile,
+  headless). DOMs + extracted text: `data\char_sheet_reddit\P{1..5}_dsh.html` / `P*_text.txt`
+  (extractor: `utilities\extract_reddit_text.py`). Earlier "reCAPTCHA tier" verdict was a
+  **false positive** (standard shell recaptcha script tag) — fixed in the helper (title-based
+  `is_gated`). Root cause of the original failure: DSH's built-in web fetch is text-only
+  (no JS) vs Reddit's JS challenge — browser rendering is the difference (VS Code's integrated
+  browser proved it 17:55; DSH now has the same capability via the helper).
+- **Key findings (ACTUAL post bodies, authors verified):** P1 = **u/cgpixel23** H3-as-IMAGE-GEN
+  sheet (8/25 steps, 4096×1536, "H3 Turbo Fused"; Drive WF + Civitai article 36126 + video) —
+  the PoopMan333 HF repo is a RELATED separate orbit approach, NOT P1. P2 = **u/lumos_ai
+  OrbitSheets** (github.com/lumosai8/ComfyUI-OrbitSheets, FREE; character template WITH VOICE
+  AUDIO + location template = our local file; Krea2 anchor + Krea2 Turbo model). P3 =
+  **u/inazma44** 2-stage (= our local 2BZ file, public on github.com/nicekriss/toobusy; setup:
+  ref2v int8 pruned + 4-step turbo @0.75 + T=1 image VAE + er_sde/sgm_uniform 8 steps; ~3.5
+  min on 3090 24 GB; known issues: props repeat, back hair flat, lying/sitting unreliable;
+  **all 6 model links extracted from note node 20** — gaps = 2 HF downloads + toobusy + pysssss).
+  P4 = **u/-Ellary-** Fizgig H3 REF (civitai.red/posts/31291351 WF+prompts;
+  github.com/shootthesound/ComfyUI-Fizgig-H3-Still = installed; 4096×1536 18 steps 1 min on
+  5060Ti 16 GB; no LLM-processed prompts needed; faster than Qwen 2.1 at 2+ refs). P5 =
+  **u/LeebLaab** Qwen 2.1 (local-LLM nodes REMOVED — any LLM drafts the 10-section prompt;
+  original workflow: reddit s/Rjoz79yECS; tested sheets in minimax video = "fantastic").
 - **HARD RULE (user): no ComfyUI workflow runs without explicit user confirmation.** Server currently DOWN (crash) — bring-up also needs go-ahead.
-- **AWAITING USER:** (a) refreshed `REDDIT_SESSION_COOKIE`, (b) route choice (P1/P3/P4/P2/P5), (c) server bring-up.
+- **AWAITING USER:** (a) route choice (ranked in CHARACTER_SHEET.md: P3 → P4 → P1 → P2 → P5), (b) server bring-up. ~~cookie refresh~~ no longer needed.
 
 ## v6 sheets LOCKED (2026-10-18, user-approved — supersedes "pending verdict")
 - User: v4/sweep "wood or wall, no emotion"; **Zidane = short halal cut (final)**; texture/realism gap vs civitai V2-LoRA; **base is NSFW → always explicit clothing**; sheets = normal weather, no rain/boat.

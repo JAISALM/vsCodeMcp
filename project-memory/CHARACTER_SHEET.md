@@ -34,14 +34,23 @@ consistent character").
 - [x] Local workflow inventory + node-level analysis (all 4 files).
 - [x] HF repo tree + full README (complete).
 - [x] Model + node-pack availability gap check.
-- [x] P1 post body — **extracted 2026-10-18 17:55 IST via VS Code integrated browser** (see P1 section).
-- [ ] P2–P5 post bodies — text-only routes blocked; use the integrated browser (proven) or the logged-in one-liner.
+- [x] **ALL 5 post bodies fetched 2026-10-18 18:25–18:35 IST — from DSH itself**, via
+  `utilities\reddit_browser_fetch.py` (local Playwright Chromium, persistent profile, headless,
+  NO session cookie). 5× ~1 MB rendered DOMs + extracted text saved to
+  `data\char_sheet_reddit\P{1..5}_dsh.html` / `P{1..5}_text.txt`
+  (extractor: `utilities\extract_reddit_text.py`).
+- [x] P3 model download links — extracted from the local workflow's note node 20 (6 direct HF URLs).
+
+**Milestone (2026-10-18 18:25):** DSH can now fetch JS-gated Reddit posts itself — same
+mechanism as VS Code's integrated browser, no session, no cookies. The helper's `is_gated`
+false-positive (bare `recaptcha` substring in the standard page shell) was fixed 18:30 IST
+(title-based detection now).
 
 ## Reddit fetch routes — tested 2026-10-18 (all blocked)
 
 | Route | Result |
 |---|---|
-| **`utilities\reddit_browser_fetch.py` (REAL local Chromium, persistent profile)** | **PROVEN pipeline** — renders full `shreddit` DOM (1 MB). Reddit currently at reCAPTCHA tier (IP escalation); non-gated sites (HF) extract clean. See below. |
+| **`utilities\reddit_browser_fetch.py` (REAL local Chromium, persistent profile)** | **PROVEN — ALL 5 POSTS FETCHED** 2026-10-18 18:25 IST, headless, no session (0.99–1.31 MB rendered DOMs each). The earlier "reCAPTCHA tier" verdict was a **false positive** — see correction below. |
 | MCP `get-single-web-page-content` → reddit.com | 403 "Prove your humanity" (JS challenge) |
 | harness `web_fetch` → reddit `.json` | 403 |
 | `utilities\reddit_fetch.py` (session-cookie helper) | 403 ×3 — the `REDDIT_SESSION_COOKIE` env (from 2026-10-11) is stale |
@@ -89,17 +98,18 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   machine, same IP as DSH — the difference is **browser rendering vs text-only HTTP
   fetch**, not egress identity. DSH's 17:50 headless test hit reCAPTCHA because it was an
   ISOLATED clean profile at peak burst; the headed persistent-profile browser passes the
-  arithmetic tier.
+  tier. (**RESOLVED 18:25 IST:** with the PERSISTENT profile, the HEADLESS helper passed
+  all 5 posts — no headed window, no session, no cookies.)
 - **Live demo (17:55 IST, P1):** `openBrowserPage` → P1 URL → challenge auto-solved →
   `readPage` extracted the FULL post body (title, flair, 10-image gallery, all links).
   Same URL through the text-only MCP fetcher (`get-single-web-page-content`) returned the
   144-char "Prove your humanity" challenge page. Same URL, same moment, two tools, two
   outcomes — the rendering pipeline is the whole difference.
 - **What DSH should do to mimic (best-first):**
-  1. **Use a real headed browser with a persistent profile** (not isolated headless) —
-     the arithmetic tier is solvable by JS execution; the reCAPTCHA escalation was
-     burst-tied AND profile-tied. DSH's `reddit_fetch.py` already auto-solves the
-     arithmetic tier once the IP cools off.
+  1. **`utilities\reddit_browser_fetch.py` — headless + persistent profile** — VERIFIED
+     18:25 IST on all 5 posts (now the standard DSH route for Reddit). An ISOLATED clean
+     profile gets challenged; the persistent profile carries challenge state + cookies
+     across runs. `--headed` remains the fallback for genuinely gated runs.
   2. **VS Code integrated browser as the reader** (proven working right now) — open the
      URL, `readPage`, paste the extraction. Zero engineering, no session.
   3. **Logged-in browser one-liner** (challenge never applies to a session).
@@ -111,14 +121,23 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
 - Run with **system Python** (`C:\Program Files\Python310\python.exe` — has `playwright` installed; the embedded ComfyUI python does NOT, and pip there is network-stuck).
 - Usage: `python "d:\models\vsCodeMcp\utilities\reddit_browser_fetch.py" <url> [--text] [--out file.html] [--headed]`
 - **Proven:** rendered 1 MB of real `shreddit-post` DOM from P1; extracted full HF repo page text clean.
-- **Current state:** Reddit is at the **reCAPTCHA tier** from this IP (afternoon burst). The helper correctly detects and reports the tier (`jsc_token` = arithmetic/solvable, `recaptcha` = escalated). When the tier drops back to arithmetic (hours), the same helper passes. `--headed` is the most reliable mode.
+- **Current state (VERIFIED 18:25–18:35 IST):** the helper fetched **all 5 target posts
+  headless** from this IP with the persistent profile — no session, no cookies, no headed
+  window. The earlier "reCAPTCHA tier" diagnosis (both DSH 17:50 and VS Code 18:15) was a
+  **false positive in the gate check**: modern Reddit page shells include a `recaptcha`
+  script tag even on fully-rendered post pages (observed at offset ~1598 of a 1 MB
+  post DOM that contained the complete post). The reliable gate signal is the challenge
+  **`<title>Reddit - Prove your humanity</title>`** — `is_gated` was fixed 18:30 IST to
+  title-based detection. `--headed` remains available as a fallback for genuinely gated
+  runs.
 - **This is the answer to "make DSH capable":** DSH's web profile is a text-only HTTP fetcher (curl) — it cannot execute JS, so it can never pass the challenge. The fix is this helper: DSH (or the user) runs it via the shell tool instead of its built-in web fetch for Reddit. No DSH config change needed — it's a shell-callable script.
 
-## Per-post explanations (inferred from matching local workflow + README + titles — post bodies pending)
+## Per-post explanations (ACTUAL post bodies fetched 2026-10-18 18:25–18:35 IST via DSH
+`reddit_browser_fetch.py` — see `data\char_sheet_reddit\P*_text.txt`)
 
-### P1 — "MiniMax H3 image generation: create consistent character" (r/comfyui 1wxixua)
-- Memory (10-08): "MiniMax H3 consistent character: r/comfyui 1wxixua" — using H3's
-  multi-reference capability (up to 9 refs) for character consistency.
+### P1 — "MiniMax H3 Image Generation Create Consistent Character Sheets in ComfyUI" (r/comfyui 1wxixua)
+- **Author:** u/cgpixel23 ("Top 1% Poster"), 14 days ago, flair **Tutorial**.
+- Memory (10-08): "MiniMax H3 consistent character: r/comfyui 1wxixua".
 - **ACTUAL POST BODY (extracted 2026-10-18 17:55 IST via VS Code integrated browser):**
   "Hello everyone, I've just finished a new ComfyUI workflow that allows you to use
   **MiniMax H3 as an image generation model** and create detailed character sheets from a
@@ -137,35 +156,54 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   - **Civitai article:** https://civitai.com/articles/36126/minimax-h3-image-generation-create-consistent-character-sheets-in-comfyui
   - **Video tutorial:** https://youtu.be/vy-oWQJwNgw
   - 10 images in the post (gallery, "Item 1 of 10").
-- **Best match: the PoopMan333 HF repo** (README describes exactly this post's concept).
-- **How it works:** feed up to 9 rough refs (face from here, armor from there — H3 holds them
-  together) → A-Prompt (user: one line per reference — what to take and what to **ignore**) +
-  B-Prompt (handles the spin/pose/lighting; since 10 Sept a "general purpose" A prompt makes it
-  near-effortless) → H3 generates a **slow 360° orbit video** (character stands still, no hard
-  cuts) → grab **6 frames** (4 in the faster version) → stitch into a sheet to reuse forever.
-  Rationale: six frames from ONE video pass can't drift (jaw/jacket/colour drift between separate
-  generations is the problem). Optional outputs: the 360 spin video + every individual frame.
-- **Files:** `H3_CharSheetMaker_6_Panel.json` (front, both sides, back + two face shots),
-  `H3_CharSheetMaker_4_Panel_(Faster).json` (~40% fewer frames),
-  `H3_ExpressionsSheetMaker_6_Panel.json` (experimental, 22 Sept — close-up face-deformation
-  sheet to reinforce the face; "the model typically does not need this"),
-  `B prompts/Anime2Real - 6 panel.txt`, `early_version/`, `old/`, `examples/SHEET_00393_*`.
-- **Update log:** 10 Sept — general-purpose A prompt + turbo LoRA switched to
-  `minimax_h3_turbo_v4_step600_ema` ("slightly better results"); 29 Aug — 4-panel fixed to 73
-  frames (was 124), speed-up nodes, **use 8 steps instead of 25 when using speed-ups**;
-  22 Sept — experimental expressions sheet.
-- **Models:** `minimax_h3_ref2va_pruned_int8_convrot.safetensors` (diffusion_models/),
-  `qwen3vl_32b_minimax_h3_int8_convrot.safetensors` (text_encoders/),
-  `minimax_h3_video_vae_int8_convrot.safetensors` + `minimax_h3_audio_vae_fp32.safetensors`
-  (vae/), optional turbo LoRA `minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors`
-  (loras/). INT8 low-VRAM builds; higher precision (esp. the text encoder — "that's where prompt
-  adherence lives") gives better detail.
-- **Custom nodes:** near-vanilla; only third-party in the optional Speed Ups group:
-  **KJNodes + rgthree** (toggle panel). Delete that group to go vanilla.
+- **What it is (corrected 18:35 IST — actual body fetched):** cgpixel23's workflow = use
+  **MiniMax H3 as an IMAGE GENERATION model** (not video-orbit) to build character sheets from a
+  single ref or a batch; sheets then serve as stronger refs for consistent video gen.
+  8 steps (fast) / 25 steps (best). Native **4096×1536** output. "Minimax H3 Turbo Fused"
+  naming ⇒ the **fused turbo model** (cf. P4's `fused_refdelta_r1024_turbo8`).
+- **Workflow (Drive):** https://drive.google.com/file/d/1v4NC6vEGN2uDxO2_L05g1q0JPkeoSsYo/view?usp=sharing
+  — likely = the saved local `user\default\workflows\character sheet\minimax_h3_character_sheet_1wxixua.json`
+  (filename carries the P1 id).
+- **Civitai article (model links + details):** https://civitai.com/articles/36126/...
+- **Video tutorial:** https://youtu.be/vy-oWQJwNgw
+
+### Related (not P1): PoopMan333 HF repo `H3_Character_Sheet_Generator` (user-shared separately)
+- **Different approach:** H3 as a **VIDEO** model — slow 360° orbit (character statue-still, no
+  hard cuts) from up to 9 refs → grab **6 frames** (4 in the faster version) → stitch = sheet
+  with guaranteed consistency (six frames from ONE pass can't drift).
+- A-Prompt (user: per-ref what to take / what to **ignore**) + B-Prompt (spin/pose/lighting;
+  "general purpose" A prompt since 10 Sept makes it near-effortless). Optional outputs: 360 spin
+  video + every frame.
+- **Files:** `H3_CharSheetMaker_6_Panel.json` (front/sides/back + 2 face shots),
+  `H3_CharSheetMaker_4_Panel_(Faster).json` (~40% fewer frames, 73 vs 124),
+  `H3_ExpressionsSheetMaker_6_Panel.json` (experimental 22 Sept), `B prompts/`, `early_version/`,
+  `old/`, `examples/`.
+- **Update log:** 10 Sept — turbo LoRA → `minimax_h3_turbo_v4_step600_ema`; 29 Aug — speed-up
+  nodes, **8 steps instead of 25** with speed-ups; 22 Sept — expressions sheet.
+- **Models:** `minimax_h3_ref2va_pruned_int8_convrot` (diffusion_models/),
+  `qwen3vl_32b_minimax_h3_int8_convrot` (text_encoders/ — we have the nvfp4_awq equivalent),
+  `minimax_h3_video_vae_int8_convrot` + `minimax_h3_audio_vae_fp32` (vae/), optional turbo LoRA.
+  INT8 low-VRAM builds; higher-precision text encoder = better prompt adherence.
+- **Custom nodes:** near-vanilla; only the optional Speed Ups group needs **KJNodes + rgthree**.
 - License: minimax-h3-community-license.
 
-### P2 — "Create full character + location sheets in seconds" (r/StableDiffusion 1vov6jb)
-- **Local match: `LocationOrbitSheetH3.json`** — two chains:
+### P2 — "Create FULL Character & Location Sheets in SECONDS with this workflow and Custom Node!" (r/StableDiffusion 1vov6jb)
+- **Author:** u/lumos_ai, 2 months ago, flair **Workflow Included**.
+- **The custom node = `OrbitSheets`** — FREE, public: **https://github.com/lumosai8/ComfyUI-OrbitSheets**.
+  Two templates (the local file is the LOCATION template):
+  - **Character sheet:** type a character description → full turnaround (front, side profiles,
+    back, close-ups) — and it **generates voice audio** so the character can literally speak.
+    8 steps with the Turbo LoRA (up to 20/35 for detail).
+  - **Location sheet:** describe any place → interior & exterior multi-angle shots. **Interior mode**
+    (hallways/rooms) vs **exterior mode**; camera toggle: **cut views** (separate static angles)
+    vs **continuous move** (full 360 camera tour) — "sometimes one gives better results than the
+    other, so it helps to try both".
+  - **Smart frame selector** picks the best shots automatically and arranges a clean sheet;
+    controls for image count, columns, padding, frame size.
+  - **Both use MiniMax H3 with the Krea2 anchor frame + the Krea2 Turbo model** — example files
+    pre-set ("drop them in and start generating"). Built in ~2 days; more templates planned.
+- **Local match: `LocationOrbitSheetH3.json`** (location template — interior/cut-views matches the
+  post's description exactly) — two chains:
   (a) **Krea2 t2i** location image (`Krea2_Turbo_convrot_int8mixed` UNET + `qwen3vl_4b_fp8_scaled`
   CLIP krea2 + `qwen_image_vae`, 1920×1080) →
   (b) **H3 image-to-video orbit** of that location (`minimax_h3_fl2va_pruned_int8_convrot` UNET +
@@ -176,14 +214,48 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   frame picking), **OrbitSheetsContactSheet** (2×2), `CreateVideo`/`SaveVideo` (24 fps).
 - Custom pack: **OrbitSheets** (`OrbitSheetsLocationPrompt` — "interior / cut views / auto",
   `OrbitSheetsAttentionBackend` = "comfy kitchen (int8)") — **pack NOT installed here**.
-- README cross-ref: PoopMan333's README points to **ethanfel's `H3_Cinematic_Multishot_Coverage`**
-  (HF) for the same orbit logic applied to a room/background — this file is likely that workflow
-  or a close derivative.
+- (Earlier guess "ethanfel derivative" SUPERSEDED: the author is **lumosai8**, pack =
+  `github.com/lumosai8/ComfyUI-OrbitSheets` — the local file is one of its two templates.
+  ethanfel's `H3_Cinematic_Multishot_Coverage` (HF) remains a related resource referenced by
+  PoopMan333's README for room-orbit coverage.)
 
-### P3 — "I turned that 'H3 as an image editor' post into a..." (r/StableDiffusion 1w2dujd)
+### P3 — "I turned that 'H3 as an image editor' post into a full character sheet workflow — front/side/back + poses, all local" (r/StableDiffusion 1w2dujd)
+- **Author:** u/inazma44, 2 months ago, flair **Workflow Included**. (The 2BZ file is the
+  author's own distribution version — "English edition intended for public distribution".)
+- **Inspiration post (linked from the post + the file's note node 69):**
+  r/StableDiffusion `1vr1i18` "MiniMax H3 as an image editor — 6 edits in one shot".
+- **Structure (from the post):** Stage 1 = one face photo + one outfit image → front/side/back.
+  Stage 2 (optional, OFF by default) = 1–4 more panels (poses, props, expressions, backgrounds)
+  → composited into a **16:9 sheet**.
+- **Exact setup (from the post):** MiniMax H3 **ref2v int8 pruned** + **4-step Turbo LoRA @0.75**
+  + **T=1 image VAE** ("the bit that makes it emit a still instead of a clip") + **er_sde /
+  sgm_uniform, 8 steps**. On a **3090 24GB**: Stage 1 ~100–125 s, Stage 2 ~105 s → ~3.5 min
+  total (first run slower = model loading).
+- **Known issues (from the post):** props repeat across panels (ask for one sword, get three);
+  back-view hair goes flat; lying & sitting poses unreliable.
+- **Workflow (public):** https://github.com/nicekriss/toobusy/blob/main/docs/workflows/2BZ_H3_character_sheet_2stage_v1_EN.json
+  — **= our local file exactly.** Needs **rgthree** (installed ✓) + **toobusy** (search "toobusy"
+  in Manager, publisher `neobabae`, **v0.4.9+** — repo github.com/nicekriss/toobusy — NOT
+  installed). 6 LoadImage nodes go red on open (author's local files — point at our v6 sheets).
+- **THE 6 REQUIRED MODELS + EXACT DOWNLOAD LINKS** (extracted from the file's note node 20,
+  2026-10-18):
+  1. `minimax_h3_ref2va_pruned_int8_convrot.safetensors` → diffusion_models/ —
+     https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors — **HAVE ✓**
+  2. `minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors` → loras/ —
+     https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors — **HAVE ✓**
+  3. `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` → text_encoders/ —
+     https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors — **HAVE ✓**
+  4. `minimax_h3_t1_image_vae_step1597.safetensors` → vae/ (T=1 image VAE — the still-emitter) —
+     https://huggingface.co/Mamad8/MiniMax-H3-Image-VAE/resolve/main/minimax_h3_t1_image_vae_step1597.safetensors — **MISSING ✗**
+  5. `minimax_h3_audio_vae_fp32.safetensors` → vae/ —
+     https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors — **HAVE ✓**
+  6. `gemma4_e4b_it_fp8_scaled.safetensors` → text_encoders/ (Gemma describes the Stage-2 pose
+     image + analyzes enabled optional refs; NOT used for Stage-1 face/outfit) —
+     https://huggingface.co/Comfy-Org/Gemma4/resolve/main/text_encoders/gemma4_e4b_it_fp8_scaled.safetensors — **MISSING ✗**
+  > Note-node rule: "This workflow uses a **T=1 VAE for still images**. Use a Video VAE for
+  > ordinary H3 video generation."
 - **Local match: `2BZ_H3_character_sheet_2stage_v1_EN.json`** — by **Too Busy Grasshopper (2BZ)**,
-  YouTube @toobusyAI; the file's own "Inspiration & Original Post" note (node 69) links the
-  original post (expected to be this P3).
+  YouTube @toobusyAI.
 - **Structure:** Stage 1 = H3 orbit front/side/back sheet of **Picture 1 = face/identity** +
   **Picture 2 = outfit only**; Stage 2 (optional, default OFF) = 1–4 **action panels** entered
   as plain-English "Panel N: ..." requests ("jump while aiming the water gun") + a final
@@ -206,8 +278,18 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   ModelAttentionBackend (comfy kitchen) ✓, subgraph 40bb7e22 (14 nodes: 2nd orbit pass,
   ImageCrop, ImageConcanate, SaveImage).
 
-### P4 — "MiniMax H3 REF + Fizgig nodes as SOTA ref2img" (r/StableDiffusion 1wsb4h3)
-- Memory (10-08): already listed.
+### P4 — "MiniMax H3 REF + Fizgig Nodes: As SOTA (Ref2Img \ Img2Img) True Image Editing Model, Native 4096x1536 in 1 Minute, WF + Prompt for Every Example" (r/StableDiffusion 1wsb4h3)
+- **Author:** u/-Ellary-, 20 days ago, "Top 1% Commenter", flair **Workflow Included**.
+  Memory (10-08): already listed.
+- **From the post:**
+  - **WF + prompts for every example:** https://civitai.red/posts/31291351 (the "patreon" local
+    file = this post's workflow).
+  - **Nodes:** https://github.com/shootthesound/ComfyUI-Fizgig-H3-Still — **INSTALLED here ✓**
+    (`ComfyUI-Fizgig-H3-Still` pack).
+  - 4096×1536, **18 steps in 1 min (5060 Ti 16 GB)**; stellar prompt/spatial understanding;
+    **no LLM-processed prompts needed per image**; imitates vast amounts of styles from the REF;
+    great world knowledge / smart with concepts; sharp images, low artifacts; **way faster than
+    Qwen 2.1 at 2+ image references**.
 - **Local match: `minimaxh sheet patreon.json`** — a **sprite-sheet-style single-frame sheet**:
   **FizgigH3StillLatent (4096×1536) + FizgigH3StillDecode** — TRUE single-frame stills from H3
   (crisp, no banding; pack `ComfyUI-Fizgig-H3-Still` INSTALLED ✓) — plus
@@ -224,9 +306,19 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
 - VAE `minimax_h3_video_vae_int8_convrot` ✓. Timing table in the file: 8 steps 4.4 min / 10 → 6 /
   16 → 7 / 25 → 12 (megapixel table).
 
-### P5 — "Character sheet workflow Qwen 2.1" (r/comfyui 1wsee1y)
-- Memory (10-08): "workflow already saved".
-- **Local match: `LEEBLAAB-QwenImage21-Character-SHEET.json`** (author LEEBLAAB) — a SUBGRAPH
+### P5 — "Character Sheet Workflow - Qwen2.1" (r/comfyui 1wsee1y)
+- **Author:** u/LeebLaab, 20 days ago, flair **Workflow Included**. Memory (10-08): "workflow
+  already saved".
+- **From the post (fetched 18:30 IST):** LeebLaab found a workflow, edited most of it, and
+  **REMOVED the local-LLM nodes** — so the sheet prompt is drafted by **ANY LLM** (he uses
+  "Qwen chat"): upload 1 image + the exact instruction prompt → LLM responds with the drafted
+  10-section prompt → feed it to the workflow. "I tested the new sheets in minimax video, and
+  results are fantastic."
+  - **Original workflow (entire credit, linked from the post):**
+    https://www.reddit.com/r/StableDiffusion/s/Rjoz79yECS
+  - **Key for us:** we have local LLMs (Qwen PE / Gemma writer) — we can draft the 10-section
+    sheet prompt locally from the v6 sheets, no cloud needed.
+- **Local match: `LEEBLAAB-QwenImage21-Character-SHEET.json`** (filename author = LeebLaab ✓) — a SUBGRAPH
   pipeline: UNET `qwen_image_2.1_bf16` (or the author's `qwen_image_2.1_int8_convrot` variant) +
   CLIP `qwen3vl_8b_int8_convrot` + VAE `qwen_image_2.1_vae_bf16` →
   `TextEncodeQwenImage21` (sheet prompt + reference image = i2i) → `QwenImage21Cache` →
@@ -253,11 +345,12 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
 
 | Local file | Post | Route | Ready on this machine? |
 |---|---|---|---|
-| `2BZ_H3_character_sheet_2stage_v1_EN.json` | P3 | H3 orbit 2-stage (ref2va) + LLM-analyzed refs + action panels | Models 4/6 ✓; **toobusy ✗, pysssss ✗ packs missing** |
-| `LocationOrbitSheetH3.json` | P2 | Krea2 t2i → H3 fl2va location orbit → contact sheet | 3 models ✗ (Krea2_Turbo_convrot_int8mixed, lightx2v turbo, ref_lora_rank_256); **OrbitSheets pack ✗**; needs a vision LLM for frame select |
-| `minimaxh sheet patreon.json` | P4 | H3 Fizgig-still sprite sheet, fused ref-delta turbo8, folder of refs | 2 models ✗ (fused_refdelta, Q2_K GGUF CLIP); Fizgig + Easy-Use ✓ |
-| `LEEBLAAB-QwenImage21-Character-SHEET.json` | P5 | Qwen 2.1 i2i design sheet (multi-angle) | All 3 models ✓; int8_convrot UNET variant ✗; **OOM risk on bf16** (crashed server); format rejected by user |
-| (not local — HF download candidate) | P1 | H3 360° orbit sheet (PoopMan333) | ref2va ✓, video VAE int8 ✓, audio VAE ✓, turbo4step ✓; int8_convrot 32B CLIP ✗ (have nvfp4_awq equivalent — likely swappable); v4 turbo LoRA ✗; KJNodes + rgthree ✓ |
+| `minimax_h3_character_sheet_1wxixua.json` (saved workflows folder — filename carries P1's id; verify = cgpixel23's Drive file) | **P1** | H3 as IMAGE-GEN sheet (single/batch ref → 4096×1536 sheet, 8/25 steps) | models per Civitai article 36126 (likely "H3 Turbo Fused" = the P4 fused model ✗); KJNodes/rgthree ✓ |
+| (PoopMan333 HF repo — related, NOT P1) | — | H3 360° **video orbit** → 6 frames → sheet | ref2va ✓, video VAE int8 ✓, audio VAE ✓, turbo4step ✓; int8_convrot 32B CLIP ✗ (have nvfp4_awq equivalent — likely swappable); v4 turbo LoRA ✗; KJNodes + rgthree ✓ |
+| `LocationOrbitSheetH3.json` | **P2** | Krea2 t2i → H3 fl2va location orbit → contact sheet (OrbitSheets LOCATION template) | 3 models ✗ (Krea2_Turbo_convrot_int8mixed, lightx2v turbo, ref_lora_rank_256); **OrbitSheets pack ✗** (free: github.com/lumosai8/ComfyUI-OrbitSheets — also has the CHARACTER template + voice audio); vision LLM for frame select |
+| `2BZ_H3_character_sheet_2stage_v1_EN.json` | **P3** | H3 2-stage (ref2va): face+outfit → front/side/back, optional action panels, 16:9 composite | Models 4/6 ✓; gaps = **2 model downloads (direct HF links — see P3) + toobusy pack (github.com/nicekriss/toobusy, ≥0.4.9) + pysssss** |
+| `minimaxh sheet patreon.json` | **P4** | H3 Fizgig-still sprite sheet (4096×1536 native, fused ref-delta turbo8, folder of refs) | 2 models ✗ (fused_refdelta, Q2_K GGUF CLIP — WF+prompts at civitai.red/posts/31291351); Fizgig + Easy-Use ✓; post: 18 steps ≈ 1 min (5060 Ti 16 GB) |
+| `LEEBLAAB-QwenImage21-Character-SHEET.json` | **P5** | Qwen 2.1 i2i design sheet (multi-angle) — local-LLM nodes REMOVED by author; any LLM drafts the 10-section prompt (original: reddit s/Rjoz79yECS) | All 3 models ✓; int8_convrot UNET variant ✗; **OOM risk on bf16** (crashed server); format rejected by user |
 
 ## What we HAVE (models, main tree `E:\ComfyUI_windows_portable\ComfyUI\models`)
 - `minimax_h3_ref2va_pruned_int8_convrot.safetensors` (diffusion_models)
@@ -274,32 +367,40 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   minimax-h3-chunk-star7, Minimax-H3-Latent-Continuation, ComfyUI-MiniMax-H3-Turbo,
   minimax-h3-semantic-bridge, ComfyUI-H3-Multishot, ComfyUI-H3-Project-Suite, …
 
-## What is MISSING (with likely source)
-| Item | Needed by | Likely source |
+## What is MISSING (with exact source, verified 2026-10-18)
+| Item | Needed by | Exact source |
 |---|---|---|
-| `minimax_h3_t1_image_vae_step1597.safetensors` | P3/2BZ | author's repo / 2BZ's share |
-| `gemma4_e4b_it_fp8_scaled.safetensors` (TextGenerate CLIP) | P3/2BZ | author's conversion (or swap in an installed local LLM route) |
-| `Krea2_Turbo_convrot_int8mixed.safetensors` | P2 | author's Krea2 conversion |
+| `minimax_h3_t1_image_vae_step1597.safetensors` (T=1 image VAE — the still-emitter) | P3/2BZ | **HF direct:** https://huggingface.co/Mamad8/MiniMax-H3-Image-VAE/resolve/main/minimax_h3_t1_image_vae_step1597.safetensors |
+| `gemma4_e4b_it_fp8_scaled.safetensors` (TextGenerate CLIP) | P3/2BZ | **HF direct:** https://huggingface.co/Comfy-Org/Gemma4/resolve/main/text_encoders/gemma4_e4b_it_fp8_scaled.safetensors |
+| `Krea2_Turbo_convrot_int8mixed.safetensors` | P2 | OrbitSheets repo example files / author (lumosai8) |
 | `minimax_h3_fl2v_lightx2v_turbo_4step_v0.1_comfy.safetensors` | P2 | HF (lightx2v lineage) |
-| `minimax_h3_ref_lora_rank_256_bf16.safetensors` | P2 | author's ref LoRA |
-| `minimax_h3_fused_refdelta_r1024_turbo8_mystic07_int8_convrot.safetensors` | P4 | author's fused model (may be patreon-gated) |
-| `minimax\qwen3vl-32B-MiniMax-H3-Q2_K.gguf` | P4 | author's GGUF conversion |
+| `minimax_h3_ref_lora_rank_256_bf16.safetensors` | P2 | OrbitSheets repo / author (lumosai8) |
+| `minimax_h3_fused_refdelta_r1024_turbo8_mystic07_int8_convrot.safetensors` | P4 | **civitai.red/posts/31291351** (post's WF+prompts page; may be patreon-gated) |
+| `minimax\qwen3vl-32B-MiniMax-H3-Q2_K.gguf` | P4 | **civitai.red/posts/31291351** (author's GGUF) |
 | `minimax_h3_turbo_v4_step600_ema.safetensors` | P1 (recommended turbo) | HF PoopMan333 repo / MiniMax |
 | `qwen3vl_32b_minimax_h3_int8_convrot.safetensors` | P1 (CLIP; nvfp4_awq equivalent exists — verify swap) | HF (convrot conversions) |
-| `qwen_image_2.1_int8_convrot.safetensors` | P5 (author variant; bf16 works but OOM-risky) | author's conversion |
-| Pack **toobusy** (neobabae ≥0.4.9) | P3/2BZ | ComfyUI Manager |
+| `qwen_image_2.1_int8_convrot.safetensors` | P5 (author variant; bf16 works but OOM-risky) | author's conversion (LeebLaab) |
+| Pack **toobusy** (publisher `neobabae`, **≥ v0.4.9**) | P3/2BZ | **github.com/nicekriss/toobusy** (Manager: search "toobusy") |
 | Pack **pysssss** (ComfyUI-SSS-Nodes) | P3/2BZ | ComfyUI Manager |
-| Pack **OrbitSheets** | P2 | author's repo (from the P2 post) |
+| Pack **OrbitSheets** | P2 | **github.com/lumosai8/ComfyUI-OrbitSheets** (FREE — node + character & location templates) |
 | Pack **Inspire** (`LoadImageListFromDir //Inspire`) | P4 | ComfyUI Manager |
 
 ## Next steps (AWAITING USER CALL — nothing runs without confirmation)
-1. **Refresh `REDDIT_SESSION_COOKIE`** (one-time) → fetch all 5 post bodies via
-   `utilities\reddit_fetch.py` → fill in the actual post bodies + author model download links.
-   (Alternative: retry `r.jina.ai` after **13:04 UTC / 18:34 IST** 2026-10-18.)
-2. Pick the sheet route: P1 (PoopMan333 orbit — best model match, 2 small gaps), P4 (fused
-   ref-delta + Fizgig still — 2 model downloads, single-frame sprite sheet, no orbit), P3
-   (2-stage editor — 2 packs + 2 models), P2 (location orbit — 3 models + 1 pack), P5
-   (Qwen 2.1 — models present but OOM risk + multi-angle format rejected by user).
+1. ~~Fetch post bodies~~ **DONE 2026-10-18 18:35** — all 5 via DSH `reddit_browser_fetch.py`
+   (no session needed).
+2. Pick the sheet route (ranked by readiness on THIS machine):
+   - **P3 (2-stage 2BZ)** — 2 small HF model downloads (direct links above) + toobusy pack +
+     pysssss; proven ~3.5 min on a 3090 24 GB ⇒ fine on the 5090 32 GB; face+outfit →
+     front/side/back is the closest format to our locked v6 sheets.
+   - **P4 (Fizgig still)** — 2 models (civitai.red post) but the fused model may be
+     patreon-gated; native 4096×1536 single-frame sheet; Fizgig pack already installed.
+   - **P1 (cgpixel23 image-gen sheet)** — verify the local
+     `minimax_h3_character_sheet_1wxixua.json` = the Drive file; models per Civitai article
+     36126.
+   - **P2 (OrbitSheets)** — free pack but 3 missing models (author conversions); location
+     template is what we have locally; the CHARACTER template (+ voice audio) is new.
+   - **P5 (Qwen 2.1)** — all models present but bf16 OOM crashed the server ~17:12 and the
+     multi-angle format was rejected by the user.
 3. Download missing models/packs, wire the LOCKED v6 sheets (`input\char1_sheet.png` /
    `char2_sheet.png`) as references, then run — with explicit user confirmation.
 4. Bring the ComfyUI server back up (currently down) — also needs the user's go-ahead.
