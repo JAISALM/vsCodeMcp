@@ -37,6 +37,13 @@ model (Qwen) updates memory + commits afterwards.
   black tee ✓ — expression neutral, seated at bench edge). 02 file left in Jaisal golden-hour state.
   AWAITING USER VERDICT on the pair → then H3 character-sheet route (P3 prep needs GO: 2 HF model
   downloads + toobusy + pysssss packs).
+- **refset_v7 sheet-bg (19:4x IST):** user wants proper neutral backgrounds for char-refs ("helpful
+  for character reference sheet") + Jaisal face less long. Single-image mode can't change the
+  background (ref's street scene is grounded) → **two-stage pipeline**: 01 t2i clean-bg base
+  (jaisal_t2i_base_00001, copied to input/) → 02 TWO-IMAGE face-lock (72 = base scene, 113 =
+  char1_sheet person, boost 2.5) → **`refset_v7\jaisal_face_lock_00001` = current best Jaisal
+  char-ref** (v6 identity ✓ clean background ✓ not-elongated ✓ natural skin ✓).
+  **Zidane same pipeline PENDING (GO).** 02 left in two-image Jaisal face-lock state.
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).

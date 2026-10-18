@@ -4,6 +4,29 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 19:4x — refset_v7 sheet-bg character refs — clean neutral background via two-stage
+- **Trigger:** user: faces "still not convincing", Jaisal "long face", wants "proper background… helpful for character reference sheet".
+- **Why single-image mode FAILED at background change (refset_v7\jaisal_sheet):** the REF's scene is
+  grounded (g768) — "clean neutral background" instruction LOSES to the ref's street scene. The
+  v6 sheets ARE bench-street scenes, so the street carries into every output.
+- **Two-stage FIX (D023 correct order):**
+  1. **01 t2i base** (8 steps, V2 LoRA, kr2realism, 2MP 16:9, seed 42, char1 spec + "NOT
+     elongated" + "clean simple neutral light background, no street/bench/buildings") →
+     `refset_v7\jaisal_t2i_base_00001` — clean cream backdrop ✓, natural warm skin ✓, wavy ✓,
+     black tee ✓ (new face = placeholder).
+  2. **02 TWO-IMAGE face-lock** (72 = t2i base = SCENE slot, 113 = char1_sheet.png = PERSON
+     slot, group-2 nodes 113/92 ENABLED, boost 2.5, instruction = "face EXACTLY the reference
+     person (second image)") → `refset_v7\jaisal_face_lock_00001` — **v6 identity ✓, clean
+     background ✓, better face proportions (not elongated) ✓, natural skin ✓, half-smile ✓**.
+- **LESSON 1:** LoadImage reads ONLY from `input/` — the first face-lock run failed
+  (prompt_rejected) because the t2i base sat in `output/`. Copy it to `input/` first (done:
+  `input\jaisal_t2i_base_00001_.png`).
+- **LESSON 2:** to change the BACKGROUND of an identity-edit output, the scene base must carry
+  the new background — two-image mode (scene base + person ref) is the tool; a background
+  instruction alone cannot override the ref's grounded scene.
+- **Status:** Jaisal sheet-bg DONE (face-lock = current best Jaisal char-ref). Zidane same
+  pipeline pending (t2i base → face-lock).
+
 ## 2026-10-18 19:2x — refset_v6 face diagnosis — "wood / waxy, no skin tone" (user-flagged)
 - **User:** the bench-pair faces "don't look natural at all, no skin tone, feel like a wood" — same complaint as v3/v5.
 - **Diagnosis (NOT a settings bug — three compounding factors):**
