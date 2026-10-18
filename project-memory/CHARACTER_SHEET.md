@@ -73,6 +73,21 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   `copy((await fetch('https://www.reddit.com/comments/<ID>/.json?limit=20',{credentials:'include'})).text())`
   → paste JSON back. Fallbacks: fresh `reddit_session` cookie for the helper; jina proxy after
   13:04 UTC.
+- **Headless-Chrome live test (17:50 IST, isolated profile, NO session):** real browser from
+  this IP got the page shell (171 KB, `shreddit` markers) but the gate **escalated to
+  reCAPTCHA** ("Prove your humanity" + gstatic recaptcha script) — plain headless cannot pass
+  it; arithmetic `jsc` challenge (helper-solvable) was the earlier tier. Evidence saved:
+  `data\char_sheet_reddit\headless_P1_dom.html`. So "run a local browser, no cookies" is ALSO
+  gated right now — the tier escalation is tied to this IP's afternoon activity.
+- **Why VS Code works without a session:** its agent web tool fetches from **GitHub's cloud
+  backend** (GitHub's IP pool + stealth browser rendering) — an egress identity Reddit does
+  NOT challenge, so no session is needed there. DSH fetches from this machine's IP +
+  text-only fetcher → challenged (arithmetic tier, now reCAPTCHA tier). Not a capability
+  difference in "MCP" — a difference in egress identity + rendering pipeline.
+- **Implication for DSH:** (a) use VS Code as the Reddit reader and paste extractions here
+  (zero engineering); (b) or let this IP cool off (hours) then helper retry (tier may drop
+  back to the solvable arithmetic challenge); (c) or logged-in browser one-liner (challenge
+  never applies to a session).
 
 ## Per-post explanations (inferred from matching local workflow + README + titles — post bodies pending)
 
