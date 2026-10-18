@@ -128,6 +128,26 @@
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
 
+## D142 — T2I CHARACTER RECIPE: natural language + clean negative + 8 steps (2026-10-18, A/B-proven)
+- **Problem:** t2i character faces "kinda off, like grains". Web research (Krea2 V2 thread, u/rynaleopard):
+  crisp results = **natural-language 4-5 sentence prompts, NOT tag stacking** + simple workflow;
+  our stock 01 negative carried SKIN-FIGHTING terms ("plastic, waxy skin, airbrushed, smooth skin,
+  AI look, rendered, CGI") → same anchor-fight mechanism as D140 → desaturated grainy face.
+- **A/B/C (Zidane seed 77):** stock negative 8s = grainy · **clean negative 8s = natural warm skin
+  (WINNER)** · clean negative 16s = also natural but 16 steps regenerates more → different face, NOT
+  more clarity.
+- **LOCKED recipe for 01 character t2i:** natural-language paragraph (4-5 sentences, `kr2realism`
+  trigger first, no tag stacking) · **CLEAN negative = "duplicate character, multiple people,
+  watermark, logo, deformed face, bad eyes, extra fingers"** (NO skin/AI-look terms — they make mud)
+  · 8 steps euler/simple cfg 1 · 2MP 16:9 · explicit seeds.
+- **Beard spec UPDATE (user, 2026-10-18):** Zidane = **full short beard, neatly trimmed & shaped**
+  (replaces "thin patchy beard"). Jaisal = small patchy beard (unchanged).
+- **Outputs:** `refset_v7\zidane_clean8` (recommended) + `refset_v7\zidane_clean16` (alt face).
+- **Status:** Active recipe. 01's stock negative is superseded for character t2i (keep a backup copy
+  of the old negative string in this entry: "plastic, waxy skin, airbrushed, smooth skin, AI look,
+  rendered, CGI, 3d render, cartoon, illustration, duplicate character, multiple people, watermark,
+  logo, deformed face, bad eyes, extra fingers, bulky body, muscular, beard, stubble, full beard").
+
 ## D141 — CHARACTER PIPELINE PIVOT: identity-edit DROPPED for char-refs (2026-10-18, user call)
 - **User:** identity-edit outputs "pretty much off" (waxy/long faces) — "let's get rid of that and get a normal picture";
   frustration that simple items are tiring "because we don't have a proven workflow/pipeline yet".

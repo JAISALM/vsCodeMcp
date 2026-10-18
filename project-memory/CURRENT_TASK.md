@@ -52,6 +52,16 @@ model (Qwen) updates memory + commits afterwards.
   `refset_v7\zidane_t2i_base_00001` (seed 77, halal cut ✓ white tee ✓ clean bg ✓ natural face).
   AWAITING USER VERDICT on these faces → then character sheet (P3 prep needs GO: 2 model
   downloads + toobusy + pysssss packs) → LoRA dataset.
+- **Skin-grain fix (19:5x IST — D142):** user: t2i skin "kinda off, like grains" + shared 2 Krea2
+  Reddit threads (u/rynaleopard V2 post: natural-language 4-5 sentence prompts, not tag-stacking).
+  A/B/C (Zidane seed 77, **NEW beard spec: full short beard neatly trimmed**): stock-negative 8s =
+  grainy · **clean-negative 8s = natural warm skin (WINNER, D142 recipe)** · 16s = different face,
+  not sharper. **NEW T2I RECIPE LOCKED:** natural-language paragraph + CLEAN negative (identity-
+  safety only, no skin/AI-look terms) + 8 steps. Outputs: `refset_v7\zidane_clean8` (recommended)
+  + `refset_v7\zidane_clean16` (alt face). New tools: `utilities\{extract_reddit_images,
+  download_reddit_images,expand_reddit_images}.py` (lightbox click = full-res image extraction).
+  **AWAITING USER PICK: zidane_clean8 vs zidane_clean16 face** → then Jaisal same recipe (small
+  patchy beard unchanged) → character sheet (P3).
 - **Step 2 (character sheet) BLOCKED ON:** user's route pick (P3 recommended) + model/pack downloads.
 - **DSH + GHCP collaboration verified this session (D139)** — cross-client tool hand-off via git;
   DSH can now fetch JS-gated Reddit pages itself (`reddit_browser_fetch.py`).

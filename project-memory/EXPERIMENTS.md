@@ -4,6 +4,47 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 19:5x — Reddit Krea2 research: skin-detail quality + settings (user-shared threads)
+- **Trigger:** user: "skin is kinda off, like grains, do we need more clarity? check the web" + 2 threads:
+  K1 = u/rynaleopard "Krea2-realism-V2 is finally here" (civitai red 2728365, HF RudySen/Krea2-realism-V2),
+  K2 = u/Due_Research9042 "Krea 2 is still the best model for full HD images".
+- **Fetch (new tooling):** `utilities\extract_reddit_images.py` (URLs + comments from saved DOM),
+  `utilities\download_reddit_images.py` (403 on bare URLs — signed-only), **`utilities\expand_reddit_images.py`**
+  (WORKS: click post image → lightbox → capture full-res src → save). K1 saved 4 full-res images
+  (`data\reddit_krea2\imgs\K1_0{1,3,4,9}_*`).
+- **Findings:**
+  - K1 poster: V2 "biggest focus was faces — death-stare mostly gone, expressions natural, works much
+    better alongside character LoRAs". **Prompting = natural language, short paragraph, 4-5 sentences —
+    NOT tag stacking.**
+  - K1 comment (settings ask): "Could I see your workflow? I can't achieve that quality — share KSampler
+    params + refiner" → the crisp results come from a SIMPLE gen workflow (image filename: "krea-2-simple-
+    gen-workflow-with-good-settings-for-realism").
+  - K1_03 beach example = the crisp-skin target (fine texture, no grain, natural light).
+- **Diagnosis of OUR grainy skin:** (1) 01's stock negative carries the SKIN-FIGHTING terms
+  ("plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI...") → same anchor-fight
+  mechanism as D140 → desaturated muddy face; (2) tag-stacked prompt vs the proven natural-language
+  style; (3) possibly steps (8 = turbo minimum).
+- **A/B TEST (Zidane, seed 77, NEW beard spec = FULL short beard neatly trimmed):**
+  - Z-CTRL (existing `zidane_t2i_base_00001`): stock negative + tag-stack + 8 steps (the grainy one).
+  - **Z-B `refset_v7\zidane_clean8`**: natural-language paragraph, CLEAN negative (identity-safety only:
+    "duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers"), 8 steps.
+  - **Z-C `refset_v7\zidane_clean16`**: same clean, **16 steps** (the "more clarity" test).
+- **Beard spec UPDATE (user):** Zidane = full short beard, neatly trimmed & shaped (NOT thin patchy).
+  Jaisal = same small patchy beard (unchanged).
+- **A/B/C VERDICT (Zidane, seed 77, all three = full trimmed beard ✓ halal cut ✓ white tee ✓):**
+  - **Z-CTRL** (stock skin-fighting negative + tag-stack + 8 steps) = grainy/desaturated skin (the complaint).
+  - **Z-B `zidane_clean8`** (natural-language + clean negative + 8 steps) = **natural warm skin, healthy
+    flush, no grain — WINNER (recommended)**: fast + face holds at 8 steps.
+  - **Z-C `zidane_clean16`** (same clean, 16 steps) = also natural skin, BUT 16 steps regenerates MORE →
+    a DIFFERENT face (not "sharper"). Answer to "do we need more clarity?": **NO — the grain was the
+    negative, not the steps.**
+- **NEW T2I RECIPE (locked, D142):** natural-language paragraph prompt (4-5 sentences, kr2realism
+  trigger, NO tag stacking) + **CLEAN negative** (identity-safety only: "duplicate character, multiple
+  people, watermark, logo, deformed face, bad eyes, extra fingers" — NO skin/AI-look terms) + 8 steps
+  euler/simple cfg 1 + 2MP. Supersedes the stock 01 negative for character t2i.
+- **Status:** AWAITING USER PICK: Z-B face vs Z-C face (both good). Then Jaisal same recipe (small
+  patchy beard unchanged) → character sheet (P3).
+
 ## 2026-10-18 19:5x — refset_v7 NORMAL t2i character pics (no identity edit — D141 pivot)
 - **Trigger:** user: identity-edit outputs "pretty much off" — drop identity edit, get NORMAL pictures,
   then character sheet, then LoRA training dataset.
