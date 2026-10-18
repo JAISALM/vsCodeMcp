@@ -108,3 +108,10 @@
 - **Scope rules:** 3 core workflows (character sheet / identity refset / H3 R2V), UI format; local Qwen PE `TextGenerate` node DROPPED from cloud version (needs local llama.cpp); assembly via ffmpeg; NO partner nodes/APIs (open-weights compliance); identity-edit LoRA + character sheets become PUBLIC (user-approved).
 - **Ops:** entry runs on Comfy cloud GPUs (Comfy API Build/Release/Deployment via comfy-cli) — does NOT touch the local 5090; sign up EARLY (first 200 signups get free credits, form: `form.typeform.com/to/Ayn9Cwfj`); stop/delete deployment after submission (storage billing); user creates the public GitHub repo.
 - **Status:** Active — plan + checklist in `challenge\CHALLENGE_PLAN.md`.
+
+## D138 — Character-sheet route analysis + no-run-without-confirmation rule (2026-10-18)
+- **HARD RULE (user directive):** NO ComfyUI workflow runs without explicit user confirmation. Applies to all sheet workflows and, until rescinded, everything else. (Trigger: the Qwen-2.1 multi-angle sheet was pointed at a wrong format and the user stopped it mid-analysis.)
+- **v6 sheets LOCKED** (user-approved "the best we can produce yet"): `char_v6\jaisal_v2lora_00001_.png` + `char_v6\zidane_v2lora_00001_.png` → canonical at `challenge\consistent-short\refs\{jaisal,zidane}_sheet_v6.png` and `input\char{1,2}_sheet.png` (replaced the old 10-08 sheets). They replace the rainy-street anchors as identity refs.
+- **Kerala-aesthetics limitation (user-acknowledged):** Krea2 + V2-LoRA face prior skews European; v6 = best-so-far baseline. H3-based sheet workflows (new analysis) are the next lever.
+- **Reference file:** `project-memory\CHARACTER_SHEET.md` — 5 reddit posts (P1 1wxixua / P2 1vov6jb / P3 1w2dujd / P4 1wsb4h3 / P5 1wsee1y) + HF `PoopMan333/H3_Character_Sheet_Generator` + local `E:\minimax_workflow\character_sheet\` (4 workflows). Post-body fetch blocked on every route 2026-10-18 (stale `REDDIT_SESSION_COOKIE`); clean fix = user refreshes the cookie. r.jina.ai unblocked from 13:04 UTC (18:34 IST) 10-18.
+- **Status:** Active — awaiting user's route choice (P1/P3/P4/P2/P5) + cookie refresh; server DOWN (crashed on the P5 bf16 attempt).

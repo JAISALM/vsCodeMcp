@@ -18,10 +18,21 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
-## v6 clean-weather V2-LoRA sheets (2026-10-18) — PENDING USER VERDICT (top)
+## 🔴 CHARACTER SHEET route analysis (2026-10-18, user-directed — TOP)
+- User re-shared 5 reddit posts (P1 1wxixua, P2 1vov6jb, P3 1w2dujd, P4 1wsb4h3, P5 1wsee1y) + HF `PoopMan333/H3_Character_Sheet_Generator` + local folder `E:\minimax_workflow\character_sheet\` (4 workflows placed by user).
+- **Reference file created: `project-memory\CHARACTER_SHEET.md`** — full source list, per-post explanations, local-workflow↔post mapping, model/pack gap analysis, fetch-route status.
+- **Done:** HF README fetched (complete); all 4 local workflows node-analyzed; model + pack availability checked.
+- **Reddit post bodies: ALL routes blocked** (reddit direct/helper 403 — `REDDIT_SESSION_COOKIE` stale from 10-11; mirrors dead/Anubis-gated; r.jina.ai unblocks **13:04 UTC = 18:34 IST** 10-18). Clean fix = user refreshes the cookie (F12 → reddit_session).
+- **Key findings:** P1 ≈ PoopMan333 360°-orbit H3 sheet (best model match: ref2va + VAEs + turbo4step all present; gaps = int8_convrot 32B CLIP, v4 turbo LoRA); P2 ≈ `LocationOrbitSheetH3.json` (3 models + OrbitSheets pack missing); P3 ≈ `2BZ_H3_character_sheet_2stage_v1_EN.json` (toobusy + pysssss packs missing); P4 ≈ `minimaxh sheet patreon.json` (Fizgig stills + fused ref-delta turbo8 — 2 models missing); P5 ≈ `LEEBLAAB-QwenImage21-Character-SHEET.json` (models present; bf16 run CRASHED the server ~17:12; multi-angle format REJECTED by user).
+- **HARD RULE (user): no ComfyUI workflow runs without explicit user confirmation.** Server currently DOWN (crash) — bring-up also needs go-ahead.
+- **AWAITING USER:** (a) refreshed `REDDIT_SESSION_COOKIE`, (b) route choice (P1/P3/P4/P2/P5), (c) server bring-up.
+
+## v6 sheets LOCKED (2026-10-18, user-approved — supersedes "pending verdict")
 - User: v4/sweep "wood or wall, no emotion"; **Zidane = short halal cut (final)**; texture/realism gap vs civitai V2-LoRA; **base is NSFW → always explicit clothing**; sheets = normal weather, no rain/boat.
 - **v6 = 01 t2i, V2 LoRA @1.0, `kr2realism` trigger, 8 steps, portrait** — `char_v6\jaisal_v2lora_00001`, `char_v6\zidane_v2lora_00001` — best sheets so far (weather clean, beards visible, halal cut, photographic texture).
-- **Next after verdict:** lock sheets → identity refset from CLEAN sheets (no rain carry-over) → 04 demo → demo short.
+- **LOCKED 2026-10-18:** copied to `challenge\consistent-short\refs\{jaisal,zidane}_sheet_v6.png` AND `input\char{1,2}_sheet.png` (overwrote the old 10-08 sheets). These are the canonical character refs — they REPLACE the rainy-street anchors as identity refs (D025 rain carry-over fix).
+- **Next after sheet-route decision:** identity refset from CLEAN sheets → 04 demo → demo short.
+- **Known limitation (user-acknowledged):** faces lack Kerala/South-Indian aesthetics (model + V2-LoRA European skew) — v6 is the best-so-far baseline; the new sheet workflows (esp. H3-based) are the lever for a better face prior.
 
 ## v4 emotional frames (2026-10-18) — pending user verdict
 - User: v3/sweep faces "wood or wall, no human emotion"; **Zidane hair re-specified: short halal cut, no waves** (military/bun both deprecated); Jaisal = medium wavy (kept).
