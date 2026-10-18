@@ -34,7 +34,8 @@ consistent character").
 - [x] Local workflow inventory + node-level analysis (all 4 files).
 - [x] HF repo tree + full README (complete).
 - [x] Model + node-pack availability gap check.
-- [ ] P1–P5 post bodies — **ALL routes blocked** (table below). Retry windows noted.
+- [x] P1 post body — **extracted 2026-10-18 17:55 IST via VS Code integrated browser** (see P1 section).
+- [ ] P2–P5 post bodies — text-only routes blocked; use the integrated browser (proven) or the logged-in one-liner.
 
 ## Reddit fetch routes — tested 2026-10-18 (all blocked)
 
@@ -79,21 +80,52 @@ share it. The helper auto-solves the JS challenge and persists the new cookie
   it; arithmetic `jsc` challenge (helper-solvable) was the earlier tier. Evidence saved:
   `data\char_sheet_reddit\headless_P1_dom.html`. So "run a local browser, no cookies" is ALSO
   gated right now — the tier escalation is tied to this IP's afternoon activity.
-- **Why VS Code works without a session:** its agent web tool fetches from **GitHub's cloud
-  backend** (GitHub's IP pool + stealth browser rendering) — an egress identity Reddit does
-  NOT challenge, so no session is needed there. DSH fetches from this machine's IP +
-  text-only fetcher → challenged (arithmetic tier, now reCAPTCHA tier). Not a capability
-  difference in "MCP" — a difference in egress identity + rendering pipeline.
-- **Implication for DSH:** (a) use VS Code as the Reddit reader and paste extractions here
-  (zero engineering); (b) or let this IP cool off (hours) then helper retry (tier may drop
-  back to the solvable arithmetic challenge); (c) or logged-in browser one-liner (challenge
-  never applies to a session).
+- **Why VS Code works without a session (CORRECTED 17:55 IST, live demo):** it is NOT a
+  GitHub-cloud egress identity. The VS Code agent's **integrated browser** (Playwright
+  Chromium, LOCAL, headed, persistent profile) is a REAL browser that EXECUTES JS. It
+  solved Reddit's arithmetic JS challenge (final URL carries `solution=...&js_challenge=1&
+  jsc_token=...` — proof the challenge was solved) and rendered the full SPA post. Same
+  machine, same IP as DSH — the difference is **browser rendering vs text-only HTTP
+  fetch**, not egress identity. DSH's 17:50 headless test hit reCAPTCHA because it was an
+  ISOLATED clean profile at peak burst; the headed persistent-profile browser passes the
+  arithmetic tier.
+- **Live demo (17:55 IST, P1):** `openBrowserPage` → P1 URL → challenge auto-solved →
+  `readPage` extracted the FULL post body (title, flair, 10-image gallery, all links).
+  Same URL through the text-only MCP fetcher (`get-single-web-page-content`) returned the
+  144-char "Prove your humanity" challenge page. Same URL, same moment, two tools, two
+  outcomes — the rendering pipeline is the whole difference.
+- **What DSH should do to mimic (best-first):**
+  1. **Use a real headed browser with a persistent profile** (not isolated headless) —
+     the arithmetic tier is solvable by JS execution; the reCAPTCHA escalation was
+     burst-tied AND profile-tied. DSH's `reddit_fetch.py` already auto-solves the
+     arithmetic tier once the IP cools off.
+  2. **VS Code integrated browser as the reader** (proven working right now) — open the
+     URL, `readPage`, paste the extraction. Zero engineering, no session.
+  3. **Logged-in browser one-liner** (challenge never applies to a session).
 
 ## Per-post explanations (inferred from matching local workflow + README + titles — post bodies pending)
 
 ### P1 — "MiniMax H3 image generation: create consistent character" (r/comfyui 1wxixua)
 - Memory (10-08): "MiniMax H3 consistent character: r/comfyui 1wxixua" — using H3's
   multi-reference capability (up to 9 refs) for character consistency.
+- **ACTUAL POST BODY (extracted 2026-10-18 17:55 IST via VS Code integrated browser):**
+  "Hello everyone, I've just finished a new ComfyUI workflow that allows you to use
+  **MiniMax H3 as an image generation model** and create detailed character sheets from a
+  single reference image or a batch of images. The main goal is to use these character
+  sheets as stronger references for **more consistent video generation**, giving you
+  multiple views and details of the same character. The workflow is simple to use: load
+  the required MiniMax H3 models, load your image or batch of images, choose the number of
+  steps (**8 steps for faster generation or 25 steps for the best results**), and click
+  Run. ... consistency is very good ... if we compare this to qwen image 2.1 H3 is clearly
+  winner here in therm of quality because the results are with resolution of 4096x1536 vs
+  x1664x928 for qwen, the consistency is slightly better. As for the generation time qwen
+  is definitely faster here:"
+  - Gen time 25 steps 12 mins (Minimax H3 Turbo Fused)
+  - Gen time 6 steps 4.5 mins (Qwen 2.1+ Viggle4 Steps LORA)
+  - **Workflow link:** https://drive.google.com/file/d/1v4NC6vEGN2uDxO2_L05g1q0JPkeoSsYo/view?usp=sharing
+  - **Civitai article:** https://civitai.com/articles/36126/minimax-h3-image-generation-create-consistent-character-sheets-in-comfyui
+  - **Video tutorial:** https://youtu.be/vy-oWQJwNgw
+  - 10 images in the post (gallery, "Item 1 of 10").
 - **Best match: the PoopMan333 HF repo** (README describes exactly this post's concept).
 - **How it works:** feed up to 9 rough refs (face from here, armor from there — H3 holds them
   together) → A-Prompt (user: one line per reference — what to take and what to **ignore**) +
