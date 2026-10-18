@@ -4,6 +4,16 @@ Newest experiments first.
 
 ---
 
+## 2026-10-18 — 02 settings sweep — texture fix: 10 steps (not 6); 4MP duplicates on zidane ref
+- **Trigger:** user flagged the pure-base A/B images: "clearly wrong with the texture, it feels like a AI… some settings is clearly OFF."
+- **Root cause:** 02 was running **6 steps** — the Krea2Realism author's t2i sweet spot, which does NOT apply to the identity-edit LoRA's pipeline. The identity pack's own note: "Turbo model: 10 steps… 8 = stronger instruction adherence, 12 = more face detail, 10 = balanced." Under-stepping the identity-edit = under-resolved, plasticky texture.
+- **Sweep (pure base, A/B seeds, author-style scenes):**
+  - Jaisal 10 steps @ **4MP** (2728×1536): **clean, single person, best detail so far** — `char_sweep\jaisal_s10_4mp_00001_.png`.
+  - Zidane 10 steps @ 4MP (seeds 77 + 78): **DUPLICATED — two identical men** (Krea2 duplicate quirk). Lowering grounding 768→384 (pack note: "doubled/split compositions? LOWER it") did NOT fix it → the duplication tracks the **4MP output size on this reference**, not seed/grounding.
+  - Zidane 10 steps @ **2MP** (1928×1088, g768, seed 77): **clean, single person** — `char_sweep\zidane_s10_2mp_00001_.png`.
+- **Proposed lock (pending user verdict):** 02 = **10 steps** euler/simple cfg 1, **2MP 16:9**, grounding 768, ref_boost 4.0. Jaisal's 4MP is the quality ceiling if it stays clean; unify at 2MP for reliability.
+- **LESSON:** the 6-step t2i sweet spot ≠ the identity-edit LoRA's step count. The identity-edit stage runs at the pack's 10-step design point; texture/realism was under-resolved at 6.
+
 ## 2026-10-18 — Jaisal/Zidane identity-locked A/B: pure base vs +Krea2-realism-V2 LoRA (user's face picks)
 - **Goal:** user rejected v2/v3 sheets ("trash"), picked exact face anchors (Jaisal = `char1_NEW_realism_s6_00001`, Zidane = `char1_face_c_00001`), corrected specs (Jaisal slim + medium wavy + thin beard; Zidane athletic/muscular + short military cut + thin beard), asked to compare against the old "v2" setup (Krea2-realism-V2 LoRA @1.0), and to use the author's cinematic natural-language prompt style.
 - **Config:** 02 identity-edit with user refs as `input\jaisal_ref.png`/`zidane_ref.png` (identity LoRA @1.0, ref_boost 4.0, grounding 768, 2048×1152, 6 steps euler/simple cfg 1). New node 97 `Krea2-realism-V2.safetensors` inserted (55→97→71→79) — strength 0.0 = pure, 1.0 = V2. `setup_02_v2lora.py` + `set_02_ab.py <char> <pure|v2>`. Seeds 42/77.

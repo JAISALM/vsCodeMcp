@@ -18,6 +18,12 @@ model (Qwen) updates memory + commits afterwards.
 - Verify MTP (Speculative Decoding) is active for Gemma writers.
 - Maintain the 262K context window for long-term reasoning.
 
+## Settings sweep — 02 runs at 10 steps now (2026-10-18)
+- **User:** A/B images "feel like AI, some settings are clearly OFF." Root cause: 02 ran 6 steps (t2i sweet spot) — the identity-edit pack's design point is **10 steps** ("12 = more face detail").
+- **Sweep:** Jaisal 10s@4MP clean + best detail (`char_sweep\jaisal_s10_4mp_00001`); Zidane @4MP DUPLICATED (seeds 77/78, grounding 384 didn't help — tracks 4MP on this ref); Zidane 10s@2MP clean (`char_sweep\zidane_s10_2mp_00001`).
+- **Proposed lock (user verdict pending):** 02 = 10 steps, 2MP 16:9, g768, ref_boost 4. Jaisal may keep 4MP (clean there).
+- **After verdict:** lock the two refs → re-point 04 demo shot → demo short.
+
 ## Jaisal/Zidane re-scope + V2-LoRA A/B (2026-10-18, user-directed — supersedes v3 face sheets)
 - **User rejected v2/v3 sheets** ("trash, unworthy"). Picked exact face anchors: Jaisal = `char1_NEW_realism_s6_00001` (A/B output), Zidane = `krea2_char1_face_c_00001`. Corrected specs: Jaisal slim + medium wavy hair + thin beard; **Zidane athletic/muscular (not chubby) + SHORT military cut (bun spec deprecated) + thin beard**. Prompt style = author's cinematic natural language (user pasted the author's car prompt).
 - **Done:** refs → `input\jaisal_ref.png`/`zidane_ref.png`; 02 gained V2-LoRA node 97 (pure vs +V2 @1.0); 4-way grid `output\char_ab\` (jaisal/zidane × pure/v2, author-style scenes: bridge / boat). Identity held both faces.
