@@ -228,3 +228,40 @@ model (Qwen) updates memory + commits afterwards.
   15-25 scene/angle/lighting variations per character, curated); (3) train character LoRA
   (trainer availability = next gap to audit); (4) wire char LoRA into 01 t2i recipe → face-locked
   everywhere (replaces identity-edit machinery).
+
+## 🔴 CHARACTER SHEET A/B/C TEST (2026-10-18 22:0x IST, user-directed) — RUNS QUEUED
+- **User: "p3 is the one you're suggesting, but lets try 2 workflows and test it... is p3
+  minimax one? if yes, lets try with qwen 2.1 and krea2 also, which is the best — ABC testing."**
+  P3 = MiniMax H3 2BZ 2-stage CONFIRMED. **ABC = A: P3 2BZ H3 (MiniMax) · B: LEEBLAAB Qwen
+  Image 2.1 (P5) · C: Krea2 t2i 3-view strip (our D142 recipe).** All 6 variants (3 routes ×
+  2 chars) BUILT by `utilities\make_abc_sheet_variants.py` + VALIDATED (all valid:true; A's
+  39 warnings = pruned stage-2 nodes only) + QUEUED (user pre-approved the ABC test):
+  - A-jaisal `bb7a4fcd-36fc-464a-92cf-cb7be16a8e6d` · A-zidane `b6a6561b-951d-4312-9736-5dd33316d23e`
+  - B-jaisal `83d7d96c-9784-4a4e-8cc5-c7aa7db40460` · B-zidane `f63bbbb1-a626-4d25-a26d-5094907d08da`
+  - C-jaisal `ad36b40c-a13c-4582-904f-62a409b9f4b2` · C-zidane `a2e0f4fe-63e7-4cf3-a46c-ccbba716e093`
+  Outputs → `output\charsheet\H3_{JAISAL,ZIDANE}_3VIEW`, `QWEN_{...}`, `KREA2_{...}`.
+  Files in UI workflows folder + project copies `05a/05b/05c_charsheet_*.json`.
+- **KIT IDENTITY LOCKED (user, same message):** both characters = **soccer jersey + track pants**.
+  **Jaisal = royal blue kit, Zidane = dark green kit** — both with a white clenched-fist roundel
+  crest ("PALESTINE RESISTANCE") on the left chest, **player name in white on the jersey back**,
+  single white side stripe on the track pants. Continuity concept: **same team, different years**
+  (different jersey colors = different seasons). Kit refs generated with Krea2 (07_kit_ref_*.json,
+  8 steps D142 recipe) → `input\jaisal_kit_ref.png` + `input\zidane_kit_ref.png` (both verified:
+  crest + PALESTINE RESISTANCE text rendered legibly, clean flat-lays).
+- **Server/pack work this span:** user restarted the server (pid 15392 → then my clean relaunch
+  pid 2608, same flags `--reserve-vram 4 --enable-manager`, log `data\comfy_startup_20261018.log`).
+  **toobusy 0.5.6 loaded ✓** (ToobusyMiniMaxH3SemanticReference/ImageLatent now in object_info).
+  **rgthree-comfy UPDATED** (June clone lacked `Fast Groups Muter` — `git pull` 91 files; the muter
+  is a FRONTEND-only JS node → validator's `unknown_class_type` on it is benign but it was DELETED
+  from the A variants along with stage-2-only nodes 125/126 (PreviewImage, dangling links) + 127
+  (CustomCombo) — stage 2 stays OFF; SaveImage 106 is fed by VAEDecode 5, independent).
+  **2BZ prompt wiring lesson:** H3 node 13's prompt slot is LINKED from node 24 (link id 127) —
+  the node's own prompt widget is IGNORED at runtime; the character master prompt was therefore
+  injected into node 24's text (master + author's stage-1 3-view template).
+  **LEEBLAAB (B) lesson:** model names live on the SUBGRAPH INTERNAL nodes (451 UNET / 453 CLIP /
+  454 VAE), not the instance widgets — patched internals to `qwen_image_2.1_bf16` (13.25GB,
+  copied main→latest) + `qwen3vl_8b_int8_convrot` (8.71GB, copied) + `qwen_image_2.1_vae_bf16`
+  (0.63GB, copied). All three copied main-tree→latest-tree.
+- **NEXT:** collect the 6 outputs → present A/B/C comparison to user (user picks the best
+  sheet route) → then the 2 Klein-9B dataset runs (`E:\Flux_klein\1 Click Dataset (Klein 9b) - {jaisal,zidane}.json`)
+  → LoRA training.

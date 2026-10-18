@@ -128,6 +128,28 @@
 - **Status:** Active — awaiting user's route choice (ranked P3 → P4 → P1 → P2 → P5 in
   CHARACTER_SHEET.md); server DOWN (crashed on the P5 bf16 attempt).
 
+## D144 — Character-sheet A/B/C test + team-kit identity (2026-10-18, user-directed)
+- **Decision:** the character-sheet step is a **3-route test** ("which is the best, so lets try
+  ABC testing"): **A = P3 2BZ H3 2-stage (MiniMax)** (confirmed as the MiniMax route) ·
+  **B = P5 LEEBLAAB Qwen Image 2.1** (7-zone design-sheet layout, 30 steps, bf16 UNET) ·
+  **C = Krea2 t2i 3-view strip** (D142 recipe, 8 steps). User then approves the winning route
+  before dataset runs.
+- **KIT IDENTITY (same message):** both characters wear a **soccer jersey + track pants** team
+  kit. **Jaisal = royal blue, Zidane = dark green** (different colors = "same team, different
+  years" continuity). Crest = **white clenched-fist roundel with PALESTINE RESISTANCE
+  wordmark** on the left chest; **player's name in white on the jersey back**; single white
+  side stripe on the track pants. Kit refs = Krea2 t2i flat-lays (`input\{jaisal,zidane}_kit_ref.png`,
+  `07_kit_ref_*.json`) — both rendered the crest + text legibly on first try.
+- **Route notes:** A needs the 2BZ stage-2-only nodes removed for stage-1-only runs (111
+  frontend muter / 125+126 PreviewImage / 127 CustomCombo) and the character master prompt
+  must ride in **node 24's text** (H3 prompt slot is linked from 24 — the node's own prompt
+  widget is ignored). B's model names must be patched on the **subgraph internal nodes**
+  (451/453/454), not the instance widgets; models `qwen_image_2.1_bf16` (13.25GB) +
+  `qwen3vl_8b_int8_convrot` (8.71GB) + `qwen_image_2.1_vae_bf16` (0.63GB) copied
+  main-tree→latest-tree.
+- **Status:** all 6 variants built + validated + queued (prompt ids in CURRENT_TASK.md);
+  awaiting results → user picks the best route.
+
 ## D143 — FLUX.2 KLEIN 9B DENSE for the LoRA dataset workflow (2026-10-18, user call)
 - **Decision:** use **FLUX.2 [klein] 9B** (not 4B) for the character-dataset stage — "we are
   aiming for quality not garbage ... stick with the more heavy weights which will fit our
