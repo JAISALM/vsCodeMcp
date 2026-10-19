@@ -568,6 +568,15 @@ model (Qwen) updates memory + commits afterwards.
     **Rule learned:** thin-line logo elements (rings, outlines) → deterministic
     color-key, NOT BiRefNet. ComfyUI `logo_transparent.json` stays for solid-body
     logos.
+  - **WORKFLOWS UPDATED (user: "update the workflows with these additional image",
+    14:4x IST):** `input\jaisal_crest_ref.png` SWAPPED → the new monochrome 1-fist
+    roundel (`LOGO_FISTS_H3_1fist_00002` copy; old colored ref backed up as
+    `jaisal_crest_ref_v1_colored.png`) — zero rewiring, all 4 sheet workflows already
+    point at the filename. Crest descriptions in ALL 4 sheet workflows (BOTH copies,
+    `patch_crest_mono.py`) upgraded to the v3 MONOCHROME spec (solid white fill +
+    black outline lines + knuckle/forearm separator lines, NO colors, thin white
+    circle); 08j negatives += "colored emblem, colored fist, red knuckles,
+    flag-color stripes". All 4 validate 0/0. **NOT YET RUN — user runs the 4 sheets.**
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI
