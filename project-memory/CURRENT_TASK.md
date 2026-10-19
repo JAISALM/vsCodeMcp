@@ -528,13 +528,20 @@ model (Qwen) updates memory + commits afterwards.
   (`C:\Users\user\Pictures\free-palestine-poster-free-palestine-poster-hand-fist-colors-
   palestine-flag-295785422.jpg`, 550×374 → saved `input\palestine_fist_ref.jpg`) and asked
   for two NEW crest designs to compare: **(A) 3-fist emblem** (like the poster) and
-  **(B) single fist in a roundel** — same style (white fists, red knuckles,
-  green/white/black striped forearms), royal blue background, NO text (D145).
-  **BUILT `logo_fists_compare.json`** (UI workflows folder, validates 0/0, both copies
-  N/A one-shot) — 4 branches: H3 ref-based (nodes 902/903 on ref 901 = the poster) +
-  Qwen 2.1 i2i (nodes 956/957, same ref, 25 steps euler/simple cfg1, 1024²). Save
-  prefixes `LOGO_FISTS_{H3,QWEN}_{3fist,1fist}`. **NOT YET RUN — awaiting user's run
-  instruction (D150).**
+  **(B) single fist in a roundel** — royal blue background, NO text (D145).
+  **`logo_fists_compare.json`** (UI workflows folder, validates 0/0) — 4 branches: H3
+  ref-based (902/903 on ref 901 = the poster) + Qwen 2.1 i2i (956/957, same ref — the
+  Qwen encode node REQUIRES an image input, t2i rejected by server). Save prefixes
+  `LOGO_FISTS_{H3,QWEN}_{3fist,1fist}`.
+  - **v1 (colored) RAN by user:** H3 1-fist = "looks good" (clean roundel, sharp lines).
+  - **v2 MONOCHROME SPEC (user, 14:0x IST): "keep it as white fillers instead of colors,
+    add black lines separating each color"** → all 4 branch prompts updated
+    (`update_logo_mono.py`): fist+forearm = SOLID WHITE FILL + black outline, NO colors
+    (no red/green); thin black separator lines where colored zones were — knuckle lines
+    separating all 4 fingers + thumb, two horizontal lines dividing each forearm into 3
+    zones; poster used for SHAPES/LAYOUT only ("its colors are ignored"). Validates 0/0.
+    **NOT YET RUN — user runs.** After pick → swap `jaisal_crest_ref.png` (zero rewiring)
+    → re-run 4 sheet routes.
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

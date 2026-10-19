@@ -162,6 +162,15 @@
 - **Kit refs regenerated:** 07_kit_ref_{jaisal,zidane} (seeds 13/29, prefixes `_00002`) →
   `input\{jaisal,zidane}_kit_ref.png` (overwrote old text-crest refs) — both verified first-try.
 - **Status:** Active. The old "PALESTINE RESISTANCE" wordmark spec is DEPRECATED.
+- **v3 update (2026-10-19, user, after colored logo v1):** "keep it as white fillers instead
+  of colors, add black lines separating each color" → crest v3 = **MONOCHROME**: fist +
+  forearm in SOLID WHITE FILL with clean black outline, NO colors (no red knuckles, no
+  green/white/black stripes); thin BLACK SEPARATOR LINES where colored zones were (knuckle
+  lines separating all 4 fingers + thumb; two horizontal lines dividing each forearm into 3
+  zones). Source = user's 3-fist poster (`input\palestine_fist_ref.jpg`) for SHAPES/LAYOUT
+  only. Two designs in comparison: (A) 3-fist emblem, (B) single fist in thin white circle
+  (roundel) — royal blue background, no text. `logo_fists_compare.json` (4 branches: H3
+  ref-based + Qwen 2.1 i2i). Status: awaiting user's run + pick.
 
 ## D146 — H3 sheet anti-plastic recipe: no turbo, no Spectrum, 30-step vanilla (2026-10-18, user-shared thread)
 - **User:** "all of them looks plastic like — check this post [1wzcu5v]" (the H3 plastic-look
