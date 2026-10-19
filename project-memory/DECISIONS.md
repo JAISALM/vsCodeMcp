@@ -252,7 +252,30 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
-## D147 — krea2edit N² attention-bias ceiling + face bases are t2i-only (2026-10-19)
+## D148 — Crest fidelity: dedicated image ref + no "logo" in negatives (2026-10-19)
+- **Problem (user):** sheets render the jersey crest weak/garbled ("looks like a minicromax
+  one, not the Palestine resistance hand") — a text description alone cannot force a crisp
+  emblem; 09j missed the kit entirely (charcoal tee) because its live PE prompt was empty.
+- **Decision (user: "add image node for that as well"):** the crest gets a DEDICATED
+  reference image — `input\jaisal_crest_ref.png` (512×512 tight crop of the fist roundel
+  from `jaisal_kit_ref.png`, `utilities\crop_crest_ref.py`) — wired as its own ref slot:
+  05d `ref_image_2` = `<Picture 3>` (node 900, link 204), 05e `ref_image_1` = `<Picture 2>`
+  (node 900, link 726). Prompts: "crest rendered EXACTLY as <Picture N>" + a SEPARATE
+  round detail panel of the emblem alone in ALL 4 workflows (08j adds it as a 4th element;
+  09j = full kit spec in PE node 555's custom prompt since its architect subgraph is not
+  instanced — live path is PE 555 → generator instance 459).
+- **Negative gotcha:** a generic "logo" term in the NEGATIVE prompt SUPPRESSES the desired
+  crest — 08j's negative carried it; removed, and added emblem-specific negatives
+  (malformed emblem, deformed fist, missing/extra fingers, illegible crest, blurred
+  emblem). **Rule: never put the word "logo" in negatives when a logo/crest is a desired
+  element.**
+- **Jersey = plain colors** (user): single flat royal blue, no patterns, no numbers on
+  front; white crest on left chest; white "JAISAL" on upper back; navy track pants +
+  single white side stripe; white boots.
+- **Status:** Active. All 4 updated workflows validate 0/0 (both copies). Zidane variant
+  gets the same treatment (`zidane_crest_ref.png` from `zidane_kit_ref.png`).
+
+## D149 — krea2edit N² attention-bias ceiling + face bases are t2i-only (2026-10-19)
 - **Hard limit discovered (user's 10a v1 OOM):** `comfyui-krea2edit._ref_attn_bias` allocates
   `torch.zeros(1, 1, L, L)` over the combined target+ref sequence — **O(N²) VRAM**. 16MP
   output + 2 full-size refs → L ≈ 136k → a **72.92 GiB** single tensor → OOM on a 32GB 5090

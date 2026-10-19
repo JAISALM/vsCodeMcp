@@ -1322,3 +1322,39 @@ to load ThinkingLLM for the user's new Qwen-2.1-LLM-architect workflow.
 **v2 (fresh t2i) — BUILT, validates 0/0, NOT YET RUN:** cloned the PROVEN approved-face recipe `krea2_t2i_char1_pe3.json` (how the user-approved face set was made), deleted the 3 TextGenerate PE nodes (Qwen llama-server stopped — plain CLIPTextEncode instead, full prompt verbatim), 3 parallel KSampler branches (seeds 42/43/44, randomize) = **3 candidates in one queue press**, latent 82 = [896, 1120, 1] (1MP 4:5 — exact proven face latent; approved faces were then 4x-upscaled via `03_hd_upscale.json`). Prompt = author's verbatim character prefix (Malayali man, round youthful face, medium wavy hair down, sparse patchy beard, lean, dark t-shirt) + FRONTAL clause (dead-center, both eyes fully open and symmetric, no side angle/profile, 85mm face-focus) + author's candid-phone-snapshot tail. Author's anti-studio negative verbatim. LoRA chain Krea2-realism-V2 @1.0 → famegrid_spicy @0.7. Save prefixes `FACEFRONTAL_JAISAL_a/_b/_c`. **No OOM risk** (plain t2i at 1MP = the exact proven face run; no ref-attention N² allocation).
 
 **Next:** user queues 10a once → pick best frontal → 03_hd_upscale 4x → swap canonical face (old → `jaisal_portrait_HD_34view.png`) → re-run sheet routes → same flow for Zidane.
+
+## 2026-10-19 — 4 sheet routes on new frontal base + crest-fidelity fix (D148)
+
+**Batch (user, ~03:00 IST, all on the new `jaisal_portrait_HD.png` frontal base):**
+- **09j QWEN21** `QWEN21_JAISAL_00001.png` = **USER'S PICK (best sheet)** — full design-sheet
+  layout (metadata/turnaround/action/silhouette/expression/detail zones), good face.
+  **Missed the kit** (charcoal tee, no crest) — its live PE prompt was empty. Architecture
+  discovery: the ThinkingLLM architect subgraph (478/480/481/549/551) is NOT instanced on
+  the main canvas (dangling link ids, never runs); LIVE path = 470 face → 485 resize(1536)
+  → 555 PE node (custom-prompt widget '') → 558 → 459 generator instance (subgraph 0:
+  KSampler 458 / TextEncode 557) → 461 save. Main-canvas nodes = [13,459,461,470,481,485,
+  555,558,563,566,567,568,569,570].
+- **05d H3WIDE** `H3WIDE_JAISAL_00003.png` = good (closeup + 3 views + 6 circles); crest
+  weak/blurry ("minicromax-like"); closeup beard slightly fuller than ref (prompt already
+  says sparse-patchy → model behavior, not prompt).
+- **05e H3FIZ** `H3FIZ_JAISAL_00002.png` = similar; SLA 83.8% sparse → 8 circles (dup
+  eye/lip/ear pairs); crest weak.
+- **08j KREA2** `KREA2_JAISAL_ID_00002.png` = 3-photo sheet, face good, small crest, no
+  detail panel.
+
+**Crest fix (built 13:2x IST, validates 0/0 both copies, NOT YET RUN):**
+- `input\jaisal_crest_ref.png` (512²) = tight crop of ONLY the fist roundel from
+  `jaisal_kit_ref.png` (box center (700,328) r75 in 1152²; `utilities\crop_crest_ref.py`).
+- 05d: +LoadImage 900 → ref_image_2 (link 204) = `<Picture 3>`; prompt: crest "exactly as
+  <Picture 3>" + 6th detail circle = emblem alone.
+- 05e: +LoadImage 900 → ref_image_1 (link 726) = `<Picture 2>` (crest); same upgrades.
+- 08j: plain-jersey + full emblem spec (all fingers+thumb, crisp, no distortion) + 4th
+  element = round crest close-up. **Negative: removed generic "logo" (it was suppressing
+  the crest!); added malformed-emblem/deformed-fist/missing-fingers/illegible-crest/
+  blurred-emblem.**
+- 09j: 555 PE custom prompt = full kit spec (royal blue jersey, fist crest, JAISAL on
+  back, navy pants white stripe, white boots, dedicated crest detail close-up, turnaround
+  in kit) + 478 ROLE (subgraph def) += KIT SPEC section before # USER.
+- **Conclusion:** emblem fidelity needs a DEDICATED image ref (text can't force a crisp
+  logo) — D148. NEXT: user runs all 4 → compare crest fidelity → pick winning route →
+  Zidane flip (incl. `zidane_crest_ref.png`).

@@ -485,6 +485,46 @@ model (Qwen) updates memory + commits afterwards.
 - **USER PLAN (in flight):** stopping Qwen + ComfyUI, restarting both (the ComfyUI
   restart also clears any cached llama_cpp backend error from the failed 09j run), then
   running ALL 4 sheet routes (05d/05e/08j/09j) with the new frontal base.
-- **NEXT:** user runs the 4 routes → compare sheets on the new frontal anchor (eyes the
-  key criterion) → user picks winning route → flip everything to Zidane (builders + 10a
-  zidane variant → frontal Zidane base) → Klein dataset → LoRA.
+- **ALL 4 SHEET ROUTES RAN ON NEW FRONTAL BASE (user, ~03:00 IST) — SCOREBOARD:**
+  - **09j QWEN21** (`QWEN21_JAISAL_00001.png`) = **USER'S PICK: BEST SHEET** — gorgeous
+    design-sheet layout (metadata column, turnaround row, action poses, silhouettes,
+    expression study, detail close-ups) with a solid face. BUT it missed the kit: sheet
+    shows charcoal tee + charcoal pants, no crest — the running PE prompt was EMPTY.
+    **Architecture discovery:** the LLM-architect chain (478/480/481/549/551) is NOT
+    instanced on the main canvas (its copies carry dangling link ids, never run); the
+    LIVE path = face 470 → 485 (1536 resize) → 555 PE node (custom prompt widget = '')
+    → 558 → 459 generator instance (subgraph 0: KSampler 458, TextEncode 557) → 461 save.
+  - **05d H3WIDE** (`H3WIDE_JAISAL_00003.png`) = good sheet (closeup + 3 views + 6 detail
+    circles); crest on jersey weak/blurry ("looks like a minicromax one"); closeup beard
+    slightly fuller than ref (prompt already says sparse-patchy — model behavior, not
+    prompt).
+  - **05e H3FIZ** (`H3FIZ_JAISAL_00002.png`) = similar; SLA 83.8% sparse → 8 circles
+    (duplicated eye/lip/ear pairs); crest weak.
+  - **08j KREA2** (`KREA2_JAISAL_ID_00002.png`) = 3-photo sheet (front/side/profile/back),
+    face good, small crest on jersey, no detail panel.
+- **CREST FIX BUILT (13:2x IST, NOT YET RUN — user runs all 4):**
+  - `input\jaisal_crest_ref.png` (512×512) = tight crop of ONLY the fist roundel out of
+    `jaisal_kit_ref.png` (`utilities\crop_crest_ref.py`, box center (700,328) r75 in the
+    1152² source) — verified: white clenched fist in thin circle on royal blue, clean.
+  - **05d:** new LoadImage 900 → `ref_image_2` (link 204) = `<Picture 3>`; prompt +=
+    crest-ref line + "crest rendered exactly as <Picture 3>" + 6th detail circle = crest
+    emblem alone.
+  - **05e:** new LoadImage 900 → `ref_image_1` (link 726) = `<Picture 2>` (crest there);
+    same prompt upgrades.
+  - **08j:** prompt now = plain royal blue jersey (no patterns/numbers) + full emblem spec
+    (all 4 fingers + thumb visible, crisp, no distortion) + **4th element = round crest
+    close-up alone** (separate detail, per user). NEGATIVE: **removed the generic "logo"
+    term — it was suppressing the crest** — added malformed-emblem/deformed-fist/
+    missing-fingers/illegible-crest/blurred-emblem terms.
+  - **09j:** node 555 PE custom prompt (was '') = full kit spec (plain royal blue jersey,
+    crest = white clenched raised fist in thin circle, all fingers + thumb visible,
+    "JAISAL" on back, navy pants white stripe, white boots, dedicated crest detail
+    close-up, turnaround in kit) + 478 ROLE (subgraph def copy) gained a KIT SPEC section
+    before # USER (future-proofing in case the architect subgraph gets instanced).
+  - **ALL 4 VALIDATE 0/0** (both copies; `wire_crest_4_wfs.py` + `wire_crest_09j.py`).
+  - **09j main-canvas node list (debugging aid):** [13, 459, 461, 470, 481, 485, 555, 558,
+    563, 566, 567, 568, 569, 570]; 459 = Qwen-2.1 generator instance (subgraph 0).
+- **NEXT:** user runs all 4 (updated) → compare crest fidelity + kit → user picks winning
+  route (09j leads on layout) → flip everything to Zidane (builders + 10a zidane variant
+  → frontal Zidane base + `zidane_crest_ref.png` crop from `zidane_kit_ref.png`) →
+  Klein dataset → LoRA.
