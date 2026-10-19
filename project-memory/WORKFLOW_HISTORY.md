@@ -20,6 +20,14 @@ ring may soften at edges. Fallback if the ring gets eaten: deterministic color-k
 (solid blue background → alpha via PIL) — crisp for logos. On white shirts a white-fill
 logo needs a black-fill variant.
 
+**2026-10-19 update — RAN by user: the ring caveat materialized** (top arc of the thin
+white ring lost to the ML mask). **Fixed deterministically** with
+`utilities\logo_to_transparent.py` (blue-chroma alpha key, no GPU):
+`data\crests\logo_1fist_{white,black}_transparent.png` — ring complete, corners
+alpha=0; black variant = inverted luminance, same alpha (for white shirts). **Rule:**
+thin-line logo elements → color-key, not BiRefNet; this workflow stays for solid-body
+logos.
+
 ## 2026-10-18 — BUILT 8 SHEET-TEST workflows (D144) — `07_kit_ref_{jaisal,zidane}.json` (kit flat-lays) + `05a/05b/05c_charsheet_*.json` (A/B/C routes × 2 chars) — ALL VALIDATE CLEAN
 
 **Purpose:** the user-directed A/B/C character-sheet test (which route wins) + the team-kit refs

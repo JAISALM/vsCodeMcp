@@ -551,10 +551,23 @@ model (Qwen) updates memory + commits afterwards.
   `E:\ComfyUI_windows_portable\ComfyUI\models\background_removal\`, 424MB — no download)
   → SaveImage `LOGO_TRANSPARENT/logo_1fist` (RGBA PNG, blue background gone) +
   PreviewImage. GENERIC: to process the 3-fist variant (or any logo), just change the
-  LoadImage file + prefix. **NOT YET RUN.** Caveat: BiRefNet mask may soften the thin
-  white ring edges — fallback if ring gets eaten = deterministic color-key (blue→alpha,
-  PIL) since the background is solid. On WHITE shirts a white-fill logo needs a
-  black-fill variant (future).
+  LoadImage file + prefix.
+  - **RAN by user 14:3x IST:** BiRefNet LOST the top arc of the thin white ring (ML
+    mask on a 2px line) — the caveat materialized. **FIXED with deterministic
+    blue-chroma color-key** (no ML, no GPU): `utilities\logo_to_transparent.py`
+    (input → out_white + out_black): alpha from blue-chroma distance (B - max(R,G):
+    ≤30 opaque, ≥70 transparent, linear ramp) — ring-safe, kills the top gray band.
+    **ASSETS DELIVERED (verified: corners alpha=0, top-band alpha=0, 69.8%
+    transparent, ring top opaque at y=95):**
+    - `data\crests\logo_1fist_white_transparent.png` = white fill + black lines — for
+      DARK shirts (royal blue / dark green / black).
+    - `data\crests\logo_1fist_black_transparent.png` = black fill + white detail lines
+      (inverted luminance, SAME alpha/shape) — for WHITE shirts (user: "black
+      alternatives as well if needed in future" — done).
+    - Copies in `E:\comfyUi_latest\...\output\` too.
+    **Rule learned:** thin-line logo elements (rings, outlines) → deterministic
+    color-key, NOT BiRefNet. ComfyUI `logo_transparent.json` stays for solid-body
+    logos.
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI
