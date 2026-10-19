@@ -252,6 +252,19 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D150 — Run discipline: explicit per-run instruction + qwen/comfyui exclusivity (2026-10-19)
+- **Incident:** agent misread "you create these and let me know" as run approval and
+  queued the logo-comparison job on the user's ComfyUI. User stopped it: "dont run
+  anything untill i specify".
+- **Rule 1:** "create / make / update / wire" = file work ONLY. A run needs an EXPLICIT
+  run instruction (run/queue/start/execute) for that specific workflow — D138
+  reinforced, never inferred from "create these".
+- **Rule 2:** NEVER run workflows in parallel. Qwen llama-server (port 8100) and
+  ComfyUI (especially MiniMax H3 generation) cannot share the GPU at the same time
+  (VRAM contention on the 32GB 5090). User manages both servers; the agent confirms
+  server state before proposing any run, and runs ONE workflow at a time.
+- **Status:** Permanent, all sessions.
+
 ## D148 — Crest fidelity: dedicated image ref + no "logo" in negatives (2026-10-19)
 - **Problem (user):** sheets render the jersey crest weak/garbled ("looks like a minicromax
   one, not the Palestine resistance hand") — a text description alone cannot force a crisp

@@ -524,7 +524,24 @@ model (Qwen) updates memory + commits afterwards.
   - **ALL 4 VALIDATE 0/0** (both copies; `wire_crest_4_wfs.py` + `wire_crest_09j.py`).
   - **09j main-canvas node list (debugging aid):** [13, 459, 461, 470, 481, 485, 555, 558,
     563, 566, 567, 568, 569, 570]; 459 = Qwen-2.1 generator instance (subgraph 0).
-- **NEXT:** user runs all 4 (updated) → compare crest fidelity + kit → user picks winning
-  route (09j leads on layout) → flip everything to Zidane (builders + 10a zidane variant
-  → frontal Zidane base + `zidane_crest_ref.png` crop from `zidane_kit_ref.png`) →
-  Klein dataset → LoRA.
+- **LOGO COMPARISON TASK (user, 14:0x IST):** user pasted a 3-fist Palestine poster
+  (`C:\Users\user\Pictures\free-palestine-poster-free-palestine-poster-hand-fist-colors-
+  palestine-flag-295785422.jpg`, 550×374 → saved `input\palestine_fist_ref.jpg`) and asked
+  for two NEW crest designs to compare: **(A) 3-fist emblem** (like the poster) and
+  **(B) single fist in a roundel** — same style (white fists, red knuckles,
+  green/white/black striped forearms), royal blue background, NO text (D145).
+  **BUILT `logo_fists_compare.json`** (UI workflows folder, validates 0/0, both copies
+  N/A one-shot) — 4 branches: H3 ref-based (nodes 902/903 on ref 901 = the poster) +
+  Qwen 2.1 i2i (nodes 956/957, same ref, 25 steps euler/simple cfg1, 1024²). Save
+  prefixes `LOGO_FISTS_{H3,QWEN}_{3fist,1fist}`. **NOT YET RUN — awaiting user's run
+  instruction (D150).**
+- **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
+  as run approval and queued the logo job → user stopped it: "dont run anything untill i
+  specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI
+  (especially MiniMax H3) cannot run together** (VRAM contention, 32GB 5090). User
+  manages servers; confirm state before proposing a run.
+- **NEXT:** user runs `logo_fists_compare.json` (or tells the agent to run it) → compare
+  4 candidates → pick crest design → swap `jaisal_crest_ref.png` (zero rewiring — all 4
+  sheet workflows already point at that filename) → user runs the 4 updated sheet routes
+  → pick winning sheet route → Zidane flip (incl. `zidane_crest_ref.png`) → Klein
+  dataset → LoRA.
