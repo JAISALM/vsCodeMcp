@@ -542,6 +542,19 @@ model (Qwen) updates memory + commits afterwards.
     zones; poster used for SHAPES/LAYOUT only ("its colors are ignored"). Validates 0/0.
     **NOT YET RUN — user runs.** After pick → swap `jaisal_crest_ref.png` (zero rewiring)
     → re-run 4 sheet routes.
+- **TRANSPARENT LOGO WORKFLOW (user, 14:2x IST):** approved the monochrome 1-fist
+  (`LOGO_FISTS_H3_1fist_00002` — "this is fine") and asked for an **abstract/transparent
+  version** ("so that then only it will be applied to other t shirts with diff colors").
+  **BUILT `logo_transparent.json`** (UI folder, validates 0/0): LoadImage
+  `logo_1fist_mono.png` (copy of the approved logo, in `input\`) →
+  **PixaromaRemoveBackground** (BiRefNet — `birefnet.safetensors` already installed in
+  `E:\ComfyUI_windows_portable\ComfyUI\models\background_removal\`, 424MB — no download)
+  → SaveImage `LOGO_TRANSPARENT/logo_1fist` (RGBA PNG, blue background gone) +
+  PreviewImage. GENERIC: to process the 3-fist variant (or any logo), just change the
+  LoadImage file + prefix. **NOT YET RUN.** Caveat: BiRefNet mask may soften the thin
+  white ring edges — fallback if ring gets eaten = deterministic color-key (blue→alpha,
+  PIL) since the background is solid. On WHITE shirts a white-fill logo needs a
+  black-fill variant (future).
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

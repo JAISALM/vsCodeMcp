@@ -4,6 +4,22 @@ Newest changes first.
 
 ---
 
+## 2026-10-19 — BUILT `logo_transparent.json` (VALIDATE CLEAN 0/0, 5 nodes) — transparent-logo (background-removal) pipeline, crest v3 (D145-v3)
+
+**Purpose:** user approved the monochrome 1-fist roundel (`LOGO_FISTS_H3_1fist_00002`) and
+asked for an ABSTRACT/transparent version so the crest can be applied to t-shirts of any
+color. **Chain:** LoadImage (`logo_1fist_mono.png` — copy of the approved logo, in
+`input\`) → **PixaromaRemoveBackground** (`comfyui_fearnworksnodes` pack, BiRefNet) →
+SaveImage `LOGO_TRANSPARENT/logo_1fist` (RGBA PNG) + PreviewImage (checkerboard check).
+**Model:** `birefnet.safetensors` (424MB) already in
+`E:\ComfyUI_windows_portable\ComfyUI\models\background_removal\` — no download.
+**Generic:** change the LoadImage filename + SaveImage prefix to process the 3-fist
+variant or any future logo. **Status:** built, validated, NOT YET RUN (D150 — user runs).
+**Watch:** BiRefNet is a salient-object ML mask — the solid fist is safe; the thin white
+ring may soften at edges. Fallback if the ring gets eaten: deterministic color-key
+(solid blue background → alpha via PIL) — crisp for logos. On white shirts a white-fill
+logo needs a black-fill variant.
+
 ## 2026-10-18 — BUILT 8 SHEET-TEST workflows (D144) — `07_kit_ref_{jaisal,zidane}.json` (kit flat-lays) + `05a/05b/05c_charsheet_*.json` (A/B/C routes × 2 chars) — ALL VALIDATE CLEAN
 
 **Purpose:** the user-directed A/B/C character-sheet test (which route wins) + the team-kit refs
