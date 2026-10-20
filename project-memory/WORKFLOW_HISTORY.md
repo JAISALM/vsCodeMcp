@@ -57,7 +57,12 @@ oval — LEAN and fit [the bulky instruction was a misguidance], short black hal
 FULL short dark beard, white tee; same style/length as jaisal's working prompt). 301 =
 jaisal's negative minus "short haircut"/"perfectly groomed beard" + hair locks
 (long/wavy/man-bun/topknot/ponytail/tied-up). i2i route DROPPED (v4's denoise 0.4 came
-out = the input). **VALIDATES 0/0 (22 nodes).**
+out = the input). **VALIDATES 0/0 (22 nodes).** **v5b:** first v5 prompt kept Jaisal's
+first 80 chars (user caught it — D156 shared-opening failure) → 300/313/318 replaced
+with a FULLY INDEPENDENT prompt (0 shared chars): "Realistic close-up photo of a young
+Malayali footballer from Kerala..." — ROUND full-cheeked face (wider than a long
+oval), defined facial features, halal cut, full short dark beard, lean and fit / slim
+athletic (NOT bulky/muscular/fat), white tee, frontal half-smile. **VALIDATES 0/0.**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

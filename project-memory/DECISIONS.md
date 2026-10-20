@@ -284,7 +284,19 @@
 - **i2i lesson:** denoise 0.4 from the approved 3/4 portrait came out = the INPUT
   (barely changed — too weak for a head rotation). Pose changes need higher denoise or
   a different route; t2i branches are the reliable pick-set.
-- **Status:** v5 validate 0/0 — **USER RUNS** (fresh tab) → `FACEFRONTAL2_ZIDANE_{a,b,c}`.
+- **v5b fix (same turn, user caught it — "just copied the jaisals prompt, didnt even
+  replaced zidanes prompt with the new details i shared"):** the first v5 prompt kept
+  Jaisal's first 80 characters verbatim = the D156 shared-opening-token failure mode
+  all over again. Replaced with a **FULLY INDEPENDENT** prompt (verified: 0 shared
+  characters with the jaisal prompt): "Realistic close-up photo of a young Malayali
+  footballer from Kerala..." — ROUND full-cheeked face (wider than a long oval),
+  clearly defined facial features, short black halal cut, FULL short dark beard, lean
+  and fit / slim athletic (NOT bulky, NOT muscular, NOT fat), white tee, frontal,
+  half-smile, real unposed photo. All 3 branches (300/313/318) identical. Validate 0/0.
+- **Rule:** when cloning a sibling's workflow for a new character, the prompt must be
+  written from scratch — ZERO shared opening tokens with the sibling (D156 applies to
+  PROMPTS too, not just files).
+- **Status:** v5b validate 0/0 — **USER RUNS** (fresh tab) → `FACEFRONTAL2_ZIDANE_{a,b,c}`.
 
 ## D160 — SUPERSEDED (build part, by D161) — prompt bloat kills realism (still valid) (2026-10-20)
 - **User:** "the image has now lost its quality, the realism is gone ... lets start from the

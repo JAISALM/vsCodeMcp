@@ -669,7 +669,11 @@ model (Qwen) updates memory + commits afterwards.
   was a misguidance, retracted**, halal cut, full short beard, white tee) + zidane
   negative. i2i route DROPPED (denoise 0.4 came out = the input). Saves
   `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, fresh counter). Builder = `build_10a_zidane.py`
-  (rewritten: clones jaisal 10a wholesale). **NEW STANDARD (user): all live character
+  (rewritten: clones jaisal 10a wholesale). **v5b fix (user: "just copied the jaisals
+  prompt"):** v5's prompt kept jaisal's first 80 chars (D156 shared-opening failure) →
+  replaced with a FULLY INDEPENDENT prompt (0 shared chars, verified): footballer,
+  ROUND full-cheeked face, defined features, halal cut, full beard, lean/slim NOT fat,
+  white tee. 300/313/318 identical. Validate 0/0. **NEW STANDARD (user): all live character
   prompts copied VERBATIM into PIPELINE.md (PROMPTS section); update in the same turn
   as any prompt change.** Validate 0/0 — re-run.
   **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
