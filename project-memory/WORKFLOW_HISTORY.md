@@ -46,7 +46,18 @@ denoise 0.4` (seed 77, same model/prompt/negative) → `324 VAEDecode` → `325 
 FACEFRONTAL_I2I_ZIDANE` — his pixels anchor identity, only head rotation changes
 (strongest lock). One run = 4 candidates. Native shapes (KSampler 7-value, LoadImage
 COMBO+IMAGEUPLOAD, VAEEncode 0 widgets); fan-out links + output lists rebuilt from the
-links array; wiring verified. **VALIDATES 0/0 (21 nodes).**
+links array; wiring verified. **VALIDATES 0/0 (21 nodes).** **v5 (CURRENT, D161):**
+REBUILT as a clean clone of the **WORKING `10a_frontal_base_jaisal.json`** (user: "can
+we just use the jaisals workflow where we created these images? ... isnt that the
+easiest way?") — chain `krea2_turbo_fp8_scaled` + `Krea2-realism-V2`@1.0 +
+`famegrid_spicy_3167060`@0.7 + `FameGridColorFinish` [1.0, 0.6], 10 steps, **896×1120**,
+3 branches (seeds randomize, displayed 77/76/78), saves `FACEFRONTAL2_ZIDANE_{a,b,c}`
+(root, fresh counter). 300/313/318 = ZIDANE-LED prompt (round face — wider than a long
+oval — LEAN and fit [the bulky instruction was a misguidance], short black halal cut,
+FULL short dark beard, white tee; same style/length as jaisal's working prompt). 301 =
+jaisal's negative minus "short haircut"/"perfectly groomed beard" + hair locks
+(long/wavy/man-bun/topknot/ponytail/tied-up). i2i route DROPPED (v4's denoise 0.4 came
+out = the input). **VALIDATES 0/0 (22 nodes).**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

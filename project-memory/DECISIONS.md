@@ -261,7 +261,32 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
-## D160 — Zidane is SLIGHTLY BULKY (full face, fat cheeks, rounded jaw); D142 purity — prompt bloat kills realism (2026-10-20)
+## D161 — CANONICAL ZIDANE FINAL: LEAN + ROUND face; reuse the PROVEN jaisal 10a chain with a ZIDANE-led prompt (2026-10-20)
+- **User:** "the last image [i2i] is just the input, first 3 is good now, but this is
+  like a fat boy, we dont need this ... he is a footballer, no fat, sorry for the
+  misguidance, and lets make his face looks round, so that jaisals long one doesnt
+  look similar ... can we just use the jaisals workflow where we created these images
+  [the good frontals]? those frontal ones, with the different prompt, isnt that the
+  easiest way?"
+- **Build re-correction (supersedes D160's "slightly bulky" — that instruction was a
+  misguidance):** Zidane is LEAN and fit (footballer, no fat). D160's stocky prompt
+  made him come out "like a fat boy".
+- **Face shape:** distinctly ROUND (wider/rounder than a long oval face) — deliberately
+  different from Jaisal's long/oval face so the two don't look similar.
+- **Method (user's suggestion, adopted):** `10a_frontal_base_zidane.json` **v5 = clean
+  clone of the WORKING `10a_frontal_base_jaisal.json`** — the exact chain that produced
+  the approved jaisal frontals (`krea2_turbo_fp8_scaled` + V2@1.0 + spicy@0.7 +
+  FameGridColorFinish, 10 steps, 896×1120, 3 branches) — with a **ZIDANE-LED prompt**
+  (his own identity block up front: round face, halal cut, full beard, white tee; same
+  working style/length as jaisal's) and zidane's negative (jaisal's minus "short
+  haircut"/"perfectly groomed beard", plus hair locks long/wavy/man-bun/topknot).
+  i2i route DROPPED.
+- **i2i lesson:** denoise 0.4 from the approved 3/4 portrait came out = the INPUT
+  (barely changed — too weak for a head rotation). Pose changes need higher denoise or
+  a different route; t2i branches are the reliable pick-set.
+- **Status:** v5 validate 0/0 — **USER RUNS** (fresh tab) → `FACEFRONTAL2_ZIDANE_{a,b,c}`.
+
+## D160 — SUPERSEDED (build part, by D161) — prompt bloat kills realism (still valid) (2026-10-20)
 - **User:** "the image has now lost its quality, the realism is gone ... lets start from the
   beginning with a good prompt and lets lock the characters ... zidane is little bulky so lets
   have him some facial structure and fat".

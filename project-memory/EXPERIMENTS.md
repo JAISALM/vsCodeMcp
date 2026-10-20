@@ -65,6 +65,24 @@ VISUAL block in the Krea2 prompt — a one-line description is too weak and the 
 prior wins. All live character prompts are now copied VERBATIM into PIPELINE.md
 (PROMPTS section) so the user can review + request per-character changes.
 
+**v4 run results (user, 2026-10-20):** the i2i route (denoise 0.4 from the approved 3/4
+portrait) came out **= the input** — barely changed; denoise 0.4 is too weak for a head
+rotation ("the last image is just the input"). The t2i branches with the v4b "slightly
+stocky / full face / natural fat" prompt came out **"like a fat boy"** — the user then
+retracted the bulky instruction ("he is a footballer, no fat, sorry for the
+misguidance").
+**Fix (v5, D161):** user's suggestion adopted — clean clone of the WORKING
+`10a_frontal_base_jaisal.json` (turbo + V2 + spicy chain, 10 steps, 896×1120, 3
+branches — the exact chain that produced the approved jaisal frontals) with a
+**ZIDANE-LED** prompt (round face, LEAN build, halal cut, full beard, white tee; same
+style as jaisal's working prompt) and zidane's negative. i2i dropped.
+**Lessons:** (1) i2i denoise 0.4 ≈ no change for a head-rotation task — pose changes
+need a stronger denoise or a different route; (2) a build description in the prompt
+controls the body faithfully — "stocky + fat" → fat boy; (3) when a sibling character's
+workflow already produces approved frontals, cloning its CHAIN + swapping a
+character-led prompt is the fastest reliable route (the prompt must lead with the new
+character's own identity block — v1's failure was keeping the sibling's prompt).
+
 ## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
 - **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and
   the emblem were missing and it had to create something own, which turned out bad, we need

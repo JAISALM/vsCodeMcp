@@ -658,16 +658,20 @@ model (Qwen) updates memory + commits afterwards.
      `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
      a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
      Jaisal).
-  **v4b (D160 — user: "the image has now lost its quality, the realism is gone ... zidane
-  is little bulky so lets have him some facial structure and fat"):** v4a's ~15-sentence
-  prompt + NOT-tag block = D142 failure mode → realism dropped. 300 REWRITTEN FROM
-  SCRATCH in the locked D142 style: 5 natural sentences, ZERO NOT-tag spam, concrete
-  features — **slightly stocky build, FULL face, soft full cheeks with a little natural
-  fat, strong but rounded jawline** (new canonical build; old "lean and athletic" is
-  WRONG/superseded), halal cut, dense full short beard. Negative carries safety.
-  **NEW STANDARD (user): all live character prompts copied VERBATIM into PIPELINE.md
-  (PROMPTS section); update in the same turn as any prompt change.** 09k needs NO
-  build-text change (identity = left panel only, D151). Validate 0/0 — re-run.
+  **v5 (D161 — user: "the last image is just the input, first 3 is good ... this is like
+  a fat boy, we dont need this ... he is a footballer, no fat, sorry for the
+  misguidance ... make his face round ... can we just use the jaisals workflow where we
+  created these images?"):** user's own suggestion adopted — **10a_frontal_base_zidane
+  v5 = clean clone of the WORKING `10a_frontal_base_jaisal.json`** (the chain that
+  produced the approved jaisal frontals: turbo + V2@1.0 + spicy@0.7 + ColorFinish, 10
+  steps, 896×1120, 3 branches) with a ZIDANE-LED prompt (his identity block up front:
+  **ROUND face** wider than a long oval, **LEAN and fit — the "bulky/fat" instruction
+  was a misguidance, retracted**, halal cut, full short beard, white tee) + zidane
+  negative. i2i route DROPPED (denoise 0.4 came out = the input). Saves
+  `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, fresh counter). Builder = `build_10a_zidane.py`
+  (rewritten: clones jaisal 10a wholesale). **NEW STANDARD (user): all live character
+  prompts copied VERBATIM into PIPELINE.md (PROMPTS section); update in the same turn
+  as any prompt change.** Validate 0/0 — re-run.
   **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
   the charaters ffs"):** one run, 4 candidates — 3 t2i branches (seeds 77/76/78 fixed,
   shared 01 chain) → `FACEFRONTAL2_ZIDANE_{a,b,c}` (output ROOT) + **1 i2i route from
