@@ -261,6 +261,47 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D154 — Sheet A/B verdict: 09j (Qwen) wins; 3-panel reference feed + live spec layer (2026-10-20)
+- **A/B results (user ran all 4 sheets):** **09j Qwen = winner** (user: "qwen ended up being
+  the top") — the only route with both a professional design-sheet layout (metadata column,
+  hero, turnaround row, action panel, silhouettes, expressions, detail grid) AND identity
+  close to the reference. 05d H3-wide: good face + layout but small crest roundel. 05e
+  H3-fizgig: **identity drift** (fuller beard — a different man) + duplicated back view.
+  08j Krea2: good face + good crest (it carries a crest ref) but loose layout (no sheet
+  structure).
+- **Root cause (user's hypothesis confirmed — it's the setup, not the model):** the route
+  ARCHITECTURE decides. 09j separates **spec (text)** from **identity (image)**: the PE
+  architect (which sees the face) writes a precise 10-section sheet spec and the i2i
+  generator is conditioned on face image + that spec. The other routes give the model
+  image-only conditioning (H3 R2V refs = frame anchors for a video model, not identity
+  locks for a static sheet) or a weak layout prior (Krea2 edit = "photograph of a person",
+  not "design sheet document").
+- **09j emblem-invention root cause — dead spec layer:** the PE LLM input = **internal
+  subgraph node 478** (the 10,404-char architect spec). The turn-53 monochrome spec was
+  placed in **instance 555 widget[0] — a dead field** (not in the named widget dict,
+  absent from the LLM input — proven by the user's debug paste: the LLM input carried
+  478's OLD non-monochrome KIT SPEC, "a white clenched raised fist inside a thin white
+  circle", no no-color constraint) → with no crest image and no monochrome constraint the
+  architect **invented its own crown-like emblem** ("TEIIM CREST" typo tile) and the
+  jersey came out flat (no texture).
+- **Fix (file work, user runs):** (1) **3-panel composite reference**
+  `input\jaisal_sheet_ref_3panel.png` (2304×1536 = exactly the 3:2 sheet aspect → i2i sees
+  the whole composite, no crop; PE image budget 4MP ≥ 3.54MP → architect sees it at full
+  resolution): LEFT = face portrait (dominant, full height — SOLE identity source),
+  TOP-RIGHT = crest emblem on royal blue (COPY target, not invention target), BOTTOM-RIGHT
+  = kit flat-lay (color/fabric/texture source) — `build_3panel_ref.py`. (2) **Rewire:**
+  470 → composite; PE 555.in0 + generator 459.in6 take the composite directly; **VSR node
+  485 BYPASSED** (it soft-upscaled the face 896×1120→1368×1712 — half of the "full body is
+  a bit blurry" cause). (3) **478 (live layer) updated:** new REFERENCE IMAGE LAYOUT
+  section + monochrome KIT SPEC; 555[0] mirrored. `patch_09j_3panel.py`, both copies,
+  validate 0 errors (orphan 485 warning = expected, harmless — pruned, doesn't run).
+- **Rule: the PE's LIVE spec layer = the internal subgraph text node (478), NOT the
+  instance's unnamed positional widget (555[0]). When changing a PE's behavior, verify
+  which text layer actually reaches the LLM — the node's debug "Final prompt" is the
+  ground truth.**
+- **Status:** Active — user runs 09j (FRESH tab) with the 3-panel feed → verify crest =
+  actual roundel + jersey texture → 09j = the locked sheet route → dataset/LoRA stage.
+
 ## D153 — Multi-layer model widgets: sync ALL layers to on-disk models (2026-10-20)
 - **Problem (user saw errors in 09j UI):** author-baked model defaults persisted in the
   LAYER I hadn't patched. Workflows store model names in up to FOUR places:

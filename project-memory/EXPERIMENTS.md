@@ -4,6 +4,43 @@ Newest experiments first.
 
 ---
 
+## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
+- **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and
+  the emblem were missing and it had to create something own, which turned out bad, we need
+  to feed the images, at least the crest alone" + "i want to understand how others went really
+  bad ... its not the models fault i feel like our setup/prompt issue" + "lets complete this
+  today".
+- **Results:**
+  - **09j Qwen = WINNER** (`QWEN21_JAISAL_00002`, 2304×1536): professional design-sheet
+    layout (metadata column, hero, turnaround, action poses, silhouettes, expressions, 6
+    detail tiles) + face close to the reference + correct kit. **Failure modes:** chest
+    emblem INVENTED (crown-like, "TEIIM CREST" typo tile — no crest was ever shown to the
+    model), jersey flat (no fabric texture), full body slightly blurry.
+  - **05d H3-wide** (`H3WIDE_JAISAL_00005`): good face + good layout (portrait + 3 body
+    views + 6 detail circles) but small crest roundel.
+  - **05e H3-fizgig** (`H3FIZ_JAISAL_00004`): **identity drift** — a different man (fuller
+    dark beard, different hair) + duplicated back view (4 body views, double "JAISAL").
+  - **08j Krea2** (`KREA2_JAISAL_ID_00004`): good face, good crest (workflow carries a
+    crest ref image), but loose layout (4 loose views + floating crest, no sheet structure).
+- **Root cause (setup, not model):** 09j's architecture separates spec (text, written by a
+  PE architect that sees the face) from identity (image, i2i conditioning) → both
+  controlled. H3 R2V refs = frame anchors for a video model (soft identity, layout from the
+  model's own prior). Krea2 edit = strong identity, "photograph of a person" layout prior.
+  **09j emblem bug:** the monochrome spec lived in 555 widget[0] — a DEAD field; the PE LLM
+  actually received 478's OLD non-monochrome spec (user's debug paste proves it) → no
+  monochrome constraint + no crest image → the model invented the emblem.
+- **Fix (file work, user runs):** `input\jaisal_sheet_ref_3panel.png` 2304×1536 (3:2 =
+  sheet aspect → no i2i crop; PE budget 4MP ≥ 3.54MP → full-res architect view): LEFT face
+  (dominant) / TOP-RIGHT crest on royal blue / BOTTOM-RIGHT kit flat-lay. Rewire: 470 →
+  composite → PE 555.in0 + i2i 459.in6 directly; **VSR 485 bypassed** (soft-upscaled the
+  face 896×1120→1368×1712 — half the blur). 478 ← REFERENCE IMAGE LAYOUT + monochrome KIT
+  SPEC; 555[0] mirrored. Both copies validate 0/0.
+- **Conclusion:** 09j = the sheet route (pending user verification run). Crest is now a COPY
+  target (image) instead of an invention target (text-only). Blur mitigated (native face
+  pixels, no VSR); if the hero is still soft → crop hero + 4× upscale (03_hd_upscale) for
+  dataset use.
+- **Status:** DONE (file work) — awaiting user run + verdict.
+
 ## 2026-10-18 22:0x — CHARACTER SHEET A/B/C TEST (in progress — user-directed)
 - **Trigger:** user: "p3 is the one you're suggesting, but lets try 2 workflows and test it, is p3
   minimax one? ... lets try with qwen 2.1 and krea2 also, which is the best, so lets try ABC

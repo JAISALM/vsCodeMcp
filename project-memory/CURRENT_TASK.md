@@ -600,6 +600,23 @@ model (Qwen) updates memory + commits afterwards.
     `models\LLM\GGUF\` (`[local]` prefix = node convention, resolves). All 4
     re-validate 0/0. **Rule: no manual model changes needed — stored value is what
     runs; localize all layers once.**
+- **SHEET A/B VERDICT + 3-PANEL FEED (user ran all 4, 2026-10-20, D154):** **09j Qwen =
+  winner** ("qwen ended up being the top") — only route with both the professional design-sheet
+  layout and identity close to the reference. 05e = identity drift (a different man, fuller
+  beard) + duplicated back view; 05d = good but H3's soft ref conditioning (video-model frame
+  anchors, not identity locks); 08j Krea2 = good face + good crest but loose layout. **Root
+  cause = architecture, not model** (user's hypothesis confirmed): 09j separates spec (text, PE
+  architect that sees the face) from identity (image, i2i conditioning); other routes give
+  image-only conditioning. **09j emblem-invention bug = dead spec layer:** the PE LLM received
+  the OLD non-monochrome spec from internal node 478 — our turn-53 monochrome spec had gone
+  into 555 widget[0], a dead field (proven by the user's debug paste). **Fix (file work, user
+  runs):** 3-panel composite `input\jaisal_sheet_ref_3panel.png` (2304×1536, 3:2 = sheet
+  aspect, no i2i crop; face LEFT dominant / crest TOP-RIGHT / kit BOTTOM-RIGHT —
+  `build_3panel_ref.py`) fed into PE 555.in0 + i2i 459.in6 directly (VSR 485 bypassed — it
+  soft-upscaled the face, half the blur); 478 ← REFERENCE IMAGE LAYOUT + monochrome KIT SPEC
+  (`patch_09j_3panel.py`); both copies validate 0/0 (orphan 485 warning harmless). **Next:**
+  user runs 09j (fresh tab) → if crest = actual roundel + jersey texture ✓ → 09j = locked
+  sheet route → dataset/LoRA stage (Klein-9B dense, D143).
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

@@ -4,6 +4,28 @@ Newest changes first.
 
 ---
 
+## 2026-10-20 — `09j_QWEN21_JAISAL_sheet`: 3-panel reference feed + live spec fix (D154)
+
+**Purpose:** 4-way sheet A/B verdict → **09j wins**; fix the emblem-invention +
+jersey-texture-missing + face-softening failure modes.
+**Changes (both copies, `patch_09j_3panel.py`, validate 0 errors):**
+- `470` LoadImage → `jaisal_sheet_ref_3panel.png` (NEW 2304×1536 3-panel composite:
+  LEFT = face 896×1120 scaled to full height (dominant), TOP-RIGHT = crest 760² on royal
+  blue, BOTTOM-RIGHT = kit 760² flat-lay; 16px white gaps; `build_3panel_ref.py`).
+- Rewire: composite feeds PE `555.in0` AND generator `459.in6` (i2i `images.image_1`)
+  directly; **VSR node `485` (nvidia_rtx_vsr) BYPASSED** (orphaned — harmless
+  `node_not_reachable` warning; it soft-upscaled the face 896×1120→1368×1712 before the
+  PE — half the blur).
+- `478` (PE subgraph = **THE LIVE SPEC LAYER** — what the LLM actually receives): ← new
+  REFERENCE IMAGE LAYOUT section (LEFT = SOLE identity, TOP-RIGHT = crest COPY target,
+  BOTTOM-RIGHT = kit) + monochrome KIT SPEC. The OLD non-monochrome block had been in
+  effect all along — the turn-53 monochrome spec had gone into 555 widget[0], a dead
+  field (absent from the LLM input). 555[0] mirrored to the same combined spec.
+- Unchanged: 451/453/454 model layers (D152/D153), 459 instance widgets (D153), `13`
+  ResolutionSelector 3:2 @ 3.4MP, `481` "JAISAL", 569 stitch diagnostic.
+**Status:** validates 0/0 — **USER RUNS (fresh tab)** → if crest = actual roundel +
+jersey texture ✓ → 09j locked as the sheet route → dataset/LoRA stage.
+
 ## 2026-10-19 — BUILT `logo_transparent.json` (VALIDATE CLEAN 0/0, 5 nodes) — transparent-logo (background-removal) pipeline, crest v3 (D145-v3)
 
 **Purpose:** user approved the monochrome 1-fist roundel (`LOGO_FISTS_H3_1fist_00002`) and
