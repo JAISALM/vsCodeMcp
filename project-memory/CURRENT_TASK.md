@@ -658,22 +658,22 @@ model (Qwen) updates memory + commits afterwards.
      `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
      a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
      Jaisal).
-  **v5 (D161 — user: "the last image is just the input, first 3 is good ... this is like
-  a fat boy, we dont need this ... he is a footballer, no fat, sorry for the
-  misguidance ... make his face round ... can we just use the jaisals workflow where we
-  created these images?"):** user's own suggestion adopted — **10a_frontal_base_zidane
-  v5 = clean clone of the WORKING `10a_frontal_base_jaisal.json`** (the chain that
-  produced the approved jaisal frontals: turbo + V2@1.0 + spicy@0.7 + ColorFinish, 10
-  steps, 896×1120, 3 branches) with a ZIDANE-LED prompt (his identity block up front:
-  **ROUND face** wider than a long oval, **LEAN and fit — the "bulky/fat" instruction
-  was a misguidance, retracted**, halal cut, full short beard, white tee) + zidane
-  negative. i2i route DROPPED (denoise 0.4 came out = the input). Saves
-  `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, fresh counter). Builder = `build_10a_zidane.py`
-  (rewritten: clones jaisal 10a wholesale). **v5b fix (user: "just copied the jaisals
-  prompt"):** v5's prompt kept jaisal's first 80 chars (D156 shared-opening failure) →
-  replaced with a FULLY INDEPENDENT prompt (0 shared chars, verified): footballer,
-  ROUND full-cheeked face, defined features, halal cut, full beard, lean/slim NOT fat,
-  white tee. 300/313/318 identical. Validate 0/0. **NEW STANDARD (user): all live character
+  **v5/v5b FAILED (D162 — user: "the images looks exactly same as jaisals image without
+  hair ... are we doing it in same seed? think outside the box"):** v5/v5b ran on
+  Jaisal's turbo chain (896×1120) → output = JAISAL'S FACE wearing zidane's hair/tee
+  (verified side-by-side; 4 randomize runs, same face). Krea2 anchors the FACE to
+  chain + resolution + prompt family — NOT seed or prompt details. v5's prompt also
+  kept jaisal's first 80 chars (caught by user) → v5b fully independent prompt, still
+  jaisal's face (chain, not prompt).
+  **v6 (CURRENT):** back to ZIDANE'S HOME CHAIN — `10a_frontal_base_zidane.json` =
+  clone of `01_character_sheet.json` (`Krea2Realism_V1` + V2@1.0, `qwen3vl_4b` krea2,
+  `qwen_image_vae`, 8 steps, **1152×2048**) + v4b prompt family (the one whose face
+  the user approved — "first 3 is good", only the build was fat) with ONLY the build
+  line fixed (lean and fit + distinctly ROUND face, zero fat words). 3 branches seeds
+  **77/76/78 FIXED** (77 = his approved face seed = the lock). Saves
+  `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next counter `_00006_`). Builder =
+  `build_10a_zidane.py` (clones 01 + branches b/c + model/latent/cond fan-outs).
+  Validate 0/0 (16 nodes), wiring verified. **USER RUNS** (fresh tab). **NEW STANDARD (user): all live character
   prompts copied VERBATIM into PIPELINE.md (PROMPTS section); update in the same turn
   as any prompt change.** Validate 0/0 — re-run.
   **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
@@ -683,8 +683,8 @@ model (Qwen) updates memory + commits afterwards.
   denoise 0.4 → `FACEFRONTAL_I2I_ZIDANE`; his pixels anchor identity, only head rotation
   changes — strongest lock). Validate 0/0, wiring verified. `build_zidane_sheet_ref.py`
   glob updated for all 4 names (branch arg a/b/c supported; no-arg = newest by mtime).
-  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane **v4** (fresh tab) → 4 candidates →
-  pick the best frontal (i2i usually lands the face closest), (2) agent runs
+  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane **v6** (fresh tab) → 3 candidates
+  (`FACEFRONTAL2_ZIDANE_{a,b,c}_00006_`, seed 77 = his approved face), (2) agent runs
   `build_zidane_sheet_ref.py [branch]` (file work, no GPU), (3) run 09k (fresh tab) →
   verify crest = green-ground roundel + dark green kit + face = the picked frontal face.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage

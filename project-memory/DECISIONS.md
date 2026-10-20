@@ -261,7 +261,34 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
-## D161 — CANONICAL ZIDANE FINAL: LEAN + ROUND face; reuse the PROVEN jaisal 10a chain with a ZIDANE-led prompt (2026-10-20)
+## D162 — Krea2 anchors the FACE to chain + resolution + prompt family, NOT to seed or prompt details (2026-10-20)
+- **User:** "the images looks exactly same as jaisals image without hair ... are we doing it
+  in same seed? is that the reasons? think outside the box".
+- **Diagnosis (verified, not guesswork):** the file ran with seed control `randomize`
+  (4 different runs at 18:19/18:24/18:34/18:40 → same face every time). Side-by-side
+  image check: v5b output = **Jaisal's face** wearing zidane's hair/white tee — the
+  prompt DID work for attributes (hair, tee, pose, beard), the FACE did not move.
+- **Rule (supersedes D161's "reuse jaisal's chain" for zidane):** a character's face
+  belongs to the CHAIN + RESOLUTION it was born on. Jaisal's face = turbo chain
+  (`krea2_turbo_fp8_scaled`, 896×1120). Zidane's approved face = 01 chain
+  (`Krea2Realism_V1` + V2@1.0, **1152×2048**, seed 77). Running character B's
+  attributes on character A's chain = A's face wearing B's attributes — no seed or
+  prompt change fixes that. (The seed still varies minor detail; the face family is
+  the anchor.)
+- **v6 (CURRENT):** `10a_frontal_base_zidane.json` = clone of `01_character_sheet.json`
+  (zidane's home chain, 8 steps, 1152×2048) + **v4b's prompt family** (the one whose
+  face the user approved — "first 3 is good", only the build was fat) with ONLY the
+  build line fixed (lean and fit + distinctly ROUND face, zero fat words). 3 branches
+  seeds **77/76/78 FIXED** (77 = his approved face seed = the lock), saves
+  `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next counter `_00006_`). Validate 0/0 (16
+  nodes), wiring verified.
+- **For future characters:** before locking a face, note WHICH chain + resolution the
+  approved face was born on and run all face work there. If a character needs a face
+  on a different chain, i2i from the approved face (denoise 0.5-0.6) is the bridge —
+  t2i on a foreign chain re-derives a different face.
+- **Status:** v6 — **USER RUNS** (fresh tab).
+
+## D161 — SUPERSEDED (the "reuse jaisal's 10a chain for zidane" method is WRONG — see D162); zidane canonical LEAN + ROUND face (2026-10-20)
 - **User:** "the last image [i2i] is just the input, first 3 is good now, but this is
   like a fat boy, we dont need this ... he is a footballer, no fat, sorry for the
   misguidance, and lets make his face looks round, so that jaisals long one doesnt

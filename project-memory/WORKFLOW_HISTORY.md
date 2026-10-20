@@ -63,6 +63,16 @@ with a FULLY INDEPENDENT prompt (0 shared chars): "Realistic close-up photo of a
 Malayali footballer from Kerala..." — ROUND full-cheeked face (wider than a long
 oval), defined facial features, halal cut, full short dark beard, lean and fit / slim
 athletic (NOT bulky/muscular/fat), white tee, frontal half-smile. **VALIDATES 0/0.**
+**v5/v5b FAILED:** ran on Jaisal's turbo chain → output = JAISAL'S FACE wearing
+zidane's hair/tee (verified side-by-side; seed was randomize — not the seed, the CHAIN).
+**v6 (CURRENT, D162):** REBUILT as clone of `01_character_sheet.json` — zidane's HOME
+chain (`Krea2Realism_V1` + V2@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae`, 8 steps,
+**1152×2048**) + v4b prompt family (user-approved face; only the build line fixed:
+lean and fit + ROUND face) + zidane negative. 3 branches seeds **77/76/78 FIXED** (77
+= his approved face seed). Builder clones 01 + deepcopies branch a (53/54/29 → 314/315/317
+seed 76, 319/320/322 seed 78) + fans MODEL (96) / LATENT (82) / COND (300/301) +
+VAE (57) with new links; all input `link` fields + output lists rebuilt from the
+links array. **VALIDATES 0/0 (16 nodes), wiring verified.**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

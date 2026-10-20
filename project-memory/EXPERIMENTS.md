@@ -83,6 +83,22 @@ workflow already produces approved frontals, cloning its CHAIN + swapping a
 character-led prompt is the fastest reliable route (the prompt must lead with the new
 character's own identity block — v1's failure was keeping the sibling's prompt).
 
+**v5/v5b run (user, 2026-10-20):** v5/v5b ran on Jaisal's turbo chain (896×1120) with
+fully independent zidane prompts → output = **JAISAL'S FACE** wearing zidane's hair +
+white tee (verified side-by-side). 4 runs, seed control `randomize` (different seeds
+every run) — same face each time.
+**Diagnosis (D162):** Krea2 anchors the FACE to **chain + resolution + prompt family**
+— the prompt swaps attributes (hair/tee/beard/pose) on top of the face the chain
+produces. Jaisal's face lives on the turbo chain; zidane's approved face lives on the
+01 chain (`Krea2Realism_V1`, 1152×2048, seed 77). The seed is NOT the face's owner.
+**Fix (v6):** back to the 01 chain (the user-approved "first 3 is good" runs) + v4b
+prompt family with ONLY the build line fixed (lean + ROUND face); seeds 77/76/78
+FIXED (77 = his approved face seed).
+**Lessons:** (1) a character's face belongs to the chain + resolution it was born on —
+t2i on a foreign chain re-derives a different face (no seed/prompt change fixes it);
+(2) "same face, different hair/tee" output = chain mismatch, not a prompt problem —
+diagnose the chain before touching the prompt again.
+
 ## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
 - **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and
   the emblem were missing and it had to create something own, which turned out bad, we need
