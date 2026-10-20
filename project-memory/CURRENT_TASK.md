@@ -788,10 +788,31 @@ model (Qwen) updates memory + commits afterwards.
     `D:\tools\Fizgig\Launch Fizgig.bat` (own window) or `Launch Fizgig in browser.bat`.
     First-use downloads: InsightFace models (~300MB) + Florence-2 captioning
     (~500MB-1.5GB from HF).
-- **NEXT (USER):** launch both GUIs (`Launch Fizgig.bat` + `Start-AI-Toolkit.bat`) →
-  agent walks the Fizgig Training tab: model = Krea 2, **Subjects card = 2 subjects
-  (jaisal + zidane dataset folders), mode = "Fizgig LoRA Isolation"** → captioning per
-  `docs\lora-tools\fizgig_MULTI_PERSON.md` → Start Training (user runs).
+- **DATASET FOLDERS BUILT (2026-10-20, agent file work):** user's naming idea adopted —
+  "we might need to describe the image description/heading instead of image1 image2".
+  Verified: Image_NNNNN = prompt N of the 20-prompt list (node 377) 1:1 in order (spot-
+  checked 00001 = headshot white bg, 00005 = industrial loft — DIFFERENT scenes, not
+  repeated poses). **`D:\lora_training\{jaisal,zidane}\`** = 20 images + 20 `.txt`
+  sidecar captions each (builder `utilities\build_lora_dataset_folders.py`, originals
+  untouched). Descriptive names (`01_frontal_headshot_85mm_white_bg.png` ...
+  `20_purple_bg_north_light.png`). **TRIGGERS (verified vs Krea 2 encoder per guide):**
+  jaisal = **`jeskv`**, zidane = **`dlor`** (different first letters, no shared prefix,
+  no meaningful pieces, end in consonant). Captions = `TRIGGER, a man, <full scene
+  description>` — NO identity words (face/hair/beard excluded = trigger only; guide:
+  "things left out tend to get learned as part of the person"). Fused at training:
+  `jeskvman` / `dlorman`. **EPOCHS (guide §4):** two men ≈ 16 epochs (man-woman pair
+  peaked at 10; two women needed 16) — keep intermediate epochs, pick best by eye.
+- **NEXT (USER):** open **`D:\tools\Fizgig\Launch Fizgig in browser.bat`** (user's
+  choice) → agent walks the tabs: **Start tab** = `D:\lora_training\jaisal` (subject 1;
+  subject 2's folder box = `D:\lora_training\zidane` on the Subjects card) → **Captions
+  tab** = folder triggers `jeskv` / `dlor` (already written into the .txt sidecars —
+  verify Fizgig reads them) → **Training tab**: model = **Krea 2**, Subjects card =
+  2 subjects, mode = **"Fizgig LoRA Isolation"**, ~16 epochs, preview prompts using
+  the JOINED words (`jeskvman, ...` / `dlorman, ...`) → Start Training (user runs).
+  First-use downloads: InsightFace ~300MB + Florence-2 ~0.5-1.5GB (only if the
+  captioning/face features are touched — we have manual captions, so may not fire).
+  OPEN QUESTION: Krea 2 model source in the GUI (HF `Krea-2-Raw` vs our local
+  `Krea2Realism_V1` chain — confirm in Preferences).
 - **Docs captured:** `docs\lora-tools\{fizgig_README, fizgig_LORA_ISOLATION,
   fizgig_MULTI_PERSON, ai_toolkit_README}.md`.
 - **Training plan (Fizgig GUI):** Start tab = dataset folders → Captions tab = trigger
