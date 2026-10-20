@@ -278,7 +278,9 @@ file at the output ROOT.
 | Image | Source | Layout | Status |
 |---|---|---|---|
 | `input: jaisal_sheet_ref_3panel.png` (2304×1536) | `build_3panel_ref.py` | LEFT face (full height, dominant) · TOP-RIGHT crest 760² · BOTTOM-RIGHT kit 760² · 16px gaps, white bg | **IN USE by 09j** (3:2 = sheet aspect; ≤4MP = PE sees full res) |
-| `input: zidane_sheet_ref_3panel.png` | `build_zidane_sheet_ref.py` (run AFTER the face run) | same layout, zidane refs | **PENDING face** |
+| `input: zidane_portrait_front.png` (1152×2048) | staged from `output\FACEFRONTAL2_ZIDANE_c_00012_.png` | **THE LOCKED ZIDANE FACE** (user's pick from the v7 runs, D165) | **LOCKED** |
+| `output: SHEET_COMPOSITE_00001_.png` (2304×1536) | `11_sheet_composite.json` (D165 — core-node multi-image composite; builder `build_sheet_composite.py`) | same layout | **RAN + VERIFIED** |
+| `input: zidane_sheet_ref_3panel.png` (2304×1536) | `11_sheet_composite` output, staged (or `build_zidane_sheet_ref.py`) | same layout, zidane refs | **STAGED — feeds 09k** |
 
 ### Character sheets (the A/B verdict, D154)
 

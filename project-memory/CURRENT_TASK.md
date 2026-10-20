@@ -697,11 +697,21 @@ model (Qwen) updates memory + commits afterwards.
   denoise 0.4 → `FACEFRONTAL_I2I_ZIDANE`; his pixels anchor identity, only head rotation
   changes — strongest lock). Validate 0/0, wiring verified. `build_zidane_sheet_ref.py`
   glob updated for all 4 names (branch arg a/b/c supported; no-arg = newest by mtime).
-  **USER SEQUENCE:** (1) run `10a_frontal_base_zidane` **v7** (fresh tab) → 3
-  genuinely different men (`FACEFRONTAL2_ZIDANE_{a,b,c}_00007_`, seeds 250/777/4242)
-  → pick best (round face, halal, full beard, lean, white tee), (2) agent stages the
-  face + builds the 3-panel composite (file work, no GPU), (3) run 09k (fresh tab) →
-  verify crest = green-ground roundel + dark green kit + face = the picked frontal.
+  **v7 VERDICT (user, 2026-10-20):** user ran the v7 series (00007→00012, tweaked
+  prompts) — "i think its because of the lora training, i tried different prompt
+  altering few things and still getting similar result" (the `Krea2-realism-V2`
+  LoRA @1.0 on every chain = working face-anchor theory). **USER PICKED
+  `FACEFRONTAL2_ZIDANE_c_00012_.png` (1152×2048) = THE LOCKED ZIDANE FACE** (D165).
+  Agent staged: face → `input\zidane_portrait_front.png`; built
+  `11_sheet_composite.json` (D165 — the "combine multiple images into one"
+  workflow: EmptyImage white canvas + 3 LoadImage + 3 ImageScale + 3
+  ImageCompositeMasked + SaveImage `SHEET_COMPOSITE`; validate 0/0 + ran clean
+  5.4s CPU-only → `SHEET_COMPOSITE_00001_.png` verified = spec layout: face left
+  full-height, green roundel top-right, dark green kit bottom-right) and staged the
+  composite → `input\zidane_sheet_ref_3panel.png` (2304×1536).
+  **USER SEQUENCE:** (1) run 09k (fresh tab) → `charsheet/QWEN21_ZIDANE_00001_` →
+  verify crest = green-ground roundel + dark green kit + face = the locked
+  c_00012 face, (2) then dataset → Klein-9B dense LoRA (D143) → movie stage.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
   diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
   movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset

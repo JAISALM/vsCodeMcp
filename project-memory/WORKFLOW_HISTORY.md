@@ -4,6 +4,31 @@ Newest changes first.
 
 ---
 
+## 2026-10-20 — `11_sheet_composite.json` (VALIDATE 0/0, 11 nodes) — COMBINE MULTIPLE IMAGES INTO ONE (D165)
+
+**Purpose:** the user-requested "workflow for combining multiple images into one" —
+the 3-panel sheet composite (face + top-right + bottom-right → the 2304×1536
+reference that 09j/09k LoadImage node 470 reads). CORE nodes only — no custom packs.
+**Layout (matches the 09j/09k PE spec):** white 2304×1536 canvas (`EmptyImage`
+color 0xFFFFFF), LEFT = image A (face) scaled to full canvas height (width computed
+from aspect — 864 for 1152×2048), TOP-RIGHT = image B (crest) 760² @ (1212,0),
+BOTTOM-RIGHT = image C (kit) 760² @ (1212,776), 16px gaps.
+**Chain (node ids):** 60 `EmptyImage` [2304,1536,1,16777215] → 67
+`ImageCompositeMasked` (destination=canvas, source=face, [x,y,resize_source]=
+[0,0,false]) → 68 (top 760² @ [1212,0,false]) → 69 (bot 760² @ [1212,776,false]) →
+70 `SaveImage` `SHEET_COMPOSITE` (root; next counter `_00002_`). 61/62/63
+`LoadImage` (native shape) = `zidane_portrait_front.png` / `zidane_crest_ref.png` /
+`zidane_kit_ref.png` → 64/65/66 `ImageScale` ["lanczos", w, h, "center"].
+**Builder:** `build_sheet_composite.py` (stages face → input, computes layout from
+the actual face aspect, idempotent).
+**Last successful result:** ran clean 5.4s (CPU-only, no GPU) →
+`SHEET_COMPOSITE_00001_.png` verified = face left / green roundel top-right / dark
+green kit bottom-right; staged → `input\zidane_sheet_ref_3panel.png` (2304×1536).
+**Reuse:** swap the 3 LoadImage filenames for another character; `ImageScale`
+width/height = slot sizes; `ImageCompositeMasked` x/y = panel positions. Simple
+N-image strip (not the sheet layout): KJNodes `ImageConcatMulti` (inputcount,
+direction, match_image_size — widgets [count, "right", true, null]).
+
 ## 2026-10-20 — `01_character_sheet.json` (id `krea2-t2i-character`) — THE "01 t2i" — true source of the refset_v7 faces
 
 **Purpose:** the base Krea2 t2i face/portrait workflow behind refset_v7 — both characters.

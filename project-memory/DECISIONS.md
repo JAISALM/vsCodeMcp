@@ -261,6 +261,39 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D165 — ZIDANE FACE LOCKED = `FACEFRONTAL2_ZIDANE_c_00012_.png`; sheet composite built + verified (2026-10-20)
+- **User picked `FACEFRONTAL2_ZIDANE_c_00012_.png`** (from the v7 run series 00007-00012,
+  1152×2048, 01 chain) as the LOCKED zidane face — roundish face, full dark beard,
+  short halal cut, white tee, frontal half-smile. Staged as
+  `input\zidane_portrait_front.png`.
+- **User's root-cause hypothesis (consistent with all evidence):** the face
+  convergence is the **LoRA** (`Krea2-realism-V2.safetensors` @1.0 on every chain) —
+  "i tried different prompt altering few things and still getting similar result".
+  Unverifiable from here (LoRA training data unknown), but if V2 carries a strong
+  face/style prior, prompt tweaks only nudge attributes while the face stays
+  anchored. Recorded as the working theory; the face is locked either way.
+- **`11_sheet_composite.json` — the "combine multiple images into one" workflow**
+  (user request). CORE nodes only (no custom packs): `EmptyImage` (white 2304×1536
+  canvas) + 3× `LoadImage` (native shape) + 3× `ImageScale` (lanczos, slot sizes,
+  crop center) + 3× `ImageCompositeMasked` (destination canvas, source at x/y,
+  resize_source=False) + `SaveImage` `SHEET_COMPOSITE` (root). Layout = the 09j/09k
+  spec: LEFT face full-height (width computed from aspect: 864 for 1152×2048),
+  TOP-RIGHT 760² @ (1212,0), BOTTOM-RIGHT 760² @ (1212,776), 16px gaps. Builder
+  `build_sheet_composite.py` (stages face into input, computes layout from actual
+  face aspect). **Validate 0/0 (11 nodes) + ran clean (5.4s, CPU-only) →
+  `SHEET_COMPOSITE_00001_.png` verified: face left, green roundel top-right, dark
+  green kit bottom-right.**
+- **Sheet composite staged:** `output\SHEET_COMPOSITE_00001_.png` →
+  `input\zidane_sheet_ref_3panel.png` (2304×1536) — what 09k's node 470 LoadImage
+  reads. **NEXT: user runs 09k (fresh tab) → `charsheet/QWEN21_ZIDANE_00001_` →
+  verify green-ground roundel crest + dark green kit + locked face.**
+- **Reuse:** for any character sheet — stage the three refs into `input/`
+  (face/crest/kit), edit the three LoadImage filenames in the UI (or re-run the
+  builder with new names), Run. `ImageCompositeMasked` x/y widgets move panels;
+  `ImageScale` width/height change slot sizes. For a simple N-image STRIP
+  (not the sheet layout), KJNodes `ImageConcatMulti` (inputcount + direction +
+  match_image_size) does it in one node.
+
 ## D164 — ROOT CAUSE of "same man every time": fixed ADJACENT seeds + Jaisal-templated prompt; v7 = distant seeds + new description (2026-10-20)
 - **User (turn 72):** "we cannot go with i2i ... it will drift the quality ... we have
   to find out the root cause of why this is not generating a new image and holding
