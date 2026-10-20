@@ -261,7 +261,39 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
-## D163 — t2i re-rolling is a DEAD END for the approved zidane face; the lock is i2i FROM the approved image (2026-10-20)
+## D164 — ROOT CAUSE of "same man every time": fixed ADJACENT seeds + Jaisal-templated prompt; v7 = distant seeds + new description (2026-10-20)
+- **User (turn 72):** "we cannot go with i2i ... it will drift the quality ... we have
+  to find out the root cause of why this is not generating a new image and holding
+  back". **i2i route is DEAD for face locking — no more i2i suggestions (quality
+  drift, user's standing order).** D163's i2i workflow (`10a_frontal3_zidane_i2i.json`)
+  stays on disk but is NOT to be run.
+- **Root cause (two layers, both verified):**
+  1. **Fixed ADJACENT seeds.** v6 set KSampler seeds to `fixed` 76/77/78 — three
+     adjacent numbers, and 77 = the exact seed of the v4b run (00002). Same seed +
+     same chain + similar prompt → near-identical image: that's why 00006 was "so
+     identical to 00002/00001". The user's original suspicion ("are we doing it in
+     same seed?") was CORRECT for v6. Adjacent seeds are a micro-variant patch of
+     face space, not new faces.
+  2. **Jaisal-templated prompt.** Every zidane prompt written so far is structurally
+     Jaisal's prompt with attributes swapped (same opening, same feature list) — and
+     the PROMPT DESCRIPTION anchors the face (evidence: Jaisal's randomize frontals =
+     same man across different seeds). Reconstructed zidane prompts kept landing near
+     Jaisal's face.
+- **v7 (CURRENT):** `10a_frontal_base_zidane.json` — 01 home chain (8 steps,
+  1152×2048) + a GENUINELY NEW description (face-shape-first: "His face is round and
+  full-cheeked — wide, soft, with a short strong jaw…"; different opening/words from
+  every previous attempt — Jaisal's template retired; kr2realism trigger kept) +
+  **DISTANT seeds 250/777/4242 fixed** (far from 42/76/77/78 and each other) → three
+  genuinely different men to pick from. Builder `build_10a_zidane.py` (clones 01 +
+  branches). Validate 0/0 (16 nodes), wiring verified. Saves
+  `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next counter `_00007_`). **USER RUNS**
+  (fresh tab).
+- **Rule for all future pick-sets:** never use adjacent seeds for a pick-set; use
+  distant seeds (hundreds apart) so each branch is a genuinely different candidate.
+  Never clone a sibling character's prompt template — write the description from
+  scratch with the target face shape FIRST.
+
+## D163 — t2i re-rolling is a DEAD END for the approved zidane face; i2i lock REJECTED by user (quality drift) — see D164 (2026-10-20)
 - **User (turn 71):** "the face is still somehow long ... a/b/c images are so identical
   to [previous runs] ... idealy it should create a different man altogether right?
   ... the facial structure is still of jaisals, so theres defenetly something in the

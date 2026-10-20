@@ -104,24 +104,24 @@ lean + round-face prompt) → output = LONG face + stubble, NOT the approved zid
 face; a/b/c near-identical to each other and to the v4b runs. User: "idealy it should
 create a different man altogether right? ... the facial structure is still of
 jaisals, so theres definetly something in the underhood".
-**Diagnosis (D163):** the approved zidane face (`refset_v7/zidane_portrait_00001_.png`)
-was generated with a live-typed prompt that was NEVER SAVED. Krea2 face =
-f(prompt, seed, chain, resolution) — ALL FOUR together. Seed 77 without its original
-prompt does NOT reproduce the approved face; my reconstructed prompts keep landing
-near Jaisal's face region; adjacent seeds (76/77/78) are micro-variants of the same
-face. **No seed/prompt I can write brings the approved face back — t2i re-rolling is
-a dead end for this face.**
-**Fix (D163):** the approved IMAGE is the character → `10a_frontal3_zidane_i2i.json`:
-i2i from `zidane_portrait_00001_.png` (his pixels anchor identity), 01 home chain,
-denoise 0.55 (0.4 came out = input), identity-anchor-first prompt. Fallback: approved
-3/4 face as-is for the sheet LEFT panel.
+**Diagnosis (D163→D164):** Krea2 face = f(prompt, seed, chain, resolution). v6's
+"same man" output had TWO concrete causes: (1) v6 used `fixed` ADJACENT seeds
+76/77/78 — 77 = the exact v4b seed, so 00006 ≈ 00002 (the user's "are we doing it
+in same seed?" suspicion was CORRECT for v6); (2) every zidane prompt so far was
+Jaisal's template with attributes swapped — the prompt description anchors the
+face (Jaisal's randomize frontals = same man across seeds).
+**Fix (D164) — v7:** `10a_frontal_base_zidane.json` = 01 home chain + GENUINELY NEW
+description (face-shape-first, Jaisal template retired) + DISTANT seeds 250/777/4242
+fixed → three genuinely different men. **i2i route REJECTED by user** (image quality
+drift — standing order: no i2i for images); `10a_frontal3_zidane_i2i.json` stays on
+disk, DO NOT RUN.
 **Lessons:** (1) capture the winning t2i prompt IMMEDIATELY (PIPELINE.md same turn) —
 a live-typed prompt that is never saved makes its face unreproducible by t2i
 afterwards; (2) when a face must match a specific EXISTING image, i2i from that image
-is the only reliable route — re-rolling t2i is guessing; (3) "should create a
+is the only reliable route — but the user REJECTS i2i for images (quality drift) —
+t2i pick-sets with distant seeds are the standing route; (3) "should create a
 different man" — adjacent seeds + similar prompts give the same man; a genuinely
-different face needs a genuinely different prompt + seed, and even then it won't
-MATCH a specific target face.
+different face needs a genuinely different prompt + distant seed.
 
 ## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
 - **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and

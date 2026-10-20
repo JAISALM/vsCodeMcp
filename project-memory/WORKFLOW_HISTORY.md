@@ -80,19 +80,23 @@ long face + stubble, NOT the approved zidane face. Root cause: the approved face
 ORIGINAL prompt was live-typed and NEVER SAVED — face = f(prompt, seed, chain,
 resolution) needs all four; reconstructed prompts keep landing near Jaisal's face
 region. **t2i re-rolling = DEAD END.**
-**`10a_frontal3_zidane_i2i.json` (D163 — THE FACE LOCK):** i2i FROM the approved face
-`zidane_portrait_00001_.png` (input dir) — his pixels anchor identity, model only
-rotates the head. 01 home chain (`Krea2Realism_V1` + V2@1.0, `qwen3vl_4b` (krea2),
-`qwen_image_vae`, 8 steps euler/simple cfg 1, 1152×2048 = the image's native
-resolution): LoadImage → VAEEncode → KSampler **[77, fixed, 8, 1, euler, simple,
-denoise 0.55]** (0.4 came out = the input — too weak) → VAEDecode → SaveImage
-`FACEFRONTAL3_ZIDANE` (root). Node 300 = identity-anchor-first prompt ("The exact
-same man as the reference image — the SAME face — now completely frontal..." +
-halal/beard/white tee); 301 = zidane negative + "different person, different face".
-Builder `build_10a_frontal3_zidane_i2i.py` (clones 01, drops the t2i branch, adds
-native-shape LoadImage/VAEEncode/KSampler/VAEDecode/SaveImage, fans links, rebuilds
-input `link` fields + output lists from the links array). **VALIDATES 0/0 (11 nodes).**
-Fallback if the i2i misses: approved 3/4 face as-is for the sheet LEFT panel (D151).
+**`10a_frontal3_zidane_i2i.json` — REJECTED (D164):** built as the D163 "lock" (i2i
+FROM `zidane_portrait_00001_.png`, 01 home chain, 8 steps, 1152×2048, KSampler
+[77, fixed, 8, 1, euler, simple, denoise 0.55], identity-anchor-first prompt,
+builder `build_10a_frontal3_zidane_i2i.py`, VALIDATES 0/0 (11 nodes)) — **user
+rejected i2i (image quality drift): DO NOT RUN.** File stays on disk as reference.
+**v7 (CURRENT, D164 — ROOT-CAUSE FIX):** `10a_frontal_base_zidane.json` REBUILT —
+01 home chain (8 steps, 1152×2048) + **GENUINELY NEW description** (face-shape-
+first: "His face is round and full-cheeked — wide, soft, with a short strong
+jaw…", different opening/words from every previous attempt — Jaisal's template
+retired, kr2realism trigger kept) + **DISTANT seeds 250/777/4242 FIXED** (far from
+42/76/77/78 and from each other) → three genuinely different men to pick from.
+Root cause of v6's "same man" output: (1) v6's fixed ADJACENT seeds 76/77/78
+(77 = the exact v4b seed → 00006 ≈ 00002); (2) every zidane prompt so far was
+Jaisal's template with attributes swapped (the prompt description anchors the
+face). Builder `build_10a_zidane.py` (clones 01 + branches 314/319, same as v6).
+Saves `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next counter `_00007_`).
+**VALIDATES 0/0 (16 nodes), wiring verified.**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

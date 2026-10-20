@@ -673,20 +673,21 @@ model (Qwen) updates memory + commits afterwards.
   **77/76/78 FIXED** (77 = his approved face seed = the lock). Saves
   `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next counter `_00006_`). Builder =
   `build_10a_zidane.py` (clones 01 + branches b/c + model/latent/cond fan-outs).
-  Validate 0/0 (16 nodes), wiring verified. **v6 FAILED (D163):** user: "the face is
-  still somehow long ... a/b/c so identical to [earlier runs] ... idealy it should
-  create a different man altogether ... the facial structure is still of jaisals,
-  definetly something in the underhood". Verified side-by-side: v6 output = long face
-  + stubble, NOT the approved zidane face; the approved face's original prompt was
-  live-typed and NEVER SAVED → face = f(prompt, seed, chain, resolution) — no
-  seed/prompt I can write reproduces it. **t2i re-rolling = DEAD END.**
-  **THE LOCK (D163):** `10a_frontal3_zidane_i2i.json` (builder
-  `build_10a_frontal3_zidane_i2i.py`) — i2i FROM `zidane_portrait_00001_.png` (the
-  approved face — his pixels anchor identity), 01 home chain, 8 steps, **denoise
-  0.55** (0.4 came out = input), identity-anchor-first prompt (frontal rotation +
-  halal/beard/white tee), seed 77 fixed, saves `FACEFRONTAL3_ZIDANE` (root).
-  Validate 0/0 (11 nodes). **USER RUNS** (fresh tab). Fallback if it misses: use the
-  approved 3/4 face as-is for the sheet LEFT panel (D151). **NEW STANDARD (user): all live character
+  Validate 0/0 (16 nodes), wiring verified. **v6 FAILED (D163→D164):** user: "the
+  face is still somehow long ... a/b/c so identical to [earlier runs] ... idealy it
+  should create a different man altogether ... the facial structure is still of
+  jaisals, definetly something in the underhood". **ROOT CAUSE (D164):** (1) v6 used
+  `fixed` ADJACENT seeds 76/77/78 — 77 = the exact v4b seed → 00006 ≈ 00002 (the
+  user's "same seed?" suspicion was correct); (2) every zidane prompt so far was
+  Jaisal's template with attributes swapped — the prompt description anchors the
+  face. **i2i REJECTED by user (quality drift — standing order: no i2i for images).**
+  **v7 (CURRENT):** `10a_frontal_base_zidane.json` = 01 home chain (8 steps,
+  1152×2048) + GENUINELY NEW description (face-shape-first, Jaisal template retired,
+  kr2realism trigger kept) + **DISTANT seeds 250/777/4242 fixed** → 3 genuinely
+  different men. Builder `build_10a_zidane.py` (clones 01 + branches). Validate 0/0
+  (16 nodes), wiring verified. Saves `FACEFRONTAL2_ZIDANE_{a,b,c}` (root, next
+  counter `_00007_`). **USER RUNS** (fresh tab). Pick-set rule: distant seeds,
+  scratch-written description. **NEW STANDARD (user): all live character
   prompts copied VERBATIM into PIPELINE.md (PROMPTS section); update in the same turn
   as any prompt change.** Validate 0/0 — re-run.
   **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
@@ -696,11 +697,11 @@ model (Qwen) updates memory + commits afterwards.
   denoise 0.4 → `FACEFRONTAL_I2I_ZIDANE`; his pixels anchor identity, only head rotation
   changes — strongest lock). Validate 0/0, wiring verified. `build_zidane_sheet_ref.py`
   glob updated for all 4 names (branch arg a/b/c supported; no-arg = newest by mtime).
-  **USER SEQUENCE:** (1) run `10a_frontal3_zidane_i2i` (fresh tab) → 1 candidate
-  (`FACEFRONTAL3_ZIDANE_00001_` — his face, rotated frontal), (2) agent stages the
-  face + builds the 3-panel composite (file work, no GPU — update
-  `build_zidane_sheet_ref.py` glob for `FACEFRONTAL3_ZIDANE_*`), (3) run 09k (fresh
-  tab) → verify crest = green-ground roundel + dark green kit + face = the locked face.
+  **USER SEQUENCE:** (1) run `10a_frontal_base_zidane` **v7** (fresh tab) → 3
+  genuinely different men (`FACEFRONTAL2_ZIDANE_{a,b,c}_00007_`, seeds 250/777/4242)
+  → pick best (round face, halal, full beard, lean, white tee), (2) agent stages the
+  face + builds the 3-panel composite (file work, no GPU), (3) run 09k (fresh tab) →
+  verify crest = green-ground roundel + dark green kit + face = the picked frontal.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
   diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
   movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset
