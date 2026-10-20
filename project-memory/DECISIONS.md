@@ -261,6 +261,24 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D160 — Zidane is SLIGHTLY BULKY (full face, fat cheeks, rounded jaw); D142 purity — prompt bloat kills realism (2026-10-20)
+- **User:** "the image has now lost its quality, the realism is gone ... lets start from the
+  beginning with a good prompt and lets lock the characters ... zidane is little bulky so lets
+  have him some facial structure and fat".
+- **CANONICAL ZIDANE BUILD (supersedes "lean and athletic" from the man-bun-era prompts):**
+  slightly stocky build — FULL face, soft full cheeks with a little natural fat, strong but
+  ROUNDED jawline (facial structure + some fat). Short black halal cut, FULL short dark beard
+  neatly trimmed, white tee, warm medium-brown skin, mid-20s, relaxed half-smile.
+- **Diagnosis (quality loss):** the v4a prompt had grown to ~15 sentences + a NOT-tag block
+  → D142's failure mode → realism/quality dropped (patchy beard run).
+- **Rule:** face prompts stay in the LOCKED D142 shape — natural-language, ~5 sentences,
+  concrete features (build/face/hair/beard stated positively and visually), ZERO NOT-tag
+  spam in the positive (the negative carries safety: clean-shaven/no beard/missing beard).
+  `10a_frontal_base_zidane.json` 300 REWRITTEN from scratch in that style (v4b). The sheet
+  (09k) needs NO build-text change — its spec takes identity only from the left panel (D151),
+  so the locked face image carries the stocky/full look into the sheet.
+- **Status:** v4b validate 0/0 — **USER RUNS** (fresh tab).
+
 ## D159 — Live prompts recorded VERBATIM in PIPELINE.md; strong-feature specs need concrete visual detail (2026-10-20)
 - **User:** "i dont think you copied the correct prompt for zidane, from now onwards i
   want to copy the prompt also into the md file, so that i can see and ask you to redo
