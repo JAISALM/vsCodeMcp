@@ -261,6 +261,45 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D163 — t2i re-rolling is a DEAD END for the approved zidane face; the lock is i2i FROM the approved image (2026-10-20)
+- **User (turn 71):** "the face is still somehow long ... a/b/c images are so identical
+  to [previous runs] ... idealy it should create a different man altogether right?
+  ... the facial structure is still of jaisals, so theres defenetly something in the
+  underhood".
+- **Verified facts:** v6 run (01 chain, seeds 77/76/78 FIXED, 1152×2048) output =
+  long face, stubble, NOT the approved zidane face (verified side-by-side against
+  `refset_v7/zidane_portrait_00001_.png`). 01 source file untouched (mtime 10-18) —
+  the original zidane prompt that created the approved face (live-typed, never
+  saved) is GONE — it exists nowhere on disk.
+- **Full rule (supersedes D162's "reuse home chain + seed" hope):** Krea2 face =
+  f(**prompt text**, **seed**, chain, resolution) — ALL FOUR together. Seed 77 alone
+  does NOT reproduce the approved face without its exact original prompt. My
+  reconstructed prompts (v3–v6) keep landing near Jaisal's face region (prompt
+  wording similarity), and adjacent seeds (76/77/78) are micro-variants of the same
+  face. **No seed/prompt combination I can write will bring the approved face back.**
+- **Decision: the approved IMAGE is the character.** `refset_v7/zidane_portrait_00001_.png`
+  (input dir copy `zidane_portrait_00001_.png`) is the identity anchor. The only
+  reliable way to a frontal version = **i2i from that image**: his pixels anchor the
+  face, the model only rotates the head.
+- **`10a_frontal3_zidane_i2i.json` (THE LOCK, builder `build_10a_frontal3_zidane_i2i.py`):**
+  01 home chain (`Krea2Realism_V1` + V2@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae`,
+  8 steps euler/simple cfg 1), LoadImage `zidane_portrait_00001_.png` → VAEEncode →
+  KSampler **[77, fixed, 8, 1, euler, simple, denoise 0.55]** → VAEDecode →
+  SaveImage `FACEFRONTAL3_ZIDANE` (root). Prompt = identity-anchor-first ("The exact
+  same man as the reference image — the SAME face — now completely frontal…") +
+  halal/beard/white-tee attributes; negative = zidane's clean + pose/hair lock.
+  Denoise 0.55 because v4's 0.4 came out = the input (too weak for head rotation).
+  Validate 0/0 (11 nodes). **USER RUNS** (fresh tab).
+- **Fallback (zero-risk, user's own earlier suggestion):** use the approved 3/4 face
+  as-is for the sheet's LEFT panel (D151: left panel is the sole identity source; a
+  3/4 view is a perfectly good identity reference — the sheet does not require a
+  frontal face). If the i2i misses, build the composite from
+  `zidane_portrait_00001_.png` directly.
+- **For future characters:** capture the winning t2i prompt IMMEDIATELY (save the
+  live-typed prompt into PIPELINE.md the same turn — D159) or the face is
+  unreproducible by t2i afterwards; i2i from the approved image is always the
+  fallback lock.
+
 ## D162 — Krea2 anchors the FACE to chain + resolution + prompt family, NOT to seed or prompt details (2026-10-20)
 - **User:** "the images looks exactly same as jaisals image without hair ... are we doing it
   in same seed? is that the reasons? think outside the box".
