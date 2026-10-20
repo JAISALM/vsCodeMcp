@@ -577,6 +577,18 @@ model (Qwen) updates memory + commits afterwards.
     black outline lines + knuckle/forearm separator lines, NO colors, thin white
     circle); 08j negatives += "colored emblem, colored fist, red knuckles,
     flag-color stripes". All 4 validate 0/0. **NOT YET RUN — user runs the 4 sheets.**
+  - **PIPELINE STRIP (user: "lets not add more characters details when we make the
+    character sheet", 2026-10-20, D151):** sheet = face ref + kit/style ONLY. Character
+    attribute re-descriptions (age/hair/beard/build/skin) REMOVED from 05d/05e subject
+    lines + 09j PE (node 555) — now "the exact man from <Picture 1> — face, hair, beard,
+    skin and build come ONLY from <Picture 1> (image is the sole identity source)". 08j
+    already compliant. Rationale: fair A/B across the 4 routes (identical inputs) + no
+    text-vs-image identity fight. All 4 validate 0/0 (both copies).
+  - **QWEN 2.1 COMBO (user question, D152):** 09j subgraph node 453 CLIP upgraded
+    `qwen3vl_8b_int8_convrot` → `qwen3vl_8b_fp8_scaled` (strongest 8b clip on disk;
+    UNET 451 `qwen_image_2.1_bf16` = strongest on machine, VAE 454 bf16 unchanged).
+    `qwen3vl_8b_bf16` NOT needed (~16 GB for negligible gain on an 8B text encoder).
+    NO downloads. 09j validates 0/0.
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

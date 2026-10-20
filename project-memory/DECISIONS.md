@@ -261,6 +261,40 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D151 — Sheet pipeline: sheet prompts = face ref + kit ONLY, no attribute re-descriptions (2026-10-20)
+- **User:** "lets not add more characters details when we make the character sheet. The pipeline
+  should be: create character with all the attributes, and then create character sheet with face
+  + clothing/style we need… otherwise if we keep adding character details at worksheet, we cannot
+  compare the result of the worksheet workflows."
+- **Rule (2-stage):** (1) CHARACTER = face ref with all attributes (`jaisal_portrait_HD.png`);
+  (2) SHEET = that face ref image + clothing/style spec ONLY. Sheet prompts must NOT re-describe
+  hair/beard/build/skin/age — identity comes 100% from the reference image; the prompt carries
+  only the kit/style spec. Reasons: (a) fair A/B comparison — all 4 routes get identical input
+  (same ref images, same kit text), so results differ only by ROUTE; (b) text fighting the image
+  over identity = drift.
+- **Applied (2026-10-20):** 05d/05e subject lines + 09j PE (555) attribute lists replaced with
+  "the exact man from <Picture 1> — face, hair, beard, skin and build come ONLY from <Picture 1>
+  (the image is the sole identity source)". 08j already compliant ("the same man from the
+  reference image" — no attribute list). Retention lines unchanged (already "come only from
+  <Picture 1>"). All 4 validate 0/0 (both copies).
+- **Status:** Active. All future sheet/turnaround builds (Jaisal, Zidane, others) follow this.
+
+## D152 — Qwen 2.1 best combo on this machine: bf16 UNET + fp8_scaled CLIP + bf16 VAE (2026-10-20)
+- **Question (user):** 09j author defaults = int8 UNET + fp16 CLIP; disk has bf16 UNET + fp8
+  CLIP. Best combo? Download defaults? Download `qwen3vl_8b_bf16`?
+- **On disk (verified 2026-10-20):** UNET `qwen_image_2.1_bf16` 13.25 GB (strongest on machine),
+  VAE `qwen_image_2.1_vae_bf16` ✓ (as the author expects), CLIPs: `qwen3vl_8b_fp8_scaled` 9.86 GB,
+  `qwen3vl_8b_int8_convrot` 8.71 GB, 4b bf16/fp8, no 8b fp16/bf16.
+- **Answers:** UNET bf16 = strongest (full precision > int8) — KEEP, do not download the default
+  int8. CLIP: `fp8_scaled` > `int8_convrot` — upgraded 09j subgraph node 453 to
+  `qwen3vl_8b_fp8_scaled` (text-encoder precision matters far less than UNET precision; fp8 is
+  the strongest 8b clip on disk). `qwen3vl_8b_bf16` = NOT NEEDED — ~16 GB for a negligible gain
+  on an 8B text encoder; mixing precisions across independent loaders (bf16 UNET + fp8 CLIP) is
+  normal. NO downloads needed.
+- **Wiring (2026-10-20):** 09j subgraph node 453 → `qwen3vl_8b_fp8_scaled.safetensors` (both
+  copies); UNET 451 `qwen_image_2.1_bf16` + VAE 454 bf16 unchanged. 09j validates 0/0.
+- **Status:** Active for all Qwen 2.1 routes.
+
 ## D150 — Run discipline: explicit per-run instruction + qwen/comfyui exclusivity (2026-10-19)
 - **Incident:** agent misread "you create these and let me know" as run approval and
   queued the logo-comparison job on the user's ComfyUI. User stopped it: "dont run
