@@ -4,6 +4,50 @@ Newest experiments first.
 
 ---
 
+## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
+
+**Trigger:** user: "zidane also need a front facing image, not the sideways one" + after
+running v1: "it just gave me the same image as jaisal, without hair lol, it doesnt work,
+we need to find out the workflow which produced zidane_portrait_HD_00001_ and copy the
+same prompt".
+
+**v1 config (FAILED):** clone of `10a_frontal_base_jaisal` — same Krea2 turbo chain,
+3 branches (seeds 42/43/44), 896×1120, tag-stack positive with NOT-clauses, my own
+negative.
+**Result (user):** face came out JAISAL-LIKE with NO hair — identity did not land as
+Zidane.
+**Diagnosis (root causes):**
+1. **Face convergence:** v1's positive shared Jaisal 10a's first ~30 tokens ("A candid
+   phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian
+   facial features, warm medium-brown natural skin, a young MAN (male only), with a
+   youthful oval face, strong masculine jaw...") → Krea2 re-derived the same generic
+   Malayali face as Jaisal.
+2. **Tag-stack + NOT-clauses** = D142's proven failure mode (grainy/washed; the
+   natural-language 4-5-sentence style is the locked winner).
+3. **Size:** 896×1120 vs the 1152×2048 portrait that produced his canonical face.
+
+**The proven source (found):** `refset_v7\zidane_portrait_HD_00001` (4608×8192, the
+approved sideways HD face) came from the **char2 t2i chain** per memory (01 t2i, D142
+clean recipe, **seed 77**, **portrait 1152×2048 close-up** → 03 4x upscale). The
+`krea2_t2i_char2.json` file on disk is STALE: its `PixaromaPromptEach` (node 200) holds
+6 **man-bun-era** zidane prompts and its 301 widget holds the **JAISAL negative**
+("short haircut, clean-shaven, no beard, missing beard" as negatives — the opposite of
+Zidane's halal cut + FULL beard). His actual face was generated with a **live-typed D142
+prompt that was never saved** (file still shows the pre-run state).
+**v2 config (REBUILT, validate 0/0):** char2 chain (`krea2_turbo_fp8_scaled` +
+`Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` krea2,
+`qwen_image_vae`, `FameGridColorFinish`) with node 200 DELETED and the prompt directly in
+CLIPTextEncode 300 (native shape): D142 natural-language (kr2realism trigger) — his
+canonical attrs read from the actual image (short black halal cut, FULL short dark beard
+neatly trimmed, white tee, warm brown skin, mid-20s, half-smile) + dead-center FRONTAL
+emphasis; negative = D142 clean (identity-safety only) + pose/hair-lock negatives.
+KSampler **seed 77 / 8 steps** euler/simple cfg 1; latent **1152×2048**; save prefix
+`FACEFRONTAL2_ZIDANE`.
+**Lesson:** to reproduce a specific face in Krea2, reuse its EXACT proven settings (seed,
+size, chain, recipe style) — do NOT clone a sibling character's file (shared prompt
+tokens → shared face). Krea2 t2i faces are prompt+seed-deterministic; a new seed or new
+opening tokens = a different face.
+
 ## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
 - **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and
   the emblem were missing and it had to create something own, which turned out bad, we need

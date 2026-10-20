@@ -622,12 +622,25 @@ model (Qwen) updates memory + commits afterwards.
   from there" + "capture the pipeline ... all these workflows names must be there in the md
   file ... so that we can introduce as many characters as we want with this pipeline".
   **BUILT (all validate 0/0, user runs in order):**
-  1. `10a_frontal_base_zidane.json` (E: workflows) = 10a clone with ZIDANE's CANONICAL
-     attributes from `zidane_portrait_00001` (short black hair w/ faded sides, short FULL
-     dark beard, white tee — NOT the stale D137 "topknot" description), FRONTAL emphasis
-     ("face completely frontal, NO side angle/profile/three-quarter"), 3 branches
-     `FACEFRONTAL_ZIDANE_{a,b,c}` (seeds 42/43/44), 896×1120, Krea2 turbo + realism chain
-     unchanged.
+  1. `10a_frontal_base_zidane.json` (E: workflows) — **v1 FAILED, v2 REWRITTEN** (user:
+     "when i tried creating a new one with 10a_frontal_base_zidane it just gave me the same
+     image as jaisal, without hair lol"). v1 = 10a-jaisal clone (shared first ~30 tokens →
+     face convergence to the jaisal-like face; tag-stack + NOT-clauses = D142's proven
+     failure mode; 896×1120). **v2 = the CHAR2 chain** (`krea2_t2i_char2.json` — the
+     workflow that produced `refset_v7\zidane_portrait_HD_00001` per memory: 01 t2i, D142
+     recipe, seed 77, portrait 1152×2048): `krea2_turbo_fp8_scaled` + `Krea2-realism-V2`@1.0
+     + `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` (krea2), `qwen_image_vae`, KSampler
+     **seed 77 / 8 steps** euler/simple cfg 1, latent **1152×2048**, `FameGridColorFinish`.
+     Node 200 `PixaromaPromptEach` DELETED (it held 6 STALE man-bun-era zidane prompts + the
+     301 widget held the JAISAL negative — "short haircut, clean-shaven, no beard" as
+     negatives — the char2 file was never updated for the halal-cut/full-beard face; his
+     actual face was generated with a LIVE-TYPED D142 prompt that was never saved). v2
+     prompt = D142 natural-language (kr2realism trigger, 4-5 sentences, his canonical attrs
+     from the actual image: short black halal cut, FULL short dark beard neatly trimmed,
+     white tee, warm brown skin, half-smile) + dead-center FRONTAL emphasis; negative =
+     D142 clean (identity-safety only) + pose/hair-lock negatives (profile, 3-quarter, head
+     turned, long hair, man-bun, wavy, clean-shaven). Save prefix `FACEFRONTAL2_ZIDANE`
+     (fresh counter). Validate 0/0.
   2. `input\zidane_crest_ref.png` BUILT NOW (deterministic, `build_zidane_crest.py`): the
      approved monochrome 1-fist roundel on a DARK GREEN ground (38,73,63 — sampled from
      `zidane_kit_ref.png` so it matches the jersey; roundel pixels untouched, only the blue

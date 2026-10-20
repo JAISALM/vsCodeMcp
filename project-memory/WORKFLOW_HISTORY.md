@@ -8,11 +8,17 @@ Newest changes first.
 
 **Purpose:** the Zidane sheet via the winning 09j architecture, starting from a FRONTAL
 face (the existing `zidane_portrait_HD.png` 4608×8192 is the sideways one).
-**`10a_frontal_base_zidane.json`** (E: workflows, `build_10a_zidane.py`): 10a clone —
-ZIDANE's canonical attributes from `zidane_portrait_00001` (short black hair w/ faded
-sides, short FULL dark beard, white tee), FRONTAL emphasis (no profile/3-quarter), 3
-branches `FACEFRONTAL_ZIDANE_{a,b,c}` (seeds 42/43/44), 896×1120, Krea2 turbo +
-`Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7 unchanged.
+**`10a_frontal_base_zidane.json`** (E: workflows, `build_10a_zidane.py`): **v1 = 10a-jaisal
+clone — FAILED** (user: jaisal-like face, no hair — shared opening tokens → face
+convergence + tag-stack). **v2 = CHAR2 CHAIN** (the one that produced
+`refset_v7\zidane_portrait_HD_00001`): `krea2_turbo_fp8_scaled` +
+`Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` (krea2),
+`qwen_image_vae`, `FameGridColorFinish`; `PixaromaPromptEach` (node 200, stale man-bun
+prompts) DELETED — prompt directly in CLIPTextEncode: D142 natural-language (kr2realism
+trigger, 4-5 sentences, canonical attrs from the actual image: short black halal cut,
+FULL short dark beard neatly trimmed, white tee) + dead-center FRONTAL emphasis;
+negative = D142 clean + pose/hair-lock. KSampler **seed 77 / 8 steps** euler/simple cfg
+1, latent **1152×2048**, save `FACEFRONTAL2_ZIDANE` (fresh counter). **VALIDATES 0/0.**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

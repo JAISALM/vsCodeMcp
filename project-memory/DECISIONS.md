@@ -261,6 +261,25 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D156 — Reproducing a specific Krea2 face = reuse its exact proven settings; never clone a sibling's file (2026-10-20)
+- **User:** "it just gave me the same image as jaisal, without hair lol, it doesnt work,
+  we need to find out the workflow which produced zidane_portrait_HD_00001_ and copy the
+  same prompt".
+- **Finding:** `refset_v7\zidane_portrait_HD_00001` came from the **char2 t2i chain**
+  (`krea2_t2i_char2.json` base: `krea2_turbo_fp8_scaled` + `Krea2-realism-V2`@1.0 +
+  `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` krea2, `qwen_image_vae`), D142 recipe,
+  **seed 77**, **1152×2048** portrait. The char2 file on disk is STALE (man-bun-era
+  `PixaromaPromptEach` prompts + JAISAL negative) — the winning prompt was live-typed
+  and never saved.
+- **Rule:** Krea2 t2i faces are prompt+seed-deterministic. To reproduce a face, reuse
+  its EXACT settings (seed, size, chain, D142 natural-language style) and its own
+  attribute description — do NOT clone a sibling character's workflow (shared opening
+  tokens → the same face; tag-stacking → D142 failure mode). `10a_frontal_base_zidane.json`
+  v2 = char2 chain + canonical-attr D142 prompt + FRONTAL emphasis + pose/hair-lock
+  negatives, save `FACEFRONTAL2_ZIDANE`.
+- **Status:** validate 0/0 — **USER RUNS** (fresh tab). If the face still misses, the
+  user's remembered original prompt is the next input (the exact one was never saved).
+
 ## D155 — Zidane sheet = 09k (09j architecture) + PIPELINE.md as the production map (2026-10-20)
 - **User:** "lets do the same thing for zidane also ... zidane also need a front facing image,
   not the sideways one, so lets do it from there" + "capture the pipeline ... all these
