@@ -4,6 +4,28 @@ Newest changes first.
 
 ---
 
+## 2026-10-20 — `10a_frontal_base_zidane.json` + `09k_QWEN21_ZIDANE_sheet.json` (VALIDATE 0/0) + zidane crest recolor (D155)
+
+**Purpose:** the Zidane sheet via the winning 09j architecture, starting from a FRONTAL
+face (the existing `zidane_portrait_HD.png` 4608×8192 is the sideways one).
+**`10a_frontal_base_zidane.json`** (E: workflows, `build_10a_zidane.py`): 10a clone —
+ZIDANE's canonical attributes from `zidane_portrait_00001` (short black hair w/ faded
+sides, short FULL dark beard, white tee), FRONTAL emphasis (no profile/3-quarter), 3
+branches `FACEFRONTAL_ZIDANE_{a,b,c}` (seeds 42/43/44), 896×1120, Krea2 turbo +
+`Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7 unchanged.
+**`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
+`470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
+`478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,
+royal blue→dark green; asserts on every replacement). 13 = 3:2 @ 3.4MP, 459 layers
+unchanged (D152/D153). Orphaned-485 warning = expected (harmless, pruned).
+**`input\zidane_crest_ref.png`** BUILT NOW (`build_zidane_crest.py`): approved monochrome
+1-fist roundel on DARK GREEN ground (38,73,63 sampled from `zidane_kit_ref.png`; roundel
+pixels untouched). **`build_zidane_sheet_ref.py`** (run AFTER the face run): stages newest
+`output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
+a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel).
+**Status:** validate 0/0 — **USER RUNS** (fresh tabs): 10a → pick → agent runs the
+builder → 09k → verify.
+
 ## 2026-10-20 — `09j_QWEN21_JAISAL_sheet`: 3-panel reference feed + live spec fix (D154)
 
 **Purpose:** 4-way sheet A/B verdict → **09j wins**; fix the emblem-invention +

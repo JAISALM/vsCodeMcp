@@ -617,6 +617,40 @@ model (Qwen) updates memory + commits afterwards.
   (`patch_09j_3panel.py`); both copies validate 0/0 (orphan 485 warning harmless). **Next:**
   user runs 09j (fresh tab) → if crest = actual roundel + jersey texture ✓ → 09j = locked
   sheet route → dataset/LoRA stage (Klein-9B dense, D143).
+- **ZIDANE SHEET + PIPELINE CAPTURE (user, 2026-10-20, D155):** "lets do the same thing for
+  zidane also ... zidane also need a front facing image, not the sideways one, so lets do it
+  from there" + "capture the pipeline ... all these workflows names must be there in the md
+  file ... so that we can introduce as many characters as we want with this pipeline".
+  **BUILT (all validate 0/0, user runs in order):**
+  1. `10a_frontal_base_zidane.json` (E: workflows) = 10a clone with ZIDANE's CANONICAL
+     attributes from `zidane_portrait_00001` (short black hair w/ faded sides, short FULL
+     dark beard, white tee — NOT the stale D137 "topknot" description), FRONTAL emphasis
+     ("face completely frontal, NO side angle/profile/three-quarter"), 3 branches
+     `FACEFRONTAL_ZIDANE_{a,b,c}` (seeds 42/43/44), 896×1120, Krea2 turbo + realism chain
+     unchanged.
+  2. `input\zidane_crest_ref.png` BUILT NOW (deterministic, `build_zidane_crest.py`): the
+     approved monochrome 1-fist roundel on a DARK GREEN ground (38,73,63 — sampled from
+     `zidane_kit_ref.png` so it matches the jersey; roundel pixels untouched, only the blue
+     ground recolored).
+  3. `09k_QWEN21_ZIDANE_sheet.json` (BOTH copies) = 09j clone: 470→`zidane_sheet_ref_3panel.png`,
+     481→`ZIDANE`, 461→`charsheet/QWEN21_ZIDANE`, 478 live spec + 555[0] mirror → dark-green
+     kit + green-ground crest (JAISAL→ZIDANE, royal blue→dark green).
+  4. `build_zidane_sheet_ref.py` — run AFTER the face run: stages newest
+     `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
+     a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
+     Jaisal).
+  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane (fresh tab) → pick best a/b/c,
+  (2) agent runs `build_zidane_sheet_ref.py [branch]` (file work, no GPU), (3) run
+  09k (fresh tab) → verify crest = green-ground roundel + dark green kit + face = the
+  frontal face.
+- **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
+  diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
+  movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset
+  stage 5 incl. `1 Click Dataset (Klein 9b).json`, H3 R2V + Blender + audio + seedvr2 stage
+  6), the "how we add more details" methodology (IMAGE channel = copy-target panels + one
+  478 line; TEXT channel = 478 spec; identity = left-panel-only, D151), the new-character
+  checklist (8 steps — "introduce as many characters as we want"), and the hard-rules list
+  (D150/D143/D144/D145/D150/D151/D152/D153/D154/D041). Committed.
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

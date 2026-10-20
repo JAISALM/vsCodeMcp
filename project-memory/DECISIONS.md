@@ -261,6 +261,34 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D155 — Zidane sheet = 09k (09j architecture) + PIPELINE.md as the production map (2026-10-20)
+- **User:** "lets do the same thing for zidane also ... zidane also need a front facing image,
+  not the sideways one, so lets do it from there" + "capture the pipeline ... all these
+  workflows names must be there in the md file ... so that we can introduce as many
+  characters as we want with this pipeline".
+- **Zidane route = 09j's architecture, cloned** (`09k_QWEN21_ZIDANE_sheet.json`, both
+  copies, validate 0/0): 470→`zidane_sheet_ref_3panel.png`, 481→`ZIDANE`,
+  461→`charsheet/QWEN21_ZIDANE`, 478 live spec + 555[0] mirror with dark-green kit +
+  green-ground crest. The existing `zidane_portrait_HD.png` (4608×8192) is the SIDEWAYS
+  face — a FRONTAL face is generated first: `10a_frontal_base_zidane.json` (10a clone,
+  ZIDANE's canonical attributes from `zidane_portrait_00001`: short black hair w/ faded
+  sides, short FULL dark beard, white tee — the D137 "loose topknot" description is STALE,
+  the on-disk canonical face rules). `build_zidane_sheet_ref.py` stages the chosen
+  `FACEFRONTAL_ZIDANE_{a,b,c}` output → `input\zidane_portrait_front.png` → builds the
+  2304×1536 composite. `input\zidane_crest_ref.png` = the approved roundel on a DARK GREEN
+  ground (38,73,63 sampled from `zidane_kit_ref.png` — crest ground always matches the
+  kit; roundel pixels untouched, blue ground recolored deterministically).
+- **`PIPELINE.md` (workspace root) = the production map:** stage diagram + every workflow
+  by name/details (Krea2 face/kit/identity stage, logo + transparent-crest stage, 3-panel
+  combiner scripts, 09j/09k sheet stage, dataset → Klein-9B DENSE LoRA stage, H3 R2V +
+  Blender + audio + seedvr2/RIFE movie stage), the **how-we-add-more-details methodology**
+  (IMAGE channel = reference panel + one "copy EXACTLY — do not redesign" line in 478;
+  TEXT channel = 478 spec; identity = LEFT panel ONLY per D151), and the 8-step
+  new-character checklist (the "as many characters as we want" procedure).
+- **Status:** Active. User run sequence: 10a_frontal_base_zidane → pick branch →
+  `build_zidane_sheet_ref.py [branch]` (agent runs, no GPU) → 09k (fresh tab) → verify.
+  Then dataset/LoRA stage, then the movie.
+
 ## D154 — Sheet A/B verdict: 09j (Qwen) wins; 3-panel reference feed + live spec layer (2026-10-20)
 - **A/B results (user ran all 4 sheets):** **09j Qwen = winner** (user: "qwen ended up being
   the top") — the only route with both a professional design-sheet layout (metadata column,
