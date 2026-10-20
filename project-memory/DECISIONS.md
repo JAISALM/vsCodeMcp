@@ -261,6 +261,22 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D158 — Locking a character's face: 3 t2i branches around the proven seed + 1 i2i from the approved face (2026-10-20)
+- **User:** "this one doesnt produce 3 images to pick which is a good one ... lets lock
+  the charaters ffs" — a single-seed run gives no choice; the lock must come from a PICK.
+- **`10a_frontal_base_zidane.json` v4 = one run, 4 candidates:** 3 t2i branches on the
+  01 chain (`Krea2Realism_V1` + V2@1.0, 8 steps, 1152×2048) with seeds **77/76/78**
+  (centered on his proven face seed) → `FACEFRONTAL2_ZIDANE_{a,b,c}` (output ROOT);
+  plus **1 i2i route** from the APPROVED 3/4 face (`LoadImage zidane_portrait_00001_.png`
+  → VAEEncode → KSampler **denoise 0.4** same model/prompt/negative →
+  `FACEFRONTAL_I2I_ZIDANE`) — his actual pixels anchor identity, only the head rotation
+  changes; strongest lock of the four.
+- **Rule:** when locking a face, give the user a 3-branch pick (seeds N-1/N/N+1 around
+  the proven seed) AND an i2i-from-approved-face route; the i2i is the primary when the
+  target is "same face, different angle". User picks one → that image becomes the locked
+  ref (staged to input, feeds the 3-panel composite).
+- **Status:** v4 validates 0/0, wiring verified — **USER RUNS** (fresh tab).
+
 ## D156 — Reproducing a specific Krea2 face = reuse its exact proven settings; never clone a sibling's file (2026-10-20)
 - **User:** "it just gave me the same image as jaisal, without hair lol, it doesnt work,
   we need to find out the workflow which produced zidane_portrait_HD_00001_ and copy the

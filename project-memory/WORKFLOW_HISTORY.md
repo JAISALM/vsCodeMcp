@@ -37,7 +37,16 @@ mirroring 01's jaisal prompt; canonical attrs from the actual image: short black
 cut, FULL short dark beard neatly trimmed, white tee) + dead-center FRONTAL emphasis;
 negative = 01's exact D142 clean + pose/hair-lock. KSampler **seed 77 fixed / 8 steps**
 euler/simple cfg 1, latent **1152×2048**, save `FACEFRONTAL2_ZIDANE` (no slash → output
-ROOT). **VALIDATES 0/0.**
+ROOT). **VALIDATES 0/0.** **v4 (LOCK THE CHARACTER, D158):** v3 single-seed run gave no
+choice ("doesnt produce 3 images to pick") → v4 = **3 t2i branches** (53/314/319 KSampler,
+seeds **77/76/78** fixed, shared 01 chain + 300/301, latent 82 fanned out) →
+`FACEFRONTAL2_ZIDANE_{a,b,c}` (root) **+ 1 i2i route**: `85 LoadImage
+zidane_portrait_00001_.png` (the APPROVED 3/4 face) → `86 VAEEncode` → `323 KSampler
+denoise 0.4` (seed 77, same model/prompt/negative) → `324 VAEDecode` → `325 SaveImage
+FACEFRONTAL_I2I_ZIDANE` — his pixels anchor identity, only head rotation changes
+(strongest lock). One run = 4 candidates. Native shapes (KSampler 7-value, LoadImage
+COMBO+IMAGEUPLOAD, VAEEncode 0 widgets); fan-out links + output lists rebuilt from the
+links array; wiring verified. **VALIDATES 0/0 (21 nodes).**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

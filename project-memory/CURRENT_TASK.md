@@ -658,11 +658,17 @@ model (Qwen) updates memory + commits afterwards.
      `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
      a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
      Jaisal).
-  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane **v3** (fresh tab) →
-  `output\FACEFRONTAL2_ZIDANE_00001_.png` (single branch, seed 77; if face drifts →
-  nudge seed 76/78 or fall back to i2i-from-portrait), (2) agent runs
-  `build_zidane_sheet_ref.py` (file work, no GPU), (3) run 09k (fresh tab) → verify
-  crest = green-ground roundel + dark green kit + face = the frontal face.
+  **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
+  the charaters ffs"):** one run, 4 candidates — 3 t2i branches (seeds 77/76/78 fixed,
+  shared 01 chain) → `FACEFRONTAL2_ZIDANE_{a,b,c}` (output ROOT) + **1 i2i route from
+  the APPROVED 3/4 face** (`zidane_portrait_00001_.png` → VAEEncode → KSampler
+  denoise 0.4 → `FACEFRONTAL_I2I_ZIDANE`; his pixels anchor identity, only head rotation
+  changes — strongest lock). Validate 0/0, wiring verified. `build_zidane_sheet_ref.py`
+  glob updated for all 4 names (branch arg a/b/c supported; no-arg = newest by mtime).
+  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane **v4** (fresh tab) → 4 candidates →
+  pick the best frontal (i2i usually lands the face closest), (2) agent runs
+  `build_zidane_sheet_ref.py [branch]` (file work, no GPU), (3) run 09k (fresh tab) →
+  verify crest = green-ground roundel + dark green kit + face = the picked frontal face.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
   diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
   movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset
