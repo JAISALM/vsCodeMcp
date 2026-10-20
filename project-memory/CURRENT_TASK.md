@@ -589,6 +589,17 @@ model (Qwen) updates memory + commits afterwards.
     UNET 451 `qwen_image_2.1_bf16` = strongest on machine, VAE 454 bf16 unchanged).
     `qwen3vl_8b_bf16` NOT needed (~16 GB for negligible gain on an 8B text encoder).
     NO downloads. 09j validates 0/0.
+  - **MODEL-LAYER SYNC (user: "i still dont see 09j wired properly, i see errors",
+    2026-10-20, D153):** author defaults survived in `widgets_values_named` + instance
+    node 459 layers (the exact `qwen3vl_8b_bf16` the user asked about). ALL layers of
+    all 4 sheets synced to on-disk models (`sync_model_layers.py`, both copies): 09j
+    451/453/454 named → bf16 UNET / fp8_scaled CLIP / bf16 VAE; 459 instance → same
+    bare names (author's `qwen/`-prefixed names gone); 05d/05e named layers ← their
+    positional (working) values (05e's real UNET = `minimax_h3_ref2va_pruned_int8_
+    convrot`, same as 05d). PE gguf `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf` exists at
+    `models\LLM\GGUF\` (`[local]` prefix = node convention, resolves). All 4
+    re-validate 0/0. **Rule: no manual model changes needed — stored value is what
+    runs; localize all layers once.**
 - **USER RUN RULE (D150, this turn):** agent misread "you create these and let me know"
   as run approval and queued the logo job → user stopped it: "dont run anything untill i
   specify". ALSO: **never run things parallelly — Qwen llama-server (8100) and ComfyUI

@@ -261,6 +261,34 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D153 — Multi-layer model widgets: sync ALL layers to on-disk models (2026-10-20)
+- **Problem (user saw errors in 09j UI):** author-baked model defaults persisted in the
+  LAYER I hadn't patched. Workflows store model names in up to FOUR places:
+  (1) internal-node `widgets_values` (positional) — what actually executes;
+  (2) internal-node `widgets_values_named` — author's stale defaults (09j subgraph 451
+  named = `qwen_image_2.1_int8_convrot`, 453 named = `qwen3vl_8b_bf16` ← the exact
+  names the user had asked about); (3) instance-node `widgets_values` (09j 459
+  widgets[8/9/10] = `qwen/`-prefixed author names); (4) instance-node
+  `widgets_values_named`. UI displays layers 3/4 → red "not found" errors even when
+  execution (layer 1) is fine.
+- **Rule:** whenever a workflow is localized to this machine, set ALL four layers to
+  the on-disk filename (bare name, no author path/prefix). `utilities\sync_model_layers.py`
+  did it for all 4 sheet workflows (both copies): 09j 451→`qwen_image_2.1_bf16`,
+  453→`qwen3vl_8b_fp8_scaled`, 459 instance→same bare names; 05d named layers ←
+  positional (working) values incl. node 2 video VAE = `minimax_h3_t1_image_vae_step1597`;
+  05e named ← positional (71 = `minimax_h3_ref2va_pruned_int8_convrot` — 05e's real
+  working UNET, same as 05d; author's `fused_refdelta_r1024_turbo8_mystic07` existed
+  only in the stale layer; 72 = `qwen3vl_32b_minimax_h3_nvfp4_awq`). 05d node 22
+  (muted LoRA, mode=4) left alone. All 4 validate 0/0.
+- **PE model fact:** `Qwen-Image-2.1-PE-I2I.Q4_K_M.gguf` (5.24 GB) lives at
+  `models\LLM\GGUF\` — the `[local]` prefix in the ThinkingLLM node is the node's
+  lookup convention, it resolves fine (not a missing file).
+- **Answer to "do we change models manually every time?": NO — the stored value is
+  what the workflow runs; the dropdown's first entry is just the server's
+  alphabetical list, not a default. Localize once (all layers) and it stays.**
+- **Status:** Active. Every future author-template localization: run the
+  all-layers model check (`utilities\check_all_sheets_models.py`) before handing off.
+
 ## D151 — Sheet pipeline: sheet prompts = face ref + kit ONLY, no attribute re-descriptions (2026-10-20)
 - **User:** "lets not add more characters details when we make the character sheet. The pipeline
   should be: create character with all the attributes, and then create character sheet with face
