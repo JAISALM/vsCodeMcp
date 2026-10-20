@@ -774,6 +774,24 @@ model (Qwen) updates memory + commits afterwards.
   → latest (2026-10-19) + `python_embeded\python.exe -I -m pip install -r
   requirements.txt` (log `AI-Toolkit\update_log_20261020.txt`). After: verify Krea 2
   model definitions landed + `Start-AI-Toolkit.bat`.
+- **✅ BOTH TOOLS READY (2026-10-20, verified):**
+  - **AI Toolkit** (`E:\AI-Toolkit-Easy-Install`): HEAD `0473387` (2026-10-19, latest),
+    **Krea 2 support VERIFIED** (`toolkit\models\registry.py` + `qwen3_vl.py` text
+    encoder + `qwen_image.py` VAE = our exact Krea2 stack), requirements clean
+    (diffusers 0.39.0.dev0, transformers 5.5.3, rc=0; log
+    `AI-Toolkit\update_log_20261020.txt`). Launch: `Start-AI-Toolkit.bat` →
+    localhost:8675.
+  - **Fizgig** (`D:\tools\Fizgig`): install finished (job pwsh-106; the exit-1 was
+    cosmetic — log ends "Installation Complete!", only optional MSVC Build Tools
+    missing = torch.compile speedup, not required). **CUDA VERIFIED in venv: torch
+    2.10.0+cu128, RTX 5090 seen, capability (12,0) Blackwell.** Launch:
+    `D:\tools\Fizgig\Launch Fizgig.bat` (own window) or `Launch Fizgig in browser.bat`.
+    First-use downloads: InsightFace models (~300MB) + Florence-2 captioning
+    (~500MB-1.5GB from HF).
+- **NEXT (USER):** launch both GUIs (`Launch Fizgig.bat` + `Start-AI-Toolkit.bat`) →
+  agent walks the Fizgig Training tab: model = Krea 2, **Subjects card = 2 subjects
+  (jaisal + zidane dataset folders), mode = "Fizgig LoRA Isolation"** → captioning per
+  `docs\lora-tools\fizgig_MULTI_PERSON.md` → Start Training (user runs).
 - **Docs captured:** `docs\lora-tools\{fizgig_README, fizgig_LORA_ISOLATION,
   fizgig_MULTI_PERSON, ai_toolkit_README}.md`.
 - **Training plan (Fizgig GUI):** Start tab = dataset folders → Captions tab = trigger
