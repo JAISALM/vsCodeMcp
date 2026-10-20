@@ -291,11 +291,16 @@
   `docs/lora-tools/fizgig_LORA_ISOLATION.md`, `fizgig_MULTI_PERSON.md` (captioning
   guide), setup video youtu.be/8uW5NdL5b20, demo youtu.be/CNh4sN5vN_8. GUI:
   `Launch Fizgig.bat` (own window) / `Launch Fizgig in browser.bat`.
-- **AI Toolkit** (`D:\tools\ai-toolkit`, venv Python 3.12, torch 2.13.0 cu130 — install
-  job pwsh-107 2026-10-20): the standard (ostris). Supports **Krea 2 Raw/Turbo** (+Edit
-  training variants), FLUX.2/klein, SDXL. DOP single-subject, LoKr,
-  layer-specific training. Secondary/fallback. UI: manager `run_windows.bat` or
-  `ui/npm run build_and_start` (localhost:8675).
+- **AI Toolkit** — **ALREADY INSTALLED (user, turn 76): `E:\AI-Toolkit-Easy-Install\`
+  (easy-install v0.4.1 by ivo/Tavris1)**: `AI-Toolkit\` repo + own `python_embeded\`
+  (Python 3.12.10) + `Start-AI-Toolkit.bat` (UI → localhost:8675) +
+  `Update-AI-Toolkit.bat`. Verified working: torch 2.8.0+cu128, CUDA on RTX 5090 ✓,
+  `aitk_db.db` = used before. **BUT Feb-2026 build had NO Krea 2 support (656 commits
+  behind)** → updated in place 2026-10-20 (job pwsh-118: git pull + pip install
+  requirements with the embedded python; log `AI-Toolkit\update_log_20261020.txt`).
+  The redundant fresh-clone attempt (`D:\tools\ai-toolkit`, job pwsh-107) was KILLED +
+  deleted. Latest master supports **Krea 2 Raw/Turbo** (+Edit variants), FLUX.2/klein,
+  SDXL. DOP single-subject, LoKr, layer-specific training. Secondary/fallback.
 - **Better alternatives checked:** none for Krea 2 — kohya sd-scripts / diffusion-pipe
   don't support it. Fizgig is the only tool with multi-subject face isolation.
 - **Reddit source:** r/StableDiffusion post 1x8aplh "Fizgig LoRA Isolation: a new

@@ -760,12 +760,20 @@ model (Qwen) updates memory + commits afterwards.
   likeness unchanged). **AI Toolkit = SECONDARY** (standard; Krea2 Raw/Turbo support,
   DOP, LoKr). User: "keep both of them in our armour." No better Krea2 alternatives
   exist (kohya/diffusion-pipe don't support it).
-- **SETUP IN PROGRESS (2026-10-20):** repos cloned `D:\tools\Fizgig` + `D:\tools\
-  ai-toolkit`. **Fizgig install = job pwsh-106** (Python 3.12 venv, CUDA 12.8 torch,
-  `install_fizgig.py`, log `D:\tools\Fizgig\install_log.txt`; GUI = `Launch Fizgig.bat` /
-  `Launch Fizgig in browser.bat`). **AI Toolkit install = job pwsh-107** (Python 3.12
-  venv, torch 2.13.0 cu130 + requirements, log `D:\tools\ai-toolkit\install_log.txt`;
-  UI via `run_windows.bat` manager or `ui\npm run build_and_start` → localhost:8675).
+- **SETUP IN PROGRESS (2026-10-20):** **Fizgig = fresh install, job pwsh-106** (`D:\tools\
+  Fizgig`, Python 3.12 venv, CUDA 12.8 torch, `install_fizgig.py`, log
+  `D:\tools\Fizgig\install_log.txt`; GUI = `Launch Fizgig.bat` /
+  `Launch Fizgig in browser.bat`). **AI Toolkit = ALREADY INSTALLED (user correction,
+  turn 76: "ai toolkit is already installed right ... stop redundant work")** at
+  `E:\AI-Toolkit-Easy-Install\` (easy-install v0.4.1: `AI-Toolkit\` repo + own
+  `python_embeded\` py3.12.10 + `Start-AI-Toolkit.bat` → UI localhost:8675 +
+  `Update-AI-Toolkit.bat`; torch 2.8.0+cu128, CUDA on 5090 verified, `aitk_db.db` =
+  used before). **CAUGHT: that build = Feb-2026, NO Krea 2 support, 656 commits
+  behind** → my redundant fresh clone (job pwsh-107) KILLED + `D:\tools\ai-toolkit`
+  DELETED; instead **updating the existing install in place (job pwsh-118)**: git pull
+  → latest (2026-10-19) + `python_embeded\python.exe -I -m pip install -r
+  requirements.txt` (log `AI-Toolkit\update_log_20261020.txt`). After: verify Krea 2
+  model definitions landed + `Start-AI-Toolkit.bat`.
 - **Docs captured:** `docs\lora-tools\{fizgig_README, fizgig_LORA_ISOLATION,
   fizgig_MULTI_PERSON, ai_toolkit_README}.md`.
 - **Training plan (Fizgig GUI):** Start tab = dataset folders → Captions tab = trigger
