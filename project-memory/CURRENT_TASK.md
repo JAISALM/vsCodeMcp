@@ -739,3 +739,43 @@ model (Qwen) updates memory + commits afterwards.
   sheet workflows already point at that filename) → user runs the 4 updated sheet routes
   → pick winning sheet route → Zidane flip (incl. `zidane_crest_ref.png`) → Klein
   dataset → LoRA.
+
+## 🔴 DATASET DONE → LORA STAGE (user, 2026-10-20, D143-revised + D167)
+- **User:** "i have created 20 images for both zidane and jaisal, 20 will be off same pose
+  and same type but we got the data set, now lets build the lora". **DATASET = 20 images
+  each, same pose/type, generated on the Klein-9B dataset workflow (post-comfyroll-fix,
+  D166). LOCATIONS (verified):** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\
+  output\Dataset\Jaisal\Image_00001..00020_.png` + `...\Dataset\zidane\Image_00001..00020_.png`
+  (latest tree — the user's re-runs; the older main-tree runs `character_1`/`character-2`
+  are the previous-generation sets).
+- **USER CORRECTION — LoRA target = KREA 2 (D143 revised, not Klein-9B):** "our lora
+  target is to create lora for krea2 ... we should be able to combine our lora with
+  krea2 realism lora or checkpoint, thats the whole point ... flux 9b also fine, but we
+  often get plastic look there ... even on our dataset image i have the same issue ...
+  to the limit we can get realism with krea lora." → **train char LoRA(s) on Krea 2,
+  stackable with `Krea2-realism-V2` at generation = identity + realism.**
+- **TOOL CHOICE (D167):** **Fizgig = PRIMARY** — native Krea 2 support + **LoRA
+  Isolation** (multi-subject: Jaisal + Zidane in ONE LoRA, each face locked to its own
+  trigger — built for our 2-character movie; Krea2 tests: face bleed 48/50 → 0/50,
+  likeness unchanged). **AI Toolkit = SECONDARY** (standard; Krea2 Raw/Turbo support,
+  DOP, LoKr). User: "keep both of them in our armour." No better Krea2 alternatives
+  exist (kohya/diffusion-pipe don't support it).
+- **SETUP IN PROGRESS (2026-10-20):** repos cloned `D:\tools\Fizgig` + `D:\tools\
+  ai-toolkit`. **Fizgig install = job pwsh-106** (Python 3.12 venv, CUDA 12.8 torch,
+  `install_fizgig.py`, log `D:\tools\Fizgig\install_log.txt`; GUI = `Launch Fizgig.bat` /
+  `Launch Fizgig in browser.bat`). **AI Toolkit install = job pwsh-107** (Python 3.12
+  venv, torch 2.13.0 cu130 + requirements, log `D:\tools\ai-toolkit\install_log.txt`;
+  UI via `run_windows.bat` manager or `ui\npm run build_and_start` → localhost:8675).
+- **Docs captured:** `docs\lora-tools\{fizgig_README, fizgig_LORA_ISOLATION,
+  fizgig_MULTI_PERSON, ai_toolkit_README}.md`.
+- **Training plan (Fizgig GUI):** Start tab = dataset folders → Captions tab = trigger
+  words per `fizgig_MULTI_PERSON.md` guide → Training tab: model **Krea 2**, **Subjects
+  card = 2 subjects** (jaisal folder + zidane folder), "Your subject and other people" =
+  **Fizgig LoRA Isolation** → Start. Dataset caveat (user-accepted): images are
+  Klein-generated (some plastic look) — Krea2 training pulls back toward natural skin.
+  Optional later: regenerate some dataset shots on the Krea2 chain.
+- **NEXT:** (1) both install jobs finish → verify CUDA visible to each venv, (2) confirm
+  the 40 images are the approved set (spot-check faces), (3) organize per-character
+  folders for Fizgig's Subjects card (+ captioning), (4) train (user drives GUI, agent
+  drives CLI), (5) char LoRA + `Krea2-realism-V2`@1.0 = the new face-lock everywhere
+  (replaces identity-edit machinery) → then movie stage.

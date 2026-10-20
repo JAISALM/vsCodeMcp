@@ -24,9 +24,14 @@ selected prompt (link 687) → 351 CLIPTextEncode slot 1. **VALIDATE ERROR (foun
 missing** from `custom_nodes` (wiped; user remembered it working before). Reinstalled
 via direct git clone `Suzie1/ComfyUI_Comfyroll_CustomNodes` (registry install failed:
 `pack_not_found` — CLI backend keys on `project_name`, which is None in the cached
-entry). Pack verified (`node_mappings.py:60`). **RESTART PENDING** (user's
-launcher-started ComfyUI — MCP can't restart it). After restart: re-validate (expect
-0/0) + swap `ref_woman.png` → locked zidane face for the zidane dataset.
+entry). Pack verified (`node_mappings.py:60`).
+**RAN + DATASET DONE (2026-10-20):** after the user restarted ComfyUI (loading
+comfyroll) and ran both character datasets, **40 images exist**: latest-tree
+`output\Dataset\Jaisal\Image_00001..00020_.png` + `output\Dataset\zidane\Image_00001..
+00020_.png` (same pose/type across the set, per user). Older main-tree runs =
+`E:\ComfyUI_windows_portable\ComfyUI\output\Dataset\{character_1,character-2,krea2_
+character_2}` (previous generation). **STATUS: RAN — feeds the Krea2 character LoRA
+(D143-revised, D167 — trained in Fizgig with LoRA Isolation, 2 subjects).**
 
 ## 2026-10-20 — `11_sheet_composite.json` (VALIDATE 0/0, 11 nodes) — COMBINE MULTIPLE IMAGES INTO ONE (D165)
 

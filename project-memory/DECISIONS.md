@@ -261,6 +261,47 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D143 (REVISED 2026-10-20) — Character LoRA target = **KREA 2** (was "Klein-9B DENSE"), stack with `Krea2-realism-V2`
+- **User correction (turn 76):** "our lora target is to create lora for krea2 ... we should be able to
+  combine our lora with krea2 realism lora or checkpoint, thats the whole point, otherwise i dont
+  think we will be able to achieve consistency / good image generations. flux 9b also fine, but we
+  often get plastic look there ... even on our dataset image i have the same issue ... to the
+  limit we can get realism with krea lora."
+- **Decision:** train BOTH character LoRAs on **Krea 2** (the Krea2Realism_V1 chain). At
+  generation: char LoRA + `Krea2-realism-V2`@1.0 stacked = identity + realism.
+- **Dataset reality:** the 40 dataset images (20 zidane + 20 jaisal, same pose/type) were
+  generated on the **Klein-9B** dataset workflow — they carry some of Klein's plastic look.
+  User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
+  Optional later: regenerate some dataset shots on the Krea2 chain.
+
+## D167 — LoRA TOOLS: Fizgig PRIMARY (Krea2 + LoRA Isolation), AI Toolkit SECONDARY; both installed ("keep both in our armour") (2026-10-20)
+- **Fizgig** (`D:\tools\Fizgig`, venv Python 3.12, CUDA 12.8 torch — install job
+  pwsh-106 2026-10-20): "LoRA & Fine-tune Studio" — native **Krea 2** support +
+  **LoRA Isolation** (v8.4+): multi-subject training where each person's face stays on
+  its own trigger — BUILT FOR OUR 2-CHARACTER MOVIE (Jaisal + Zidane in one frame).
+  Tests on Krea 2: normal LoRA bleeds subject face onto 48/50 strangers; isolation =
+  0/50, likeness unchanged (ArcFace 0.78 vs 0.77). Mechanics: (1) DOP (from Ostris
+  AI-Toolkit — trigger-free pass pinned to base-model output), (2) multi-subject
+  identity anchoring (each subject own folder + trigger; "even for a LoRA of one
+  person, training a second person alongside them is recommended"), (3) fused-token
+  class decoupling (`trigger, a man` → `triggerman` so the subject never attaches to
+  the shared " man" token), (4-6) negative-pair training + other-people description
+  safety net. Setup: Training tab → Subjects card → pick 2 subjects, folders, set
+  "Your subject and other people" = **Fizgig LoRA Isolation**. Docs:
+  `docs/lora-tools/fizgig_LORA_ISOLATION.md`, `fizgig_MULTI_PERSON.md` (captioning
+  guide), setup video youtu.be/8uW5NdL5b20, demo youtu.be/CNh4sN5vN_8. GUI:
+  `Launch Fizgig.bat` (own window) / `Launch Fizgig in browser.bat`.
+- **AI Toolkit** (`D:\tools\ai-toolkit`, venv Python 3.12, torch 2.13.0 cu130 — install
+  job pwsh-107 2026-10-20): the standard (ostris). Supports **Krea 2 Raw/Turbo** (+Edit
+  training variants), FLUX.2/klein, SDXL. DOP single-subject, LoKr,
+  layer-specific training. Secondary/fallback. UI: manager `run_windows.bat` or
+  `ui/npm run build_and_start` (localhost:8675).
+- **Better alternatives checked:** none for Krea 2 — kohya sd-scripts / diffusion-pipe
+  don't support it. Fizgig is the only tool with multi-subject face isolation.
+- **Reddit source:** r/StableDiffusion post 1x8aplh "Fizgig LoRA Isolation: a new
+  process for more..." (2026-10-17) — the feature above; links = LORA_ISOLATION.md +
+  setup/demo videos (captured).
+
 ## D166 — 09k sheet DONE (user: "character sheet is done, and thats good"); Klein dataset node error = MISSING comfyroll PACK (2026-10-20)
 - **Zidane sheet approved** — 09k stage complete; dataset stage is next (Klein-9B).
 - **Dataset workflow `1 Click Dataset (Klein 9b).json`:** validate reported exactly ONE
