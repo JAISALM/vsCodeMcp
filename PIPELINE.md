@@ -116,7 +116,7 @@ when flipping characters.
 |---|---|---|
 | `krea2_dataset_char1.json` / `krea2_dataset_char2.json` | Character dataset builders | Consistent-image sets for LoRA training. |
 | `krea2_1click_dataset.json` | 1-click dataset | One-shot dataset generation. |
-| `1 Click Dataset (Klein 9b).json` | Klein-9B dataset | **D143: train the character LoRA with Klein-9B DENSE** (not quantized). |
+| `1 Click Dataset (Klein 9b).json` | Klein-9B dataset | **D143: train the character LoRA with Klein-9B DENSE** (not quantized). **Requires the `comfyroll` pack** (node 377 `CR Prompt List` = the 20-prompt list + index) — was wiped from `custom_nodes`, reinstalled 2026-10-20 via git clone `Suzie1/ComfyUI_Comfyroll_CustomNodes` (D166). Swap `ref_woman.png` → the character's locked face per dataset. |
 
 Dataset = the character's sheet (multiple views) + t2i scene pics. The LoRA becomes the
 face-lock for all future refs/sheets/frames (D141 pipeline pivot — no identity-edit

@@ -709,9 +709,18 @@ model (Qwen) updates memory + commits afterwards.
   5.4s CPU-only → `SHEET_COMPOSITE_00001_.png` verified = spec layout: face left
   full-height, green roundel top-right, dark green kit bottom-right) and staged the
   composite → `input\zidane_sheet_ref_3panel.png` (2304×1536).
-  **USER SEQUENCE:** (1) run 09k (fresh tab) → `charsheet/QWEN21_ZIDANE_00001_` →
-  verify crest = green-ground roundel + dark green kit + face = the locked
-  c_00012 face, (2) then dataset → Klein-9B dense LoRA (D143) → movie stage.
+  **09k VERDICT (user, 2026-10-20): "character sheet is done, and thats good" —
+  ZIDANE SHEET APPROVED. → DATASET STAGE (Klein-9B, D143).**
+  **BLOCKER (D166):** `1 Click Dataset (Klein 9b).json` node 377 `CR Prompt List`
+  = `unknown_class_type` — the **comfyroll pack was missing** from custom_nodes
+  (wiped by the install refresh). Reinstalled via direct git clone
+  (`Suzie1/ComfyUI_Comfyroll_CustomNodes`, verified `node_mappings.py` maps
+  `CR Prompt List`; no extra deps). MCP cannot restart the user's launcher-started
+  ComfyUI (`no_background_server`).
+  **USER SEQUENCE:** (1) **CLOSE AND RE-OPEN ComfyUI** (loads the comfyroll pack) →
+  agent re-validates the dataset workflow (expect 0/0), (2) run the Klein dataset
+  (swap `ref_woman.png` → the locked zidane face ref; 20-prompt list is in node
+  377; index widget picks the prompt), (3) then LoRA (D143) → movie stage.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
   diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
   movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset

@@ -261,6 +261,36 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D166 — 09k sheet DONE (user: "character sheet is done, and thats good"); Klein dataset node error = MISSING comfyroll PACK (2026-10-20)
+- **Zidane sheet approved** — 09k stage complete; dataset stage is next (Klein-9B).
+- **Dataset workflow `1 Click Dataset (Klein 9b).json`:** validate reported exactly ONE
+  error — node 377 `CR Prompt List` = `unknown_class_type` (closest: `easy promptList`,
+  different node). Root cause: the node comes from the **`comfyroll` pack**
+  (`properties.cnr_id: "comfyroll"`), which was **no longer in `custom_nodes`**
+  (80 packs present, none matching) — the pack was wiped (likely the portable
+  install refresh / Manager update). User: "CR prompt list was there, i remember this
+  workflow was working previously".
+- **Fix:** `mcp install_node(["comfyroll"])` failed (`pack_not_found` — the CLI's
+  GitPython backend keys on a field the cached entry lacks: `project_name: None`).
+  **WORKAROUND:** direct `git clone --depth 1 https://github.com/Suzie1/
+  ComfyUI_Comfyroll_CustomNodes` into `custom_nodes\` (= what the registry's
+  git-clone install does). Pack verified: `node_mappings.py` line 60 maps
+  `"CR Prompt List": CR_PromptList` (from `nodes/nodes_list.py`); no
+  `requirements.txt` (no extra deps). **RESTART PENDING** — the running ComfyUI
+  was launched by the user's portable launcher, NOT comfy-cli, so MCP
+  `restart_comfyui` fails (`no_background_server`) — the USER closes and re-opens
+  ComfyUI. After restart: re-validate the workflow (expect 0/0), then run the
+  dataset (20-prompt list is inside node 377's widgets; index widget picks the
+  prompt; ref image `ref_woman.png` — for zidane, swap to the locked face).
+- **Workflow graph (verified):** `flux-2-klein-9b.safetensors` UNET + `qwen_3_8b_fp8mixed`
+  CLIP (type flux2) + `flux2-vae` — LoadImage ref → ImageScaleToTotalPixels →
+  GetImageSize (drives EmptyFlux2LatentImage 768×1120 defaults + Flux2Scheduler
+  [5,1024,1024]) → VAEEncode → 2× ReferenceLatent → **Flux2KleinRefLatentController
+  [104.6, 0, none, 0.5, false]** → **Flux2KleinTextRefBalance [0.995, false]** →
+  CFGGuider [1] + KSamplerSelect euler + SamplerCustomAdvanced + RandomNoise
+  [385795140905191, fixed] → VAEDecode → SaveImage `Dataset\Test_woman\Image`.
+  Node 377's `prompt` output (link 687) → CLIPTextEncode 351 slot 1.
+
 ## D165 — ZIDANE FACE LOCKED = `FACEFRONTAL2_ZIDANE_c_00012_.png`; sheet composite built + verified (2026-10-20)
 - **User picked `FACEFRONTAL2_ZIDANE_c_00012_.png`** (from the v7 run series 00007-00012,
   1152×2048, 01 chain) as the LOCKED zidane face — roundish face, full dark beard,

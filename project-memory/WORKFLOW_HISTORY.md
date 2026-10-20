@@ -4,6 +4,30 @@ Newest changes first.
 
 ---
 
+## 2026-10-20 — `1 Click Dataset (Klein 9b).json` (22 nodes) — Klein-9B DATASET pipeline; node 377 error = missing comfyroll pack (D166)
+
+**Purpose:** the dataset stage (D143) — 20 scene prompts (list inside node 377) +
+a reference image → face-consistent dataset images via flux-2-klein-9b.
+**Models:** `flux-2-klein-9b.safetensors` (UNET) + `qwen_3_8b_fp8mixed.safetensors`
+(CLIPLoader type `flux2`) + `flux2-vae.safetensors`.
+**Chain:** 76 LoadImage `ref_woman.png` → 151 ImageScaleToTotalPixels → 153
+GetImageSize (→ 179 EmptyFlux2LatentImage + 342 Flux2Scheduler [5,1024,1024]) →
+155 VAEEncode → 154/156 ReferenceLatent → 359 **Flux2KleinRefLatentController**
+[104.6, 0, "none", 0.5, false] → 355 **Flux2KleinTextRefBalance** [0.995, false] →
+186 CFGGuider [1] (+ 159 ConditioningZeroOut negative) + 308 KSamplerSelect euler +
+342 sigmas + 185 RandomNoise [385795140905191, fixed] + 179 latent → 188
+SamplerCustomAdvanced → 143 VAEDecode → 280 SaveImage `Dataset\Test_woman\Image`.
+379 = MarkdownNote ("Original workflow with Ref Latent Controller by u/Capitan01R").
+**Node 377 `CR Prompt List`** (comfyroll pack) = the 20-prompt list + index widget →
+selected prompt (link 687) → 351 CLIPTextEncode slot 1. **VALIDATE ERROR (found
+2026-10-20):** `unknown_class_type 'CR Prompt List'` — the **comfyroll pack was
+missing** from `custom_nodes` (wiped; user remembered it working before). Reinstalled
+via direct git clone `Suzie1/ComfyUI_Comfyroll_CustomNodes` (registry install failed:
+`pack_not_found` — CLI backend keys on `project_name`, which is None in the cached
+entry). Pack verified (`node_mappings.py:60`). **RESTART PENDING** (user's
+launcher-started ComfyUI — MCP can't restart it). After restart: re-validate (expect
+0/0) + swap `ref_woman.png` → locked zidane face for the zidane dataset.
+
 ## 2026-10-20 — `11_sheet_composite.json` (VALIDATE 0/0, 11 nodes) — COMBINE MULTIPLE IMAGES INTO ONE (D165)
 
 **Purpose:** the user-requested "workflow for combining multiple images into one" —
