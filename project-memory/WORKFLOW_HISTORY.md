@@ -4,21 +4,40 @@ Newest changes first.
 
 ---
 
+## 2026-10-20 — `01_character_sheet.json` (id `krea2-t2i-character`) — THE "01 t2i" — true source of the refset_v7 faces
+
+**Purpose:** the base Krea2 t2i face/portrait workflow behind refset_v7 — both characters.
+**Chain (verified on disk):** `Krea2Realism_V1.safetensors` UNET (NOT turbo) →
+`LoraLoaderModelOnly` `Krea2-realism-V2.safetensors` @1.0; `qwen3vl_4b_fp8_scaled`
+CLIP (type `krea2`); `qwen_image_vae`. KSampler 8 steps euler/simple cfg 1.
+**On-disk state = JAISAL's portrait:** latent 1152×2048, seed 42, save
+`refset_v7/jaisal_portrait`, prompt = D142 natural-language jaisal portrait
+(kr2realism trigger, medium close-up, wavy hair, patchy beard, black tee, 50mm),
+negative = D142 clean verbatim.
+**Zidane run:** SAME file, zidane prompt live-typed + seed 77 (never saved) →
+`refset_v7\zidane_portrait_00001` → `03_hd_upscale` 4× → `zidane_portrait_HD_00001`
+(4608×8192, the approved 3/4 face).
+**Outputs (registry in PIPELINE.md):** `refset_v7\{jaisal,zidane}_portrait{,_HD}_00001`,
+`refset_v7\{jaisal,zidane}_t2i_base_00001`, `zidane_clean{8,16}_00001`.
+**Status:** canonical t2i face source. Cloned as the basis of
+`10a_frontal_base_zidane.json` v3 (zidane FRONTAL re-roll, seed 77).
+
 ## 2026-10-20 — `10a_frontal_base_zidane.json` + `09k_QWEN21_ZIDANE_sheet.json` (VALIDATE 0/0) + zidane crest recolor (D155)
 
 **Purpose:** the Zidane sheet via the winning 09j architecture, starting from a FRONTAL
 face (the existing `zidane_portrait_HD.png` 4608×8192 is the sideways one).
 **`10a_frontal_base_zidane.json`** (E: workflows, `build_10a_zidane.py`): **v1 = 10a-jaisal
 clone — FAILED** (user: jaisal-like face, no hair — shared opening tokens → face
-convergence + tag-stack). **v2 = CHAR2 CHAIN** (the one that produced
-`refset_v7\zidane_portrait_HD_00001`): `krea2_turbo_fp8_scaled` +
-`Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` (krea2),
-`qwen_image_vae`, `FameGridColorFinish`; `PixaromaPromptEach` (node 200, stale man-bun
-prompts) DELETED — prompt directly in CLIPTextEncode: D142 natural-language (kr2realism
-trigger, 4-5 sentences, canonical attrs from the actual image: short black halal cut,
-FULL short dark beard neatly trimmed, white tee) + dead-center FRONTAL emphasis;
-negative = D142 clean + pose/hair-lock. KSampler **seed 77 / 8 steps** euler/simple cfg
-1, latent **1152×2048**, save `FACEFRONTAL2_ZIDANE` (fresh counter). **VALIDATES 0/0.**
+convergence + tag-stack). **v2 = char2 chain — SUPERSEDED** (wrong chain — the true
+source is 01, not char2). **v3 = CLONE OF `01_character_sheet.json`** (the true source of
+`refset_v7\zidane_portrait_HD_00001`): `Krea2Realism_V1.safetensors` +
+`Krea2-realism-V2`@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae` — prompt directly in
+CLIPTextEncode: D142 natural-language (kr2realism trigger, medium close-up, 50mm style
+mirroring 01's jaisal prompt; canonical attrs from the actual image: short black halal
+cut, FULL short dark beard neatly trimmed, white tee) + dead-center FRONTAL emphasis;
+negative = 01's exact D142 clean + pose/hair-lock. KSampler **seed 77 fixed / 8 steps**
+euler/simple cfg 1, latent **1152×2048**, save `FACEFRONTAL2_ZIDANE` (no slash → output
+ROOT). **VALIDATES 0/0.**
 **`09k_QWEN21_ZIDANE_sheet.json`** (BOTH copies, `build_09k_zidane.py`): 09j clone —
 `470`→`zidane_sheet_ref_3panel.png`, `481`→`ZIDANE`, `461`→`charsheet/QWEN21_ZIDANE`,
 `478` live spec + `555[0]` mirror → dark-green kit + green-ground crest (JAISAL→ZIDANE,

@@ -48,7 +48,7 @@ never learned.
 | Workflow | Purpose | Details |
 |---|---|---|
 | `10a_frontal_base_jaisal.json` | Jaisal FRONTAL face | Krea2 t2i, 3 seed branches (42/43/44 → `FACEFRONTAL_JAISAL_a/b/c`), 896×1120, 10 steps euler/simple cfg 1, `krea2_turbo_fp8_scaled` + `Krea2-realism-V2`@1.0 + `famegrid_spicy_3167060`@0.7, `qwen3vl_4b_fp8_scaled` (krea2 type), `qwen_image_vae`, `FameGridColorFinish` 1.0/0.6. Prompt = D142 candid phone-snapshot recipe, face COMPLETELY FRONTAL (no profile/3-quarter). |
-| `10a_frontal_base_zidane.json` | Zidane FRONTAL face | Clone of 10a with ZIDANE's canonical attributes (short black hair w/ faded sides, short full dark beard, white tee — from `zidane_portrait_00001`), 3 branches `FACEFRONTAL_ZIDANE_a/b/c`. **VALIDATES 0/0.** |
+| `10a_frontal_base_zidane.json` | Zidane FRONTAL face | **v3 = clone of `01_character_sheet`** (the true source of his approved face): `Krea2Realism_V1` + `Krea2-realism-V2`@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae`, 8 steps, **seed 77** (his proven face seed), **1152×2048** portrait. D142 natural-language prompt (his canonical attrs from the image: short black halal cut, FULL short dark beard neatly trimmed, white tee) + dead-center FRONTAL emphasis; D142 clean negative + pose/hair lock. v1 (10a-jaisal clone) FAILED — jaisal-like face, no hair. **VALIDATES 0/0.** |
 | `krea2_t2i_char1.json` / `krea2_t2i_char2.json` | Base t2i (any scene) | Krea2 t2i, D142 recipe (8 steps, clean bg). |
 | `krea2_t2i_char1_pe3.json` / `krea2_t2i_char2_pe3.json` | PE3-variant t2i | Same chain + prompt expansion. |
 | `krea2_2pass_bf16_turbo.json` | 2-pass t2i | bf16 + turbo second pass. |
@@ -140,6 +140,107 @@ machinery).
 
 ---
 
+## OUTPUT REGISTRY (workflow → image → what it is) — the reuse map
+
+**Rule (D157):** whenever a workflow produces an approved output, record it here —
+workflow, settings, output path, what it is, status. Output paths are relative to
+`...\ComfyUI\output\` unless prefixed `input:`. **SaveImage convention:** prefix with a
+slash (`charsheet/QWEN21_JAISAL`) → subfolder; without a slash (`FACEFRONTAL2_ZIDANE`) →
+file at the output ROOT.
+
+### Character faces — Jaisal (char1)
+
+| Image | Source workflow | Settings | What it is / status |
+|---|---|---|---|
+| `refset_v7\jaisal_t2i_base_00001_.png` | `01_character_sheet` (01 t2i) | seed 42, 8 steps, D142, 2MP 16:9 | t2i base scene — wavy hair ✓, thin patchy beard ✓, black tee + dark trousers, slim, clean cream backdrop, half-smile |
+| `refset_v7\jaisal_portrait_00001_.png` | `01_character_sheet` | seed 42, 8 steps, **1152×2048 portrait** | portrait close-up (3/4 view), head + shoulders |
+| `refset_v7\jaisal_portrait_HD_00001_.png` | `03_hd_upscale` | Real-ESRGAN x4plus, 4× | 4608×8192 HD of the portrait — **APPROVED canonical (3/4 view)** |
+| `FACEFRONTAL_JAISAL_a/b/c_00001_.png` | `10a_frontal_base_jaisal` | Krea2 turbo + V2@1.0 + spicy@0.7, 10 steps, seeds 42/43/44, 896×1120 | FRONTAL faces, 3 branches — **b = APPROVED straight-up** |
+| `krea2_char1_face_{,a_,b_,c_}00001…00007` | `krea2_t2i_char1` | 2026-10-08 | early canonical face set: a = misty forest profile, b = wooden boat golden hour, c = rainy street frontal |
+| `char_v4\jaisal_00001_.png` / `char_v6\jaisal_v2lora_00001_.png` | 01 t2i | v4: 2MP/10s · v6: V2 LoRA @1.0, 8 steps, 1152×2048 | t2i test faces (wavy ✓, thin beard visible ✓) |
+| `input: jaisal_portrait_HD.png` | staged from 10a | 896×1120 | the FRONTAL face staged for the sheet (09j ref) |
+| `input: jaisal_portrait_HD_34view.png` | staged | — | 3/4 view variant |
+| `input: jaisal_ref.png / jaisal_base.png / jaisal_base_final.png / jaisal_krea2_base_v1-4.png` | various | — | earlier base faces (pre-refset_v7) |
+
+### Character faces — Zidane (char2)
+
+| Image | Source workflow | Settings | What it is / status |
+|---|---|---|---|
+| `refset_v7\zidane_t2i_base_00001_.png` | `01_character_sheet` (live-typed zidane prompt) | seed 77, 8 steps, D142, 2MP | t2i base — halal short cut ✓ (old spec: thin patchy beard), white tee + dark trousers, athletic build |
+| `refset_v7\zidane_portrait_00001_.png` | `01_character_sheet` | seed 77, 8 steps, **1152×2048** | portrait close-up — **3/4 view** (the "sideways" one) |
+| `refset_v7\zidane_portrait_HD_00001_.png` | `03_hd_upscale` | 4× | 4608×8192 HD of the portrait — **APPROVED canonical (3/4 view)** |
+| `refset_v7\zidane_clean8_00001_.png` | 01 t2i (Z-B) | seed 77, natural-language + D142 clean negative, 8 steps | **WINNER of the grain A/B** — natural warm skin, no grain |
+| `refset_v7\zidane_clean16_00001_.png` | 01 t2i (Z-C) | same, 16 steps | also clean skin but 16 steps regenerates MORE → different face (clarity answer: NO — grain was the negative) |
+| `FACEFRONTAL_ZIDANE_a/b/c_00001_.png` | 10a v1 (FAILED) | 10a-jaisal clone, tag-stack | **FAILED — jaisal-like face, no hair** (shared opening tokens → face convergence; tag-stack = D142 failure mode) |
+| `FACEFRONTAL2_ZIDANE_00001_.png` (root) | `10a_frontal_base_zidane` **v3** | 01 chain: `Krea2Realism_V1` + V2@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae`, seed **77**, 8 steps, 1152×2048, D142 clean negative + pose/hair lock, FRONTAL prompt | the frontal re-roll of the approved face — **PENDING RUN** |
+| `krea2_char2_face_{,a_,b_,c_}00001…00008` | `krea2_t2i_char2` | 2026-10-08 | early face set — **STALE man-bun era** (file still holds those prompts) |
+| `char_v4\zidane_00001_.png` / `char_v6\zidane_v2lora_00001_.png` | 01 t2i | v4: 2MP/10s · v6: V2 @1.0, 8 steps, 1152×2048 | t2i test faces (halal cut ✓, half-smile ✓) |
+| `input: zidane_portrait_HD.png` (4608×8192) / `zidane_portrait_00001_.png` (1152×2048) / `zidane_ref.png` | copies of the approved face | — | 3/4 view — NOT for the sheet (needs the frontal one) |
+
+### Kit references
+
+| Image | Source workflow | Settings | What it is / status |
+|---|---|---|---|
+| `input: jaisal_kit_ref.png` (1152²) | `07_kit_ref_jaisal` | Krea2 t2i, 8 steps, seed 13 | royal blue jersey + track pants (white side stripe) + white boots flat-lay |
+| `input: zidane_kit_ref.png` (1152²) | `07_kit_ref_zidane` | 8 steps, seed 29 | dark green kit flat-lay (D144: same team, different years) |
+| `output\zidane_kit_ref_0000{1,2}_00001_.png` | 07 rebuild | fist-only prompt, seeds 13/29 | kit refs with the fist-only crest (first-try both ✓) |
+
+### Crest references
+
+| Image | Source workflow | Settings | What it is / status |
+|---|---|---|---|
+| `LOGO_FISTS_H3_1fist_00002_.png` | `logo_fists_compare` | H3 ref-based branch | **APPROVED monochrome 1-fist roundel** (D145) → staged to `input: jaisal_crest_ref.png` (blue ground) |
+| `LOGO_FISTS_{H3,QWEN}_{3fist,1fist}_0000{1,2}.png` | `logo_fists_compare` | H3 + Qwen branches | all crest design variants |
+| `input: logo_1fist_mono.png` | staged | — | monochrome master |
+| `data\crests\logo_1fist_{white,black}_transparent.png` | `logo_to_transparent.py` (chroma key — BiRefNet too destructive for thin lines) | — | shirt-ready transparent logos (D145) |
+| `input: zidane_crest_ref.png` | `build_zidane_crest.py` | roundel pixels untouched; blue ground → dark green sampled from `zidane_kit_ref.png` (38,73,63) | crest on the kit-matched green ground |
+| `input: jaisal_crest_ref_v1_colored.png` | logo v1 | — | colored v1 — SUPERSEDED by D145 monochrome |
+
+### 3-panel composites (the "feed the images" refs)
+
+| Image | Source | Layout | Status |
+|---|---|---|---|
+| `input: jaisal_sheet_ref_3panel.png` (2304×1536) | `build_3panel_ref.py` | LEFT face (full height, dominant) · TOP-RIGHT crest 760² · BOTTOM-RIGHT kit 760² · 16px gaps, white bg | **IN USE by 09j** (3:2 = sheet aspect; ≤4MP = PE sees full res) |
+| `input: zidane_sheet_ref_3panel.png` | `build_zidane_sheet_ref.py` (run AFTER the face run) | same layout, zidane refs | **PENDING face** |
+
+### Character sheets (the A/B verdict, D154)
+
+| Image | Source workflow | Verdict |
+|---|---|---|
+| `charsheet\QWEN21_JAISAL_0000{1,2,3}.png` | `09j` (PE architect + 3-panel feed) | **00002 = WINNER** — face ✓, crest = actual roundel ✓ (after 3-panel fix), texture ✓ |
+| `charsheet\QWEN_JAISAL_00001.png` / `QWEN_ZIDANE_00001.png` | `LEEBLAAB-QwenImage21-Character-SHEET - {jaisal,zidane}` (flat, no PE) | comparison route — raw 10-section prompt straight into generator |
+| `charsheet\H3WIDE_JAISAL_0000{1..5}.png` / `H3WIDE_ZIDANE_00001_.png` | `05d_charsheet_H3_wide_*` | good face + layout, small crest |
+| `charsheet\H3FIZ_JAISAL_0000{1..4}.png` | `05e_charsheet_H3_fizgig_*` | **identity drift** (different man) + duplicated back view |
+| `charsheet\KREA2_JAISAL_{,ID_}0000{1..4}.png` | `08j_KREA2_JAISAL_sheet` | good face + crest, loose layout |
+| `charsheet\KREA2_ZIDANE_0000{1,2}.png` | Krea2 zidane sheet | zidane comparison |
+| `charsheet\H3_{JAISAL,ZIDANE}_3VIEW_0000{1,2}.png` | `07c_krea2_3view_sheet_*` | early 3-view strip route |
+| `refset_v7\jaisal_sheet_00001_.png` | 01-based sheet | early sheet attempt |
+
+### Upscaling
+
+| Workflow | What | Details |
+|---|---|---|
+| `03_hd_upscale.json` (challenge) | portrait → 4K+ face HD | LoadImage → `UpscaleModelLoader` (Real-ESRGAN_x4plus) → `ImageUpscaleWithModel` → SaveImage. This is how `zidane_portrait_HD` / `jaisal_portrait_HD` were made (4608×8192 from 1152×2048). |
+| `seedvr2_{image,video,batch,lastframe_2k}_upscale.json` | SEEDVR2 HD pass | image / video / batch / last-frame-2K |
+
+### Movie assets (input refs for H3)
+
+`jaisal_1_longshot…jaisal_7_title.png` (story-shot refs), `jaisal_sketch_shot{1,2,3}.png`
+(sketch refs), `storysheet_05_rain_closeup_gust_v4` / `storysheet_09_cut_title_scene`
+(story sheets), `boar_char1_identity.png` / `boar_char2_identity.png` (boar-grave
+characters), `char1_sheet.png` / `char2_sheet.png` (sheet inputs for identity-edit),
+`intro_*` / `title_*` / `kf*_*.png` (intro, title, keyframe assets), `jaisal_head_180_dergree.png`
+/ `jaisal_head_left_back_side.png` (angle refs).
+
+### Datasets → LoRA
+
+`prompts\char_dataset_gpt_package.txt` + `prompts\KREA2_character_dataset_rewritten_2026-10-08.md`
+(dataset prompt packages), `krea2_dataset_char{1,2}.json` / `krea2_1click_dataset.json` /
+`1 Click Dataset (Klein 9b).json` (builders). **D143: train character LoRA with
+Klein-9B DENSE.**
+
+---
+
 ## HOW WE ADD MORE DETAILS (methodology — user question, D154)
 
 **Two channels, each with a job:**
@@ -162,8 +263,11 @@ no text-vs-image identity fight.
 
 **New character checklist (introduce as many as we want):**
 1. Character brief (hair / beard / clothing) — 2–3 lines.
-2. Clone `10a_frontal_base_*.json` → edit the 3 positive prompts + negatives + save prefixes
-   (`FACEFRONTAL_{char}_{a,b,c}`) → RUN (fresh tab) → pick the best branch.
+2. Clone the **face-t2i workflow** (Zidane: `10a_frontal_base_zidane` v3 = clone of
+   `01_character_sheet` — `Krea2Realism_V1` + V2@1.0, 8 steps, 1152×2048; Jaisal frontal:
+   `10a_frontal_base_jaisal`) → edit the prompt (D142 natural-language, char's canonical
+   attrs + FRONTAL emphasis) + negative (D142 clean + pose/hair lock) + seed + save
+   prefix (`FACEFRONTAL{N}_{CHAR}`, no slash = output root) → RUN (fresh tab).
 3. `07_kit_ref_{char}.json` → kit flat-lay → `input\{char}_kit_ref.png`.
 4. Crest: reuse the team roundel on the kit's ground color (recolor script) →
    `input\{char}_crest_ref.png`.

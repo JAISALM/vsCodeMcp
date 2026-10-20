@@ -634,13 +634,19 @@ model (Qwen) updates memory + commits afterwards.
      Node 200 `PixaromaPromptEach` DELETED (it held 6 STALE man-bun-era zidane prompts + the
      301 widget held the JAISAL negative — "short haircut, clean-shaven, no beard" as
      negatives — the char2 file was never updated for the halal-cut/full-beard face; his
-     actual face was generated with a LIVE-TYPED D142 prompt that was never saved). v2
-     prompt = D142 natural-language (kr2realism trigger, 4-5 sentences, his canonical attrs
-     from the actual image: short black halal cut, FULL short dark beard neatly trimmed,
-     white tee, warm brown skin, half-smile) + dead-center FRONTAL emphasis; negative =
-     D142 clean (identity-safety only) + pose/hair-lock negatives (profile, 3-quarter, head
-     turned, long hair, man-bun, wavy, clean-shaven). Save prefix `FACEFRONTAL2_ZIDANE`
-     (fresh counter). Validate 0/0.
+     actual face was generated with a LIVE-TYPED D142 prompt that was never saved).
+     **TRUE SOURCE FOUND: `01_character_sheet.json`** (id `krea2-t2i-character`, the "01
+     t2i") — on-disk = JAISAL's portrait (seed 42, save `refset_v7/jaisal_portrait`);
+     zidane ran the SAME file with his prompt + **seed 77** (live, unsaved). Chain:
+     `Krea2Realism_V1` (NOT turbo) + `Krea2-realism-V2`@1.0, `qwen3vl_4b` (krea2),
+     `qwen_image_vae`, 8 steps, 1152×2048, D142 clean negative verbatim. **v2 (char2
+     chain) SUPERSEDED — wrong chain. v3 = CLONE OF 01**: prompt = D142 natural-language
+     (kr2realism trigger, medium close-up, 50mm style mirroring 01's jaisal prompt; his
+     canonical attrs: short black halal cut, FULL short dark beard neatly trimmed, white
+     tee) + dead-center FRONTAL emphasis; negative = 01's exact D142 clean + pose/hair-
+     lock. KSampler seed 77 FIXED, 8 steps, 1152×2048. Save `FACEFRONTAL2_ZIDANE` (no
+     slash → output ROOT, like `FACEFRONTAL_JAISAL_*` — the builder's glob now matches
+     root level). Validate 0/0.
   2. `input\zidane_crest_ref.png` BUILT NOW (deterministic, `build_zidane_crest.py`): the
      approved monochrome 1-fist roundel on a DARK GREEN ground (38,73,63 — sampled from
      `zidane_kit_ref.png` so it matches the jersey; roundel pixels untouched, only the blue
@@ -652,10 +658,11 @@ model (Qwen) updates memory + commits afterwards.
      `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
      a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
      Jaisal).
-  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane (fresh tab) → pick best a/b/c,
-  (2) agent runs `build_zidane_sheet_ref.py [branch]` (file work, no GPU), (3) run
-  09k (fresh tab) → verify crest = green-ground roundel + dark green kit + face = the
-  frontal face.
+  **USER SEQUENCE:** (1) run 10a_frontal_base_zidane **v3** (fresh tab) →
+  `output\FACEFRONTAL2_ZIDANE_00001_.png` (single branch, seed 77; if face drifts →
+  nudge seed 76/78 or fall back to i2i-from-portrait), (2) agent runs
+  `build_zidane_sheet_ref.py` (file work, no GPU), (3) run 09k (fresh tab) → verify
+  crest = green-ground roundel + dark green kit + face = the frontal face.
 - **PIPELINE.md CREATED (workspace root):** the full movie-production pipeline map — stage
   diagram (face ref → kit/crest refs → 3-panel combiner → Qwen sheet → dataset → LoRA → H3
   movie/Blender), EVERY workflow by name+details (Krea2 stage 1-2, 09j/09k stage 4, dataset

@@ -265,20 +265,31 @@
 - **User:** "it just gave me the same image as jaisal, without hair lol, it doesnt work,
   we need to find out the workflow which produced zidane_portrait_HD_00001_ and copy the
   same prompt".
-- **Finding:** `refset_v7\zidane_portrait_HD_00001` came from the **char2 t2i chain**
-  (`krea2_t2i_char2.json` base: `krea2_turbo_fp8_scaled` + `Krea2-realism-V2`@1.0 +
-  `famegrid_spicy_3167060`@0.7, `qwen3vl_4b` krea2, `qwen_image_vae`), D142 recipe,
-  **seed 77**, **1152×2048** portrait. The char2 file on disk is STALE (man-bun-era
-  `PixaromaPromptEach` prompts + JAISAL negative) — the winning prompt was live-typed
-  and never saved.
+- **Finding:** `refset_v7\zidane_portrait_HD_00001` (via its 1152×2048 base
+  `zidane_portrait_00001`) came from **`01_character_sheet.json`** (id
+  `krea2-t2i-character`, the "01 t2i") — chain: **`Krea2Realism_V1.safetensors`** (NOT
+  turbo) + `Krea2-realism-V2`@1.0, `qwen3vl_4b` (krea2), `qwen_image_vae`, 8 steps
+  euler/simple cfg 1, **1152×2048** portrait, D142 clean negative verbatim. On-disk
+  state is JAISAL's portrait (seed 42, save `refset_v7/jaisal_portrait`); the zidane run
+  used the SAME file with his prompt live-typed + **seed 77** — never saved. The
+  `krea2_t2i_char2.json` file (turbo + spicy chain, man-bun-era `PixaromaPromptEach`
+  prompts, JAISAL negative) is a STALE template — NOT the source. (v2 of 10a was wrongly
+  built on the char2 chain; **v3 = clone of 01**.)
 - **Rule:** Krea2 t2i faces are prompt+seed-deterministic. To reproduce a face, reuse
   its EXACT settings (seed, size, chain, D142 natural-language style) and its own
   attribute description — do NOT clone a sibling character's workflow (shared opening
   tokens → the same face; tag-stacking → D142 failure mode). `10a_frontal_base_zidane.json`
-  v2 = char2 chain + canonical-attr D142 prompt + FRONTAL emphasis + pose/hair-lock
-  negatives, save `FACEFRONTAL2_ZIDANE`.
-- **Status:** validate 0/0 — **USER RUNS** (fresh tab). If the face still misses, the
+  **v3 = clone of `01_character_sheet.json`** (the true source): D142 canonical-attr
+  FRONTAL prompt (kr2realism trigger, medium close-up, 50mm style — mirroring 01's
+  jaisal prompt structure), seed 77 fixed, 1152×2048, 8 steps, save `FACEFRONTAL2_ZIDANE`
+  (no slash → output ROOT, like `FACEFRONTAL_JAISAL_*`).
+- **Status:** v3 validate 0/0 — **USER RUNS** (fresh tab). If the face still misses, the
   user's remembered original prompt is the next input (the exact one was never saved).
+- **D157 (output registry):** `PIPELINE.md` now carries the **OUTPUT REGISTRY** — every
+  workflow → the images it produced → what each image is + status. RULE: whenever a
+  workflow produces an approved output, record it there in the same turn (workflow,
+  settings, output path, description, status). SaveImage convention: slash in prefix →
+  subfolder; no slash → output ROOT.
 
 ## D155 — Zidane sheet = 09k (09j architecture) + PIPELINE.md as the production map (2026-10-20)
 - **User:** "lets do the same thing for zidane also ... zidane also need a front facing image,
