@@ -658,6 +658,14 @@ model (Qwen) updates memory + commits afterwards.
      `output\FACEFRONTAL_ZIDANE\_00001_.png` → `input\zidane_portrait_front.png` (or pass
      a/b/c) → builds `input\zidane_sheet_ref_3panel.png` (2304×1536 3-panel, same layout as
      Jaisal).
+  **v4 beard fix (D159 — user: "it still has patchy beard, i dont think you copied the
+  correct prompt"):** 300's beard line was one weak clause → Krea2's prior (thin patchy)
+  won. 300 REFRESHED with a concrete beard block (where + density + "much more than
+  stubble, NOT a thin patchy beard, NOT just a shadow, NOT clean-shaven") — the style
+  that produced the approved face. **NEW STANDARD (user): all live character prompts
+  copied VERBATIM into PIPELINE.md (PROMPTS section — 01 jaisal, 10a_jaisal,
+  10a_zidane, 07 kit refs, sheet-spec note, stale char2 note); update in the same turn
+  as any prompt change.** Validate 0/0 — re-run.
   **v4 (LOCK THE CHARACTER, D158 — user: "doesnt produce 3 images to pick ... lets lock
   the charaters ffs"):** one run, 4 candidates — 3 t2i branches (seeds 77/76/78 fixed,
   shared 01 chain) → `FACEFRONTAL2_ZIDANE_{a,b,c}` (output ROOT) + **1 i2i route from

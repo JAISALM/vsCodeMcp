@@ -140,6 +140,64 @@ machinery).
 
 ---
 
+## PROMPTS — LIVE, VERBATIM (what each character workflow actually uses)
+
+**Rule (D159):** every character workflow's live prompts are copied here VERBATIM so the
+user can see exactly what's running and ask for changes per character. When a prompt
+changes in a workflow, update this section in the same turn.
+
+### `01_character_sheet.json` — Jaisal portrait (the "01 t2i", seed 42, 8 steps, 1152×2048, 01 chain)
+**Positive (node 300):**
+> kr2realism. Candid medium close-up photograph of a slim 26-year-old Indian man, head and upper chest in frame. Medium-length wavy black hair, and a small patchy short beard. He wears a plain black t-shirt, fully clothed. Warm natural skin with visible pores and a healthy flush, soft even daylight from the side. Clean simple neutral light background, plain uncluttered backdrop. He looks just off camera with a relaxed expression and a small easy half-smile. Shot on a 50mm lens, sharp focus on the face, shallow depth of field, looks like a real unposed photograph.
+
+**Negative (node 301):**
+> duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers
+
+### `10a_frontal_base_jaisal.json` — Jaisal FRONTAL face (3 branches, seeds 42/43/44, 10 steps, 896×1120, turbo+spicy chain)
+**Positive (nodes 300/313/318, identical):**
+> A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a sparse short BEARD on his chin and jaw (sparse uneven dark patches you can see on his face, more than stubble, NOT clean-shaven, NOT a dense full beard), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face completely frontal. He is standing alone, facing the camera directly, dead-center, head and shoulders framing, both eyes fully open and symmetric, looking straight into the lens, calm neutral relaxed expression, face completely frontal, NO side angle, NO profile, NO three-quarter view. His wavy hair is down and loose, the sparse beard visible on his chin and jaw. Sharp focus on the man's face, his face is the main subject, in focus, crisp facial detail, detailed iris and eye texture. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, ONLY ONE character, no other people, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.
+
+**Negative (node 301):**
+> studio portrait, studio lighting, posed portrait, headshot, professional photoshoot, fashion photography, model, celebrity, stock photo, beauty campaign, perfect skin, airbrushed skin, plastic skin, waxy skin, artificial skin, generic AI face, western facial features, northern Indian appearance, older man, mature man, 30s, 40s, 50s, aged face, wrinkles, grey hair, bald, short haircut, bulky body, muscular body, bodybuilder, clean-shaven, no beard, missing beard, full long beard, perfectly groomed beard, duplicate character, multiple people, crowd, woman, women, girl, female, second person, extra person, person in background, text, words, letters, subtitles, captions, dialogue, speech bubble, readable sign, logo, watermark, label, social media overlay, screenshot, UI, deformed face, bad eyes, crossed eyes, extra fingers, malformed hands, distorted anatomy, oversaturated skin, over-processed image, excessive bokeh, artificial cinematic poster, professional camera look, fake environment, saree, sari, traditional dress, nose ring, feminine features, anime, cartoon, illustration, painting, drawing, sketch, stylized, 3d render, cgi, mixed art styles
+
+### `10a_frontal_base_zidane.json` — ZIDANE FRONTAL face (v4: 3 t2i branches seeds 77/76/78 + 1 i2i denoise 0.4 from the approved face; 8 steps, 1152×2048, 01 chain)
+**Positive (node 300, shared by all 4 routes):**
+> kr2realism. A candid medium close-up photograph of a slim 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, head and upper chest in frame. His hair is a SHORT black halal cut — very short faded sides and back, short neat crop on top, no waves, no bun. He has a clearly visible FULL short dark BEARD covering his chin, jawline, cheeks and upper lip — dense dark facial hair you can see on his face, about 2-3 weeks of growth, neatly trimmed and shaped, much more than stubble, NOT a thin patchy beard, NOT just a shadow, NOT clean-shaven, NOT a long beard. He wears a plain white t-shirt, fully clothed. His face is COMPLETELY FRONTAL, dead center, head straight, both eyes fully open and looking straight into the camera, a relaxed easy half-smile, no profile, no three-quarter angle. Sharp focus on the face, detailed iris, realistic young skin with visible pores and a healthy flush, soft even daylight from the side. Clean simple neutral light background, plain uncluttered backdrop. Looks like a real unposed photograph, ONLY ONE character, no other people.
+
+**Negative (node 301):**
+> duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers, profile view, three-quarter view, head turned to the side, head tilted, looking away from camera, long hair, wavy hair, man-bun, topknot, ponytail, clean-shaven, no beard, missing beard
+
+**i2i route:** node 85 loads `zidane_portrait_00001_.png` (the APPROVED 3/4 face) → denoise 0.4 → same positive/negative.
+**Prompt history:** v1 (10a-jaisal clone) = tag-stacked, FAILED (jaisal-like, no hair). v3 = one weak beard clause → came out PATCHY (Krea2's prior won). v4 = concrete beard block (where + density + "much more than stubble, NOT a thin patchy beard, NOT just a shadow, NOT clean-shaven") — the style that produced the full beard in the original run.
+
+### `07_kit_ref_jaisal.json` — Jaisal kit ref (seed 13, 8 steps, 1152×1152, 01 chain)
+**Positive (node 300):**
+> Product photograph of a men's soccer kit laid out flat on a clean light-grey studio background, top-down flat-lay view: a royal blue short-sleeve soccer jersey with a small, subtle white emblem on the left chest — a simple clenched fist inside a thin circle, plain and minimal, no words, no letters, no text of any kind — and matching royal blue track pants with a single white stripe down each side, jersey neatly above the pants. No person, no face, no other objects. Sharp even studio product lighting, crisp fabric detail, photoreal. kr2realism
+
+**Negative (node 301):**
+> person, face, head, blurry, low quality, watermark, text, words, letters, slogan, logo distortion
+
+### `07_kit_ref_zidane.json` — Zidane kit ref (seed 29, 8 steps, 1152×1152, 01 chain)
+**Positive (node 300):**
+> Product photograph of a men's soccer kit laid out flat on a clean light-grey studio background, top-down flat-lay view: a dark green short-sleeve soccer jersey with a small, subtle white emblem on the left chest — a simple clenched fist inside a thin circle, plain and minimal, no words, no letters, no text of any kind — and matching dark green track pants with a single white stripe down each side, jersey neatly above the pants. No person, no face, no other objects. Sharp even studio product lighting, crisp fabric detail, photoreal. kr2realism
+
+**Negative (node 301):**
+> person, face, head, blurry, low quality, watermark, text, words, letters, slogan, logo distortion
+
+### Sheet specs (09j/09k)
+The sheet "prompt" is not a t2i prompt — it's the **478 live spec** (~11.3k chars, the
+character spec the PE architect works from) + the 3-panel image feed. Jaisal spec in
+`09j_QWEN21_JAISAL_sheet.json`, ZIDANE spec in `09k_QWEN21_ZIDANE_sheet.json` (dark
+green kit, green-ground crest). Change a detail = change a line in 478 (+ a panel in the
+composite for image details).
+
+### Stale / superseded (for reference only)
+`krea2_t2i_char2.json` node 200 = 6 STALE man-bun-era zidane prompts ("long dark hair
+tied up in a loose man-bun") + JAISAL negative — NOT what produced the approved face;
+do not use.
+
+---
+
 ## OUTPUT REGISTRY (workflow → image → what it is) — the reuse map
 
 **Rule (D157):** whenever a workflow produces an approved output, record it here —

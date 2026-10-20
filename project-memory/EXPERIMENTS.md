@@ -48,6 +48,23 @@ size, chain, recipe style) — do NOT clone a sibling character's file (shared p
 tokens → shared face). Krea2 t2i faces are prompt+seed-deterministic; a new seed or new
 opening tokens = a different face.
 
+**v3/v4 run (user):** output came out with a **PATCHY beard** ("it still has patchy
+beard, i dont think you copied the correct prompt for zidane").
+**Diagnosis:** my reconstructed prompt's beard line was ONE clause ("a FULL short dark
+beard, neatly trimmed and shaped around his chin, jaw and cheeks") — too weak; Krea2's
+prior for a young Malayali man (thin patchy beard, the Jaisal default) won. The
+beard that actually produced the approved face was specified CONCRETELY (the old char2
+prompt style: where it sits + density + growth stage + targeted NOTs).
+**Fix (v4 prompt, node 300 — now recorded verbatim in PIPELINE.md):** concrete beard
+block — "a clearly visible FULL short dark BEARD covering his chin, jawline, cheeks
+and upper lip — dense dark facial hair you can see on his face, about 2-3 weeks of
+growth, neatly trimmed and shaped, much more than stubble, NOT a thin patchy beard, NOT
+just a shadow, NOT clean-shaven, NOT a long beard".
+**Lesson (D159):** identity-critical features (beard, hair, build) need a CONCRETE
+VISUAL block in the Krea2 prompt — a one-line description is too weak and the model's
+prior wins. All live character prompts are now copied VERBATIM into PIPELINE.md
+(PROMPTS section) so the user can review + request per-character changes.
+
 ## 2026-10-20 — SHEET 4-WAY A/B VERDICT (user ran all 4) + 09j 3-panel feed fix (D154)
 - **Trigger:** user: "tried all 4 and qwen ended up being the top ... the jersey texture and
   the emblem were missing and it had to create something own, which turned out bad, we need

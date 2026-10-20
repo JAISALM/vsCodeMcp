@@ -261,6 +261,25 @@
 - **Outputs so far (t2i, no identity edit):** `refset_v7\jaisal_t2i_base_00001` (Jaisal seed 42, clean bg,
   natural face) + `refset_v7\zidane_t2i_base_00001` (Zidane seed 77).
 
+## D159 — Live prompts recorded VERBATIM in PIPELINE.md; strong-feature specs need concrete visual detail (2026-10-20)
+- **User:** "i dont think you copied the correct prompt for zidane, from now onwards i
+  want to copy the prompt also into the md file, so that i can see and ask you to redo
+  if needed for other characters".
+- **Rule 1 (prompt appendix):** `PIPELINE.md` now has a **PROMPTS — LIVE, VERBATIM**
+  section: every character workflow's positive + negative copied verbatim (01 jaisal,
+  10a_jaisal, 10a_zidane, 07 kit refs, sheet-spec note, stale char2 note). Whenever a
+  prompt changes in a workflow, update this section in the SAME turn — the user reads it
+  to review and request per-character changes.
+- **Rule 2 (feature spec strength):** the v4 zidane run came out with a PATCHY beard —
+  the prompt's beard line was one clause ("a FULL short dark beard, neatly trimmed"),
+  which let Krea2's prior (thin patchy beard) win. The beard that actually produced the
+  approved face was SPECIFIED CONCRETELY (where it sits + density + growth stage +
+  targeted NOTs: "much more than stubble, NOT a thin patchy beard, NOT just a shadow,
+  NOT clean-shaven"). A one-line feature description is too weak for Krea2; every
+  identity-critical feature (beard, hair, build) needs a concrete visual block.
+- **Status:** v4 prompt refreshed (strong beard block), validate 0/0 — **USER RUNS**
+  (fresh tab).
+
 ## D158 — Locking a character's face: 3 t2i branches around the proven seed + 1 i2i from the approved face (2026-10-20)
 - **User:** "this one doesnt produce 3 images to pick which is a good one ... lets lock
   the charaters ffs" — a single-seed run gives no choice; the lock must come from a PICK.
