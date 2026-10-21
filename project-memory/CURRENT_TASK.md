@@ -872,11 +872,24 @@ model (Qwen) updates memory + commits afterwards.
   ingredients). "Background text addition" verdict: NO standalone official
   text IC-LoRA exists — it's the base model's text-rendering capability (base
   already local); Ingredients = closest official element tool.
-- **NEXT (user):** Fizgig GUI walkthrough — Preferences (fill the 4 local model paths
-  by hand; RAW DiT downloading) → Start (`D:\lora_training\jaisal` + zidane Subjects
-  card, LoRA Isolation) → Captions (verify .txt sidecar read, triggers jeskv/dlor) →
-  Training (Krea 2 Standard rank 32, 1.0 MP, save-every-epoch, ~16+ epochs, pick best
-  by eye, preview prompts `jeskvman`/`dlorman`).
+## 🔵 Fizgig API CONTROL (D170) — agent assists the GUI
+- **Fizgig's web app (127.0.0.1:8081) has a full REST API** — agent can read/write
+  the GUI's exact state instead of screen-sharing. Token: in the served page's
+  `<meta name="fizgig-token" content="...">` (re-extract after every app restart).
+  All `/api/*` calls need header `X-Fizgig-Token` (403 without). ~156 routes:
+  `/api/state`, `/api/prefs`, `/api/runs`, `/api/queue`, `/api/captions/*`,
+  `/api/studio/*` (source `D:\tools\Fizgig\src\fizgig\web\server.py`).
+- **Done (12:2x IST):** all 5 Krea 2 model paths written via `POST /api/prefs`
+  (`changes` dict, keys `krea2_raw_dit`/`krea2_vae`/`krea2_text_encoder`/
+  `krea2_turbo_lora`/`krea2_turbo_dit`) + verified; family → `krea2`,
+  image_folder → `D:\lora_training\jaisal` via `POST /api/state`.
+- **Assist protocol:** user clicks, agent verifies via API; "look" = agent
+  captures the screen (PowerShell screenshot → read_image) and guides visually.
+- **NEXT (user's 3 clicks, agent verifies each):** Subjects card = 2 subjects
+  (subject 2 = `D:\lora_training\zidane`) + "Fizgig LoRA Isolation"; Training
+  card = Krea 2 Standard rank 32, DATASET_MEGAPIXELS 1.0, save-every-epoch, ~16+
+  epochs, preview prompts `jeskvman`/`dlorman`; Check-a-trigger-word (jeskv/dlor).
+  Then close ComfyUI + llama server 8100 → Start.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

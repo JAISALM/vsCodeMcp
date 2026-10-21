@@ -274,6 +274,23 @@
   User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
   Optional later: regenerate some dataset shots on the Krea2 chain.
 
+## D170 — Fizgig GUI is agent-controlled via its REST API — "you click, I verify" (2026-10-21)
+- **Decision:** the Fizgig web app (127.0.0.1:8081) exposes a full REST API; the
+  agent drives/verifies the GUI state directly instead of screen-sharing (no live
+  video; screenshots on "look" via PowerShell → read_image).
+- **Mechanics:** token in the served page's `<meta name="fizgig-token">` (per
+  session; re-extract after app restart); header `X-Fizgig-Token` on every
+  `/api/*` call. `GET/POST /api/prefs` (model paths via `changes` dict),
+  `GET/POST /api/state` (family, image_folder, per-family `model_values`),
+  plus ~150 more routes (`/api/runs`, `/api/queue`, `/api/captions/*`,
+  `/api/studio/*`) — source `D:\tools\Fizgig\src\fizgig\web\server.py`.
+- **Done:** all 5 Krea 2 model paths written + verified (shared library), family
+  → `krea2`, image_folder → `D:\lora_training\jaisal`.
+- **Reason:** user asked for screen-sharing/agent help in the Fizgig GUI ("no
+  agent in Fizgig"); the API closes that gap exactly — every field the GUI shows
+  is readable/writable, so the user clicks and the agent confirms in real time.
+- **Status:** active — in use for the Krea 2 dual-subject training run.
+
 ## D169 — LTX-2.5 VFX pipeline tracked in its own doc; weekly watch on (2026-10-21)
 - **Doc:** `docs\VFX_PIPELINE_LTX25.md` — the Lightricks LTX-2.5 IC-LoRA "VFX week"
   (HF-verified timeline 2026-09-08→09-28: Day-To-Night, Water-Sim, Clean-Plate, Deblur,
