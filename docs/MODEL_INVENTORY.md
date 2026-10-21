@@ -96,6 +96,10 @@ Copy-Item "F:\models_bkp\diffusion_models\qwen_image_2512_fp8_e4m3fn.safetensors
 
 ## Move log
 
-- 2026-10-21: move executed (background job, E:→F: cross-volume). Pre/post
-  verification: every file checked by name + byte size before and after.
-  Result: pending.
+- 2026-10-21 10:14–11:14 IST: move executed (background job `pwsh-140`, E:→F:
+  cross-volume; script `utilities\move_models_to_bkp.py`). Pre-check: 80 files,
+  260.8 GB. **Result: PASSED — 80/80 moved, 0 bad** (every file verified at
+  destination with matching byte size; all 80 sources confirmed gone). Note:
+  `F:\models_bkp` already contained the user's earlier archives (`wan_model`
+  300.5 GB, `ltx` 97.6 GB, `qwe_2512` 38.1 GB) — no filename collisions,
+  nothing overwritten. Log: `D:\models\vsCodeMcp\move_bkp_log_20261021.txt`.

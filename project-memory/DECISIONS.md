@@ -319,8 +319,15 @@
   krea2_darkbrush/lineart + bfs_head + klein-consistency LoRAs (small, user's call).
 - **Docs:** `docs\MODEL_INVENTORY.md` (full keep/moved/untouched lists with workflow
   references + pull-back procedure).
-- **Status:** Move executed pending job verification (80 files, size-matched, sources
-  gone). E: frees ≈ 261 GB.
+- **Status: DONE + VERIFIED (2026-10-21 11:14 IST).** Job `pwsh-140` PASSED —
+  80/80 files at `F:\models_bkp` with matching byte sizes, all 80 sources gone,
+  0 bad. **E: = 256.3 GB free** (was ~38 GB). `F:\models_bkp` also carries the
+  user's earlier archives (`wan_model` 300.5 GB, `ltx` 97.6 GB, `qwe_2512`
+  38.1 GB) — no filename collisions, nothing overwritten. Krea 2 RAW DiT
+  (24.5 GB) landed in the shared `diffusion_models\` at 11:00 IST.
+- **LTX VFX armour (same turn):** `ComfyUI-LTXVideo` pack copied into the running
+  install + `ninja` pip-installed → activates on next restart. 4-5 VFX IC-LoRAs
+  queued for user download (see `docs\VFX_PIPELINE_LTX25.md`).
 
 ## D167 — LoRA TOOLS: Fizgig PRIMARY (Krea2 + LoRA Isolation), AI Toolkit SECONDARY; both installed ("keep both in our armour") (2026-10-20)
 - **Fizgig** (`D:\tools\Fizgig`, venv Python 3.12, CUDA 12.8 torch — install job

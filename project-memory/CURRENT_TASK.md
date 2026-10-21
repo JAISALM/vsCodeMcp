@@ -857,10 +857,21 @@ model (Qwen) updates memory + commits afterwards.
     (fasth3/viggle/character-swap ≈ 44.5), H3 GGUF pair (17.31), krea2_darkbrush /
     krea2_lineart / bfs_head / klein-consistency LoRAs.
 - **Docs:** `docs\MODEL_INVENTORY.md` (keep/moved/untouched lists + pull-back
-  procedure, committed af34ce2). **PENDING:** move job `pwsh-140` completes → verify
-  (80 files at destination, sizes match, sources gone) → fill the move log in the doc →
-  commit → report freed space (~261 GB → E: back to ~290 GB free before the RAW DiT
-  lands, ~265 after).
+  procedure, committed af34ce2). **MOVE DONE + VERIFIED (11:14 IST):** job
+  `pwsh-140` PASSED — 80/80 files at `F:\models_bkp` with matching byte sizes,
+  all sources gone, 0 bad. **E: = 256.3 GB free** (was ~38 GB; RAW DiT 24.5 GB
+  landed in shared `diffusion_models\` at 11:00). Models dir now 541.9 GB /
+  188 files. Note: `F:\models_bkp` also carries the user's earlier archives
+  (`wan_model` 300.5, `ltx` 97.6, `qwe_2512` 38.1 GB) — no collisions,
+  nothing overwritten.
+- **LTX VFX armour (11:0x IST):** `ComfyUI-LTXVideo` pack COPIED into the
+  running install (from main tree) + `ninja~=1.11.1.4` pip-installed into the
+  embedded python → activates on next ComfyUI restart (user restarts). User
+  downloading 4-5 VFX IC-LoRAs (links in `docs\VFX_PIPELINE_LTX25.md`):
+  sdr-to-hdr-scene-emb, clean-plate, day-to-night, water-simulation (+ optional
+  ingredients). "Background text addition" verdict: NO standalone official
+  text IC-LoRA exists — it's the base model's text-rendering capability (base
+  already local); Ingredients = closest official element tool.
 - **NEXT (user):** Fizgig GUI walkthrough — Preferences (fill the 4 local model paths
   by hand; RAW DiT downloading) → Start (`D:\lora_training\jaisal` + zidane Subjects
   card, LoRA Isolation) → Captions (verify .txt sidecar read, triggers jeskv/dlor) →
