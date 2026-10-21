@@ -826,3 +826,64 @@ model (Qwen) updates memory + commits afterwards.
   folders for Fizgig's Subjects card (+ captioning), (4) train (user drives GUI, agent
   drives CLI), (5) char LoRA + `Krea2-realism-V2`@1.0 = the new face-lock everywhere
   (replaces identity-edit machinery) → then movie stage.
+
+## 🔴 MODEL AUDIT + ARCHIVE (user, 2026-10-21, D168) — STORAGE CRUNCH
+- **Context:** E: models drive down to ~38 GB free; the **Krea 2 RAW DiT (25.9 GB)**
+  download is in progress in Fizgig GUI (user-running) → ~12-15 GB left after.
+- **Audit (agent):** all 194 model files in `E:\ComfyUI_windows_portable\ComfyUI\models`
+  (817.9 GB) cross-referenced against all 63 workflow JSONs (both trees). 56 referenced
+  files = keep; 127 unreferenced = candidates.
+- **USER DECISIONS (2026-10-21):**
+  - **MOVE (≈ 261 GB, 80 files) → `F:\models_bkp\<same subfolder>\`** (structure
+    preserved, recoverable; script `utilities\move_models_to_bkp.py`, background job
+    `pwsh-140`, log `D:\models\vsCodeMcp\move_bkp_log_20261021.txt`): all **Wan** (114.8),
+    **umt5/FLUX.1 encoders** (41.7 — verified safe: klein workflows use
+    `qwen_3_8b_fp8mixed`; umt5 = old FLUX.1 arch, zero references), **Qwen 2511/2512 gen**
+    (64.0 — user: "may need in future, pull from the drive to models folder when needed"),
+    **SDXL + orphaned controlnets** (16.05), **redundant encoders** (16.9 —
+    `qwen3vl_4b_bf16` redundant with in-use fp8_scaled; `qwen_3_4b` zero references),
+    **small unused misc** (14.3: sdpose, liveportrait, sam2, clip_vision, Z-Image Turbo
+    LoRAs, vae_approx, etc.).
+  - **LTX family = UNTOUCHABLE (user):** Lightricks VFX-week IC-LoRAs (Clean-Plate /
+    Day-To-Night / SDR-To-HDR + more) are "super needy" for the movie — all LTX files
+    stay, including the 5 saved LTX workflows they belong to.
+  - **ditto KEPT (18.3 GB):** the ditto workflow is useful for style variants.
+  - **Qwen edit-2511 chain stays** (`qwen_image_edit_2511_bf16` + Lightning +
+    multiple-angles LoRA + `qwen_2.5_vl_7b` pair — referenced by
+    `QWEN_click_multiple_character_angles`).
+  - **Junk NOT deleted** (`Unconfirmed 819787.crdownload` 1.63 GB stays — user: "dont
+    remove junk for now", don't interrupt the parallel download).
+  - **Also left alone (not approved this pass):** ace_step (7.70), H3-adjacent variants
+    (fasth3/viggle/character-swap ≈ 44.5), H3 GGUF pair (17.31), krea2_darkbrush /
+    krea2_lineart / bfs_head / klein-consistency LoRAs.
+- **Docs:** `docs\MODEL_INVENTORY.md` (keep/moved/untouched lists + pull-back
+  procedure, committed af34ce2). **PENDING:** move job `pwsh-140` completes → verify
+  (80 files at destination, sizes match, sources gone) → fill the move log in the doc →
+  commit → report freed space (~261 GB → E: back to ~290 GB free before the RAW DiT
+  lands, ~265 after).
+- **NEXT (user):** Fizgig GUI walkthrough — Preferences (fill the 4 local model paths
+  by hand; RAW DiT downloading) → Start (`D:\lora_training\jaisal` + zidane Subjects
+  card, LoRA Isolation) → Captions (verify .txt sidecar read, triggers jeskv/dlor) →
+  Training (Krea 2 Standard rank 32, 1.0 MP, save-every-epoch, ~16+ epochs, pick best
+  by eye, preview prompts `jeskvman`/`dlorman`).
+
+## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
+- **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
+  timeline (HF-verified dates 2026-09-08 → 09-28: Day-To-Night, Water-Simulation,
+  Clean-Plate, Deblur, Colorization, Decompression, Ingredients, Layout-To-Render,
+  Refine-Details, Restore, SDR-To-HDR + scene-emb, Alpha-Gen), our base-stack status
+  (ALL local: distilled DiT int8 21.5 GB, gemma4-12b encoder 15.37 GB, VAEs, latent
+  upscaler, SDR→HDR + Alpha-Gen LoRAs already in loras/), the movie-pipeline mapping
+  (Clean-Plate = background removal, Day-to-Night = our moody night shots, SDR→HDR =
+  gradeable deliverables, Alpha-Gen = character mattes, Refine-Details, Layout-to-
+  Render, Native Resolution = 4K/8K Tiled Fusion), and download recommendations:
+  **download now = only ~625 MB** (`sdr-to-hdr-scene-emb` 12.6 MB — completes the HDR
+  pair we half-have, `clean-plate-1.0` 306 MB, `day-to-night-0.9` 306 MB).
+- **COMFYUI GAP:** `ComfyUI-LTXVideo` (Lightricks' official pack) is in the MAIN tree
+  only — NOT in the running install (`comfyUi_latest`) → install + restart needed
+  before any LTX VFX workflow runs.
+- **"Background text addition" LoRA** (user's memory): NOT in the official Lightricks
+  org — closest = `Ingredients` (09-10); possibly a community LoRA (ltx.io/ltx-
+  community) — flagged for the weekly check.
+- **Monitoring:** weekly schedule set (Mondays 09:00 IST, `schedule-6479d179`) — diff
+  the Lightricks HF org against the doc's timeline + watch for X posts.

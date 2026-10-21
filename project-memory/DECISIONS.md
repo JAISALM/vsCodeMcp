@@ -274,6 +274,54 @@
   User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
   Optional later: regenerate some dataset shots on the Krea2 chain.
 
+## D169 — LTX-2.5 VFX pipeline tracked in its own doc; weekly watch on (2026-10-21)
+- **Doc:** `docs\VFX_PIPELINE_LTX25.md` — the Lightricks LTX-2.5 IC-LoRA "VFX week"
+  (HF-verified timeline 2026-09-08→09-28: Day-To-Night, Water-Sim, Clean-Plate, Deblur,
+  Colorization, Decompression, Ingredients, Layout-To-Render, Refine-Details, Restore,
+  SDR-To-HDR + scene-emb, Alpha-Gen; X account @ltx_io for posts).
+- **Our base stack is ALL LOCAL** (distilled DiT int8, gemma4-12b encoder, VAEs, latent
+  upscaler; SDR→HDR + Alpha-Gen LoRAs already in loras/). **Only ~625 MB missing** for
+  the core three: `sdr-to-hdr-scene-emb` (12.6 MB — completes the HDR pair),
+  `clean-plate-1.0` (306 MB), `day-to-night-0.9` (306 MB) — download when the movie
+  post stage starts.
+- **Movie mapping:** Clean-Plate = background removal/compositing · Day-to-Night =
+  moody night shots (D024 climate) · SDR→HDR = gradeable deliverables · Alpha-Gen =
+  character mattes · Refine-Details = clarity pass · Layout-to-Render = storyboard →
+  shot · Native Resolution = 4K/8K Tiled Fusion (single-GPU, test on the 5090 first).
+- **ComfyUI gap:** `ComfyUI-LTXVideo` pack exists in the MAIN tree only — install into
+  the running install + restart before any LTX VFX workflow runs.
+- **"Background text addition" LoRA** (user's memory): NOT in the official org — closest
+  = `Ingredients`; possibly community (ltx.io/ltx-community).
+- **Monitoring:** weekly schedule (Mondays 09:00 IST) diffs the Lightricks HF org
+  against the doc + watches X posts.
+- **Status:** Active. Audio rule D041 applies to all LTX outputs (silent V2V; H3-native
+  audio only).
+
+## D168 — Model library audit + 261 GB archive to `F:\models_bkp`; LTX/H3/ditto UNTOUCHED (2026-10-21, user-confirmed)
+- **Context:** E: models drive ~38 GB free; Krea 2 RAW DiT (25.9 GB) downloading in
+  parallel (Fizgig GUI) → user: move unwanted models to `F:\models_bkp`, **confirm
+  before moving, don't delete junk during the download**.
+- **Method:** all 194 files in `E:\ComfyUI_windows_portable\ComfyUI\models` (817.9 GB)
+  cross-referenced against all 63 workflow JSONs (both trees).
+- **MOVED (80 files, ≈ 261 GB, background job pwsh-140, script
+  `utilities\move_models_to_bkp.py`, structure preserved = recoverable):** Wan family
+  (114.8 GB) · umt5/FLUX.1 encoders (41.7 — verified: klein workflows use
+  `qwen_3_8b_fp8mixed`, umt5 = old FLUX.1 arch, zero references) · Qwen 2511/2512 gen
+  (64.0 — user: "may need in future, pull from the drive when needed" — pull-back
+  recipe in the doc) · SDXL + orphaned controlnets (16.05) · redundant encoders
+  (16.9 — `qwen3vl_4b_bf16` redundant with in-use fp8_scaled; `qwen_3_4b` zero refs) ·
+  small unused misc (14.3).
+- **KEPT:** whole LTX family (~131 GB — D169's VFX tools), all H3 + H3-adjacent
+  (~145 GB — movie stage is next), ditto (18.3 GB — style-variant workflow), the
+  edit-2511 chain (`qwen_image_edit_2511_bf16` + Lightning + multiple-angles +
+  `qwen_2.5_vl_7b` pair — `QWEN_click_multiple_character_angles`), `ae.safetensors`,
+  the `.crdownload` junk (1.63 GB — no deletions this pass), ace_step (7.70),
+  krea2_darkbrush/lineart + bfs_head + klein-consistency LoRAs (small, user's call).
+- **Docs:** `docs\MODEL_INVENTORY.md` (full keep/moved/untouched lists with workflow
+  references + pull-back procedure).
+- **Status:** Move executed pending job verification (80 files, size-matched, sources
+  gone). E: frees ≈ 261 GB.
+
 ## D167 — LoRA TOOLS: Fizgig PRIMARY (Krea2 + LoRA Isolation), AI Toolkit SECONDARY; both installed ("keep both in our armour") (2026-10-20)
 - **Fizgig** (`D:\tools\Fizgig`, venv Python 3.12, CUDA 12.8 torch — install job
   pwsh-106 2026-10-20): "LoRA & Fine-tune Studio" — native **Krea 2** support +
