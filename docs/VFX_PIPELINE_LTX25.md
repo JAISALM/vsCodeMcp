@@ -116,6 +116,44 @@ LoRAs (we're on the 2.5 stack).
 - **Audio rule (D041):** LTX V2V outputs are silent — all audio stays H3-native /
   ambient-only, no music.
 
+## COMPLETE official IC-LoRA catalog (docs.ltx.io, fetched 2026-10-21)
+
+**Runs with LTX-2.5:** Union Control (depth/canny/pose in one) · Motion Control
+(spline trajectories, 2.3-trained) · **Ingredients** (characters/props/locations
+consistent from a reference sheet — 2.5 adapter exists) · Pixel Spatial Upscaler
+(2×) · In-Outpainting (canvas extend / masked fill, 2.3-trained) · Instant Shave
+(2.3) · Water Simulation · Colorization · Decompression · Deblurring · Day to
+Night · Clean Plate · SDR to HDR · Layout to Render · Refine Details · Restore.
+**2.3-only:** Cross-Eyed · Dub-It (lip-sync speech re-gen) · **Relight (sun
+direction)** — relights exterior video to a chosen sun direction + hardness
+(`LTX-2.3-22b-IC-LoRA-Relight`, `ltx-2.3-22b-ic-lora-relight-1.0.safetensors` —
+not local; useful for our bridge/river exteriors).
+
+**"Background text addition" verdict (2026-10-21):** there is **NO standalone
+"text" IC-LoRA** in the official org or catalog (verified: full org model list,
+the official catalog above, Civitai search). The memory maps to:
+(1) the **base model's text-rendering capability** — LTX-2.5 renders legible
+in-scene text when prompted (the open-source item = the base model, which we
+ALREADY have — no download needed), or (2) **Ingredients** (the official
+element-consistency adapter — closest "add/manage elements" tool), or (3)
+In-Outpainting (fill a masked region with generated content). If a specific
+"background text" X post surfaces in the weekly watch, capture the exact repo
+then.
+
+**Download list for the user (browser, → `E:\ComfyUI_windows_portable\ComfyUI\models\loras\`),
+given 2026-10-21:**
+- [ ] `https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR/resolve/main/ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` (12.6 MB — completes the HDR pair)
+- [ ] `https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Clean-Plate/resolve/main/ltx-2.5-22b-ic-lora-clean-plate-1.0.safetensors` (~306 MB)
+- [ ] `https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Day-To-Night/resolve/main/ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors` (~306 MB)
+- [ ] `https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation/resolve/main/ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors` (~306 MB — user-requested)
+- [ ] optional `https://huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Ingredients/resolve/main/ltx-2.5-22b-ic-lora-ingredients-0.9.safetensors` (~306 MB — element consistency)
+- [ ] future: `https://huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-Relight/resolve/main/ltx-2.3-22b-ic-lora-relight-1.0.safetensors` (sun-direction relight), `.../LTX-2.3-22b-IC-LoRA-In-Outpainting/resolve/main/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors`
+
+**Krea 2 RAW DiT STATUS (2026-10-21 11:00): DOWNLOADED by user →
+`E:\ComfyUI_windows_portable\ComfyUI\models\diffusion_models\krea2_raw_bf16.safetensors`
+(24.5 GB) — all Fizgig Krea 2 training files are now local (VAE, CLIP, turbo LoRA
+also in the shared library).**
+
 ## Monitoring (ongoing)
 
 Weekly check (schedule set 2026-10-21): fetch
