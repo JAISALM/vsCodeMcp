@@ -4,6 +4,52 @@ Newest experiments first.
 
 ---
 
+## 2026-10-22 — Krea2 dual-subject LoRA first train `krea2fp` (2 subjects + Isolation) → A/B decision test built
+
+**Goal:** 2-subject face-lock LoRA (Jaisal=`jeskv`, Zidane=`dlor`) via Fizgig LoRA
+Isolation, for the 2-man movie (faces locked before MiniMax H3 R2V).
+
+**Config (verified from `/api/runs` payload, run id 19cd96f65583):** page defaults
+(NETWORK_DIM 8 / alpha 8, LR 1e-4 adaptive 2e-4..4e-4, 30 epochs, save every
+epoch, DATASET_MEGAPIXELS 0.25, seed 42, EMA 0.98, adamw8bit — the locked rank-32
+/ 1.0 MP config was NOT applied; user went with defaults), 2 subjects
+(`D:\lora_training\jaisal` + `D:\lora_training\zidane`), People mode = **Fizgig
+LoRA Isolation**, sample prompts = `jeskvman` / `dlorman` (two lines), turbo
+preview 0.7, 1024², every 1 epoch. **~43 min** (08:01→08:44, 30 checkpoints + 60
+previews).
+
+**Outputs:** `D:\tools\Fizgig\output_loras\krea2fp-000001..000030.safetensors` +
+final `krea2fp.safetensors` (56 MB) + 60 previews in `output_loras\sample\`.
+Copied to shared lib as `krea2fp_rank8_ep30.safetensors` +
+`krea2fp_rank8_ep16.safetensors` (`E:\ComfyUI_windows_portable\ComfyUI\models\loras\`).
+
+**User observations:** previews good but all close-ups (EXPECTED — dataset is 40
+close/medium shots; movie shot-size comes from the prompt, the LoRA pins identity
+only); **face 2 (Zidane) sometimes missing** in previews → plausible at rank 8 /
+0.25 MP (less capacity + coarser resolution for two identities).
+
+**Decision (user, 2026-10-22 10:43 IST):** A/B test BEFORE retraining — base model
++ descriptive 2-man prompt (no LoRA) vs our LoRA + trigger prompts, same chain /
+seed. Workflows built from `krea2_t2i_char1.json` chain (krea2_turbo_fp8_scaled
+DiT + Krea2-realism-V2@1.0 + famegrid_spicy@0.7, 10 steps CFG1 euler/simple,
+1120×896 landscape): **`krea2_ab_A_baseline.json`** (no krea2fp; descriptive
+prompts for both men — wavy-hair black-T man + bun-hair white-T man, 2 framings)
+and **`krea2_ab_B_lora.json`** (+ node 303 LoraLoaderModelOnly
+`krea2fp_rank8_ep30.safetensors`@1.0 spliced UNET→303→realism via link 14;
+trigger prompts `jeskvman and dlorman…`). Both MCP-validated clean (0 errors / 0
+warnings).
+
+**PS gotchas (this build):** `Set-Content -Encoding UTF8` writes a BOM → use
+`[IO.File]::WriteAllText` + `UTF8Encoding(false)`; `@(a..) + @(b..)` on Object[]
+FLATTENS (link-14 became 6 loose scalars → the UI→API converter dropped the link
+and node 96 lost its model input) → use `ArrayList.Add` for nested arrays;
+`[int]$x.pos[0]` binds the cast wrong → write `[int]($x.pos[0])`.
+
+**NEXT:** user restarts ComfyUI (also activates LTXVideo pack + ninja) →
+Workflows tab → queue A then B → compare faces → decision: retrain rank 32 /
+1.0 MP (locked config) if B clearly better, descriptive-prompt route if A
+suffices.
+
 ## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
 
 **Trigger:** user: "zidane also need a front facing image, not the sideways one" + after

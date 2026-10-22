@@ -916,6 +916,28 @@ model (Qwen) updates memory + commits afterwards.
   epochs, preview prompts `jeskvman`/`dlorman`; Check-a-trigger-word (jeskv/dlor).
   Then close ComfyUI + llama server 8100 → Start.
 
+## Krea2 LoRA trained + A/B decision test (2026-10-22, 10:43 IST)
+- **`krea2fp` TRAINED (user, page defaults):** 2 subjects + Fizgig LoRA Isolation ✓,
+  rank 8 / 0.25 MP / 30 epochs / adaptive LR / seed 42, sample prompts
+  `jeskvman`+`dlorman`, ~43 min (08:01→08:44). Outputs:
+  `D:\tools\Fizgig\output_loras\krea2fp-000001..000030.safetensors` + final
+  `krea2fp.safetensors` + 60 previews. **Copied to shared loras:**
+  `krea2fp_rank8_ep30.safetensors` + `krea2fp_rank8_ep16.safetensors`.
+- **User read of previews:** good, but (a) all close-ups = EXPECTED (dataset
+  framing; movie shot-size comes from prompt), (b) **face 2 (Zidane) sometimes
+  missing** → rank 8 / 0.25 MP underpowered for 2 identities.
+- **Decision (user): A/B test before retraining.** Built + MCP-validated clean:
+  `krea2_ab_A_baseline.json` (base chain, NO krea2fp, descriptive 2-man prompts,
+  2 framings) vs `krea2_ab_B_lora.json` (same chain + `krea2fp_rank8_ep30`@1.0
+  as node 303, trigger prompts `jeskvman and dlorman…`). Chain =
+  krea2_turbo_fp8_scaled + Krea2-realism-V2@1.0 + famegrid_spicy@0.7, 10 steps
+  CFG1, 1120×896. Both in `user\default\workflows\`.
+- **NEXT (user):** restart ComfyUI (also activates LTXVideo pack + ninja) →
+  Workflows tab → queue **A** then **B** → show results. Then decide: retrain
+  rank 32 / 1.0 MP if B clearly better, descriptive-prompt route if A suffices.
+  Movie stage unchanged: char LoRA + `Krea2-realism-V2`@1.0 face-lock → MiniMax
+  H3 R2V (2-3 refs, NO music D041).
+
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
   timeline (HF-verified dates 2026-09-08 → 09-28: Day-To-Night, Water-Simulation,
