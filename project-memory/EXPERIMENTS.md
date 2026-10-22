@@ -50,6 +50,25 @@ Workflows tab → queue A then B → compare faces → decision: retrain rank 32
 1.0 MP (locked config) if B clearly better, descriptive-prompt route if A
 suffices.
 
+**B RESULT (user ran, 11:20 IST — user's modified 6-prompt set, dataset scenes):**
+6 images all show ONE man = Jaisal's TYPE locked (wavy hair, thin beard, black
+T, dataset scenes: park/rain street/backwater boat/bus/temple) but the FACE is
+a "Jaisal-ish stranger", NOT the canonical char1 face. Combined
+`jeskvman and dlorman` prompt COLLAPSED to single person (Zidane absent — rank 8
+can't hold 2 identities in one frame). User confirms: identity drifted + heavy
+`Krea2-realism-V2@1.0` dilution in the chain.
+**ZERO-COST DIAGNOSTICS ordered before retrain:**
+1. Pure-LoRA test: BYPASS (red X) the realism-96 + famegrid-97 nodes in
+   `krea2_ab_B_lora`, re-queue same prompts → isolates realism dilution from
+   LoRA weakness. (Bypassed LoraLoaderModelOnly = passthrough.)
+2. Dataset sanity: user eyeballs `D:\lora_training\jaisal` images vs canonical
+   `krea2_char1_face_b_*.png` — if dataset face already off, regenerate dataset
+   from canonical refs BEFORE any retrain (LoRA ≤ dataset quality).
+**Decision tree:** pure-LoRA face OK → no retrain, movie = krea2fp + realism@0.5.
+Pure-LoRA still drifted → RETRAIN rank 32 / alpha 32 / 1.0 MP (Presets dropdown
+"Krea 2 Standard" + Target Megapixels 1.0, user's clicks, ~1.5 h, save-every-
+epoch). Afterwards test per-subject (`jeskvman` / `dlorman` alone) AND combined.
+
 ## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
 
 **Trigger:** user: "zidane also need a front facing image, not the sideways one" + after
