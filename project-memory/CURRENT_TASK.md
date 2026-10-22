@@ -900,7 +900,16 @@ model (Qwen) updates memory + commits afterwards.
   (Ctrl+F5) the one live Fizgig window → fresh load hydrates all fields from
   server truth. Agent can find/foreground/capture user windows via user32
   EnumWindows ("Fizgig - Brave" = the web client; "Fizgig" = console) +
-  SetForegroundWindow + CopyFromScreen.
+  SetForegroundWindow + CopyFromScreen. RESOLUTION (06:30 IST): the user's live
+  Brave page keeps an ancient in-memory snapshot (rank 4 / 1 subject / 0.25 MP)
+  and re-sends it on every sync — API writes to those 3 fields keep getting
+  clobbered (last catch: 06:29:40). Agent cannot press browser keys, so
+  handover: USER'S OWN CLICKS are the source of truth that wins. Click list
+  given: Subjects card → 2 subjects → subject 2 = `D:\lora_training\zidane` →
+  Fizgig LoRA Isolation; Presets dropdown → "Krea 2 Standard (rank 32)";
+  Target Megapixels → 1.0; Max Epochs 30, save every 1. Work in ONE window
+  only (other tabs clobber). After user clicks: agent verifies via API, then
+  Check settings → close ComfyUI + llama 8100 → Start.
 - **NEXT (user's 3 clicks, agent verifies each):** Subjects card = 2 subjects
   (subject 2 = `D:\lora_training\zidane`) + "Fizgig LoRA Isolation"; Training
   card = Krea 2 Standard rank 32, DATASET_MEGAPIXELS 1.0, save-every-epoch, ~16+
