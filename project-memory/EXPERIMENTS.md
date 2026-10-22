@@ -69,6 +69,20 @@ Pure-LoRA still drifted → RETRAIN rank 32 / alpha 32 / 1.0 MP (Presets dropdow
 "Krea 2 Standard" + Target Megapixels 1.0, user's clicks, ~1.5 h, save-every-
 epoch). Afterwards test per-subject (`jeskvman` / `dlorman` alone) AND combined.
 
+**PURE-LoRA BYPASS TEST (11:25 IST, `krea2_ab_B_lora_00007..00012`):** user
+bypassed (red X) realism-96 + famegrid-97, re-queued same prompts/seed. Face
+UNCHANGED (still the drifted Jaisal-type) → identity comes 100% from krea2fp.
+**Pixel-diff verification (agent, all 6 pairs old↔new):** 95.6–98.9% of sampled
+pixels differ, mean channel diff 6.0–13.1/255 → the bypass DID take effect
+(pixel-identical would mean 0%) and the seed was NOT the issue (poses matched
+pair-wise). Realism@1.0 + famegrid@0.7 together contribute only ~3–5% texture/
+color on these shots — they were NOT the identity drift. **CONCLUSION: drift is
+in krea2fp itself (rank 8 / 0.25 MP). User decision: RETRAIN** rank 32 /
+alpha 32 / 1.0 MP, LoRA name `krea2fp_v2`, everything else unchanged.
+**PS gotcha:** ComfyUI SaveImage pads to 5 digits (`..._00007_.png`);
+`System.Drawing` pixel sampling every 8th px on 1120×896 ≈ 15680 samples,
+~2–3 min per pair in PS.
+
 ## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
 
 **Trigger:** user: "zidane also need a front facing image, not the sideways one" + after
