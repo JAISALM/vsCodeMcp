@@ -885,6 +885,22 @@ model (Qwen) updates memory + commits afterwards.
   image_folder → `D:\lora_training\jaisal` via `POST /api/state`.
 - **Assist protocol:** user clicks, agent verifies via API; "look" = agent
   captures the screen (PowerShell screenshot → read_image) and guides visually.
+- **Web UI sync mechanics (discovered 2026-10-22 06:25 IST, after the "changes
+  don't show" saga):** the app is MULTI-CLIENT sync. Served JS (`/app.js`,
+  427 KB; source `web/static/app.js`): each open page keeps `S.values` (whole
+  form object for the shown family); `saveState()` POSTs the ENTIRE object on any
+  change (debounced 600 ms) — ONE stale field on a page re-sends that whole stale
+  form and clobbers API writes; `catchUp()` self-heals ONLY while the page is
+  `visibilityState === "visible"` (hidden tabs never heal). The user's Brave page
+  (loaded before the agent's writes, window hidden behind the DSH chat) kept the
+  Subjects-card fields (FAMILY_SUBJECTS/PEOPLE_MODE) + DATASET_MEGAPIXELS at
+  defaults and clobbered exactly those 3 on every sync (web_state.json writes
+  6:12 / 6:17:49 / 6:20:50). The desktop "Fizgig" window = the `fizgig.py --web
+  --open` CONSOLE only (not a client). FIX: agent final write → user HARD-REFRESH
+  (Ctrl+F5) the one live Fizgig window → fresh load hydrates all fields from
+  server truth. Agent can find/foreground/capture user windows via user32
+  EnumWindows ("Fizgig - Brave" = the web client; "Fizgig" = console) +
+  SetForegroundWindow + CopyFromScreen.
 - **NEXT (user's 3 clicks, agent verifies each):** Subjects card = 2 subjects
   (subject 2 = `D:\lora_training\zidane`) + "Fizgig LoRA Isolation"; Training
   card = Krea 2 Standard rank 32, DATASET_MEGAPIXELS 1.0, save-every-epoch, ~16+
