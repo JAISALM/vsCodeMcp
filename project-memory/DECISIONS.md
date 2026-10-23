@@ -514,6 +514,39 @@
 - **Face note:** the old recipe's face matches the D171 lock (round, youthful)
   better than the character-LoRA 2MP set (leaner, more angular, fuller beard).
 
+## D181 — All test workflows use visible prompt nodes; prompteach retired (2026-10-23)
+- **User: "i didnt even ran krea2_t2i_face / i didnt even ran image_krea2_turbo_t2i
+  because the prompt is bad/old / there is an issue with how you update the prompt
+  because its not working well ... just give me workflow names and i will generate
+  ... the prompt update and wiring update youre doing is not working properly fix
+  that goddamint."**
+- **Root cause found:** `krea2_t2i_face_00013..17` (the 5 user-attached good 2MP
+  images) came from archived workflow
+  `workflows_archive\2026-10-18\krea2_t2i_character.json` — that file is
+  **CORRUPT**: prompteach EMPTY (`widgets_values = []`), positive CLIPTextEncode
+  empty, VAEDecode + FameGridColorFinish MISSING — but 1152×2048,
+  realism@1.0 + famegrid@0.7, KSampler 10/cfg1/euler/simple, negative = "plastic,
+  waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, ...".
+  The good images were made with prompts PASTED INTO THE CANVAS (not from the
+  file) — the file on disk is broken, so opening it shows an empty prompt node.
+- **Fix (permanent rule):** ALL test/diagnostic workflows get **one KSampler
+  branch per prompt**, each with its own VISIBLE CLIPTextEncode widget holding
+  the text. NO prompteach, NO hidden state, nothing to paste. Multi-prompt =
+  parallel branches (seeds 42+i, per-branch SaveImage prefix). Every handoff:
+  dump the file's text widgets and confirm the prompts are on disk BEFORE telling
+  the user the workflow is ready.
+- **`krea2_realism_2mp.json` REBUILT** (validated 0/0, 37 nodes / 57 links): old
+  recipe verbatim — turbo fp8 → Krea2-realism-V2@1.0 → famegrid_spicy@0.7 → 6
+  branches [CLIPTextEncode (the 6 long "candid phone snapshot" prompts from
+  krea2_t2i_char1.json) → KSampler (10/cfg1/euler/simple, seeds 42–47) →
+  VAEDecode → FameGridColorFinish(1.0/0.6) → SaveImage `krea2_realism_2mp_1..6`],
+  1152×2048, negative = the archived file's "plastic, waxy skin..." list.
+  ONE QUEUE = 6 images, nothing to paste.
+- **Handoff list to user (names only):** `krea2_realism_2mp` (main A/B),
+  `krea2_official_char_test` (official template, Jaisal prompt visible in the
+  instance widget), `krea2_control_test` (bare vs character-LoRA). All prompts
+  verified on disk; open each in a FRESH tab; queue.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy
