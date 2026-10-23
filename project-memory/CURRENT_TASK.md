@@ -1044,14 +1044,27 @@ model (Qwen) updates memory + commits afterwards.
   the browser cache. File-based fix: close the stale canvas tab, then use the
   folder-icon "Open" to load `krea2_fair_test2.json` straight from disk (bypasses
   the Workflows-tab cache).
-- **BULLETPROOF PATH (no file loading at all):** the user's old v2 canvas already
-  has the correct chain (3 LoRAs, seed randomize, 10 steps, cfg 1, 1120x896,
-  color finish) — just PASTE into its prompt node: open
-  `D:\models\vsCodeMcp\utilities\fair_test_8_prompts_paste.txt` (8 prompts, one
-  per line), select all + copy, click next to the node's counter, paste → all rows
-  replaced with the 8 → optionally set SaveImage prefix to `krea2_fair_test` →
-  queue. Outputs then come from that canvas's counter. Movie stage unchanged:
-  LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+- **FAIR TEST ROUND 1 RESULT (user-reported 09:3x): 7 Jaisal-type + 1 Zidhan image.**
+  Old composition was Jaisal-heavy (6 Jaisal scenes + 1 Zidhan + 1 combined), so
+  7:1 is exactly what it could produce. Learnings: `jeskvman` held on ALL 6 Jaisal
+  scenes; `dlorman` SOLO produced Zidhan's face (prompt 7 worked); the COMBINED
+  shot collapsed to Jaisal (second man did not survive — first trigger/description
+  dominates). User's design call (accepted): the test MUST be balanced —
+  **3 Jaisal + 3 Zidhan + 2 combined**.
+- **FAIR TEST ROUND 2 (built, both files + paste file updated, validated clean):**
+  [1-3] Jaisal — backwater path / houseboat / auto-rickshaw (user's scenes verbatim);
+  [4-6] Zidhan — SAME 3 scenes mirrored (backwater path / houseboat / auto-rickshaw,
+  white tee, halal crop + full trimmed beard) = fair A/B on identical scenes;
+  [7] combined rainy street; [8] combined backwater path walk. Order = 3/3/2 per
+  user spec. Old set backed up: `utilities\tmp_fair_test_prompts_v1_old.json`.
+  Paste file REPLACED at `utilities\fair_test_8_prompts_paste.txt`. Workflow files
+  `krea2_fair_test.json` + `krea2_fair_test2.json` state blobs updated, MCP-validated
+  (14 nodes, 0 errors).
+- **RUN INSTRUCTIONS (proven paste path):** open the paste file → Ctrl+A/C → paste
+  next to the node's counter (replaces all rows) → set SaveImage prefix to
+  `krea2_fair_test3` (clean counter) → queue. Then judge: do Zidhan's 3 hold his
+  face (hair cut + beard)? Does either combined show TWO distinct men? Movie stage
+  unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
