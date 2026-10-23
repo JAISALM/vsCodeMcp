@@ -1231,3 +1231,32 @@ model (Qwen) updates memory + commits afterwards.
 - 2-pass pipeline is the new anchor recipe (see EXPERIMENTS 2026-10-23 entry).
 - TODO: user verdict on 20cc281e_000 (face-lock frame) -> tune ref_boost if
   needed -> all 3 scenes through 2-pass -> Zidhan face -> anchor sets.
+
+### 23:3x IST - weather_v3 (4MP concrete-rain) + face_lock_v2 (denoise 0.35) - WIN
+- User feedback on v2 frames: "somewhat okayish... rain droplets don't feel natural" +
+  "dont rely on the outputs, just check the notes" + "stick to the other posts i shared"
+  (community recipes, not guesses). E:\Krea2 4.6GB download COMPLETED (2150 images,
+  4.7GB). Read NOTES.md 348-round distill + SUMMARY.md.
+- **Notes recipes applied:** concrete nouns win over poetic; weather+light = Krea2's best
+  trick; native 4MP finals ("looks shot, not rendered"); rain realism = CONCRETE water
+  cues (rain streaks in the air, droplets beaded on hair/skin catching the light, wet
+  asphalt mirror reflections, droplets in lamp beams); identity drift is expected (seed
+  locks layout not face); i2i face-lock at denoise 0.5 RE-RENDERED the rain (fake
+  stippled droplets) -> drop to 0.35 to preserve the canvas's natural rain.
+- **weather_v3** (krea2_weather_v3.json): krea2_turbo_fp8_scaled + turbo LoRA 0.7 +
+  Krea2-realism-V2 0.8 + NegPiP, 12 steps cfg 1 er_sde/simple, NATIVE 4MP 2560x1440,
+  6 branches (street x3 seeds 201-203 + monsoon x3 204-206), concrete-rain prompts.
+  Run 80037527. WINNERS: street_b (80037527_000) + monsoon_b (80037527_004) - face
+  close to Jaisal, NATURAL rain (streaks in lamp beams, droplets on skin/hair, wet
+  reflections). The concrete-noun rain fixed the "unnatural droplets" complaint.
+- **face_lock_v2** (krea2_face_lock_v2.json): i2i denoise 0.35 (preserves canvas
+  rain/pose), ref_boost 4.0, face-ONLY prompt ("change only the face"), 10 steps
+  euler/simple cfg 1, turbo fp8 + identity LoRA 1.0. Street face-lock =
+  data\face_lock_v2_run\be651d88_000.png; monsoon face-lock =
+  data\face_lock_v2_run\97aed4e5_000.png. Both: face pulled to Jaisal, natural rain +
+  pose + scene fully preserved, no seam.
+- **NEW CANONICAL JAISAL MOVIE FRAMES (4MP):** street = be651d88_000, monsoon =
+  97aed4e5_000. Backwater wide (B1) still on old 2MP e6b8ea11_000 -> needs same
+  weather_v3 treatment (concrete mist/water cues) + face_lock_v2.
+- TODO: user verdict on the 2 new finals -> backwater v3 4MP -> Zidhan face (UNLOCKED)
+  same 2-pass -> anchor sets -> MiniMax H3 R2V (NO music D041). Deadline Nov 22.

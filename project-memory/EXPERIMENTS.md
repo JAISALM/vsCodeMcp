@@ -1714,3 +1714,42 @@ to load ThinkingLLM for the user's new Qwen-2.1-LLM-architect workflow.
 - **Status:** quality bar met for t2i; face-lock pass 1 accepted (needs user
   confirmation). Next: user verdict on face-lock frame -> tune/chain -> run all
   3 scenes through 2-pass -> Zidhan.
+
+## 2026-10-23 (2) - weather_v3 4MP concrete-rain t2i + face_lock_v2 (denoise 0.35)
+
+**Goal:** fix "rain droplets don't feel natural" + face identity, per the community
+knowledge base (NOTES.md 348-round distill from the user's 2000-image thread + the
+reddit realism posts), not by guessing.
+
+**Config:**
+- t2i pass 1 = `krea2_weather_v3.json`: krea2_turbo_fp8_scaled UNET +
+  krea2_turbo_lora_rank_64 0.7 + Krea2-realism-V2 0.8 + ApplyKrea2NegPiP, 12 steps
+  cfg 1 er_sde/simple, NATIVE 4MP (2560x1440), 6 branches (street x3 seeds 201-203,
+  monsoon x3 204-206). Prompts = concrete rain cues: "distinct rain streaks falling
+  through the light, water droplets on his wet hair and beard, wet black asphalt with
+  mirror reflections of the lamps, thin mist at ground level" (street); "individual
+  raindrops in the air and beaded on his wet hair and along the beard, a few drops
+  catching the overcast light" (monsoon).
+- i2i pass 2 = `krea2_face_lock_v2.json`: canvas = best t2i frame (VAEEncode), face
+  ref = jaisal_face_locked.png (VAEEncode -> Krea2EditModelPatch slot 2), ref_boost
+  4.0 / ref_boost_a 1.0 off, grounding 768, KSampler denoise 0.35 (changed from 0.5),
+  10 steps cfg 1 euler/simple, turbo fp8 + identity LoRA 1.0. Prompt = face-only
+  ("change only the face", keep everything else exactly).
+
+**Result (run 80037527 t2i; be651d88 + 97aed4e5 face-locks):**
+- street_b (80037527_000) + monsoon_b (80037527_004) = winners: face close to Jaisal,
+  NATURAL rain (streaks in lamp beams, droplets on skin/hair catching light, wet
+  asphalt mirror reflections, mist).
+- face_lock_v2 outputs: data\face_lock_v2_run\be651d88_000.png (street) +
+  97aed4e5_000.png (monsoon) - face pulled to Jaisal (rounder face, shorter wavy hair,
+  sparse beard) while the t2i's natural rain/pose/scene fully preserved, no seam.
+- denoise 0.35 (vs 0.5) = the fix: 0.5 re-rendered the rain into a fake stippled
+  texture; 0.35 preserves the canvas rain and only pulls the face.
+
+**Conclusion:** the 2-pass pipeline at 4MP with concrete-noun rain cues + denoise 0.35
+face-lock is the locked recipe for Jaisal movie frames. New canonical frames:
+street = be651d88_000, monsoon = 97aed4e5_000.
+
+**Next:** user verdict on the 2 finals -> backwater wide (B1) same treatment (it is
+still old 2MP e6b8ea11_000) -> Zidhan (UNLOCKED) same 2-pass -> anchor sets ->
+MiniMax H3 R2V (NO music D041). Deadline Nov 22.
