@@ -416,6 +416,35 @@
 - **Open:** if mu_test still soft → try bf16 turbo (fp8 quality check) and/or a
   Krea two-stage sampler pack.
 
+## D178 — mu_test run forensics: prompts never reached the model (2026-10-23)
+- **User ran `krea2_mu_test` → 3 outputs BYTE-IDENTICAL (same sha256), content
+  = 3-panel face-grid (East-Asian woman, white bg) — NOT the prompted content.**
+- **Forensics:** byte-identical outputs are impossible if the 3 different
+  prompts + randomized seeds were applied → the run used the SAME (empty) text
+  + fixed seed for all 3 items. The prompts WERE on disk (file verified intact:
+  state blob + link 200→300 present) → the UI ran the CANVAS state, which was
+  EMPTY (the known Pixaroma clobber/cached-canvas quirk — user's "issue with
+  pixaroma group" was right all along).
+- **Face-grid content = the `famegrid_spicy_3167060` LoRA prior dominating with
+  no prompt** (empty text + cfg 0 → LoRA prior drives composition). Lesson: a
+  3-panel face-grid LoRA at 0.7 is a strong contaminant for single-subject
+  cinematic shots.
+- **Decision: kill the hidden-state path for diagnostics.** Built
+  `krea2_control_test.json` (validated 0/0) with **NO prompteach** — prompt
+  text sits DIRECTLY in the CLIPTextEncode widgets (always visible, always
+  applied, nothing to paste). Two branches, one queue, seed 42 fixed,
+  1920×1080, official turbo settings (8 steps, cfg 0, ModelSamplingFlux 1.15):
+  - A `krea2_bare_A`: bare engine — zero LoRAs (pure control).
+  - B `krea2_lora_B`: engine + character LoRA `krea2fp_v2_ep64` ONLY (no
+    realism, no famegrid).
+- **Interpretation matrix:** A good → engine+official sampling proven, pasty
+  outputs = our 3-LoRA stack (famegrid first suspect); A soft → fp8-turbo
+  ComfyUI path is the ceiling → bf16 test + Reddit. B face holds → character
+  LoRA alone carries identity.
+- **Rule change:** diagnostic/control tests NEVER use prompteach — direct
+  CLIPTextEncode widgets only. prompteach only for batch runs where the user
+  confirms the rows are visible in the node before queueing.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy

@@ -1134,6 +1134,18 @@ model (Qwen) updates memory + commits afterwards.
   ModelSamplingFlux(1.15) → KSampler at 8 steps cfg 0, 1920×1080. Paste file
   `mu_test_3_prompts_paste.txt`. USER TO RUN — decisive missing-shift test.
   If still soft → bf16 turbo fp8-comparison + Krea two-stage sampler pack.
+- **MU_TEST FAILURE FORENSICS (21:3x, D178):** user ran krea2_mu_test -> 3
+  outputs BYTE-IDENTICAL (same sha256) = 3-panel face-grid, not the prompted
+  content. Prompts were on disk (file intact) but the UI ran an EMPTY canvas
+  state (Pixaroma clobber/cached canvas - user's "pixaroma group issue" was
+  right). Face-grid = `famegrid_spicy` LoRA prior dominating with no prompt.
+  **Built `krea2_control_test.json` (0/0): NO prompteach - prompts directly in
+  CLIPTextEncode widgets, nothing to paste.** 2 branches, 1 queue, seed 42
+  fixed, 1920x1080, 8 steps cfg 0 + ModelSamplingFlux 1.15: A = bare engine
+  (zero LoRAs, `krea2_bare_A`), B = engine + character LoRA only
+  (`krea2_lora_B`). USER TO RUN - A good -> our 3-LoRA stack (famegrid first
+  suspect) is the problem; A soft -> fp8-turbo path is the ceiling (bf16 +
+  Reddit). Rule: diagnostics NEVER use prompteach.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
