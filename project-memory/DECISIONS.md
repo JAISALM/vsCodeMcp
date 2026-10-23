@@ -274,21 +274,25 @@
   User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
   Optional later: regenerate some dataset shots on the Krea2 chain.
 
-## D171 — Zidhan face RE-SCOPED: `FACEFRONTAL2_ZIDANE_c_00012` is THE reference (2026-10-23)
+## D171 — Character finals LOCKED (2026-10-23): Jaisal = `FACEFRONTAL_JAISAL_b_00001_`, Zidhan = `FACEFRONTAL2_ZIDANE_c_00012_`
 - **Supersedes** D137's char2 description (loose top bun + white tee — DEPRECATED,
-  never prompt it) and the old `krea2_char2_face_*` set as identity authority.
-- **Decision:** Zidhan's face = the **FACEFRONTAL2 series**
-  (`FACEFRONTAL2_ZIDANE_{,a_,b_,c_}00001..12`, 10/20 18:08-19:27 in ComfyUI output):
-  **buzz cut/fade + full short dense beard + white tee**, warm brown skin, round
-  youthful face. User-named reference: **`FACEFRONTAL2_ZIDANE_c_00012_.png`**
-  (frontal close-up). User will share the FINAL zidane image — description must be
-  written from that image, not from any older canonical.
+  never prompt it) and the old `krea2_char{1,2}_face_*` set as identity authority.
+- **Jaisal final:** `FACEFRONTAL_JAISAL_b_00001_.png` (generator workflow
+  `10a_frontal_base_jaisal.json`). **Zidhan final:**
+  `FACEFRONTAL2_ZIDANE_c_00012_.png` (generator workflow
+  `10a_frontal_base_zidane.json`). Both in ComfyUI output dir.
+- **Zidhan face:** buzz cut/fade ("halal" haircut — very short faded sides/back,
+  short neat crop on top, no waves, no bun) + full short dense beard + white tee.
+- **Handy doc:** `d:\models\vsCodeMcp\docs\CHARACTERS.md` — finals table,
+  verified descriptions, VERBATIM face-frontal prompts + negatives (picked from
+  the generator workflows), ready-to-use scene templates with triggers
+  (`jeskvman`/`dlorman` first), and the combined 2-person FAIR TEST prompt.
 - **Consequence:** the `D:\lora_training\zidane` dataset (buzz+beard face) MATCHES
-  this face — dataset is FINE, no face regeneration. `krea2fp_v2` LoRA's `dlor`
+  the final — dataset is FINE, no face regeneration. `krea2fp_v2` LoRA's `dlor`
   identity (e64 preview = buzz+beard) is the CORRECT Zidhan.
-- **Prompt rule:** zidane prompts = `dlorman` + description from the final image;
-  NEVER "top bun / topknot". Jaisal prompts keep the user's detailed description
-  (wavy hair DOWN, sparse beard, dark tee, "NOT a man-bun man").
+- **Prompt rule:** triggers first (`jeskvman`/`dlorman`), description second.
+  NEVER "top bun / topknot" for Zidhan; NEVER "bun / topknot" for Jaisal (hair
+  DOWN). UI prompt edits must be SAVED so file = what runs.
 - **Fair test agreed:** jaisal + zidane in the SAME picture (combined prompt, both
   triggers + descriptions, side by side).
 - **Workflow-file lesson:** ComfyUI UI state is what runs; the on-disk workflow file

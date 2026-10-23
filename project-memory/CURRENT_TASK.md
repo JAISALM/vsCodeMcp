@@ -1001,10 +1001,20 @@ model (Qwen) updates memory + commits afterwards.
   description must come from the NEW ref `FACEFRONTAL2_ZIDANE_c_00012_.png`
   (buzz cut, full short beard, white tee) — NOT top knot; user to share the
   FINAL zidane image before I write the zidane description.
-- **NEXT:** user shares final zidane image → I write combined 2-person prompt
-  (`jeskvman` + user's jaisal description + `dlorman` + new zidane description,
-  side by side) → user queues → fair test. Movie stage unchanged: LoRA +
-  `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+- **CHARACTER FINALS LOCKED (10/23, D171):** Jaisal = `FACEFRONTAL_JAISAL_b_00001_.png`
+  (wavy hair DOWN, sparse beard, dark tee — verified), Zidhan =
+  `FACEFRONTAL2_ZIDANE_c_00012_.png` (buzz/fade + full short beard + white tee).
+  **Handy doc built: `docs\CHARACTERS.md`** — finals table, verified descriptions,
+  VERBATIM face-frontal prompts + negatives picked from the generator workflows
+  (`10a_frontal_base_jaisal.json` node 300/301, `10a_frontal_base_zidane.json`
+  node 300/301), ready-to-use scene templates (trigger first), and the combined
+  2-person FAIR TEST prompt.
+- **NEXT (user):** fair test = queue the combined prompt (CHARACTERS.md §3) in the
+  v2 workflow (UI prompts, then SAVE the workflow) → 1 image with both men → judge
+  if `dlorman` finally shows the buzz+beard face next to Jaisal. If face-2 still
+  collapses → scene-binding issue (Kerala words pull jaisal) → test zidane with a
+  neutral scene first. Movie stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0
+  → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
