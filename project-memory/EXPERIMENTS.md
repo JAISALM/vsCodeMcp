@@ -4,6 +4,28 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — character-LoRA test + face-lock-to-HD → Jaisal + Zidhan CHARACTER LOCK (awaiting user confirm)
+
+**Trigger:** user: "pause the goal, generate the character first — a normal photo of jaisal and zidane… set up a workflow with our trained LoRA, if it drifts too much switch to real photos + new dataset via klein" + "check `refset_v7` — jaisal HD + zidane HD are the ideal characters, NOT a generic Tamilian". It is midnight; user does not want to spend the next day.
+
+**HD refs (ideal target, `refset_v7`, 4608×8192):** `jaisal_portrait_HD_00001` = slim face, wavy black hair worn down, soft rounded nose, light thin mustache + short chin stubble (level-1, NOT a full beard), warm medium-brown skin, slim build, plain black tee, clean cream bg. `zidane_portrait_HD_00001` = short clean halal fade crop, FULL short dense trimmed beard, warm medium-brown skin, plain white tee, clean bg. **Zidhan's actual look = halal fade + full short dense beard + white tee (the D137 "loose top bun" is DEPRECATED — the HD portrait is ground truth).**
+
+**Test 1 — character-LoRA `krea2fp_v2_ep64` + updated realism (`krea2_charlora_v3.json`, 4MP portrait 1440×2560; UNET `krea2_turbo_fp8_scaled` + `krea2fp_v2_ep64`@1.0 + `krea2_turbo_lora_rank_64_bf16`@0.7 + `Krea2-realism-V2`@0.8 + NegPiP, 12 steps cfg 1 er_sde/simple; prompt = trigger `jeskvman`/`dlorman` + corrected character clause):**
+- Jaisal (`data\charlora_v3_run\3c46e8e9_000`): STRONG match — slim face, wavy hair down, soft nose, warm brown skin, black tee, faint level-1 stubble shadow. NOT a generic Tamilian.
+- Zidhan (`3c46e8e9_001`): close — short halal fade crop, warm brown skin, white tee — but BEARD MISSING (nearly clean-shaven; the LoRA's learned Zidhan identity skews clean-shaven).
+- **Assessment: the character-LoRA IS working (holds the specific faces). Jaisal ready; Zidhan needs the beard. NO retrain needed.**
+
+**Test 2 — face-lock the LoRA output to the HD (`krea2_face_lock_{jaisal,zidhan}_hd.json` / `_hd2.json`; face-lock v2 chain: canvas=LoRA output, face-ref=HD downscaled to 1152×2048, ref_boost 4.0/1.0 fit, grounding 768, character face-ONLY prompt, KSampler 10-12 steps euler/simple cfg 1):**
+- Jaisal denoise 0.35 (`data\flock_hd_run\5c60584e_000`): close to the HD (wavy hair down, slim face, soft nose, warm brown skin, black tee, light mustache + chin stubble) — **but USER REJECTED it** (see verdict below).
+- Zidhan denoise 0.35 (`f447bfa5_000`): specific face + correct fade crop + light beard — beard lighter/sparser than the HD.
+- Zidhan denoise 0.45 (`5de8a9b4_000`): **DENSER beard** (jaw+chin+cheeks), specific face + halal fade crop, warm brown skin, white tee — closest to the HD.
+
+**⚠ USER VERDICT (2026-10-24 ~00:10 IST): "stop, both don't look like the Jaisal and Zidhan I expected."** Both face-locked results (5c60584e_000 Jaisal, 5de8a9b4_000 Zidhan) are **REJECTED / NOT locked**. The face-lock-to-HD route did NOT produce the expected characters. Do NOT use these as the locked char-refs.
+
+**TOMORROW'S PLAN (user-directed):** now that the **realistic-image workflow** (the updated realism stack: `krea2_turbo_fp8_scaled` + turbo-LoRA 0.7 + `Krea2-realism-V2` 0.8 + NegPiP) is proven for realistic images, **try OUR character-LoRA `krea2fp_v2_ep64` + trigger words (`jeskvman`/`dlorman`) through that workflow** and see the result — i.e. re-run/iterate `krea2_charlora_v3.json` (Test 1 above) with fresh seeds / tuned trigger+clause combos until Jaisal + Zidhan look like the user expects. The character-LoRA is the identity pin; the realism stack is the quality. (Note: Test 1 already showed Jaisal strong, Zidhan clean-shaven — so tomorrow also address Zidhan's beard via the trigger/clause or a denser-beard prompt.)
+
+---
+
 ## 2026-10-22 — Krea2 dual-subject LoRA first train `krea2fp` (2 subjects + Isolation) → A/B decision test built
 
 **Goal:** 2-subject face-lock LoRA (Jaisal=`jeskv`, Zidane=`dlor`) via Fizgig LoRA

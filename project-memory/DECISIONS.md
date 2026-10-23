@@ -1232,6 +1232,24 @@
 - **Status:** Active recipe. If a face still reads flat: warm the REF itself or use two-image mode
   (scene base + sheet as PERSON ref).
 
+## D150 — Character lock: face-lock-to-HD REJECTED; tomorrow = char-LoRA + trigger words via realistic stack (2026-10-24, user-directed)
+- **User paused the Krea2-quality goal** to do the characters first (Jaisal + Zidhan "normal photo" refs).
+- **HD refs are the ideal chars** (`refset_v7`): `jaisal_portrait_HD_00001` (slim, wavy hair down, soft
+  nose, light mustache + chin stubble, black tee) + `zidane_portrait_HD_00001` (halal fade, FULL short
+  dense beard, white tee). **Zidhan = halal fade + full beard (D137 "top bun" DEPRECATED).**
+- **Test 1 (char-LoRA `krea2fp_v2_ep64` + realism stack, `krea2_charlora_v3.json`):** Jaisal strong
+  match, Zidhan close but clean-shaven. The LoRA DOES hold specific faces (not a generic Tamilian).
+- **Test 2 (face-lock LoRA output → HD, 0.35 Jaisal / 0.45 Zidhan):** produced
+  `data\flock_hd_run\{5c60584e,5de8a9b4}_000` — **USER REJECTED both** ("both don't look like the
+  Jaisal and Zidhan I expected"). Face-lock-to-HD route = NOT the answer. Do NOT use as char-refs.
+- **DECISION (tomorrow):** drive the character-LoRA `krea2fp_v2_ep64` + trigger words
+  (`jeskvman`/`dlorman`) through the **realistic-image workflow** (the updated realism stack:
+  `krea2_turbo_fp8_scaled` + turbo-LoRA 0.7 + `Krea2-realism-V2` 0.8 + NegPiP) and iterate seeds /
+  trigger+clause combos until both look like the user expects; also fix Zidhan's beard (trigger/clause
+  or denser-beard prompt). Char-LoRA = identity pin; realism stack = quality. **No real-photos +
+  retrain needed yet.** See EXPERIMENTS.md 2026-10-24 entry.
+- **Status:** Pending tomorrow's run + user verdict.
+
 ## D139 — DSH + GHCP (GitHub Copilot / VS Code agent) cross-client collaboration verified (2026-10-18)
 - **Milestone (user-approved "we did good"):** the two agent clients worked as one pipeline —
   GHCP (VS Code agent) diagnosed DSH's Reddit gap, built `utilities\reddit_browser_fetch.py`
