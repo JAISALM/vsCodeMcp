@@ -977,28 +977,33 @@ model (Qwen) updates memory + commits afterwards.
   (pixel-diff 1v7/2v8/3v9: only 1.3-1.8% samples identical, mean diff 10.5-13.9/255)
   but compositions repeat = LoRA scene-locked to dataset (over-shoulder rainy path,
   backwater pavilion). User: "first 3 good, rest 3 bad" = no new info.
-- **ROOT CAUSE FOUND — zidane dataset is the WRONG PERSON:**
-  `D:\lora_training\zidane` images = buzz cut + FULL BEARD man (generic global
-  scenes: NY street, neon alley, subway, skatepark — NO Kerala); captions =
-  "dlor, a man, [scene]" — NO identity words (no bun, no white tee). Canonical
-  char2 (`krea2_char2_face_*`) = loose TOP BUN + white tee, clean-shaven-ish.
-  e64 preview `dlorman` = buzz+beard dataset face (LoRA ≤ dataset). Workflow
-  images 2/8 (the `dlorman` test) = Jaisal-type face (scene words Kerala-bound →
-  face-1 dominance). `jeskv` side is FINE (jaisal dataset consistent).
-  jaisal captions also scene-only — its identity held from images alone (Klein
-  converged on wavy-hair face); zidane's Klein set never locked the bun.
-- **FIX (agreed path):** regenerate zidane set = 20 identity-locked images via
-  `krea2_identity_edit.json` (ref_boost 4.0, ref = `krea2_char2_face_c_00001`
-  frontal [fallback b], 1MP, style LoRA 0.7) → `D:\lora_training\zidane_v2` →
-  captions `dlor, a man, black hair in a loose top bun, plain white t-shirt,
-  [scene]` (identity words ADDED — gives `dlor` an identity anchor) → retrain
-  `krea2fp_v3` (jaisal set unchanged + zidane_v2, Krea 2 Standard rank 32, 1.0 MP,
-  ~4.5 h, user's clicks) → retest `krea2_ab_B_lora_v2` with v3.
-  **Scene list built:** `prompts\zidane_v2_scenes.txt` (20 Kerala scenes, varied
-  framing/light, canonical identity line).
-- **NEXT (user):** 20 identity-edit queues (swap instruction per run, SaveImage
-  prefix `zidane_v2`, ~15-20 min) → tell me done → I write the 20 captions →
-  user's Fizgig retrain clicks. Movie stage unchanged: LoRA +
+- **CORRECTION (10/23, user: "you are blindly lying") — two wrong calls:**
+  (a) I claimed "triggers are in the file" from the on-disk file (my 3 trigger
+  prompts, last write 7:25). The ACTUAL run used the user's OWN 6 descriptive
+  prompts in the UI (unsaved — file still shows my 3): all 6 describe Jaisal
+  ("MEDIUM-LENGTH WAVY hair NOT in a bun/topknot", sparse beard, dark tee,
+  "NOT a man-bun man"), NO trigger words. → all 6 images = Jaisal, and the run
+  contains NO zidane test. Lesson: UI state is what runs; on-disk file can be
+  stale — verify the actual prompts before claiming. (b) My "dataset = WRONG
+  PERSON" verdict used the OLD D137 canonical (top bun + white tee). User
+  re-scoped Zidhan on 10/20: **`FACEFRONTAL2_ZIDANE_{,a_,b_,c_}00001..12`**
+  (10/20 18:08-19:27) = NEW Zidhan face = **buzz cut/fade + full short dense
+  beard + white tee** — which MATCHES the dataset face (dataset 01/02 = same
+  buzz+beard man). Dataset is FINE; e64 `dlorman` preview (buzz+beard) =
+  correct identity. My `zidane_v2_scenes.txt` top-knot regen plan is VOID.
+- **WHY images 2/8 (my `dlorman` prompt) came out Jaisal-type:** scene words
+  (rainy Kerala street) are jaisal-dataset-bound → face-1 dominance; bare
+  `dlorman` (e64 preview) = correct face.
+- **USER ASKS (10/23):** (1) "where the trigger word? any issue with updating
+  the prompt in comfyui?" → no issue: edit PixaromaPromptEach in UI, then SAVE
+  the workflow so file = what runs (that gap caused my wrong claim). (2) FAIR
+  TEST = jaisal + zidane in the SAME picture (combined prompt). (3) Zidhan
+  description must come from the NEW ref `FACEFRONTAL2_ZIDANE_c_00012_.png`
+  (buzz cut, full short beard, white tee) — NOT top knot; user to share the
+  FINAL zidane image before I write the zidane description.
+- **NEXT:** user shares final zidane image → I write combined 2-person prompt
+  (`jeskvman` + user's jaisal description + `dlorman` + new zidane description,
+  side by side) → user queues → fair test. Movie stage unchanged: LoRA +
   `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
