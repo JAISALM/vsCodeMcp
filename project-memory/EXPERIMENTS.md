@@ -83,6 +83,24 @@ alpha 32 / 1.0 MP, LoRA name `krea2fp_v2`, everything else unchanged.
 `System.Drawing` pixel sampling every 8th px on 1120×896 ≈ 15680 samples,
 ~2–3 min per pair in PS.
 
+### krea2fp_V2 retrain (rank 32 / 1.0 MP / 64 epochs) — 2026-10-22, run 9e55de18807d
+**Config (API-verified):** Krea 2 Standard preset — rank 32 / alpha 32, LR 1e-4
+constant (adaptive OFF), 64 epochs, 4608 steps @3.37 s/it (~4.3 h), 1.0 MP,
+seed 42, EMA 0.98, adamw8bit, 2 subjects (jaisal + zidane) + Fizgig LoRA
+Isolation, sample prompts `jeskvman`/`dlorman` @1024², turbo 0.7,
+save-every-epoch. **Loss:** smooth 0.066→0.054, no divergence, "finished".
+**Final previews (e64):** `jeskvman` = Jaisal-TYPE (wavy black hair, black T,
+frontal) — closer to canonical than v1; `dlorman` = WRONG TYPE (short hair +
+full beard vs the bun-hair zidane). Previews are close-ups ONLY by design
+(SAMPLE_PROMPT = bare triggers → base default close-up; previews test identity,
+not scenes). **Output copied to shared loras:** `krea2fp_v2_ep64.safetensors`
+(final) + `krea2fp_v2_ep32.safetensors` (mid, backup). **Test built:**
+`krea2_ab_B_lora_v2.json` — node 303 → `krea2fp_v2_ep64`@1.0, 3 prompts
+(jeskvman-alone / dlorman-alone / combined, rainy-street + dusk-riverbank),
+save prefix `krea2_ab_B_v2`. **Result:** pending user queue (ComfyUI restart
+first). **Next:** ep64 overfit → ep32; face-2 still wrong → dataset face-2
+problem → regenerate zidane set from `krea2_char2_face_*` refs.
+
 ## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
 
 **Trigger:** user: "zidane also need a front facing image, not the sideways one" + after

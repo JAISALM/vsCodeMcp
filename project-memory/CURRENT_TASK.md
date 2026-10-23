@@ -938,6 +938,36 @@ model (Qwen) updates memory + commits afterwards.
   Movie stage unchanged: char LoRA + `Krea2-realism-V2`@1.0 face-lock → MiniMax
   H3 R2V (2-3 refs, NO music D041).
 
+## krea2fp_V2 retrain done + v2 output test built (2026-10-22/23)
+- **v2 TRAINED (user, ~15:30→16:16+ IST 10/22, ~4.3 h):** preset "Krea 2 Standard
+  (rank 32, full model)" APPLIED ✓ — rank 32 / alpha 32, LR 1e-4 constant
+  (adaptive OFF ✓), 64 epochs, 4608 steps @3.37 s/it, 1.0 MP, seed 42, EMA 0.98,
+  adamw8bit, 2 subjects + `D:\lora_training\zidane` + Fizgig LoRA Isolation ✓,
+  sample prompts `jeskvman`/`dlorman`, turbo 0.7, save-every-epoch. Loss smooth
+  0.066→0.054, no divergence, result "finished". Run id 9e55de18807d.
+- **User's "previews are all close-ups" concern:** EXPECTED — SAMPLE_PROMPT is the
+  BARE triggers (`jeskvman`/`dlorman`) with no scene/pose words, so each epoch
+  preview = base-model default (close-up portrait, white bg). Previews test
+  identity + trigger response, NOT scene diversity; scene diversity comes from
+  inference prompts. (Add scene words to SAMPLE_PROMPT for scene previews.)
+- **Final previews (e64, 1024²):** `jeskvman` = decent Jaisal-TYPE (wavy black
+  hair, black T, frontal) — closer to canonical than v1; `dlorman` = WRONG TYPE
+  (short hair + full beard — NOT the bun-hair zidane). Judge by workflow output,
+  not preview.
+- **Copied to shared loras:** `krea2fp_v2_ep64.safetensors` (final, 223.9 MB) +
+  `krea2fp_v2_ep32.safetensors` (mid, backup if ep64 overfit).
+- **Built + verified `krea2_ab_B_lora_v2.json`:** B chain with node 303 →
+  `krea2fp_v2_ep64.safetensors`@1.0; 3 test prompts: (0) `jeskvman` alone, rainy
+  Kerala street, waist-up; (1) `dlorman` alone, SAME scene; (2) combined
+  "jeskvman and dlorman side by side" dusk riverbank. Save prefix
+  `krea2_ab_B_v2`.
+- **NEXT (user):** restart ComfyUI → Workflows tab → `krea2_ab_B_lora_v2` →
+  Queue (3 images `krea2_ab_B_v2_00001..3`). Verdict: (0)/(1) = per-subject face
+  lock; (2) = 2-person capability. If ep64 overfit (plastic/stiff) → retry with
+  `krea2fp_v2_ep32`. If face-1 locked but face-2 still wrong → dataset face-2
+  problem (regenerate zidane set from `krea2_char2_face_*` refs). Movie stage
+  unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
   timeline (HF-verified dates 2026-09-08 → 09-28: Day-To-Night, Water-Simulation,
