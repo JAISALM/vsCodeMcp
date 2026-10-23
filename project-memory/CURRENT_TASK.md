@@ -973,10 +973,32 @@ model (Qwen) updates memory + commits afterwards.
   drops bypassed node = bypass proof):** node 96 realism PRE-BYPASSED in file
   (mode 4), same 3 prompts, FRESH prefix `krea2_ab_B_v2_noreal` (counter
   restarts _00001 — no stale-file trap), seed stays randomize.
-- **NEXT (user):** queue `krea2_ab_B_v2_noreal` → 3 images. If identity same /
-  finish different → realism = finish only; face-2 collapse confirmed as
-  dataset/LoRA problem → regenerate zidane set from `krea2_char2_face_*` refs.
-  If ep64 overfit → ep32. Movie stage unchanged: LoRA +
+- **v2 queues 2-3 (7:38/7:5x IST, `_00004..00009`):** seed DID randomize
+  (pixel-diff 1v7/2v8/3v9: only 1.3-1.8% samples identical, mean diff 10.5-13.9/255)
+  but compositions repeat = LoRA scene-locked to dataset (over-shoulder rainy path,
+  backwater pavilion). User: "first 3 good, rest 3 bad" = no new info.
+- **ROOT CAUSE FOUND — zidane dataset is the WRONG PERSON:**
+  `D:\lora_training\zidane` images = buzz cut + FULL BEARD man (generic global
+  scenes: NY street, neon alley, subway, skatepark — NO Kerala); captions =
+  "dlor, a man, [scene]" — NO identity words (no bun, no white tee). Canonical
+  char2 (`krea2_char2_face_*`) = loose TOP BUN + white tee, clean-shaven-ish.
+  e64 preview `dlorman` = buzz+beard dataset face (LoRA ≤ dataset). Workflow
+  images 2/8 (the `dlorman` test) = Jaisal-type face (scene words Kerala-bound →
+  face-1 dominance). `jeskv` side is FINE (jaisal dataset consistent).
+  jaisal captions also scene-only — its identity held from images alone (Klein
+  converged on wavy-hair face); zidane's Klein set never locked the bun.
+- **FIX (agreed path):** regenerate zidane set = 20 identity-locked images via
+  `krea2_identity_edit.json` (ref_boost 4.0, ref = `krea2_char2_face_c_00001`
+  frontal [fallback b], 1MP, style LoRA 0.7) → `D:\lora_training\zidane_v2` →
+  captions `dlor, a man, black hair in a loose top bun, plain white t-shirt,
+  [scene]` (identity words ADDED — gives `dlor` an identity anchor) → retrain
+  `krea2fp_v3` (jaisal set unchanged + zidane_v2, Krea 2 Standard rank 32, 1.0 MP,
+  ~4.5 h, user's clicks) → retest `krea2_ab_B_lora_v2` with v3.
+  **Scene list built:** `prompts\zidane_v2_scenes.txt` (20 Kerala scenes, varied
+  framing/light, canonical identity line).
+- **NEXT (user):** 20 identity-edit queues (swap instruction per run, SaveImage
+  prefix `zidane_v2`, ~15-20 min) → tell me done → I write the 20 captions →
+  user's Fizgig retrain clicks. Movie stage unchanged: LoRA +
   `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)

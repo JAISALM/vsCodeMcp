@@ -97,9 +97,20 @@ not scenes). **Output copied to shared loras:** `krea2fp_v2_ep64.safetensors`
 (final) + `krea2fp_v2_ep32.safetensors` (mid, backup). **Test built:**
 `krea2_ab_B_lora_v2.json` — node 303 → `krea2fp_v2_ep64`@1.0, 3 prompts
 (jeskvman-alone / dlorman-alone / combined, rainy-street + dusk-riverbank),
-save prefix `krea2_ab_B_v2`. **Result:** pending user queue (ComfyUI restart
-first). **Next:** ep64 overfit → ep32; face-2 still wrong → dataset face-2
-problem → regenerate zidane set from `krea2_char2_face_*` refs.
+save prefix `krea2_ab_B_v2`. **v2 workflow RESULT (10/23, `krea2_ab_B_v2_00001..00009`, 3 queues):**
+(1) `jeskvman` = Jaisal-type LOCKED (wavy hair, black T — matches e64 preview).
+(2) `dlorman` (images 2/8) = Jaisal-TYPE face, NOT zidane. (3) combined = one or
+two Jaisal-type men. Seeds DID differ across queues (pixel-diff 1.3-1.8%
+identical) but compositions repeat = LoRA scene-locked to dataset scenes.
+**ROOT CAUSE: the zidane DATASET is the wrong person** — `D:\lora_training\zidane`
+images = buzz cut + full beard man in generic global scenes (NY/subway/
+skatepark), captions scene-only ("dlor, a man, [scene]", no identity words);
+canonical char2 = loose top bun + white tee. e64 `dlorman` preview = the
+dataset face exactly (LoRA ≤ dataset quality). `jeskv` side fine (jaisal set
+consistent). **FIX: regenerate zidane set identity-locked**
+(`krea2_identity_edit.json`, ref `krea2_char2_face_c_00001`, ref_boost 4.0, 20
+Kerala scenes per `prompts\zidane_v2_scenes.txt`, captions with identity words)
+→ `zidane_v2` folder → retrain `krea2fp_v3`.
 
 ## 2026-10-20 — 10a_frontal_base_zidane v1 FAILED (jaisal-like, no hair) → v2 = char2 chain + D142 (D155)
 
