@@ -961,12 +961,23 @@ model (Qwen) updates memory + commits afterwards.
   Kerala street, waist-up; (1) `dlorman` alone, SAME scene; (2) combined
   "jeskvman and dlorman side by side" dusk riverbank. Save prefix
   `krea2_ab_B_v2`.
-- **NEXT (user):** restart ComfyUI → Workflows tab → `krea2_ab_B_lora_v2` →
-  Queue (3 images `krea2_ab_B_v2_00001..3`). Verdict: (0)/(1) = per-subject face
-  lock; (2) = 2-person capability. If ep64 overfit (plastic/stiff) → retry with
-  `krea2fp_v2_ep32`. If face-1 locked but face-2 still wrong → dataset face-2
-  problem (regenerate zidane set from `krea2_char2_face_*` refs). Movie stage
-  unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+- **v2 ROUND 1 RESULT (07:38 IST, `krea2_ab_B_v2_00001..6` = 2 queues):**
+  (1) `jeskvman` = Jaisal-TYPE LOCKED (wavy hair, black T, slim — matches e64
+  preview face; type-level lock solid, face = "Jaisal-ish" close-to-canonical).
+  (2) `dlorman` = **COLLAPSED INTO FACE-1** (wavy hair + black tee — NOT bun +
+  white tee; face-2 clone of face-1, not missing this time). (3) combined =
+  TWO near-identical men, both face-1 type. → 2-person capability STILL broken;
+  face-2 identity unstable (e64 preview = bearded short-hair face, workflow =
+  face-1 clone — wanders).
+- **Built + validated `krea2_ab_B_v2_noreal.json` (13 nodes vs 14 — converter
+  drops bypassed node = bypass proof):** node 96 realism PRE-BYPASSED in file
+  (mode 4), same 3 prompts, FRESH prefix `krea2_ab_B_v2_noreal` (counter
+  restarts _00001 — no stale-file trap), seed stays randomize.
+- **NEXT (user):** queue `krea2_ab_B_v2_noreal` → 3 images. If identity same /
+  finish different → realism = finish only; face-2 collapse confirmed as
+  dataset/LoRA problem → regenerate zidane set from `krea2_char2_face_*` refs.
+  If ep64 overfit → ep32. Movie stage unchanged: LoRA +
+  `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
