@@ -1035,12 +1035,18 @@ model (Qwen) updates memory + commits afterwards.
   errors). PS gotcha hit: `Add-Member -NoteProperty` is ambiguous here (use
   hashtables); a failed rebuild had left node 200 EMPTY — the clean-base rebuild
   fixed it.
-- **NEXT (user):** open `krea2_fair_test` FRESH (Workflows tab, new tab — the old
-  canvas is dead; if a tab already shows it empty, close that tab first) → node
-  should show 8 prompt ROWS (each with ON/OFF switch) → queue → send images, esp.
-  `krea2_fair_test_00007_` (Zidhan solo) and `_00008_` (combined fair test). Movie
-  stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music
-  D041).
+- **USER SAW "6 OLD PROMPTS" (09:03) — diagnosed:** the 6 old prompts exist ONLY in
+  the user's still-open `krea2_ab_B_lora_v2` canvas; neither file on disk has 6
+  (fair_test = 8, v2 = 3 trigger prompts; both verified). The UI was showing the
+  stale v2 canvas. Runner proof: the node's own `parse_state` + `build()` on the
+  file's blob → exactly 8 queued images, `text` input unwired.
+- **DELIVERY (two paths):** (A) `krea2_fair_test2.json` — byte-identical copy under
+  a FRESH name (no cached UI tab → guaranteed fresh load) → open in Workflows tab →
+  8 rows → queue. (B) paste fallback: `D:\models\vsCodeMcp\utilities\fair_test_8_
+  prompts_paste.txt` — 8 prompts one per line; paste next to the node's counter
+  (replaces all rows) on ANY canvas → queue. Close the old v2 tab to avoid
+  re-confusion. Movie stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 →
+  MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
