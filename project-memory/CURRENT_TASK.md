@@ -1105,6 +1105,26 @@ model (Qwen) updates memory + commits afterwards.
   25 steps cfg 1; already wired in 09j/09k; plus
   `qwen-image-edit-2511-multiple-angles-lora` on disk) stays available if Krea2
   RAW still disappoints.
+- **CINEMATIC RECIPE (2026-10-23 20:2x, D176) — user: "the test you gave me
+  stupid low quality result, check forums how to get good cinematic shots in
+  krea2":** raw_qtest outputs graded: close-up DID gain real skin texture on RAW
+  ✓; profile + two-man = flat phone-photo look. Forum/official-guide findings
+  (designloves2 ComfyUI Krea2 guide built on Krea's official prompting.md;
+  Andro-Meta local-studio guide; Krea2SizePreset tiers): (1) Krea2 =
+  NATURAL-LANGUAGE grapher briefs — "cinematic" alone does nothing; name the
+  MEDIUM early (35mm film, 85mm/35mm lens, shallow DOF, golden hour, Portra
+  400, film grain, muted grade); quality tags are wasted budget. (2) AGENT SKILL
+  GAP (admitted): previous prompts were actively ANTI-cinematic ("candid phone
+  snapshot... NOT a studio portrait"). (3) Aspect: 1120×896 = 1K near-square;
+  cinematic = 1920×1080 16:9 (1.5K tier). (4) OFFICIAL: Turbo = polished output
+  checkpoint (8 steps, cfg 0.0, Mu 1.15, fp8); RAW = training/LoRA/research
+  base — raw_qtest's 40-step/cfg-3.5 was an untested mush setting (my bad).
+  **Built `krea2_cine_test.json`** (validated 0/0): Turbo UNET, 10 steps cfg 1
+  (proven identity settings), **1920×1080**, same 3 LoRAs, 3 prompts REWRITTEN
+  as film-still briefs (medium+lens+lighting+mood+grain+grade). Prefix
+  `krea2_cine_test`. USER TO RUN. If still soft → next lever = Krea-specific
+  Mu=1.15 sampler param (stock KSampler doesn't expose it — needs a Krea
+  sampler node) + reference-image style transfer.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

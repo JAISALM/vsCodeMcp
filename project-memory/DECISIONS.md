@@ -363,6 +363,30 @@
 - **Unchanged:** Jaisal v2 face decision (D172, still awaiting user confirm),
   reference-driven movie chain (D173), Nov 22 timeline.
 
+## D176 — Krea2 cinematic recipe: film-still prompts + 16:9 + Turbo (2026-10-23)
+- **User: "the test you gave me [was] stupid low quality... just check forums
+  how to get good cinematic shots in krea2."** raw_qtest outputs graded: the
+  close-up DID gain real skin texture on RAW ✓; profile + two-man came out as
+  flat phone-photo looks.
+- **Findings (Krea official prompting doc via the ComfyUI-Prompt-Studio guide;
+  Andro-Meta local-studio guide; Krea2SizePreset tiers):**
+  1. Krea2 prompting = natural-language grapher briefs; quality tags
+     (masterpiece/8k) waste prompt budget; "cinematic" alone does little —
+     name the MEDIUM early (35mm film, lens mm, DOF, light
+     source/quality/temperature, grain, color grade).
+  2. AGENT SKILL GAP (admitted): previous prompts said "candid phone
+     snapshot... NOT a studio portrait" — actively anti-cinematic.
+  3. Resolution: default tier 1K (1120×896 near-square); cinematic = 16:9 at
+     1.5K (1920×1080) / 2K tiers.
+  4. Official Turbo vs RAW: Turbo = polished OUTPUT checkpoint (8 steps,
+     cfg 0.0, Mu 1.15, fp8); RAW = training/LoRA/research base. The
+     raw_qtest 40-step/cfg-3.5 run was an untested mush setting — wrong tool.
+- **Built `krea2_cine_test.json`** (validated 0/0): Turbo UNET, 10 steps cfg 1
+  (proven identity settings), **1920×1080**, same 3 LoRAs, 3 prompts rewritten
+  as film-still briefs (medium+lens+lighting+mood+grain+grade). If still soft →
+  next lever: Krea-specific Mu=1.15 sampler param (stock KSampler doesn't
+  expose it — needs a Krea sampler node) + reference-image style transfer.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy
