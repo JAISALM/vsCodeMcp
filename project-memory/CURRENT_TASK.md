@@ -1056,22 +1056,32 @@ model (Qwen) updates memory + commits afterwards.
   collapse gone). `jeskvman`/`dlorman` solid. Jaisal patchy beard faint in solos.
   **User's call:** faces too similar — "same guy with different haircuts" →
   re-scope Jaisal's facial features + retrain (see D172).
-- **HARD TEST (built, user to run):** `utilities\hard_test_8_prompts_paste.txt` —
-  8 hard prompts (Jaisal: extreme left profile / extreme close-up / low-angle
-  arms-crossed / full-body pitch sprint / stadium crowd; Zidhan: night street
-  profile full-body / laughing close-up; BOTH: floodlit pitch football action).
-  COMPACT identity descriptions (LoRA must carry identity, not the long prompt).
-  Methodology: phosphene.cc acceptance test (web) — recognizable without the
-  prompt? locked traits survive expression/angle/framing? Paste into the node,
-  prefix `krea2_hard_test`, queue. Then analyze failures → next-LoRA changes
-  (dataset variety: angles/expressions/framing/context; possibly split combined
-  LoRA into two single-character LoRAs).
-- **Jaisal v2 face proposal (D172, awaiting user confirm):** keep wavy hair +
-  patchy beard + dark tee + Malayali skin; CHANGE face: longer oval, leaner
-  cheeks, defined angular jaw, thicker straighter brows, narrower straighter
-  nose, slightly deeper-set eyes (vs Zidhan's round full-cheeked soft jaw).
-  Then: face-lock → dataset → user retrains LoRA. Movie stage unchanged:
-  char LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+- **HARD TEST VERDICT (ran 19:30 turbo; user: "quality too low, not even usable"):**
+  identity HELD 6-7/8 hard cases (profile ✓, low-angle ✓, full-body sprint ✓, crowd
+  ✓, Zidhan night profile ✓, Zidhan laughing close-up ✓, both-men shot = two
+  distinct men ✓). Failures: [2] extreme close-up face drift (eyebrows wrong);
+  [8] football-pass ACTION not performed (came out as conversation). Quality SOFT
+  overall — ROOT CAUSE: the run was on the TURBO unet (`krea2_turbo_fp8_scaled`,
+  10 steps, cfg 1) = a speed model. `krea2_raw_bf16` (production quality) sits
+  UNUSED on disk; documented settings (workflow note): 40 steps, cfg 3-4,
+  negatives matter.
+- **RAW QUALITY TEST BUILT:** `krea2_raw_qtest.json` (MCP-validated, 14 nodes) —
+  same proven chain, UNET→`krea2_raw_bf16`, 40 steps, cfg 3.5, existing negative,
+  3 IDENTICAL hard prompts (Jaisal close-up, Jaisal profile, both-football) →
+  direct turbo-vs-raw comparison. Prefix `krea2_raw_qtest`. User to run today.
+- **MOVIE CONSISTENCY ARCHITECTURE (D173, for Nov 22 release = 30 days):**
+  reference-DRIVEN chain, not text+LoRA: (0) finalize Jaisal v2 face (D172 —
+  awaiting user confirm of features) + Zidhan final (locked) → (1) per-character
+  ANCHOR SET (frontal/3-4/profile/close-up/2 expressions) at RAW quality,
+  identity-edit locked (ref_boost 4.0, D023) → (2) 2-3 refs per movie shot via
+  identity edit (D021) → (3) MiniMax H3 R2V 2-3 refs + short prompts, NO music
+  (D020/D041) → (4) SFX-only audio + assembly + color. The VIDEO inherits faces
+  from the reference images — that IS the consistency mechanism. LoRA retrain
+  DEMOTED to optional reinforcement (movie does not wait for it); if trained,
+  dataset = anchor set with angle/expression/framing variety.
+- **TIMELINE (Nov 22):** face decision TODAY → anchor set day 2-4 → per-shot ref
+  set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer + final QC.
+  Only slack: the face decision is the one thing that cannot slip.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

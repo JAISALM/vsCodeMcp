@@ -274,6 +274,34 @@
   User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
   Optional later: regenerate some dataset shots on the Krea2 chain.
 
+## D173 — Hard-test verdict + production-quality model + movie-consistency architecture (2026-10-23)
+- **Hard test (turbo) verdict (19:30):** identity HELD 6-7/8 hard cases (profile,
+  low-angle, full-body sprint, crowd, both characters present as distinct men) —
+  triggers `jeskvman`/`dlorman` are PRODUCTION-SOLID for identity. Failures:
+  extreme close-up face drift (eyebrows wrong); 2-person action not performed.
+  Overall quality SOFT — ROOT CAUSE: everything ran on the TURBO unet
+  (`krea2_turbo_fp8_scaled`, 10 steps, cfg 1) = a speed model.
+- **User's verdict: "output quality too low, not even usable"** (for the film).
+  **Film release = Nov 22 (~30 days).**
+- **Quality lever (on disk, unused):** `krea2_raw_bf16.safetensors` = production
+  Krea2. Documented settings (workflow note in `krea2_identity_edit.json`):
+  **40 steps, cfg 3-4, negatives matter**. Built `krea2_raw_qtest.json`
+  (MCP-validated): same chain, raw unet, 40 steps, cfg 3.5, existing negative,
+  3 identical hard prompts → direct turbo-vs-raw comparison, prefix
+  `krea2_raw_qtest`.
+- **Decision: movie consistency = REFERENCE-DRIVEN chain, not text+LoRA** —
+  (0) finalize Jaisal v2 face (D172) + Zidhan final (locked) → (1) per-character
+  ANCHOR SET (frontal/3-4/profile/close-up/2 expressions) at RAW quality,
+  identity-edit locked (ref_boost 4.0, D023) → (2) 2-3 refs per movie shot via
+  identity edit (D021) → (3) MiniMax H3 R2V 2-3 refs + short prompts, NO music
+  (D020/D041) → (4) SFX-only audio + assembly. The video inherits faces from the
+  reference images — that IS the consistency mechanism for the film.
+- **LoRA retrain DEMOTED:** optional reinforcement, NOT the consistency anchor —
+  the movie does NOT wait for it. If trained: dataset = anchor set with
+  angle/expression/framing variety (phosphene.cc methodology), not frontals only.
+- **Timeline (Nov 22):** face decision today → anchor set day 2-4 → per-shot ref
+  set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy
