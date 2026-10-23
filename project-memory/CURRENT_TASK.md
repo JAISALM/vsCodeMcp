@@ -1188,6 +1188,13 @@ model (Qwen) updates memory + commits afterwards.
   HANDOFF LIST (names only, open fresh tab, queue): krea2_realism_2mp (main A/B),
   krea2_official_char_test, krea2_control_test. Every handoff: dump the file's
   text widgets and confirm prompts on disk BEFORE telling user it's ready.
+- **RUN COMPLETE (D181 follow-up):** agent RAN krea2_realism_2mp itself via MCP
+  (prompt 2ca0eafc-3fb3-4bb2-b9b7-619d46c9fee0) - 6/6 outputs in
+  data\realism_2mp_run\, identity consistent across all 6, face matches D171 lock,
+  quality = the "better" old-recipe look. File-driven runs work end-to-end (no
+  canvas/paste). AWAITING USER: (1) pick 3 anchor frames (suggested 002/004/000),
+  (2) confirm this face = Jaisal final face (settles D172). Then: face-lock anchors
+  (identity-edit) -> R2V per shot. Resolution chase CLOSED per user.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

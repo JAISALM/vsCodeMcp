@@ -1629,3 +1629,23 @@ to load ThinkingLLM for the user's new Qwen-2.1-LLM-architect workflow.
 - **Conclusion:** emblem fidelity needs a DEDICATED image ref (text can't force a crisp
   logo) — D148. NEXT: user runs all 4 → compare crest fidelity → pick winning route →
   Zidane flip (incl. `zidane_crest_ref.png`).
+
+
+## 2026-10-23 - krea2_realism_2mp file-driven run (MCP, no paste)
+- **Goal:** verify old recipe end-to-end from FILE (no canvas, no paste): turbo fp8 +
+  Krea2-realism-V2@1.0 + famegrid@0.7 + FameGridColorFinish(1.0/0.6), 10/cfg1/euler/
+  simple, 1152x2048, 6 long candid-snapshot prompts, 6 visible-CLIPTextEncode
+  branches (seeds 42-47).
+- **Result:** 6/6 completed (prompt 2ca0eafc-3fb3-4bb2-b9b7-619d46c9fee0), outputs in
+  data\realism_2mp_run\ (001=p1 backwater path, 004=p2 houseboat, 002=p3 monsoon
+  street, 003=p4 campus, 000=p5 temple, 005=p6 auto-rickshaw). Identity CONSISTENT
+  across all 6 (same man: wavy hair down, round young face, sparse beard, dark tee) -
+  face matches D171 lock better than the char-LoRA set. Quality = amateur-phone-shot
+  realism (real pores, natural light) - matches the "better" old set the user
+  referenced. Minor: stray-hair artifacts (frames 1/5), slight inter-frame face
+  softness drift (t2i, no ref lock).
+- **Conclusion:** the recipe (realism + famegrid + finish + long-text identity) is the
+  quality baseline - the missing ingredient in recent runs was the recipe, not the
+  resolution. File-driven MCP runs work end-to-end (prompts applied from file, no
+  canvas state involved). Next: user picks 3 anchor frames (suggested: 002 frontal +
+  004 profile + 000 temple), face-lock via identity-edit, then R2V per shot.
