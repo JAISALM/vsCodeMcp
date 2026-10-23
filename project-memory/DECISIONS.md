@@ -274,6 +274,35 @@
   User ACCEPTS the limit: Krea2 base training pulls the LoRA back toward natural skin.
   Optional later: regenerate some dataset shots on the Krea2 chain.
 
+## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
+- **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
+  houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy
+  street + backwater path) — BOTH combined shots showed two clearly distinct men
+  (round 1's combined collapse did not repeat). `jeskvman`/`dlorman` triggers
+  are solid. Jaisal's patchy beard renders faint (stubble-ish) in the solos.
+- **User's call (confirmed from the 8 images):** the two faces are TOO SIMILAR —
+  "same guy with different haircuts"; only hair/beard/tee differ, no facial
+  feature difference. For two movie leads that is a real problem.
+- **DECISION: re-scope Jaisal's face** — create Jaisal with clearly DIFFERENT
+  facial features (proposed: LONGER OVAL face, leaner cheeks, more defined
+  angular jaw, thicker straighter eyebrows, narrower straighter nose, slightly
+  deeper-set eyes — vs Zidhan's round full-cheeked soft-jawed face); KEEP wavy
+  hair + patchy beard + dark tee + Malayali skin. User confirms features → new
+  face-lock → new dataset → **LoRA retrain** (user trains).
+- **BEFORE retraining: hard stress-test the CURRENT LoRA `krea2fp_v2_ep64`**
+  (user's order — "get actual results, see what to change in the next LoRA"):
+  8 hard prompts (extreme angles, close-up, full-body action, crowd, night,
+  2-person action) with COMPACT identity descriptions so the LoRA — not a long
+  prompt — must carry the identity. Methodology from web (phosphene.cc
+  acceptance test: "recognizable without reading the prompt? do locked traits
+  survive expression/angle/framing changes?"; "the dataset is the product";
+  captions must name identity markers and describe backgrounds as context).
+  Files: `utilities\hard_test_prompts.json` +
+  `utilities\hard_test_8_prompts_paste.txt` (8 prompts, one per line).
+- **Open hypothesis:** face merging between the two characters may come from ONE
+  combined LoRA carrying both faces → if the hard test shows drift/merge, the
+  next LoRA may need to be TWO single-character LoRAs instead of one combined.
+
 ## D171 — Character finals LOCKED (2026-10-23): Jaisal = `FACEFRONTAL_JAISAL_b_00001_`, Zidhan = `FACEFRONTAL2_ZIDANE_c_00012_`
 - **Supersedes** D137's char2 description (loose top bun + white tee — DEPRECATED,
   never prompt it) and the old `krea2_char{1,2}_face_*` set as identity authority.

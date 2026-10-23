@@ -1051,20 +1051,27 @@ model (Qwen) updates memory + commits afterwards.
   shot collapsed to Jaisal (second man did not survive — first trigger/description
   dominates). User's design call (accepted): the test MUST be balanced —
   **3 Jaisal + 3 Zidhan + 2 combined**.
-- **FAIR TEST ROUND 2 (built, both files + paste file updated, validated clean):**
-  [1-3] Jaisal — backwater path / houseboat / auto-rickshaw (user's scenes verbatim);
-  [4-6] Zidhan — SAME 3 scenes mirrored (backwater path / houseboat / auto-rickshaw,
-  white tee, halal crop + full trimmed beard) = fair A/B on identical scenes;
-  [7] combined rainy street; [8] combined backwater path walk. Order = 3/3/2 per
-  user spec. Old set backed up: `utilities\tmp_fair_test_prompts_v1_old.json`.
-  Paste file REPLACED at `utilities\fair_test_8_prompts_paste.txt`. Workflow files
-  `krea2_fair_test.json` + `krea2_fair_test2.json` state blobs updated, MCP-validated
-  (14 nodes, 0 errors).
-- **RUN INSTRUCTIONS (proven paste path):** open the paste file → Ctrl+A/C → paste
-  next to the node's counter (replaces all rows) → set SaveImage prefix to
-  `krea2_fair_test3` (clean counter) → queue. Then judge: do Zidhan's 3 hold his
-  face (hair cut + beard)? Does either combined show TWO distinct men? Movie stage
-  unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
+- **FAIR TEST ROUND 2 VERDICT (user-attached 8 images, 14:46): 8/8 HELD** — 3 Jaisal
+  ✓, 3 Zidhan ✓, 2 combined ✓ (both pair shots showed two distinct men; round-1
+  collapse gone). `jeskvman`/`dlorman` solid. Jaisal patchy beard faint in solos.
+  **User's call:** faces too similar — "same guy with different haircuts" →
+  re-scope Jaisal's facial features + retrain (see D172).
+- **HARD TEST (built, user to run):** `utilities\hard_test_8_prompts_paste.txt` —
+  8 hard prompts (Jaisal: extreme left profile / extreme close-up / low-angle
+  arms-crossed / full-body pitch sprint / stadium crowd; Zidhan: night street
+  profile full-body / laughing close-up; BOTH: floodlit pitch football action).
+  COMPACT identity descriptions (LoRA must carry identity, not the long prompt).
+  Methodology: phosphene.cc acceptance test (web) — recognizable without the
+  prompt? locked traits survive expression/angle/framing? Paste into the node,
+  prefix `krea2_hard_test`, queue. Then analyze failures → next-LoRA changes
+  (dataset variety: angles/expressions/framing/context; possibly split combined
+  LoRA into two single-character LoRAs).
+- **Jaisal v2 face proposal (D172, awaiting user confirm):** keep wavy hair +
+  patchy beard + dark tee + Malayali skin; CHANGE face: longer oval, leaner
+  cheeks, defined angular jaw, thicker straighter brows, narrower straighter
+  nose, slightly deeper-set eyes (vs Zidhan's round full-cheeked soft jaw).
+  Then: face-lock → dataset → user retrains LoRA. Movie stage unchanged:
+  char LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
