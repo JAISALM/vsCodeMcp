@@ -445,6 +445,43 @@
   CLIPTextEncode widgets only. prompteach only for batch runs where the user
   confirms the rows are visible in the node before queueing.
 
+## D179 — Official ComfyUI Krea2 template adopted as the base pipeline (2026-10-23)
+- **User: "your way of structuring things is different from the comfyui default
+  workflow... its really a skill issue... i dont want to get embarassed infront of
+  others."** Official tutorial fetched (docs.comfy.org .md) + official template
+  `Comfy-Org/workflow_templates/templates/image_krea2_turbo_t2i.json` downloaded
+  to `utilities\official_image_krea2_turbo_t2i.json`.
+- **Official template structure (verified from the JSON):**
+  - Subgraph "Text to Image (Krea-2 Turbo)": UNETLoader `krea2_turbo_fp8_scaled`
+    → LoraLoaderModelOnly (style LoRA, darkbrush@0.8 example, OFF by default) →
+    KSampler **[seed, randomize, 8, 1, euler, simple, 1]** → VAEDecode;
+    CLIPLoader `qwen3vl_4b_fp8_scaled` type `krea2`; VAELoader
+    `qwen_image_vae`; **ConditioningZeroOut** (NO negative prompt);
+    **TextGenerate (LLM prompt expansion, ON by default, local llama.cpp)**;
+    StringConcatenate appends the LoRA trigger; ComfySwitchNode for
+    prompt_enhance/enable_lora.
+  - Top level: subgraph instance (14 widget values: prompt, enhance, thinking,
+    max_length, width, height, seed, enable_lora, lora_name, strength, trigger,
+    UNET, CLIP, VAE) + **ResolutionSelector** (1K–2K, 1024² default) +
+    SaveImage.
+  - **NO ModelSamplingFlux node in the official template** — plain euler/simple
+    cfg 1; the mu/shift is evidently handled by core for krea2.
+- **Root cause of pasty outputs (REVISED D176/D178):** our flat 12-node chain
+  (3 stacked LoRAs incl. famegrid, long keyword prompts, negative list,
+  color-finish node, prompteach) deviated from the official minimal structure.
+  Official look = SHORT natural-language prompt + LLM expansion + 8 steps cfg 1.
+- **Built `krea2_official_char_test.json`** (validated 0/0, 22 nodes): official
+  template AS-IS + only: user prompt = short Jaisal amateur-shot brief;
+  enable_lora ON; LoRA = `krea2fp_v2_ep64`@1.0; trigger `jeskvman`; seed 42;
+  prefix `krea2_official_char_test`. **USER TO RUN — llama-server 8100 must be
+  RUNNING (TextGenerate calls it).**
+- **If good → ALL future Krea2 work is built on this template** (character LoRA +
+  per-shot short prompts; the anchor sets too). If bad → fp8 path issue →
+  bf16 + Reddit.
+- **Open:** optional post-process chain for the Krea soft-film finish (decrease
+  contrast > grain > slight blur) — add after the template run if the user wants
+  it; verify node availability first.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy

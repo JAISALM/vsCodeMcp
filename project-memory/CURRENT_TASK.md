@@ -1146,6 +1146,19 @@ model (Qwen) updates memory + commits afterwards.
   (`krea2_lora_B`). USER TO RUN - A good -> our 3-LoRA stack (famegrid first
   suspect) is the problem; A soft -> fp8-turbo path is the ceiling (bf16 +
   Reddit). Rule: diagnostics NEVER use prompteach.
+- **OFFICIAL TEMPLATE ADOPTED (21:5x, D179):** user: "your way of structuring
+  things is different from the comfyui default workflow... skill issue... dont
+  want to get embarassed infront of others." Fetched official tutorial +
+  template `image_krea2_turbo_t2i.json` (saved utilities\official_image_krea2_
+  turbo_t2i.json). Official = subgraph [UNET turbo fp8 -> optional style LoRA
+  -> KSampler 8/cfg1/euler/simple -> VAEDecode] + ConditioningZeroOut (no
+  negative) + **TextGenerate LLM prompt expansion ON** + ResolutionSelector +
+  SaveImage; NO ModelSamplingFlux. **Built `krea2_official_char_test.json`
+  (0/0): template as-is + Jaisal short amateur-shot prompt + enable_lora ON +
+  LoRA krea2fp_v2_ep64@1.0 trigger jeskvman, seed 42.** USER TO RUN (llama-
+  server 8100 must be up). If good -> all future Krea2 work built on this
+  template; if bad -> bf16 + Reddit. Open: optional post-process chain
+  (contrast down > grain > slight blur).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
