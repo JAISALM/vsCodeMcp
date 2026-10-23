@@ -1014,19 +1014,31 @@ model (Qwen) updates memory + commits afterwards.
   descriptive prompts (same prefix `krea2_ab_B_v2`). Refreshing the tab keeps the
   unsaved canvas state → user "still doesn't see trigger words". Restarting ComfyUI
   would NOT help.
-- **BUILT `krea2_fair_test.json` (validated clean, 14 nodes):** v2 chain (char LoRA
-  `krea2fp_v2_ep64`@1.0 + realism@1.0 + famegrid@0.7, seed 42 randomize) with 8
-  prompts: [0-5] user's 6 Jaisal scenes VERBATIM with `jeskvman, ` prepended;
-  [6] `dlorman,` Zidhan solo in the SAME houseboat scene as Jaisal #2 (identity
-  control, description from CHARACTERS.md); [7] combined FAIR TEST (both men,
-  rainy street, both descriptions, "ONLY these two men"). FRESH SaveImage prefix
-  `krea2_fair_test` (counter restarts _00001 — no stale-file trap). Prompt source
-  file: `utilities\tmp_fair_test_prompts.json`. GOTCHA: PS `ConvertFrom-Json` on a
-  top-level array wraps in `{value, Count}` — unwrap or widgets_values serializes
-  as an object (UI reads no prompts).
-- **NEXT (user):** Workflows tab → open `krea2_fair_test` FRESH (new tab — do NOT
-  queue from the old canvas) → confirm 8 prompts → queue → send images, esp.
-  `krea2_fair_test_00007` (Zidhan solo) and `_00008` (combined fair test). Movie
+- **ROOT CAUSE of "prompts not visible" (10/23):** `PixaromaPromptEach` stores all
+  prompts in ONE hidden widget `PromptEachState` — on disk `widgets_values` =
+  single-element array whose element is a JSON state string
+  (`{"version":2,"prompts":[...],"text":"","split":"line","expand":true,
+  "trim":true,"skipEmpty":true,"cap":200,"wiredAt":"after"}`) — NOT an array of
+  prompt strings. My first build used an 8-string array → UI rendered the node
+  EMPTY, its re-save (08:48) clobbered the file with an empty state. Lesson now in
+  AGENTS.md (workflow-format section). Node source: `custom_nodes\ComfyUI-Pixaroma
+  \nodes\node_prompt_each.py` + `_prompt_each_helpers.py` (DEFAULT_STATE,
+  parse_state heals bad shapes to defaults; row rules: `#`=off, `[a|b]`=expand
+  both, `{a|b}`=random, cap 200).
+- **`krea2_fair_test.json` CLEAN REBUILD (final, validated):** rebuilt from clean
+  `krea2_ab_B_lora_v2.json` base (14 nodes), node 200 = state-blob widgets_values
+  (1 string elem) + `widgets_values_named.prompteach` = same blob. 8 prompts:
+  [1-6] user's 6 Jaisal scenes verbatim, ALL now saying "a short PATCHY BEARD"
+  (wording unified to match user's emphasis — Jaisal's beard is patchy/uneven per
+  `FACEFRONTAL_JAISAL_b_00001`), [7] `dlorman` Zidhan solo houseboat, [8] combined
+  fair test. SaveImage prefix `krea2_fair_test`. MCP validate clean (14 nodes, 0
+  errors). PS gotcha hit: `Add-Member -NoteProperty` is ambiguous here (use
+  hashtables); a failed rebuild had left node 200 EMPTY — the clean-base rebuild
+  fixed it.
+- **NEXT (user):** open `krea2_fair_test` FRESH (Workflows tab, new tab — the old
+  canvas is dead; if a tab already shows it empty, close that tab first) → node
+  should show 8 prompt ROWS (each with ON/OFF switch) → queue → send images, esp.
+  `krea2_fair_test_00007_` (Zidhan solo) and `_00008_` (combined fair test). Movie
   stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music
   D041).
 

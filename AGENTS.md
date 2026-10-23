@@ -281,6 +281,34 @@ Native `widgets_values` shapes (verified from native UI files 2026-08-27):
 **Native files have NO `widgets_values_named` key.** Do NOT add it — the UI ignores it
 and its presence is a marker of a machine-built (not UI-saved) file.
 
+### CRITICAL: `PixaromaPromptEach` stores prompts as a hidden STATE BLOB (2026-10-23 lesson)
+
+`PixaromaPromptEach` ("Prompt Each Pixaroma", ComfyUI-Pixaroma pack) has ONE hidden
+widget, `PromptEachState` (STRING). On disk, `widgets_values` is a SINGLE-ELEMENT
+array whose element is a JSON state string — NOT an array of prompt strings:
+
+```json
+"widgets_values": ["{\"version\":2,\"prompts\":[\"prompt1\",\"prompt2\"],\"text\":\"\",\"split\":\"line\",\"expand\":true,\"trim\":true,\"skipEmpty\":true,\"cap\":200,\"wiredAt\":\"after\"}"]
+```
+
+- An array of prompt strings is WRONG: the UI maps element[0] as the state blob,
+  fails to parse it, renders an EMPTY node, and its re-save clobbers the file with
+  an empty state. Symptom: "prompts not visible in the workflow" + file shrinks.
+- Also set `widgets_values_named.prompteach` to the SAME blob (the UI's custom
+  widget may prefer the named key; a UI re-save was found with it empty, which is
+  what made the node re-open empty).
+- Row rules inside `prompts`: leading `#` = row OFF; `[a|b]` = expand to BOTH
+  (expand=true default — keep prompts free of balanced brackets or use `\[`);
+  `{a|b}` = random one; cap default 200.
+- Source of truth for the node's widget layout:
+  `custom_nodes\ComfyUI-Pixaroma\nodes\node_prompt_each.py` (INPUT_TYPES: hidden
+  `PromptEachState`, default `"{}"`) and `_prompt_each_helpers.py`
+  (`DEFAULT_STATE`, `parse_state` heals wrong shapes to defaults).
+- GOTCHA (2026-10-23): rebuilding a node by copying properties —
+  `Add-Member -NoteProperty` is AMBIGUOUS in this PS (use hashtables instead); a
+  failed rebuild leaves an EMPTY node object in the file. Rebuilding from a clean
+  base file is safer than patching a UI-mangled file.
+
 **CRITICAL (2026-08-27): combo inputs must use `type='COMBO'`, NOT a static list.**
 The `type` field on a widget input (KSampler `sampler_name`/`scheduler`, LoadImage
 `image`, CLIPLoader `clip_name`/`type`/`device`, UNETLoader `unet_name`/`weight_dtype`,

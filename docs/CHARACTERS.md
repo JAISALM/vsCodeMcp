@@ -31,8 +31,10 @@ never prompt "top bun / topknot" for Zidhan.
 medium-brown natural skin, ROUND youthful face with softer rounded features and a
 masculine jaw, **MEDIUM-LENGTH WAVY dark hair worn DOWN and loose** around his
 neck and ears (natural, slightly messy — NOT tied up, NOT a bun, NOT a topknot,
-NOT a short haircut), **a sparse short BEARD on his chin and jaw** (sparse uneven
-dark patches, more than stubble, NOT clean-shaven, NOT a dense full beard), lean
+NOT a short haircut), **a short PATCHY BEARD on his chin and jaw** (clearly
+visible sparse uneven dark patches — some spots with short hairs, some nearly
+clean; more than clean-shaven, NOT a full even beard, short and uneven, not well
+groomed), lean
 and fit, NOT bulky, wearing a **plain dark t-shirt**. His face is clearly
 different from a man-bun man.
 
@@ -81,7 +83,7 @@ duplicate character, multiple people, watermark, logo, deformed face, bad eyes, 
 ### 1. Jaisal solo — scene template
 
 ```
-jeskvman, a candid phone snapshot of a 26-year-old young Malayali man from Kerala, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a sparse short BEARD on his chin and jaw (sparse uneven dark patches, more than stubble, NOT clean-shaven, NOT a dense full beard), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. [SCENE — pose, action, place, shot size, lighting]. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, looks like a real photo someone took on his phone, slight natural imperfections, a real ordinary person, ONLY ONE character, no other people, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.
+jeskvman, a candid phone snapshot of a 26-year-old young Malayali man from Kerala, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a short PATCHY BEARD on his chin and jaw (clearly visible sparse uneven dark patches, more than clean-shaven, NOT a full even beard, short and uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. [SCENE — pose, action, place, shot size, lighting]. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, looks like a real photo someone took on his phone, slight natural imperfections, a real ordinary person, ONLY ONE character, no other people, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.
 ```
 
 ### 2. Zidhan solo — scene template
@@ -93,7 +95,7 @@ dlorman, a candid phone snapshot of a young South Indian man, warm medium-brown 
 ### 3. FAIR TEST — both men in ONE picture (combined)
 
 ```
-jeskvman and dlorman standing side by side on a narrow rainy village street in Kerala, light rain falling, wet pavement, palms and houses in the background, medium shot from the waist up, both faces clearly visible, both in focus, natural ambient light, a real candid phone snapshot. The first man (jeskvman): 26-year-old young Malayali, warm medium-brown natural skin, ROUND youthful face, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears, a sparse short BEARD on his chin and jaw, lean and fit, wearing a plain dark t-shirt. The second man (dlorman): young South Indian man, face round and full-cheeked with a short strong jaw, hair a short black halal haircut — very short faded sides and back, a short neat crop on top, no waves, no bun — a full short dark beard, neatly trimmed and shaped, dense on the chin, jawline and upper lip, lean and slim, wearing a plain white t-shirt. ONLY these two men, no other people, candid unposed snapshot, slight natural imperfections, NOT a studio portrait, NOT a stock photo.
+jeskvman and dlorman standing side by side on a narrow rainy village street in Kerala, light rain falling, wet pavement, palms and houses in the background, medium shot from the waist up, both faces clearly visible, both in focus, natural ambient light, a real candid phone snapshot. The first man (jeskvman): 26-year-old young Malayali, warm medium-brown natural skin, ROUND youthful face, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears, a short PATCHY BEARD on his chin and jaw (uneven sparse dark patches), lean and fit, wearing a plain dark t-shirt. The second man (dlorman): young South Indian man, face round and full-cheeked with a short strong jaw, hair a short black halal haircut — very short faded sides and back, a short neat crop on top, no waves, no bun — a full short dark beard, neatly trimmed and shaped, dense on the chin, jawline and upper lip, lean and slim, wearing a plain white t-shirt. ONLY these two men, no other people, candid unposed snapshot, slight natural imperfections, NOT a studio portrait, NOT a stock photo.
 ```
 
 ---
