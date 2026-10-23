@@ -1035,18 +1035,23 @@ model (Qwen) updates memory + commits afterwards.
   errors). PS gotcha hit: `Add-Member -NoteProperty` is ambiguous here (use
   hashtables); a failed rebuild had left node 200 EMPTY — the clean-base rebuild
   fixed it.
-- **USER SAW "6 OLD PROMPTS" (09:03) — diagnosed:** the 6 old prompts exist ONLY in
-  the user's still-open `krea2_ab_B_lora_v2` canvas; neither file on disk has 6
-  (fair_test = 8, v2 = 3 trigger prompts; both verified). The UI was showing the
-  stale v2 canvas. Runner proof: the node's own `parse_state` + `build()` on the
-  file's blob → exactly 8 queued images, `text` input unwired.
-- **DELIVERY (two paths):** (A) `krea2_fair_test2.json` — byte-identical copy under
-  a FRESH name (no cached UI tab → guaranteed fresh load) → open in Workflows tab →
-  8 rows → queue. (B) paste fallback: `D:\models\vsCodeMcp\utilities\fair_test_8_
-  prompts_paste.txt` — 8 prompts one per line; paste next to the node's counter
-  (replaces all rows) on ANY canvas → queue. Close the old v2 tab to avoid
-  re-confusion. Movie stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 →
-  MiniMax H3 R2V (NO music D041).
+- **USER SAW "6 OLD PROMPTS IN BOTH FILES, EVEN AFTER COMFYUI RESTART" (09:16) —
+  ROOT CAUSE PROVEN:** both files on disk verified intact = 8 prompts each, last
+  write 08:56 (my writes, never clobbered), no `krea2_fair_test_v2.json` exists
+  (user's "v2" = my `krea2_fair_test2`). The 6-prompt canvas lives in the
+  BROWSER's canvas/workflow cache — the Workflows tab restores the cached canvas
+  instead of reading the file from disk; a ComfyUI server restart does NOT clear
+  the browser cache. File-based fix: close the stale canvas tab, then use the
+  folder-icon "Open" to load `krea2_fair_test2.json` straight from disk (bypasses
+  the Workflows-tab cache).
+- **BULLETPROOF PATH (no file loading at all):** the user's old v2 canvas already
+  has the correct chain (3 LoRAs, seed randomize, 10 steps, cfg 1, 1120x896,
+  color finish) — just PASTE into its prompt node: open
+  `D:\models\vsCodeMcp\utilities\fair_test_8_prompts_paste.txt` (8 prompts, one
+  per line), select all + copy, click next to the node's counter, paste → all rows
+  replaced with the 8 → optionally set SaveImage prefix to `krea2_fair_test` →
+  queue. Outputs then come from that canvas's counter. Movie stage unchanged:
+  LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
