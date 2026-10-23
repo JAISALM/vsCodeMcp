@@ -387,6 +387,35 @@
   next lever: Krea-specific Mu=1.15 sampler param (stock KSampler doesn't
   expose it — needs a Krea sampler node) + reference-image style transfer.
 
+## D177 — Official Krea2 sampling settings + missing ModelSamplingFlux node (2026-10-23)
+- **User: "something clearly wrong... the details are off" — asked for the full
+  workflow spec to post on Reddit.**
+- **Official Krea 2 repo (github.com/krea-ai/krea-2 README, verified):**
+  - **Turbo: 8 steps, CFG 0.0 (guidance disabled), mu 1.15 (timestep shift),
+    1K–2K resolution** (official example 2048×2048).
+  - **RAW: 52 steps, cfg 3.5, up to 1K** ("full sampler with classifier-free
+    guidance").
+  - "TRAIN on Raw and RUN on Turbo" (re-confirmed).
+- **ComfyUI detail (comfy.icu Krea2KSampler):** "Krea2 shares the exact same
+  **ModelSamplingFlux / shift=1.15** setup as Qwen-Image and the rest of the
+  Flux family" — in ComfyUI the mu shift is applied with a
+  `ModelSamplingFlux` node (shift 1.15), which was **MISSING from our chain**
+  (stock KSampler euler+simple only) → TOP suspect for pasty/detail-less
+  outputs.
+- **Actual chain (verified from links):** `55 UNETLoader
+  (krea2_turbo_fp8_scaled) → 303 krea2fp_v2_ep64@1.0 → 96 Krea2-realism-V2@1.0
+  → 97 famegrid_spicy_3167060@0.7 → 53 KSampler → 54 VAEDecode
+  (qwen_image_vae) → 302 FameGridColorFinish(1.0/0.6) → 29 SaveImage`; CLIP
+  `qwen3vl_4b_fp8_scaled` type `krea2` → 300/301 CLIPTextEncode (200
+  PixaromaPromptEach → 300); 82 EmptySD3LatentImage.
+- **Built `krea2_mu_test.json`** (validated 0/0): same chain + **node 58
+  ModelSamplingFlux(shift 1.15)** between 97 and 53, KSampler at official turbo
+  settings **8 steps, cfg 0**, 1920×1080. Paste file
+  `mu_test_3_prompts_paste.txt`. USER TO RUN — the decisive test of the
+  missing-shift hypothesis.
+- **Open:** if mu_test still soft → try bf16 turbo (fp8 quality check) and/or a
+  Krea two-stage sampler pack.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy

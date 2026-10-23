@@ -1125,6 +1125,15 @@ model (Qwen) updates memory + commits afterwards.
   `krea2_cine_test`. USER TO RUN. If still soft → next lever = Krea-specific
   Mu=1.15 sampler param (stock KSampler doesn't expose it — needs a Krea
   sampler node) + reference-image style transfer.
+- **OFFICIAL SETTINGS + MU-FIX (2026-10-23 20:5x, D177):** user asked for the
+  full spec for Reddit ("details are off"). Official Krea2 repo: Turbo =
+  **8 steps, cfg 0.0, mu 1.15, 1K-2K**; RAW = 52 steps cfg 3.5 ≤1K. ComfyUI
+  applies the mu shift via a **ModelSamplingFlux(shift 1.15)** node — which our
+  chain was MISSING (stock KSampler euler+simple only). **Built
+  `krea2_mu_test.json`** (validated 0/0): same chain (55→303→96→97) + node 58
+  ModelSamplingFlux(1.15) → KSampler at 8 steps cfg 0, 1920×1080. Paste file
+  `mu_test_3_prompts_paste.txt`. USER TO RUN — decisive missing-shift test.
+  If still soft → bf16 turbo fp8-comparison + Krea two-stage sampler pack.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
