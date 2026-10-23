@@ -309,6 +309,21 @@ array whose element is a JSON state string — NOT an array of prompt strings:
   failed rebuild leaves an EMPTY node object in the file. Rebuilding from a clean
   base file is safer than patching a UI-mangled file.
 
+**HAND-PASTE RULE (2026-10-23, user order — applies to EVERY build):** the node's
+state blob does not reliably re-populate in the UI (interactions clobber it,
+browser-cached canvases survive restarts), so the user PASTES the prompts into the
+node manually. Therefore, every time a workflow with a `PixaromaPromptEach` node
+is built, the agent MUST, in the same reply:
+1. **Supply the prompts copy-paste ready** — one prompt per line, in a code block,
+   in node order (the user pastes next to the counter; the paste replaces all
+   rows). No numbering, no blank lines, no commentary inside the block.
+2. **Save a paste file** `D:\models\vsCodeMcp\utilities\<workflow>_prompts_paste.txt`
+   — one prompt per line, UTF-8 (same content as the code block).
+The on-disk state blob is still built per the rules above — the hand-paste is the
+RUNTIME path, not a replacement for the file. Existing paste files:
+`hard_test_8_prompts_paste.txt`, `fair_test_8_prompts_paste.txt`,
+`cine_test_3_prompts_oneline.txt`.
+
 **CRITICAL (2026-08-27): combo inputs must use `type='COMBO'`, NOT a static list.**
 The `type` field on a widget input (KSampler `sampler_name`/`scheduler`, LoadImage
 `image`, CLIPLoader `clip_name`/`type`/`device`, UNETLoader `unet_name`/`weight_dtype`,
