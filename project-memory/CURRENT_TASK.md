@@ -1082,6 +1082,27 @@ model (Qwen) updates memory + commits afterwards.
 - **TIMELINE (Nov 22):** face decision TODAY → anchor set day 2-4 → per-shot ref
   set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer + final QC.
   Only slack: the face decision is the one thing that cannot slip.
+- **ENGINE PIVOT (user, 19:5x IST — D174):** "output looks like paste, no skin
+  texture, no realism... how will I create a movie displayed on big screen with
+  this level of detail?" → Krea2 (turbo OR raw) = engine ceiling — its documented
+  aesthetic is the brush-stroke/painterly look (D021); no prompt/LoRA fixes that.
+  **Production-stills engine = Qwen-Image-2.1** — all on disk: UNET
+  `qwen_image_2.1_bf16` + VAE `qwen_image_2.1_vae_bf16` + CLIP
+  `qwen3vl_8b_fp8_scaled` (type `qwen_image`); proven settings from 09j subgraph
+  (25 steps, cfg 1, euler, simple). Already wired in `09j_QWEN21_JAISAL_sheet` +
+  `09k_QWEN21_ZIDANE_sheet`; also on disk: `qwen_image_edit_2511_bf16` +
+  `qwen-image-edit-2511-multiple-angles-lora` (bonus multi-angle edit LoRA).
+  **Built `qwen21_face_test.json`** (MCP-validated 0 errors; 2 benign warnings =
+  standard img2img IMAGE→latent conversion): 2-branch i2i from face frontals
+  (copied to input/ as `jaisal_face_frontal.png` / `zidane_face_frontal.png`),
+  denoise 0.55, 25 steps cfg 1, photorealistic monsoon-street prompt +
+  anti-painterly negative. Save prefixes `qwen21_face_{JAISAL,ZIDANE}`. USER TO
+  RUN TODAY — compare skin texture vs Krea2 outputs. If face doesn't hold on
+  Qwen: (a) character LoRA on the Qwen-Image base (Fizgig) trained on the anchor
+  set — THAT is where the retrain effort now goes, (b) the multiple-angles edit
+  LoRA already on disk, (c) PuLID/IP-Adapter-style pack. Krea2 stays the
+  iteration/concept engine. All identity work (faces, descriptions, triggers,
+  scenes, R2V pipeline) transfers unchanged — only the stills renderer swaps.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

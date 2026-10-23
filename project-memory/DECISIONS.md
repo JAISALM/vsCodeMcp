@@ -302,6 +302,38 @@
 - **Timeline (Nov 22):** face decision today → anchor set day 2-4 → per-shot ref
   set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer.
 
+## D174 — Big-screen quality bar + Qwen-Image-2.1 as production-stills engine (2026-10-23)
+- **User's bar:** Krea2 outputs are "pastey, no skin texture, no realism — nothing
+  felt real"; face-similarity alone is NOT a reason to accept them. Film must
+  survive BIG-SCREEN display.
+- **Diagnosis:** Krea2 (turbo AND raw) is a fast/stylized model — its documented
+  aesthetic is the brush-stroke/painterly look (D021). That is an ENGINE ceiling,
+  not a prompt or LoRA problem: no prompting gives Krea2 real skin texture.
+- **Decision: production stills engine = Qwen-Image-2.1.** All on disk: UNET
+  `qwen_image_2.1_bf16` + VAE `qwen_image_2.1_vae_bf16` + CLIP
+  `qwen3vl_8b_fp8_scaled` (loader type `qwen_image`). Proven settings from the
+  09j subgraph: **25 steps, cfg 1, euler, simple**. Already wired in
+  `09j_QWEN21_JAISAL_sheet` + `09k_QWEN21_ZIDANE_sheet`. Bonus on disk:
+  `qwen_image_edit_2511_bf16` + `qwen-image-edit-2511-multiple-angles-lora`
+  (multi-angle edit LoRA).
+- **Built `qwen21_face_test.json`** (MCP-validated 0 errors; 2 benign warnings =
+  the standard img2img IMAGE→latent conversion): 2-branch i2i from the locked
+  face frontals (copied to `input\` as `jaisal_face_frontal.png` /
+  `zidane_face_frontal.png`), denoise 0.55, 25 steps cfg 1, photorealistic
+  monsoon-street prompt + anti-painterly negative. Prefixes
+  `qwen21_face_{JAISAL,ZIDANE}`. USER TO RUN TODAY — the side-by-side skin-texture
+  verdict vs the Krea2 outputs.
+- **Role split:** Krea2 = iteration/concept engine (fast, cheap, style);
+  Qwen-Image-2.1 = production stills (anchor set + per-shot reference set that
+  R2V animates). All identity work (faces, descriptions, triggers, scenes, R2V
+  pipeline, NO-music rule) transfers unchanged — only the stills renderer swaps.
+- **If the face doesn't hold on Qwen i2i:** (a) character LoRA on the
+  Qwen-Image base (Fizgig) trained on the anchor set — the LoRA-retrain effort
+  now belongs HERE, not on Krea2; (b) the multiple-angles edit LoRA already on
+  disk; (c) a PuLID/IP-Adapter-style identity pack.
+- **Timeline unchanged (Nov 22)** — the engine swap is a same-day decision, not a
+  restart.
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy
