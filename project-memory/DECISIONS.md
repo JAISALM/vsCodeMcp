@@ -482,6 +482,38 @@
   contrast > grain > slight blur) — add after the template run if the user wants
   it; verify node availability first.
 
+## D180 — Recipe-vs-resolution A/B: old realism recipe re-run at 2MP (2026-10-23)
+- **User ran official-template-style 2K portrait (1152×2048, prefix
+  `krea2_t2i_face`, 5 face shots) — identity consistent (same man across all 5),
+  but user says the old realism-workflow outputs were better. User theory: "2MP/3MP
+  generations make it look good, not 1MP — main reason of this flop."**
+- **Checked the old workflows (specs):**
+  - `krea2_t2i_char1.json` (made the canonical `krea2_char1_face_*` refs,
+    untouched since Oct 8): turbo fp8 + **Krea2-realism-V2@1.0 +
+    famegrid_spicy@0.7 ONLY (no character LoRA, no trigger — identity is the
+    long text description)** + **FameGridColorFinish(1.0/0.6)** + KSampler
+    10/cfg1/euler/simple + **896×1120 (1MP)** + 6 long "candid phone snapshot"
+    prompts (no jeskvman trigger).
+  - fair_test/ab_B (later): + character LoRA `krea2fp_v2_ep64`@1.0 + jeskvman
+    trigger, 1120×896.
+  - Official template: character LoRA only, 8/cfg1, no finish, no negative.
+- **Key insight:** the "good" old outputs vs the 2MP template outputs differ in:
+  realism LoRA, famegrid LoRA, color-finish node, 10 vs 8 steps, long-text
+  identity (no trigger/LoRA identity). Resolution was HIGHER in the new run
+  (2.36MP vs 1MP) — so the MP theory alone cannot explain the difference; the
+  RECIPE is the variable.
+- **Built `krea2_realism_2mp.json`** (validated 0/0) = old krea2_t2i_char1
+  recipe VERBATIM (same 6 prompts, same 2 LoRAs, same finish, 10/cfg1) with
+  ONLY resolution changed 896×1120 → 1152×2048. prompteach in state-blob
+  format + paste file `realism_2mp_prompts_paste.txt` (6 prompts).
+  **USER TO RUN** (paste the 6 prompts per the hand-paste rule).
+- **Interpretation:** compare `krea2_realism_2mp_00001..6` against the old
+  `krea2_char1_face_*`: if 2MP ≈ or > 1MP → resolution is a safe lever (user's
+  theory partly right) and the recipe (realism+famegrid+finish) is the quality
+  driver; if 1MP was better → keep the recipe at 896×1120.
+- **Face note:** the old recipe's face matches the D171 lock (round, youthful)
+  better than the character-LoRA 2MP set (leaner, more angular, fuller beard).
+
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
   houseboat / auto-rickshaw), Zidhan 3/3 (same 3 scenes), combined 2/2 (rainy

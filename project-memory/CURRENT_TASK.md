@@ -1159,6 +1159,19 @@ model (Qwen) updates memory + commits afterwards.
   server 8100 must be up). If good -> all future Krea2 work built on this
   template; if bad -> bf16 + Reddit. Open: optional post-process chain
   (contrast down > grain > slight blur).
+- **RECIPE VS RESOLUTION A/B (D180):** user ran template-style 2K portrait
+  (1152x2048, prefix krea2_t2i_face, 5 consistent face shots) but says the OLD
+  realism workflows were better; user theory: 2MP/3MP > 1MP is the main reason.
+  Checked old specs: krea2_t2i_char1 = turbo fp8 + realism@1.0 + famegrid@0.7
+  (NO char LoRA, NO trigger - long text identity) + FameGridColorFinish(1.0/0.6)
+  + 10/cfg1 + 896x1120 + 6 long candid-snapshot prompts. New 2MP run already
+  had MORE resolution, so the RECIPE is the variable, not MP. **Built
+  `krea2_realism_2mp.json` (0/0): old recipe verbatim, ONLY resolution 896x1120
+  -> 1152x2048**, prompteach state-blob + paste file
+  `realism_2mp_prompts_paste.txt` (6 prompts). USER TO RUN (paste 6 prompts).
+  Compare vs old krea2_char1_face_*: 2MP good -> MP is a safe lever; 1MP
+  better -> keep recipe at 896x1120. Old recipe face matches D171 lock better
+  than the char-LoRA 2MP set.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
