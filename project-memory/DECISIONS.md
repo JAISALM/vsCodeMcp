@@ -514,6 +514,50 @@
 - **Face note:** the old recipe's face matches the D171 lock (round, youthful)
   better than the character-LoRA 2MP set (leaner, more angular, fuller beard).
 
+## D172 (RESOLVED) — Jaisal's final face (2026-10-23)
+- **User: "krea2_realism_2mp_4_00001_ this should be jaisals final image."**
+- **Jaisal's final face = `krea2_realism_2mp_4` (campus pathway frontal, run
+  2ca0eafc-3fb3-4bb2-b9b7-619d46c9fee0)** — round youthful face, medium wavy dark
+  hair down, sparse short beard, warm medium-brown skin, plain dark t-shirt.
+  The v2 proposal (leaner/older) is CLOSED — the user chose the rounder young
+  face. Face-locked reference copied to `ComfyUI\input\jaisal_face_locked.png`.
+- Zidhan (char2) face is still UNRESOLVED — needs the same lock pass.
+
+## D182 — Cine-max stack = top Krea2 quality on this system (2026-10-23)
+- **Built + validated (0/0) + ran `krea2_cine_max.json` (prompt
+  3f88a7c2-9f84-4fca-846f-7d09b4aafb12): 3 cinematic frames, 2048×1152 16:9,
+  face-locked to jaisal_face_locked.png. User's ask: "push the limits to the max,
+  top quality krea2 can produce on our system."**
+- **THE STACK (all levers at max):**
+  - UNET `krea2_turbo_bf16.safetensors` (full precision, not fp8 — fp8 ceiling
+    was suspect #4)
+  - **Official Krea 2 Turbo sigma schedule** via pack node
+    `Krea2TurboReferenceSigmaSchedulerFromLatent` (Krea2T-Enhancer pack; mu=1.15,
+    8 steps, denoise 1.0; model + same latent in; SIGMAS + LATENT out)
+    → **SamplerCustom** (core) with `KSamplerSelect` ["euler"] → sampler input,
+    sigmas + latent from the sigma node, cfg 1.0
+  - **Face lock:** LoadImage → VAEEncode → `Krea2EditModelPatch` (comfyui-krea2edit)
+    with `source_image`+`vae` connected (the **blur-proof pixel-space path** —
+    fixes blur from resolution mismatches), ref_boost 4.0, fit_mode 'fit';
+    `Krea2EditGroundedEncode` (pos + neg) carry ref image + prompt
+  - LoRAs: `krea2_identity_edit_v1_2.safetensors` @1.0 (face preservation) +
+    `Krea2_Cinematic_Artstyle.safetensors` @0.8 (cinematic style, D025)
+  - `Krea2T-Enhancer-Advanced` (note HYPHENATED class name) text_scale 1.5
+    (prompt adherence)
+  - Resolution 2048×1152 (2K 16:9 — within official 1K–2K turbo range)
+  - Negative: the "plastic, waxy skin, airbrushed..." list
+- **Wiring gotchas (verified):** KSamplerAdvanced has NO sigmas input in this
+  ComfyUI version — use **SamplerCustom** (inputs: model, positive, negative,
+  sampler(SAMPLER), sigmas(SIGMAS), latent_image; widgets [add_noise,
+  noise_seed, cfg]). The `sampler` input is REQUIRED and must come from
+  `KSamplerSelect` — nothing else outputs SAMPLER. TEnhancer class name is
+  `Krea2T-Enhancer-Advanced` (hyphenated), NOT the Python class name.
+- **Result:** 3/3 completed — backwater golden hour (3f88a7c2_000), monsoon
+  close-up (3f88a7c2_002), dusk street (3f88a7c2_001) in
+  data\cine_max_run\. Face held in all 3 (closest in the close-up). 2K 16:9 HD,
+  cinematic grade, real skin detail — the best Krea2 output on this system to
+  date. This is the anchor-frame recipe for the movie.
+
 ## D181 — All test workflows use visible prompt nodes; prompteach retired (2026-10-23)
 - **User: "i didnt even ran krea2_t2i_face / i didnt even ran image_krea2_turbo_t2i
   because the prompt is bad/old / there is an issue with how you update the prompt

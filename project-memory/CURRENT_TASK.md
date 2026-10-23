@@ -1194,6 +1194,13 @@ model (Qwen) updates memory + commits afterwards.
   quality = the "better" old-recipe look. File-driven runs work end-to-end (no
   canvas/paste). AWAITING USER: (1) pick 3 anchor frames (suggested 002/004/000),
   (2) confirm this face = Jaisal final face (settles D172). Then: face-lock anchors
+- **D172 RESOLVED + CINE-MAX STACK (D182):** user picked krea2_realism_2mp_4
+  (campus frontal) as Jaisal's FINAL face (v2 proposal closed). Built + ran
+  krea2_cine_max.json (0/0): turbo BF16 + identity-edit + Cinematic_Artstyle@0.8
+  + TEnhancer(text_scale 1.5) + Krea2EditModelPatch blur-proof path + OFFICIAL
+  turbo sigma schedule (pack node) + SamplerCustom, 2048x1152 16:9, 3 cinematic
+  briefs - 3/3 frames in data\cine_max_run\, face held in all 3. This is the
+  anchor-frame recipe. NEXT: Zidhan face lock -> anchor sets -> R2V (no music).
   (identity-edit) -> R2V per shot. Resolution chase CLOSED per user.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
