@@ -1077,32 +1077,34 @@ model (Qwen) updates memory + commits afterwards.
   identity edit (D021) → (3) MiniMax H3 R2V 2-3 refs + short prompts, NO music
   (D020/D041) → (4) SFX-only audio + assembly + color. The VIDEO inherits faces
   from the reference images — that IS the consistency mechanism. LoRA retrain
-  DEMOTED to optional reinforcement (movie does not wait for it); if trained,
-  dataset = anchor set with angle/expression/framing variety.
+  PROMOTED (D175): retrain character LoRAs on the RAW base (official Krea
+  workflow); dataset = anchor set with angle/expression/framing variety.
 - **TIMELINE (Nov 22):** face decision TODAY → anchor set day 2-4 → per-shot ref
   set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer + final QC.
   Only slack: the face decision is the one thing that cannot slip.
-- **ENGINE PIVOT (user, 19:5x IST — D174):** "output looks like paste, no skin
-  texture, no realism... how will I create a movie displayed on big screen with
-  this level of detail?" → Krea2 (turbo OR raw) = engine ceiling — its documented
-  aesthetic is the brush-stroke/painterly look (D021); no prompt/LoRA fixes that.
-  **Production-stills engine = Qwen-Image-2.1** — all on disk: UNET
-  `qwen_image_2.1_bf16` + VAE `qwen_image_2.1_vae_bf16` + CLIP
-  `qwen3vl_8b_fp8_scaled` (type `qwen_image`); proven settings from 09j subgraph
-  (25 steps, cfg 1, euler, simple). Already wired in `09j_QWEN21_JAISAL_sheet` +
-  `09k_QWEN21_ZIDANE_sheet`; also on disk: `qwen_image_edit_2511_bf16` +
-  `qwen-image-edit-2511-multiple-angles-lora` (bonus multi-angle edit LoRA).
-  **Built `qwen21_face_test.json`** (MCP-validated 0 errors; 2 benign warnings =
-  standard img2img IMAGE→latent conversion): 2-branch i2i from face frontals
-  (copied to input/ as `jaisal_face_frontal.png` / `zidane_face_frontal.png`),
-  denoise 0.55, 25 steps cfg 1, photorealistic monsoon-street prompt +
-  anti-painterly negative. Save prefixes `qwen21_face_{JAISAL,ZIDANE}`. USER TO
-  RUN TODAY — compare skin texture vs Krea2 outputs. If face doesn't hold on
-  Qwen: (a) character LoRA on the Qwen-Image base (Fizgig) trained on the anchor
-  set — THAT is where the retrain effort now goes, (b) the multiple-angles edit
-  LoRA already on disk, (c) PuLID/IP-Adapter-style pack. Krea2 stays the
-  iteration/concept engine. All identity work (faces, descriptions, triggers,
-  scenes, R2V pipeline) transfers unchanged — only the stills renderer swaps.
+- **ENGINE DECISION REVISED (user, 19:5x IST — D175 SUPERSEDES the D174 pivot):**
+  "Krea2 is the best model we have for realism — check any forums... we are
+  ditching it blindly because of a skill issue." → **Krea2 STAYS the production
+  engine.** Official backing (krea.ai/krea-2-open-source): Krea 2 = "the most
+  aesthetic open-source image model"; official pairing = "Train LoRAs on RAW,
+  then run them fast on Turbo" (Turbo = fast polished t2i; RAW = malleable base
+  for LoRA training; community reviews agree: train on RAW, LoRA transfers
+  between the pair).
+- **Root cause of the pasty/soft outputs = USAGE, not the model:** everything
+  ran on `krea2_turbo_fp8` at 10 steps / cfg 1 (fast lane), and the character
+  LoRAs (`krea2fp_*`) were trained on the TURBO fp8 base.
+- **THE FIX:** (1) RETRAIN character LoRAs on `krea2_raw_bf16` (Fizgig) — now
+  the OFFICIAL recommendation; dataset = anchor set with angle/expression/
+  framing variety (D173). (2) Production generation on RAW: **40 steps, cfg 3-4,
+  real negatives** (documented settings). Turbo stays the fast iteration lane.
+- **Evidence today:** `krea2_raw_qtest.json` (same chain, RAW UNet, 40 steps,
+  cfg 3.5, 3 identical hard prompts — also tests whether the existing
+  turbo-trained LoRA still binds on RAW) — USER TO RUN. `qwen21_face_test.json`
+  (built, validated) demoted to FALLBACK COMPARISON only — Qwen-Image-2.1
+  (`qwen_image_2.1_bf16` + VAE + `qwen3vl_8b_fp8_scaled` type `qwen_image`,
+  25 steps cfg 1; already wired in 09j/09k; plus
+  `qwen-image-edit-2511-multiple-angles-lora` on disk) stays available if Krea2
+  RAW still disappoints.
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"

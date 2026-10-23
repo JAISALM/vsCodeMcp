@@ -296,9 +296,10 @@
   identity edit (D021) → (3) MiniMax H3 R2V 2-3 refs + short prompts, NO music
   (D020/D041) → (4) SFX-only audio + assembly. The video inherits faces from the
   reference images — that IS the consistency mechanism for the film.
-- **LoRA retrain DEMOTED:** optional reinforcement, NOT the consistency anchor —
-  the movie does NOT wait for it. If trained: dataset = anchor set with
-  angle/expression/framing variety (phosphene.cc methodology), not frontals only.
+- **LoRA retrain — see D175:** originally demoted here; PROMOTED by D175 (retrain
+  character LoRAs on the RAW base — the official Krea workflow). Dataset =
+  anchor set with angle/expression/framing variety (phosphene.cc methodology),
+  not frontals only.
 - **Timeline (Nov 22):** face decision today → anchor set day 2-4 → per-shot ref
   set day 5-10 → R2V video week 3 → SFX/assembly week 4 → buffer.
 
@@ -333,6 +334,34 @@
   disk; (c) a PuLID/IP-Adapter-style identity pack.
 - **Timeline unchanged (Nov 22)** — the engine swap is a same-day decision, not a
   restart.
+
+## D175 — Krea2 STAYS the production engine; fix = RAW-based LoRA + RAW generation (2026-10-23)
+- **User's call (19:5x IST):** "Krea2 is the best model we have for realism —
+  check any forums... I don't know how we're ditching it blindly because of a
+  skill issue." → **Krea2 is NOT ditched.** D174's Qwen-Image-2.1 pivot is
+  demoted to fallback/comparison only.
+- **Official backing (krea.ai/krea-2-open-source):** Krea 2 = "the most
+  aesthetic open-source image model available"; official pairing: **Turbo for
+  fast polished t2i, RAW as the malleable base for LoRA training — "Train LoRAs
+  on RAW, then run them fast on Turbo."** Community reviews agree (buildfastwithai:
+  "Train your LoRA on Krea 2 Raw — the undistilled base gives your fine-tuning
+  room to move"; Raw/Turbo designed to work together, LoRA transfer between them).
+- **Root cause of the "pastey, no skin texture" outputs = USAGE, not the model:**
+  everything ran on `krea2_turbo_fp8` at 10 steps / cfg 1 (the fast lane), and
+  the character LoRAs (`krea2fp_*`) were trained on the TURBO fp8 base — Krea's
+  official workflow trains character LoRAs on RAW.
+- **Fix (quality path):** (1) RETRAIN character LoRAs on `krea2_raw_bf16`
+  (Fizgig) — the user's retrain wish is now the OFFICIAL recommendation; dataset
+  = anchor set with angle/expression/framing variety (D173 methodology).
+  (2) Production generation on RAW: **40 steps, cfg 3-4, real negatives**
+  (settings already documented in our workflow notes). Turbo stays as the fast
+  iteration lane (RAW-trained LoRA transfers to it).
+- **Evidence today:** `krea2_raw_qtest.json` (same chain, RAW UNet, 40 steps,
+  cfg 3.5, existing negative, 3 identical hard prompts) — user to run; also
+  shows whether the existing turbo-trained LoRA still binds on RAW.
+  `qwen21_face_test.json` kept as fallback comparison only.
+- **Unchanged:** Jaisal v2 face decision (D172, still awaiting user confirm),
+  reference-driven movie chain (D173), Nov 22 timeline.
 
 ## D172 — Fair test round 2 verdict + face-similarity problem + re-scope plan (2026-10-23)
 - **Fair test round 2 (balanced 3/3/2) — 8/8 HELD:** Jaisal 3/3 (backwater path /
