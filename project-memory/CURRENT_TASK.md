@@ -1009,12 +1009,26 @@ model (Qwen) updates memory + commits afterwards.
   (`10a_frontal_base_jaisal.json` node 300/301, `10a_frontal_base_zidane.json`
   node 300/301), ready-to-use scene templates (trigger first), and the combined
   2-person FAIR TEST prompt.
-- **NEXT (user):** fair test = queue the combined prompt (CHARACTERS.md §3) in the
-  v2 workflow (UI prompts, then SAVE the workflow) → 1 image with both men → judge
-  if `dlorman` finally shows the buzz+beard face next to Jaisal. If face-2 still
-  collapses → scene-binding issue (Kerala words pull jaisal) → test zidane with a
-  neutral scene first. Movie stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0
-  → MiniMax H3 R2V (NO music D041).
+- **WORKFLOW FILE TRAP explained (10/23):** on-disk `krea2_ab_B_lora_v2.json`
+  (last write 7:25) = my 3 TRIGGER prompts; user's UI canvas = their 6 UN-SAVED
+  descriptive prompts (same prefix `krea2_ab_B_v2`). Refreshing the tab keeps the
+  unsaved canvas state → user "still doesn't see trigger words". Restarting ComfyUI
+  would NOT help.
+- **BUILT `krea2_fair_test.json` (validated clean, 14 nodes):** v2 chain (char LoRA
+  `krea2fp_v2_ep64`@1.0 + realism@1.0 + famegrid@0.7, seed 42 randomize) with 8
+  prompts: [0-5] user's 6 Jaisal scenes VERBATIM with `jeskvman, ` prepended;
+  [6] `dlorman,` Zidhan solo in the SAME houseboat scene as Jaisal #2 (identity
+  control, description from CHARACTERS.md); [7] combined FAIR TEST (both men,
+  rainy street, both descriptions, "ONLY these two men"). FRESH SaveImage prefix
+  `krea2_fair_test` (counter restarts _00001 — no stale-file trap). Prompt source
+  file: `utilities\tmp_fair_test_prompts.json`. GOTCHA: PS `ConvertFrom-Json` on a
+  top-level array wraps in `{value, Count}` — unwrap or widgets_values serializes
+  as an object (UI reads no prompts).
+- **NEXT (user):** Workflows tab → open `krea2_fair_test` FRESH (new tab — do NOT
+  queue from the old canvas) → confirm 8 prompts → queue → send images, esp.
+  `krea2_fair_test_00007` (Zidhan solo) and `_00008` (combined fair test). Movie
+  stage unchanged: LoRA + `Krea2-realism-V2`@~0.5-1.0 → MiniMax H3 R2V (NO music
+  D041).
 
 ## LTX-2.5 VFX PIPELINE doc created (user, 2026-10-21, D169)
 - **`docs\VFX_PIPELINE_LTX25.md`** — the full Lightricks LTX-2.5 IC-LoRA "VFX week"
