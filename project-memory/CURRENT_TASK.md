@@ -1223,3 +1223,11 @@ model (Qwen) updates memory + commits afterwards.
   community) — flagged for the weekly check.
 - **Monitoring:** weekly schedule set (Mondays 09:00 IST, `schedule-6479d179`) — diff
   the Lightricks HF org against the doc's timeline + watch for X posts.
+
+## 2026-10-23 - quality loop (user back from isha)
+- cine_v2 community-recipe t2i (e6b8ea11): quality fixed, pasted-head gone, face
+  drifted. Face-lock i2i (20cc281e) pulls face back to Jaisal, scene preserved.
+- E:\Krea2 4.6GB image download STALLED at 1.5 MB after ~15 min - user to restart.
+- 2-pass pipeline is the new anchor recipe (see EXPERIMENTS 2026-10-23 entry).
+- TODO: user verdict on 20cc281e_000 (face-lock frame) -> tune ref_boost if
+  needed -> all 3 scenes through 2-pass -> Zidhan face -> anchor sets.
