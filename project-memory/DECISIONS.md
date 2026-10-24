@@ -1346,3 +1346,22 @@
 - **Status:** ACTIVE hard rule — applies to every future session. Read-only MCP inspection
   (validate_workflow, object_info, job status reads of USER-queued jobs) stays allowed.
   Added to AGENTS.md ("NO Agent-Run ComfyUI Workflows" section).
+
+## D193 — Item-7 (Ideogram v4 ultrawide): prompts/film language only, no settings, Krea2 adaptation (2026-10-24, user directive)
+
+- **Decision:** for the ultrawide Ideogram v4 reddit item (1ucdyvr / Civitai 2674413), extract
+  ONLY the prompts and film language (structured JSON prompt schema, example prompts, negative
+  prompt, ultrawide resolution ladder). Do NOT apply the workflow's settings to any of our
+  workflows; do NOT download the Ideogram-4 model set. Adapt the film language for **Krea2**
+  (natural-language conversion: hex→color words, bbox→spatial language, 21:9 aspect) when the
+  Krea2 batch is next run.
+- **Reason (user, 2026-10-24):** "you are really bad at it" — their settings are tuned for
+  Ideogram v4 + their hardware; our Krea2 one-click batch already has its own tuned settings.
+  Only the prompt craft transfers.
+- **Alternatives considered:** full workflow install (rejected — settings mismatch);
+  Ideogram-4 local run (rejected — separate model family, no user request).
+- **Reference:** `docs\IDEOGRAM_V4_ULTRAWIDE_FILM_LANGUAGE.md` (schema, examples,
+  paste-ready Krea2 template, community notes). HF prompt dataset deleted (404); gallery
+  post [civitai.com/posts/29358642](https://civitai.com/posts/29358642) PNGs carry the full
+  prompts in their metadata.
+- **Status:** Active (permanent for this item).

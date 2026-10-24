@@ -4,6 +4,13 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `docs\IDEOGRAM_V4_ULTRAWIDE_FILM_LANGUAGE.md` — Ultrawide cinematic Ideogram v4 film language (P9 item 7, reddit 1ucdyvr → Civitai 2674413)
+
+- **USER RULE (verbatim): KEEP prompts/film language ONLY — do NOT apply their settings — adapt for Krea2 later.** Nothing from the workflow applied; Ideogram-4 model set NOT downloaded; v3.0 workflow kept as reference at `E:\minimax_workflow\ideogramV4Workflow_v30.json` (NOT in runnable workflows).
+- **Extracted (→ doc):** the structured **JSON prompt schema** (high_level / style{aesthetics, lighting, photo, medium, color_palette[hex]} / compositional{background, elements[{type obj|text, bbox[y,x,y,x] 0–1000 grid, desc, palette}]}) = Ideogram v4's bbox spatial control + in-image text rendering; full seashell-portrait example prompt; 4 verbatim film-language sections from the workflow (subject / background / camera / lighting); long-form natural-language example; the 2176-char negative prompt (image + temporal + anatomy — reference for our own prompts); D041-safe speech-only audio line; ultrawide resolution ladder (UWHD 2560×1080 → UW4K 5120×2160).
+- **Krea2 ADAPTATION (doc §5):** JSON → natural-language blocks (hex → color WORDS, bbox → top/middle/bottom × left/center/right spatial language, `type:text` → "render the text ... in the {position}"), 21:9 aspect on the one-click Krea2 workflow, + our "ONLY ONE character" quirk rule. Paste-ready template in the doc. Movie relevance: the "memory-laden hall / ghostly portrait panels" example = strongest candidate for a Jaisal/Zidhan ultrawide shot.
+- **Community:** settings tip (Euler not res_multistep — NOT APPLIED) · full prompt collection HF dataset **DELETED** (404) · gallery post [civitai.com/posts/29358642](https://civitai.com/posts/29358642) PNGs carry full prompts in metadata (best remaining source).
+
 ## 2026-10-24 — `withers_has_big_nattys_LOCAL.json` — SEAMLESS VLOG 1-CLICK (P9 item 6, reddit 1x84uym → `roycho87/Seamless_vlog_workflow`)
 
 - **Purpose:** one-click seamless vlog — consecutive H3 R2V generations flow seamlessly via **CLOWN ANCHORING**: the latent from the video IN FRONT of a new generation is unpacked, placed at the END of the new generation and masked (`MiniMaxH3MotionContext`/`SaveLatent`/`LoadLatent` + `H3BlockTailAnchor`) = context motion. "Drop first 17 frames" switch (author fixed a sync bug for it). Audio: `LoadAudioBatchFromDir` batch-loads a directory; optional Whisper transcription (`TT-*`) + `FL_ChatterboxVC` re-voice branches (switches included — keep OFF for D041).
