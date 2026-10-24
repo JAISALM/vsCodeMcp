@@ -4,6 +4,70 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — H3-LongTakeNoCuts pack INSTALLED + example workflows copied (long oner / anti-degradation for MiniMax H3 motion-context)
+
+**Pack:** `xyzDist/H3-LongTakeNoCuts` cloned to
+`E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\H3-LongTakeNoCuts` (git, depth 1).
+**NOT LOADED YET — needs a ComfyUI restart** to register the 4 nodes (do NOT restart while the user
+is mid-Klein-workflow; restart at a convenient point, then verify the 4 nodes appear).
+
+**The 4 nodes (category `H3-LongTakeNoCuts`):**
+- **`H3BlendLatentsByFrames`** — per-frame blend of TWO H3 AV nested latents (video+audio via
+  `comfy.nested_tensor.NestedTensor`). Keyframe schedule STRING in PIXEL frames (auto-scaled to
+  latent frames by `latent_frames/pixel_frames`), e.g. `"0:0, 22:0, 44:1"` = frames 0–22 fully
+  latent1, ramp to latent2 by frame 44; `linear` or `smooth` (cosine) interpolation. Optional MASK
+  (spatial, downscale-on-CPU-first to avoid ~51 GB alloc) restricts the blend to masked (white)
+  regions. Audio: take from one source (default latent1) or blend with same factors.
+- **`H3VideoLock`** — sets `noise_mask` on ANY latent (auto-detects H3 AV nested / video / image):
+  no mask = FULL LOCK (all zeros); with mask white=change/black=lock; `invert_mask` option; emits a
+  report string. Audio mask left OPEN (1.0).
+- **`KeyframeMask`** — builds a per-frame MASK `[F,H,W]` from a schedule string (`"5:1, 10:0"`),
+  `linear`/`hold` interpolation; W/H + frame count can auto-follow a reference MASK input.
+- **`MaskLevels`** — mask output-levels (black_level/white_level/gamma) — for softening SAM3 masks.
+
+**Example workflows (copied to `E:\minimax_workflow\H3-LongTakeNoCuts\`):**
+- `LongTakeNoCuts_example_workflow__v02.json` (45 nodes) = **the one to use** (user call). v1 (38
+  nodes) kept for comparison. `character.png` (2 MB) = example character ref.
+- v2 pipeline = native H3 **motion-context chain** (NikoDemon80 `comfyui-h3-motion-context` —
+  INSTALLED ✓; README warns the `ComfyUI-H3-Motion-Context-MultiRef` fork breaks it — we do NOT
+  have the fork ✓) + a **Refine resample pass** (few steps, denoise 0.5–0.6, character mask via
+  core `SAM3_Detect` + `GrowMaskWithBlur`) + **`H3BlendLatentsByFrames`** that blends the refined
+  latent back into the motion-context latent from frame 22→30 (v2 schedule `0:0, 22:0, 30:1`).
+- **Key v2 nodes/widgets:** `MiniMaxH3ReferenceToVideo` `['', 1344, 768, 124, 'match']` ·
+  `ResolutionSelector` `['16:9 (Widescreen)', 0.7, 32]` · `MiniMaxH3HybridLoader`
+  `['H3\\minimax_h3_fl2va_pruned_int8_convrot.safetensors', 'H3\\minimax_h3_ref2va_pruned_int8_convrot.safetensors', 'block_range_adaln', 25, 49, False, ...]`
+  (BOTH models present ✓) · `MiniMaxH3MotionContext` `['22', 24]` (22-frame overlap, 24 fps) ·
+  `MiniMaxH3MotionContextChain` `[10, '']` (segment count) ·
+  `MiniMaxH3MotionContextSaveLatent/LoadLatent` (`h3_context/clip`) · `MiniMaxH3MotionContextTrim`
+  `[0, 24, 22]` · subgraphs: Model Loader (UNET/CLIP/VAE), Sampling/Decoding/Create (Basic sampler
+  chain), Refine (19 nodes: refine KSampler + KeyframeMask + GrowMaskWithBlur + MiniMaxLowVRAM
+  attention), if-shot1 check, Image Segment (SAM3) (CLIPTextEncode + `SAM3_Detect` (CORE node ✓) +
+  CheckpointLoaderSimple — SAM3 model `sam3.1_multiplex_fp16.safetensors` present ✓).
+- **Dependencies: ALL SATISFIED** — comfyui-h3-motion-context ✓, ComfyUI-KJNodes ✓,
+  ComfyUI-Easy-Use ✓, ComfyUI-MiniMax-H3-Turbo ✓ (LowVRAM attention nodes), `SAM3_Detect` = core
+  ComfyUI ✓.
+
+**What it fixes:** H3 motion-context / latent-save-load extension WITHOUT cuts starts degrading at
+segments 5–6 (the "photocopy effect": each segment loads the previous latent as ground truth,
+drift + detail loss accumulate). Solution = extra few-step REFINE resample (denoise 0.5–0.6,
+character-masked via SAM3) blended back into the chain latent at frames 22–44 (adjustable).
+Repo demos a 3-MINUTE no-cut oner with character masking.
+
+**Limitations (README):** not a true fresh-regen — a workaround; works best on MOVING shots; static
+shots still drift toward higher contrast/saturation. Open question: audio artifacts under
+motion-context.
+
+**Use cases for us:** (1) the unfinished INTRO VIDEO (was blocked on audio — long shots generated
+here, SFX/audio added later via P5), (2) any movie shot needing a LONG continuous take (character
+walking through a known environment — 360°/location-detail images as H3 R2V refs, extended into a
+long smooth oner via the chain), (3) the 6 movie scenes if any needs >5 s without a cut.
+
+**Status:** INSTALLED (not yet loaded into the running ComfyUI) + ANALYZED. NEXT: restart →
+validate v2 (expect the subgraph/Basic-node set to validate against our ComfyUI version) → test
+run → P7. See PENDING_ITEMS.md P7–P9.
+
+---
+
 ## 2026-10-24 — CHARACTER MILESTONE WORKFLOWS (LOCKED) — `k2f_jaisal_crookednose.json` + `k2f_zidhan_sharpnose.json` (face-lock nose edits, both validated 0/0)
 
 **Purpose:** the FINAL character lock for the 2-man football movie (char1 Jaisal, char2 Zidhan).

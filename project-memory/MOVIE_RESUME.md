@@ -43,8 +43,12 @@ Self-contained entry point for the 2-man football movie. Read order: **this file
 3. **Pending queue** = `PENDING_ITEMS.md`: P1 Malayalam lip-sync + audio (D050, NOT started —
    RVC + LatentSync, WSL2 verified installed), P2 Blender layout→video (proven on boar-grave;
    movie scenes not started), P3 LoRA v2 (in progress), P4 H3 R2V 6 scenes (blocked on P3),
-   P5 ControlFoley SFX + DaVinci (blocked on P4), P6 SeedVR2 2K (ready). P1 and P2 are
-   independent of P3 — can run in parallel.
+   P5 ControlFoley SFX + DaVinci (blocked on P4), P6 SeedVR2 2K (ready), P7 H3-LongTakeNoCuts
+   (pack installed + analyzed 2026-10-24 — restart to load, then validate v2 + test; intro video
+   + long oner + 360° environment walk-throughs), P8 `E:\minimax_workflow` inventory (open),
+   P9 incoming user-fed repos/models (one by one, from 16:36 IST 2026-10-24). P1 and P2 are
+   independent of P3 — can run in parallel. **Tonight (2026-10-24): user trains the Klein LoRA
+   and sleeps.**
 
 ## Standing rules
 - **D041** NO music, ever (dialogue + natural ambience only). **D045** no LatentSync while

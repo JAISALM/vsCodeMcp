@@ -175,6 +175,77 @@ per-scene 5 s camref → H3 R2V with character refs from the new Klein LoRA set 
 
 ---
 
+## P7 — H3-LongTakeNoCuts (long oner / anti-degradation) — **PACK INSTALLED + ANALYZED 2026-10-24, not yet loaded** (user-named)
+
+**What:** fixes the MiniMax H3 motion-context "photocopy effect" — extending a shot without cuts
+degrades from segments 5–6 (each segment loads the previous latent as ground truth → drift +
+detail loss accumulate). Solution = a few-step **Refine resample** (denoise 0.5–0.6, character
+masked via SAM3) blended back into the chain latent at frames 22–44. Repo demos a **3-minute
+no-cut oner**.
+
+**Done (2026-10-24):** pack cloned to `custom_nodes\H3-LongTakeNoCuts` (4 nodes:
+`H3BlendLatentsByFrames` per-frame latent blend with keyframe schedule + optional spatial mask +
+audio take/blend · `H3VideoLock` noise_mask setter (no mask = full lock) · `KeyframeMask`
+per-frame mask from schedule string · `MaskLevels` black/white/gamma levels). Example workflows
+copied to `E:\minimax_workflow\H3-LongTakeNoCuts\` (**v2 = the one to use**, 45 nodes; v1 kept;
+`character.png` example ref). Full analysis + dependency map in WORKFLOW_HISTORY.md 2026-10-24
+(top entry).
+
+**Dependencies: ALL SATISFIED** — `comfyui-h3-motion-context` (NikoDemon80 — the CORRECT one; the
+MultiRef fork that breaks it is NOT installed ✓), KJNodes ✓, Easy-Use ✓, MiniMax-H3-Turbo ✓
+(LowVRAM attention nodes), `SAM3_Detect` = CORE ComfyUI node ✓. Models: `minimax_h3_fl2va_pruned_
+int8_convrot` + `minimax_h3_ref2va_pruned_int8_convrot` ✓, SAM3 `sam3.1_multiplex_fp16` ✓.
+v2 key widgets: `MiniMaxH3ReferenceToVideo` `[prompt, 1344, 768, 124, 'match']` ·
+`MiniMaxH3HybridLoader` (fl2va + ref2va, block_range_adaln 25–49) · `MiniMaxH3MotionContext`
+`['22', 24]` · Chain `[10, '']` · Trim `[0, 24, 22]` · blend keyframes v2 = `0:0, 22:0, 30:1`.
+
+**Limitations:** not a true fresh-regen (workaround) — best on MOVING shots; static shots still
+drift to higher contrast/saturation; audio artifacts under motion-context = open question.
+
+**To do:** (1) **ComfyUI restart** at a convenient point (pack NOT loaded yet — do NOT restart
+mid-Klein-workflow) → verify the 4 `H3-LongTakeNoCuts` nodes appear. (2) Validate v2 against our
+ComfyUI (subgraph + Basic-node set). (3) Test run. (4) **Use cases:** the unfinished INTRO VIDEO
+(long shots; audio added later via P5), LONG continuous movie takes — character walking through a
+known environment (**360° image + location-detail images as H3 R2V refs** → smooth walk-through
+oner), any of the 6 scenes needing >5 s without a cut.
+
+---
+
+## P8 — `E:\minimax_workflow` workflow inventory — **OPEN WORK** (user-flagged 2026-10-24)
+
+User: "we need to check the workflows we have here inside this folder, but that's an open work."
+~24 top-level workflow JSONs + subfolders (`blender+minimax`, `character_sheet`,
+`consistent_environment`, `MiniMax-H3-NativeAudio-MusicVideo-Workflow`, `production_experiments`)
+— audit what each is, which nodes it needs, which are runnable on our install, which are stale.
+Top-level files include: `Ep29 MiniMaxH3_Continuation_Workflow.json`,
+`fl_minimax_h3_turbo_lora_example_workflow.json`, `H3-Contest_BaseWorkflow.json`,
+`h3_refmod_cinematic.json`, `minimaxH315SecondSeamlessMulti_v11.json`,
+`minimaxH3Camera_v10/v20.json`, `minimax_h3_character_swap_workflow.json`,
+`MiniMax_H3_FL2VA_Fiirst-and-Last-Frame-Workflow.json`, `minimax_h3_sam_r2v_*`,
+`qwen_minimzed_h3.json`, `video_minimax_h3_r2v(+turbo).json`, `WF-H3_zuanfilm-*`,
+`Dialogues.json`, `Minimax H3 Workflow_ Magic Time Period Shift.json`,
+`minimax-h3-guided-consistent-characters-*.inline-graph.json`, `mini-max-refrance-to-video-1.json`,
+`2BZ_H3_character_sheet_2stage_v1_EN.json`, `Workflow for Minimax H3 image editing w ComfyUI.json`.
+Plus the new `H3-LongTakeNoCuts\` folder (P7).
+
+---
+
+## P9 — INCOMING QUEUE (user feeds one-by-one from 2026-10-24 16:36 IST onward)
+
+User: "we have few more github repo's to check and a new model too … i will give one by one,
+update the memory." **Process each as it arrives:** install → analyze thoroughly (read the code,
+not just the README) → verify deps/models on disk → record in WORKFLOW_HISTORY.md + add/extend a
+pending item here → commit. Log each entry below as it lands:
+
+| # | Item | Status |
+|---|------|--------|
+| 1 | (fill in as user sends) | — |
+
+**Tonight's plan (user, 2026-10-24):** user trains the Klein LoRA tonight (P3) and sleeps.
+Agent standby: dataset curation on request. Work window = 16:36 IST → night.
+
+---
+
 ## DO-NOT-RUN — dead routes (do NOT resurrect; 2026-10-24 user verdict)
 
 - `k2f_jaisal_scenes.json` (run `a663e26c` — all 6 outputs REJECTED: face drift + noise).

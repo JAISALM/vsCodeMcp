@@ -4,6 +4,40 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — H3-LongTakeNoCuts pack installed + analyzed (long-shot anti-degradation for H3 motion-context) — NOT YET RUN
+
+**Goal:** user-named capability check — "useful for long video shots, 3 min long shot was crazy";
+fit for the unfinished intro video + 360°/location-ref environment walk-through oners.
+
+**What was done (analysis only, no run yet):**
+- Cloned `xyzDist/H3-LongTakeNoCuts` → `custom_nodes\H3-LongTakeNoCuts` (needs a ComfyUI restart
+  to load the 4 nodes — deliberately NOT restarted mid-Klein-workflow).
+- Read all 4 node sources + both example workflows (node inventory, widget shapes, subgraphs).
+  Details in WORKFLOW_HISTORY.md 2026-10-24 top entry.
+- **Dependency verification: ALL SATISFIED** — `comfyui-h3-motion-context` (NikoDemon80, the
+  correct non-fork ✓), KJNodes, Easy-Use, MiniMax-H3-Turbo (LowVRAM nodes) installed;
+  `SAM3_Detect` is a CORE ComfyUI node; models `minimax_h3_{fl2va,ref2va}_pruned_int8_convrot`
+  + SAM3 `sam3.1_multiplex_fp16` present.
+- Example workflows v1 + v2 + `character.png` copied to `E:\minimax_workflow\H3-LongTakeNoCuts\`
+  (**v2 = user's pick**).
+- Node semantics: `H3BlendLatentsByFrames` (per-frame blend of two H3 AV nested latents,
+  keyframe schedule in pixel frames auto-scaled to latent frames, optional spatial mask, audio
+  take/blend) · `H3VideoLock` (noise_mask: no mask = full lock; white=change/black=lock; audio
+  left open) · `KeyframeMask` (per-frame mask from schedule string, linear/hold) ·
+  `MaskLevels` (black/white/gamma levels).
+- **How the anti-degradation works:** extra few-step refine resample (denoise 0.5–0.6, SAM3
+  character mask + GrowMaskWithBlur) blended back into the motion-context latent at frames 22–44
+  (v2 schedule `0:0, 22:0, 30:1`); motion-context trims first 22 frames (overlap 22 @ 24 fps).
+- **README limitations:** not a true fresh-regen (workaround); best on moving shots; static shots
+  drift to higher contrast/saturation; audio artifacts = open question.
+
+**Result:** INSTALLED + ANALYZED + DEPS VERIFIED. No run yet.
+
+**Conclusion:** all prerequisites green. Next = restart → validate v2 → test run → P7 (intro
+video + long movie takes + 360° environment walk-throughs). See PENDING_ITEMS.md P7–P9.
+
+---
+
 ## 2026-10-24 — 2-PASS VARIATION APPROACH PROVEN: t2i scene base → face-lock to finalized ref = ZERO FACE DRIFT (Jaisal 6-scene set)
 
 **❌ UPDATE (2026-10-24 ~16:00 IST): THIS ENTRY'S VERDICT IS VOID.** The user reviewed the full
