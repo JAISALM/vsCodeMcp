@@ -4,6 +4,34 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `k2f_jaisal_movie_shot_16x9.json` — Krea2 movie-shot still with the learned Film-Studio recipe
+
+**Purpose:** first 16:9 movie-frame still (Jaisal, S1 paddy after harvest) built with the
+Krea2 Film Studio technique WITHOUT the pack (all loaded nodes) — fixes the grainy /
+black-spot / 9:16-portrait look of `k2f_jaisal_crookednose`.
+**Location:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\k2f_jaisal_movie_shot_16x9.json`
+(built by `utilities/build_k2f_movie_shot.py` from the k2f source file; seed 90201).
+**Graph:** UNET `krea2_turbo_bf16` → `krea2_identity_edit_v1_2` @1.0 →
+`Krea2EditModelPatch` (ref_boost 4.0, ref_a 1.0, fit_mode 'fit', vae `krea2RealVae_v10`,
+source_image wired from `jaisal_ref.png` — pixel-fit path into the 16:9 canvas) →
+`Krea2EditGroundedEncode` POS (S1 scene) + NEG (empty prompt) → `ClownsharKSampler_Beta`
+#1 (RES4LYF multistep/res_2m + beta57, 10 steps, cfg 1, denoise 0.65) on
+`EmptyLatentImage 1928×1088` → `ClownsharKSampler_Beta` #2 (3 steps, denoise 0.27
+refine) → `VAEDecode` (`krea2RealVae_v10`) → `SaveImage` (prefix
+`k2f_jaisal_movie_shot_16x9`).
+**Status:** validated (valid, 0 errors); first run done (A: prompt_id e3784222-…).
+Variants (same turn, same seed): `_rawbf16.json` (FAILED — raw model collapses the
+identity-edit i2i, total smear) and `_d045.json` (FAILED — denoise 0.45 on a fresh
+canvas drops the character). **A (`k2f_jaisal_movie_shot_16x9_00001_.png`) = best so
+far: 16:9 movie frame, identity held, S1 scene complete; remaining flaw = speckled
+skin texture (likely carried from the ref's own Krea2 texture — should clear with the
+Klein LoRA character-sheet ref).** Recipe pending user verdict.
+**Known issues:** none structural. **Next improvement:** if A approved → replicate per
+scene S1–S6 (1928×1088 refs for H3 R2V, D021); speckle fixes → EXPERIMENTS.md.
+Details → EXPERIMENTS.md 2026-10-24 entry.
+
+---
+
 ## 2026-10-24 — Krea2 Film Studio pack installed (Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex) — shipped workflow V.02 noted
 
 **Pack:** `Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex` ("KREA 2 Film Studio" by VIONEX,

@@ -4,6 +4,89 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — Krea2 "learned recipe" movie-shot still (Film Studio technique applied without the pack) — S1 paddy after harvest
+
+**Trigger:** user critique — Krea2 stills came out with **black spots + grainy/pixelated**
+look; demanded learning the actual movie-shot technique from the Film Studio pack, not
+calling grainy output "decent".
+
+**Root causes found (diff of our `k2f_jaisal_crookednose` vs the pack's defaults):**
+- **Wrong VAE:** we decoded with `qwen_image_vae.safetensors`; the Krea2-native VAE
+  `krea2RealVae_v10.safetensors` sits in the vae folder unused.
+- **fp8 model:** `krea2_turbo_fp8_scaled` = grain-prone distillation; bf16 variants
+  (`krea2_turbo_bf16`, `krea2_raw_bf16`) available for clean stills.
+- **No refinement stage:** pack default = 2-stage (primary denoise → 3-step denoise-0.27
+  refine on the same latent). We ran a single 10-step pass.
+- **Plain KSampler** vs the pack's **RES4LYF `ClownsharKSampler_Beta`** (default
+  `multistep/res_2m` + `beta57` scheduler — flow-matching-aware).
+- **Wrong canvas:** our ref `jaisal_ref.png` = 1440×2560 **9:16 portrait** — the k2f
+  latent is ref-size, so every still came out portrait; movie frames need 16:9
+  (pack default 1928×1088 @ 2.0 MP).
+- **Negative:** pack recipe = 2nd `Krea2EditGroundedEncode` with EMPTY prompt + same
+  image (training-unconditional), not a text negative.
+
+**What was built (all LOADED nodes — no restart needed):**
+`k2f_jaisal_movie_shot_16x9.json` (builder: `utilities/build_k2f_movie_shot.py`,
+source = k2f_jaisal_crookednose.json, seed 90201 kept for comparability):
+1. UNET `krea2_turbo_bf16` → 2. identity-edit LoRA @1.0 → 3. `Krea2EditModelPatch`
+   (ref_boost 4.0 / ref_a 1.0 / fit_mode 'fit' / vae krea2RealVae_v10 / **source_image
+   now wired** from the ref LoadImage → pack's blur-proof pixel path: center-crop ref to
+   16:9, resize to exact target grid, VAE-encode — no latent-space resize) →
+4. grounded encodes (POS = S1 paddy scene; NEG = empty prompt) →
+5. **ClownsharKSampler_Beta #1** (RES4LYF: multistep/res_2m, beta57, 10 steps, cfg 1.0,
+   denoise 0.65, seed 90201) on **EmptyLatentImage 1928×1088** (16:9 movie canvas) →
+6. **ClownsharKSampler_Beta #2** (same settings, **3 steps, denoise 0.27 = refine
+   stage**) → 7. VAEDecode (krea2RealVae_v10) → SaveImage
+   `k2f_jaisal_movie_shot_16x9`.
+Validated: `validate_workflow` = valid true, 0 errors (16 nodes converted from UI).
+Run prompt_id `e3784222-4e5e-4743-84ba-d55a645b5e29` (queued 17:5x IST).
+
+**Result (3-way A/B/C, same seed 90201, S1 paddy scene, 1928×1088):**
+- **A = turbo_bf16 10 steps denoise 0.65** → `k2f_jaisal_movie_shot_16x9_00001_.png` —
+  **WINNER so far**: identity held (face/hair/crooked nose/black tee), full S1 scene
+  (post-harvest stubble, standing water, rain, hat farmers), true 16:9, real DoF + moody
+  dusk grade. Remaining flaw: fine speckled texture on face/shirt — likely the REF's own
+  Krea2 skin texture being faithfully carried by the identity edit (fidelity includes
+  texture) + i2i re-synthesis at 0.65. NOT pixelated, NOT black-spot.
+- **B = raw_bf16 15 steps denoise 0.65** → `..._rawbf16_00001_.png` — **FAILED** (see
+  FAILED VARIANT above): total smear, face gone.
+- **C = turbo_bf16 10 steps denoise 0.45** → `..._d045_00001_.png` — **FAILED** a
+  different way: **Jaisal missing from frame** — only the field + background farmers.
+  On a FRESH canvas latent, low denoise lets the random latent dominate and the
+  character (carried by the identity patch, not the canvas) fails to re-insert.
+  **Rule: new-canvas identity-edit i2i needs HIGH denoise (0.65+); 0.4–0.45 drops the
+  character. (k2f's 0.4 works only because its latent = the REF latent, not a fresh
+  canvas.)**
+
+**Conclusion/next:**
+- Recipe candidate (pending user verdict): **turbo_bf16 + RES4LYF res_2m/beta57 + 10
+  steps cfg 1 + denoise 0.65 + 3-step 0.27 refine + krea2RealVae_v10 + 1928×1088 canvas
+  + empty-prompt grounded negative** = the Krea2 movie-shot still recipe (16:9, ready
+  for H3 R2V, D021).
+- Speckle fix candidates: (1) cleaner reference — the current ref `jaisal_ref.png` is
+  itself Krea2-generated with speckled skin; after the Klein LoRA character sheets land
+  (tonight's training) re-point the ref and the texture should come clean; (2) try
+  grounding_px 384 (in-distribution low end) to carry less micro-texture; (3) different
+  seed (texture pattern may be seed-dependent).
+- If user approves A as the recipe → replicate per scene S1–S6 (1928×1088 refs) and feed
+  2–3 stills per shot to H3 R2V.
+
+**FAILED VARIANT (same turn, do NOT retry this route):** `k2f_jaisal_movie_shot_16x9_rawbf16.json`
+= same graph but UNET `krea2_raw_bf16` + 15 steps → **total collapse**: face gone, entire
+frame smeared into vertical grey-green streaks (output
+`k2f_jaisal_movie_shot_16x9_rawbf16_00001_.png`). The raw (non-turbo) Krea2 model does NOT
+work with the identity-edit i2i recipe (identity LoRA is tuned for the turbo base; raw at
+15 steps/denoise 0.65/i2i is out of distribution). **Rule: Krea2 identity-edit i2i movie
+shots use `krea2_turbo_bf16` — never `krea2_raw_bf16`.**
+
+**Conclusion/next:** if clean → this is the movie-shot still recipe for all 6 scenes
+(regen S1–S6 refs at 1928×1088 16:9 with bf16 + refine + RES4LYF + krea2RealVae_v10);
+then feed 2–3 stills per shot to H3 R2V (D021). If still grainy: try `krea2_raw_bf16`
+(non-turbo) + Quality preset (15 steps), and check whether the identity-edit LoRA needs
+re-mapping for bf16.
+
+---
+
 ## 2026-10-24 — Krea2 Film Studio (Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex) installed + analyzed — NOT YET RUN
 
 **Goal:** user-named "gold mine" via reddit r/StableDiffusion 1vn7avz (u/Lower-Cap7381,
