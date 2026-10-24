@@ -35,7 +35,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-396 | 13,135 MB (13,773,998,700 B) | ~1,911 MB partial (pwsh-343 reset) | RUNNING (resume from partial) |
 | `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-396 | 22,213 MB (22,213,723,064 B) | 0 | QUEUED after QAD (same job) |
 | `minimax_h3_character_swap_v1.1_ref2va_fro.safetensors` (loras) | Alissonerdx/Minimax-H3-ComfyUI | pwsh-353 | 76 MB | — | DONE ✓ (76 MB) |
-| `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | partial (pwsh-360 reset) | RUNNING (resume) |
+| `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | — | DONE ✓ (2665 MB on disk) → **`H3_HyperFlow_Fast_LOCAL.json` RE-VALIDATED = 0 errors, runnable pre-restart** |
 | `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | 0 | QUEUED (Sol/FastVideo runtime — PEFT adapter, not a ComfyUI LoRA) |
 | `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | 0 | QUEUED (optional fast decoder, ~10 s/clip saved) |
 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
@@ -70,7 +70,7 @@ download command — files are written in place; a complete file = size matches 
 - [ ] **P10-2 `CharSwap_v1.1_fro_LOCAL.json`** — Alissonerdx's new swap LoRA (v1.1 fro, improved likeness). Run the SAME
       clip as `MiniMax-H3-Character-Swap-Mask_LOCAL.json` (v1.5 Akatz) and compare likeness.
 - [ ] **P10-3 `H3_HyperFlow_Fast_LOCAL.json`** — standard H3 + HyperFlow 8-step LoRA (works TODAY, no engine).
-      Requires `minimax_h3_hyperflow_8step_v1.0.safetensors` download complete (pwsh-360).
+      **ALL MODELS NOW LOCAL — validated 0 errors, runnable pre-restart** (hyperflow LoRA landed 21:50).
       Reference-only: `sol_h3_t2v.json` / `sol_h3_Sol-H3-Studio.json` (need `SolH3Generate` node = the Sol engine = WSL2 route).
 - [ ] **P10-4 `RTX_Post_VFX_LOCAL.json`** — post pipeline (SR 2× → FrameGen ×2 → TrueHDR HLG). SR-only works pre-restart;
       full chain after restart. For grainy outputs: quality=DENOISE_ULTRA (same-res).
