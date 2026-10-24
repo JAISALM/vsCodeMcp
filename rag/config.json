@@ -1,0 +1,32 @@
+{
+  "embed_model": "all-MiniLM-L6-v2",
+  "chunk_chars": 1600,
+  "chunk_overlap": 150,
+  "project_dirs": [
+    "D:\\models\\vsCodeMcp\\project-memory",
+    "D:\\models\\vsCodeMcp\\docs",
+    "D:\\models\\vsCodeMcp\\episode1"
+  ],
+  "subreddits": [
+    "StableDiffusion",
+    "LocalLLaMA",
+    "ComfyUI",
+    "comfyui_workflows",
+    "artificial"
+  ],
+  "reddit_limit_per_sub": 30,
+  "hf": {
+    "trending_models": 25,
+    "top_downloads_models": 25,
+    "trending_datasets": 15
+  },
+  "x_accounts": [
+    "BennyDaBall_OG",
+    "xieenze_jr",
+    "PixelAigc",
+    "Alissonerdx",
+    "MaxLiu09",
+    "diodiogod",
+    "akatz_ai"
+  ]
+}
