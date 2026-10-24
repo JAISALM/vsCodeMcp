@@ -1337,3 +1337,11 @@ model (Qwen) updates memory + commits afterwards.
   best existing ref = output\refset_v6\zidane_bench_b25_00001_.png). Generate Zidhan
   t2i (halal fade crop, full short dense trimmed beard, white t-shirt, trigger dlor) +
   face-lock against zidane_bench_b25 -> present as candidate for user to lock.
+
+### RAG (D194) - local RAG for project memory + daily AI news - DONE (2026-10-25)
+- User directive: stop manually lurking AI subs; build local RAG (chunking -> embedding -> vector DB -> search into prompt) running daily.
+- Built D:\models\vsCodeMcp\rag\: config.json (sources), chunk.py (section-aware), embed.py (all-MiniLM-L6-v2 CPU), etch_news.py (reddit JSON+playwright fallback / HF trending+downloads / X syndication best-effort), ingest_project.py + ingest_news.py (hash-manifest incremental), daily.py (orchestrator), query.py (CLI), un_daily_rag.bat, store.py (FAISS).
+- Stack decisions (verified): **Ollama NOT installed** -> sentence-transformers CPU embed (no VRAM contention, D192). **ChromaDB broken on this machine** (Rust bindings SQLITE_CANTOPEN code 14 on every path, chromadb 1.3.7/1.4.1/1.5.9) -> **FAISS-cpu IndexFlatIP** instead. HF model cache redirected to ag\hf_cache\ (C:\Users\user\.cache write-blocked).
+- Seed verified: **1,248 project chunks + 65 news items** (today all HF; reddit 403 / X 429 logged+retry-next-day). Query tests return correct sections.
+- Scheduled task **VsCodeMcp-RagDaily (daily 08:00 Asia/Calcutta)** registered. Churn dirs gitignored.
+- See ag/README.md + **D194** in DECISIONS.md.
