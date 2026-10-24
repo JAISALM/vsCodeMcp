@@ -40,3 +40,4 @@ rag/data/
 rag/.venv/
 rag/hf_cache/
 rag/hf_home/
+rag/temp/
