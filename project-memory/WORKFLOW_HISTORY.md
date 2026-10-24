@@ -4,6 +4,52 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — CHARACTER MILESTONE WORKFLOWS (LOCKED) — `k2f_jaisal_crookednose.json` + `k2f_zidhan_sharpnose.json` (face-lock nose edits, both validated 0/0)
+
+**Purpose:** the FINAL character lock for the 2-man football movie (char1 Jaisal, char2 Zidhan).
+Both characters are LOCKED 2026-10-24 via Krea2 Identity Edit (face-lock) NOSE edits, anchored on
+each character's OWN locked ref so ONLY the nose changed (rest of face/hair/clothing/identity
+preserved). These two .json files are the **CHARACTER MILESTONE WORKFLOWS** — the reproducible
+recipes that produce the canonical character refs. **DO NOT MODIFY these .json files.**
+
+**Locked canonical refs (1440×2560, 4MP):**
+- **Jaisal:** `data\locked_refs\jaisal_LOCKED.png` (run `65468343_000`, `k2f_jaisal_crookednose`) —
+  slim face, **crooked / naturally-bent nose** (distinct from Zidhan), medium wavy black hair
+  (eyebrow length), clean-shaven / faint stubble, **black tee**, warm Keralite tan.
+- **Zidhan:** `data\locked_refs\zidhan_LOCKED.png` (run `c6b83489_000`, `k2f_zidhan_sharpnose`) —
+  rounder face, **sharp angular nose** (Dulquer-Salman-style), **full short dense beard**, short
+  black hair, **white tee**, warm Keralite tan.
+
+**Workflow recipe (both = `krea2_face_lock_v2.json` structure, Krea2 Identity Edit v1.2):**
+- Chain: UNET `krea2_turbo_fp8_scaled` → identity LoRA `krea2_identity_edit_v1_2`@1.0 →
+  `Krea2EditModelPatch` [ref_boost 4.0, ref_boost_a 1.0, 'fit'] → KSampler (10 steps, cfg 1,
+  euler/simple, **denoise 0.4**) → VAEDecode → SaveImage.
+- **Both image inputs = the character's OWN ref** (node 72 = node 113 = the ref) so the
+  face/identity is locked to itself and only the instruction-driven nose edit applies.
+- **Jaisal instruction:** "Keep face, MEDIUM WAVY hair (eyebrow length), identity, black tee,
+  background, lighting EXACTLY the same. Change ONLY the nose: a slightly CROOKED naturally-bent
+  nose (subtly deviated bridge, NOT straight, NOT soft-rounded, NOT sharp-angular)."
+- **Zidhan instruction:** "Keep face, full short dense beard, identity, white tee, background,
+  lighting EXACTLY the same. Change ONLY the nose: a SHARP straight well-defined prominent angular
+  nose (NOT broad/wide/flat). Keep the full beard. Enhance crisp photorealistic skin detail."
+- **Negative (both):** plastic/waxy/airbrushed skin, different/wrong face, face-swap seam,
+  duplicate/multiple people, bad anatomy, watermark/text.
+- **Models:** UNET `krea2_turbo_fp8_scaled.safetensors` · CLIP `qwen3vl_4b_fp8_scaled.safetensors`
+  (type krea2) · VAE `qwen_image_vae.safetensors` · LoRA `krea2_identity_edit_v1_2.safetensors`.
+
+**Provenance (the t2i bases these nose edits were anchored on):**
+- Jaisal base t2i = `data\jaisal_zidhan_v3_run\ff8144a1_000.png` (`k2d_jaisal_v3`, seed 820,
+  quality stack: turbo-LoRA 0.7 + `Krea2-realism-V2` 0.8 + `ApplyKrea2NegPiP`, 1440×2560).
+- Zidhan base t2i = `data\jaisal_zidhan_v2_run\3f8b025e_000.png` (`k2c_zidhan_distinct2`, seed
+  812, quality stack, 1440×2560) — the bearded ref the sharp-nose face-lock was anchored on.
+
+**Status:** LOCKED (user-approved 2026-10-24: "zidane is good, lets lock zidane" + "good [Jaisal]
+crooked nose"). Both refs copied to `data\locked_refs\`. **NEXT:** variation set (several seeds
+per character, same description) → fresh character LoRA → retest with triggers
+(`jeskvman`/`dlorman`). See DECISIONS.md D151 + EXPERIMENTS.md 2026-10-24 entry.
+
+---
+
 ## 2026-10-20 — `1 Click Dataset (Klein 9b).json` (22 nodes) — Klein-9B DATASET pipeline; node 377 error = missing comfyroll pack (D166)
 
 **Purpose:** the dataset stage (D143) — 20 scene prompts (list inside node 377) +

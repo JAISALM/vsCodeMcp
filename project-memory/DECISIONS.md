@@ -1248,7 +1248,41 @@
   trigger+clause combos until both look like the user expects; also fix Zidhan's beard (trigger/clause
   or denser-beard prompt). Char-LoRA = identity pin; realism stack = quality. **No real-photos +
   retrain needed yet.** See EXPERIMENTS.md 2026-10-24 entry.
-- **Status:** Pending tomorrow's run + user verdict.
+- **Status:** Superseded by D151 (the user instead locked the two characters directly via
+  identity-edit nose edits, 2026-10-24).
+
+## D151 — CHARACTER LOCK: Jaisal (crooked nose) + Zidhan (sharp nose + full beard) locked as canonical refs (2026-10-24, user-approved)
+
+- **Supersedes D150's "tomorrow" plan** — the char-LoRA + trigger-word route is now the
+  REFINEMENT path, not the lock path. The user locked the two DISTINCT characters directly via
+  Krea2 Identity-Edit (face-lock) NOSE edits.
+- **Jaisal LOCKED** = `data\locked_refs\jaisal_LOCKED.png` (run `65468343_000`,
+  `k2f_jaisal_crookednose.json`): slim face, **crooked / naturally-bent nose**, medium wavy black
+  hair (eyebrow length), clean-shaven / faint stubble, **black tee**, warm Keralite tan.
+- **Zidhan LOCKED** = `data\locked_refs\zidhan_LOCKED.png` (run `c6b83489_000`,
+  `k2f_zidhan_sharpnose.json`): rounder face, **sharp angular nose** (Dulquer-Salman-style),
+  **full short dense beard**, short black hair, **white tee**, warm Keralite tan.
+- **Why these:** the user needed the two to be clearly DIFFERENT people (not "the same face with
+  different hair/beard"). Locked distinguishing axes: face shape (slim vs round), **NOSE
+  (crooked-bent vs sharp-angular — the key differentiator the user pushed on repeatedly)**, beard
+  (clean-shaven vs full beard), hair (medium wavy vs short), tee (black vs white). Both are warm
+  Keralite tan (NOT a fair/American look, NOT a generic dark Tamilian) per the user's "Keralite,
+  not American" directive.
+- **How locked:** Krea2 Identity Edit (face-lock) NOSE-only edits anchored on each character's
+  OWN t2i ref (so ONLY the nose changed, everything else preserved): Jaisal base =
+  `ff8144a1_000` (k2d_jaisal_v3, seed 820), Zidhan base = `3f8b025e_000` (k2c_zidhan_distinct2,
+  seed 812). denoise 0.4, ref_boost 4.0, 10 steps cfg 1 euler/simple. Both validated 0/0.
+- **The two milestone workflow .json files (`k2f_jaisal_crookednose.json`,
+  `k2f_zidhan_sharpnose.json`) are the canonical recipes — DO NOT MODIFY** (see
+  WORKFLOW_HISTORY.md "CHARACTER MILESTONE WORKFLOWS (LOCKED)").
+- **Zidhan beard lesson:** Krea2 t2i would NOT reliably grow a beard on fresh seeds (3/3 beard
+  sweep seeds 841/842/843 came out clean-shaven despite a strong "FULL DENSE DARK BEARD" prompt).
+  The beard only appeared on the 3f8b025e seed — so the beard was LOCKED via the face-anchored
+  ref, NOT re-rolled.
+- **Status:** LOCKED (user-approved "zidane is good, lets lock zidane" + "good [Jaisal] crooked
+  nose"). **NEXT:** variation set (several seeds per character, same description) → fresh
+  character LoRA → retest with triggers (`jeskvman`/`dlorman`); then per-shot refs (2–3, D020) →
+  MiniMax H3 R2V (NO music D041) → SFX + assembly by Nov 22.
 
 ## D139 — DSH + GHCP (GitHub Copilot / VS Code agent) cross-client collaboration verified (2026-10-18)
 - **Milestone (user-approved "we did good"):** the two agent clients worked as one pipeline —

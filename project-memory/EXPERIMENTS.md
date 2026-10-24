@@ -1775,3 +1775,51 @@ street = be651d88_000, monsoon = 97aed4e5_000.
 **Next:** user verdict on the 2 finals -> backwater wide (B1) same treatment (it is
 still old 2MP e6b8ea11_000) -> Zidhan (UNLOCKED) same 2-pass -> anchor sets ->
 MiniMax H3 R2V (NO music D041). Deadline Nov 22.
+
+## 2026-10-24 (2) — CHARACTER LOCK: Krea2 identity-edit NOSE-only edits (crooked Jaisal + sharp Zidhan) — LOCKED
+
+**Goal:** lock the two DISTINCT characters (Jaisal + Zidhan) so they read as clearly different
+people (not "the same face with different hair/beard"), and fix the recurring "identical
+eyes/nose/lips" issue the user flagged between the two.
+
+**Config:**
+- t2i base (quality stack): krea2_turbo_fp8_scaled + krea2_turbo_lora_rank_64_bf16 0.7 +
+  Krea2-realism-V2 0.8 + ApplyKrea2NegPiP, 12 steps cfg 1 er_sde/simple, 1440×2560.
+  - Jaisal base = `ff8144a1_000` (k2d_jaisal_v3, seed 820): slim face, medium wavy hair
+    (eyebrow length), almond eyes, thin lips, clean-shaven, black tee, warm Keralite tan.
+  - Zidhan base = `3f8b025e_000` (k2c_zidhan_distinct2, seed 812): rounder face, broad nose,
+    full short dense beard, short hair, white tee.
+- NOSE-only face-lock edit (krea2_face_lock_v2 structure, Krea2 Identity Edit v1.2): identity
+  LoRA krea2_identity_edit_v1_2@1.0, Krea2EditModelPatch ref_boost 4.0 / ref_boost_a 1.0 'fit',
+  grounding 768, KSampler denoise 0.4 (10 steps cfg 1 euler/simple). BOTH image inputs = the
+  character's OWN ref (node 72 = node 113), so only the instruction-driven nose edit applies and
+  everything else is locked.
+  - Jaisal instruction: "Change ONLY the nose → a slightly CROOKED naturally-bent nose (subtly
+    deviated bridge, NOT straight, NOT soft-rounded, NOT sharp-angular)."
+  - Zidhan instruction: "Change ONLY the nose → a SHARP straight well-defined prominent angular
+    nose (NOT broad/wide/flat). Keep the full beard. Enhance crisp photorealistic skin detail."
+
+**Result (runs 65468343_000 Jaisal + c6b83489_000 Zidhan):**
+- Jaisal: crooked bent nose applied; rest of face/hair/clothing/identity preserved; skin realism
+  intact; no seam → **LOCKED** (`data\locked_refs\jaisal_LOCKED.png`).
+- Zidhan: sharp angular nose applied; full beard preserved; skin detail crisp → **LOCKED**
+  (`data\locked_refs\zidhan_LOCKED.png`).
+- Both now clearly distinct: slim / crooked-nose / clean-shaven / black-tee vs round /
+  sharp-nose / full-beard / short-hair / white-tee.
+
+**Lessons:**
+- **NOSE is the strongest differentiator** between two same-ethnicity characters — eyes/lips
+  alone keep reading as "the same person." Change the nose shape explicitly (crooked vs sharp).
+- Anchoring a face-lock edit on the character's OWN ref (node 72 = node 113) + "change ONLY the
+  nose" = a clean feature edit that preserves everything else (denoise 0.4, ref_boost 4.0).
+- Krea2 t2i will NOT reliably grow a beard on fresh seeds (3/3 beard-sweep seeds 841/842/843
+  came out clean-shaven despite a strong "FULL DENSE DARK BEARD" prompt). The beard only
+  appeared on seed 812 (3f8b025e) — so beard characters must be LOCKED via a face-anchored ref,
+  NOT re-rolled.
+- The "skin realism loss" the user noticed on fresh t2i seeds = seed variance in the
+  Krea2-realism-V2 0.8 stack, NOT a broken setting; the face-anchored low-denoise edit restores
+  crisp skin detail.
+
+**Next:** variation set (several seeds per character, same description) → fresh character LoRA →
+retest with triggers (jeskvman/dlorman); then per-shot refs (2–3, D020) → MiniMax H3 R2V (NO
+music D041) → SFX + assembly by Nov 22.

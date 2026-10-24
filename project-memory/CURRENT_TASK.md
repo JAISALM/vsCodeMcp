@@ -1,25 +1,30 @@
 # Current Task
 
-## 🔴 TOP (2026-10-24 ~00:10 IST) — CHARACTER LOCK: face-lock-to-HD REJECTED, tomorrow = LoRA + trigger words
-- **User paused the goal** (fix Krea2 quality / Zidhan) to do the characters first. Goal is still
-  armed (agent can't pause it from its side; honor the pause — no heavy goal work until the user resumes).
-- **HD refs = the ideal chars** (`refset_v7`): `jaisal_portrait_HD_00001` (slim, wavy hair down, soft
-  nose, light mustache+chin stubble, black tee) + `zidane_portrait_HD_00001` (halal fade, FULL short
-  dense beard, white tee). **Zidhan = halal fade + full beard (D137 "top bun" DEPRECATED).**
-- **Test 1 — char-LoRA `krea2fp_v2_ep64` + realism stack (`krea2_charlora_v3.json`):** Jaisal strong
-  match, Zidhan close but clean-shaven (beard missing). The LoRA DOES hold specific faces (not generic).
-- **Test 2 — face-lock LoRA output → HD (denoise 0.35 Jaisal / 0.45 Zidhan):** produced
-  `data\flock_hd_run\5c60584e_000` (Jaisal) + `5de8a9b4_000` (Zidhan) — **USER REJECTED both**:
-  "both don't look like the Jaisal and Zidhan I expected." NOT locked.
-- **TOMORROW (user-directed):** try **our char-LoRA `krea2fp_v2_ep64` + trigger words
-  (`jeskvman`/`dlorman`) through the realistic-image workflow** (the updated realism stack) and see
-  the result — re-run/iterate `krea2_charlora_v3.json` with fresh seeds + tuned trigger/clause combos
-  until both look right; also fix Zidhan's beard (trigger/clause or denser-beard prompt). The char-LoRA
-  pins identity; the realism stack gives quality. **No real-photos + retrain needed yet.**
-- **Workflows built (validated 0/0):** `krea2_charlora_v3.json` (char-LoRA t2i), `krea2_face_lock_{jaisal,zidhan}_hd.json`,
-  `krea2_face_lock_zidhan_hd2.json`. **Inputs staged:** `input\fl_{jaisal,zidhan}_base.png` (LoRA outputs),
-  `input\{jaisal,zidhan}_hd_ref{,_sm}.png` (HD refs, 1152×2048).
-- **Files:** `data\charlora_v3_run\3c46e8e9_000/001` (Test 1), `data\flock_hd_run\{5c60584e,f447bfa5,5de8a9b4}_000` (Test 2).
+## 🔴 TOP (2026-10-24 ~13:27 IST) — CHARACTERS LOCKED (Jaisal crooked nose + Zidhan sharp nose/full beard) — next = variation set → fresh LoRA
+- **BOTH CHARACTERS LOCKED 2026-10-24 (user-approved "zidane is good, lets lock zidane" + "good [Jaisal] crooked
+  nose"):**
+  - **Jaisal** = `data\locked_refs\jaisal_LOCKED.png` (run `65468343_000`, `k2f_jaisal_crookednose.json`):
+    slim face, **crooked/naturally-bent nose**, medium wavy black hair (eyebrow length), clean-shaven/faint
+    stubble, **black tee**, warm Keralite tan.
+  - **Zidhan** = `data\locked_refs\zidhan_LOCKED.png` (run `c6b83489_000`, `k2f_zidhan_sharpnose.json`):
+    rounder face, **sharp angular nose** (Dulquer-Salman-style), **full short dense beard**, short black hair,
+    **white tee**, warm Keralite tan.
+- **How locked:** Krea2 Identity Edit (face-lock) NOSE-only edits, anchored on each character's OWN t2i ref
+  (so ONLY the nose changed, everything else preserved): Jaisal base = `ff8144a1_000` (k2d_jaisal_v3, seed
+  820), Zidhan base = `3f8b025e_000` (k2c_zidhan_distinct2, seed 812). denoise 0.4, ref_boost 4.0, 10 steps
+  cfg 1 euler/simple. Both validated 0/0.
+- **MILESTONE WORKFLOWS (DO NOT MODIFY):** `k2f_jaisal_crookednose.json` + `k2f_zidhan_sharpnose.json`
+  (recorded in WORKFLOW_HISTORY.md "CHARACTER MILESTONE WORKFLOWS (LOCKED)"). See DECISIONS.md D151 +
+  EXPERIMENTS.md 2026-10-24 (2).
+- **Zidhan beard lesson:** Krea2 t2i would NOT reliably grow a beard on fresh seeds (3/3 beard-sweep seeds
+  841/842/843 came out clean-shaven despite a strong beard prompt). Beard LOCKED via the face-anchored
+  3f8b025e ref, NOT re-rolled.
+- **NEXT (user-directed):** **variation set** (several seeds per character, same description) → **fresh
+  character LoRA** → retest with triggers (`jeskvman`/`dlorman`). Then per-shot refs (2–3, D020) →
+  MiniMax H3 R2V (NO music D041) → SFX + assembly by **Nov 22**.
+- **Superseded (D150):** the face-lock-to-HD + char-LoRA-t2i route is now the REFINEMENT path, not the lock
+  path (both chars locked directly). Goal `goal-79c0817e` still armed (user paused earlier; honor the pause —
+  no heavy goal work until the user resumes).
 
 ## 🔴 PRIMARY GOAL: Scripting Episode 1
 **Phase:** Moving from the "Red Card/Fight" of the first half into the 1950 Mind-Trip.
