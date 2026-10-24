@@ -38,7 +38,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | — | DONE ✓ (2665 MB on disk) → **`H3_HyperFlow_Fast_LOCAL.json` RE-VALIDATED = 0 errors, runnable pre-restart** |
 | `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
 | `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
-| **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
+| **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | pwsh-494 (restarted 01:2x) | 3,833 MB + 650 MB + small | **RETARGETED → `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`** (suite-native auto-download dir) | QUEUED (was `D:\models\ai-movie\models\qwen3-tts\` — empty, no loss) |
 | `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
 | **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-426/430 | ~3 GB torch | **DONE ✓** torch 2.14.1+cu130 (cuda True) + gvhmr[rtmpose] + editable 0.1.8; `m2mr doctor` green (code) — 3 user assets pending (SMPLX npz / Mixamo FBX / input) |
 | `H3-Person-Remover-V1.safetensors` (loras, item 7) | akatz-ai/MiniMax-H3-Person-Remover-LoRA | — | 147 MB | — | DONE ✓ (147 MB on disk) |
@@ -94,13 +94,20 @@ download command — files are written in place; a complete file = size matches 
       Qwen3-TTS engine (item 6 lands here), RVC, Higgs v3, Fish S2 Pro. Engines download weights on first use.
       **Reference workflows saved:** `TTS_Suite_TTS_SRT_REFERENCE.json` (SRT-timed TTS) · `TTS_Suite_ASR_SRT_Builder_REFERENCE.json`
       (dub audio → ASR → SRT builder = the movie dubbing pipeline) · `TTS_Suite_OmniVoice_REFERENCE.json`.
-      **Qwen3-TTS engine path:** suite auto-downloads from HF into its preferred TTS path (extra_model_paths YAML) OR takes a
-      `local:<ModelName>` prefix — our queued weights (`D:\models\ai-movie\models\qwen3-tts\Qwen3-TTS-12Hz-1.7B-CustomVoice`,
-      11 files 4.3 GB in `hf_resumable_download.py`) can be pointed to via that YAML to skip the re-download.
+      **Qwen3-TTS engine path:** weights land in the suite's own auto-download dir
+      `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`
+      (11 files, re-targeted 2026-10-25 01:2x in `hf_resumable_download.py` — suite sees the populated dir and
+      SKIPS its HF re-download; `local:` prefix resolution checks `models\TTS\qwen3_tts\<Name>` second, verified in
+      `engines\qwen3_tts\qwen3_tts.py::_find_model_directory`). Node input: `model_path = "local:Qwen3-TTS-12Hz-1.7B-CustomVoice"`
+      or bare name (auto-check finds the dir).
 - [ ] P10 items land here as built.
 
 ## Status log
 
+- 2026-10-25 01:2x — **Qwen3-TTS retarget:** 11 queued files → `E:\comfyUi_latest\...\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`
+      (suite's own auto-download dir — `qwen3_tts.py::_find_model_directory` checks `models\TTS\qwen3_tts\<Name>` for the `local:`
+      prefix, and the bare-name path skips re-download when the dir is populated). Old `D:\models\ai-movie\models\qwen3-tts\` was
+      empty (0 MB) → no loss. Downloader killed + restarted (pwsh-494) with the new targets; fl2va_int8 resumes from partial.
 - 2026-10-25 00:3x — **Downloads:** qad UNET DONE (22:54) → pruned_int8 UNET DONE (21,184 MB; 1 reset at 79% → auto-resume) →
       ref2va_fp8 DONE (19,987 MB, header 1,082 tensors verified) — P10-1 (FastH3 Omni) + item-7 remover chain fully local.
       fl2va_int8 resuming (9,090/32,462 MB). Then 16 queued files (VNCCS×3, QI2.1 UNET/CLIP, Qwen3-TTS×11).
