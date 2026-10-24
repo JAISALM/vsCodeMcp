@@ -1332,3 +1332,17 @@
   retest. Pending queue captured in `PENDING_ITEMS.md` (P1 Malayalam lip-sync/audio D050,
   P2 Blender layout→video, P3 this LoRA, P4 H3 R2V 6 scenes, P5 SFX+DaVinci, P6 SeedVR2);
   resume brief = `MOVIE_RESUME.md`.
+
+## D192 — NO agent-run ComfyUI workflows (user HARD rule, 2026-10-24)
+
+- **Decision:** the agent must **NOT queue/run ComfyUI workflows** (MCP `run_workflow` /
+  `generate_image` / `run_template` / any render or thumbnail op). The agent only
+  **builds and updates workflow JSON files** + read-only `validate_workflow`, then tells the
+  USER what to run and what to check.
+- **Reason (user, 2026-10-24):** the local Qwen (llama.cpp) and ComfyUI run on the SAME
+  hardware (RTX 5090 32 GB) with **no mechanism to release VRAM** when one finishes —
+  agent-queued jobs compete with the user's ComfyUI UI work and the LLM, causing
+  bottlenecks/slow results (no multi-threaded VRAM partitioning setup exists).
+- **Status:** ACTIVE hard rule — applies to every future session. Read-only MCP inspection
+  (validate_workflow, object_info, job status reads of USER-queued jobs) stays allowed.
+  Added to AGENTS.md ("NO Agent-Run ComfyUI Workflows" section).

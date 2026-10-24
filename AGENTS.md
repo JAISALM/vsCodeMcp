@@ -195,6 +195,18 @@ When the user asks about ComfyUI workflows:
 The agent should not modify the MCP installation or configuration unless explicitly asked.
 
 ---
+# CRITICAL: NO Agent-Run ComfyUI Workflows (2026-10-24, user HARD rule — D192)
+
+The agent must **NOT queue/run ComfyUI workflows** (MCP `run_workflow` /
+`generate_image` / `run_template` / any render). The local Qwen (llama.cpp) and ComfyUI
+share the SAME GPU (RTX 5090) with **no VRAM-release mechanism** — agent jobs compete
+with the user's UI work and the LLM and bottleneck everything.
+
+**Instead:** build/update the workflow JSON file (UI format rules above), run
+`validate_workflow` (read-only, OK), and tell the USER exactly which workflow to run and
+what to check. The user runs it themselves in the ComfyUI UI when convenient.
+
+---
 # Web Search & Fetch Defaults (2026-10-24, user directive)
 
 **Never use the built-in `web_search` tool** — it is the DeepSeek-backed provider

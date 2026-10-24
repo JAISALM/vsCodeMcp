@@ -41,35 +41,58 @@ source = k2f_jaisal_crookednose.json, seed 90201 kept for comparability):
 Validated: `validate_workflow` = valid true, 0 errors (16 nodes converted from UI).
 Run prompt_id `e3784222-4e5e-4743-84ba-d55a645b5e29` (queued 17:5x IST).
 
-**Result (3-way A/B/C, same seed 90201, S1 paddy scene, 1928×1088):**
-- **A = turbo_bf16 10 steps denoise 0.65** → `k2f_jaisal_movie_shot_16x9_00001_.png` —
-  **WINNER so far**: identity held (face/hair/crooked nose/black tee), full S1 scene
-  (post-harvest stubble, standing water, rain, hat farmers), true 16:9, real DoF + moody
-  dusk grade. Remaining flaw: fine speckled texture on face/shirt — likely the REF's own
-  Krea2 skin texture being faithfully carried by the identity edit (fidelity includes
-  texture) + i2i re-synthesis at 0.65. NOT pixelated, NOT black-spot.
+**Result (4-variant A/B/C/D, same seed 90201, S1 paddy scene, 1928×1088):**
+- **A = turbo_bf16, res_2m/beta57, denoise 0.65** → `k2f_jaisal_movie_shot_16x9_00001_.png`
+  — composition/identity OK but **fine speckled texture on face/shirt**.
 - **B = raw_bf16 15 steps denoise 0.65** → `..._rawbf16_00001_.png` — **FAILED** (see
-  FAILED VARIANT above): total smear, face gone.
-- **C = turbo_bf16 10 steps denoise 0.45** → `..._d045_00001_.png` — **FAILED** a
+  FAILED VARIANT below): total smear, face gone.
+- **C = turbo_bf16, denoise 0.45** → `..._d045_00001_.png` — **FAILED** a
   different way: **Jaisal missing from frame** — only the field + background farmers.
   On a FRESH canvas latent, low denoise lets the random latent dominate and the
   character (carried by the identity patch, not the canvas) fails to re-insert.
   **Rule: new-canvas identity-edit i2i needs HIGH denoise (0.65+); 0.4–0.45 drops the
   character. (k2f's 0.4 works only because its latent = the REF latent, not a fresh
   canvas.)**
+- **D = turbo_bf16, PACK'S EXACT sampler recipe** (`linear/euler`+`beta` 12/15 pass 1,
+  `exponential/res_4s_munthe-kaas`+`kl_optimal` 3/15 pass 2) →
+  `..._packrecipe_00001_.png` — **FAILED**: whole-frame mottled/paint texture, face
+  degraded (eyes barely visible).
+- **USER VERDICT (all four): "zero thing to celebrate… pixelated, grainy, not a good
+  image… clearly something wrong with your settings."** My earlier "A = WINNER so far"
+  self-assessment was WRONG — A was grainy/speckled, not movie-frame quality.
+
+**ROOT-CAUSE FOUND (2026-10-24, read-only pack-code audit):** all four variants above
+shared one thing I had "corrected" on a name guess: **the VAE**. I used
+`krea2RealVae_v10.safetensors` — but the Film Studio pack's own code references
+**`qwen_image_vae.safetensors`** as its VAE asset (and `wan_2.1_vae` for the unrelated
+Wan-2.1 video family). The proven, user-approved k2f milestone already used
+`qwen_image_vae`. **Wrong-VAE decode = exactly the global speckle/mottle artifacts seen
+in all four outputs.** `krea2RealVae_v10` is likely for a different Krea variant —
+**never use it for these Krea2 diffusion models again.**
+
+**CORRECTED CANDIDATES (built, validated, USER runs — D192: agent must NOT queue runs;
+Qwen + ComfyUI share the 5090 with no VRAM-release mechanism):**
+1. **E = `k2f_jaisal_movie_shot_16x9_qwenvae.json`** (TOP PICK): A's graph (res_2m/beta57
+   samplers, 10+3 steps, 0.65/0.27) + `qwen_image_vae` — isolates the VAE fix on the
+   better sampler.
+2. **F = `k2f_jaisal_movie_shot_16x9_packrecipe_qwenvae.json`** (backup): pack's exact
+   sampler recipe + `qwen_image_vae`.
+Both validated (valid, 0 errors). Output prefixes `..._qwenvae` /
+`..._packrecipe_qwenvae`. **User: run E first; if still speckled → run F.**
+If E is clean → the recipe is locked: turbo_bf16 + res_2m/beta57 + 10+3 steps +
+0.65/0.27 + qwen_image_vae + 1928×1088 + empty-prompt grounded negative.
 
 **Conclusion/next:**
-- Recipe candidate (pending user verdict): **turbo_bf16 + RES4LYF res_2m/beta57 + 10
-  steps cfg 1 + denoise 0.65 + 3-step 0.27 refine + krea2RealVae_v10 + 1928×1088 canvas
-  + empty-prompt grounded negative** = the Krea2 movie-shot still recipe (16:9, ready
-  for H3 R2V, D021).
-- Speckle fix candidates: (1) cleaner reference — the current ref `jaisal_ref.png` is
-  itself Krea2-generated with speckled skin; after the Klein LoRA character sheets land
-  (tonight's training) re-point the ref and the texture should come clean; (2) try
-  grounding_px 384 (in-distribution low end) to carry less micro-texture; (3) different
-  seed (texture pattern may be seed-dependent).
-- If user approves A as the recipe → replicate per scene S1–S6 (1928×1088 refs) and feed
-  2–3 stills per shot to H3 R2V.
+- **Recipe candidate (pending user run E verdict): `k2f_jaisal_movie_shot_16x9_qwenvae`
+  = turbo_bf16 + RES4LYF res_2m/beta57 + 10 steps cfg 1 + denoise 0.65 + 3-step 0.27
+  refine + `qwen_image_vae` + 1928×1088 canvas + empty-prompt grounded negative.**
+  Backup = F (pack's exact sampler recipe + qwen_image_vae).
+- **NO agent runs (D192)** — user runs E then F in the UI at their convenience; outputs
+  land in `output\` with the prefixes above.
+- If E clean → replicate per scene S1–S6 (1928×1088 refs, H3 R2V, D021). If E still
+  speckled → F; if both still bad → next knobs: grounding_px 384, different seed, or a
+  cleaner ref (the Klein LoRA character sheets from tonight's training — the current
+  `jaisal_ref.png` is itself Krea2-generated with speckled skin).
 
 **FAILED VARIANT (same turn, do NOT retry this route):** `k2f_jaisal_movie_shot_16x9_rawbf16.json`
 = same graph but UNET `krea2_raw_bf16` + 15 steps → **total collapse**: face gone, entire

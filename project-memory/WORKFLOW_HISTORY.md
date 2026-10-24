@@ -19,15 +19,23 @@ source_image wired from `jaisal_ref.png` — pixel-fit path into the 16:9 canvas
 `EmptyLatentImage 1928×1088` → `ClownsharKSampler_Beta` #2 (3 steps, denoise 0.27
 refine) → `VAEDecode` (`krea2RealVae_v10`) → `SaveImage` (prefix
 `k2f_jaisal_movie_shot_16x9`).
-**Status:** validated (valid, 0 errors); first run done (A: prompt_id e3784222-…).
-Variants (same turn, same seed): `_rawbf16.json` (FAILED — raw model collapses the
-identity-edit i2i, total smear) and `_d045.json` (FAILED — denoise 0.45 on a fresh
-canvas drops the character). **A (`k2f_jaisal_movie_shot_16x9_00001_.png`) = best so
-far: 16:9 movie frame, identity held, S1 scene complete; remaining flaw = speckled
-skin texture (likely carried from the ref's own Krea2 texture — should clear with the
-Klein LoRA character-sheet ref).** Recipe pending user verdict.
-**Known issues:** none structural. **Next improvement:** if A approved → replicate per
-scene S1–S6 (1928×1088 refs for H3 R2V, D021); speckle fixes → EXPERIMENTS.md.
+**Status:** validated (valid, 0 errors). First-round runs (agent-run, before D192):
+A (res_2m/beta57 + krea2RealVae_v10) = speckled; B (raw_bf16) = total collapse; C
+(denoise 0.45) = character dropped; D (pack's exact samplers + krea2RealVae_v10) =
+mottled paint texture. **USER REJECTED ALL FOUR** ("pixelated, grainy"). Root cause:
+wrong VAE (`krea2RealVae_v10`); the pack's own code uses `qwen_image_vae` (the
+user-approved k2f VAE).
+**CORRECTED FILES (built + validated 2026-10-24, USER runs — D192 no agent runs):**
+- `k2f_jaisal_movie_shot_16x9_qwenvae.json` — **E, TOP PICK** = A's graph (res_2m/beta57,
+  10+3 steps, 0.65/0.27) + `qwen_image_vae`. Output prefix `..._qwenvae`.
+- `k2f_jaisal_movie_shot_16x9_packrecipe_qwenvae.json` — **F, backup** = pack's exact
+  sampler recipe (`linear/euler`+`beta` 12/15 → `exponential/res_4s_munthe-kaas`+
+  `kl_optimal` 3/15) + `qwen_image_vae`.
+**Run order (user):** E first → if clean, recipe locked for all 6 scenes; if still
+speckled → F → if both bad, next knobs per EXPERIMENTS.md (grounding_px 384, seed,
+cleaner ref from the Klein character sheets).
+**Known issues:** none structural (both validate 0 errors). Details → EXPERIMENTS.md
+2026-10-24 entry.
 Details → EXPERIMENTS.md 2026-10-24 entry.
 
 ---
