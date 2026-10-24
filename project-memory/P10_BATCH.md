@@ -27,17 +27,17 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 
 | File | Source | Job | Size target | Last seen | Status |
 |---|---|---|---|---|---|
-| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | 0 (wb-reset by failed pwsh-274) | RUNNING (resume+retry) |
-| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | 0 (wb-reset by failed pwsh-297) | RUNNING (resume+retry) |
+| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | 9,090 MB stale partial | QUEUED (script resumes from partial) |
+| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | **IN PROGRESS** (resumed from 7,530 MB partial, 2026-10-25 00:25) | RUNNING |
 | `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
-| `minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors` (loras) | lightx2v/Minimax-h3-Turbo | pwsh-396 | 1865 MB | 0 (DNS fail pwsh-274) | RUNNING (resume+retry) |
+| `minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors` (loras) | lightx2v/Minimax-h3-Turbo | pwsh-396 | 1865 MB | — | **DONE ✓ (2026-10-24 23:0x)** |
 | `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-396 | 13,135 MB (13,773,998,700 B) | **DONE ✓ (2026-10-24 22:54)** → P10-1 fully runnable | DONE |
-| `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-396 | 22,213 MB (22,213,723,064 B) | 0 | QUEUED after QAD (same job) |
+| `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-396 | 22,213 MB (22,213,723,064 B) | **DONE ✓ (2026-10-25 00:25)** (reset at 79% → auto-resume) | DONE |
 | `minimax_h3_character_swap_v1.1_ref2va_fro.safetensors` (loras) | Alissonerdx/Minimax-H3-ComfyUI | pwsh-353 | 76 MB | — | DONE ✓ (76 MB) |
 | `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | — | DONE ✓ (2665 MB on disk) → **`H3_HyperFlow_Fast_LOCAL.json` RE-VALIDATED = 0 errors, runnable pre-restart** |
-| `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | 0 | QUEUED (Sol/FastVideo runtime — PEFT adapter, not a ComfyUI LoRA) |
-| `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | 0 | QUEUED (optional fast decoder, ~10 s/clip saved) |
+| `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
+| `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
 | `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
 | **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-426/430 | ~3 GB torch | **DONE ✓** torch 2.14.1+cu130 (cuda True) + gvhmr[rtmpose] + editable 0.1.8; `m2mr doctor` green (code) — 3 user assets pending (SMPLX npz / Mixamo FBX / input) |
