@@ -4,6 +4,41 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — ONE-CLICK TEST BATCH (8 files) — built from the pack's shipped V.01 template (user directive: build workflows for post-restart testing)
+
+**Builder:** `D:\models\vsCodeMcp\utilities\build_oneclick_workflows.py` (reusable —
+config template + per-job list; outputs `k2f_<char>_<scene>_16x9_oneclick.json`).
+**Template:** pack's shipped `Vionex - Krea 2 Film (V.01).json` (single `Krea2OneNode` +
+MarkdownNotes). All settings = the pack's own expansion code (no hand-assembled nodes).
+**Config per file:** mode i2i / `i2i.pipeline=identity_edit`, `uploads.image` =
+`jaisal_final_ref.png` / `zidhan_final_ref.png` (canonical anchors in `input\`),
+scene-specific prompts (identity clause + FINAL 6-scene set), 1928×1088 16:9 2MP,
+Fast preset (8 steps, cfg 1, euler/simple, RES4LYF + 3-step 0.27 refine),
+model `krea2_turbo_bf16.safetensors`, clip `qwen3vl_4b_fp8_scaled.safetensors`,
+vae `wan_2.1_vae.safetensors` (official — auto-download), the TWO managed movie LoRAs
+@1.0 (`Krea 2\canon_krea2` + `Krea 2\cinematic_movie_still_krea2` — auto-download),
+DEFAULT_FILM_NEGATIVE.
+**Files (all in `user\default\workflows\`):**
+| File | Character | Scene | Seed |
+|---|---|---|---|
+| `k2f_jaisal_movie_shot_16x9_oneclick.json` | Jaisal | S1 paddy (original build; ref updated to `jaisal_final_ref.png`) | 90201 |
+| `k2f_jaisal_S1_paddy_16x9_oneclick.json` | Jaisal | S1 paddy | 90201 |
+| `k2f_jaisal_S2_house_16x9_oneclick.json` | Jaisal | S2 behind Kerala house | 90202 |
+| `k2f_jaisal_S3_interior_16x9_oneclick.json` | Jaisal | S3 inside house | 90203 |
+| `k2f_jaisal_S4_bike_16x9_oneclick.json` | Jaisal | S4 Kerala bike | 90204 |
+| `k2f_jaisal_S5_7s_ground_16x9_oneclick.json` | Jaisal | S5 7-a-side ground | 90205 |
+| `k2f_jaisal_S6_village_16x9_oneclick.json` | Jaisal | S6 village | 90206 |
+| `k2f_zidhan_S1_paddy_16x9_oneclick.json` | Zidhan | S1 paddy | 90301 |
+
+**Status:** all validated — ONLY error each = `Krea2OneNode unknown_class_type`
+(FilmStudio pack not loaded — EXPECTED; everything else converts clean).
+**GATE:** the shared ComfyUI restart (P7) loads FilmStudio. **USER TESTS AFTER
+RESTART:** open a file → queue (first run auto-downloads the 2 movie LoRAs +
+`wan_2.1_vae`, internet needed). Recommended order: S1 Jaisal (bar check) → S2–S6 →
+Zidhan S1. Fallback if oneclick underdelivers: hand-built `..._qwenvae` variants.
+
+---
+
 ## 2026-10-24 — `k2f_jaisal_movie_shot_16x9_oneclick.json` — THE PACK'S SHIPPED WORKFLOW, filled with our S1/Jaisal config (new top candidate)
 
 **Purpose:** user directive — "just create a normal workflow out of the workflows they

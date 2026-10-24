@@ -9,7 +9,22 @@ Details live in: `AUDIO_PIPELINE_PLAN.md` (audio), `D112`/`D106` + `EXPERIMENTS.
 
 ---
 
-## P1 — MALAYALAM LIP-SYNC + MOVIE AUDIO (D050) — **NOT STARTED** (user-named)
+## P1 — MALAYALAM LIP-SYNC + MOVIE AUDIO (D050) — **SETUP DONE** (2026-10-24) — awaiting user dubs
+
+**Setup completed this session:** toolchain verified on disk (rvc venv ✓, openvoice
+venv ✓, `clean_audio.py` CLI = `<input> -o <out_dir>` → `<stem>_clean.wav`,
+`collect_references.py` ✓, `convert_character.py` ✓, `references\mithun` ✓,
+`02_audio_raw` ✓). Created `03_audio_converted\` + `04_lipsync\` (05_final
+pre-exists). **NEW: `D:\models\ai-movie\scripts\run_dub_pipeline.py`** — per-character
+pipeline: raw dubs → clean (openvoice venv) → RVC convert (`rvc venv infer\cli.py
+--f0-method rmvpe --protect 0.4`) → summary. RVC entry points = `repos\rvc-webui\
+infer\cli.py` (convert) + `train\train.py` (train) + `webui.py`.
+**LatentSync NOT yet cloned** (`repos\LatentSync` absent; WSL2 distros present,
+Stopped — `wsl --list`). Next user actions: record dubs (headset) → drop in
+`02_audio_raw\<char>\` → target-voice refs in `references\<char>\` (10+ min) or
+`--skip-convert` → train `models\rvc\<char>.pth` (heavy GPU) → run
+`run_dub_pipeline.py --character <char>` → then LatentSync (WSL2, repo clone +
+`setup_env.sh` — heavy, coordinate with user).
 
 **What:** user dubs all Malayalam dialogue (PC headset) → voice-convert per character (RVC) →
 LatentSync lip-sync onto the scene videos → DaVinci assembly (user). This is the big "we haven't
@@ -229,9 +244,20 @@ our ComfyUI. (3) Test runs. (4) Apply to movie + intro (see use cases in WORKFLO
 
 ---
 
-## P8 — `E:\minimax_workflow` workflow inventory — **OPEN WORK** (user-flagged 2026-10-24)
+## P8 — `E:\minimax_workflow` workflow inventory — **DONE** (2026-10-24) → `docs\MINIMAX_WORKFLOW_INVENTORY.md`
 
 User: "we need to check the workflows we have here inside this folder, but that's an open work."
+**COMPLETED (2026-10-24):** all 24 top-level JSONs + 6 subfolders audited against the live
+`/object_info` catalog (read-only). **8 files fully runnable today** (incl. the P4 tool
+`video_minimax_h3_r2v+turbo.json`); 7 more with cosmetic gaps (note nodes) or one small pack
+(rgthree — unlocks `minimax_h3_sam_r2v_2char_cinematic.json`, directly relevant to the 2-man
+movie); 7 need real pack installs (EastMoe / JW / RAMCleanup / BiRefNet / BFSShot / refmod /
+zuanfilm — gap list in the doc); 1 is a platform export (inline-graph v2 — not loadable).
+Subfolders: P7 suites present (`H3-LongTakeNoCuts` v01/v02, `Herrgotts-H3-Infinite-
+Continuation-Suite` v1.4 01–04 + README); `MiniMax-H3-NativeAudio-MusicVideo-Workflow` = full
+git repo (music-oriented → low value under D041); `blender+minimax` = P2 assets;
+`character_sheet` = 5 sheet workflows; `consistent_environment` = MyRoom refmod experiment.
+Full table + pack gap list → `docs\MINIMAX_WORKFLOW_INVENTORY.md`.
 ~24 top-level workflow JSONs + subfolders (`blender+minimax`, `character_sheet`,
 `consistent_environment`, `MiniMax-H3-NativeAudio-MusicVideo-Workflow`, `production_experiments`)
 — audit what each is, which nodes it needs, which are runnable on our install, which are stale.
