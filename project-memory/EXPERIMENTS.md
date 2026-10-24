@@ -70,6 +70,34 @@ Wan-2.1 video family). The proven, user-approved k2f milestone already used
 in all four outputs.** `krea2RealVae_v10` is likely for a different Krea variant —
 **never use it for these Krea2 diffusion models again.**
 
+**SHIPPED-WORKFLOW AUDIT (2026-10-24, the settings I was MISSING all along):** the
+pack's own `Vionex - Krea 2 Film (V.01).json` config blob (node 13 `Krea2OneNode` = ONE
+JSON config widget) carries the real movie-still recipe:
+- **model** `krea2_turbo_Bf16` · **clip** `qwen3vl_4b_fp8_scaled` · **VAE = `wan_2.1_vae.safetensors`**
+  (the official Krea2 VAE — NOT qwen_image_vae, NOT krea2RealVae; local `vae\wan\` is
+  EMPTY → pack's managed system fetches it).
+- **TWO "managed" LoRAs @1.0 each: `Krea 2\canon_krea2.safetensors` +
+  `Krea 2\cinematic_movie_still_krea2.safetensors`** — the movie-still style LoRAs.
+  **NEVER used in any of my hand-built variants — this is the missing ingredient.** Not
+  local yet (`models\loras\Krea 2\` doesn't exist) → pack auto-downloads (managed:true,
+  SHA-256).
+- Preset Fast = 8 steps / cfg 1 / euler+simple / RES4LYF + 3-step 0.27 refine;
+  1928×1088 16:9 2MP; multi-paragraph cinematic prompt; negative = DEFAULT_FILM_NEGATIVE
+  (quality-focused, captured verbatim).
+- Identity Edit = `mode:"i2i"` + `i2i.pipeline:"identity_edit"` + `uploads.image`
+  (filename in `input\`) + fit_mode fit + ref_boost 4.0 + grounding_px 768.
+
+**NEW TOP CANDIDATE — `k2f_jaisal_movie_shot_16x9_oneclick.json` (built 2026-10-24):**
+the SHIPPED V.01 file with node 13's config blob filled with ours: i2i/identity_edit,
+`uploads.image = jaisal_ref.png`, S1 paddy prompt (Jaisal identity clauses),
+1928×1088 16:9, Fast preset, seed 90201 fixed, model/clip local (krea2_turbo_bf16 /
+qwen3vl_4b_fp8_scaled), vae wan_2.1_vae, the TWO managed movie LoRAs @1.0,
+refinement 3@0.27, DEFAULT_FILM_NEGATIVE. Validated: ONLY error =
+`Krea2OneNode unknown_class_type` (pack not loaded — EXPECTED). **GATE: the shared
+ComfyUI restart (P7 — loads FilmStudio + Herrgotts + LongTakeNoCuts together). After
+restart: open the file, queue it — first run auto-downloads the 2 movie LoRAs +
+wan_2.1_vae (internet needed).** Output = `output\` (auto_save on).
+
 **CORRECTED CANDIDATES (built, validated, USER runs — D192: agent must NOT queue runs;
 Qwen + ComfyUI share the 5090 with no VRAM-release mechanism):**
 1. **E = `k2f_jaisal_movie_shot_16x9_qwenvae.json`** (TOP PICK): A's graph (res_2m/beta57

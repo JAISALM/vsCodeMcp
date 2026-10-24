@@ -4,6 +4,27 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `k2f_jaisal_movie_shot_16x9_oneclick.json` — THE PACK'S SHIPPED WORKFLOW, filled with our S1/Jaisal config (new top candidate)
+
+**Purpose:** user directive — "just create a normal workflow out of the workflows they
+provided." This IS their `Vionex - Krea 2 Film (V.01).json` (single `Krea2OneNode` +
+MarkdownNotes), with node 13's JSON config widget filled: **mode i2i /
+`i2i.pipeline=identity_edit`**, `uploads.image = jaisal_ref.png` (input\), S1 paddy
+prompt (Jaisal identity clauses), 1928×1088 16:9 2MP, Fast preset (8 steps, cfg 1,
+euler/simple, RES4LYF + 3-step 0.27 refine), seed 90201 fixed, model
+`krea2_turbo_bf16.safetensors`, clip `qwen3vl_4b_fp8_scaled.safetensors`,
+**vae `wan_2.1_vae.safetensors`** (official — auto-downloaded), **the two managed
+movie LoRAs @1.0** (`Krea 2\canon_krea2` + `Krea 2\cinematic_movie_still_krea2` —
+auto-downloaded), DEFAULT_FILM_NEGATIVE, refinement 3@0.27.
+**Location:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\k2f_jaisal_movie_shot_16x9_oneclick.json`
+**Status:** validated — ONLY error = `Krea2OneNode unknown_class_type` (FilmStudio pack
+NOT loaded — EXPECTED). **GATE: the shared restart (P7) loads FilmStudio + Herrgotts +
+LongTakeNoCuts. After restart: open this file → queue. First run fetches the 2 movie
+LoRAs + wan_2.1_vae (internet).** This supersedes the hand-built variants (A/B/C/D/E/F)
+for the movie-shot recipe. Details → EXPERIMENTS.md 2026-10-24 entry.
+
+---
+
 ## 2026-10-24 — `k2f_jaisal_movie_shot_16x9.json` — Krea2 movie-shot still with the learned Film-Studio recipe
 
 **Purpose:** first 16:9 movie-frame still (Jaisal, S1 paddy after harvest) built with the
