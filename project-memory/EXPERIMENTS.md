@@ -6,6 +6,14 @@ Newest experiments first.
 
 ## 2026-10-24 — 2-PASS VARIATION APPROACH PROVEN: t2i scene base → face-lock to finalized ref = ZERO FACE DRIFT (Jaisal 6-scene set)
 
+**❌ UPDATE (2026-10-24 ~16:00 IST): THIS ENTRY'S VERDICT IS VOID.** The user reviewed the full
+batch (t2i bases + all 6 face-locked outputs + Zidhan t2i) and REJECTED everything: all face-locked
+images face-drift, noisy "2021-AI" skin texture, blackouts/black blobs in the bases, cracked/dotted
+skin. The "zero face drift / PROVEN / LOCKED variation recipe" claim in the entry below was a
+LENIENT SELF-ASSESSMENT, not the user's verdict. The 2-pass approach = **FAILED and abandoned**
+(DECISIONS.md D183). `data\jaisal_variations\` is NOT a verified set — do NOT use as a LoRA
+dataset. The `k2f_zidhan_scenes.json` built on this recipe = DO NOT RUN.
+
 **Goal:** build a 6-scene variation set for Jaisal (the user's final scene set: paddy/harvest+rain, behind a
 Kerala house, inside a Kerala house, on a Kerala bike, a minimal local 7's football ground, rural village)
 with **zero face drift** to the locked face (user: "i dont wan any face drift for the original opne").

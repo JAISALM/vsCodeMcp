@@ -1,6 +1,13 @@
 # Current Task
 
-## 🔴 TOP (2026-10-24 ~14:30 IST) — JAISAL VARIATION SET COMPLETE (6 scenes, zero face drift) — next = Zidhan 6-scene set → fresh LoRA
+## 🔴 TOP (2026-10-24 ~16:00 IST) — 2-PASS KREA2 FACE-LOCK REJECTED BY USER (all 7 Jaisal outputs: face drift + noise + blackouts = "2021 AI garbage") → PIVOT = Flux Klein 20-image dataset → rank-32 char-LoRA (user building the Klein workflow NOW, self-run). Pending queue = PENDING_ITEMS.md (P1 Malayalam lip-sync/audio D050 · P2 Blender layout→video · P3 LoRA v2 · P4 H3 R2V 6 scenes · P5 SFX+DaVinci · P6 SeedVR2). Resume brief = MOVIE_RESUME.md. See D183.
+- **STRICT BAR (user verdict 2026-10-24):** "good/acceptable" is NOT the bar — outputs must be
+  near-clean (specific face, no noise/blackout/drift). Never self-certify marginal outputs —
+  show the user and ask.
+- **`data\jaisal_variations\` is NOT a verified set** (the "COMPLETE" claim below is VOID — do
+  not use as a LoRA dataset).
+
+## ⚠ VOIDED (2026-10-24 ~14:30 IST) — "JAISAL VARIATION SET COMPLETE (6 scenes, zero face drift)" — user REJECTED all face-lock outputs; body below is historical only — next = Zidhan 6-scene set → fresh LoRA
 - **2-PASS VARIATION APPROACH PROVEN (zero face drift):** (1) t2i scene base (generic Keralite man in scene,
   Krea2 random face — fine) → (2) FACE-LOCK that base to the finalized ref (Krea2 Identity Edit v1.2,
   ref_boost 4.0, denoise 0.35–0.4, 10 steps cfg 1 euler/simple, g768) → face locked to the finalized ref,

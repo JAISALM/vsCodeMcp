@@ -1302,3 +1302,33 @@
     be a shared false positive — the bare `recaptcha` shell script tag).
 - **Status:** Active pattern — reuse for any future JS-gated fetch need (civitai, HF gated
   pages, etc.).
+
+## D183 — 2-PASS KREA2 FACE-LOCK FAILED (user verdict) → character route pivots to Flux Klein dataset + rank-32 LoRA (2026-10-24)
+
+- **User verdict (ALL 7 Jaisal face-lock outputs rejected):** "all 7 drift the face and everything…
+  its absolutely shit… shitty blackouts, poor quality… krea2 is not meant for transferring the
+  image consistently unless its used with identity lora and its workflow." The "2-PASS PROVEN /
+  ZERO FACE DRIFT" claims (EXPERIMENTS.md 2026-10-24, old CURRENT_TASK top) are VOID — they were
+  lenient self-assessments, not the user's verdict. User's bar = near-clean, specific-face images
+  (no noise/blackout/drift); "good/acceptable" is NOT the bar.
+- **Diagnosis:** Krea2 t2i scene bases carry seed-dependent artifacts (blackouts/black blobs,
+  cracked/dotted skin, face smudges, duplicate people); the identity-edit face-lock then has to
+  replace a random face at denoise 0.4 → drift + artifact carry-through. Face-locking a broken
+  base = garbage in, garbage out. Krea2 t2i quality reads as "2021 AI" next to the user's bar.
+- **PIVOT (user-directed):** (1) **Dataset = 20 images** (10 Jaisal + 10 Zidhan) from the
+  immutable refs (`data\character_finals\{jaisal,zidhan}_final.png`) via **`flux-2-klein-9b` +
+  `Flux2-Klein-9B-consistency-V2`** (both models present) — diverse scenes/poses/angles/lighting,
+  face clear, **Zidhan full beard in all 10** (the old LoRA's failure), strict per-image curation.
+  (2) **LoRA = rank 32 (~16 per subject), ~15–20 epochs, triggers `jeskvman`/`dlorman`** → ~2–3 h
+  on the 5090; **full rank (7 h) rejected** as overkill for 2 subjects. (3) Retest with triggers
+  across all 6 scenes at the strict bar. **User is building + running the Klein workflow himself.**
+- **Dead routes — do NOT resurrect:** `k2f_jaisal_scenes.json` (run `a663e26c`, rejected),
+  `k2f_zidhan_scenes.json` (built unvalidated — same approach), face-lock-to-HD (`flock_hd_run`,
+  rejected), t2i re-rolling (D163). `data\jaisal_variations\` = NOT a verified set.
+- **Supersedes D175** (Krea2 stays production engine) **for the character-consistency route** —
+  Krea2 may still be used for non-identity scene art; character identity now flows through the
+  Klein LoRA.
+- **Status:** Active. Next = user's Klein dataset → strict curation → rank-32 train → strict
+  retest. Pending queue captured in `PENDING_ITEMS.md` (P1 Malayalam lip-sync/audio D050,
+  P2 Blender layout→video, P3 this LoRA, P4 H3 R2V 6 scenes, P5 SFX+DaVinci, P6 SeedVR2);
+  resume brief = `MOVIE_RESUME.md`.

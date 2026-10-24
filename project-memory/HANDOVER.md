@@ -1,5 +1,9 @@
 # HANDOVER — new session, read first (2026-10-12)
 
+> **MOVIE PRODUCTION (2026-10-24):** resume brief = `MOVIE_RESUME.md` · pending queue =
+> `PENDING_ITEMS.md` (P1 Malayalam lip-sync/audio · P2 Blender layout→video · P3 Klein LoRA ·
+> P4 H3 R2V · P5 SFX+DaVinci · P6 SeedVR2) · 2-pass Krea2 face-lock = FAILED (D183).
+
 Compact resume note. Full detail lives in the files referenced. Read order:
 PROJECT_STATE.md → this file → CURRENT_TASK.md header → WRITING_SETUP.md.
 
