@@ -207,9 +207,21 @@ Continue, **03_3Clip_Showcase_AutoStitch**, 04_Stitch_Saved_Chain, README, 6.7 M
 v1.4 demo mp4). Limitations: no HQ audio reset (audio drift over very long chains); carryover
 preserves only already-generated audio; Net New Content = longer sampling; GPL-3.0.
 
-**When to use which:** A = one continuous R2V shot extended (environment walk, intro oner).
-B = long multi-clip scenes with DIALOGUE + known endpoints (movie scenes S2/S3/S5 talking
-across 15–30 s; feeds P1 lip-sync cleanly). Complementary — both load on the same restart.
+**Verdict (2026-10-24, user asked "which is better?"):** **B (Herrgotts) = the PRIMARY
+long-shot tool for the movie.** Native in-place AV preservation beats A's
+blend-back workaround at the seam, and its first-class audio (previous-tail carryover →
+ambience/dialogue continues past the seam) feeds P1 lip-sync. A stays the lightweight
+fallback for a PURE R2V motion-context shot with no Last-Frame anchors (360° walk-through,
+intro oner) — B supports keyframe-free continuation too, just less tested.
+**Audio nuance (user asked "this locks the same audio?"):** the protected region carries
+the previous clip's audio forward VERBATIM (seam = no cut/pop); beyond it H3 GENERATES new
+audio from the prompt (H3 native audio = prompt-controlled ambient → fits D041; the
+user's RVC dub layers over it in DaVinci). It cannot restore audio that was never
+generated (mid-word cut source clips still need regen).
+**When to use which:** A = one continuous R2V shot extended (environment walk, intro
+oner). B = long multi-clip scenes with DIALOGUE + known endpoints (movie scenes S2/S3/S5
+talking across 15–30 s; feeds P1 lip-sync cleanly). Complementary — both load on the
+same restart.
 
 **To do:** (1) **ComfyUI restart** at a convenient point → verify both packs' nodes appear.
 (2) Validate the Herrgotts v1.4 examples (start with 03 showcase) + LongTakeNoCuts v2 against
@@ -246,7 +258,8 @@ pending item here → commit. Log each entry below as it lands:
 | # | Item | Status |
 |---|------|--------|
 | 1 | `HerrgottMargott/Herrgotts-H3-Infinite-Continuation-Suite` (long-shot FL2VA clip chain, native Masked AV) | **DONE 2026-10-24** — installed + analyzed; core capability + models verified ✓; examples + 11-clip demo copied; merged into P7. Awaiting the shared restart. |
-| 2 | (fill in as user sends — more repos + a new model) | — |
+| 2 | `Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex` (reddit r/StableDiffusion 1vn7avz "KREA 2 Film Studio" — all-in-one film workflow + one-node pack) | **DONE 2026-10-24** — installed + analyzed. Stills-ONLY (0 MiniMax nodes in the pack — the "minimax loop" = our own still→H3 handoff, i.e. the movie flow itself). Deps ✓ (RES4LYF, krea2edit, T-Enhancer, GGUF); models ✓ (`krea2_turbo_fp8_scaled` + `qwen3vl_4b_fp8_scaled` + `krea2RealVae_v10`); only `comfyui-krea2-controlnet` missing (= optional CONTROL sub-feature). Not loaded (shared restart), not run. Notes → EXPERIMENTS.md + REPOS.md. |
+| 3 | (fill in as user sends — more repos + a new model) | — |
 
 **Tonight's plan (user, 2026-10-24):** user trains the Klein LoRA tonight (P3) and sleeps.
 Agent standby: dataset curation on request. Work window = 16:36 IST → night.

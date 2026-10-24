@@ -4,6 +4,60 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — Krea2 Film Studio (Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex) installed + analyzed — NOT YET RUN
+
+**Goal:** user-named "gold mine" via reddit r/StableDiffusion 1vn7avz (u/Lower-Cap7381,
+u/Vionex) — all-in-one KREA 2 film workflow + custom one-node pack; take notes + help even
+if not fully usable. Walkthrough video: https://www.youtube.com/watch?v=OXSZDaPa1U8
+
+**What was done (analysis only, no run):**
+- Cloned → `custom_nodes\ComfyUI-Krea2-FilmStudio-Vionex` (depth 1). **NOT loaded yet —
+  same pending ComfyUI restart as the long-shot packs.**
+- Architecture: ONE main node `Krea2OneNode` (modes T2I / I2I / Control / Identity Edit)
+  that EXPANDS at queue-time into native ComfyUI nodes (loader → LoRA chain →
+  CLIPTextEncode → KSampler → VAEDecode → save/preview). **No external KREA API** — fully
+  local. Helpers: `Krea2MultiReferenceEncode`, `Krea2ReferenceDownscale`, `Krea2ImageFit`
+  (aspect-preserving I2I canvas), `Krea2PromptTemplate`, `Krea2PromptStyle` (10 VIONEX
+  cinematic style bundles appended at queue time; the visible prompt stays the user's own
+  text), `Krea2DiversityNoise`, `Krea2SaveImage`.
+- **NO MiniMax nodes in the pack** (0 mentions in code) — the "minimax loop" from the
+  reddit post is the still→H3 handoff, which we build ourselves (exactly our movie flow:
+  Krea2/Klein stills → H3 R2V/I2V).
+- Shipped workflow `Vionex - Krea 2 Film (V.02).json` = 1 `Krea2OneNode` (widgets_values
+  = JSON config blob: version/mode/preset/prompt/negative) + 3 MarkdownNotes. Outputs:
+  `image`, `latent`, `used_seed`.
+- Repo's own AUDIT.md: Krea2 is NATIVE in ComfyUI core (`comfy/ldm/krea2/model.py`,
+  CLIPLoader `type=krea2`, Krea2 LoRA key mapping) — matches our core. Proven T2I chain:
+  UNETLoader → LoraLoaderModelOnly → CLIPLoader(type=krea2) → CLIPTextEncode →
+  ConditioningZeroOut → EmptyLatentImage → KSampler → VAEDecode → SaveImage (turbo
+  defaults 8 steps cfg 1 Euler Simple). Film workflow = multiple LoRAs + 2-STAGE sampling
+  (primary denoise → short low-denoise refine → tiled VAE decode).
+- Default sampler backend = RES4LYF (`ClownsharKSampler_Beta` two-node chain); managed
+  assets auto-download with SHA-256 on first load (Canon UltraReal + Cinematic Movie Still
+  LoRAs, KREA Depth Control LoRA). Optional GGUF quantized models via ComfyUI-GGUF.
+- **Deps on our install:** RES4LYF ✓ · comfyui-krea2edit ✓ · ComfyUI-Krea2T-Enhancer ✓ ·
+  ComfyUI-GGUF ✓ · `comfyui-krea2-controlnet` ✗ (**only needed for the optional CONTROL
+  sub-feature**).
+- **Models on disk** (`E:\ComfyUI_windows_portable\ComfyUI\models`): `krea2_turbo_fp8_
+  scaled` / `krea2_raw_bf16` / `krea2_turbo_bf16` ✓ · text encoder `qwen3vl_4b_fp8_scaled`
+  ✓ (the KREA Qwen3-VL 4B layout the pack expects) · VAE `krea2RealVae_v10` ✓ (pack
+  default Wan 2.1 absent — the UI picks any VAE; AUDIT notes qwen_image_vae/Wan both work).
+  LoRAs present: Krea2Realism V1/V2, Krea2_Cinematic_Artstyle, krea2_darkbrush,
+  krea2_identity_edit_v1_2, krea2_lineart_v1_fp16, krea2_turbo_lora_rank_64_bf16,
+  krea2fp rank8 ep16/ep30, krea2fp_v2 ep32/ep64, Typnosis_Krea2.
+
+**Takeaways for our movie:** (1) 2-stage low-denoise refine before VAE decode = a quality
+trick to copy into our Krea2 stills workflows; (2) 10 style bundles + resolution buckets
+(optimal 16:9 1928×1088; Krea official 1024 square / 832×1216 / 1216×832 / 2048 square)
+= ready presets for scene stills; (3) `Krea2MultiReferenceEncode` = multi-ref T2I
+(character + environment refs) — fits D020 2–3-ref stills; (4) the pack is a UI
+convenience layer over native Krea2 nodes — nothing here replaces P3 (Klein dataset/LoRA)
+or P4 (H3 R2V scenes).
+
+**Status:** installed, NOT loaded (shared restart), NOT run. No workflow built from it yet.
+
+---
+
 ## 2026-10-24 — Herrgotts-H3-Infinite-Continuation-Suite v1.4 installed + analyzed (FL2VA clip-chain long videos, native Masked AV) — NOT YET RUN
 
 **Goal:** user-named capability check — long MiniMax H3 videos from connected FL2VA clips with

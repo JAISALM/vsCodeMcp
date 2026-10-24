@@ -195,6 +195,32 @@ When the user asks about ComfyUI workflows:
 The agent should not modify the MCP installation or configuration unless explicitly asked.
 
 ---
+# Web Search & Fetch Defaults (2026-10-24, user directive)
+
+**Never use the built-in `web_search` tool** — it is the DeepSeek-backed provider
+(`web-search-deepseek`) which needs `DEEPSEEK_API_KEY` (not configured on this
+machine; every built-in search call errors). It is disabled at the home level
+(`C:\Users\user\.dsh\cordis.patch.yml` → `web-search-deepseek: disabled`, from the
+next profile boot).
+
+**Always use the `mcp__websearch__*` tools instead** (MCP server `websearch`,
+gateway `D:\MCP\mcp-gateway` — playwright headless browser, follows links, extracts
+full page content):
+- `mcp__websearch__full-web-search` — search + follow top results + extract full page content.
+- `mcp__websearch__get-web-search-summaries` — lightweight search results only.
+- `mcp__websearch__get-single-web-page-content` — extract one URL's content.
+
+**Built-in `web_fetch`** stays available for plain HTTP pages (no key needed).
+**JS-gated pages** (Reddit "Prove your humanity", anything needing JS execution):
+use the browser helper —
+```
+& "C:\Program Files\Python310\python.exe" "D:\models\vsCodeMcp\utilities\reddit_browser_fetch.py" "<url>" --text
+```
+It drives the local Playwright Chromium with a persistent profile (challenge state
+persists). **Gotcha:** the helper needs `playwright`, which is ONLY in
+`C:\Program Files\Python310` — NOT in the ComfyUI embedded python.
+
+---
 
 # CRITICAL: Audio — NO MUSIC (HARD RULE, all future scenes)
 

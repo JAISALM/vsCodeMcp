@@ -4,6 +4,21 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — Krea2 Film Studio pack installed (Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex) — shipped workflow V.02 noted
+
+**Pack:** `Shrey-1o1/ComfyUI-Krea2-FilmStudio-Vionex` ("KREA 2 Film Studio" by VIONEX,
+surfaced via reddit r/StableDiffusion 1vn7avz) cloned to
+`E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-Krea2-FilmStudio-Vionex`
+(depth 1). **NOT loaded yet — same pending ComfyUI restart as the long-shot packs.**
+Shipped workflow `Vionex - Krea 2 Film (V.02).json`: single `Krea2OneNode` (widgets =
+JSON config blob: mode t2i, preset Fast, prompt, negative) + 3 MarkdownNotes; outputs
+image/latent/used_seed. Pack classes: Krea2OneNode (+ MultiReferenceEncode,
+ReferenceDownscale, ImageFit, PromptTemplate, PromptStyle, DiversityNoise, SaveImage).
+**Stills-only — no MiniMax nodes.** Details + deps verification → EXPERIMENTS.md
+2026-10-24 entry; catalog → REPOS.md.
+
+---
+
 ## 2026-10-24 — Herrgotts-H3-Infinite-Continuation-Suite v1.4 INSTALLED + ANALYZED (FL2VA clip-chain long videos with native Masked AV continuation)
 
 **Pack:** `HerrgottMargott/Herrgotts-H3-Infinite-Continuation-Suite` cloned to
