@@ -46,6 +46,15 @@ Updated 2026-10-24.
 | [ai4bharat/IndicF5](https://github.com/ai4bharat/IndicF5) | Indic F5-TTS (parked — TTS route for kids content, not the movie). Install ref: `pip install git+https://github.com/ai4bharat/IndicF5.git` | reference only |
 | [Anujatk1999/open-media](https://github.com/Anujatk1999/open-media) | "Shot Composer" — intro-video repo (see INTRO_VIDEO_PRODUCTION.md). | reference only (clone in `D:\models\ai-movie\repos\` if used) |
 
+## 4K / background replacement (SyncTile)
+
+| Repo | What it is | Status |
+|---|---|---|
+| [NyckM/Bruxosdovfx-SyncTile-MiniMax-H3-v5.4](https://github.com/NyckM/Bruxosdovfx-SyncTile-MiniMax-H3-v5.4) | **H3 background replacement 4K 600+ frames** (reddit 1xbzw1o). Overlapping spatial tiles × temporal windows; every model call predicts all regions blended into one canvas = single denoising trajectory (no tile seams, no chained clips, VRAM = one region). Pack = repo root (`synctile_nodes.py` → `SyncTileGuiderH3`, `SyncTileRef2VAConditioningH3`, `SyncTileStreamDecodeVideoH3`). Shipped workflow `workflow/minimaxH3BackgroundSwap_v21a_guiaFrameAnterior.json` (v21a supersedes the v18 linked in the post). Community: NO mask needed, feed HIGH-RES character clip. | **installed** + analyzed ✓ (2026-10-24). Source copy → `E:\minimax_workflow\`. LOCAL workflow → `user\default\workflows\minimaxH3BackgroundSwap_v21a_LOCAL.json` (4 model remaps to local files). Not loaded (shared restart). |
+| [NyckM/Video-Util-ComfYUI](https://github.com/NyckM/Video-Util-ComfYUI) | bruxosdovfx Media IO pack: `BruxosSaveVideoPro` / `BruxosLoadVideoPro` / `BruxosLoadImage` (Load Image + Crop). Needed by the v21a workflow. | **installed** ✓ (cloned 2026-10-24; shared restart) |
+| [LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler) | `MinimaxH3LatentUpscaler3D` node (3D latent upscaler between stages 1 and 2). Models: `minimax_h3_latent_upscaler_3d_conv_v1_{bf16,fp16,fp32}` ([HF](https://huggingface.co/LBH-123-AI/Minimax_h3_latent_Upscaler)) + i2v/r2v example workflow templates. | **installed** ✓ (was already present + LOADED — node verified in live object_info). bf16 model downloading → `models/latent_upscale_models/`. |
+| LoRAs (HF, no repo): [NyckM/Background_Replace_Minimax_H3](https://huggingface.co/NyckM/Background_Replace_Minimax_H3) · [Alissonerdx/Minimax-H3-ComfyUI](https://huggingface.co/Alissonerdx/Minimax-H3-ComfyUI) (lms r64) · [Kijai/MiniMax-H3-experimental](https://huggingface.co/Kijai/MiniMax-H3-experimental) (PDMD 4-step distill) | v21a LoRA stack → `models/loras/minimax/`: Background Replace v3 (5-way merge @1.0) ✓ downloaded · lms_v1.0_r64 @0.3 ✓ downloaded · pdmd_4step_lora_avg_rank_57_bf16 @1.0 downloading. | **downloaded** (2026-10-24) |
+
 ## Video editing (NLE / timeline AI editing)
 
 | Repo | What it is | Status |

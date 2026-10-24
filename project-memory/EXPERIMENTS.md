@@ -4,6 +4,27 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — H3 background-replacement 4K (Bruxosdovfx-SyncTile v21a) — community-verified usage notes (P9 item 2, reddit 1xbzw1o)
+
+**Source:** r/StableDiffusion post `1xbzw1o` + top comments. **We built** the LOCAL
+adaptation (`minimaxH3BackgroundSwap_v21a_LOCAL.json`) but did NOT run it (D192).
+
+**Community guidance (top comments):**
+- **NO mask needed** — the workflow handles region blending itself ("dont need mask,
+  follow this steps for install … and use the new workflow v21a").
+- Use the **v21a** workflow (newer than the v18 the post body links).
+- **FEED HIGH-RES character clip** — the "pasted character onto background" look in the
+  demo is attributed to LOW-RES input video ("the compression from send low video. the
+  result from comfyui is better").
+- "The model just follow reference frame i send" — the reference frame drives the result.
+- Lighting is praised (backlight through hair looks convincing).
+
+**Conclusion for our use:** when we run this for a Jaisal/Zidhan background swap, feed the
+character clip at native/high resolution (do NOT downscale first), keep the prompt short
+and focused on the NEW background, and expect the model to follow the reference frame.
+Gate = shared ComfyUI restart (SyncTile + Bruxos packs) + PDMD LoRA + latent-upscaler
+downloads.
+
 ## 2026-10-24 — Krea2 "learned recipe" movie-shot still (Film Studio technique applied without the pack) — S1 paddy after harvest
 
 **Trigger:** user critique — Krea2 stills came out with **black spots + grainy/pixelated**
