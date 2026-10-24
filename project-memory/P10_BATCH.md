@@ -16,7 +16,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | 1 | **FastH3-Omni** — new faster H3 for t2v + ref2v | HF `FastVideo/FastH3-Omni-Comfy` · tweet `x.com/BennyDaBall_OG/status/2113323686250106978` | **DONE** (2026-10-24 20:45 — see WORKFLOW_HISTORY) |
 | 2 | **Character swap (Alissonerdx)** — COMPARE vs our existing swap workflows (items 4/5) | tweet `x.com/Alissonerdx/status/2111649216653148305` | **DONE** (2026-10-24 20:52 — see WORKFLOW_HISTORY) |
 | 3 | **NVlabs Sana sol-engine** — faster MiniMax w/o quality loss (tricky to make work) | repo `github.com/NVlabs/Sana/tree/sol-engine` + `models/minimax_h3/Sol-H3-ComfyUI` · tweets `x.com/xieenze_jr/status/2111123049571324395` + `x.com/PixelAigc/status/2113186476322324913` | **DONE** (2026-10-24 21:00 — see WORKFLOW_HISTORY) |
-| 4 | **NVIDIA VFX nodes** — video upscale for post | `github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` · blog `blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling` | PENDING |
+| 4 | **NVIDIA VFX nodes** — video upscale for post | `github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` · blog `blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling` | **DONE** (2026-10-24 21:10 — see WORKFLOW_HISTORY) |
 | 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | PENDING |
 | 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | PENDING |
 | 7 | **MiniMax H3 person remover LoRA** — have we covered it? | reddit `r/StableDiffusion/comments/1x0kokb` | PENDING |
@@ -46,9 +46,7 @@ download command — files are written in place; a complete file = size matches 
 
 > User: "keep a file where i need to check/do after your loop is completed"
 
-- [ ] **Restart ComfyUI once** — 17 packs load (10 previous + 7 from item-6: h3_clown_anchoring,
-      comfyui-load-audio-batch-from-dir, ComfyUI-TranscriptionTools, ComfyUI_Fill-ChatterBox, comfy-image-saver,
-      ComfyUI-Animation_Nodes_and_Workflows, ComfyUI-JNodes) + any new P10 packs (listed as they land).
+- [ ] **Restart ComfyUI once** — 18 packs load (10 previous + 7 item-6 + 1 item-4 VFX) + any new P10 packs (listed as they land).
 - [ ] Run `k2f_*_oneclick.json` × 8 (Krea2 cinematic images — the 6-scene set).
 - [ ] Run item-2 `minimaxH3BackgroundSwap_v21a_LOCAL.json` (all models local).
 - [ ] Run item-3 `VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL.json` (**D041 — your other content only**).
@@ -62,6 +60,8 @@ download command — files are written in place; a complete file = size matches 
 - [ ] **P10-3 `H3_HyperFlow_Fast_LOCAL.json`** — standard H3 + HyperFlow 8-step LoRA (works TODAY, no engine).
       Requires `minimax_h3_hyperflow_8step_v1.0.safetensors` download complete (pwsh-360).
       Reference-only: `sol_h3_t2v.json` / `sol_h3_Sol-H3-Studio.json` (need `SolH3Generate` node = the Sol engine = WSL2 route).
+- [ ] **P10-4 `RTX_Post_VFX_LOCAL.json`** — post pipeline (SR 2× → FrameGen ×2 → TrueHDR HLG). SR-only works pre-restart;
+      full chain after restart. For grainy outputs: quality=DENOISE_ULTRA (same-res).
 - [ ] vLo: `D:\models\ai-movie\repos\vlo` → `run.bat` → `http://127.0.0.1:6332` (SAM-Audio feature blocked —
       Python 3.11 needed; retry command shown in-app).
 - [ ] P10 items land here as built.
@@ -88,3 +88,15 @@ download command — files are written in place; a complete file = size matches 
       **USABLE TODAY:** HyperFlow 8-step LoRA in the standard H3 graph → `H3_HyperFlow_Fast_LOCAL.json` (pruned int8 convrot UNET +
       hyperflow @1.0, 8 steps) — validate: 1 expected error = hyperflow LoRA still downloading (pwsh-360: hyperflow 2.7 GB +
       fasth3 4-step PEFT adapter 1.4 GB + Sol-H3-VAE 6.2 GB). Tweets ✓ (xieenze_jr: 35.5 s 5090; PixelAigc zh: 11× / 1.65 s = 8-GPU B300 numbers).
+- 2026-10-24 21:10 — **item 4 DONE**: `Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` (formerly "Nvidia RTX Nodes") — 3 nodes:
+      `RTXVideoSuperResolution` (image/upscaling: 1–4× or target dims up to 8192, 19 quality modes incl. same-res DENOISE_*/DEBLUR_*,
+      10-bit RGB10A2 option), `RTXVideoFrameGeneration` (2×–16× multiplier or specific timestep, auto shot-change detection, LOW/MED/HIGH),
+      `RTXTrueHDR` (SDR→BT.2020 HLG/PQ; contrast/saturation/middle_gray/luminance 400–2000 nits; DL-Debander on by default).
+      **Torch 2.12.0+cu130 = exact requirement match ✓.** Binding = `nvidia-vfx` PyPI stub → real wheel from **pypi.nvidia.com**
+      (`pip install nvidia-vfx --index-url https://pypi.nvidia.com` EXIT 0 ✓; **import name = `nvvfx`**, NOT `nvidia_vfx`).
+      **GOTCHA:** superseded old pack `comfyui_nvidia_rtx_nodes` (SR-class-only) was ALREADY installed and loaded (that's why SR was
+      live but FrameGen/TrueHDR missing) → renamed to `comfyui_nvidia_rtx_nodes.superseded_bak` (reversible). New pack cloned into
+      custom_nodes (all 3 classes + example_workflows). `RTX_Post_VFX_LOCAL.json` built = VHS_LoadVideo → SR(2× ULTRA) →
+      FrameGen(×2 MEDIUM, 24→48 fps slow-mo) → TrueHDR(HLG 1000 nits) → VHS_VideoCombine(48 fps) — **validate: 2 restart-gate
+      errors** (FrameGen/TrueHDR not in live registry; SR already live → SR-only variant usable pre-restart).
+      Blog extras: EXR 16/32-bit write (Save Advanced) + EXR load improvements. **Restart gate now = 18 packs.**

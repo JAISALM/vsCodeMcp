@@ -37,6 +37,17 @@ Newest changes first.
 - **Repo:** `E:\minimax_workflow\NVlabs-Sana-sol-engine` (branch `sol-engine`). Example workflows copied: `sol_h3_t2v.json`, `sol_h3_Sol-H3-Studio.json` (reference only). Tweets: xieenze_jr 2111123049571324395 (35.5 s 5090) · PixelAigc 2113186476322324913 (zh: 11× speedup, 1.65 s = 8-GPU numbers).
 - **Movie relevance:** the two-stage 35.5 s path would cut our long-shot costs ~5× — worth the WSL2 effort ONLY if the user opts in (needs 90 GB RAM machine or WSL2 + RAM bump); until then HyperFlow + FastH3-Omni (item 1) cover speed. **NOT run (D192).**
 
+## 2026-10-24 — `RTX_Post_VFX_LOCAL.json` — NVIDIA VFX POST PIPELINE (P10 item 4, `Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` + blog)
+
+- **Pack:** Comfy-Org official (formerly "Nvidia RTX Nodes") — GPU-accelerated VFX via the `nvidia-vfx` Python bindings (module import = **`nvvfx`**). 3 nodes:
+  - `RTXVideoSuperResolution` (image/upscaling) — 1–4× or target dims (up to 8192 px), 19 quality modes: BICUBIC / LOW-MED-HIGH-ULTRA / DENOISE_* / DEBLUR_* (same-res clean-up — **our grainy-output fix**) / HIGHBITRATE_* (clean sources) / STREAMING_*; 8-bit or 10-bit RGB10A2; chunked to ≤16 MP.
+  - `RTXVideoFrameGeneration` (video) — frame-rate multiplier 2×–16× or specific timestep; auto shot-change detection + manual mark; LOW/MED/HIGH quality.
+  - `RTXTrueHDR` (image/enhancement) — SDR→BT.2020 HLG ("HDR") or PQ ("HDR PQ"); contrast/saturation (0–200), middle_gray (10–100), luminance (400–2000 nits), DL-Debander on.
+- **Install:** pack cloned into `custom_nodes\ComfyUI_Nvidia_VFX_Nodes` ✓; binding = `nvidia-vfx` PyPI stub → real wheel from **`pypi.nvidia.com`** (`pip install nvidia-vfx --index-url https://pypi.nvidia.com` ✓ EXIT 0; default PyPI build fails: `wheel_stub` backend). **Torch requirement = cu130+; we run 2.12.0+cu130 ✓.** RTX 40-series+ for frame gen — 5090 ✓.
+- **GOTCHA (found):** superseded old pack `comfyui_nvidia_rtx_nodes` (SR-class-only) was already installed → renamed `comfyui_nvidia_rtx_nodes.superseded_bak` (reversible). Running server currently has SR only (from the old pack) — after restart: all 3 classes from the new pack.
+- **LOCAL** = `user\default\workflows\RTX_Post_VFX_LOCAL.json` — full blog pipeline: VHS_LoadVideo → SR (2×, ULTRA) → FrameGen (×2 MEDIUM = 24→48 fps slow-mo) → TrueHDR (HLG, 1000 nits, debanding on) → VHS_VideoCombine (48 fps). SR-only variant = wire 202→205 + frame_rate 24. **VALIDATE: 2 restart-gate errors** (FrameGen/TrueHDR not yet in live registry; SR already live). **NOT run (D192).**
+- **Movie relevance:** post pipeline for ALL our video — Krea2 stills upscaling (1928×1088 → 4K), denoise passes for grainy outputs (DENOISE_ULTRA same-res), slow-mo shots (FrameGen), HDR delivery (TrueHDR → H.265 encode). Pack's `example_workflows/` = importable starters (rtx_video_upscale, rtx_video_full_workflow, rtx_video_hdr, rtx_long_video_hdr, rtx_image_upscale). Blog extras: **EXR 16/32-bit write** (Save Advanced) + improved EXR load — VFX-pipeline grade.
+
 ## 2026-10-24 — `docs\IDEOGRAM_V4_ULTRAWIDE_FILM_LANGUAGE.md` — Ultrawide cinematic Ideogram v4 film language (P9 item 7, reddit 1ucdyvr → Civitai 2674413)
 
 - **USER RULE (verbatim): KEEP prompts/film language ONLY — do NOT apply their settings — adapt for Krea2 later.** Nothing from the workflow applied; Ideogram-4 model set NOT downloaded; v3.0 workflow kept as reference at `E:\minimax_workflow\ideogramV4Workflow_v30.json` (NOT in runnable workflows).
