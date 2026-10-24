@@ -33,3 +33,8 @@ Thumbs.db
 *.blend
 *.blend1
 *.log
+
+# RAG churn content (daily news + vector store) — never commit
+rag/news/
+rag/data/
+rag/.venv/
