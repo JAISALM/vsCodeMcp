@@ -4,6 +4,17 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `MiniMax-H3-Character-Swap-Mask_LOCAL.json` — CHARACTER SWAP via H3 Reference-to-Video + LoRA, MASK variant (P9 item 5, reddit 1xbljy9 → NextDiffusion tutorial)
+
+- **Purpose:** replace the character(s) in an existing video using a **character-sheet reference** — motion/scene/audio preserved. **MASK variant**: SAM3_VideoTrack tracks the original character → SAM3_TrackToMask → R2V pass (sheet + swap LoRA + turbo) → `ImageCompositeMasked` composites the result **only onto the tracked subject** (background untouched); original audio wired straight from VHS_LoadVideo to the combine (D041-safe).
+- **Location (source):** `E:\minimax_workflow\MiniMax-H3-Character-Swap-Mask.json` (flat UI, 30 nodes, NextDiffusion storage download). **LOCAL** = `user\default\workflows\MiniMax-H3-Character-Swap-Mask_LOCAL.json`.
+- **LOCAL CHANGES:** video → `distracted_guide.mp4`, ref → `char1_sheet.png` (use `char2_sheet.png` for Zidhan — both in `input\`), removed floating `VAEDecodeAudio` node (redundant — audio already wired from the loader, link 30). **NO model remaps needed** — workflow already references `qwen3vl_32b_minimax_h3_nvfp4_awq` (our standard).
+- **Models (all local):** `minimax_h3_ref2va_pruned_fp8_scaled` (UNET — **downloaded** ✓ Comfy-Org) · `h3_character_swap_v1.5.safetensors` (akatz-ai — **downloaded ✓** 147 MB; newer than the `h3_character_swap_pro4500_1000` we had) · `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16` (lightx2v — **downloaded** ✓; both stacked via rgthree Lora Loader Stack) · `sam3.1_multiplex_fp16.safetensors` (checkpoints — **downloaded** ✓ ~1.7 GB) · video VAE fp16 + audio VAE fp32 ✓ · CLIP nvfp4_awq ✓.
+- **VALIDATE (read-only): CLEAN — valid=true, 0 errors, 0 warnings, no partner/credit nodes. NOT run (D192).**
+- **Community (top comment):** inject a LITTLE noise/blur over the original subject before the reference node → less retention of the original character's features; use the MINIMUM needed (too much = lost facial expressions; keep it a toggle).
+- **MOVIE USE:** fix a drifted face in a finished scene — swap Jaisal/Zidhan in via their sheets. Author limitations: likeness can drift, details may blend, scene cuts can drift timing (extra prompting helps). Character sheets with front/side/3-quarter views work best.
+- **Related (not run):** tutorial page `nextdiffusion.ai/tutorials/minimax-h3-video-character-swap-with-reference-to-video-in-comfyui`. HF `WarmBloodAban/Minimax-h3_Singularity` repo = **Singularity ref2va v2 family** (v2_int8 34 GB full / v2_pruned_int8 20.9 GB / v1.3_int8 — we already have v1.3 **Pruned** int8 = the pruned line of this repo) + `MiniMax_H3_Singularity_Prompt_Writing_Specification_Enhanced_EN.md` (19 KB prompt spec — useful reference, keep at `E:\minimax_workflow\`).
+
 ## 2026-10-24 — `H3_Recast_LOCAL.json` — H3 RECAST: swap up to 3 people in one pass (P9 item 4, reddit 1x9n0dl → `Bambushu/h3-recast`, MIT)
 
 - **Purpose:** recast the people in an existing clip (1-3, one pass) — motion/set/clip's OWN audio stay (D041-safe: no music involved). Swap engine = H3 ref2va + **BFS character-swap LoRA** (NRDX). Optional FaceRefine lip-repair pass (reuses the swap from cache, ~2 min on 5090).
