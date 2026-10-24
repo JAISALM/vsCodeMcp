@@ -1345,3 +1345,10 @@ model (Qwen) updates memory + commits afterwards.
 - Seed verified: **1,248 project chunks + 65 news items** (today all HF; reddit 403 / X 429 logged+retry-next-day). Query tests return correct sections.
 - Scheduled task **VsCodeMcp-RagDaily (daily 08:00 Asia/Calcutta)** registered. Churn dirs gitignored.
 - See ag/README.md + **D194** in DECISIONS.md.
+- Fixes (2026-10-25): task-context TEMP/TMP pinned to ag\temp (scheduler session has no writable system temp); ingest_project now deletes a file's previous chunk ids before re-adding (orphan fix) + store.prune(); store pruned 213 orphans (project 1253 == manifest). RAG code committed to git.
+
+### P10 download batch - ALL 24 FILES DONE (2026-10-25 03:4x)
+- `hf_resumable_download.py` full sequence complete + verified (sizes + safetensors headers): 6 big MiniMax/FastH3 UNETs (incl. ref2va_fp8 19,987 MB + fl2va_int8 32,462 MB), 3 turbo LoRAs, QI2.1 UNET 6,920 MB + CLIP 8,917 MB, VNCCS LoRAs ×3 (V2 repo file has trailing space — URL `%20`), Qwen3-TTS ×11 (suite dir `models\TTS\qwen3_tts\` — suite skips re-download; node input `local:Qwen3-TTS-12Hz-1.7B-CustomVoice`).
+- Script hardened: 4xx = permanent fail (log + continue, no batch crash) + safe RETRY sizing.
+- VNCCS_PoseStudio_QI2.1_REFERENCE.json re-validated: 0 model errors; only `VNCCS_PoseStudio` class restart-gated.
+- **All agent-side P10 work complete.** Remaining = USER: restart ComfyUI (20 packs) → run checklist in P10_BATCH.md; item-5 manual assets (SMPLX_NEUTRAL.npz, Mixamo FBX, one-person video); item-7 clean first frame + 24 fps/%32 inputs.
