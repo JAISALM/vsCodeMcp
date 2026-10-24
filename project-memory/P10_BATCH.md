@@ -17,7 +17,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | 2 | **Character swap (Alissonerdx)** — COMPARE vs our existing swap workflows (items 4/5) | tweet `x.com/Alissonerdx/status/2111649216653148305` | **DONE** (2026-10-24 20:52 — see WORKFLOW_HISTORY) |
 | 3 | **NVlabs Sana sol-engine** — faster MiniMax w/o quality loss (tricky to make work) | repo `github.com/NVlabs/Sana/tree/sol-engine` + `models/minimax_h3/Sol-H3-ComfyUI` · tweets `x.com/xieenze_jr/status/2111123049571324395` + `x.com/PixelAigc/status/2113186476322324913` | **DONE** (2026-10-24 21:00 — see WORKFLOW_HISTORY) |
 | 4 | **NVIDIA VFX nodes** — video upscale for post | `github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` · blog `blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling` | **DONE** (2026-10-24 21:10 — see WORKFLOW_HISTORY) |
-| 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | IN PROGRESS (install pwsh-392) |
+| 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | **DONE (2026-10-24 22:40)** — venv `E:\minimax_workflow\Motion2MixamoRig\.venv` (uv Py3.12) fully installed: torch **2.14.1+cu130 (cuda True)** + gvhmr[rtmpose] + `motion2mixamorig==0.1.8` editable. **`m2mr doctor` GREEN on all code paths** (numpy/cv2/torch/gvhmr/ffmpeg ok; only the 3 USER assets missing = expected). **MSVC workaround:** `cython-bbox` (gvhmr[preproc]) needs a C++ compiler (absent; sdist-only) → installed `gvhmr[rtmpose]` **without the preproc extra** + `--no-deps` editable install — doctor confirms nothing else is missing. User manual steps (all recorded): SMPLX_NEUTRAL.npz + Mixamo FBX + input video/still. |
 | 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | ANALYZED ✓ — **Qwen3-TTS** = 10 languages (zh/en/ja/ko/de/fr/ru/pt/es/it — **NO Malayalam**); CustomVoice = 9 premium stock timbres + NL style control; Base = 3 s rapid clone. **NOT the movie path** (D050 = user-dub + OpenVoice/RVC; IndicF5 stays ML-native). **RIVAL TO OMNIVOICE** = `OmniVoice` engine (600+ languages) inside TTS-Audio-Suite (already installed — see item 9). Weights queued (4.3 GB); `qwen-tts` venv install pending DNS. |
 | 7 | **MiniMax H3 person remover LoRA** — have we covered it? | reddit `r/StableDiffusion/comments/1x0kokb` | **DONE (2026-10-24 21:30)** — **NOT covered before** (we had Akatz's swap v1.5, not the remover). `H3-Person-Remover-V1.safetensors` (147 MB) **downloaded ✓**; `h3-relay` pack **cloned ✓** (8 `H3Relay*` classes); `H3-Person-Removal_LOCAL.json` **built + validated** (only 8 H3Relay restart-gate errors remain; all 7 models local; `gpu:0`→`default` fixed). |
 | 8 | **VNCCS PoseStudio QI2.1** — pose from given image (amazing per user) | reddit `r/StableDiffusion/comments/1wmg9e8` · HF `MIUProject/VNCCS_PoseStudio_QI2.1` | **DONE (2026-10-24 21:35)** — pack `AHEKOT/ComfyUI_VNCCS_Utils` v0.7.0 **cloned ✓** (`VNCCS_PoseStudio` = interactive 3D posing/lighting/camera node); 3 LoRAs (152 MB each) + QI2.1 base models (UNET 6.9 GB + CLIP 8.9 GB) **queued in resumable downloader**; reference workflow saved (`VNCCS_PoseStudio_QI2.1_REFERENCE.json` — graph = QI2.1 UNET + Qwen3-VL-8B CLIP + LoRA + PoseStudio node; 4 classes live ✓, only `VNCCS_PoseStudio` restart-gated). **Movie use: Jaisal/Zidhan character + pose image → posed Krea2-style reference frames.** |
@@ -40,7 +40,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | 0 | QUEUED (optional fast decoder, ~10 s/clip saved) |
 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
 | `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
-| **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-392 | ~3 GB torch | blocked (DNS flake os error 11001) | RUNNING (uv auto-retry; chumpy needs `setuptools` in venv first — `uv pip install setuptools` then `--no-build-isolation chumpy==0.70`) |
+| **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-426/430 | ~3 GB torch | **DONE ✓** torch 2.14.1+cu130 (cuda True) + gvhmr[rtmpose] + editable 0.1.8; `m2mr doctor` green (code) — 3 user assets pending (SMPLX npz / Mixamo FBX / input) |
 | `H3-Person-Remover-V1.safetensors` (loras, item 7) | akatz-ai/MiniMax-H3-Person-Remover-LoRA | — | 147 MB | — | DONE ✓ (147 MB on disk) |
 | **VNCCS_QI2_PoseStudio V1 / V1.1 / V2** (loras `QI2.1\VNCCS\`, item 8) | MIUProject/VNCCS_PoseStudio_QI2.1 | pwsh-396 | 159,436,408 B × 2 + 159,436,400 B | 0 | QUEUED in `hf_resumable_download.py` |
 | `qwen_image_2.1_int8_convrot.safetensors` (unet, item 8) | Comfy-Org/Qwen-Image-2.1 | pwsh-396 | 7,256,783,064 B | 0 | QUEUED |
@@ -76,6 +76,12 @@ download command — files are written in place; a complete file = size matches 
       full chain after restart. For grainy outputs: quality=DENOISE_ULTRA (same-res).
 - [ ] vLo: `D:\models\ai-movie\repos\vlo` → `run.bat` → `http://127.0.0.1:6332` (SAM-Audio feature blocked —
       Python 3.11 needed; retry command shown in-app).
+- [ ] **P10-5 Motion2MixamoRig** — install DONE (venv + doctor green). YOUR STEPS: (1) register smpl-x.is.tue.mpg.de →
+      `E:\minimax_workflow\Motion2MixamoRig\assets\body_models\smplx\SMPLX_NEUTRAL.npz`; (2) mixamo.com character (FBX Binary, T-pose,
+      e.g. Y Bot) → `assets\mixamo\<Name>.fbx`; (3) one-person 5–20 s clip → `assets\video\`; then
+      `E:\minimax_workflow\Motion2MixamoRig\.venv\Scripts\python.exe -m motion2mixamorig.cli doctor` → `... run --rig assets\mixamo\Y_Bot.fbx`
+      (first run auto-downloads GVHMR ~5 GB). Output = `outputs\<stamp>\<source>\mixamo_character.glb` → Blender File→Import glTF 2.0
+      (hide Icosphere + armature). **Movie use:** Jaisal/Zidhan performance video → 3D character animation.
 - [ ] **P10-7 `H3-Person-Removal_LOCAL.json`** — Akatz's person remover: 24 fps source video (W/H divisible by 32, ~5 s shot)
       + **clean first frame** (person removed, same framing) into the green LoadImage + person description in the green CLIP text
       node ("man in gray shirt"). Needs `h3-relay` pack loaded (post-restart). All 7 models local.
@@ -176,3 +182,19 @@ download command — files are written in place; a complete file = size matches 
       word timestamps. **vs our stack:** complements (not replaces) OpenVoice (timbre swap audio→audio) + RVC (D050 movie VC) +
       IndicF5 (ML-native TTS). Installs via `install.py` (ComfyUI Manager runs it on restart — venv python 3.10.6 caveat: some engines
       may need the uv 3.12 venv route).
+- 2026-10-24 22:40 — **item 5 DONE (Motion2MixamoRig install)**: clean re-run (pwsh-426/430) after killing the DNS-stuck pwsh-392:
+      `uv pip install pip setuptools` into the uv venv → numpy → `chumpy==0.70 --no-build-isolation` ✓ → **torch 2.14.1+cu130
+      (cuda True)** ✓ → `gvhmr[rtmpose]` + smplx/einops/timm/opencv/scikit-image ✓ → editable `--no-deps` (`motion2mixamorig==0.1.8`) ✓.
+      **MSVC WORKAROUND:** first `uv pip install -e .` FAILED — `cython-bbox` (pulled by `gvhmr[preproc]`) is sdist-only + needs
+      Microsoft C++ Build Tools (absent on this box; no wheels on PyPI) → skipped the `preproc` extra (`gvhmr[rtmpose]` + `--no-deps`
+      editable). **`m2mr doctor` GREEN on all code paths** (numpy/cv2/torch/gvhmr/ffmpeg ok) — the preproc extra is NOT required by
+      doctor or the run path. Doctor's 3 `[missing]` = the user's manual assets (SMPLX_NEUTRAL.npz · Mixamo FBX · input video/still) —
+      expected. First `m2mr run` auto-downloads GVHMR ~5 GB into `weights/`.
+      **Repo AGENTS.md fully read (thorough):** asset table (`assets\body_models\smplx\` · `assets\mixamo\` FBX Binary T-pose ·
+      `assets\video\` ONE person · `assets\image\` optional · optional MANO), commands (`run --video/--image/--rig/--skeleton/
+      --detect-hands --hand-smooth 0.08/--no-foot-lock` · `diagnose [--visualize] [--threshold-cm]`), outputs per run
+      (`mixamo_character.glb` glTF 2.0 · `skeleton_motion.npz` 24 SMPL joints Y-up m + foot_contact · `mixamo_rotations.npz` quat wxyz ·
+      `diagnostics.json` self-intersections + `.html` · 4 comparison videos), foot-lock default on + ground y=0, review pass
+      (`m2mr-review-v1` amber lane → `<stem>_review.json` → new GLB in a new dir), Blender ext = thin UI launching EXTERNAL python
+      (our venv = Advanced mode; panel = 3D Viewport N sidebar; hide Icosphere+armature after import; Floor Markers mesh; FPS match),
+      C4D FBX rigs supported. REPOS.md row updated.
