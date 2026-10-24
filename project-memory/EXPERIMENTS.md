@@ -4,6 +4,51 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — Herrgotts-H3-Infinite-Continuation-Suite v1.4 installed + analyzed (FL2VA clip-chain long videos, native Masked AV) — NOT YET RUN
+
+**Goal:** user-named capability check — long MiniMax H3 videos from connected FL2VA clips with
+motion + native audio preserved between segments.
+
+**What was done (analysis only, no run yet):**
+- Cloned → `custom_nodes\Herrgotts-H3-Infinite-Continuation-Suite` (needs the SAME ComfyUI
+  restart as H3-LongTakeNoCuts to load — not yet restarted, deliberately).
+- Read README (full), examples/README, CHANGELOG, all module docstrings; surveyed `nodes.py`
+  (27 node classes across v1.4/v1.3/v1.1/v1.0/v0.x generations).
+- **Core requirement VERIFIED:** v1.4 needs ComfyUI core PR #15375 (native per-stream H3
+  denoise masks; the pack probes live capabilities and ships no shim). Our core = **v0.37.0 @
+  8d534945e (2026-09-27)** — `comfy/ldm/minimax/model.py` verified to carry separate
+  `denoise_mask` (video) + `audio_denoise_mask` (audio) in `forward()`, masked rows run at
+  `sigma = m * sigma_stream`. ✓
+- **Models VERIFIED ALL PRESENT** (referenced by the example workflows):
+  `minimax_h3_fl2va_pruned_int8_convrot.safetensors` ✓ · `qwen3vl_32b_minimax_h3_nvfp4_awq.
+  safetensors` ✓ · `minimax_h3_video_vae_fp16.safetensors` ✓ · `minimax_h3_audio_vae_fp32.
+  safetensors` ✓.
+- Example workflows 01–04 + README + the 6.7 MB 11-clip v1.4 demo mp4 copied to
+  `E:\minimax_workflow\Herrgotts-H3-Infinite-Continuation-Suite\`.
+- Node semantics (verified in code): `H3ContinuousContinueV14` = native Masked AV continuation
+  (previous FULL AV latent copied into the next target; video prefix protected mask 0, future
+  video mask 1; `audio_tail_carryover` default **Full Previous Tail** → dialogue can continue
+  past the visual seam; `duration_mode` default **Net New Content**); `H3ContinuousAnalyze-
+  HandoverV14` = freeze/brightness-landing detection → snap to the exact shared AV boundary
+  (exact joint context lengths 39/90/141/192… frames; default 39 ≈ 1.625 s @ 24 fps = 12
+  video steps = 65 audio ticks); `H3ContinuousStitchSavedChainV14` = memory-bounded one-clip-
+  at-a-time assembly.
+- **Limitations (README):** no HQ audio reset (audio drifts over very long chains); tail
+  carryover preserves only already-generated audio; Net New Content = longer sampling
+  (time/memory); keyframe-free continuation less tested; GPL-3.0.
+- **Vs H3-LongTakeNoCuts (same day):** complementary — LongTakeNoCuts = motion-context chain +
+  SAM3 refine-blend (one continuous R2V shot, e.g. 360° walk-through / intro oner); Herrgotts
+  = FL2VA clip chain with quality resets + dialogue continuity (long multi-clip talking scenes;
+  feeds P1 lip-sync).
+
+**Result:** INSTALLED + ANALYZED + CORE CAPABILITY VERIFIED + MODELS VERIFIED. No run yet.
+
+**Conclusion:** all prerequisites green (core PR #15375 present, 4/4 models present). Next =
+shared restart → validate the v1.4 examples (03 showcase first) → test run → P7.
+See PENDING_ITEMS.md P7 (both packs) + P9 (item 1 done).
+
+---
+
 ## 2026-10-24 — H3-LongTakeNoCuts pack installed + analyzed (long-shot anti-degradation for H3 motion-context) — NOT YET RUN
 
 **Goal:** user-named capability check — "useful for long video shots, 3 min long shot was crazy";

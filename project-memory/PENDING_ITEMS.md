@@ -175,39 +175,45 @@ per-scene 5 s camref → H3 R2V with character refs from the new Klein LoRA set 
 
 ---
 
-## P7 — H3-LongTakeNoCuts (long oner / anti-degradation) — **PACK INSTALLED + ANALYZED 2026-10-24, not yet loaded** (user-named)
+## P7 — LONG-SHOT SUITES: H3-LongTakeNoCuts + Herrgotts-H3-Infinite-Continuation-Suite — **BOTH PACKS INSTALLED + ANALYZED 2026-10-24, not yet loaded** (user-named)
 
-**What:** fixes the MiniMax H3 motion-context "photocopy effect" — extending a shot without cuts
-degrades from segments 5–6 (each segment loads the previous latent as ground truth → drift +
-detail loss accumulate). Solution = a few-step **Refine resample** (denoise 0.5–0.6, character
-masked via SAM3) blended back into the chain latent at frames 22–44. Repo demos a **3-minute
-no-cut oner**.
+Two complementary long-video packs, both cloned to `custom_nodes\` (one restart loads both —
+do NOT restart mid-Klein-workflow). Full analyses in WORKFLOW_HISTORY.md 2026-10-24 entries.
 
-**Done (2026-10-24):** pack cloned to `custom_nodes\H3-LongTakeNoCuts` (4 nodes:
-`H3BlendLatentsByFrames` per-frame latent blend with keyframe schedule + optional spatial mask +
-audio take/blend · `H3VideoLock` noise_mask setter (no mask = full lock) · `KeyframeMask`
-per-frame mask from schedule string · `MaskLevels` black/white/gamma levels). Example workflows
-copied to `E:\minimax_workflow\H3-LongTakeNoCuts\` (**v2 = the one to use**, 45 nodes; v1 kept;
-`character.png` example ref). Full analysis + dependency map in WORKFLOW_HISTORY.md 2026-10-24
-(top entry).
+**A. `xyzDist/H3-LongTakeNoCuts`** — 4 low-level nodes; fixes the motion-context "photocopy
+effect" (degradation from segments 5–6 when extending without cuts) via a few-step SAM3-masked
+REFINE resample (denoise 0.5–0.6) blended back into the chain latent at frames 22–44. Best for
+ONE continuous shot: 360°/location-detail environment walk-throughs, the intro oner.
+Examples → `E:\minimax_workflow\H3-LongTakeNoCuts\` (**v2 = the one to use**). Deps: ALL
+SATISFIED (NikoDemon80 motion-context ✓ — the correct non-fork ✓, KJNodes ✓, Easy-Use ✓,
+MiniMax-H3-Turbo ✓, core `SAM3_Detect` ✓, fl2va+ref2va int8 ✓, SAM3 ✓).
+Limitations: workaround not fresh-regen; best on moving shots; audio artifacts = open question.
 
-**Dependencies: ALL SATISFIED** — `comfyui-h3-motion-context` (NikoDemon80 — the CORRECT one; the
-MultiRef fork that breaks it is NOT installed ✓), KJNodes ✓, Easy-Use ✓, MiniMax-H3-Turbo ✓
-(LowVRAM attention nodes), `SAM3_Detect` = CORE ComfyUI node ✓. Models: `minimax_h3_fl2va_pruned_
-int8_convrot` + `minimax_h3_ref2va_pruned_int8_convrot` ✓, SAM3 `sam3.1_multiplex_fp16` ✓.
-v2 key widgets: `MiniMaxH3ReferenceToVideo` `[prompt, 1344, 768, 124, 'match']` ·
-`MiniMaxH3HybridLoader` (fl2va + ref2va, block_range_adaln 25–49) · `MiniMaxH3MotionContext`
-`['22', 24]` · Chain `[10, '']` · Trim `[0, 24, 22]` · blend keyframes v2 = `0:0, 22:0, 30:1`.
+**B. `HerrgottMargott/Herrgotts-H3-Infinite-Continuation-Suite` v1.4** — 27 nodes (4 generations);
+FL2VA **clip chain** with **native Masked AV continuation**: previous clip's full AV latent
+copied in-place into the next target, protected by ComfyUI's native per-stream denoise masks
+(video prefix mask 0 = preserve / future video 1 = generate; audio independently protected →
+**dialogue can continue past the visual seam** = killer feature for our dubbing pipeline).
+Auto Handover detects FL2VA freeze/brightness landing tails, snaps to the exact shared AV
+boundary (39-frame contexts = 39/90/141/192… frames; default 39 ≈ 1.625 s @ 24 fps);
+Last-Frame quality resets; Qwen References; Net New Content duration mode;
+`H3ContinuousStitchSavedChainV14` = memory-bounded assembly of very long projects.
+CRITICAL REQUIREMENT — **VERIFIED SATISFIED**: core PR #15375 per-stream H3 AV masks — our core
+**v0.37.0 @ 8d534945e (2026-09-27)** has it (`comfy/ldm/minimax/model.py` carries separate
+`denoise_mask` + `audio_denoise_mask`). Models ALL PRESENT: fl2va int8 ✓, `qwen3vl_32b_minimax_
+h3_nvfp4_awq` ✓, `minimax_h3_video_vae_fp16` ✓, `minimax_h3_audio_vae_fp32` ✓.
+Examples → `E:\minimax_workflow\Herrgotts-H3-Infinite-Continuation-Suite\` (01_Start, 02_
+Continue, **03_3Clip_Showcase_AutoStitch**, 04_Stitch_Saved_Chain, README, 6.7 MB 11-clip
+v1.4 demo mp4). Limitations: no HQ audio reset (audio drift over very long chains); carryover
+preserves only already-generated audio; Net New Content = longer sampling; GPL-3.0.
 
-**Limitations:** not a true fresh-regen (workaround) — best on MOVING shots; static shots still
-drift to higher contrast/saturation; audio artifacts under motion-context = open question.
+**When to use which:** A = one continuous R2V shot extended (environment walk, intro oner).
+B = long multi-clip scenes with DIALOGUE + known endpoints (movie scenes S2/S3/S5 talking
+across 15–30 s; feeds P1 lip-sync cleanly). Complementary — both load on the same restart.
 
-**To do:** (1) **ComfyUI restart** at a convenient point (pack NOT loaded yet — do NOT restart
-mid-Klein-workflow) → verify the 4 `H3-LongTakeNoCuts` nodes appear. (2) Validate v2 against our
-ComfyUI (subgraph + Basic-node set). (3) Test run. (4) **Use cases:** the unfinished INTRO VIDEO
-(long shots; audio added later via P5), LONG continuous movie takes — character walking through a
-known environment (**360° image + location-detail images as H3 R2V refs** → smooth walk-through
-oner), any of the 6 scenes needing >5 s without a cut.
+**To do:** (1) **ComfyUI restart** at a convenient point → verify both packs' nodes appear.
+(2) Validate the Herrgotts v1.4 examples (start with 03 showcase) + LongTakeNoCuts v2 against
+our ComfyUI. (3) Test runs. (4) Apply to movie + intro (see use cases in WORKFLOW_HISTORY).
 
 ---
 
@@ -239,7 +245,8 @@ pending item here → commit. Log each entry below as it lands:
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | (fill in as user sends) | — |
+| 1 | `HerrgottMargott/Herrgotts-H3-Infinite-Continuation-Suite` (long-shot FL2VA clip chain, native Masked AV) | **DONE 2026-10-24** — installed + analyzed; core capability + models verified ✓; examples + 11-clip demo copied; merged into P7. Awaiting the shared restart. |
+| 2 | (fill in as user sends — more repos + a new model) | — |
 
 **Tonight's plan (user, 2026-10-24):** user trains the Klein LoRA tonight (P3) and sleeps.
 Agent standby: dataset curation on request. Work window = 16:36 IST → night.

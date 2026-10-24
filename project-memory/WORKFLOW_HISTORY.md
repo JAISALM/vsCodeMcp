@@ -4,6 +4,87 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — Herrgotts-H3-Infinite-Continuation-Suite v1.4 INSTALLED + ANALYZED (FL2VA clip-chain long videos with native Masked AV continuation)
+
+**Pack:** `HerrgottMargott/Herrgotts-H3-Infinite-Continuation-Suite` cloned to
+`E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\Herrgotts-H3-Infinite-Continuation-Suite`
+(depth 1). **NOT LOADED YET — same pending ComfyUI restart as H3-LongTakeNoCuts** (both load on
+the same restart). GPL-3.0 code. Lazy runtime hooks (installed only when a continuation node first
+executes, never at startup). Well-engineered: pure math modules, 7-file regression test suite,
+VALIDATION.md, CHANGELOG.
+
+**The 27 nodes (4 generations; v1.4 current, v1.3/v1.1/v1.0/v0.x kept for compat/A-B):**
+v1.4 chain = `H3ContinuousStartV14` (clip 1, T2VA/I2VA/L2VA/FL2VA conditioning, optional First/
+Last Frames) → `H3ContinuousContinueV14` (**native Masked AV continuation** — copies the previous
+clip's FULL AV latent directly into the new target and protects it in-place via ComfyUI's native
+per-stream denoise masks; `duration_mode` default **Net New Content**; `audio_tail_carryover`
+default **Full Previous Tail**) → `H3ContinuousAnalyzeHandoverV14` (detects FL2VA's frozen/
+unstable/brightness landing tail, snaps the safe visual endpoint backward to the latest exact
+Masked-AV boundary — one shared boundary for stitch + next protected context) →
+`H3ContinuousStitchOutputV14` (Full / Stitch Ready / Final Clip) → `H3ContinuousSeamlessJoinV14`
+(context-aware video crossfade 4f + audio de-click 15 ms) → `H3ContinuousStitchSavedChainV14`
+(**memory-bounded** — decodes one saved AV latent at a time; peak memory ≈ one clip, not the
+whole chain) + `H3ContinuousSaveLatent` / `LoadLatent` / `LatentInfo` (full AV latent + handover
+metadata save/load).
+
+**Key mechanics (README + code verified):**
+- Exact joint AV context lengths = `39 + 51k` pixel frames (39/90/141/192…); default **39 frames
+  ≈ 1.625 s** @ 24 fps = 12 video-latent steps = 65 audio-latent ticks @ 40 Hz.
+- Protected video prefix gets native denoise mask `0` (preserve); future video `1` (generate);
+  audio independently protected (a spoken word can continue past the visual seam — **dialogue
+  continuity**; the suite's killer feature for our dubbing pipeline).
+- **Net New Content** = requested Duration counts NEWLY generated visible video after the
+  39-frame head (5 s → 158 total frames, 119 new ≈ 4.96 s) — convenience, costs sampling
+  time/memory (longer latent).
+- **Quality resets:** repeated **Last Frame** keyframe anchors pull composition/identity/quality
+  back toward a clean reference before drift accumulates; auto-growing **Qwen References**
+  (Qwen-only pictures — identity/clothing/details; picture_map diagnostics).
+- H3 runs 24 fps, `17k+5` frame grid.
+
+**CRITICAL REQUIREMENT — VERIFIED SATISFIED:** v1.4 needs a current ComfyUI core with **PR
+#15375 native per-stream H3 denoise masks** (the suite probes live capabilities, no shim). Our
+core = **v0.37.0 @ 8d534945e (2026-09-27)** — `comfy/ldm/minimax/model.py` verified to carry
+separate `denoise_mask` (video) + `audio_denoise_mask` (audio) in `forward()`, masked rows run at
+`sigma = m * sigma_stream`. ✓✓
+
+**Models: ALL PRESENT on disk** (referenced by the example workflows):
+`minimax_h3_fl2va_pruned_int8_convrot.safetensors` ✓ · `qwen3vl_32b_minimax_h3_nvfp4_awq.
+safetensors` ✓ · `minimax_h3_video_vae_fp16.safetensors` ✓ · `minimax_h3_audio_vae_fp32.
+safetensors` ✓. Optional SageAttention KJ patch (KJNodes ✓ installed; SageAttention itself
+optional — bypass if OOM/unstable).
+
+**Example workflows (copied to `E:\minimax_workflow\Herrgotts-H3-Infinite-Continuation-Suite\`):**
+`01_Start` (clip 1, First+Last frames) · `02_Continue` (loads previous AV latent + handover
+metadata → clip 2+) · `03_3Clip_Showcase_AutoStitch` (Start → Continue ×2 → auto-stitch, one
+queue) · `04_Stitch_Saved_Chain` (memory-bounded assembly of separately-generated clips) ·
+README.md · **`Infinite-Continuation-Suite_v1.4_Example-1.mp4`** (6.7 MB — 11-clip stitched
+v1.4 demo).
+
+**Limitations (README):** no HQ audio reset — audio can drift over very long chains (visuals can
+reset via Last Frames; audio cannot); `Full Previous Tail` preserves only audio that already
+exists (a mid-word cut still needs regeneration); Net New Content = longer sampling; keyframe-FREE
+continuation less tested; historical v1.3 bad-start issue (fixed by ComfyUI restart) — v1.4
+designed to remove that failure mode, keep watching same-session stability.
+
+**vs H3-LongTakeNoCuts (P7 first half):** LongTakeNoCuts = motion-CONTEXT chain + SAM3-masked
+refine-blend (extends an R2V shot; low-level nodes; best for one continuous shot like a 360°
+environment walk-through or the intro oner). Herrgotts suite = **FL2VA clip CHAIN** with
+freeze-safe handover + quality resets + dialogue tail carryover + memory-bounded stitch (best for
+long multi-clip scenes with known endpoints and DIALOGUE — e.g. movie scenes S2/S3/S5 where
+characters talk across a 15–30 s continuous shot). Complementary, not competing — both load on
+the same restart.
+
+**Use cases for us:** (1) movie scenes with long dialogue (continuation keeps a spoken word
+unbroken across the seam → feeds P1 lip-sync cleanly), (2) long environment/character takes with
+Last-Frame quality resets, (3) memory-bounded assembly of very long projects (clip-by-clip
+generation → one final stitch), (4) intro video alternative route.
+
+**Status:** INSTALLED (not yet loaded) + ANALYZED + CORE CAPABILITY VERIFIED + MODELS VERIFIED +
+EXAMPLES COPIED. NEXT: restart → validate the 4 example workflows → test run (03 showcase first)
+→ P7. See PENDING_ITEMS.md P7.
+
+---
+
 ## 2026-10-24 — H3-LongTakeNoCuts pack INSTALLED + example workflows copied (long oner / anti-degradation for MiniMax H3 motion-context)
 
 **Pack:** `xyzDist/H3-LongTakeNoCuts` cloned to
