@@ -17,8 +17,8 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | 2 | **Character swap (Alissonerdx)** — COMPARE vs our existing swap workflows (items 4/5) | tweet `x.com/Alissonerdx/status/2111649216653148305` | **DONE** (2026-10-24 20:52 — see WORKFLOW_HISTORY) |
 | 3 | **NVlabs Sana sol-engine** — faster MiniMax w/o quality loss (tricky to make work) | repo `github.com/NVlabs/Sana/tree/sol-engine` + `models/minimax_h3/Sol-H3-ComfyUI` · tweets `x.com/xieenze_jr/status/2111123049571324395` + `x.com/PixelAigc/status/2113186476322324913` | **DONE** (2026-10-24 21:00 — see WORKFLOW_HISTORY) |
 | 4 | **NVIDIA VFX nodes** — video upscale for post | `github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` · blog `blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling` | **DONE** (2026-10-24 21:10 — see WORKFLOW_HISTORY) |
-| 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | PENDING |
-| 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | PENDING |
+| 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | IN PROGRESS (install pwsh-392) |
+| 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | ANALYZED ✓ — verdict: **NO for the ML movie** (no Malayalam in its 10-language set; movie = user-dub + OpenVoice/RVC per D050). **YES as EN TTS option** (instruction-controlled emotion, 97 ms streaming, 1.7B = fits our GPU). "omnivoice" = **OpenVoice** (our timbre-swap). Weights queued (4.3 GB); `qwen-tts` venv install pending DNS recovery. |
 | 7 | **MiniMax H3 person remover LoRA** — have we covered it? | reddit `r/StableDiffusion/comments/1x0kokb` | PENDING |
 | 8 | **VNCCS PoseStudio QI2.1** — pose from given image (amazing per user) | reddit `r/StableDiffusion/comments/1wmg9e8` · HF `MIUProject/VNCCS_PoseStudio_QI2.1` | PENDING |
 | 9 | **ComfyUI_ChatterBox_SRT_Voice** — audio pipeline; RANK vs our pipeline | `github.com/diodiogod/ComfyUI_ChatterBox_SRT_Voice` | PENDING |
@@ -27,17 +27,25 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 
 | File | Source | Job | Size target | Last seen | Status |
 |---|---|---|---|---|---|
-| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-274 | ~19.5 GB | 4.2 GB (20:12) | RUNNING |
-| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-297 | ~19.5 GB? | 1.9 GB (20:05) | RUNNING |
-| `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | pwsh-311 | 1865 MB | DONE ✓ 1865 MB | DONE |
-| `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | pwsh-293 | 1865 MB | DONE ✓ | DONE |
-| `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-343 | 13135 MB | RUNNING (item-1 primary — 5090-optimal NVFP4 QAD) | RUNNING |
-| `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-343 (after QAD) | 21184 MB | QUEUED (item-1 fallback) | QUEUED |
+| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | 0 (wb-reset by failed pwsh-274) | RUNNING (resume+retry) |
+| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | 0 (wb-reset by failed pwsh-297) | RUNNING (resume+retry) |
+| `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
+| `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
+| `minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors` (loras) | lightx2v/Minimax-h3-Turbo | pwsh-396 | 1865 MB | 0 (DNS fail pwsh-274) | RUNNING (resume+retry) |
+| `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-396 | 13,135 MB (13,773,998,700 B) | ~1,911 MB partial (pwsh-343 reset) | RUNNING (resume from partial) |
+| `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-396 | 22,213 MB (22,213,723,064 B) | 0 | QUEUED after QAD (same job) |
 | `minimax_h3_character_swap_v1.1_ref2va_fro.safetensors` (loras) | Alissonerdx/Minimax-H3-ComfyUI | pwsh-353 | 76 MB | — | DONE ✓ (76 MB) |
-| `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-360 | 2665 MB | RUNNING (item-3 — works in OUR ComfyUI today) | RUNNING |
-| `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-360 | 1416 MB | QUEUED (Sol/FastVideo runtime — PEFT adapter, not a ComfyUI LoRA) | QUEUED |
-| `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-360 | 6171 MB | QUEUED (optional fast decoder, ~10 s/clip saved) | QUEUED |
-| `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | pwsh-293 | — | already local ✓ | DONE |
+| `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | partial (pwsh-360 reset) | RUNNING (resume) |
+| `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | 0 | QUEUED (Sol/FastVideo runtime — PEFT adapter, not a ComfyUI LoRA) |
+| `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | 0 | QUEUED (optional fast decoder, ~10 s/clip saved) |
+| **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
+| `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
+| **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-392 | ~3 GB torch | blocked (DNS flake os error 11001) | RUNNING (uv auto-retry; chumpy needs `setuptools` in venv first — `uv pip install setuptools` then `--no-build-isolation chumpy==0.70`) |
+
+**RESUME RECIPE (power-cut safe, single command):** `& "E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\python.exe" "D:\models\vsCodeMcp\utilities\hf_resumable_download.py"`
+— idempotent (skips complete files), Range-resumes partials, auto-retries with backoff (60 tries, 5→60 s), exact-byte targets verified against HF API.
+2026-10-24 21:20 context: all 8 legacy downloads died on transient `WinError 10054` connection resets / DNS `os error 11001`
+(flaky network window) → consolidated into the robust script above (pwsh-396 running; Qwen3-TTS appended = re-run when it finishes).
 
 **Resume recipe (after power cut):** check each file size vs target (python os.path.getsize); re-run the same
 download command — files are written in place; a complete file = size matches target (verify with HF API size).
@@ -100,3 +108,24 @@ download command — files are written in place; a complete file = size matches 
       FrameGen(×2 MEDIUM, 24→48 fps slow-mo) → TrueHDR(HLG 1000 nits) → VHS_VideoCombine(48 fps) — **validate: 2 restart-gate
       errors** (FrameGen/TrueHDR not in live registry; SR already live → SR-only variant usable pre-restart).
       Blog extras: EXR 16/32-bit write (Save Advanced) + EXR load improvements. **Restart gate now = 18 packs.**
+- 2026-10-24 21:15 — **item 5 (Motion2MixamoRig) thorough check**: repo cloned (`E:\minimax_workflow\Motion2MixamoRig`), v0.1.8.
+      **Releases = macOS-only zips** (v0.1.6–0.1.8) → Windows = **CLI route**: uv Python 3.12 venv + numpy → chumpy (--no-build-isolation,
+      needs setuptools in venv) → torch cu130 → `uv pip install -e .` (pwsh-392, blocked on DNS flake). **`m2mr doctor` = self-check.**
+      Manual steps for user: (1) SMPL-X register (smpl-x.is.tue.mpg.de) → `SMPLX_NEUTRAL.npz` → `assets\body_models\smplx\`;
+      (2) Mixamo character (mixamo.com, FBX Binary + T-pose); (3) optional MANO (`MANO_RIGHT.pkl` from mano.is.tue.mpg.de) for `--detect-hands`.
+      First `m2mr run` auto-downloads GVHMR ~5 GB into `weights/` (+HaMeR ~2.7 GB optional). **Blender 5.2 on disk ✓** (ext needs 4.2+;
+      ext zip mac-only → build from source if wanted; CLI is the primary path). Input rules: exactly ONE person head-to-toe in frame
+      the whole clip, steady camera, 5–20 s clips first; output = animated `.glb` + preview, feet planted on floor + floor markers.
+      **Movie relevance:** H3 clip / reference performance video → Jaisal/Zidhan 3D character animation (Blender/Unity).
+- 2026-10-24 21:20 — **item 6 ANALYZED (Qwen3-TTS-12Hz-1.7B-CustomVoice vs "omnivoice" = OpenVoice):**
+      Qwen3-TTS = 10 languages (zh/en/ja/ko/de/fr/ru/pt/es/it — **NO MALAYALAM**); CustomVoice variant = 9 premium stock timbres +
+      natural-language style control (emotion/prosody/speed); arbitrary cloning = the **Base** variant (3 s rapid clone); 97 ms streaming
+      latency; 1.7B params; `pip install qwen-tts` (Py3.12). **Verdict: NOT the movie path** (D050 = user-dub + OpenVoice timbre swap +
+      RVC; Malayalam dub text can't go through Qwen3-TTS's 10-language set; IndicF5 stays ML-native TTS). **For EN content (future kids
+      videos/narration): strong candidate** — instruction-controlled emotion beats Fish S2 Pro's tag approach; 1.7B fits the 5090.
+      Weights queued in `hf_resumable_download.py` (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\`); venv install pending DNS.
+- 2026-10-24 21:25 — **download consolidation**: all 8 legacy downloads died on transient `WinError 10054` resets + DNS `os error 11001`
+      (flaky network window) → consolidated into **`D:\models\vsCodeMcp\utilities\hf_resumable_download.py`** (pwsh-396 running):
+      Range-resume partials (qad_nvfp4 at ~1.9 GB kept), auto-retry with backoff (60 tries), exact-byte targets (HF API).
+      **Power-cut recipe = re-run that one script** (idempotent). Corrected sizes: fl2va_int8 = 32,462 MB (NOT ~19.5 GB),
+      ref2va_fp8 = 19,987 MB. Qwen3-TTS (11 files) appended = re-run script when pwsh-396 finishes.
