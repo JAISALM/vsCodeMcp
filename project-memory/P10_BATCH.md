@@ -86,6 +86,8 @@ download command — files are written in place; a complete file = size matches 
 - [ ] **P10-9 TTS-Audio-Suite v5.9.2** (already installed — loads post-restart) — audio orchestration:
       SRT-timing TTS node (line-accurate dubs), OmniVoice (600+ langs — Malayalam candidate to A/B vs IndicF5),
       Qwen3-TTS engine (item 6 lands here), RVC, Higgs v3, Fish S2 Pro. Engines download weights on first use.
+      **Reference workflows saved:** `TTS_Suite_TTS_SRT_REFERENCE.json` (SRT-timed TTS) · `TTS_Suite_ASR_SRT_Builder_REFERENCE.json`
+      (dub audio → ASR → SRT builder = the movie dubbing pipeline) · `TTS_Suite_OmniVoice_REFERENCE.json`.
 - [ ] P10 items land here as built.
 
 ## Status log
