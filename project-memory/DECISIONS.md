@@ -1365,3 +1365,36 @@
   post [civitai.com/posts/29358642](https://civitai.com/posts/29358642) PNGs carry the full
   prompts in their metadata.
 - **Status:** Active (permanent for this item).
+
+## D194 — Local RAG for project memory + daily AI news (user directive, 2026-10-24/25)
+
+- **Decision:** build a local RAG at `D:\models\vsCodeMcp\rag\` — chunking → embedding →
+  vector store → search back into prompt — replacing the "load all MD files at once" mode.
+  Daily scheduled task **`VsCodeMcp-RagDaily` (08:00 Asia/Calcutta)** fetches AI news
+  (Reddit r/StableDiffusion / r/LocalLLaMA / r/ComfyUI / r/comfyui_workflows / r/artificial
+  via JSON API + playwright fallback; HuggingFace trending/top-downloads models + trending
+  datasets; X syndication timelines for the tracked accounts — best-effort), dedups via
+  `news/state/seen.json`, saves `news/<date>/<source>_<id>.md` + `digest_<date>.md`, and
+  re-indexes changed project MD (`project-memory/**` + `docs/**` + `episode1/**`).
+- **Stack choices (2026-10-25, verified on this machine):**
+  - **Embedding:** `all-MiniLM-L6-v2` via sentence-transformers, **CPU-only** (zero VRAM
+    contention — D192 shared-GPU rule). **Ollama is NOT installed** on this box, so the
+    user's suggested Ollama route was switched to sentence-transformers; `embed.py` can be
+    pointed at Ollama later if it gets installed.
+  - **Vector store: FAISS-cpu (`IndexIDMap(IndexFlatIP)`) instead of ChromaDB** — chromadb
+    1.3.7/1.4.1/1.5.9 all fail on this machine with `SQLITE_CANTOPEN (code 14) unable to
+    open database file` from the Rust bindings for EVERY path (workspace, temp, relative —
+    a binary/env incompatibility, not a path issue). FAISS exact search is instant at our
+    scale (<50k vectors). Metadata in JSON (human-readable, diffable).
+  - **HF model cache:** `C:\Users\user\.cache` is write-blocked (WinError 5) → cache lives
+    in `rag\hf_cache\` (set via env in `run_daily_rag.bat` + `embed.py`).
+- **Usage:** `rag\.venv\Scripts\python.exe rag\query.py "<keywords>"` (`--collection
+  project|news`, `--days N`, `-k`). Agent rule: before treating a new repo/post as new,
+  query the RAG — a `project` hit means we already documented it; a miss means genuinely
+  new. Churn dirs `rag/news/`, `rag/data/`, `rag/.venv/`, `rag/hf_cache/` are gitignored.
+- **Known limits (documented, non-fatal):** reddit JSON API often 403s → playwright
+  fallback (page-text items when JSON stays blocked); X syndication rate-limits (429) —
+  8 s spacing, retries next day; every failure is logged in `news/logs/` and retried on
+  the next daily run.
+- **Status:** Active. Seed verified 2026-10-25 (1,248 project chunks + 65 news items;
+  query tests return correct sections). `rag/README.md` = architecture + failure modes.

@@ -16,3 +16,4 @@ Moving from the "Ground Reality" (First Half) to the "Mind-Trip" (Second Half).
 - **Second Half:** Transitioning into the 1950 World Cup (Black & White).
 - **VRAM Management:** STOP Qwen 8100 when running Gemma writers to avoid OOM.
 - **Git Safety Net (D131):** all `.md` files committed via `utilities\commit_md.ps1` (scheduled task `VsCodeMcp-MdDailyCommit`, daily 22:30). Nuked/corrupted files are restored from git history.
+- **Local RAG (D194, 2026-10-25):** `D:\models\vsCodeMcp\rag\` — chunking → embedding → vector store → search. Replaces "load all MD at once". Daily task `VsCodeMcp-RagDaily` (08:00) fetches AI news (Reddit/HF/X) + re-indexes project MD. Stack: `all-MiniLM-L6-v2` CPU embed (sentence-transformers; **Ollama NOT installed**), **FAISS-cpu** store (ChromaDB Rust bindings broken on this machine — D194). Query: `rag\.venv\Scripts\python.exe rag\query.py "<keywords>"`. Seed 2026-10-25: 1,248 project chunks + 65 news items.
