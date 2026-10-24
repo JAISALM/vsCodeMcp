@@ -27,7 +27,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 
 | File | Source | Job | Size target | Last seen | Status |
 |---|---|---|---|---|---|
-| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | 9,090 MB stale partial | QUEUED (script resumes from partial) |
+| `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-494 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | **DONE ✓ (2026-10-25 02:2x)** (size + header 1,036 tensors verified) | DONE |
 | `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | **DONE ✓ (2026-10-25 01:0x)** (size 19,987 MB + header 1,082 tensors verified) | DONE |
 | `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
@@ -104,6 +104,8 @@ download command — files are written in place; a complete file = size matches 
 
 ## Status log
 
+- 2026-10-25 02:2x — **fl2va_int8 UNET DONE (32,462 MB, header 1,036 tensors verified)** — ALL 6 big MiniMax/FastH3 UNETs + 3 turbo
+      LoRAs now local. 16-file batch in progress (Qwen3-TTS → VNCCS×3 → QI2.1 UNET/CLIP).
 - 2026-10-25 01:2x — **Qwen3-TTS retarget:** 11 queued files → `E:\comfyUi_latest\...\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`
       (suite's own auto-download dir — `qwen3_tts.py::_find_model_directory` checks `models\TTS\qwen3_tts\<Name>` for the `local:`
       prefix, and the bare-name path skips re-download when the dir is populated). Old `D:\models\ai-movie\models\qwen3-tts\` was
