@@ -32,7 +32,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors` (loras) | lightx2v/Minimax-h3-Turbo | pwsh-396 | 1865 MB | 0 (DNS fail pwsh-274) | RUNNING (resume+retry) |
-| `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-396 | 13,135 MB (13,773,998,700 B) | ~1,911 MB partial (pwsh-343 reset) | RUNNING (resume from partial) |
+| `fasth3_omniref_qad_nvfp4_comfy.safetensors` (diffusion_models) | FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy | pwsh-396 | 13,135 MB (13,773,998,700 B) | **DONE ✓ (2026-10-24 22:54)** → P10-1 fully runnable | DONE |
 | `fasth3_omniref_8step_pruned_int8_convrot.safetensors` (diffusion_models) | FastVideo/FastH3-Omni-Comfy | pwsh-396 | 22,213 MB (22,213,723,064 B) | 0 | QUEUED after QAD (same job) |
 | `minimax_h3_character_swap_v1.1_ref2va_fro.safetensors` (loras) | Alissonerdx/Minimax-H3-ComfyUI | pwsh-353 | 76 MB | — | DONE ✓ (76 MB) |
 | `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | — | DONE ✓ (2665 MB on disk) → **`H3_HyperFlow_Fast_LOCAL.json` RE-VALIDATED = 0 errors, runnable pre-restart** |
@@ -65,8 +65,8 @@ download command — files are written in place; a complete file = size matches 
 - [ ] Run item-4 `H3_Recast_LOCAL.json` (inputs pre-copied to `input\`).
 - [ ] Run item-5 `MiniMax-H3-Character-Swap-Mask_LOCAL.json` (char1_sheet.png / char2_sheet.png).
 - [ ] Run item-6 `withers_has_big_nattys_LOCAL.json` (audio branches OFF = D041-safe).
-- [ ] **P10-1 `FastH3_Omni_R2V_LOCAL.json`** — fast omni R2V (8 steps, cfg 1, shifts 12/3); UNET `fasth3_omniref_qad_nvfp4_comfy`
-      must be fully downloaded first (pwsh-343). 5090 benchmark: 5 s @832×480 ≈ 10 s, 10 s @1344×768 ≈ 69 s.
+- [ ] **P10-1 `FastH3_Omni_R2V_LOCAL.json`** — fast omni R2V (8 steps, cfg 1, shifts 12/3). **UNET `fasth3_omniref_qad_nvfp4_comfy` COMPLETE (13,135 MB, 2026-10-24 22:54) — FULLY RUNNABLE.**
+      5090 benchmark: 5 s @832×480 ≈ 10 s, 10 s @1344×768 ≈ 69 s.
 - [ ] **P10-2 `CharSwap_v1.1_fro_LOCAL.json`** — Alissonerdx's new swap LoRA (v1.1 fro, improved likeness). Run the SAME
       clip as `MiniMax-H3-Character-Swap-Mask_LOCAL.json` (v1.5 Akatz) and compare likeness.
 - [ ] **P10-3 `H3_HyperFlow_Fast_LOCAL.json`** — standard H3 + HyperFlow 8-step LoRA (works TODAY, no engine).
