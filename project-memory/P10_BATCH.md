@@ -18,10 +18,10 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | 3 | **NVlabs Sana sol-engine** — faster MiniMax w/o quality loss (tricky to make work) | repo `github.com/NVlabs/Sana/tree/sol-engine` + `models/minimax_h3/Sol-H3-ComfyUI` · tweets `x.com/xieenze_jr/status/2111123049571324395` + `x.com/PixelAigc/status/2113186476322324913` | **DONE** (2026-10-24 21:00 — see WORKFLOW_HISTORY) |
 | 4 | **NVIDIA VFX nodes** — video upscale for post | `github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes` · blog `blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling` | **DONE** (2026-10-24 21:10 — see WORKFLOW_HISTORY) |
 | 5 | **Motion2MixamoRig** — Blender helper: motion out of video (check thoroughly) | `github.com/MaxLiu22/Motion2MixamoRig` · tweet `x.com/MaxLiu09/status/2109530569566744620` | IN PROGRESS (install pwsh-392) |
-| 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | ANALYZED ✓ — verdict: **NO for the ML movie** (no Malayalam in its 10-language set; movie = user-dub + OpenVoice/RVC per D050). **YES as EN TTS option** (instruction-controlled emotion, 97 ms streaming, 1.7B = fits our GPU). "omnivoice" = **OpenVoice** (our timbre-swap). Weights queued (4.3 GB); `qwen-tts` venv install pending DNS recovery. |
-| 7 | **MiniMax H3 person remover LoRA** — have we covered it? | reddit `r/StableDiffusion/comments/1x0kokb` | PENDING |
-| 8 | **VNCCS PoseStudio QI2.1** — pose from given image (amazing per user) | reddit `r/StableDiffusion/comments/1wmg9e8` · HF `MIUProject/VNCCS_PoseStudio_QI2.1` | PENDING |
-| 9 | **ComfyUI_ChatterBox_SRT_Voice** — audio pipeline; RANK vs our pipeline | `github.com/diodiogod/ComfyUI_ChatterBox_SRT_Voice` | PENDING |
+| 6 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** — audio pipeline; is it better than our Omnivoice? | HF `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` | ANALYZED ✓ — **Qwen3-TTS** = 10 languages (zh/en/ja/ko/de/fr/ru/pt/es/it — **NO Malayalam**); CustomVoice = 9 premium stock timbres + NL style control; Base = 3 s rapid clone. **NOT the movie path** (D050 = user-dub + OpenVoice/RVC; IndicF5 stays ML-native). **RIVAL TO OMNIVOICE** = `OmniVoice` engine (600+ languages) inside TTS-Audio-Suite (already installed — see item 9). Weights queued (4.3 GB); `qwen-tts` venv install pending DNS. |
+| 7 | **MiniMax H3 person remover LoRA** — have we covered it? | reddit `r/StableDiffusion/comments/1x0kokb` | **DONE (2026-10-24 21:30)** — **NOT covered before** (we had Akatz's swap v1.5, not the remover). `H3-Person-Remover-V1.safetensors` (147 MB) **downloaded ✓**; `h3-relay` pack **cloned ✓** (8 `H3Relay*` classes); `H3-Person-Removal_LOCAL.json` **built + validated** (only 8 H3Relay restart-gate errors remain; all 7 models local; `gpu:0`→`default` fixed). |
+| 8 | **VNCCS PoseStudio QI2.1** — pose from given image (amazing per user) | reddit `r/StableDiffusion/comments/1wmg9e8` · HF `MIUProject/VNCCS_PoseStudio_QI2.1` | **DONE (2026-10-24 21:35)** — pack `AHEKOT/ComfyUI_VNCCS_Utils` v0.7.0 **cloned ✓** (`VNCCS_PoseStudio` = interactive 3D posing/lighting/camera node); 3 LoRAs (152 MB each) + QI2.1 base models (UNET 6.9 GB + CLIP 8.9 GB) **queued in resumable downloader**; reference workflow saved (`VNCCS_PoseStudio_QI2.1_REFERENCE.json` — graph = QI2.1 UNET + Qwen3-VL-8B CLIP + LoRA + PoseStudio node; 4 classes live ✓, only `VNCCS_PoseStudio` restart-gated). **Movie use: Jaisal/Zidhan character + pose image → posed Krea2-style reference frames.** |
+| 9 | **ComfyUI_ChatterBox_SRT_Voice** — audio pipeline; RANK vs our pipeline | `github.com/diodiogod/ComfyUI_ChatterBox_SRT_Voice` | **DONE (2026-10-24 21:40) — RANKED** — v3.4.4 evolved into **TTS-Audio-Suite v5.9.2** (1,241 stars, active) = **ALREADY INSTALLED** in custom_nodes (16+ engines: **OmniVoice (600+ langs)**, **Qwen3-TTS**, RVC, F5-TTS, Higgs v3 (100+ langs), Fish S2 Pro, VibeVoice, IndexTTS2, CosyVoice3, DramaBox (SRT-aware durations), Step Audio EditX (14 emotions/32 styles), Granite ASR (diarization + word timestamps)). **Rank for our pipeline: #1 audio orchestration layer** — SRT-timing TTS node (line-accurate dubs, `smart_natural`, Adjusted_SRT output, segment caching) = the movie dubbing pipeline; character/narrator switching + language brackets + pause tags. See WORKFLOW_HISTORY item-9 section. |
 
 ## Download ledger (background jobs — resumable)
 
@@ -41,6 +41,10 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB → `D:\models\ai-movie\models\qwen3-tts\...`) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | re-run script | 3,833 MB + 650 MB + small | 0 | QUEUED (P10 item 6 — append to `hf_resumable_download.py` ✓ done; re-run script) |
 | `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
 | **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-392 | ~3 GB torch | blocked (DNS flake os error 11001) | RUNNING (uv auto-retry; chumpy needs `setuptools` in venv first — `uv pip install setuptools` then `--no-build-isolation chumpy==0.70`) |
+| `H3-Person-Remover-V1.safetensors` (loras, item 7) | akatz-ai/MiniMax-H3-Person-Remover-LoRA | — | 147 MB | — | DONE ✓ (147 MB on disk) |
+| **VNCCS_QI2_PoseStudio V1 / V1.1 / V2** (loras `QI2.1\VNCCS\`, item 8) | MIUProject/VNCCS_PoseStudio_QI2.1 | pwsh-396 | 159,436,408 B × 2 + 159,436,400 B | 0 | QUEUED in `hf_resumable_download.py` |
+| `qwen_image_2.1_int8_convrot.safetensors` (unet, item 8) | Comfy-Org/Qwen-Image-2.1 | pwsh-396 | 7,256,783,064 B | 0 | QUEUED |
+| `qwen3vl_8b_int8_convrot.safetensors` (clip, item 8) | Comfy-Org/Qwen-Image-2.1 | pwsh-396 | 9,350,798,360 B | 0 | QUEUED |
 
 **RESUME RECIPE (power-cut safe, single command):** `& "E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\python.exe" "D:\models\vsCodeMcp\utilities\hf_resumable_download.py"`
 — idempotent (skips complete files), Range-resumes partials, auto-retries with backoff (60 tries, 5→60 s), exact-byte targets verified against HF API.
@@ -54,7 +58,7 @@ download command — files are written in place; a complete file = size matches 
 
 > User: "keep a file where i need to check/do after your loop is completed"
 
-- [ ] **Restart ComfyUI once** — 18 packs load (10 previous + 7 item-6 + 1 item-4 VFX) + any new P10 packs (listed as they land).
+- [ ] **Restart ComfyUI once** — **20 packs** load (18 previous + `h3-relay` + `ComfyUI_VNCCS_Utils` from P10 items 7/8; `TTS-Audio-Suite` v5.9.2 was already installed).
 - [ ] Run `k2f_*_oneclick.json` × 8 (Krea2 cinematic images — the 6-scene set).
 - [ ] Run item-2 `minimaxH3BackgroundSwap_v21a_LOCAL.json` (all models local).
 - [ ] Run item-3 `VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL.json` (**D041 — your other content only**).
@@ -72,6 +76,16 @@ download command — files are written in place; a complete file = size matches 
       full chain after restart. For grainy outputs: quality=DENOISE_ULTRA (same-res).
 - [ ] vLo: `D:\models\ai-movie\repos\vlo` → `run.bat` → `http://127.0.0.1:6332` (SAM-Audio feature blocked —
       Python 3.11 needed; retry command shown in-app).
+- [ ] **P10-7 `H3-Person-Removal_LOCAL.json`** — Akatz's person remover: 24 fps source video (W/H divisible by 32, ~5 s shot)
+      + **clean first frame** (person removed, same framing) into the green LoadImage + person description in the green CLIP text
+      node ("man in gray shirt"). Needs `h3-relay` pack loaded (post-restart). All 7 models local.
+      **Movie use:** clean Krea2 duplicate-character references (the duplication quirk) + remove extras from plates.
+- [ ] **P10-8 VNCCS PoseStudio** — needs 3 LoRAs + QI2.1 UNET/CLIP (queued in `hf_resumable_download.py` — re-run when done)
+      + `ComfyUI_VNCCS_Utils` loaded (post-restart). Reference: `VNCCS_PoseStudio_QI2.1_REFERENCE.json`.
+      **Movie use:** char1/char2 sheet + pose image → posed reference frames for R2V anchors.
+- [ ] **P10-9 TTS-Audio-Suite v5.9.2** (already installed — loads post-restart) — audio orchestration:
+      SRT-timing TTS node (line-accurate dubs), OmniVoice (600+ langs — Malayalam candidate to A/B vs IndicF5),
+      Qwen3-TTS engine (item 6 lands here), RVC, Higgs v3, Fish S2 Pro. Engines download weights on first use.
 - [ ] P10 items land here as built.
 
 ## Status log
@@ -129,3 +143,34 @@ download command — files are written in place; a complete file = size matches 
       Range-resume partials (qad_nvfp4 at ~1.9 GB kept), auto-retry with backoff (60 tries), exact-byte targets (HF API).
       **Power-cut recipe = re-run that one script** (idempotent). Corrected sizes: fl2va_int8 = 32,462 MB (NOT ~19.5 GB),
       ref2va_fp8 = 19,987 MB. Qwen3-TTS (11 files) appended = re-run script when pwsh-396 finishes.
+- 2026-10-24 21:30 — **item 7 DONE (person remover)**: reddit 1x0kokb (r/StableDiffusion, 16d ago) = Akatz (the char-swap author)
+      dropped `akatz-ai/MiniMax-H3-Person-Remover-LoRA` (2026-10-08, 2276 downloads). **NOT covered before** (we had his swap v1.5 only).
+      `H3-Person-Remover-V1.safetensors` (147 MB) downloaded ✓; example workflow `H3-Person-Removal-Relay-V2.json` (114 KB) saved as
+      `_REFERENCE`; **`h3-relay` pack cloned ✓** (github.com/akatz-ai/h3-relay — "steerable, resumable, bounded-memory H3 workflows";
+      provides the 8 `H3Relay*` classes in `h3_relay/{toolkit,text_memory,window_review}.py`).
+      **`H3-Person-Removal_LOCAL.json` built + validated** — all 7 model refs LOCAL (ref2va_pruned_int8_convrot UNET ✓,
+      qwen3vl_32b_nvfp4_awq CLIP ✓ in text_encoders/, video+audio VAE ✓, SAM3.1 ✓, remover LoRA ✓); only 8 H3Relay restart-gate
+      errors remain; `SelectCLIPDevice` `gpu:0`→`default` fixed (single-GPU box).
+      **Usage:** 24 fps video (W/H %32, ~5 s shot) + clean first frame + person description → SAM3.1 green-mask relay windows.
+      **Movie use:** remove Krea2-duplicated characters from references; clean background plates.
+- 2026-10-24 21:35 — **item 8 DONE (VNCCS PoseStudio)**: HF `MIUProject/VNCCS_PoseStudio_QI2.1` (2026-09-21, 62 likes) = 3 LoRAs
+      (152 MB each: V1/V1.1/V2) + workflow JSON `VNCCS_PoseStudio_QI2.1.json` (saved as `_REFERENCE`). Graph = **Qwen-Image-2.1 stack**
+      (UNet `qwen_image_2.1_int8_convrot` 6.9 GB + CLIP `qwen3vl_8b_int8_convrot` 8.9 GB — both queued; VAE `qwen_image_2.1_vae_bf16`
+      LOCAL ✓) + `LoraLoaderModelOnly QI2.1\VNCCS\...@1.0` + `VNCCS_PoseStudio` node (interactive 3D posing/body-shaping/camera/
+      lighting/pose-library) + `QwenImage21Cache` + `TextEncodeQwenImage21` (prompt: "replace the pose of \<image 2\> with the pose of
+      \<image 1\>…") + rgthree Image Comparer. **Live classes:** QwenImage21Cache ✓, TextEncodeQwenImage21 ✓, Image Comparer (rgthree) ✓,
+      GetImageSize ✓ — only `VNCCS_PoseStudio` restart-gated → pack **`AHEKOT/ComfyUI_VNCCS_Utils` v0.7.0 cloned ✓** (10 nodes:
+      Pose Studio + UniCanvas + 3D Factory; MIT). **Movie use:** char1/char2 sheet + pose image → posed Krea2-style reference frames.
+      LoRAs + base models queued in `hf_resumable_download.py` (exact-byte targets).
+- 2026-10-24 21:40 — **item 9 DONE (RANKED, ChatterBox SRT Voice)**: repo v3.4.4 (83 stars) **evolved into TTS-Audio-Suite v5.9.2**
+      (`diodiogod/TTS-Audio-Suite`, 1,241 stars, pushed 2026-10-24) — **ALREADY INSTALLED** in custom_nodes (engines dir: omnivoice,
+      qwen3_tts, rvc, f5tts, higgs_audio_v3, fish_audio_s2, index_tts, cosyvoice, dots_tts, dramabox, granite_asr, qwen3_asr,
+      moss_tts, step_audio_editx, vibevoice_engine, video…). **RANK for our audio pipeline: #1 orchestration layer** —
+      (1) **SRT-timing TTS node** (line-accurate dubs, `smart_natural`, `Adjusted_SRT` output, segment-level caching) = the movie
+      dubbing→TTS→timing sync we lack; (2) **OmniVoice engine = 600+ languages** (user's "omnivoice" — NOT installed locally =
+      engine weights download on first use; Malayalam candidate to A/B vs IndicF5); (3) **Qwen3-TTS engine = item 6 lands here**
+      (no separate venv needed); (4) character/narrator switching, language brackets, pause tags, iterative VC, Audio Analyzer;
+      (5) DramaBox = SRT-aware duration targeting; Step Audio EditX = 14-emotion/32-style second-pass; Granite ASR = diarization +
+      word timestamps. **vs our stack:** complements (not replaces) OpenVoice (timbre swap audio→audio) + RVC (D050 movie VC) +
+      IndicF5 (ML-native TTS). Installs via `install.py` (ComfyUI Manager runs it on restart — venv python 3.10.6 caveat: some engines
+      may need the uv 3.12 venv route).
