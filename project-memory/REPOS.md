@@ -46,8 +46,14 @@ Updated 2026-10-24.
 | [ai4bharat/IndicF5](https://github.com/ai4bharat/IndicF5) | Indic F5-TTS (parked — TTS route for kids content, not the movie). Install ref: `pip install git+https://github.com/ai4bharat/IndicF5.git` | reference only |
 | [Anujatk1999/open-media](https://github.com/Anujatk1999/open-media) | "Shot Composer" — intro-video repo (see INTRO_VIDEO_PRODUCTION.md). | reference only (clone in `D:\models\ai-movie\repos\` if used) |
 
-## 4K / background replacement (SyncTile)
+## Music-video / agent-driven builder (VRGDG)
 
+| Repo | What it is | Status |
+|---|---|---|
+| [vrgamegirl19/comfyui-vrgamedevgirl](https://github.com/vrgamegirl19/comfyui-vrgamedevgirl) (branch **Beta2.0**) | **VRGDG Video Builder** (reddit 1xahodr, "MiniMax H3 - Really is the best open-source video model"). Full builder app as a ComfyUI pack (v9.1.1): `builder/` + `runner/` + **MCP/API server** (`mcp_server/`, `start_mcp_server.bat`, `Api_Endpoints.md` — agent-driven rendering), `agent_api/` + `CHAT_AGENT_PROMPT.md` + `MUSIC_VIDEO_AGENT_PROMPT.md`, `prompt_creator/`, `storyboard/`, `LUTS/`, masked-continuation scripts. Fault-tolerant `__init__.py` (per-submodule try/except). Nodes: `VRGDG_MiniMaxH3AudioDrive` (audio-driven H3), `VRGDG_MiniMaxH3{LatentUpscaleModelLoader,LearnedLatentUpscale,ReplaceUpscaledVideoLatent}`, `VRGDG_MusicVideoBuilderUI` (builder UI — community: docs' "VRGDG AI Video Builder UI" name is wrong), `MiniMaxH3AVLatentSeparateT8`, `H3FastVAEDecode`, keyframe timing. | **installed** ✓ (2026-10-24: cloned Beta2.0 → `E:\minimax_workflow\comfyui-vrgamedevgirl`, copied into `custom_nodes\comfyui-vrgamedevgirl`; minimax modules need no extra deps). Not loaded — **shared restart**. |
+| 2-pass workflow `VRGDG_MiniMaxH3_2Pass_MusicVideo_Shareable.json` | Author's exact 2-pass recipe: Singularity ref2va 25 steps audio-driven → turbo 8step LoRA @4 steps/0.35 + learned 3D latent upscale. | **LOCAL** = `user\default\workflows\VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL.json` (upscaler name remap; all 6 models local incl. newly-downloaded `minimax_h3_fl2v_turbo_8step` (lightx2v/Minimax-h3-Turbo)). **⚠ D041: music-driven — not for our movie.** |
+
+## 4K / background replacement (SyncTile)
 | Repo | What it is | Status |
 |---|---|---|
 | [NyckM/Bruxosdovfx-SyncTile-MiniMax-H3-v5.4](https://github.com/NyckM/Bruxosdovfx-SyncTile-MiniMax-H3-v5.4) | **H3 background replacement 4K 600+ frames** (reddit 1xbzw1o). Overlapping spatial tiles × temporal windows; every model call predicts all regions blended into one canvas = single denoising trajectory (no tile seams, no chained clips, VRAM = one region). Pack = repo root (`synctile_nodes.py` → `SyncTileGuiderH3`, `SyncTileRef2VAConditioningH3`, `SyncTileStreamDecodeVideoH3`). Shipped workflow `workflow/minimaxH3BackgroundSwap_v21a_guiaFrameAnterior.json` (v21a supersedes the v18 linked in the post). Community: NO mask needed, feed HIGH-RES character clip. | **installed** + analyzed ✓ (2026-10-24). Source copy → `E:\minimax_workflow\`. LOCAL workflow → `user\default\workflows\minimaxH3BackgroundSwap_v21a_LOCAL.json` (4 model remaps to local files). Not loaded (shared restart). |
