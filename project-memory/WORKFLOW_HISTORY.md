@@ -4,6 +4,15 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `FastH3_Omni_R2V_LOCAL.json` — FASTH3 OMNI: faster t2v + ref2v (P10 item 1, `FastVideo/FastH3-Omni-Comfy` + tweet BennyDaBall_OG)
+
+- **What:** FastH3 Omni (FastVideo + Nuva Lab, co-developed; thanks NVIDIA FastGen) — "final FastH3 Omni release": video + synchronized audio from prompt + **ordered image/video/audio references** (omni tags `<Picture 1>`, `<Video 1>`, `<Audio 1>`). 154K downloads, created 2026-10-20. License = MiniMax-H3 community license (same family we use).
+- **ComfyUI-native:** standard H3 graph + `MiniMaxH3ReferenceToVideo` node — **no new pack needed**. **Settings per README: 8 steps, guidance 1.0, video shift 12.0, audio shift 3.0.** Audio VAE required for synchronized audio.
+- **Models:** UNET `fasth3_omniref_qad_nvfp4_comfy.safetensors` (**NVFP4 QAD 13.1 GB — Blackwell/5090 optimal** — `FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy`) · fallback `fasth3_omniref_8step_pruned_int8_convrot` (21 GB, same format as our pruned ref2va) · other formats: FP8 Comfy (22 GB). CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq` ✓ local (NVFP4 text encoding needs Blackwell = our 5090 ✓) · video VAE int8 convrot / audio VAE fp32 ✓ local. **Both UNETs downloading (pwsh-343, resumable).**
+- **5090 BENCHMARK (author's tweet, WSL2):** 5 s clip w/ audio @832×480 = **10.07 s** · 10 s w/ audio @1344×768 = **69.06 s**.
+- **LOCAL** = `user\default\workflows\FastH3_Omni_R2V_LOCAL.json` — built from the validated item-5 graph (swap LoRA + SAM3 chain removed): UNET→SigmaShift[12,3]→ModelAttentionBackend→{BasicGuider, BasicScheduler[simple,8,1]}→SamplerCustomAdvanced→VAEDecode→VHS_VideoCombine; refs: char1_sheet.png (`<Picture 1>`=Jaisal) + distracted_guide.mp4 (`<Video 1>` motion/scene + its audio). Prompt = Jaisal cinematic 16:9, D041 ambient-only. **VALIDATE CLEAN** (0 errors). **NOT run (D192).**
+- **Movie relevance:** fastest route to H3 motion/scene shots with synced ambient audio; replaces the 20 GB pruned ref2va for generation (keep pruned for the recast/swap workflows).
+
 ## 2026-10-24 — `docs\IDEOGRAM_V4_ULTRAWIDE_FILM_LANGUAGE.md` — Ultrawide cinematic Ideogram v4 film language (P9 item 7, reddit 1ucdyvr → Civitai 2674413)
 
 - **USER RULE (verbatim): KEEP prompts/film language ONLY — do NOT apply their settings — adapt for Krea2 later.** Nothing from the workflow applied; Ideogram-4 model set NOT downloaded; v3.0 workflow kept as reference at `E:\minimax_workflow\ideogramV4Workflow_v30.json` (NOT in runnable workflows).

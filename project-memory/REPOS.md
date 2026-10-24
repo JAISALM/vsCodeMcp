@@ -53,6 +53,12 @@ Updated 2026-10-24.
 | [vrgamegirl19/comfyui-vrgamedevgirl](https://github.com/vrgamegirl19/comfyui-vrgamedevgirl) (branch **Beta2.0**) | **VRGDG Video Builder** (reddit 1xahodr, "MiniMax H3 - Really is the best open-source video model"). Full builder app as a ComfyUI pack (v9.1.1): `builder/` + `runner/` + **MCP/API server** (`mcp_server/`, `start_mcp_server.bat`, `Api_Endpoints.md` — agent-driven rendering), `agent_api/` + `CHAT_AGENT_PROMPT.md` + `MUSIC_VIDEO_AGENT_PROMPT.md`, `prompt_creator/`, `storyboard/`, `LUTS/`, masked-continuation scripts. Fault-tolerant `__init__.py` (per-submodule try/except). Nodes: `VRGDG_MiniMaxH3AudioDrive` (audio-driven H3), `VRGDG_MiniMaxH3{LatentUpscaleModelLoader,LearnedLatentUpscale,ReplaceUpscaledVideoLatent}`, `VRGDG_MusicVideoBuilderUI` (builder UI — community: docs' "VRGDG AI Video Builder UI" name is wrong), `MiniMaxH3AVLatentSeparateT8`, `H3FastVAEDecode`, keyframe timing. | **installed** ✓ (2026-10-24: cloned Beta2.0 → `E:\minimax_workflow\comfyui-vrgamedevgirl`, copied into `custom_nodes\comfyui-vrgamedevgirl`; minimax modules need no extra deps). Not loaded — **shared restart**. |
 | 2-pass workflow `VRGDG_MiniMaxH3_2Pass_MusicVideo_Shareable.json` | Author's exact 2-pass recipe: Singularity ref2va 25 steps audio-driven → turbo 8step LoRA @4 steps/0.35 + learned 3D latent upscale. | **LOCAL** = `user\default\workflows\VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL.json` (upscaler name remap; all 6 models local incl. newly-downloaded `minimax_h3_fl2v_turbo_8step` (lightx2v/Minimax-h3-Turbo)). **⚠ D041: music-driven — not for our movie.** |
 
+## P10 batch (2026-10-24, user — 9 items, tracker `P10_BATCH.md`)
+
+| Repo/Source | What it is | Status |
+|---|---|---|
+| [FastVideo/FastH3-Omni-Comfy](https://huggingface.co/FastVideo/FastH3-Omni-Comfy) + [FastH3-OmniRef-NVFP4-QAD-Comfy](https://huggingface.co/FastVideo/FastH3-OmniRef-NVFP4-QAD-Comfy) (HF) | **FastH3 Omni** — faster H3 t2v+ref2v (omni refs: `<Picture 1>`/`<Video 1>`/`<Audio 1>`); 8 steps, cfg 1, shifts 12/3; 5090 benchmark 5 s ≈ 10 s. ComfyUI-native (no new pack). | **models downloading** (NVFP4 QAD 13 GB + int8 21 GB, pwsh-343) · workflow `FastH3_Omni_R2V_LOCAL.json` **validate clean** |
+
 ## Ultrawide cinematic (Ideogram v4 — film language only)
 
 | Source | What it is | Status |
