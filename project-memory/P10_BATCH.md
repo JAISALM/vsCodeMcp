@@ -94,6 +94,9 @@ download command — files are written in place; a complete file = size matches 
       Qwen3-TTS engine (item 6 lands here), RVC, Higgs v3, Fish S2 Pro. Engines download weights on first use.
       **Reference workflows saved:** `TTS_Suite_TTS_SRT_REFERENCE.json` (SRT-timed TTS) · `TTS_Suite_ASR_SRT_Builder_REFERENCE.json`
       (dub audio → ASR → SRT builder = the movie dubbing pipeline) · `TTS_Suite_OmniVoice_REFERENCE.json`.
+      **Qwen3-TTS engine path:** suite auto-downloads from HF into its preferred TTS path (extra_model_paths YAML) OR takes a
+      `local:<ModelName>` prefix — our queued weights (`D:\models\ai-movie\models\qwen3-tts\Qwen3-TTS-12Hz-1.7B-CustomVoice`,
+      11 files 4.3 GB in `hf_resumable_download.py`) can be pointed to via that YAML to skip the re-download.
 - [ ] P10 items land here as built.
 
 ## Status log
