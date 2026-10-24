@@ -4,6 +4,18 @@ Newest changes first.
 
 ---
 
+## 2026-10-24 — `H3_Recast_LOCAL.json` — H3 RECAST: swap up to 3 people in one pass (P9 item 4, reddit 1x9n0dl → `Bambushu/h3-recast`, MIT)
+
+- **Purpose:** recast the people in an existing clip (1-3, one pass) — motion/set/clip's OWN audio stay (D041-safe: no music involved). Swap engine = H3 ref2va + **BFS character-swap LoRA** (NRDX). Optional FaceRefine lip-repair pass (reuses the swap from cache, ~2 min on 5090).
+- **How:** one clip (single shot, no hard cuts) → edit ONE frame so everyone has their new look (scene reference) → one line per person (`the woman in the red dress becomes an old woman with long silver hair` — `becomes`/`turns into`/`->`/`=` splits current→new look) → Run. **HARD RULE: write a line for EVERYONE in the shot** (a person left out gets re-dressed). Motion/hands/lips/clothes from the CLIP; faces+bodies from the SCENE REFERENCE.
+- **Location (source):** `E:\minimax_workflow\h3-recast\H3_Recast.json` (App mode, subgraphs; example inputs pre-copied to `ComfyUI\input\`: distracted_guide.mp4 + scene ref + 2 faces). **LOCAL** = `user\default\workflows\H3_Recast_LOCAL.json`.
+- **LOCAL REMAPS:** CLIP `qwen3vl_32b_minimax_h3_int8_convrot` → local `qwen3vl_32b_minimax_h3_nvfp4_awq` (×2). `minimax_h3_ref2v_turbo_4step_v0.1_comfyui_resized_avg_rank_21_bf16` NOT FOUND anywhere (HF lightx2v/Kijai, Civitai, web) → substituted base `minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16` (lightx2v, already local 1865 MB).
+- **Models:** `minimax_h3_character_swap_v1.0_ref2va_r64_gl` (BFS, Civitai 2027766/3401556 — **ALREADY LOCAL** ✓ 591 MB) · ref2va_pruned_int8_convrot ✓ · **fl2va_int8_convrot (lip repair) + fl2v_turbo_8step v1.0 — DOWNLOADING** (pwsh-274) · `taeh3.safetensors` (Kijai Tiny TAE, preview — **downloaded ✓** models/vae) · face_yolov8m.pt (models/ultralytics/bbox — **ALREADY LOCAL** ✓) · insightface buffalo_l auto-downloads on first lip-repair run.
+- **PACKS:** `ComfyUI-H3-NativeAudioLock` (class `MiniMaxH3NativeAudioLock` — copied from `Shrek3OnVH5/MiniMax-H3-NativeAudio-MusicVideo-Workflow` into `custom_nodes`; **class already in live object_info = pack was already installed earlier** → no restart needed for it). FaceRefine pack loaded ✓ (H3FaceTrackCrop/H3FaceStitch/H3InjectVideoLatent/H3PerFrameDenoise/H3FaceSelect/H3FaceMaskSAM/H3FaceTransformInfo). GetNode/SetNode resolved (ComfyUI version OK).
+- **VALIDATE (read-only):** 1 error = subgraph internal UNETLoader (1113/1108) `weight_dtype required_input_missing` — **CONFIRMED CONVERTER BLIND SPOT**: node is byte-identical to a native production UNETLoader and a standalone copy of the same node validates clean; the author's UI-saved file is the ground truth. 1 harmless warning (PrimitiveInt edge — INT is in the accepted list). 81 nodes converted. **NOT run (D192).**
+- **Movie relevance:** recast background people in a rendered scene (extras/crowds) or swap Jaisal/Zidhan into an existing clip. 16 GB VRAM + 64 GB RAM required — we have both (~18 min per 6 s / 3 people on a 5090).
+- **Also copied:** Shrek3OnVH5's `MiniMaxH3_NativeAudio_MusicVideo_TEMPLATE.json` (**⚠ D041: music-video template**) + `RIFE_WAN_Method_Interpolation_TEMPLATE.json` (frame interpolation — relevant to item 6 seamless vlog) into `user\default\workflows\`.
+
 ## 2026-10-24 — `VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL.json` — 2-pass H3 MUSIC-VIDEO recipe (P9 item 3, reddit 1xahodr → `vrgamegirl19/comfyui-vrgamedevgirl` Beta2.0)
 
 - **Purpose:** theatrical singing-performance video, AUDIO-DRIVEN (the song drives the performance). **⚠ D041: music-driven — NOT for our no-music movie; user's other content.**
