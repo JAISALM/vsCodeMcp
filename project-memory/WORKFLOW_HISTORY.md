@@ -13,6 +13,20 @@ Newest changes first.
 - **LOCAL** = `user\default\workflows\FastH3_Omni_R2V_LOCAL.json` — built from the validated item-5 graph (swap LoRA + SAM3 chain removed): UNET→SigmaShift[12,3]→ModelAttentionBackend→{BasicGuider, BasicScheduler[simple,8,1]}→SamplerCustomAdvanced→VAEDecode→VHS_VideoCombine; refs: char1_sheet.png (`<Picture 1>`=Jaisal) + distracted_guide.mp4 (`<Video 1>` motion/scene + its audio). Prompt = Jaisal cinematic 16:9, D041 ambient-only. **VALIDATE CLEAN** (0 errors). **NOT run (D192).**
 - **Movie relevance:** fastest route to H3 motion/scene shots with synced ambient audio; replaces the 20 GB pruned ref2va for generation (keep pruned for the recast/swap workflows).
 
+## 2026-10-24 — `CharSwap_v1.1_fro_LOCAL.json` — CHARACTER SWAP v1.1 (Alissonerdx update) + swap-LoRA comparison (P10 item 2, tweet 2111649216653148305)
+
+- **Tweet:** "Sorry folks, I know you're tired of Character Swap LoRAs 😅 but here's an update to my v1.0. I spent the last week training version after version to improve likeness, and I think I landed on a really nice one. I almost called it v2.0, but for that I'd want multiple characters." (2026-10-18)
+- **Release:** `minimax_h3_character_swap_v1.1_ref2va_fro.safetensors` (76 MB — `Alissonerdx/Minimax-H3-ComfyUI/loras/`, repo updated same day) — **DOWNLOADED ✓** (`models\loras\`).
+- **Swap-LoRA comparison (the swap ecosystem is growing — user asked to compare):**
+  | LoRA | Author | Size | Where used | Notes |
+  |---|---|---|---|---|
+  | `h3_character_swap_v1.5` | Akatz (HF akatz-ai) | 148 MB | item-5 MASK workflow (current best) | ref2v LoRA + SAM3 mask composite |
+  | `character_swap_v1.1_ref2va_fro` | Alissonerdx | **76 MB** | **this workflow** | new 2026-10-18; improved likeness; "almost v2.0 = needs multi-char support" |
+  | `character_swap_v1.0_ref2va_r64_gl` | Alissonerdx (also on Civitai 2027766) | 591 MB | item-4 H3 Recast | original v1.0 (r64) |
+  | `head_swap_v1.0_r32` | Alissonerdx | 295 MB | — | head-only swap (body preserved) — candidate for face-only fixes |
+- **LOCAL** = `user\default\workflows\CharSwap_v1.1_fro_LOCAL.json` — item-5 graph, ONLY change = LoRA stack slot 1 → v1.1_fro @1 (turbo 8step v1.1 @0.85 kept, SAM3 mask + composite chain intact). **VALIDATE CLEAN** (0 errors). **NOT run (D192).**
+- **A/B test recipe:** run the SAME clip through `MiniMax-H3-Character-Swap-Mask_LOCAL.json` (v1.5 Akatz) and this one (v1.1 Alissonerdx) → compare likeness. Author's family in the same repo: live_wallpaper (r32/r64), style_transfer (r64), vfx_edit (r128), lms r64 (item-2 bg-swap sharpening).
+
 ## 2026-10-24 — `docs\IDEOGRAM_V4_ULTRAWIDE_FILM_LANGUAGE.md` — Ultrawide cinematic Ideogram v4 film language (P9 item 7, reddit 1ucdyvr → Civitai 2674413)
 
 - **USER RULE (verbatim): KEEP prompts/film language ONLY — do NOT apply their settings — adapt for Krea2 later.** Nothing from the workflow applied; Ideogram-4 model set NOT downloaded; v3.0 workflow kept as reference at `E:\minimax_workflow\ideogramV4Workflow_v30.json` (NOT in runnable workflows).
