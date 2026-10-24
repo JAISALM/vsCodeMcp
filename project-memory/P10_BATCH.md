@@ -38,11 +38,11 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | `minimax_h3_hyperflow_8step_v1.0.safetensors` (loras) | videorebirth/hyperflow | pwsh-396 | 2,665 MB (2,795,328,008 B) | — | DONE ✓ (2665 MB on disk) → **`H3_HyperFlow_Fast_LOCAL.json` RE-VALIDATED = 0 errors, runnable pre-restart** |
 | `fasth3_4step_dense_datafree_adapter.safetensors` (`E:\minimax_workflow\sol_h3_weights`) | FastVideo/FastVideo-FastH3-4-step-Preview-v1-LoRA | pwsh-396 | 1,416 MB (1,485,626,152 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
 | `fast_h3_vae_noncausal_24l.safetensors` (vae — Sol-H3-VAE) | Efficient-Large-Model/Sol-H3-VAE | pwsh-396 | 6,171 MB (6,471,256,328 B) | **DONE ✓ (2026-10-24 23:0x)** | DONE |
-| **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | pwsh-494 (restarted 01:2x) | 3,833 MB + 650 MB + small | **RETARGETED → `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`** (suite-native auto-download dir) | QUEUED (was `D:\models\ai-movie\models\qwen3-tts\` — empty, no loss) |
+| **Qwen3-TTS-12Hz-1.7B-CustomVoice** (11 files, 4.3 GB) | Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice | pwsh-494 (restarted 01:2x) | 3,833 MB + 650 MB + small | **DONE ✓ (02:3x)** — all 11 files in `E:\comfyUi_latest\...\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\` (model.safetensors 405 tensors, speech_tokenizer 496 tensors verified; configs present) | DONE |
 | `h3_character_swap_v1.5.safetensors` (148 MB) · `sam3.1_multiplex_fp16.safetensors` (1.7 GB) | akatz / Comfy-Org | — | — | already local ✓ | DONE |
 | **m2mr venv** (`E:\minimax_workflow\Motion2MixamoRig\.venv`, uv Py3.12 + torch cu130) | MaxLiu22/Motion2MixamoRig | pwsh-426/430 | ~3 GB torch | **DONE ✓** torch 2.14.1+cu130 (cuda True) + gvhmr[rtmpose] + editable 0.1.8; `m2mr doctor` green (code) — 3 user assets pending (SMPLX npz / Mixamo FBX / input) |
 | `H3-Person-Remover-V1.safetensors` (loras, item 7) | akatz-ai/MiniMax-H3-Person-Remover-LoRA | — | 147 MB | — | DONE ✓ (147 MB on disk) |
-| **VNCCS_QI2_PoseStudio V1 / V1.1 / V2** (loras `QI2.1\VNCCS\`, item 8) | MIUProject/VNCCS_PoseStudio_QI2.1 | pwsh-396 | 159,436,408 B × 2 + 159,436,400 B | 0 | QUEUED in `hf_resumable_download.py` |
+| **VNCCS_QI2_PoseStudio V1 / V1.1 / V2** (loras `QI2.1\VNCCS\`, item 8) | MIUProject/VNCCS_PoseStudio_QI2.1 | pwsh-494→519 | 159,436,408 B × 2 + 159,436,400 B | **DONE ✓ (2026-10-25 02:3x–02:4x)** — all 3 verified (each 385 tensors). V2 repo file has a **trailing space** in its name (clean URL → 404; script uses `VNCCS_QI2_PoseStudioV2.safetensors%20`, local filename clean) | DONE |
 | `qwen_image_2.1_int8_convrot.safetensors` (unet, item 8) | Comfy-Org/Qwen-Image-2.1 | pwsh-396 | 7,256,783,064 B | 0 | QUEUED |
 | `qwen3vl_8b_int8_convrot.safetensors` (clip, item 8) | Comfy-Org/Qwen-Image-2.1 | pwsh-396 | 9,350,798,360 B | 0 | QUEUED |
 
@@ -104,6 +104,8 @@ download command — files are written in place; a complete file = size matches 
 
 ## Status log
 
+- 2026-10-25 02:4x — **16-file batch: 22/24 DONE** — Qwen3-TTS 11/11 ✓ (suite dir), VNCCS×3 ✓ (V2 trailing-space URL fixed: `%20`),
+      2 of the QI2.1 UNET/CLIP in flight (UNET 6,920 MB, then CLIP 9,350 MB). Downloader pwsh-519.
 - 2026-10-25 02:2x — **fl2va_int8 UNET DONE (32,462 MB, header 1,036 tensors verified)** — ALL 6 big MiniMax/FastH3 UNETs + 3 turbo
       LoRAs now local. 16-file batch in progress (Qwen3-TTS → VNCCS×3 → QI2.1 UNET/CLIP).
 - 2026-10-25 01:2x — **Qwen3-TTS retarget:** 11 queued files → `E:\comfyUi_latest\...\models\TTS\qwen3_tts\Qwen3-TTS-12Hz-1.7B-CustomVoice\`
