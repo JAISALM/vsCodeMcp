@@ -1,5 +1,27 @@
 # Current Task
 
+## 🔴 TOP (2026-10-24 ~14:30 IST) — JAISAL VARIATION SET COMPLETE (6 scenes, zero face drift) — next = Zidhan 6-scene set → fresh LoRA
+- **2-PASS VARIATION APPROACH PROVEN (zero face drift):** (1) t2i scene base (generic Keralite man in scene,
+  Krea2 random face — fine) → (2) FACE-LOCK that base to the finalized ref (Krea2 Identity Edit v1.2,
+  ref_boost 4.0, denoise 0.35–0.4, 10 steps cfg 1 euler/simple, g768) → face locked to the finalized ref,
+  pose/scene/background/clothing preserved = **zero face drift**. This is the variation recipe.
+- **Jaisal 6-scene variation set COMPLETE** (all face-locked to `jaisal_final_ref.png`, zero face drift):
+  - `data\jaisal_variations\S1_paddy.png` (post-harvest paddy, rain, farmers, wet black tee)
+  - `S2_house.png` (behind a normal Kerala house, single person — duplicate fixed on re-run)
+  - `S3_interior.png` (inside a Kerala house, clean face — pixelation fixed by face-lock)
+  - `S4_bike.png` (on a Kerala bike, rural road — cracked-skin texture fixed by face-lock)
+  - `S5_7sfoot.png` (minimal local 7's football ground, small goals, low fence, benches — NOT a stadium)
+  - `S6_rural.png` (rural Kerala village, paddy + homes + palms)
+  - Face-locked run `a663e26c` (workflow `k2f_jaisal_scenes.json`, 6-branch, seeds 9201–9206). Scene bases:
+    run `859948ab` (S1/S6) + `93f99858` (S2/S3/S4/S5 re-run). All bases single-person + artifact-free.
+- **Immutable anchors:** `data\character_finals\{jaisal,zidhan}_final.png` — hash-verified byte-identical
+  to `data\locked_refs\*_LOCKED.png` after every batch (jaisal `B2B4EB8C…`, zidhan `D8BEBB85…`). Staged to
+  `input\{jaisal,zidhan}_final_ref.png`.
+- **NEXT:** (1) **Zidhan 6-scene variation set** (white tee; beard lives in the ref — face-anchor only, t2i
+  base clean-shaven then face-locked to `zidhan_final_ref.png`) → (2) collect verified 12-image set →
+  **fresh character LoRA** → retest with triggers (`jeskvman`/`dlorman`) → (3) per-shot refs (2–3, D020) →
+  MiniMax H3 R2V (NO music D041) → SFX + assembly by **Nov 22**.
+
 ## 🔴 TOP (2026-10-24 ~13:27 IST) — CHARACTERS LOCKED (Jaisal crooked nose + Zidhan sharp nose/full beard) — next = variation set → fresh LoRA
 - **BOTH CHARACTERS LOCKED 2026-10-24 (user-approved "zidane is good, lets lock zidane" + "good [Jaisal] crooked
   nose"):**

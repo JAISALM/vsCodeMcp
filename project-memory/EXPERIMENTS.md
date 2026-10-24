@@ -4,6 +4,39 @@ Newest experiments first.
 
 ---
 
+## 2026-10-24 — 2-PASS VARIATION APPROACH PROVEN: t2i scene base → face-lock to finalized ref = ZERO FACE DRIFT (Jaisal 6-scene set)
+
+**Goal:** build a 6-scene variation set for Jaisal (the user's final scene set: paddy/harvest+rain, behind a
+Kerala house, inside a Kerala house, on a Kerala bike, a minimal local 7's football ground, rural village)
+with **zero face drift** to the locked face (user: "i dont wan any face drift for the original opne").
+
+**Recipe (2-pass, PROVEN):**
+1. **t2i scene base** (`k2v_jaisal_scenes.json`, 6-branch; UNET `krea2_turbo_fp8_scaled` + turbo-LoRA 0.7 +
+   `Krea2-realism-V2` 0.8 + NegPiP, 12 steps cfg 1 er_sde/simple, 1440×2560). Prompt = generic Keralite man
+   (warm tan, slim, short black hair, black tee) in the scene + "ONLY ONE person, no duplicates" +
+   "Natural photorealistic skin with real pores". The base face is RANDOM (Krea2) — that's fine.
+2. **Face-lock** (`k2f_jaisal_scenes.json`, 6-branch; Krea2 Identity Edit v1.2 chain: UNET turbo + identity
+   LoRA `krea2_identity_edit_v1_2`@1.0 → `Krea2EditModelPatch` [ref_boost 4.0, 1.0, 'fit'] → KSampler 10 steps
+   cfg 1 euler/simple denoise **0.4**, g768). Node 72 = t2i base, node 113 = `jaisal_final_ref.png`, instruction
+   = "the face of the second reference [Jaisal: crooked nose, wavy hair, clean-shaven], keep pose/scene/
+   background/clothing EXACTLY the same, change ONLY the face".
+
+**Result (run `a663e26c`, 6 face-locked scenes → `data\jaisal_variations\S1–S6.png`):** ALL 6 scenes face-locked
+to Jaisal (crooked nose + wavy hair + clean-shaven) with pose/scene/clothing preserved = **ZERO FACE DRIFT**.
+The face-lock also FIXED the base's face artifacts (S3 pixelation, S4 cracked-skin texture, S5 dotted texture).
+S2's duplicate-person base was re-run (fresh seed) to a single person. S5's face-blob base was re-run.
+Scene bases: run `859948ab` (S1/S6) + `93f99858` (S2/S3/S4/S5 re-run).
+
+**Krea2 t2i quirks (seed-dependent, fix = fresh-seed re-run, NOT prompt change):** character duplication despite
+"ONLY ONE person" (S2 first run), face smudge blobs (S3/S5), cracked/pink skin texture (S4). All resolved by
+fresh-seed re-runs; the S5 minimal-7's-ground prompt (small goals, low fence, benches, NOT a stadium) is proven.
+
+**Conclusion:** the 2-pass approach is the LOCKED variation recipe. Repeat for Zidhan (white tee; beard lives in
+the ref — t2i base clean-shaven then face-locked to `zidhan_final_ref.png`). Then collect the 12-image set →
+fresh character LoRA → retest with triggers.
+
+---
+
 ## 2026-10-24 — character-LoRA test + face-lock-to-HD → Jaisal + Zidhan CHARACTER LOCK (awaiting user confirm)
 
 **Trigger:** user: "pause the goal, generate the character first — a normal photo of jaisal and zidane… set up a workflow with our trained LoRA, if it drifts too much switch to real photos + new dataset via klein" + "check `refset_v7` — jaisal HD + zidane HD are the ideal characters, NOT a generic Tamilian". It is midnight; user does not want to spend the next day.
