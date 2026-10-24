@@ -28,7 +28,7 @@ D193 (item-7 style: film language only when user says so) · shared restart = th
 | File | Source | Job | Size target | Last seen | Status |
 |---|---|---|---|---|---|
 | `minimax_h3_fl2va_int8_convrot.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | **32,462 MB** (34,038,892,334 B — corrected from wrong ~19.5 GB estimate) | 9,090 MB stale partial | QUEUED (script resumes from partial) |
-| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | **IN PROGRESS** (resumed from 7,530 MB partial, 2026-10-25 00:25) | RUNNING |
+| `minimax_h3_ref2va_pruned_fp8_scaled.safetensors` (diffusion_models) | Comfy-Org/MiniMax-H3 | pwsh-396 | 19,987 MB (20,958,205,608 B) | **DONE ✓ (2026-10-25 01:0x)** (size 19,987 MB + header 1,082 tensors verified) | DONE |
 | `minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_ref2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors` | lightx2v | — | 1865 MB | — | DONE ✓ |
 | `minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors` (loras) | lightx2v/Minimax-h3-Turbo | pwsh-396 | 1865 MB | — | **DONE ✓ (2026-10-24 23:0x)** |
@@ -101,6 +101,12 @@ download command — files are written in place; a complete file = size matches 
 
 ## Status log
 
+- 2026-10-25 00:3x — **Downloads:** qad UNET DONE (22:54) → pruned_int8 UNET DONE (21,184 MB; 1 reset at 79% → auto-resume) →
+      ref2va_fp8 DONE (19,987 MB, header 1,082 tensors verified) — P10-1 (FastH3 Omni) + item-7 remover chain fully local.
+      fl2va_int8 resuming (9,090/32,462 MB). Then 16 queued files (VNCCS×3, QI2.1 UNET/CLIP, Qwen3-TTS×11).
+- 2026-10-25 00:3x — **RAG (D194) built + verified + scheduled** (user directive): `rag/` package (chunk→MiniLM-CPU→FAISS→query),
+      seed = 1,248 project chunks + 65 news items, task `VsCodeMcp-RagDaily` 08:00. ChromaDB→FAISS (bindings broken here),
+      Ollama absent→sentence-transformers CPU.
 - 2026-10-24 20:34 — P10 batch received (9 items); tracker created; goal armed (goal-0e826188).
 - 2026-10-24 20:45 — **item 1 DONE**: FastH3-Omni analyzed (README + variant repos + 5090 benchmark tweet);
       NVFP4 QAD (13 GB, 5090-optimal) + int8 fallback (21 GB) downloading (pwsh-343, resumable Range);
