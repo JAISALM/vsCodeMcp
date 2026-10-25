@@ -1504,3 +1504,25 @@
 - **Status:** Installed + verified in a fresh process; awaiting the user's ComfyUI
   restart for the running server to pick it up (then un-bypass the withers patch
   node).
+
+### D199 — ComfyUI frontend packages updated past the 0.42.5 pins (agent, 2026-10-25)
+
+- **Decision:** ran the user's 5 `pip install -U` commands on the embedded python:
+  `comfyui_frontend_package` 1.55.18 → **1.57.3**, `comfy-kitchen` 0.2.39 →
+  **0.2.40**, `comfy-aimdo` 0.5.6 → **0.6.0**; `comfyui-workflow-templates`
+  0.11.96 and `comfyui-embedded-docs` 0.5.14 were already the latest on the index
+  (no change).
+- **Why:** user reported their RAM/VRAM usage node "got removed" after the core
+  0.37.0 → 0.42.5 update. Verified the node was NEVER removed: `easy cleanGpuUsed`
+  (ComfyUI-Easy-Use) is present in the live server's `/object_info` (all 207
+  `easy*` classes loaded). The symptom is UI-side — most likely a stale cached
+  browser bundle after the core update. The frontend packages the core update had
+  installed (the 0.42.5 `requirements.txt` pins: 1.55.18/0.11.96/0.5.14/0.2.39/
+  0.5.6) were superseded per the user's explicit instruction.
+- **Effect:** takes effect at the next ComfyUI restart (the running server serves
+  the old frontend from memory) + a browser **hard refresh (Ctrl+Shift+R)** to
+  clear the cached old JS bundle.
+- **Rollback:** `pip install comfyui_frontend_package==1.55.18
+  comfy-kitchen==0.2.39 comfy-aimdo==0.5.6` (the 0.42.5-pinned set).
+- **Status:** Installed; awaiting restart + hard refresh; `easy cleanGpuUsed`
+  re-verification in the UI pending.
