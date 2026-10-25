@@ -21,7 +21,7 @@ UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 DSH-RAG/1.0"
 
 CFG = json.load(open(os.path.join(ROOT, "config.json"), encoding="utf-8"))
 
-MCP_FETCH = os.path.join(ROOT, "news", "mcp_fetch.js")
+MCP_FETCH = os.path.join(ROOT, "mcp_fetch.js")
 NODE = "node"
 
 

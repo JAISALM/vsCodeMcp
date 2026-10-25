@@ -13,7 +13,7 @@ chunking → embedding → vector DB → search back into prompt
 - **Sources** (`config.json`):
   - **Reddit** (3-tier ladder, all best-effort, every tier logged):
     1. JSON API (unauth) — fast when the IP isn't flagged.
-    2. `news/mcp_fetch.js` — **the same engine VS Code's websearch MCP uses**
+    2. `mcp_fetch.js` (repo root of ag/) — **the same engine VS Code's websearch MCP uses**
        (`D:\MCP\web-search-mcp`: axios fast path → randomized chromium fallback,
        same env as `D:\MCP\mcp-gateway`). Reuses the proven tooling instead of
        duplicating it.
