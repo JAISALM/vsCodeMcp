@@ -1451,3 +1451,23 @@
   mess things up" — the helper mimics the manual wiring without touching the proven template files.
 - **Status:** Active. Tested: charswapmask (video+sheet+track+prompt) ✓ and withers
   (3 refs+audio dir+primitive sync) ✓; node/link counts preserved both ways; test outputs deleted.
+
+### D197 — Debug failed runs via the ComfyUI `/history` HTTP API (agent, 2026-10-25)
+
+- **Decision:** when the USER reports a failed run, query the running server READ-ONLY:
+  `GET http://127.0.0.1:8188/history?max_items=N` → per run: `status.messages`
+  (execution_error carries `node_id`/`node_type`/`exception_message` + the full
+  `executed` list) and — decisively — **`prompt` (the exact inputs that were sent,
+  incl. wire-linked values as `["node_id", slot]` refs) and `outputs`**.
+- **Why:** the on-disk workflow file can LAG the live UI canvas (unlinked widget on
+  disk vs wire-link in canvas). `/history.prompt` is ground truth for what actually
+  ran. This caught the withers audio crash: disk had literal `start_index: 0`,
+  the canvas had `start_index` linked to node 5005 (`easy mathInt`, a−b = shot−1),
+  and the run's prompt showed `["5005", 0]` → the node loads ONE file per shot
+  (cap=1, Alphabetical ASC, shot N → index N−1) → counter ≥ 1 with only index 0
+  present = the "No audio files ... check start_index" raise.
+- **How:** embedded python + `urllib.request` (PS `Invoke-RestMethod` works for
+  small payloads; `Invoke-WebRequest` raw-content fails in non-interactive PS).
+  History messages are LISTS `[type, data, ts]`, not dicts. `prompt` may be a
+  LIST of `[id, {class_type, inputs}]` pairs.
+- **Status:** Complete + VERIFIED (diagnosed the withers start_index crash 2026-10-25).
