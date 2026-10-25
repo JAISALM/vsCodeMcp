@@ -2581,14 +2581,14 @@
     }
    },
    "widgets_values": [
-    "W:\\StableDiffusion\\ComfyFlux\\Comfy_UI_V61\\ComfyUI\\output\\prepped_audio\\withers",
+    "E:\\comfyUi_latest\\ComfyUI_windows_portable\\ComfyUI\\output\\prepped_audio\\withers",
     1,
     0,
     false,
     "Alphabetical (ASC)"
    ],
    "widgets_values_named": {
-    "directory": "W:\\StableDiffusion\\ComfyFlux\\Comfy_UI_V61\\ComfyUI\\output\\prepped_audio\\withers",
+    "directory": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\ComfyUI\\output\\prepped_audio\\withers",
     "audio_load_cap": 1,
     "start_index": 0,
     "load_always": false,
@@ -3790,10 +3790,10 @@
     }
    },
    "widgets_values": [
-    "W:\\StableDiffusion\\ComfyFlux\\Comfy_UI_V61\\ComfyUI\\output\\prepped_audio\\withers"
+    "E:\\comfyUi_latest\\ComfyUI_windows_portable\\ComfyUI\\output\\prepped_audio\\withers"
    ],
    "widgets_values_named": {
-    "value": "W:\\StableDiffusion\\ComfyFlux\\Comfy_UI_V61\\ComfyUI\\output\\prepped_audio\\withers"
+    "value": "E:\\comfyUi_latest\\ComfyUI_windows_portable\\ComfyUI\\output\\prepped_audio\\withers"
    },
    "color": "#232",
    "bgcolor": "#353"
