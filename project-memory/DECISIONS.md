@@ -1526,3 +1526,51 @@
   comfy-kitchen==0.2.39 comfy-aimdo==0.5.6` (the 0.42.5-pinned set).
 - **Status:** Installed; awaiting restart + hard refresh; `easy cleanGpuUsed`
   re-verification in the UI pending.
+
+### D200 — FastH3 A/B/C/D standardized comparison test: same prompt, same refs, 15 s, 1 MP, one shared seed (user directive, 2026-10-25)
+
+- **Decision:** the four FastH3 routes are compared under ONE standardized spec
+  (the "biggest test for fast and reliability"):
+  - **A** = `ABCD_test_A_FastH3_Omni_R2V_LOCAL.json` (LOCAL, was
+    `FastH3_Omni_R2V_LOCAL`) — UNET `fasth3_omniref_qad_nvfp4_comfy` (NVFP4, 13.8 GB).
+  - **B** = `ABCD_test_B_H3_HyperFlow_Fast_LOCAL.json` (LOCAL, was
+    `H3_HyperFlow_Fast_LOCAL`) — UNET `minimax_h3_ref2va_pruned_int8_convrot` (21 GB)
+    + LoRA `minimax_h3_hyperflow_8step_v1.0` @1.0 (node 301).
+  - **C** = `ABCD_test_C_FastH3_OmniRef_TEMPLATE.json` (copy of template
+    `video_fasth3_ominiref_r2v`) — UNET `fasth3_omniref_8step_pruned_int8_convrot` (22.2 GB).
+  - **D** = `ABCD_test_D_FastH3_i2v_TEMPLATE.json` (copy of template
+    `video_fastvideo_fasth3_i2v`) — UNET `fastvideo_fasth3_8step_v2_pruned_int8_convrot` (22.1 GB).
+  All in `E:\comfyUi_latest\...\user\default\workflows\`. Originals A/B backed up as
+  `*.ABCD.bak`; C/D templates in site-packages untouched (copies).
+- **Shared spec (identical across A–D):** canonical prompt = A's Jaisal R2V prompt
+  ("Jaisal … (shown in \<Picture 1\>), moves through the scene of \<Video 1\> … NO music,
+  NO melody, NO beat, NO soundtrack" — D041-safe, 373 chars); references =
+  `char1_sheet.png` (identity) + `distracted_guide.mp4` (motion/camera, 24 fps, audio
+  carried); duration **15 s** (362 frames on the 17k+5 grid); resolution **1 MP**
+  (A/B/C = 1376×768 landscape via ResolutionSelector 16:9@1MP; D = 1 MP following the
+  reference's portrait aspect — 896×1152 in the user's earlier run, template design);
+  seed **363275252574302 FIXED** in all four (A/B were `randomize` — changed to `fixed`).
+  D's prompt = the canonical text with the `<Video 1>` clause dropped (D is i2v — no
+  video-ref channel; first_frame = `char1_sheet.png`). C gained the video-ref wiring
+  the template left empty: new nodes 200 `VHS_LoadVideo` (distracted_guide.mp4) +
+  201 `ImageResizeKJv2` ← ResolutionSelector 115, wired to 136 `ref_videos.ref_video_0`
+  (slot 5) + `ref_video_audios.ref_video_audio_0` (slot 6), links 300–304.
+  Save prefixes = `ABCD_A_FastH3OmniR2V` / `ABCD_B_HyperFlowFast` /
+  `ABCD_C_OmniRefTemplate` / `ABCD_D_FastH3i2vTemplate` (outputs land in the output
+  root — the reason the user "didn't even see the output" of A: A saves to the
+  `output\` ROOT as `Video_0000X*`, not a subfolder; A's 15 s/1376×768/audio output
+  was verified = `output\Video_00002-audio.mp4`).
+- **Each route keeps its OWN** model/shift/VAE/sampler (that's what's being compared):
+  A/B shifts 12/3 + euler + simple 8 steps cfg 1 (BasicScheduler named-value fixed to
+  8 to match the run's 8/8); C shifts 12/3; D shifts 10/3 + res_multistep + simple 8,
+  VAE int8_convrot; C/D keep their template attention setup (C: VSA keep_percent 10
+  mandatory per template note; D: BlockSparseAttention vsa).
+- **Reason:** user's first-pass timings (A 17.41 s/it, B 74.62 s/it, C 16.39 s/it,
+  D 22.44 s/it at 8 steps) were on non-identical content/settings — a controlled
+  A/B/C/D is "the only way" to rank speed + reliability + output completeness.
+- **Verification:** all four `validate_workflow` CLEAN (0 errors / 0 warnings,
+  converted_from_ui). **D192: user runs all four** (after stopping Qwen); record per
+  run: total wall time, s/it, output filename + duration/res/audio, graph-break
+  count, VRAM staged. B's afternoon run (00:11:12) left NO root-level `Video_*`
+  output — check B's canvas save node (prefix/bypass) before the test.
+- **Status:** READY (2026-10-25 ~17:15 IST) — awaiting user's run.

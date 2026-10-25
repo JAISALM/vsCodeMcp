@@ -2190,3 +2190,47 @@ eyes/nose/lips" issue the user flagged between the two.
 **Next:** variation set (several seeds per character, same description) → fresh character LoRA →
 retest with triggers (jeskvman/dlorman); then per-shot refs (2–3, D020) → MiniMax H3 R2V (NO
 music D041) → SFX + assembly by Nov 22.
+
+---
+
+## 2026-10-25 (3) — FastH3 A/B/C/D controlled comparison test (SET UP, results pending user run)
+
+**Goal:** rank the four local FastH3 routes on speed + reliability + output completeness
+under IDENTICAL content (user: "do a test with same prompt and same reference, to verify
+which is better, thats the only way… 15 second… 1MP… consistent and professional").
+
+**Setup (D200):** four standardized files in `user\default\workflows\` (A/B = LOCAL
+adaptations renamed + backed up `*.ABCD.bak`; C/D = template copies, site-packages
+untouched):
+- **A** `ABCD_test_A_FastH3_Omni_R2V_LOCAL` — `fasth3_omniref_qad_nvfp4_comfy` (13.8 GB NVFP4)
+- **B** `ABCD_test_B_H3_HyperFlow_Fast_LOCAL` — `minimax_h3_ref2va_pruned_int8_convrot` (21 GB)
+  + `minimax_h3_hyperflow_8step_v1.0` LoRA @1.0
+- **C** `ABCD_test_C_FastH3_OmniRef_TEMPLATE` — `fasth3_omniref_8step_pruned_int8_convrot` (22.2 GB)
+- **D** `ABCD_test_D_FastH3_i2v_TEMPLATE` — `fastvideo_fasth3_8step_v2_pruned_int8_convrot` (22.1 GB)
+
+Shared spec: Jaisal R2V prompt (D041 no-music), refs `char1_sheet.png` +
+`distracted_guide.mp4` (24 fps + audio), **15 s** (362 frames), **1 MP** (A/B/C 1376×768;
+D follows ref aspect), seed **363275252574302 fixed** everywhere. C gained video-ref
+wiring (nodes 200/201, links 300–304); D prompt = canonical minus `<Video 1>` clause
+(i2v has no video channel). Save prefixes `ABCD_*` → outputs identifiable in the output
+ROOT. All four `validate_workflow` clean (0/0). D192: user runs after stopping Qwen.
+
+**First-pass baselines (user's own runs, 2026-10-25 afternoon, 8 steps each — NOT yet
+controlled, different content/settings):** A 17.41 s/it (total 205.75 s, MiniMaxH3 13018 MB
+staged + VideoVAE 4965 MB) · B **74.62 s/it** (total 00:11:12, 19995 MB staged — 4× slower
+than A) · C 16.39 s/it (21140 MB) · D 22.44 s/it (21099 MB + AudioVAE 576 MB, **1 graph
+break**). Verified outputs from those runs: A = `Video_00002-audio.mp4` 15.08 s 1376×768 24
+fps w/ audio (the output the user "didn't see" — it saves to the output ROOT, prefix
+`Video_`) · C = `video\FastH3_OmniRef_00002_.mp4` 15.08 s 1376×768 · D =
+`video\MiniMax_H3_00010_.mp4` 15.08 s 896×1152 (portrait, ref-aspect) · **B's 00:11:12 run
+left NO root-level `Video_*` file** — save node likely bypassed/renamed on the user's
+canvas (check before the test).
+
+**Diagnosis notes:** A's on-disk widget values lag the canvas (duration widget = 4 on disk
+while the canvas ran 15 s; `widgets_values_named` stale spots: A/B BasicScheduler named
+steps=10 vs 8 in the run, LoadImage named = missing files) — standardized files now have
+positional + named in sync. B's slowness hypothesis: 21 GB int8 UNET + 2.8 GB LoRA = 2×
+weight traffic vs A's 13 GB NVFP4 (check staged-VRAM logs on the controlled run).
+
+**Verdict:** PENDING — user runs A→B→C→D (Qwen stopped). Record: total wall time, s/it,
+staged VRAM, graph breaks, output duration/res/audio, and visual quality per route.
