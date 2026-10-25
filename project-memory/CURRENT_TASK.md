@@ -1346,6 +1346,14 @@ model (Qwen) updates memory + commits afterwards.
 - Scheduled task **VsCodeMcp-RagDaily (daily 08:00 Asia/Calcutta)** registered. Churn dirs gitignored.
 - See ag/README.md + **D194** in DECISIONS.md.
 - Fixes (2026-10-25): task-context TEMP/TMP pinned to ag\temp (scheduler session has no writable system temp); ingest_project now deletes a file's previous chunk ids before re-adding (orphan fix) + store.prune(); store pruned 213 orphans (project 1253 == manifest). RAG code committed to git.
+- **Source ladder upgrade (2026-10-25, user question "why can't we use our mcp browser?"):** RAG now uses the SAME engine VS Code uses —
+  `rag\news\mcp_fetch.js` (node driver importing `D:\MCP\web-search-mcp\dist\enhanced-content-extractor.js`: axios fast path +
+  randomized chromium fallback, gateway's env). fetch_news.py = 3-tier ladder per source: API → mcp engine → persistent-profile
+  playwright (reddit) / syndication → mcp engine (x). **Empirical wall test same day:** VS Code's own gateway (mcp websearch tool)
+  ALSO gets Reddit's "Prove your humanity" / "blocked by network security" today, and X syndication 429s — the walls are
+  source-side anti-bot (IP-reputation based, they rotate), not a RAG defect. Redlib mirrors probed: 429/502 (unreliable — not
+  added). HF = the reliable source; digest logs exactly which tiers were blocked so blocked days are visible, and the next
+  daily run retries automatically (no code change needed when a wall lifts).
 
 ### P10 download batch - ALL 24 FILES DONE (2026-10-25 03:4x)
 - `hf_resumable_download.py` full sequence complete + verified (sizes + safetensors headers): 6 big MiniMax/FastH3 UNETs (incl. ref2va_fp8 19,987 MB + fl2va_int8 32,462 MB), 3 turbo LoRAs, QI2.1 UNET 6,920 MB + CLIP 8,917 MB, VNCCS LoRAs ×3 (V2 repo file has trailing space — URL `%20`), Qwen3-TTS ×11 (suite dir `models\TTS\qwen3_tts\` — suite skips re-download; node input `local:Qwen3-TTS-12Hz-1.7B-CustomVoice`).

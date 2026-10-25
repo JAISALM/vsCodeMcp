@@ -1392,9 +1392,18 @@
   project|news`, `--days N`, `-k`). Agent rule: before treating a new repo/post as new,
   query the RAG — a `project` hit means we already documented it; a miss means genuinely
   new. Churn dirs `rag/news/`, `rag/data/`, `rag/.venv/`, `rag/hf_cache/` are gitignored.
-- **Known limits (documented, non-fatal):** reddit JSON API often 403s → playwright
-  fallback (page-text items when JSON stays blocked); X syndication rate-limits (429) —
-  8 s spacing, retries next day; every failure is logged in `news/logs/` and retried on
+- **Known limits (documented, non-fatal):** reddit JSON API often 403s; X syndication rate-limits
+  (429) — 8 s spacing, retries next day; every failure is logged in `news/logs/` and retried on
   the next daily run.
+- **Source ladder (2026-10-25 update, user: "VS Code fetched these fine — why can't we?"):**
+  RAG now reuses VS Code's OWN fetch engine — `rag\news\mcp_fetch.js` is a node driver importing
+  `D:\MCP\web-search-mcp\dist\enhanced-content-extractor.js` (axios fast path → randomized
+  chromium fallback; same env as the `D:\MCP\mcp-gateway` backend). Per-source ladder:
+  reddit = JSON API → mcp engine → persistent-profile playwright helper; X = syndication →
+  mcp engine. **Empirical same-day result:** the walls are SOURCE-SIDE anti-bot, not a RAG
+  defect — VS Code's own gateway got the identical Reddit "Prove your humanity" / "blocked by
+  network security" and X 429s on 2026-10-25. These walls rotate with IP reputation/time, so
+  the daily run picks them up automatically when a wall lifts (no code change). Redlib public
+  mirrors probed: 429/502 — unreliable, not added. HF API = the reliable source.
 - **Status:** Active. Seed verified 2026-10-25 (1,248 project chunks + 65 news items;
   query tests return correct sections). `rag/README.md` = architecture + failure modes.
