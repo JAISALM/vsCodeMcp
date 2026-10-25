@@ -2234,3 +2234,21 @@ weight traffic vs A's 13 GB NVFP4 (check staged-VRAM logs on the controlled run)
 
 **Verdict:** PENDING — user runs A→B→C→D (Qwen stopped). Record: total wall time, s/it,
 staged VRAM, graph breaks, output duration/res/audio, and visual quality per route.
+
+**TWO-PHASE split (user ~17:25: "no video ABCD first, then check with video"):**
+- **Phase 1 (FIRST) no-video** — `ABCD_test_{A,B,C}_…_novideo.json` + `ABCD_test_D_FastH3_i2v_TEMPLATE_novideo.json`
+  (D's graph is already video-free; its variant = same graph + identical prompt + `NV_` prefix).
+  A/B: nodes 13 (VHS_LoadVideo) + 17 (ImageResizeKJv2) DELETED, `ref_videos.*/ref_video_audios.*`
+  inputs cleared. C: nodes 200/201 + links 300–304 removed, video-ref inputs cleared.
+  All four share ONE identical text prompt (385 chars): "Jaisal … (shown in \<Picture 1\>), walks
+  down a busy city street, glances to the side with a surprised expression, then continues walking.
+  Cinematic 16:9, shallow depth of field, moody overcast light. Natural ambient sound only -
+  footsteps, rain, wind, distant traffic. NO music, NO melody, NO beat, NO soundtrack."
+  (the meme clip's choreography rendered in words). Only ref = char1_sheet.png.
+  Save prefixes `NV_A_/NV_B_/NV_C_/NV_D_` → output ROOT.
+- **Phase 2 (SECOND) with-video** — the four files WITHOUT `_novideo` (prefixes `ABCD_`), video ref
+  = `distracted_guide.mp4` (6.05 s, 1280×720, 24 fps, aac; the "Distracted Boyfriend" meme —
+  inherited from the community swap-workflow example inputs; content NOT copied, only motion/camera
+  choreography + audio ref).
+- Purpose: phase 1 = each route's raw speed; phase 2 = video-ref cost per route (answers the
+  "is B's 74.6 s/it the model or the ref?" question). All 8 files `validate_workflow` clean (0/0).
