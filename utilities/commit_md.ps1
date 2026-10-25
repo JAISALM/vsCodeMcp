@@ -28,7 +28,11 @@ git add -- '.gitignore'
 git add -- 'utilities' 'prompts' 'workflows' 'episode1' 'docs' 'rag' 'challenge' '.vscode'
 
 # Runtime state is not reusable content - untrack it once if it ever gets tracked.
-git rm --cached --quiet -- '.comfy/runs.jsonl' 2>$null | Out-Null
+# (Guard: a bare `git rm --cached` on an untracked path exits non-zero and, with
+# $ErrorActionPreference='Stop', its stderr ABORTS this script before the commit
+# happened. `git ls-files` is silent + exit 0 when the path is simply absent.)
+$trackedRuns = git ls-files -- '.comfy/runs.jsonl'
+if ($trackedRuns) { git rm --cached --quiet -- '.comfy/runs.jsonl' | Out-Null }
 
 # Scoped to exactly what this script manages. The repo carries runtime noise
 # (.comfy/runs.jsonl, .vscode/mcp.json) that is tracked and always "modified" -

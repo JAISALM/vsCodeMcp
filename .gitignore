@@ -56,3 +56,8 @@ challenge/story-short/
 move_bkp_log_*.txt
 ragt_*/
 .comfy/
+
+# scratch artifacts (wheel extractions, temp zips) - never commit
+rag/*_tmp/
+rag/*.zip
+rag/grpcio_wheels/

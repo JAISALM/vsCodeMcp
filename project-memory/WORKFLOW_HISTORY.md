@@ -4,6 +4,14 @@ Newest changes first.
 
 ---
 
+## 2026-10-25 — `minimaxH3BackgroundSwap_v21a_LOCAL.json` — FIRST LOCAL RUN: generation OK, upscaler crashed (root cause found, fix applied, retry after restart)
+
+- **User run 07:57 IST** (input `video_2026-10-25_07-54-35.mp4` = 226 f 1080×1920@24 → 211 + 14 freeze): **SyncTile generation SUCCEEDED** (1 tile × 3 windows @ 640×832, carry 21 frames, per-model-call mode) → crash in the **`MinimaxH3LatentUpscaler3D`** 3.44× stage (latent 40×52 → 138×178 = 2208×2848 px; model `minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors` 345 M fp16; temporal chunking T=67, chunks=3, overlap=52) ~8 s into chunking: **`torch.AcceleratorError: CUDA error: resource already mapped`**, surfaced at `out.to(device="cpu", non_blocking=True)` (async kernel errors report at the next sync).
+- **Root cause:** the **`cudaMallocAsync`** PyTorch allocator backend auto-enabled by ComfyUI 0.37.0 (torch 2.12 + CUDA ≥ 130; `ComfyUI/cuda_malloc.py`) + the upscaler's pinned-buffer `non_blocking=True` GPU→CPU transfer → UVA remap collision. NOT a workflow/model issue — **the v21a on-disk file needed no change**.
+- **Fix applied (effective on next restart):** (1) `--disable-cuda-malloc` added to `run_nvidia_gpu.bat` (official switch; backup kept) → caching allocator; (2) upscaler node patched: `torch.cuda.synchronize()` before the transfer + blocking `to("cpu")` copies — safe under any launch path.
+- **Retry:** restart via the patched bat (plus the `finish_nvvfx_upgrade.bat` step — see CURRENT_TASK top entry) → re-queue v21a with the same input. **Fallback if it still crashes:** lower `--reserve-vram` (currently 4) or disable the upscaler's temporal chunking / smaller chunks.
+- **Status:** awaiting user restart + retry. Generation-side is proven good; only the 3D latent upscale stage remains.
+
 ## 2026-10-24 — `FastH3_Omni_R2V_LOCAL.json` — FASTH3 OMNI: faster t2v + ref2v (P10 item 1, `FastVideo/FastH3-Omni-Comfy` + tweet BennyDaBall_OG)
 
 - **What:** FastH3 Omni (FastVideo + Nuva Lab, co-developed; thanks NVIDIA FastGen) — "final FastH3 Omni release": video + synchronized audio from prompt + **ordered image/video/audio references** (omni tags `<Picture 1>`, `<Video 1>`, `<Audio 1>`). 154K downloads, created 2026-10-20. License = MiniMax-H3 community license (same family we use).
