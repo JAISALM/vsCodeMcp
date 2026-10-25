@@ -348,7 +348,7 @@
   },
   {
    "id": 123,
-   "type": "LoadImageCrop",
+   "type": "LoadImageCrop (obvpm)",
    "pos": [
     1400,
     1544.5979713000197
@@ -362,7 +362,6 @@
    "mode": 0,
    "inputs": [
     {
-     "localized_name": "image",
      "name": "image",
      "type": "COMBO",
      "widget": {
@@ -371,7 +370,6 @@
      "link": null
     },
     {
-     "localized_name": "crop",
      "name": "crop",
      "type": "STRING",
      "widget": {
@@ -380,11 +378,18 @@
      "link": null
     },
     {
-     "localized_name": "upload",
-     "name": "upload",
-     "type": "IMAGEUPLOAD",
+     "name": "max_megapixels",
+     "type": "FLOAT",
      "widget": {
-      "name": "upload"
+      "name": "max_megapixels"
+     },
+     "link": null
+    },
+    {
+     "name": "aspect",
+     "type": "COMBO",
+     "widget": {
+      "name": "aspect"
      },
      "link": null
     }
@@ -420,20 +425,20 @@
     "24637efb-ef90-4a6d-b463-ddd9ded87013.png",
     "",
     2,
-    "image"
+    "free"
    ],
    "widgets_values_named": {
     "image": "24637efb-ef90-4a6d-b463-ddd9ded87013.png",
     "crop": "",
     "max_megapixels": 2,
-    "upload": "image"
+    "aspect": "free"
    },
    "color": "#233",
    "bgcolor": "#355"
   },
   {
    "id": 152,
-   "type": "LoadImageCrop",
+   "type": "LoadImageCrop (obvpm)",
    "pos": [
     1716.4365801321994,
     1550.849720556821
@@ -447,7 +452,6 @@
    "mode": 0,
    "inputs": [
     {
-     "localized_name": "image",
      "name": "image",
      "type": "COMBO",
      "widget": {
@@ -456,7 +460,6 @@
      "link": null
     },
     {
-     "localized_name": "crop",
      "name": "crop",
      "type": "STRING",
      "widget": {
@@ -465,11 +468,18 @@
      "link": null
     },
     {
-     "localized_name": "upload",
-     "name": "upload",
-     "type": "IMAGEUPLOAD",
+     "name": "max_megapixels",
+     "type": "FLOAT",
      "widget": {
-      "name": "upload"
+      "name": "max_megapixels"
+     },
+     "link": null
+    },
+    {
+     "name": "aspect",
+     "type": "COMBO",
+     "widget": {
+      "name": "aspect"
      },
      "link": null
     }
@@ -505,13 +515,13 @@
     "49ce5ffb-5012-4e79-903a-e7193a736bf0.png",
     "",
     1,
-    "image"
+    "free"
    ],
    "widgets_values_named": {
     "image": "49ce5ffb-5012-4e79-903a-e7193a736bf0.png",
     "crop": "",
     "max_megapixels": 1,
-    "upload": "image"
+    "aspect": "free"
    },
    "color": "#233",
    "bgcolor": "#355"
@@ -3253,7 +3263,7 @@
   },
   {
    "id": 5427,
-   "type": "LoadImageCrop",
+   "type": "LoadImageCrop (obvpm)",
    "pos": [
     2056.423099945199,
     1543.274750716421
@@ -3267,7 +3277,6 @@
    "mode": 0,
    "inputs": [
     {
-     "localized_name": "image",
      "name": "image",
      "type": "COMBO",
      "widget": {
@@ -3276,7 +3285,6 @@
      "link": null
     },
     {
-     "localized_name": "crop",
      "name": "crop",
      "type": "STRING",
      "widget": {
@@ -3285,11 +3293,18 @@
      "link": null
     },
     {
-     "localized_name": "upload",
-     "name": "upload",
-     "type": "IMAGEUPLOAD",
+     "name": "max_megapixels",
+     "type": "FLOAT",
      "widget": {
-      "name": "upload"
+      "name": "max_megapixels"
+     },
+     "link": null
+    },
+    {
+     "name": "aspect",
+     "type": "COMBO",
+     "widget": {
+      "name": "aspect"
      },
      "link": null
     }
@@ -3325,13 +3340,13 @@
     "408dd2ce-28cf-4c82-b4d3-6500853b4ae2.png",
     "",
     1,
-    "image"
+    "free"
    ],
    "widgets_values_named": {
     "image": "408dd2ce-28cf-4c82-b4d3-6500853b4ae2.png",
     "crop": "",
     "max_megapixels": 1,
-    "upload": "image"
+    "aspect": "free"
    },
    "color": "#233",
    "bgcolor": "#355"
@@ -3822,8 +3837,8 @@
     },
     {
      "localized_name": "drop_17_frames",
-     "name": "drop_17_frames",
-     "type": "BOOLEAN",
+     "name": "drop_frames",
+     "type": "INT",
      "widget": {
       "name": "drop_17_frames"
      },
@@ -3854,11 +3869,11 @@
    },
    "widgets_values": [
     39,
-    true
+    17
    ],
    "widgets_values_named": {
     "tail_frames": 39,
-    "drop_17_frames": true
+    "drop_frames": 17
    }
   },
   {

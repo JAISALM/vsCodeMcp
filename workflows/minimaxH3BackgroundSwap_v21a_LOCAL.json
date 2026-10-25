@@ -6288,7 +6288,7 @@
        0.85,
        0,
        39,
-       "guide from previous window (1 frame)",
+       "carry previous frames (sequential)",
        21
       ],
       "widgets_values_named": {
@@ -7821,7 +7821,7 @@
        1,
        0,
        39,
-       "guide from previous window (1 frame)",
+       "carry previous frames (sequential)",
        21
       ],
       "widgets_values_named": {

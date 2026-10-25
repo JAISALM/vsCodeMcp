@@ -3,10 +3,14 @@
 > Format: **workflow — source (reddit/x/github/HF) — what we're aiming for / what to check.**
 > All 9 items from the P10 batch. All models are local + verified. Workflows live in
 > `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\`.
-> **First: restart ComfyUI once (20 packs load — h3-relay + VNCCS_Utils are the new ones).**
+> **Restart DONE (2026-10-25 06:30 IST, verified read-only):** all 20 packs loaded. **ONE more short
+> restart** loads `comfyui-minimax-h3-audio-T8` (cloned during verification) — only item 3's family
+> (VRGDG 2-pass music video) needs it. Re-validation: H3-Person-Removal 0/0 · withers 0/0 (patched:
+> `LoadImageCrop (obvpm)` ×3 + `drop_frames` INT 17) · VNCCS ref + TTS-Suite ref valid · v21a code-clean
+> (pick node-231 video + node-232 image inputs before running).
 > **The P9 batch (7 items) has its own sheet: `P9_WORKFLOW_SHEET.md`** — items 4/5
-> (recast + char-swap mask) work TODAY; items 2/3/6 + the vLo bridge load on the same
-> restart. Full source URLs + what-to-check for both sheets are in those files.
+> (recast + char-swap mask) work TODAY; items 2/6 + the vLo bridge are live; item 3 (VRGDG) waits
+> for the one-more restart. Full source URLs + what-to-check for both sheets are in those files.
 
 | # | Workflow / tool | Source (reddit / x / github / HF) | What we're aiming for — what to check |
 |---|---|---|---|
