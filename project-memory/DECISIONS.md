@@ -1471,3 +1471,36 @@
   History messages are LISTS `[type, data, ts]`, not dicts. `prompt` may be a
   LIST of `[id, {class_type, inputs}]` pairs.
 - **Status:** Complete + VERIFIED (diagnosed the withers start_index crash 2026-10-25).
+
+### D198 — sageattention upgraded 1.0.6 → 2.2.0 Blackwell (sm_120) wheel (agent, 2026-10-25)
+
+- **Decision:** installed `sageattention 2.2.0` (community prebuilt wheel
+  `sageattention-2.2.0-cp313-cp313-win_amd64.whl` from HF `sanjxz/sageattention-2.2.0-blackwell-sm120a`)
+  into the ComfyUI portable embedded python, replacing 1.0.6.
+- **Why:** the KJNodes `MiniMax H3 Mem Eff Sage Attention Patch` (withers workflow)
+  raises on 1.0.6/sm_120 (5090 = Blackwell, pre-Blackwell package, no compiled
+  sm_120 kernels → `get_cuda_arch_versions()` empty). 2.2.0 carries sm_120 kernels
+  → the patch node works (int8/fp8 attention = lower peak VRAM + faster sampling).
+  The user's "sol attention" memory = the T8 pack (`comfyui-minimax-h3-audio-T8`)
+  SLA/Strict-Sage paths + the `sol_h3_Sol-H3-Studio.json` / `sol_h3_t2v.json`
+  workflows (P10 item 3 — the NVlabs Sol engine route, WSL2-only, reference only).
+- **Verified before install:** isolated `pip install --target` test — KJNodes core
+  contract (6 symbols) present, `get_cuda_arch_versions() = ['sm120']`, real GPU
+  `sageattn()` probe on torch 2.12.0+cu130 (ABI clean); all 11 importing packs
+  compat-scanned safe (WanVideoWrapper `sageattn_varlen` import now succeeds =
+  feature; seedvr2 compat layer written for 2.x; T8 `smooth_k` hits are their own
+  wrapper sigs, 2.2.0 swallows unknown kwargs).
+- **Gotchas:** (1) the running server keeps 1.0.6 in memory until restart — the
+  upgrade takes effect at next ComfyUI start (KJNodes captures `_cuda_archs` at
+  import time); (2) embedded python has `python313._pth` → the `PYTHONPATH`
+  environment variable is IGNORED — use `sys.path.insert(0, ...)` for isolated
+  package tests; (3) PyPI sageattention is frozen at 1.0.6 — 2.x only via
+  community wheels/source; (4) no MSVC on this machine (no VS2022/cl.exe) —
+  source builds are currently impossible without installing VS Build Tools.
+- **Rollback:** `pip install sageattention==1.0.6 --no-deps` (PyPI) or restore
+  `D:\models\vsCodeMcp\session_tmp\sage_setup\sageattention_1.0.6_backup`
+  (22 files). Wheel kept at
+  `session_tmp\sage_setup\sageattention-2.2.0-cp313-cp313-win_amd64.whl`.
+- **Status:** Installed + verified in a fresh process; awaiting the user's ComfyUI
+  restart for the running server to pick it up (then un-bypass the withers patch
+  node).
