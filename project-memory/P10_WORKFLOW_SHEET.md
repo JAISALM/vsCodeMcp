@@ -4,10 +4,9 @@
 > All 9 items from the P10 batch. All models are local + verified. Workflows live in
 > `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\`.
 > **First: restart ComfyUI once (20 packs load — h3-relay + VNCCS_Utils are the new ones).**
-> P9-batch workflows (`k2f_*_oneclick` ×8, `minimaxH3BackgroundSwap_v21a_LOCAL`,
-> `VRGDG_MiniMaxH3_2Pass_MusicVideo_LOCAL` [D041 — other content only], `H3_Recast_LOCAL`,
-> `MiniMax-H3-Character-Swap-Mask_LOCAL`, `withers_has_big_nattys_LOCAL` [audio OFF]) are
-> listed in `P10_BATCH.md` "User post-restart checklist" — run those too if you haven't.
+> **The P9 batch (7 items) has its own sheet: `P9_WORKFLOW_SHEET.md`** — items 4/5
+> (recast + char-swap mask) work TODAY; items 2/3/6 + the vLo bridge load on the same
+> restart. Full source URLs + what-to-check for both sheets are in those files.
 
 | # | Workflow / tool | Source (reddit / x / github / HF) | What we're aiming for — what to check |
 |---|---|---|---|

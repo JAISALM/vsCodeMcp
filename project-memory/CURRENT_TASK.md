@@ -1347,6 +1347,10 @@ model (Qwen) updates memory + commits afterwards.
 - See ag/README.md + **D194** in DECISIONS.md.
 - **Workflow sheet (2026-10-25, user request):** `P10_WORKFLOW_SHEET.md` — all 9 P10 items as
   workflow-name / source-URL (reddit-x-github-HF) / what-to-check rows, for post-restart run-by-run.
+  **P9 sheet added same day (user: "why did you forget that one?"):** `P9_WORKFLOW_SHEET.md` —
+  all 7 P9 items (vLo · background-swap v21a · VRGDG 2-pass [D041] · H3 Recast · char-swap
+  mask [clean, runnable today] · seamless vlog clown-anchoring [audio OFF] · Ideogram-v4
+  ultrawide prompt-language doc). P10 sheet now cross-references it.
 - **Auto-committer EXTENDED (2026-10-25, user directive "reusable items in the repo"):** `commit_md.ps1`
   now auto-commits `.md` + `.gitignore` + reusable dirs (`utilities/` 271 scripts, `prompts/`,
   `workflows/` mirror, `episode1/`, `docs/`, `rag/` code, `challenge/`, `.vscode/`) — images/media/
