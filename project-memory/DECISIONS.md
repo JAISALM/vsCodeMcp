@@ -1423,8 +1423,11 @@
   makes the node load 100 % offline — zero risk to the running server. Script:
   `data\whisper_preload_tmp.py` (6×retry, `HF_HUB_DISABLE_SYMLINKS_WARNING=1`, embedded python,
   ends with an offline `from_pretrained` verification).
-- **Status:** Active. `openai/whisper-large-v3` preload launched 2026-10-25 ~11:25 (background).
-  For any NEW HF-referencing node in the future: check the cache dir for weight files first.
+- **Status:** Active. `openai/whisper-large-v3` preload **COMPLETE + VERIFIED 2026-10-25 ~11:50**
+  (11 files, `model.safetensors` 3.09 GB; offline `from_pretrained` → `WhisperForConditionalGeneration`
+  in ~1 s; no `.incomplete` leftovers). The `withers_has_big_nattys_LOCAL` whisper tail (node 5420)
+  now loads 100 % offline. For any NEW HF-referencing node in the future: check the cache dir for
+  weight files first.
 
 ## D196 — Swap/vlog workflow prep = `utilities\prep_swap_run.py` (one command, template never modified) (2026-10-25, user directive "mimic and dont mess things up")
 
