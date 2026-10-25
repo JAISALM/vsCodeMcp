@@ -4,6 +4,44 @@ Newest experiments first.
 
 ---
 
+## 2026-10-25 — withers seamless-vlog template: first completed run (P9 item 6, 0.42.5 + sageattention 2.2.0)
+
+**Goal:** prove the author's 1-click vlog template end-to-end on our stack with a LONG
+audio input (124 s Mithun story in `prepped_audio\withers\01_`/`02_`/`03_`, counter
+5006 → shot math → per-shot `LoadAudioBatchFromDir` → whisper → `{{transcript}}` →
+H3 R2V lip-sync).
+
+**Run:** `5aa3a334` (13:29:47) — SUCCESS. Output
+`output\minimax\staticvlog\shot_00001-audio.mp4` (10.13 s, 480×864, 24 fps, aac).
+
+**Verified:**
+- **Prompt:** 6114-char blob correct — author's `subject_definitions` (Withers
+  character + chapel), `{{transcript}}` correctly replaced by whisper's English
+  translation of the Malayalam story, D041 no-music respected.
+- **Audio reuse = REAL:** mp4 audio track vs first 10.13 s of
+  `02_mithun_story.wav` → 250 ms RMS-envelope log-correlation **1.0** — H3 reused
+  the source audio (Mithun's actual voice), did not re-synthesize.
+- **Motion:** frames show the character mid-speech + open-palm gesture = per-prompt
+  behaviour.
+
+**Key findings:**
+1. **H3 IGNORED the three `LoadImageCrop` reference images** (ours:
+   `jaisal_t2i_base_00001_.png`, `2 closeUp.png`, `seedvr2_2k_kf6_00011_.png`)
+   — the detailed text description dominated; video = the AUTHOR'S character/scene,
+   zero Jaisal content. **Rule: for H3 R2V, refs and text must AGREE — mismatched
+   refs are dropped in favour of the text.**
+2. **Clip ≈ 10 s** — a 124 s story cannot fit; only the first ~10 s plays (expected
+   long-test semantics; full story on screen = multi-clip chain or longer `length`).
+3. `audio_load_cap` left at **0** (unlimited) — loaded 02_+03_ (248 s); set back to
+   1 (one file per shot).
+4. Counter 5006 was 1 → shot 3 → index 2 → file `02_`.
+
+**Conclusion:** template PROVEN (counter → per-shot audio → whisper offline →
+English transcript → long prompt → H3 with sage patch, no OOM on 32 GB). Rewrite for
+Jaisal/Zidhan + our refs DEFERRED by user → `PENDING_ITEMS.md` P9 item 4.
+
+---
+
 ## 2026-10-24 — H3 background-replacement 4K (Bruxosdovfx-SyncTile v21a) — community-verified usage notes (P9 item 2, reddit 1xbzw1o)
 
 **Source:** r/StableDiffusion post `1xbzw1o` + top comments. **We built** the LOCAL
