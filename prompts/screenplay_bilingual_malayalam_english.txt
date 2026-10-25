@@ -1,0 +1,57 @@
+# BILINGUAL SCREENPLAY PASS — Malayalam + English (D121)
+
+Paste this instruction + your raw script block (Manglish-typed OR Whisper
+Malayalam read-aloud output, or a mix of both) into the DSH writing chat.
+Run it PER SCENE or per a few scenes — not the whole script at once.
+
+---
+
+INSTRUCTION:
+
+You are the screenplay formatter for a Malayalam independent film.
+I will give you a block of raw script text. It may be in Manglish
+(romanised Malayalam), in Malayalam script (from speech-to-text), or a
+mix. Your job:
+
+1. OUTPUT BOTH LANGUAGES for every single line:
+   - Line 1: MALAYALAM (സാഹിത്യ + spoken-colloquial hybrid — the way
+     Keralite people ACTUALLY speak, with film-dialogue punch)
+   - Line 2: ENGLISH (plain, natural, subtitle-ready translation — same
+     meaning, not a word-for-word rendering)
+   Format:
+     <MALAYALAM LINE>
+     <ENGLISH LINE>
+     (blank line, then next line)
+   For ACTION/DIRECTION lines, prefix the Malayalam line with "പ്രവർത്തനം:"
+   and the English line with "ACTION:" so they stay distinguishable.
+   For DIALOGUE lines, prefix Malayalam with "ഭാഷണം:" (character name in
+   parentheses, e.g. "ഭാഷണം: (ചാരു) ...") and English with "SAY: (Charu) ...".
+
+2. CHARACTER NAMES: keep one consistent Malayalam name + one consistent
+   English transliteration for each character across the ENTIRE block.
+   If a name appears in more than one spelling in my raw text, pick the
+   best spelling and use it everywhere. List your name-choices at the top.
+
+3. TONE: colloquial Kerala Malayalam — spoken, not newspaper. Keep the
+   raw text's emotion and meaning; do NOT polish it into formal literary
+   Malayalam unless it is clearly a narration/voice-over line.
+
+4. SPEECH-TO-TEXT REPAIRS: the Malayalam lines may contain Whisper errors
+   (wrong character, broken word, repeated fragment). Fix obvious
+   transcription errors into correct Malayalam words that fit the context.
+   If a line is too garbled to repair confidently, keep your best guess
+   and append: "(check: <what you changed>)".
+
+5. FORMAT PRESERVED: scene headings (INT./EXT. / അകത്തെ/വെളിയിൽ),
+   character cues, parentheticals, and ordering stay exactly as given.
+   Add nothing that isn't in my raw text.
+
+6. At the END of the block, append a short section:
+   --- NAMES ---
+   <Malayalam name> = <English name> (one line per character)
+   --- CHECKS ---
+   <list of (check:) items, or "none">
+
+Raw script block:
+
+<<PASTE YOUR RAW SCENE HERE — Manglish, Malayalam, or mix>>

@@ -1,0 +1,34 @@
+# *** VOID (2026-10-23, D171) — do NOT use this top-knot-based plan. Zidhan was
+# re-scoped to the FACEFRONTAL2_ZIDANE face (buzz cut + full short beard + white
+# tee, ref = FACEFRONTAL2_ZIDANE_c_00012). The existing zidane dataset ALREADY
+# matches that face — no face regeneration needed. Kept for history only.
+#
+# ZIDANE (char2) v2 DATASET — 20 scene instructions for krea2_identity_edit.json
+# Reference image: E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\output\krea2_char2_face_c_00001_.png (frontal)
+#   (fallback: krea2_char2_face_b_00001_.png — 3/4 golden hour boat)
+# Chain: ref_boost 4.0, KSampler 10 steps cfg 1, grounding 512, 1MP output, style LoRA @0.7
+# SaveImage prefix: zidane_v2
+# Canonical identity (MUST appear in every image): slim ~26yo Indian man, black hair in a LOOSE TOP BUN, plain WHITE t-shirt, light stubble max.
+# Scene world = KERALA (match jaisal set: backwaters, rain, palms, village streets, boats, temple, bus, park).
+# Framing variety: 6 close-ups, 8 medium, 6 full/wide. Lighting: golden hour, overcast rain, misty morning, night, dusk.
+
+1. sitting on a wooden backwater boat at golden hour, 3/4 view looking off to the side, medium shot, warm golden light, palms and a small house on the far bank, calm water
+2. standing on a narrow rainy village street in Kerala, light rain falling, looking back at the camera over the shoulder, medium shot, wet pavement, green palms and houses in the background
+3. seated on a wooden pavilion by the backwater, side profile, looking across the water, medium shot, soft overcast light, boats and palms in the background
+4. walking along a green park path, dappled sunlight through the trees, 3/4 view toward the camera, medium shot, candid expression, lush greenery both sides
+5. standing on old stone temple steps in morning mist, facing the camera, medium shot, soft diffused mist light, stone walls and greenery behind
+6. sitting by the window seat of a local bus, looking out the window, 3/4 view, medium shot, soft daylight, interior of the bus in the background
+7. standing on a misty forest path at dawn, facing the camera, close-up, soft fog, thin trees and mist in the background, cool morning light
+8. standing under a single flickering street lamp at night in the rain, 3/4 view, medium shot, dramatic warm lamp light, wet pavement reflections
+9. sitting on a wooden boat at dusk, facing the camera, close-up, deep orange sky on the water, calm backwater behind
+10. standing on a wet rooftop at night, overcast clouds, facing the camera, 3/4 view, medium shot, cool blue night light, city lights far below
+11. walking through a green paddy field at golden hour, full body, wide shot, warm golden light, field stretching to the horizon, palms on the far side
+12. standing on an old stone bridge over a river, facing the camera, full body, wide shot, overcast light, river and green banks below
+13. standing in a small village fish market in the morning, 3/4 view, medium shot, soft morning light, baskets and boats in the background
+14. standing in a palm grove in light rain, raindrops visible, facing the camera, medium shot, wet green fronds all around
+15. sitting on the veranda of an old wooden backwater house, facing the camera, medium shot, warm interior light spilling out, water and palms behind
+16. sitting in a wooden boat at night by lantern light, 3/4 view, close-up, warm amber lantern glow on the face, dark water behind
+17. walking under a black umbrella on a monsoon street, 3/4 view, medium shot, heavy rain, wet street reflecting the sky
+18. standing on a riverside path at dusk, facing the camera, medium shot, soft purple-orange dusk sky, river and reeds behind
+19. standing in the warm light of an old wooden house interior, facing the camera, close-up, warm lamp light, wooden beams and a window with greenery outside
+20. facing the camera, frontal close-up, clean seamless light background, neutral expression, sharp focus on the eyes, soft even lighting, detailed skin texture

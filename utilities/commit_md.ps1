@@ -1,7 +1,10 @@
-# commit_md.ps1 - vsCodeMcp repo safety standard (2026-10-14)
+# commit_md.ps1 - vsCodeMcp repo safety standard (2026-10-14; EXTENDED 2026-10-25)
 #
-# Commits ALL .md files (project memory, docs, scripts, root) + .gitignore.
-# Run manually after significant .md changes, and it is ALSO scheduled to run
+# Commits ALL .md files (project memory, docs, scripts, root) + .gitignore + the
+# REUSABLE code/workflow dirs (utilities/, prompts/, workflows/, episode1/, docs/,
+# rag/ code, challenge/, .vscode/). .gitignore keeps images/media/logs OUT —
+# `git add <dir>` respects it.
+# Run manually after significant changes, and it is ALSO scheduled to run
 # daily at 22:30 as a safety net (Windows task "VsCodeMcp-MdDailyCommit").
 #
 # Why: sessions can corrupt/nuke files (Gemma incident, 2026-10-14). The git
@@ -16,22 +19,29 @@ $ErrorActionPreference = 'Stop'
 $repo = "D:\models\vsCodeMcp"
 Set-Location $repo
 
-# Stash nothing, add nothing destructive: only .md files + .gitignore.
-# Quoted '*.md' so PowerShell does NOT glob-expand it (git matches it at all depths).
+# Stash nothing, add nothing destructive: .md files + .gitignore + reusable
+# code/workflow dirs. Quoted '*.md' so PowerShell does NOT glob-expand it
+# (git matches it at all depths). `git add <dir>` respects .gitignore, so
+# images/media/logs (data/, session_tmp/, tools/, .comfy/, *.exe, ...) stay out.
 git add -- '*.md'
 git add -- '.gitignore'
+git add -- 'utilities' 'prompts' 'workflows' 'episode1' 'docs' 'rag' 'challenge' '.vscode'
+
+# Runtime state is not reusable content - untrack it once if it ever gets tracked.
+git rm --cached --quiet -- '.comfy/runs.jsonl' 2>$null | Out-Null
 
 # Scoped to exactly what this script manages. The repo carries runtime noise
-# (.comfy/runs.jsonl, .vscode/mcp.json) that is tracked and always "modified" —
+# (.comfy/runs.jsonl, .vscode/mcp.json) that is tracked and always "modified" -
 # an unscoped status check would false-positive on those. Out-String keeps the
 # empty-output case a real string (command substitution yields $null otherwise).
-$changed = (git status --porcelain --untracked-files=no -- '*.md' '.gitignore' | Out-String).Trim()
+$paths = @('*.md', '.gitignore', 'utilities', 'prompts', 'workflows', 'episode1', 'docs', 'rag', 'challenge', '.vscode')
+$changed = (git status --porcelain --untracked-files=no -- @paths | Out-String).Trim()
 if ($changed -eq "") {
-  Write-Output "commit_md: no .md changes to commit (already up to date)."
+  Write-Output "commit_md: nothing to commit (.md + reusable code up to date)."
 } else {
   $summary = git diff --cached --stat | Select-Object -Last 1
   $stamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-  $msg = "md-safety-commit $stamp - all .md changes (daily standard)"
+  $msg = "auto-safety-commit $stamp - .md + reusable code/workflows (daily standard)"
 
   git commit -m $msg | Out-Null
   Write-Output "commit_md: committed."

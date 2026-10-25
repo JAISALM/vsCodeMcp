@@ -42,3 +42,17 @@ rag/hf_cache/
 rag/hf_home/
 rag/temp/
 rag/data2/
+
+# --- extended 2026-10-25 (user directive: auto-committer covers reusable items;
+# keep logs/dumps/installers/runtime-state OUT) ---
+data/
+*.exe
+*.whl
+*.err
+session_tmp/
+tools/
+challenge/consistent-short/
+challenge/story-short/
+move_bkp_log_*.txt
+ragt_*/
+.comfy/

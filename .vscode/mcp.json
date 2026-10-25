@@ -30,6 +30,17 @@
                 "GW_MAX_RESEARCH_TIME_SECONDS": "120",
                 "GW_LOG_FILE": "D:\\MCP\\mcp-gateway\\gateway.log"
             }
+        },
+        "blender-mcp": {
+            "type": "stdio",
+            "command": "D:\\MCP\\blender_mcp\\mcp\\.venv\\Scripts\\python.exe",
+            "args": [
+                "D:\\MCP\\blender_mcp\\mcp\\blmcp_curated.py"
+            ],
+            "env": {
+                "BLENDER_MCP_HOST": "localhost",
+                "BLENDER_MCP_PORT": "9876"
+            }
         }
     }
 }

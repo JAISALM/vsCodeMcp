@@ -1,0 +1,173 @@
+{
+ "id": "0be81ebb-3b3c-4de7-a6e2-b084fdf83eb1",
+ "revision": 0,
+ "last_node_id": 16,
+ "last_link_id": 1,
+ "nodes": [
+  {
+   "id": 9,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    1200
+   ],
+   "size": [
+    485.359375,
+    138.78125
+   ],
+   "flags": {
+    "pinned": true
+   },
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "A complete **Krea 2 Film Studio** generation node built inside ComfyUI, designed to keep the entire image workflow inside one clean interface. It supports **Text-to-Image, Image-to-Image, Directed Control, custom resolutions, megapixel scaling, sampler settings, seeds, LoRA loading, prompt history, gallery, autosave, and model settings**, while still outputting a standard ComfyUI **IMAGE, LATENT, and used seed** for use with other nodes.\n\nThe goal is to make Krea 2 feel like a standalone creative studio while keeping everything fully local and integrated with ComfyUI.\n\n1MP For 720\n2MP For 1080"
+   ],
+   "color": "rgba(0,0,0,.8)",
+   "bgcolor": "rgba(24,24,27,.9)",
+   "shape": "round"
+  },
+  {
+   "id": 15,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    1200
+   ],
+   "size": [
+    485.359375,
+    554.3229163544311
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "title": "Download Models",
+   "properties": {},
+   "widgets_values": [
+    "Guide: [Subgraph](https://docs.comfy.org/interface/features/subgraph)\n\n## Model Links\n\nFor BF16 and NVFP4 variants, see [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2)\n\n**diffusion_models**\n\n- [krea2_turbo_fp8_scaled.safetensors](https://huggingface.co/Comfy-Org/Krea-2/resolve/main/diffusion_models/krea2_turbo_fp8_scaled.safetensors)\n\n**text_encoders**\n\n- [qwen3vl_4b_fp8_scaled.safetensors](https://huggingface.co/Comfy-Org/Krea-2/resolve/main/text_encoders/qwen3vl_4b_fp8_scaled.safetensors)\n\n**vae**\n\n- [Wan_2.1_vae.safetensors](https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/blob/main/split_files/vae/wan_2.1_vae.safetensors)\n\n**loras**\n\n- [krea2_CanonUltraReal](https://civitai.red/models/2783143/canon-ultrareal)\n\n- [krea2_CinematicMovieStill](https://civitai.red/models/2840790/cinematic-movie-still)\n\n**CustomNodes (CONTROLNET)**\n\n- [KREACONTROLNET_NODE](https://github.com/facok/comfyui-krea2-controlnet)\n\n**Depth Lora (REQUIRED)**\n\n- [KREACONTROLNET_LORA](https://huggingface.co/Patil/Krea-2-depth-controlnet/tree/main)\n\n\n\n## Model Storage Location\n\n```\n\ud83d\udcc2 ComfyUI/\n\u251c\u2500\u2500 \ud83d\udcc2 models/\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 diffusion_models/\n\u2502   \u2502   \u2514\u2500\u2500 krea2_turbo_fp8_scaled.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 text_encoders/\n\u2502   \u2502   \u2514\u2500\u2500 qwen3vl_4b_fp8_scaled.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 vae/\n\u2502   \u2502   \u2514\u2500\u2500 qwen_image_vae.safetensors\n\u2502   \u2514\u2500\u2500 \ud83d\udcc2 loras/\n\u2502       \u2514\u2500\u2500 Placeholder.safetensors\n```"
+   ],
+   "color": "rgba(0,0,0,.8)",
+   "bgcolor": "rgba(24,24,27,.9)",
+   "shape": "round"
+  },
+  {
+   "id": 13,
+   "type": "Krea2OneNode",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    1611.123670504989,
+    1103.8123546701977
+   ],
+   "flags": {
+    "pinned": true
+   },
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "prompt",
+     "shape": 7,
+     "type": "STRING",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      1
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "links": null
+    },
+    {
+     "name": "used_seed",
+     "type": "INT",
+     "links": null
+    }
+   ],
+   "title": "\ud83d\udd39Krea 2 Film Studio\ud83d\udd39By \ud835\udce5\ud835\udcf2\ud835\udcf8\ud835\udcf7\ud835\udcee\ud835\udd01",
+   "properties": {
+    "Node name for S&R": "Krea2OneNode"
+   },
+   "widgets_values": [
+    "{\"version\": 4, \"mode\": \"i2i\", \"preset\": \"Fast\", \"prompt\": \"Keep the man's face, medium wavy black hair (falling to eyebrow length), his naturally CROOKED bent nose, identity, slim build, and plain black t-shirt EXACTLY the same as the reference image. Change ONLY the setting: place him inside a normal Kerala home - dark wooden beams, a brass kettuvilakku oil lamp, an open wooden window with lush greenery outside, natural window light falling on him. Warm moody interior light. Cinematic 35mm movie still, shallow depth of field, photorealistic, natural color grade, no text, no watermark.\", \"negative_prompt\": \"low quality, blurry, pixelated, bad anatomy, deformed body, extra limbs, malformed hands, extra fingers, distorted face, asymmetrical eyes, duplicate subjects, warped background, incorrect perspective, cropped limbs, plastic skin, unrealistic lighting, oversaturated, text, watermark, logo, CGI, cartoon, motion blur, flicker, jitter, morphing, temporal inconsistency\", \"width\": 1928, \"height\": 1088, \"alignment\": 8, \"aspect_ratio\": \"16:9\", \"megapixels\": 2.0, \"custom_resolution\": true, \"batch_size\": 1, \"steps\": 8, \"cfg\": 1.0, \"seed\": 90203, \"randomize_seed\": false, \"sampler\": \"euler\", \"scheduler\": \"simple\", \"denoise\": 1.0, \"res4lyf\": {\"enabled\": true}, \"gguf\": {\"enabled\": false, \"model\": \"\", \"clip_enabled\": false, \"clip\": \"\"}, \"model\": \"krea2_turbo_bf16.safetensors\", \"clip\": \"qwen3vl_4b_fp8_scaled.safetensors\", \"vae\": \"wan_2.1_vae.safetensors\", \"weight_dtype\": \"default\", \"clip_device\": \"default\", \"loras\": [{\"name\": \"Krea 2\\\\canon_krea2.safetensors\", \"strength_model\": 1, \"strength_clip\": 1, \"enabled\": true, \"managed\": true}, {\"name\": \"Krea 2\\\\cinematic_movie_still_krea2.safetensors\", \"strength_model\": 1, \"strength_clip\": 1, \"enabled\": true, \"managed\": true}], \"dismissed_managed_loras\": [], \"advanced\": true, \"auto_save\": true, \"save_path\": \"\", \"scroll_zoom\": false, \"compare_enabled\": false, \"cinematic_style\": \"\", \"reference_downscale_mp\": 1.0, \"vae_decode\": {\"mode\": \"auto\", \"tile_size\": 512, \"overlap\": 64}, \"refinement\": {\"enabled\": true, \"steps\": 3, \"cfg\": 1.0, \"sampler\": \"euler\", \"scheduler\": \"simple\", \"denoise\": 0.27}, \"diversity\": {\"enabled\": false, \"strength\": 0.08, \"eta\": 0.75}, \"enhancer\": {\"enabled\": false, \"behavior\": \"balanced\", \"max_length\": 256, \"temperature\": 0.7, \"top_k\": 64, \"top_p\": 0.95, \"repetition_penalty\": 1.05, \"seed\": 0, \"thinking\": false}, \"i2i\": {\"pipeline\": \"identity_edit\", \"denoise\": 0.65, \"fit_mode\": \"fit\", \"identity_lora\": \"\", \"ref_boost\": 4.0, \"ref_boost_a\": 1.0, \"grounding_px\": 768}, \"multi_reference\": {\"vision_megapixels\": 0.3, \"vision_position\": \"before prompt\", \"system_prompt\": \"Study every numbered reference image, preserve the requested identity, object, wardrobe, style, lighting, and environment cues, then combine them into one coherent new shot that follows the user's spatial instructions. Treat Image N and Picture N as the same reference.\"}, \"control\": {\"lora\": \"\", \"strength\": 1.0, \"resize\": \"match_latent_size\", \"upscale_method\": \"lanczos\", \"crop\": \"center\", \"channel_mode\": \"rgb\", \"normalize\": \"none\", \"invert\": false, \"preprocessor\": \"none\", \"preprocessor_resolution\": 1024}, \"external\": {\"model\": false, \"clip\": false, \"vae\": false}, \"uploads\": {\"image\": \"jaisal_final_ref.png\", \"image_2\": \"\", \"image_3\": \"\", \"image_4\": \"\"}, \"stats\": {\"images_generated\": 0, \"renders_completed\": 0, \"total_render_ms\": 0.0, \"last_render_ms\": 0.0, \"last_batch\": 0, \"last_completed_at\": \"\"}}"
+   ],
+   "color": "#08090b",
+   "bgcolor": "#08090b"
+  },
+  {
+   "id": 16,
+   "type": "PreviewImage",
+   "pos": [
+    0,
+    1200
+   ],
+   "size": [
+    140,
+    26
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 4,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.32.0",
+    "Node name for S&R": "PreviewImage"
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   13,
+   0,
+   16,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6344402619098575,
+   "offset": [
+    2337.2068336013317,
+    -5465.20429137204
+   ]
+  },
+  "frontendVersion": "1.48.7",
+  "VHS_latentpreview": false,
+  "VHS_latentpreviewrate": 0,
+  "VHS_MetadataImage": true,
+  "VHS_KeepIntermediate": true
+ },
+ "version": 0.4
+}

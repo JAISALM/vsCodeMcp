@@ -1,0 +1,482 @@
+{
+ "id": "rtx-post-vfx-local",
+ "version": 0.4,
+ "last_node_id": 206,
+ "last_link_id": 210,
+ "nodes": [
+  {
+   "id": 201,
+   "type": "VHS_LoadVideo",
+   "pos": [
+    40,
+    80
+   ],
+   "size": [
+    274.9804655120281,
+    776.8533218524035
+   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      201,
+      205
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    },
+    {
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      205
+     ]
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-videohelpersuite",
+    "ver": "1.7.9",
+    "Node name for S&R": "VHS_LoadVideo"
+   },
+   "widgets_values": {
+    "video": "distracted_guide.mp4",
+    "force_rate": 24,
+    "custom_width": 0,
+    "custom_height": 0,
+    "frame_load_cap": 0,
+    "skip_first_frames": 0,
+    "select_every_nth": 1,
+    "format": "AnimateDiff",
+    "choose video to upload": "image",
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {
+      "filename": "distracted_guide.mp4",
+      "type": "input",
+      "format": "video/mp4",
+      "force_rate": 24,
+      "custom_width": 0,
+      "custom_height": 0,
+      "frame_load_cap": 0,
+      "skip_first_frames": 0,
+      "select_every_nth": 1
+     }
+    }
+   },
+   "widgets_values_named": {
+    "video": "minimax-h3-video-character-swap-with-reference-to-video-in-comfyui-reference-video-next-diffusion.mp4",
+    "force_rate": 24,
+    "custom_width": 0,
+    "custom_height": 0,
+    "frame_load_cap": 0,
+    "skip_first_frames": 0,
+    "select_every_nth": 1,
+    "format": "AnimateDiff",
+    "choose video to upload": "image",
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {
+      "filename": "minimax-h3-video-character-swap-with-reference-to-video-in-comfyui-reference-video-next-diffusion.mp4",
+      "type": "input",
+      "format": "video/mp4",
+      "force_rate": 24,
+      "custom_width": 0,
+      "custom_height": 0,
+      "frame_load_cap": 0,
+      "skip_first_frames": 0,
+      "select_every_nth": 1
+     }
+    }
+   }
+  },
+  {
+   "id": 202,
+   "type": "RTXVideoSuperResolution",
+   "pos": [
+    40,
+    420
+   ],
+   "size": [
+    400,
+    140
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 201
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "upscaled_images",
+     "name": "upscaled_images",
+     "type": "IMAGE",
+     "links": [
+      202
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RTXVideoSuperResolution"
+   },
+   "widgets_values": [
+    "scale by multiplier",
+    2.0,
+    "ULTRA",
+    1.0,
+    "8-bit RGB"
+   ],
+   "widgets_values_named": {
+    "resize_type": "scale by multiplier",
+    "scale": 2.0,
+    "quality": "ULTRA",
+    "strength": 1.0,
+    "image_encoding": "8-bit RGB"
+   }
+  },
+  {
+   "id": 203,
+   "type": "RTXVideoFrameGeneration",
+   "pos": [
+    490,
+    420
+   ],
+   "size": [
+    420,
+    160
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 202
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "interpolated_images",
+     "name": "interpolated_images",
+     "type": "IMAGE",
+     "links": [
+      203
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RTXVideoFrameGeneration"
+   },
+   "widgets_values": [
+    "frame rate multiplier",
+    2,
+    "MEDIUM",
+    true,
+    false,
+    "8-bit RGB"
+   ],
+   "widgets_values_named": {
+    "generation_type": "frame rate multiplier",
+    "multiplier": 2,
+    "mode": "MEDIUM",
+    "automatic_shot_change_detection": true,
+    "shot_change": false,
+    "image_encoding": "8-bit RGB"
+   }
+  },
+  {
+   "id": 204,
+   "type": "RTXTrueHDR",
+   "pos": [
+    950,
+    420
+   ],
+   "size": [
+    400,
+    180
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 203
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "hdr_images",
+     "name": "hdr_images",
+     "type": "IMAGE",
+     "links": [
+      204
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RTXTrueHDR"
+   },
+   "widgets_values": [
+    100,
+    100,
+    50,
+    1000,
+    true,
+    "HDR"
+   ],
+   "widgets_values_named": {
+    "contrast": 100,
+    "saturation": 100,
+    "middle_gray": 50,
+    "luminance": 1000,
+    "debanding": true,
+    "output_colorspace": "HDR"
+   }
+  },
+  {
+   "id": 205,
+   "type": "VHS_VideoCombine",
+   "pos": [
+    1400,
+    420
+   ],
+   "size": [
+    1145.8889215610066,
+    2334.8628027547174
+   ],
+   "flags": {},
+   "order": 31,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 204
+    },
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "widget": {
+      "name": "audio"
+     },
+     "link": 205
+    },
+    {
+     "localized_name": "meta_batch",
+     "name": "meta_batch",
+     "type": "VHS_BatchManager",
+     "widget": {
+      "name": "meta_batch"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "frame_rate",
+     "name": "frame_rate",
+     "type": "FLOAT",
+     "widget": {
+      "name": "frame_rate"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "Filenames",
+     "type": "VHS_FILENAMES",
+     "links": null
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfyui-videohelpersuite",
+    "ver": "1.7.4",
+    "Node name for S&R": "VHS_VideoCombine",
+    "aux_id": "Kosinkadink/ComfyUI-VideoHelperSuite"
+   },
+   "widgets_values": {
+    "frame_rate": 48,
+    "loop_count": 0,
+    "filename_prefix": "rtx_post",
+    "format": "video/h264-mp4",
+    "pix_fmt": "yuv420p",
+    "crf": 19,
+    "save_metadata": false,
+    "trim_to_audio": false,
+    "pingpong": false,
+    "save_output": true,
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {
+      "filename": "Video_00191-audio.mp4",
+      "subfolder": "",
+      "type": "output",
+      "format": "video/h264-mp4",
+      "frame_rate": 24,
+      "workflow": "Video_00191.png",
+      "fullpath": "/workspace/ComfyUI/output/Video_00191-audio.mp4",
+      "metadata": {
+       "kind": "video",
+       "width": 544,
+       "height": 960,
+       "duration": 7.291666666666667,
+       "fps": 24,
+       "frame_count": 175
+      }
+     }
+    }
+   },
+   "widgets_values_named": {
+    "frame_rate": 15,
+    "loop_count": 0,
+    "filename_prefix": "Video",
+    "format": "video/h264-mp4",
+    "pix_fmt": "yuv420p",
+    "crf": 19,
+    "save_metadata": false,
+    "trim_to_audio": false,
+    "pingpong": false,
+    "save_output": true,
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {
+      "filename": "Video_00191-audio.mp4",
+      "subfolder": "",
+      "type": "output",
+      "format": "video/h264-mp4",
+      "frame_rate": 24,
+      "workflow": "Video_00191.png",
+      "fullpath": "/workspace/ComfyUI/output/Video_00191-audio.mp4",
+      "metadata": {
+       "kind": "video",
+       "width": 544,
+       "height": 960,
+       "duration": 7.291666666666667,
+       "fps": 24,
+       "frame_count": 175
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 206,
+   "type": "Note",
+   "pos": [
+    40,
+    640
+   ],
+   "size": [
+    760,
+    420
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "Note"
+   },
+   "widgets_values": [
+    "RTX VFX POST PIPELINE (Nvidia VFX Nodes - Comfy-Org/ComfyUI_Nvidia_VFX_Nodes - P10 item 4, 2026-10-24).",
+    "Chain: VHS_LoadVideo -> RTXVideoSuperResolution (2x ULTRA) -> RTXVideoFrameGeneration (x2 MEDIUM = 24->48 fps slow-mo)",
+    "       -> RTXTrueHDR (HLG, 1000 nits peak, DL-Debander ON) -> VHS_VideoCombine (48 fps).",
+    "Requires: pack installed in custom_nodes (cloned) + nvidia-vfx bindings (pip) + ComfyUI restart (restart gate).",
+    "Torch 2.12.0+cu130 already matches the cu130 requirement. RTX 5090 OK (40-series+ for frame gen).",
+    "SR quality modes: BICUBIC/LOW/MED/HIGH/ULTRA + DENOISE_*/DEBLUR_*/HIGHBITRATE_*/STREAMING_* (same-res clean-up).",
+    "HDR output = normalized RGB WITHOUT color metadata - for true HDR delivery encode H.265 + HDR flags (switch VHS format).",
+    "For plain upscaling only: bypass 203/204 (wire 202 -> 205, frame_rate 24).",
+    "Blog: blog.comfy.org/p/nvidia-vfx-nodes-for-video-upscaling (full pipeline + EXR 16/32-bit improvements).",
+    "NOT run (D192)."
+   ]
+  }
+ ],
+ "links": [
+  [
+   201,
+   201,
+   0,
+   202,
+   0,
+   "IMAGE"
+  ],
+  [
+   202,
+   202,
+   0,
+   203,
+   0,
+   "IMAGE"
+  ],
+  [
+   203,
+   203,
+   0,
+   204,
+   0,
+   "IMAGE"
+  ],
+  [
+   204,
+   204,
+   0,
+   205,
+   0,
+   "IMAGE"
+  ],
+  [
+   205,
+   201,
+   2,
+   205,
+   1,
+   "AUDIO"
+  ]
+ ],
+ "definitions": {}
+}

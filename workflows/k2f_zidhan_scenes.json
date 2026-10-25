@@ -1,0 +1,5773 @@
+{
+ "id": "k2f-zidhan-scenes",
+ "version": 0.4,
+ "last_node_id": 211,
+ "last_link_id": 144,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    100,
+    100
+   ],
+   "size": [
+    280,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1,
+      25,
+      49,
+      73,
+      97,
+      121
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    100,
+    250
+   ],
+   "size": [
+    280,
+    110
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      4,
+      5,
+      28,
+      29,
+      52,
+      53,
+      76,
+      77,
+      100,
+      101,
+      124,
+      125
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    100,
+    400
+   ],
+   "size": [
+    280,
+    70
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      6,
+      7,
+      8,
+      9,
+      30,
+      31,
+      32,
+      33,
+      54,
+      55,
+      56,
+      57,
+      78,
+      79,
+      80,
+      81,
+      102,
+      103,
+      104,
+      105,
+      126,
+      127,
+      128,
+      129
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 110,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    100
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10,
+      12,
+      13
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S1_paddy.png",
+    "image"
+   ]
+  },
+  {
+   "id": 111,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    340
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      11,
+      14,
+      15,
+      18
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 106,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    100
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 10
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      16,
+      19,
+      22
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 107,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    340
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 101,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    100
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 1
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 102,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    100
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 2
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 16
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 17
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 9
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 18
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 108,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    340
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 4
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 12
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 14
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      20
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 109,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    340
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 5
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 13
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 15
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 103,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    100
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 3
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 20
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 21
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 22
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      23
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9401,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 104,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    100
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 23
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      24
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 105,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    100
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 24
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S1_paddy"
+   ]
+  },
+  {
+   "id": 130,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    380
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      34,
+      36,
+      37
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S2_house.png",
+    "image"
+   ]
+  },
+  {
+   "id": 131,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    620
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      35,
+      38,
+      39,
+      42
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 126,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    380
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 34
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 31
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      40,
+      43,
+      46
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 127,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    620
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 35
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 32
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      41
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 121,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    380
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 25
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      26
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 122,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    380
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 26
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 40
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 41
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 33
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 42
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 43
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      27
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 128,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    620
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 28
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 36
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 38
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      44
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 129,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    620
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 29
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 37
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 39
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      45
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 123,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    380
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 27
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 44
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 45
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 46
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      47
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9402,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 124,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    380
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 47
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 30
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      48
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 125,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    380
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 48
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S2_house"
+   ]
+  },
+  {
+   "id": 150,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    660
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      58,
+      60,
+      61
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S3_interior.png",
+    "image"
+   ]
+  },
+  {
+   "id": 151,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    900
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      59,
+      62,
+      63,
+      66
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 146,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    660
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 58
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 55
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      64,
+      67,
+      70
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 147,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    900
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 59
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 56
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      65
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 141,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    660
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 49
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      50
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 142,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    660
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 50
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 64
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 65
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 57
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 66
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 67
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      51
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 148,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    900
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 52
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 60
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 62
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      68
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 149,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    900
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 53
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 61
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 63
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      69
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 143,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    660
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 51
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 68
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 69
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 70
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      71
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9403,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 144,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    660
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 71
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 54
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      72
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 145,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    660
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 72
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S3_interior"
+   ]
+  },
+  {
+   "id": 170,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    940
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      82,
+      84,
+      85
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S4_bike.png",
+    "image"
+   ]
+  },
+  {
+   "id": 171,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    1180
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      83,
+      86,
+      87,
+      90
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 166,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    940
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 82
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 79
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      88,
+      91,
+      94
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 167,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    1180
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 83
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 80
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      89
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 161,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    940
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 73
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      74
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 162,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    940
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 74
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 88
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 89
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 81
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 90
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 91
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      75
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 168,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    1180
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 76
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 84
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 86
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      92
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 169,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    1180
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 77
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 85
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 87
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      93
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 163,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    940
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 75
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 92
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 93
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 94
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      95
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9404,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 164,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    940
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 95
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 78
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      96
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 165,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    940
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 96
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S4_bike"
+   ]
+  },
+  {
+   "id": 190,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    1220
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      106,
+      108,
+      109
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S5_7sfoot.png",
+    "image"
+   ]
+  },
+  {
+   "id": 191,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    1460
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      107,
+      110,
+      111,
+      114
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 186,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    1220
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 106
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 103
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      112,
+      115,
+      118
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 187,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    1460
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 107
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 104
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      113
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 181,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    1220
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 97
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      98
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 182,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    1220
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 98
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 112
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 113
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 105
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 114
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 115
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      99
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 188,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    1460
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 100
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 108
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 110
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      116
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 189,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    1460
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 101
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 109
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 111
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      117
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 183,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    1220
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 99
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 116
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 117
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 118
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      119
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9405,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 184,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    1220
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 119
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 102
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      120
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 185,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    1220
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 120
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S5_7sfoot"
+   ]
+  },
+  {
+   "id": 210,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    1500
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      130,
+      132,
+      133
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_scene_S6_rural.png",
+    "image"
+   ]
+  },
+  {
+   "id": 211,
+   "type": "LoadImage",
+   "pos": [
+    420,
+    1740
+   ],
+   "size": [
+    282,
+    322
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      131,
+      134,
+      135,
+      138
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "zidhan_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 206,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    1500
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 130
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 127
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      136,
+      139,
+      142
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 207,
+   "type": "VAEEncode",
+   "pos": [
+    740,
+    1740
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "widget": {
+      "name": "pixels"
+     },
+     "link": 131
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 128
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      137
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 201,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1040,
+    1500
+   ],
+   "size": [
+    300,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 121
+    },
+    {
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      122
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 202,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    1360,
+    1500
+   ],
+   "size": [
+    300,
+    140
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 122
+    },
+    {
+     "name": "source_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent"
+     },
+     "link": 136
+    },
+    {
+     "name": "source_latent_b",
+     "type": "LATENT",
+     "widget": {
+      "name": "source_latent_b"
+     },
+     "link": 137
+    },
+    {
+     "name": "ref_boost_mask",
+     "type": "MASK",
+     "widget": {
+      "name": "ref_boost_mask"
+     },
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 129
+    },
+    {
+     "name": "source_image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image"
+     },
+     "link": null
+    },
+    {
+     "name": "source_image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "source_image_b"
+     },
+     "link": 138
+    },
+    {
+     "name": "ref_boost",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "name": "ref_boost_a",
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "name": "fit_mode",
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "type": "LATENT",
+     "widget": {
+      "name": "target_latent"
+     },
+     "link": 139
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      123
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 208,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1040,
+    1740
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 124
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 132
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 134
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      140
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "The man in the first image must have EXACTLY the face, short neat black hair (halal fade crop), identity, and slim build of the man in the second reference image: a ~26-year-old Keralite man, rounder face, SHARP ANGULAR prominent nose (Dulquer-Salman-style), fuller lips, FULL short dense beard, warm Keralite tan skin. Keep the first image's pose, scene, background, clothing, and lighting EXACTLY the same. Change ONLY the face to match the second reference (including the FULL short dense beard). ONLY ONE person, no duplicates, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 209,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1360,
+    1740
+   ],
+   "size": [
+    420,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "widget": {
+      "name": "clip"
+     },
+     "link": 125
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image"
+     },
+     "link": 133
+    },
+    {
+     "name": "image_b",
+     "type": "IMAGE",
+     "widget": {
+      "name": "image_b"
+     },
+     "link": 135
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "grounding_px",
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "name": "system_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      141
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, clean-shaven, no beard, missing beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 203,
+   "type": "KSampler",
+   "pos": [
+    1700,
+    1500
+   ],
+   "size": [
+    300,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "widget": {
+      "name": "model"
+     },
+     "link": 123
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "positive"
+     },
+     "link": 140
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "widget": {
+      "name": "negative"
+     },
+     "link": 141
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "widget": {
+      "name": "latent_image"
+     },
+     "link": 142
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      143
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    9406,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 204,
+   "type": "VAEDecode",
+   "pos": [
+    2020,
+    1500
+   ],
+   "size": [
+    260,
+    90
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "widget": {
+      "name": "samples"
+     },
+     "link": 143
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "widget": {
+      "name": "vae"
+     },
+     "link": 126
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      144
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 205,
+   "type": "SaveImage",
+   "pos": [
+    2300,
+    1500
+   ],
+   "size": [
+    300,
+    160
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "widget": {
+      "name": "images"
+     },
+     "link": 144
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "k2f_zidhan_S6_rural"
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   55,
+   0,
+   101,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   101,
+   0,
+   102,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   102,
+   0,
+   103,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   56,
+   0,
+   108,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   56,
+   0,
+   109,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   57,
+   0,
+   104,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   57,
+   0,
+   106,
+   1,
+   "VAE"
+  ],
+  [
+   8,
+   57,
+   0,
+   107,
+   1,
+   "VAE"
+  ],
+  [
+   9,
+   57,
+   0,
+   102,
+   4,
+   "VAE"
+  ],
+  [
+   10,
+   110,
+   0,
+   106,
+   0,
+   "IMAGE"
+  ],
+  [
+   11,
+   111,
+   0,
+   107,
+   0,
+   "IMAGE"
+  ],
+  [
+   12,
+   110,
+   0,
+   108,
+   1,
+   "IMAGE"
+  ],
+  [
+   13,
+   110,
+   0,
+   109,
+   1,
+   "IMAGE"
+  ],
+  [
+   14,
+   111,
+   0,
+   108,
+   2,
+   "IMAGE"
+  ],
+  [
+   15,
+   111,
+   0,
+   109,
+   2,
+   "IMAGE"
+  ],
+  [
+   16,
+   106,
+   0,
+   102,
+   1,
+   "LATENT"
+  ],
+  [
+   17,
+   107,
+   0,
+   102,
+   2,
+   "LATENT"
+  ],
+  [
+   18,
+   111,
+   0,
+   102,
+   6,
+   "IMAGE"
+  ],
+  [
+   19,
+   106,
+   0,
+   102,
+   10,
+   "LATENT"
+  ],
+  [
+   20,
+   108,
+   0,
+   103,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   21,
+   109,
+   0,
+   103,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   22,
+   106,
+   0,
+   103,
+   3,
+   "LATENT"
+  ],
+  [
+   23,
+   103,
+   0,
+   104,
+   0,
+   "LATENT"
+  ],
+  [
+   24,
+   104,
+   0,
+   105,
+   0,
+   "IMAGE"
+  ],
+  [
+   25,
+   55,
+   0,
+   121,
+   0,
+   "MODEL"
+  ],
+  [
+   26,
+   121,
+   0,
+   122,
+   0,
+   "MODEL"
+  ],
+  [
+   27,
+   122,
+   0,
+   123,
+   0,
+   "MODEL"
+  ],
+  [
+   28,
+   56,
+   0,
+   128,
+   0,
+   "CLIP"
+  ],
+  [
+   29,
+   56,
+   0,
+   129,
+   0,
+   "CLIP"
+  ],
+  [
+   30,
+   57,
+   0,
+   124,
+   1,
+   "VAE"
+  ],
+  [
+   31,
+   57,
+   0,
+   126,
+   1,
+   "VAE"
+  ],
+  [
+   32,
+   57,
+   0,
+   127,
+   1,
+   "VAE"
+  ],
+  [
+   33,
+   57,
+   0,
+   122,
+   4,
+   "VAE"
+  ],
+  [
+   34,
+   130,
+   0,
+   126,
+   0,
+   "IMAGE"
+  ],
+  [
+   35,
+   131,
+   0,
+   127,
+   0,
+   "IMAGE"
+  ],
+  [
+   36,
+   130,
+   0,
+   128,
+   1,
+   "IMAGE"
+  ],
+  [
+   37,
+   130,
+   0,
+   129,
+   1,
+   "IMAGE"
+  ],
+  [
+   38,
+   131,
+   0,
+   128,
+   2,
+   "IMAGE"
+  ],
+  [
+   39,
+   131,
+   0,
+   129,
+   2,
+   "IMAGE"
+  ],
+  [
+   40,
+   126,
+   0,
+   122,
+   1,
+   "LATENT"
+  ],
+  [
+   41,
+   127,
+   0,
+   122,
+   2,
+   "LATENT"
+  ],
+  [
+   42,
+   131,
+   0,
+   122,
+   6,
+   "IMAGE"
+  ],
+  [
+   43,
+   126,
+   0,
+   122,
+   10,
+   "LATENT"
+  ],
+  [
+   44,
+   128,
+   0,
+   123,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   45,
+   129,
+   0,
+   123,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   46,
+   126,
+   0,
+   123,
+   3,
+   "LATENT"
+  ],
+  [
+   47,
+   123,
+   0,
+   124,
+   0,
+   "LATENT"
+  ],
+  [
+   48,
+   124,
+   0,
+   125,
+   0,
+   "IMAGE"
+  ],
+  [
+   49,
+   55,
+   0,
+   141,
+   0,
+   "MODEL"
+  ],
+  [
+   50,
+   141,
+   0,
+   142,
+   0,
+   "MODEL"
+  ],
+  [
+   51,
+   142,
+   0,
+   143,
+   0,
+   "MODEL"
+  ],
+  [
+   52,
+   56,
+   0,
+   148,
+   0,
+   "CLIP"
+  ],
+  [
+   53,
+   56,
+   0,
+   149,
+   0,
+   "CLIP"
+  ],
+  [
+   54,
+   57,
+   0,
+   144,
+   1,
+   "VAE"
+  ],
+  [
+   55,
+   57,
+   0,
+   146,
+   1,
+   "VAE"
+  ],
+  [
+   56,
+   57,
+   0,
+   147,
+   1,
+   "VAE"
+  ],
+  [
+   57,
+   57,
+   0,
+   142,
+   4,
+   "VAE"
+  ],
+  [
+   58,
+   150,
+   0,
+   146,
+   0,
+   "IMAGE"
+  ],
+  [
+   59,
+   151,
+   0,
+   147,
+   0,
+   "IMAGE"
+  ],
+  [
+   60,
+   150,
+   0,
+   148,
+   1,
+   "IMAGE"
+  ],
+  [
+   61,
+   150,
+   0,
+   149,
+   1,
+   "IMAGE"
+  ],
+  [
+   62,
+   151,
+   0,
+   148,
+   2,
+   "IMAGE"
+  ],
+  [
+   63,
+   151,
+   0,
+   149,
+   2,
+   "IMAGE"
+  ],
+  [
+   64,
+   146,
+   0,
+   142,
+   1,
+   "LATENT"
+  ],
+  [
+   65,
+   147,
+   0,
+   142,
+   2,
+   "LATENT"
+  ],
+  [
+   66,
+   151,
+   0,
+   142,
+   6,
+   "IMAGE"
+  ],
+  [
+   67,
+   146,
+   0,
+   142,
+   10,
+   "LATENT"
+  ],
+  [
+   68,
+   148,
+   0,
+   143,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   69,
+   149,
+   0,
+   143,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   70,
+   146,
+   0,
+   143,
+   3,
+   "LATENT"
+  ],
+  [
+   71,
+   143,
+   0,
+   144,
+   0,
+   "LATENT"
+  ],
+  [
+   72,
+   144,
+   0,
+   145,
+   0,
+   "IMAGE"
+  ],
+  [
+   73,
+   55,
+   0,
+   161,
+   0,
+   "MODEL"
+  ],
+  [
+   74,
+   161,
+   0,
+   162,
+   0,
+   "MODEL"
+  ],
+  [
+   75,
+   162,
+   0,
+   163,
+   0,
+   "MODEL"
+  ],
+  [
+   76,
+   56,
+   0,
+   168,
+   0,
+   "CLIP"
+  ],
+  [
+   77,
+   56,
+   0,
+   169,
+   0,
+   "CLIP"
+  ],
+  [
+   78,
+   57,
+   0,
+   164,
+   1,
+   "VAE"
+  ],
+  [
+   79,
+   57,
+   0,
+   166,
+   1,
+   "VAE"
+  ],
+  [
+   80,
+   57,
+   0,
+   167,
+   1,
+   "VAE"
+  ],
+  [
+   81,
+   57,
+   0,
+   162,
+   4,
+   "VAE"
+  ],
+  [
+   82,
+   170,
+   0,
+   166,
+   0,
+   "IMAGE"
+  ],
+  [
+   83,
+   171,
+   0,
+   167,
+   0,
+   "IMAGE"
+  ],
+  [
+   84,
+   170,
+   0,
+   168,
+   1,
+   "IMAGE"
+  ],
+  [
+   85,
+   170,
+   0,
+   169,
+   1,
+   "IMAGE"
+  ],
+  [
+   86,
+   171,
+   0,
+   168,
+   2,
+   "IMAGE"
+  ],
+  [
+   87,
+   171,
+   0,
+   169,
+   2,
+   "IMAGE"
+  ],
+  [
+   88,
+   166,
+   0,
+   162,
+   1,
+   "LATENT"
+  ],
+  [
+   89,
+   167,
+   0,
+   162,
+   2,
+   "LATENT"
+  ],
+  [
+   90,
+   171,
+   0,
+   162,
+   6,
+   "IMAGE"
+  ],
+  [
+   91,
+   166,
+   0,
+   162,
+   10,
+   "LATENT"
+  ],
+  [
+   92,
+   168,
+   0,
+   163,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   93,
+   169,
+   0,
+   163,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   94,
+   166,
+   0,
+   163,
+   3,
+   "LATENT"
+  ],
+  [
+   95,
+   163,
+   0,
+   164,
+   0,
+   "LATENT"
+  ],
+  [
+   96,
+   164,
+   0,
+   165,
+   0,
+   "IMAGE"
+  ],
+  [
+   97,
+   55,
+   0,
+   181,
+   0,
+   "MODEL"
+  ],
+  [
+   98,
+   181,
+   0,
+   182,
+   0,
+   "MODEL"
+  ],
+  [
+   99,
+   182,
+   0,
+   183,
+   0,
+   "MODEL"
+  ],
+  [
+   100,
+   56,
+   0,
+   188,
+   0,
+   "CLIP"
+  ],
+  [
+   101,
+   56,
+   0,
+   189,
+   0,
+   "CLIP"
+  ],
+  [
+   102,
+   57,
+   0,
+   184,
+   1,
+   "VAE"
+  ],
+  [
+   103,
+   57,
+   0,
+   186,
+   1,
+   "VAE"
+  ],
+  [
+   104,
+   57,
+   0,
+   187,
+   1,
+   "VAE"
+  ],
+  [
+   105,
+   57,
+   0,
+   182,
+   4,
+   "VAE"
+  ],
+  [
+   106,
+   190,
+   0,
+   186,
+   0,
+   "IMAGE"
+  ],
+  [
+   107,
+   191,
+   0,
+   187,
+   0,
+   "IMAGE"
+  ],
+  [
+   108,
+   190,
+   0,
+   188,
+   1,
+   "IMAGE"
+  ],
+  [
+   109,
+   190,
+   0,
+   189,
+   1,
+   "IMAGE"
+  ],
+  [
+   110,
+   191,
+   0,
+   188,
+   2,
+   "IMAGE"
+  ],
+  [
+   111,
+   191,
+   0,
+   189,
+   2,
+   "IMAGE"
+  ],
+  [
+   112,
+   186,
+   0,
+   182,
+   1,
+   "LATENT"
+  ],
+  [
+   113,
+   187,
+   0,
+   182,
+   2,
+   "LATENT"
+  ],
+  [
+   114,
+   191,
+   0,
+   182,
+   6,
+   "IMAGE"
+  ],
+  [
+   115,
+   186,
+   0,
+   182,
+   10,
+   "LATENT"
+  ],
+  [
+   116,
+   188,
+   0,
+   183,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   117,
+   189,
+   0,
+   183,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   118,
+   186,
+   0,
+   183,
+   3,
+   "LATENT"
+  ],
+  [
+   119,
+   183,
+   0,
+   184,
+   0,
+   "LATENT"
+  ],
+  [
+   120,
+   184,
+   0,
+   185,
+   0,
+   "IMAGE"
+  ],
+  [
+   121,
+   55,
+   0,
+   201,
+   0,
+   "MODEL"
+  ],
+  [
+   122,
+   201,
+   0,
+   202,
+   0,
+   "MODEL"
+  ],
+  [
+   123,
+   202,
+   0,
+   203,
+   0,
+   "MODEL"
+  ],
+  [
+   124,
+   56,
+   0,
+   208,
+   0,
+   "CLIP"
+  ],
+  [
+   125,
+   56,
+   0,
+   209,
+   0,
+   "CLIP"
+  ],
+  [
+   126,
+   57,
+   0,
+   204,
+   1,
+   "VAE"
+  ],
+  [
+   127,
+   57,
+   0,
+   206,
+   1,
+   "VAE"
+  ],
+  [
+   128,
+   57,
+   0,
+   207,
+   1,
+   "VAE"
+  ],
+  [
+   129,
+   57,
+   0,
+   202,
+   4,
+   "VAE"
+  ],
+  [
+   130,
+   210,
+   0,
+   206,
+   0,
+   "IMAGE"
+  ],
+  [
+   131,
+   211,
+   0,
+   207,
+   0,
+   "IMAGE"
+  ],
+  [
+   132,
+   210,
+   0,
+   208,
+   1,
+   "IMAGE"
+  ],
+  [
+   133,
+   210,
+   0,
+   209,
+   1,
+   "IMAGE"
+  ],
+  [
+   134,
+   211,
+   0,
+   208,
+   2,
+   "IMAGE"
+  ],
+  [
+   135,
+   211,
+   0,
+   209,
+   2,
+   "IMAGE"
+  ],
+  [
+   136,
+   206,
+   0,
+   202,
+   1,
+   "LATENT"
+  ],
+  [
+   137,
+   207,
+   0,
+   202,
+   2,
+   "LATENT"
+  ],
+  [
+   138,
+   211,
+   0,
+   202,
+   6,
+   "IMAGE"
+  ],
+  [
+   139,
+   206,
+   0,
+   202,
+   10,
+   "LATENT"
+  ],
+  [
+   140,
+   208,
+   0,
+   203,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   141,
+   209,
+   0,
+   203,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   142,
+   206,
+   0,
+   203,
+   3,
+   "LATENT"
+  ],
+  [
+   143,
+   203,
+   0,
+   204,
+   0,
+   "LATENT"
+  ],
+  [
+   144,
+   204,
+   0,
+   205,
+   0,
+   "IMAGE"
+  ]
+ ]
+}

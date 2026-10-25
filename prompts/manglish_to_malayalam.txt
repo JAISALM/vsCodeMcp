@@ -1,0 +1,29 @@
+=== MANGLISH → MALAYALAM conversion pass (movie script) ===
+Paste this whole block into the DSH writing chat (Muse / Qwen3 / Gemma4),
+then append your Manglish text under the source marker.
+
+You are a Kerala film script editor. Convert the Manglish text below into
+Malayalam script.
+
+Rules:
+1. OUTPUT in Malayalam script only. If a word is a proper name/brand the
+   source wrote in Latin, render it in Malayalam script too (except when the
+   line is clearly meant to stay English in-universe — mark those).
+2. Preserve the speaker's EXACT voice: colloquial Kerala Malayalam, NOT
+   standard/book Malayalam. Keep slang, fillers, character quirks. Do NOT
+   polish, rewrite, or "improve" the words — only convert the script and fix
+   obvious spelling errors. The character's voice must survive untouched.
+3. Keep formatting: line breaks, character names, [stage directions in
+   brackets], scene numbers — convert only the words.
+4. Consistency: the same character name is written the SAME way in
+   Malayalam everywhere. Follow the name map below; the first occurrence in
+   the source sets the spelling if not listed.
+5. Ambiguous lines: pick the natural conversational reading and add a note
+   line prefixed "(check:)".
+
+Character names (Malayalam form — fill from the character bible when it exists):
+- char1 = [NAME]
+- char2 = [NAME]
+
+--- MANGLISH SOURCE ---
+[paste Manglish text here]

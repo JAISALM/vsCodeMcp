@@ -1,0 +1,112 @@
+==============================================================================
+KREA2 CHARACTER DATASET - PROMPT PACKAGE FOR GPT (2026-10-08)
+==============================================================================
+
+CONTEXT
+-------
+Model: Krea2 turbo (fp8) + Krea2-realism-V2 LoRA + FameGrid color finish.
+Output: 896x1120 (portrait). Style: candid phone snapshot, NOT studio.
+Task: produce a small dataset - 3 images per character (3 scenes each).
+
+HARD CONSTRAINTS (must hold in EVERY prompt)
+------------------------------------------------
+1. EXACTLY ONE man in frame (no woman, no girl, no other people in focus).
+2. NO text anywhere in the image: no subtitles, captions, watermarks,
+   speech bubbles, dialogue, signs with readable words.
+3. The character is a MALAYALI man from Kerala, India - South Indian
+   features, warm medium-brown natural skin. NOT western, NOT northern.
+4. The beard must be clearly VISIBLE (both characters).
+5. Candid unposed phone-snapshot feel: real ambient light, real
+   environmental background, slight natural imperfections.
+
+CHARACTER 1 (call him 'char1')
+-----------------------------
+Identity block (use verbatim or tighten, do not weaken):
+  "a 26-year-old young Malayali man from Kerala, India (South Indian
+   features, warm medium-brown natural skin), a young MAN, male only
+   (NOT a woman, NOT a girl), round soft face, MEDIUM-LENGTH WAVY dark
+   hair (loose, natural, a bit messy, NOT a short haircut), a short
+   PATCHY BEARD (clearly visible sparse uneven patches of dark hair on
+   the chin and jawline, more than a clean-shaven face, NOT a full
+   beard, short and uneven, not well groomed), lean and fit build
+   (NOT bulky, NOT muscular), wearing a plain dark t-shirt"
+Beard spec: PATCHY = sparse uneven patches, clearly visible, NOT full.
+
+CHARACTER 2 (call him 'char2')
+-----------------------------
+Identity block (use verbatim or tighten, do not weaken):
+  "a 26-year-old young Malayali man from Kerala, India (South Indian
+   features, warm medium-brown natural skin), a young MAN, male only
+   (NOT a woman, NOT a girl), angular face and a defined jawline, LONG
+   dark hair tied up in a loose man-bun / topknot (a young man who
+   grows his hair out, natural, not styled), a clearly visible short
+   dark BEARD on the chin and jawline (about 5-7 days of growth,
+   slightly dense, a little more than stubble, NOT clean-shaven, NOT a
+   full long beard, short and a bit uneven, not well groomed), lean and
+   fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt"
+Beard spec: slightly DENSE = a little more than stubble, clearly
+visible, NOT a full long beard. (Krea2 defaults young men to
+clean-shaven - the beard phrase must stay strong and concrete.)
+
+------------------------------------------------------------------------------
+SCENE a - backwater path (seen from behind, looking back)
+------------------------------------------------------------------------------
+char1 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt walking along a narrow backwater path, monsoon mist in the air, seen from behind at a slight angle, not looking at the camera. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+char2 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt walking along a narrow backwater path, monsoon mist in the air, seen from behind at a slight angle, not looking at the camera. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+------------------------------------------------------------------------------
+SCENE b - houseboat
+------------------------------------------------------------------------------
+char1 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt sitting on a wooden houseboat, looking out at the calm backwater, relaxed and natural. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+char2 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt sitting on a wooden houseboat, looking out at the calm backwater, relaxed and natural. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+------------------------------------------------------------------------------
+SCENE c - monsoon rain street
+------------------------------------------------------------------------------
+char1 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt standing in a light monsoon rain on a small street, hair and beard a little wet, candid expression. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+char2 prompt (current, in workflow):
+  A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt standing in a light monsoon rain on a small street, hair and beard a little wet, candid expression. He looks like he is in his mid-20s: youthful fresh face, smooth young skin, no wrinkles, no aging, no grey hair, young energetic look. candid unposed snapshot caught in a real moment, NOT a posed studio portrait, NOT a headshot, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, not a model, not a celebrity, not a stock photo, not a professional photo. ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.
+
+------------------------------------------------------------------------------
+NEGATIVE PROMPT (current, shared by all images)
+------------------------------------------------------------------------------
+  studio portrait, posed, plain background, headshot, stock photo, professional photography, model, celebrity, shallow depth of field, bokeh, airbrushed, plastic, waxy skin, hyper-realistic, over-processed, AI look, generic AI face, western features, older man, 30s, 40s, 50s, aged face, mature face, grey hair, bulky body, muscular, bodybuilder, clean-shaven, perfectly groomed beard, duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers, text, subtitles, captions, words, letters, writing, watermark, logo, screenshot, social media overlay, woman, girl, female, other people, multiple people
+
+EXPECTED RESULT PER IMAGE (acceptance criteria)
+------------------------------------------------
+char1_a: the man seen from behind at a slight angle, looking back over
+  his shoulder, on a narrow backwater path, monsoon mist. Wavy dark
+  hair, dark t-shirt, patchy beard visible on the side of the jaw.
+char1_b: the SAME man sitting on a wooden houseboat, looking out at the
+  calm backwater. Same hair/beard/build as char1_a.
+char1_c: the SAME man standing on a street in monsoon rain, dark t-shirt
+  wet, rain streaks visible. Same face as char1_a.
+char2_a/b/c: the SAME man (man-bun, white t-shirt, visible short beard
+  on chin and jawline) in the same three scenes. Beard must be visible
+  in every image where his face shows.
+
+KNOWN MODEL BEHAVIOURS (from runs, 2026-10-08)
+------------------------------------------------
+* Krea2 t2i drifts the face between runs/scenes - a pure text-to-image
+  set will never be the identical person. Face-lock route: pick the best
+  face from the set, regenerate the other scenes with the Krea2 Identity
+  Edit v1.2 workflow (ref_boost 4) using that image as reference.
+* Bad seed draws can flip the subject to a woman or add burned-in text -
+  the male-only + no-text anchors above plus re-rolling the seed handle it.
+
+ASK OF GPT
+-----------
+Rewrite the 6 scene prompts (char1 x3, char2 x3) for maximum Krea2
+adherence: keep every identity word that matters, make the beard
+description concrete and repeated, keep the scene details vivid, keep
+the candid phone-snapshot framing, and keep the no-text/no-woman/
+single-man constraints in every prompt. Output exactly 6 prompts,
+labelled char1_a, char1_b, char1_c, char2_a, char2_b, char2_c.
