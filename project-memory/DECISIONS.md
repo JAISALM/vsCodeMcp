@@ -1407,3 +1407,44 @@
   mirrors probed: 429/502 — unreliable, not added. HF API = the reliable source.
 - **Status:** Active. Seed verified 2026-10-25 (1,248 project chunks + 65 news items;
   query tests return correct sections). `rag/README.md` = architecture + failure modes.
+
+## D195 — Whisper models load from the HF cache ONLY — pre-populate, never runtime-download (2026-10-25, agent fix)
+
+- **Decision:** any ComfyUI pack that pulls a HuggingFace model at runtime (`TT-LoadWhisperModel`
+  in `ComfyUI-TranscriptionTools` is the known case — hardcoded 12-entry model_id combo,
+  `from_pretrained(model_id, use_safetensors=True)`, **no local-path option, no retry**) must have
+  its model **pre-downloaded into the HF cache** (`C:\Users\user\.cache\huggingface\hub\`) before
+  the first workflow run. The cache is the ONLY offline path for these packs.
+- **Reason (2026-10-25):** the user's first `withers_has_big_nattys_LOCAL` run died after 360.80 s
+  at node 5420 because the cache dir `models--openai--whisper-large-v3` was **weight-less**
+  (config only) and the runtime download died mid-file on the **xet CDN**
+  (`File reconstruction error: CAS Client Error … us.aws.cdn.hf.co/xorbs/…`). Downloading
+  `model.safetensors` (~3.1 GB) + the 10 config/tokenizer files (fp32 shard duplicates skipped)
+  makes the node load 100 % offline — zero risk to the running server. Script:
+  `data\whisper_preload_tmp.py` (6×retry, `HF_HUB_DISABLE_SYMLINKS_WARNING=1`, embedded python,
+  ends with an offline `from_pretrained` verification).
+- **Status:** Active. `openai/whisper-large-v3` preload launched 2026-10-25 ~11:25 (background).
+  For any NEW HF-referencing node in the future: check the cache dir for weight files first.
+
+## D196 — Swap/vlog workflow prep = `utilities\prep_swap_run.py` (one command, template never modified) (2026-10-25, user directive "mimic and dont mess things up")
+
+- **Decision:** the manual labour of prepping a character-swap / seamless-vlog run (pick the video,
+  pick the proper reference image(s), set the SAM3 tracking word, swap the prompt, point the audio
+  dir) is done with **`D:\models\vsCodeMcp\utilities\prep_swap_run.py`** — it CLONES the template
+  workflow and writes a NEW ready-to-queue UI-format file. The template is never modified; only
+  widget values change (`widgets_values` + `widgets_values_named`); node/link counts are asserted
+  unchanged after the write; **D192 holds — the helper only writes files, the user queues the result**.
+- **Interfaces (tested 2026-10-25 on both templates):**
+  - charswapmask-style (`MiniMax-H3-Character-Swap-Mask_LOCAL.json`):
+    `--video <mp4>` (VHS_LoadVideo) · `--sheet <png>` (LoadImage) · `--track <word>`
+    (CLIPTextEncode feeding SAM3_VideoTrack + **auto word-substitution of the old tracking word
+    inside the main prompt**) · `--prompt-file <txt>` (full prompt replacement).
+  - withers-style (`withers_has_big_nattys_LOCAL.json`): `--ref0/1/2 <png>` (slot-mapped via the
+    R2V node's `ref_images.ref_image_N` inputs) · `--audio-dir <subdir>` (builds
+    `output\prepped_audio\<subdir>` + README + syncs the paired PrimitiveNode).
+  - both: `--list-images` (candidate refs from char_refset/char_sheet/refset_v6/v7).
+- **Reason (user, 2026-10-25):** "the biggest issue is get a video, and add prompt for them with
+  proper image in these swap workflows, which requires manual labour, so you try to mimic and dont
+  mess things up" — the helper mimics the manual wiring without touching the proven template files.
+- **Status:** Active. Tested: charswapmask (video+sheet+track+prompt) ✓ and withers
+  (3 refs+audio dir+primitive sync) ✓; node/link counts preserved both ways; test outputs deleted.
