@@ -1345,6 +1345,16 @@ model (Qwen) updates memory + commits afterwards.
 - Seed verified: **1,248 project chunks + 65 news items** (today all HF; reddit 403 / X 429 logged+retry-next-day). Query tests return correct sections.
 - Scheduled task **VsCodeMcp-RagDaily (daily 08:00 Asia/Calcutta)** registered. Churn dirs gitignored.
 - See ag/README.md + **D194** in DECISIONS.md.
+- **Workflow sheet (2026-10-25, user request):** `P10_WORKFLOW_SHEET.md` — all 9 P10 items as
+  workflow-name / source-URL (reddit-x-github-HF) / what-to-check rows, for post-restart run-by-run.
+- **Auto-committer EXTENDED (2026-10-25, user directive "reusable items in the repo"):** `commit_md.ps1`
+  now auto-commits `.md` + `.gitignore` + reusable dirs (`utilities/` 271 scripts, `prompts/`,
+  `workflows/` mirror, `episode1/`, `docs/`, `rag/` code, `challenge/`, `.vscode/`) — images/media/
+  logs/dumps excluded via .gitignore (also cleaned: `data/`, `session_tmp/`, `tools/`, `*.exe`,
+  `*.whl`, `*.err`, `.comfy/` untracked). New `workflows/` = 35-file mirror of the reusable
+  ComfyUI workflow JSONs (canonical stays at `E:\comfyUi_latest\...\workflows`); re-sync with
+  `workflows/resync_workflows.ps1`. First run: 319 files committed + pushed (2026-10-25 06:17).
+  AGENTS.md D131 section updated to match.
 - Fixes (2026-10-25): task-context TEMP/TMP pinned to ag\temp (scheduler session has no writable system temp); ingest_project now deletes a file's previous chunk ids before re-adding (orphan fix) + store.prune(); store pruned 213 orphans (project 1253 == manifest). RAG code committed to git.
 - **Source ladder upgrade (2026-10-25, user question "why can't we use our mcp browser?"):** RAG now uses the SAME engine VS Code uses —
   `rag\news\mcp_fetch.js` (node driver importing `D:\MCP\web-search-mcp\dist\enhanced-content-extractor.js`: axios fast path +

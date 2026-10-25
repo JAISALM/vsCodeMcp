@@ -693,13 +693,17 @@ git -C D:\models\vsCodeMcp checkout <commit> -- <file>  # restore it
 (`*.mp4`/`*.wav`/`*.blend`/`*.log`) are never committed (previously tracked images
 stay tracked). Do not `git add -A` this repo.
 
-**What goes into git (2026-10-14 refinement):**
-- **`.md` files** (memory, docs, scripts, root) — always (daily auto-commit).
-- **Workflow JSONs** — ONLY when reusable and needed in the future (manual commit,
-  never auto). Episode 1 reusable workflows live in `episode1/workflows/` (see its
-  README). One-shot tests / broken attempts: never commit.
-- **Images / audio / video / other generated media** — never (gitignored; they stay
-  on disk under `data/` and the ComfyUI outputs).
+**What goes into git (2026-10-25 extension — user directive "reusable items should be
+stored in the repo"):** `commit_md.ps1` now stages **all `.md` files + `.gitignore` +
+the reusable code/workflow dirs: `utilities/` (helper scripts), `prompts/`, `workflows/`
+(repo MIRROR of the reusable ComfyUI workflow JSONs — canonical copies live in
+`E:\comfyUi_latest\...\user\default\workflows`; re-sync with `workflows/resync_workflows.ps1`),
+`episode1/`, `docs/`, `rag/` (code only — news/data/venv/caches gitignored), `challenge/`
+(plan + builder script; dump dirs ignored), `.vscode/`** — images/audio/video/logs
+(`data/`, `session_tmp/`, `tools/`, `*.exe`, `*.log`, `*.err`, media) are gitignored and
+never committed; `.comfy/` runtime state is untracked. Workflow JSONs still land in the
+repo via the mirror (not by hand); one-shot tests / broken attempts still never commit
+(keep them out of the mirror list).
 
 ---
 
