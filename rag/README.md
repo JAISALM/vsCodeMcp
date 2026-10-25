@@ -11,16 +11,27 @@ chunking → embedding → vector DB → search back into prompt
 ```
 
 - **Sources** (`config.json`):
-  - **Reddit** (JSON API, unauth): r/StableDiffusion · r/LocalLLaMA · r/ComfyUI ·
-    r/comfyui_workflows · r/artificial — top-of-day, 30/sub.
-    Fallback if the JSON API 403s: `C:\Program Files\Python310\python.exe
-    D:\models\vsCodeMcp\utilities\reddit_browser_fetch.py <url> --text` (playwright, persistent profile).
+  - **Reddit** (3-tier ladder, all best-effort, every tier logged):
+    1. JSON API (unauth) — fast when the IP isn't flagged.
+    2. `news/mcp_fetch.js` — **the same engine VS Code's websearch MCP uses**
+       (`D:\MCP\web-search-mcp`: axios fast path → randomized chromium fallback,
+       same env as `D:\MCP\mcp-gateway`). Reuses the proven tooling instead of
+       duplicating it.
+    3. `C:\Program Files\Python310\python.exe D:\models\vsCodeMcp\utilities\reddit_browser_fetch.py <url> --text`
+       (playwright, **persistent profile** — challenge state carries over).
+    Subreddits: r/StableDiffusion · r/LocalLLaMA · r/ComfyUI · r/comfyui_workflows · r/artificial.
+    **Reality check (2026-10-25):** Reddit walls hard rotate — one day the JSON API 403s,
+    another day even the full browser engine hits "Prove your humanity" / "blocked by
+    network security" (verified same-day against VS Code's own gateway: it got the SAME
+    wall). When all 3 tiers fail, the run logs it and retries next day — the digest shows
+    which source was blocked. Public redlib mirrors were probed: 429/502 (unreliable, not used).
   - **HuggingFace** (API, unauth): trending models (25) · top-downloads models (25) ·
-    trending datasets (15).
-  - **X** (best-effort, unauth): syndication `timeline-profile` widget JSON for the
-    tracked accounts in `config.json` (BennyDaBall_OG, xieenze_jr, PixelAigc, Alissonerdx,
-    MaxLiu09, diodiogod, akatz_ai). Endpoint is unofficial — failures are logged, not fatal.
-    Individual tweets can also be pulled on demand (used in P10 items 2/3/5):
+    trending datasets (15). The reliable source today.
+  - **X** (best-effort, unauth, 8 s spacing between accounts): syndication `timeline-profile`
+    widget JSON for the tracked accounts in `config.json` (BennyDaBall_OG, xieenze_jr,
+    PixelAigc, Alissonerdx, MaxLiu09, diodiogod, akatz_ai) + the `mcp_fetch.js` tier as
+    fallback. Endpoint is unofficial + rate-limited (429 windows reset) — failures are
+    logged, not fatal. Individual tweets can also be pulled on demand (used in P10 items 2/3/5):
     `https://cdn.syndication.twimg.com/tweet-result?id=<id>&lang=en&token=x`.
 - **Storage:**
   - `news/<YYYY-MM-DD>/<source>_<id>.md` — one file per item (text-only, gitignored).
@@ -31,7 +42,13 @@ chunking → embedding → vector DB → search back into prompt
 - **Embedding:** `all-MiniLM-L6-v2` (384-dim) via **sentence-transformers on CPU ONLY**
   (zero VRAM contention with ComfyUI/llama.cpp — D192). Ollama is NOT installed on this box
   (checked 2026-10-24) — if Ollama is added later, `embed.py` can switch to `nomic-embed-text`.
-- **Vector DB:** ChromaDB `PersistentClient` (cosine). Collections:
+- **Vector DB:** **FAISS-cpu `IndexIDMap(IndexFlatIP)`** (cosine on L2-normalized vectors),
+  `data/<col>.faiss` + `data/<col>.meta.json` (id→metadata) + `manifest_*.json`
+  (content-hash manifests → idempotent incremental ingest; changed files have their
+  previous chunk ids deleted before re-adding — no orphans; `store.prune()` cleans any).
+  (ChromaDB was tried first and is **broken on this machine** — Rust bindings fail with
+  SQLITE_CANTOPEN code 14 on every path; left installed but unused. See D194.)
+  Collections:
   - `project` — chunked sections of `project-memory/**` + `docs/**` + `episode1/**`
     (chunk ≈1600 chars, 150 overlap; each chunk prefixed with `[H1 > section]` context).
   - `news` — one embedding per news item (title+body, 9 k-char cap).

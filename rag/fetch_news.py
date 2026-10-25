@@ -21,6 +21,28 @@ UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 DSH-RAG/1.0"
 
 CFG = json.load(open(os.path.join(ROOT, "config.json"), encoding="utf-8"))
 
+MCP_FETCH = os.path.join(ROOT, "news", "mcp_fetch.js")
+NODE = "node"
+
+
+def _mcp_fetch(url, max_len=12000, timeout=90):
+    """Fetch a URL with the SAME engine VS Code's websearch MCP uses
+    (D:\\MCP\\web-search-mcp: axios fast path -> randomized chromium fallback).
+    Returns (status, text, err). status in success|blocked|low_quality|error."""
+    import subprocess
+    try:
+        res = subprocess.run([NODE, MCP_FETCH, url, str(max_len)],
+                             capture_output=True, text=True, timeout=timeout,
+                             encoding="utf-8", errors="replace")
+        for line in (res.stdout or "").splitlines():
+            line = line.strip()
+            if line.startswith("{"):
+                d = json.loads(line)
+                return d.get("fetchStatus", "error"), d.get("content") or "", d.get("error")
+        return "error", "", (res.stderr or "no JSON on stdout")[:200]
+    except Exception as e:
+        return "error", "", str(e)[:200]
+
 
 def _seen():
     os.makedirs(STATE, exist_ok=True)
@@ -71,6 +93,21 @@ def fetch_reddit(date, log):
                 log.append(f"reddit r/{sub}: HTTP {r.status_code} -> playwright fallback")
         except Exception as e:
             log.append(f"reddit r/{sub}: {e} -> playwright fallback")
+        if data is None:
+            # tier 2: VS Code's own engine (D:\MCP\web-search-mcp: axios + randomized chromium)
+            status, txt2, err = _mcp_fetch(url, 16000)
+            if status == "success":
+                s = txt2.find("[")
+                e2 = txt2.rfind("]")
+                if s >= 0 and e2 > s:
+                    try:
+                        data = {"data": {"children": json.loads(txt2[s:e2 + 1])}}
+                    except Exception:
+                        pass
+            if data is not None:
+                log.append(f"reddit r/{sub}: via web-search-mcp engine (VS Code engine)")
+            else:
+                log.append(f"reddit r/{sub}: mcp engine {status} ({err or 'no JSON array'})")
         if data is None:
             # browser fallback: persistent profile has the challenge state
             txt = ""
@@ -171,8 +208,17 @@ def fetch_x(date, log):
             m = re.search(r'<script id="__NEXT_DATA__" type="application/json"[^>]*>(.*?)</script>',
                           r.text, re.S)
             if not m:
-                log.append(f"x {acct}: no __NEXT_DATA__ (HTTP {r.status_code}) — best-effort source, skipped")
-                continue
+                # tier 2: same engine VS Code uses (randomized headers may dodge the 429)
+                status, txt2, err = _mcp_fetch(url, 16000)
+                m2 = re.search(r'<script id="__NEXT_DATA__" type="application/json"[^>]*>(.*?)</script>',
+                               txt2, re.S) if status == "success" else None
+                if m2:
+                    m = m2
+                    log.append(f"x {acct}: via web-search-mcp engine after {err or 'blocked'}")
+                else:
+                    log.append(f"x {acct}: no __NEXT_DATA__ (HTTP {r.status_code}, engine {status}) "
+                               f"— best-effort source, skipped")
+                    continue
             data = json.loads(m.group(1))
             found = []
 
