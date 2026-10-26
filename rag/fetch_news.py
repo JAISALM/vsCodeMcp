@@ -343,6 +343,58 @@ def fetch_x(date, log):
     return out
 
 
+def fetch_civitai(date, log):
+    """Civitai public API (verified reachable no-auth from this machine,
+    2026-10-26 probe: order=HOT/NEWEST/POPULAR OK; types enum includes
+    ComfyWorkflows/Workflows/LORA; /posts endpoint is 404 so 'interesting
+    posts' is approximated by the HOT feed)."""
+    out = []
+    cfg = CFG.get("civitai", {})
+    base = "https://civitai.com/api/v1"
+    hdrs = {"User-Agent": UA}
+    fetches = [
+        ("hot", f"{base}/models?limit={cfg.get('hot_limit', 30)}&order=HOT"),
+        ("newest", f"{base}/models?limit={cfg.get('newest_limit', 25)}&order=NEWEST"),
+        ("comfyworkflows", f"{base}/models?limit={cfg.get('workflow_limit', 15)}"
+                           f"&types=ComfyWorkflows&order=NEWEST"),
+        ("newloras", f"{base}/models?limit={cfg.get('lora_limit', 15)}"
+                     f"&types=LORA&order=NEWEST"),
+    ]
+    for kind, url in fetches:
+        try:
+            r = requests.get(url, headers=hdrs, timeout=30)
+            if r.status_code != 200:
+                log.append(f"civitai {kind}: HTTP {r.status_code}")
+                continue
+            items = r.json().get("items", [])
+            saved = 0
+            for it in items:
+                mid = it.get("id")
+                if not mid:
+                    continue
+                stats = it.get("stats") or {}
+                user = (it.get("user") or {}).get("username", "?")
+                dl = stats.get("downloads", 0)
+                desc = (it.get("description") or "")[:3000]
+                body = (f"Type: {it.get('type')} · Base: {it.get('baseModel')}\n"
+                        f"Author: u/{user} · Downloads: {dl:,} · Likes: "
+                        f"{stats.get('likes', 0):,} · Created: {str(it.get('createdAt', ''))[:10]}\n\n{desc}")
+                fn = _save_item(date, f"civitai/{kind}", str(mid),
+                                f"[{it.get('type')}] {it.get('name', '?')} (u/{user}, {dl:,} dl)",
+                                f"https://civitai.com/models/{mid}", body,
+                                {"kind": kind, "type": it.get("type"),
+                                 "author": user, "downloads": dl,
+                                 "likes": stats.get("likes", 0)})
+                if fn:
+                    saved += 1
+                    out.append(fn)
+            log.append(f"civitai {kind}: {saved} new of {len(items)}")
+        except Exception as e:
+            log.append(f"civitai {kind}: {e}")
+        time.sleep(1.5)
+    return out
+
+
 def run(date=None):
     date = date or datetime.now().strftime("%Y-%m-%d")
     os.makedirs(LOGS, exist_ok=True)
@@ -350,6 +402,7 @@ def run(date=None):
     new = []
     new += fetch_reddit(date, log)
     new += fetch_hf(date, log)
+    new += fetch_civitai(date, log)
     new += fetch_x(date, log)
     _save_seen(_seen())
 

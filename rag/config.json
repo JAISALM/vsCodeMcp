@@ -36,5 +36,11 @@
   "weekly_watch": {
     "min_upvotes": 50,
     "days": 2
+  },
+  "civitai": {
+    "hot_limit": 30,
+    "newest_limit": 25,
+    "workflow_limit": 15,
+    "lora_limit": 15
   }
 }

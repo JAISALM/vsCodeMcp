@@ -49,7 +49,7 @@ def main():
             date_dirs.append((dd, d))
     date_dirs.sort()
 
-    hot_reddit, hf_trending, hf_downloads, hf_datasets, x_items = [], [], [], [], []
+    hot_reddit, hf_trending, hf_downloads, hf_datasets, x_items, civitai = [], [], [], [], [], []
     for dd, d in date_dirs:
         for fn in sorted(os.listdir(os.path.join(NEWS_DIR, d))):
             if not fn.endswith(".md"):
@@ -77,6 +77,9 @@ def main():
                 hf_datasets.append(entry)
             elif src.startswith("x/"):
                 x_items.append(entry)
+            elif src.startswith("civitai/"):
+                entry["kind"] = src.split("/", 1)[1]
+                civitai.append(entry)
 
     hot = [e for e in hot_reddit if e["score"] >= MIN_UP]
     out = os.path.join(NEWS_DIR, f"weekly_watch_{today:%Y-%m-%d}.md")
@@ -108,9 +111,17 @@ def main():
                 f.write(f"- {e['id']} {e['url']}\n")
         else:
             f.write("NONE CAPTURED (HTTP 429 engine-blocked — best-effort source).\n")
+        f.write(f"\n## Civitai — {len(civitai)} items (hot/newest/ComfyWorkflows/new LoRAs)\n\n")
+        if civitai:
+            for e in sorted(civitai, key=lambda x: -x["downloads"]):
+                f.write(f"- ({e.get('kind', '?')}) {e['id']} (downloads {e['downloads']}) "
+                        f"https://civitai.com/models/{e['id'].split('_')[-1] if e['url'].split('/')[-1].isdigit() else e['id']}\n")
+        else:
+            f.write("NONE CAPTURED this window.\n")
     print(f"written {out}")
     print(f"reddit {MIN_UP}+: {len(hot)}; hf trending: {len(hf_trending)}; "
-          f"hf downloads: {len(hf_downloads)}; datasets: {len(hf_datasets)}; x: {len(x_items)}")
+          f"hf downloads: {len(hf_downloads)}; datasets: {len(hf_datasets)}; "
+          f"civitai: {len(civitai)}; x: {len(x_items)}")
 
 
 if __name__ == "__main__":
