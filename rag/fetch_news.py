@@ -44,6 +44,34 @@ def _mcp_fetch(url, max_len=12000, timeout=90):
         return "error", "", str(e)[:200]
 
 
+def _parse_redlib(html):
+    """Best-effort parse of a redlib (libreddit-fork) HTML top page -> post dicts.
+
+    Markup varies across mirror versions, so every field is best-effort regex;
+    a block only counts if a /comments/ anchor is found.
+    """
+    posts = []
+    for b in re.split(r'class="thing', html)[1:]:
+        m_title = re.search(r'<a[^>]+href="([^"]*?/comments/[a-z0-9]+/[^"]*)"[^>]*>(.*?)</a>', b, re.S)
+        if not m_title:
+            continue
+        href = m_title.group(1)
+        title = re.sub(r'<[^>]+>', '', m_title.group(2)).strip()
+        m_id = re.search(r'/comments/([a-z0-9]+)/', href)
+        m_score = re.search(r'title="([\d,]+)"', b[:4000])
+        m_author = re.search(r'href="(/user/[^"]+)"', b)
+        m_time = re.search(r'<time[^>]+title="([^"]+)"', b) or re.search(r'<time[^>]*>([^<]+)</time>', b)
+        posts.append({
+            "id": m_id.group(1) if m_id else re.sub(r"[^a-z0-9]", "_", href)[-30:],
+            "title": title,
+            "url": ("https://www.reddit.com" + href) if href.startswith("/") else href,
+            "score": int(m_score.group(1).replace(",", "")) if m_score else 0,
+            "author": m_author.group(1).split("/")[-1] if m_author else None,
+            "time": m_time.group(1).strip() if m_time else None,
+        })
+    return posts
+
+
 def _seen():
     os.makedirs(STATE, exist_ok=True)
     p = os.path.join(STATE, "seen.json")
@@ -108,6 +136,39 @@ def fetch_reddit(date, log):
                 log.append(f"reddit r/{sub}: via web-search-mcp engine (VS Code engine)")
             else:
                 log.append(f"reddit r/{sub}: mcp engine {status} ({err or 'no JSON array'})")
+        if data is None:
+            # tier 2b: redlib mirror — Anubis proof-of-work is auto-solved by the
+            # engine's chromium (verified 2026-10-26 that the gate is JS-computable).
+            # Best-effort: if a mirror's markup resists _parse_redlib, log and move on.
+            for mirror in CFG.get("reddit_mirrors", []):
+                if data is not None:
+                    break
+                murl = f"https://{mirror}/r/{sub}/top?t=week"
+                try:
+                    mstatus, html, merr = _mcp_fetch(murl, 24000)
+                except Exception as e:
+                    log.append(f"reddit r/{sub}: mirror {mirror} fetch failed: {e}")
+                    continue
+                if mstatus == "success" and len(html) > 2000:
+                    posts = _parse_redlib(html)
+                    if posts:
+                        saved = 0
+                        for p in posts[:limit]:
+                            fn = _save_item(date, f"reddit/{sub}", p["id"], p["title"],
+                                            p["url"], p["title"][:6000],
+                                            {"author": p["author"], "score": p["score"],
+                                             "age": p["time"],
+                                             "note": f"redlib mirror {mirror} (reddit.com walled)"})
+                            if fn:
+                                saved += 1
+                        log.append(f"reddit r/{sub}: via redlib mirror {mirror} ({saved} new posts)")
+                        if saved:
+                            data = {"data": {"children": []}}
+                            break
+                    else:
+                        log.append(f"reddit r/{sub}: mirror {mirror} returned HTML but no posts parsed")
+                else:
+                    log.append(f"reddit r/{sub}: mirror {mirror} {mstatus} ({merr or 'no content'})")
         if data is None:
             # browser fallback: persistent profile has the challenge state
             txt = ""

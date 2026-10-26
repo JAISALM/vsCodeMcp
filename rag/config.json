@@ -28,5 +28,13 @@
     "MaxLiu09",
     "diodiogod",
     "akatz_ai"
-  ]
+  ],
+  "reddit_mirrors": [
+    "redlib.catsarch.com",
+    "redlib.perennialte.ch"
+  ],
+  "weekly_watch": {
+    "min_upvotes": 50,
+    "days": 2
+  }
 }

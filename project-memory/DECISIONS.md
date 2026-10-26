@@ -1579,3 +1579,14 @@
   - **PHASE 2 (run SECOND) = with-video:** the four `ABCD_test_...` files WITHOUT the `_novideo` suffix (prefixes `ABCD_...`), video ref `distracted_guide.mp4` (Distracted Boyfriend meme clip — inherited from the community swap-workflow example inputs; content not copied, only motion/camera choreography + audio ref).
   - Purpose: phase 1 isolates each route's raw speed; phase 2 measures the video-ref cost per route (B's 74.6 s/it vs A's 17.4 s/it — model vs ref-cost question, D200).
   - All eight files `validate_workflow` clean (0/0). `distracted_guide.mp4` = 6.05 s, 1280×720, 24 fps, aac audio; also used by `CharSwap_v1.1_fro_LOCAL` / `MiniMax-H3-Character-Swap-Mask_LOCAL` / `H3_Recast_LOCAL` / `RTX_Post_VFX_LOCAL` (author-bundled example input).
+
+## D201 — Weekly research watch is EXTENDED (not LTX-only) — 2026-10-26
+
+- **Date:** 2026-10-26
+- **Decision:** user directive — the weekly watch must cover **all** sources, not just the LTX org: all RAG subreddits (r/StableDiffusion, r/ComfyUI, r/LocalLLaMA, r/comfyui_workflows, r/artificial) filtered to **50+ upvote posts from the last 2 days**, trending open-source models (HF), X, the ComfyUI channel, and the ltx.io community library. For each item report **what it is doing + how it helps OUR project** (H3 routes / Krea2 / LTX-2.5 VFX / character consistency / writer LLM / audio-D041).
+- **Built:** `rag/weekly_watch.py` (scans last-2-day news items, filters `score>=50`, writes durable log `news/weekly_watch_<date>.md`); `rag/fetch_news.py` **tier 2b** = redlib mirrors via the mcp engine (`reddit_mirrors` in `config.json` — best-effort, fully logged; live test 2026-10-26: mirror fetch failed via engine, tier activates when a mirror is reachable); `config.json` gains `weekly_watch {min_upvotes:50, days:2}`.
+- **Output:** agent authors `docs/research_watch/<YYYY-MM-DD>_weekly.md` (committed) each weekly run. First: `docs/research_watch/2026-10-26_weekly.md`.
+- **Known walls (2026-10-26):** Reddit JSON 403 + mcp low-quality + Playwright challenge (all logged; daily retry); X syndication 429; "ComfyUI channel" (Discord) NOT directly accessible — pending a feed URL from the user; web-search index is stale for 2-day windows (no upvote counts).
+- **Reason:** user needs community signal ("what they are doing and how they can be helpful for our project"), and the LTX-only scope missed it.
+- **Alternatives considered:** LTX-only watch (rejected by user), search-index scraping for Reddit (rejected — stale, no upvote counts).
+- **Status:** ACTIVE — weekly reminder `schedule-6479d179` prompt extended (Mondays 09:00 IST).
