@@ -26,6 +26,8 @@ HF release timeline (verified via HF API, 2026-10-21):
 | 2026-09-10 | `LTX-2.5-22b-IC-LoRA-Colorization` | 0.9 | color changes / colorization |
 | 2026-09-10 | `LTX-2.5-22b-IC-LoRA-Decompression` | 0.9 | compression-artifact removal |
 | 2026-09-10 | `LTX-2.5-22b-IC-LoRA-Ingredients` | 0.9 | element add/remove (closest official match to the "background text addition" memory — no official "text" IC-LoRA exists in the org; possibly a community LoRA in the [LTX Community Library](https://ltx.io/ltx-community)) |
+| 2026-09-10 | `LTX-2.5-22b-LoRA-Cinemagraph` | 0.9 | i2v: image + prompt → video with subtle **looping** motion (cinemagraph) — `ltx-2.5-22b-lora-cinemagraph-0.9.safetensors` (**201.5 MB**) |
+| 2026-09-15 | `LTX-2.5-22b-LoRA-Slow-Motion-Control` | 1.0 | i2v: image + prompt → video with **controllable speed** (real-time → 40× slow-motion, single `--speed` param; repo ships a ComfyUI workflow) — `ltx-2.5-22b-lora-slow-motion-control-1.0.safetensors` (**654.5 MB**) |
 | 2026-09-22 | `LTX-2.5-22b-IC-LoRA-Layout-To-Render` | 1.0 | clay viewport/blockout → finished shot (art-directed first frame) |
 | 2026-09-27 | `LTX-2.5-22b-IC-LoRA-Refine-Details` | 1.0 | synthesized clarity/detail for low-quality footage |
 | 2026-09-27 | `LTX-2.5-22b-IC-LoRA-Restore` | 1.0 | damaged/archival footage restoration (base tag LTX-2.3, runs on 2.5) |
@@ -72,6 +74,8 @@ Total missing for the core three: **~625 MB**. All three IC-LoRAs work on the
 | **Layout-to-Render** | storyboard/blockout → finished shot |
 | **Water-Simulation** | river water effects |
 | **Native Resolution** | 4K/8K output via Tiled Fusion (shared latent canvas, overlapping tiles, one noise field — not independent tile stitching) |
+| **Slow-Motion-Control** (LoRA, added 2026-10-26) | slow-mo inserts for rain/action beats — real-time → 40× speed from image + prompt |
+| **Cinemagraph** (LoRA, added 2026-10-26) | looping ambient backgrounds — title cards, ambient plates |
 
 ## ComfyUI gap — MUST FIX before any VFX workflow runs
 
@@ -95,6 +99,10 @@ IC-LoRA node on the distilled model.
 - `Refine-Details-1.0`, `Water-Simulation-0.9`, `Layout-To-Render-1.0`,
   `Restore-1.0`, `Colorization-0.9`, `Deblur-0.9`, `Ingredients-0.9`,
   `Pixel-Spatial-Upscaler-x2-1.0`
+
+**Weekly watch 2026-10-26 (new official LoRAs, not yet downloaded):**
+- `ltx-2.5-22b-lora-slow-motion-control-1.0.safetensors` (654.5 MB) — slow-mo inserts
+- `ltx-2.5-22b-lora-cinemagraph-0.9.safetensors` (201.5 MB) — looping ambient backgrounds
 
 **Skip:** `Decompression` (we control our own quality), the LTX-2.3/19b-era
 LoRAs (we're on the 2.5 stack).
@@ -138,7 +146,9 @@ ALREADY have — no download needed), or (2) **Ingredients** (the official
 element-consistency adapter — closest "add/manage elements" tool), or (3)
 In-Outpainting (fill a masked region with generated content). If a specific
 "background text" X post surfaces in the weekly watch, capture the exact repo
-then.
+then. **Re-verified 2026-10-26 against the FULL LTX Community Library (45
+curated entries fetched via browser) — still absent (3rd consecutive weekly
+check). Verdict stands.**
 
 **Download list for the user (browser, → `E:\ComfyUI_windows_portable\ComfyUI\models\loras\`),
 given 2026-10-21:**
@@ -160,5 +170,22 @@ Weekly check (schedule set 2026-10-21): fetch
 `https://huggingface.co/api/models?author=Lightricks&sort=createdAt&limit=40`,
 diff new models against this doc's timeline, append new IC-LoRAs + note X
 posts when discoverable (X blocks bots — search summaries as fallback).
-"Background text addition" LoRA: not found in the official org — check the
-[LTX Community Library](https://ltx.io/ltx-community) next time.
+
+Check log:
+- **2026-10-21 (initial):** timeline above; no "text" LoRA in the org.
+- **2026-10-26 (weekly #3):** HF org = **no new models since 09-28**
+  (timeline current). Two official LoRAs previously untracked in this doc
+  added to the timeline: Cinemagraph (09-10) + Slow-Motion-Control (09-15).
+  X (@ltx_io): no new official VFX drop this week (latest recorded = Native
+  Resolution + Refine + Restore); profile currently featuring community
+  builds — @wildmindai "2D hand-drawn animation IC-LoRA" (live-action →
+  hand-drawn 2D, plate/props left alone) and CQdesign "Video/Image Enhancer
+  LoRA V2" (generative restore, no ghosting). Community library (full 45-entry
+  list fetched via browser): **still NO "background text addition" LoRA**
+  (3rd check). New community entries of note: **Foley IC-LoRA** (LTX team,
+  2.3 — synchronized Foley SFX for silent video, suppresses music + speech →
+  aligns with D041), **Obscura Remova** (WepeNerd, 2.3+**2.5** — removes
+  foreground occlusions: curtains/plants/windows/haze), **Multiple Subject
+  Reference** (LiconStudio, 2.3 — multi-ref identity), **IC-LoRA-Cameraman**
+  (cseti, 2.3 — camera-motion transfer), **ID-LoRA** (AviadDahan, 2.3 —
+  appearance + voice from image + audio).
