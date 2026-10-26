@@ -111,19 +111,31 @@ def fetch_reddit(date, log):
     out = []
     limit = CFG.get("reddit_limit_per_sub", 30)
     for sub in CFG["subreddits"]:
-        url = f"https://www.reddit.com/r/{sub}/top.json?t=day&limit={limit}&raw_json=1"
         data = None
-        try:
-            r = requests.get(url, headers={"User-Agent": UA}, timeout=30)
-            if r.status_code == 200:
-                data = r.json()
-            else:
-                log.append(f"reddit r/{sub}: HTTP {r.status_code} -> playwright fallback")
-        except Exception as e:
-            log.append(f"reddit r/{sub}: {e} -> playwright fallback")
+        # tier 1: JSON API. Attach REDDIT_SESSION_COOKIE when set (user env,
+        # 2026-10-25 — the cookie itself is VALID, verified via JWT exp 2026-10-26;
+        # but a valid cookie does NOT beat an IP-level wall: 2026-10-26 matrix test
+        # returned 403 on every .json host with AND without the cookie).
+        hdrs = {"User-Agent": UA}
+        cookie = os.environ.get("REDDIT_SESSION_COOKIE", "")
+        if cookie:
+            hdrs["Cookie"] = f"reddit_session={cookie}"
+        for period in ("day", "week"):
+            if data is not None:
+                break
+            purl = f"https://www.reddit.com/r/{sub}/top.json?t={period}&limit={limit}&raw_json=1"
+            try:
+                r = requests.get(purl, headers=hdrs, timeout=30)
+                if r.status_code == 200:
+                    data = r.json()
+                else:
+                    log.append(f"reddit r/{sub} ({period}): HTTP {r.status_code}")
+            except Exception as e:
+                log.append(f"reddit r/{sub} ({period}): {e}")
         if data is None:
             # tier 2: VS Code's own engine (D:\MCP\web-search-mcp: axios + randomized chromium)
-            status, txt2, err = _mcp_fetch(url, 16000)
+            status, txt2, err = _mcp_fetch(
+                f"https://www.reddit.com/r/{sub}/top.json?t=day&limit={limit}&raw_json=1", 16000)
             if status == "success":
                 s = txt2.find("[")
                 e2 = txt2.rfind("]")
@@ -170,44 +182,59 @@ def fetch_reddit(date, log):
                 else:
                     log.append(f"reddit r/{sub}: mirror {mirror} {mstatus} ({merr or 'no content'})")
         if data is None:
-            # browser fallback: persistent profile has the challenge state
-            txt = ""
+            # tier 3 (VERIFIED WORKING 2026-10-26): browser-rendered HTML top page.
+            # The JSON API is IP-walled (403 with AND without a valid session cookie),
+            # but the HTML top page auto-solves the JS challenge in the persistent
+            # profile and renders shreddit-post cards carrying title/score/author/
+            # created-timestamp/comment-count as attributes (reddit_html_top.py).
+            # This is exactly what VS Code's integrated browser does — same engine.
+            html_posts = None
             try:
                 import subprocess
+                env = dict(os.environ)
+                env["PYTHONIOENCODING"] = "utf-8"
+                # Pin the child's temp into the workspace (verified 2026-10-26: a
+                # nested child doing mkdtemp in the system Temp gets EPERM under
+                # the session's file-sandbox scope; a workspace temp dir works).
+                _pin = os.path.join(ROOT, "temp")
+                os.makedirs(_pin, exist_ok=True)
+                for _k in ("TEMP", "TMP", "TMPDIR"):
+                    env[_k] = _pin
                 res = subprocess.run(
                     [r"C:\Program Files\Python310\python.exe",
-                     r"D:\models\vsCodeMcp\utilities\reddit_browser_fetch.py",
-                     url, "--text"],
-                    capture_output=True, text=True, timeout=120, encoding="utf-8", errors="replace")
-                txt = res.stdout or ""
-                # JSON endpoint rendered in the browser: extract the JSON body
-                s = txt.find("[")
-                e = txt.rfind("]")
-                if s >= 0 and e > s:
+                     os.path.join(ROOT, "reddit_html_top.py"), sub, "week"],
+                    capture_output=True, text=True, timeout=300, encoding="utf-8",
+                    errors="replace", env=env)
+                if res.returncode == 0:
                     try:
-                        data = {"data": {"children": json.loads(txt[s:e + 1])}}
+                        html_posts = json.loads(res.stdout)
                     except Exception:
-                        data = None
-            except Exception as e:
-                log.append(f"reddit r/{sub} playwright fallback failed: {e}")
-            if data is None:
-                head = txt[:400].lower()
-                challenged = ("<html" in head) or ("challenge" in txt.lower()[:2000] and "post" not in head)
-                if challenged:
-                    log.append(f"reddit r/{sub}: JS challenge wall (headless profile can't solve it); "
-                               f"skip this run, retry later")
-                elif len(txt) > 500:
-                    # unstructured page text -> one item per page (still RAG-usable)
-                    fn = _save_item(date, f"reddit/{sub}", f"page_{date}",
-                                    f"r/{sub} top of the day ({date})",
-                                    f"https://www.reddit.com/r/{sub}/top/?t=day",
-                                    txt[:9000], {"note": "page-text fallback (JSON blocked)"})
-                    if fn:
-                        out.append(fn)
+                        log.append(f"reddit r/{sub}: HTML tier stdout unparseable")
                 else:
-                    log.append(f"reddit r/{sub}: playwright returned no usable content "
-                               f"(len={len(txt)}); retry next run")
-                continue
+                    tail = (res.stderr or "").strip().splitlines()
+                    log.append(f"reddit r/{sub}: HTML top page tier rc={res.returncode} "
+                               f"{' | '.join(tail[-4:])[:400] or 'no posts rendered'}")
+                # grace for the profile lock to release before the next sub
+                time.sleep(5)
+            except Exception as e:
+                log.append(f"reddit r/{sub} HTML top page tier failed: {e}")
+            if html_posts is not None:
+                saved = 0
+                for p in html_posts:
+                    fn = _save_item(date, f"reddit/{sub}", p["id"], p["title"],
+                                    p["url"] or f"https://www.reddit.com/r/{sub}/",
+                                    p["title"],
+                                    {"author": p["author"], "score": p["score"],
+                                     "age": p["created"], "comments": p["comments"],
+                                     "note": "browser-rendered HTML top page (JSON API walled)"})
+                    if fn:
+                        saved += 1
+                log.append(f"reddit r/{sub}: via HTML top page tier "
+                           f"({saved} new of {len(html_posts)} posts)")
+            else:
+                log.append(f"reddit r/{sub}: HTML top page tier got no posts "
+                           f"(gated this run); retry next run")
+            continue
         try:
             for ch in data["data"]["children"]:
                 d = ch["data"]
