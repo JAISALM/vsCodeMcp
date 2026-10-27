@@ -62,11 +62,25 @@ BPW Qwen-Flash-Next Coder at 70 T/s using llama.cpp").
 4. Tonight's LoRA training — inputs gathered: H3 LoRA 3090 reel (137u), MOSS
    char LoRAs (140u/157u).
 
-**SOURCE FAILURES:** X 429 all 7 · r/comfyui_workflows HTML tier GATED (3
-attempts, fresh-profile fallback, no cards) · Reddit JSON 403 all subs (tier 1
-dormant) · redlib mirrors both failed (catsarch engine error; perennialte
-HTTP 410) · Civitai `/users/{id}` needs auth (401) → authors shown as
-`uid:<n>` (stats via detail endpoint work fine).
+**SOURCE FAILURES (tier status per D203 — browser head is now the standing
+last tier):**
+- **X:** tiers 1+2 (syndication, mcp engine) 429 all 7 → **new tier 3 browser
+  head ran today: profile pages render but the timeline sits behind the LOGIN
+  wall (article shells, zero tweet text; nitter mirrors dead, threadreader
+  404 — all verified live).** Unlocked by one-time env `X_AUTH_TOKEN`
+  (auth_token) + `X_CT0` (ct0) — same pattern as `REDDIT_SESSION_COOKIE`;
+  tier injects the cookies and reads the full timeline. **AWAITING USER COOKIES.**
+- **r/comfyui_workflows:** browser tier GATED (3 attempts, fresh-profile
+  fallback, no cards — 3rd day). Next tier: none known for this sub (small,
+  intermittently challenge-gated) — retry daily.
+- **Reddit JSON 403** all subs (tier 1 dormant — IP wall, proven cookie
+  doesn't beat it) → HTML top-page tier (tier 3) carries 4/5 subs.
+- **redlib mirrors:** both dead (catsarch engine error; perennialte HTTP 410).
+- **Civitai `/users/{id}` 401** no-auth → **browser tier wired today**: model
+  pages SSR `href="/user/<name>"` (verified: ReDetail 2.0 author = u/bambushu);
+  `fetch_civitai` now resolves unresolved authors via ONE browser session +
+  cache (`news/state/civitai_users.json`). Today's 85 files stay `uid:<n>`
+  until the next run's cache fills.
 
 ## 2026-10-26 (baseline — first extended watch, D201/D202)
 

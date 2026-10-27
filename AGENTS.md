@@ -233,6 +233,50 @@ persists). **Gotcha:** the helper needs `playwright`, which is ONLY in
 `C:\Program Files\Python310` — NOT in the ComfyUI embedded python.
 
 ---
+# CRITICAL: A source is never "unavailable" — the browser head is the standing last tier (2026-10-27, user directive, D202/D203)
+
+**The user has proven (and repeatedly, 2026-10-25 → 2026-10-27) that our own
+Playwright Chromium head is the SAME engine class VS Code uses to pull Reddit
+and similar. When a plain-HTTP tier fails (403 / 429 / JS-gated / login-modal /
+dead mirror), DO NOT report the source as "walled / unavailable / best-effort
+skipped". Fall through to the BROWSER HEAD.**
+
+**Standing fetch ladder (in order, per source):**
+1. Plain HTTP API (requests, unauth).
+2. `web-search-mcp` engine (the same engine VS Code uses; randomized headers).
+3. **Browser head** — `rag/browser_head.py` (`fetch_html(url, until=...)`), the
+   persistent profile `~\.dsh\fetch_creds\browser_profile` (challenge state
+   persists). This is the tier that actually gets Reddit (D202) and renders X /
+   Civitai / JS-gated pages a real browser can read.
+4. Session-cookie tier — when the wall is a LOGIN wall (not an IP wall), the
+   one-time env cookie unlocks it exactly like a logged-in browser:
+   - Reddit JSON → `REDDIT_SESSION_COOKIE` (already wired, tier 1).
+   - **X → set `X_AUTH_TOKEN` (auth_token) + `X_CT0` (ct0) user-level env** —
+     `rag/x_browser_fetch.py` injects them as cookies and reads the full
+     timeline. (Anonymous X is login-walled: syndication 429, mcp engine 429,
+     nitter mirrors dead, threadreader 404, browser head renders article shells
+     without text. Verified 2026-10-27.)
+   - Civitai author → `rag/browser_head.py` on the model page (SSR carries
+     `href="/user/<name>"`; `/users/{id}` is 401 no-auth). Wired into
+     `fetch_civitai`.
+
+**Wired into the daily RAG (`rag/fetch_news.py`):**
+- Reddit: tier 3 = `reddit_html_top.py` (browser-rendered `shreddit-post` cards).
+- X: tier 3 = `x_browser_fetch.py` (browser head; cookie-gated → full timeline).
+- Civitai: author resolution = browser head (one session for all unresolved).
+
+**Rule of thumb for any future "this source is walled" conclusion:** prove it
+failed at the BROWSER tier AND (if it's a login wall) that the session cookie is
+not set — otherwise it is NOT walled, it just needs the next tier. A "source
+failure" line in a RAG digest must name which tier failed and which tier to try
+next, never just "unavailable".
+
+**Gotchas:** nested child processes need `TEMP/TMP/TMPDIR` pinned to
+`D:\models\vsCodeMcp\rag\temp` (sandbox EPERM otherwise); profile-lock
+collisions are transient (retry + fresh-profile fallback in `browser_head.py`);
+the profile is shared, so a run left mid-close can briefly lock it.
+
+---
 
 # CRITICAL: Audio — NO MUSIC (HARD RULE, all future scenes)
 

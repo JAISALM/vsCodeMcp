@@ -1606,3 +1606,23 @@
 - **Addendum 2026-10-26 (user: "lets do this RAG check everyday"):** the watch is now **DAILY 09:00 IST** (reminder `schedule-6479d179` retimed weekly→daily; the 08:00 fetch schtask is unchanged). Daily = quick LTX org diff + `weekly_watch.py` run + NEW-item relevance pass appended to rolling `docs/research_watch/DAILY_WATCH.md` (baselined 2026-10-26); **Mondays** additionally author the full extended weekly report per D201.
 - **Addendum 2 (2026-10-26, user re-specified the split):** **community = DAILY** (reminder `schedule-6479d179` 09:00 IST: Reddit + HF + **Civitai** + X relevance pass), **labs + LTX = WEEKLY** (new reminder `schedule-5df39a0a` Mondays 10:00 IST: Lightricks org diff vs `VFX_PIPELINE_LTX25.md` + HF org diffs for `Qwen` / `MiniMaxAI` / `Krea`|`KreaAI` / `black-forest-labs` / `meta-llama` / `stabilityai` / `mistralai` / `deepseek-ai` / `facebook` (SAM3) / `fishaudio` / `Comfy-Org` → `docs/research_watch/<date>_weekly.md`).
 - **Civitai source ADDED to the RAG (2026-10-26):** public API verified reachable no-auth from this machine — `GET civitai.com/api/v1/models` with `order=HOT|NEWEST|POPULAR|RECENTLY_UPDATED` and `types` enum (incl. **`ComfyWorkflows`**, `Workflows`, `LORA`, `Checkpoint`, …); `/posts` endpoint 404s (no public posts feed — 'interesting posts' approximated by the HOT model feed). `fetch_news.py` gains `fetch_civitai` (4 fetches: hot 30 / newest 25 / ComfyWorkflows-newest 15 / LORA-newest 15 → `news/<date>/civitai_<kind>_<id>.md` with downloads/likes/author); `config.json` `civitai{...}` limits; `weekly_watch.py` reports a Civitai section. Live test 2026-10-26: 30+25+15+15 = 85 items captured.
+
+## D203 — A source is never "unavailable": the browser head is the standing last tier — 2026-10-27
+
+- **Date:** 2026-10-27 (user pushed, 4× same message: "this is wrong and we must have alternatives, we have our own playwright browser head via that we need to get these details… update the path somewhere so that I don't want to babysit you next time… this is already proven, we can easily get the reddit details with our setup")
+- **The lesson (permanent):** reporting "source unavailable / 429 / walled / best-effort skipped" as a terminal state is WRONG. The proven fallback is **our own Playwright Chromium head** — the same engine class VS Code uses (D202's proof). A source is only "failed" after the **browser tier** has also failed, and if the wall is a **login wall** (not IP wall) the one-time session cookie unlocks it — exactly the `REDDIT_SESSION_COOKIE` pattern.
+- **Standing fetch ladder (per source, in order):**
+  1. Plain HTTP API (unauth).
+  2. `web-search-mcp` engine (randomized headers).
+  3. **Browser head** — `rag/browser_head.py::fetch_html(url, until=...)` on the persistent profile `~\.dsh\fetch_creds\browser_profile` (challenge state persists; profile-lock collisions = transient, retry + fresh-profile fallback).
+  4. **Session-cookie tier** for login walls:
+     - Reddit JSON → `REDDIT_SESSION_COOKIE` (already wired).
+     - **X → `X_AUTH_TOKEN` (auth_token) + `X_CT0` (ct0)** user-level env → `rag/x_browser_fetch.py` injects them as cookies and reads the full timeline.
+     - **Civitai author** → browser head on the model page (SSR carries `href="/user/<name>"`; `/users/{id}` is 401 no-auth) — wired into `fetch_civitai` (ONE browser session for all unresolved uids; `news/state/civitai_users.json` cache).
+- **Built 2026-10-27:**
+  - `rag/browser_head.py` — shared launcher + `fetch_html` (generalized from `reddit_html_top.py`).
+  - `rag/x_browser_fetch.py` — X profile tier (tier 3 of `fetch_x`, subprocess with `TEMP/TMP/TMPDIR` pinned to `rag/temp`). Verified: anonymous X is **login-walled on every route** (syndication 429, mcp engine 429, browser head renders article shells WITHOUT text, nitter mirrors dead, threadreader 404) → the tier reports `gated` + the actionable cookie fix instead of a dead end.
+  - `fetch_civitai` author resolution via browser (verified 2026-10-27: model page SSR `href="/user/bambushu"` for uid 123).
+- **Rule of thumb:** any future "this source is walled" conclusion must prove the browser tier failed AND (login walls) that the session cookie is unset. A "source failure" line in a digest names which tier failed and which tier to try next — never just "unavailable".
+- **Persisted for future sessions:** `AGENTS.md` → "CRITICAL: A source is never 'unavailable'" section (standing ladder + gotchas).
+- **Status:** ACTIVE. X = awaiting `X_AUTH_TOKEN`/`X_CT0` from the user (one-time, same as the Reddit cookie).

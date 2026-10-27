@@ -304,9 +304,43 @@ def fetch_x(date, log):
                     m = m2
                     log.append(f"x {acct}: via web-search-mcp engine after {err or 'blocked'}")
                 else:
-                    log.append(f"x {acct}: no __NEXT_DATA__ (HTTP {r.status_code}, engine {status}) "
-                               f"— best-effort source, skipped")
-                    continue
+                    # tier 3: OUR OWN Playwright browser head (the proven route —
+                    # same engine class as VS Code's integrated browser; D202/D203).
+                    # Anonymous X is login-walled; with X_AUTH_TOKEN/X_CT0 set the
+                    # tier injects the session cookies and reads the full timeline.
+                    import subprocess
+                    try:
+                        child_env = dict(os.environ)
+                        child_env["PYTHONIOENCODING"] = "utf-8"
+                        _temp_pin = os.path.join(ROOT, "temp")
+                        os.makedirs(_temp_pin, exist_ok=True)
+                        for _tk in ("TEMP", "TMP", "TMPDIR"):
+                            child_env[_tk] = _temp_pin
+                        res = subprocess.run(
+                            [r"C:\Program Files\Python310\python.exe",
+                             os.path.join(ROOT, "x_browser_fetch.py"), acct],
+                            capture_output=True, encoding="utf-8", errors="replace",
+                            timeout=300, env=child_env)
+                        data = json.loads(res.stdout) if res.stdout.strip().startswith("{") else None
+                        if data and data.get("tweets"):
+                            log.append(f"x {acct}: via browser-head tier "
+                                       f"({len(data['tweets'])} tweets)")
+                            for t in data["tweets"][:25]:
+                                fn = _save_item(date, f"x/{acct}", t["id"],
+                                                t["text"][:120].replace("\n", " "),
+                                                t["url"], t["text"],
+                                                {"created_at": t.get("date", "")})
+                                if fn:
+                                    out.append(fn)
+                            continue
+                        note = (data or {}).get("note", "no tweets rendered")
+                        log.append(f"x {acct}: no __NEXT_DATA__ (HTTP {r.status_code}, "
+                                   f"engine {status}) -> browser-head tier: {note}")
+                        continue
+                    except Exception as e:
+                        log.append(f"x {acct}: no __NEXT_DATA__ (HTTP {r.status_code}, "
+                                   f"engine {status}) -> browser-head tier failed: {e}")
+                        continue
             data = json.loads(m.group(1))
             found = []
 
@@ -396,6 +430,7 @@ def fetch_civitai(date, log):
     ]
     user_cache = _load_civitai_users()
     seen = _seen()
+    unresolved = []  # (uid, mid) pairs the no-auth API can't resolve -> browser tier
     for kind, url in fetches:
         try:
             r = requests.get(url, headers=hdrs, timeout=30)
@@ -430,6 +465,8 @@ def fetch_civitai(date, log):
                         user = f"uid:{uid}"
                     user_cache[str(uid)] = user
                     time.sleep(0.3)
+                if user and user.startswith("uid:"):
+                    unresolved.append((uid, mid))
                 user = user or "u/?"
                 desc = (det.get("description") or it.get("description") or "")[:3000]
                 body = (f"Type: {it.get('type')} · Base models: {base_models}\n"
@@ -449,6 +486,40 @@ def fetch_civitai(date, log):
             log.append(f"civitai {kind}: {e}")
         _save_civitai_users(user_cache)
         time.sleep(1.5)
+    # browser-head author tier (D203): Civitai model pages SSR
+    # 'href="/user/<name>"' (verified 2026-10-27) while /users/{id} is 401
+    # no-auth. ONE browser session for all unresolved uids (not per item).
+    if unresolved:
+        try:
+            from playwright.sync_api import sync_playwright
+            import browser_head
+            with sync_playwright() as p:
+                ctx = browser_head._launch(p, verbose=True)
+                page = ctx.pages[0] if ctx.pages else ctx.new_page()
+                for uid, mid in unresolved:
+                    try:
+                        page.goto(f"https://civitai.com/models/{mid}",
+                                  wait_until="domcontentloaded", timeout=45_000)
+                        page.wait_for_timeout(3000)
+                        h = page.content()
+                        mu = re.search(r'href="/user/([A-Za-z0-9_]+)"', h)
+                        if mu:
+                            user_cache[str(uid)] = mu.group(1)
+                            log.append(f"civitai author u/{mu.group(1)} "
+                                       f"resolved via browser head (uid {uid})")
+                        else:
+                            log.append(f"civitai author uid:{uid} not found on page "
+                                       f"(browser head tried)")
+                    except Exception as e:
+                        log.append(f"civitai author uid:{uid}: browser head {e}")
+                    time.sleep(1.0)
+                try:
+                    ctx.close()
+                except Exception:
+                    pass
+                _save_civitai_users(user_cache)
+        except Exception as e:
+            log.append(f"civitai browser author tier: {e}")
     _save_civitai_users(user_cache)
     return out
 
