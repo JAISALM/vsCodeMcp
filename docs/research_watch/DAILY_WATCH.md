@@ -6,6 +6,68 @@ how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
 
+## 2026-10-27
+
+**Sources:** Reddit ✅ HTML tier (SD 25 + LocalLLaMA 50 + ComfyUI 25 +
+artificial 25; comfyui_workflows gated again) · HF ✅ 5 trending + 2
+datasets · Civitai ✅ 85 items (hot/newest/ComfyWorkflows/new LoRAs, now
+enriched with downloads via detail endpoint) · X ❌ 429 all 7.
+**Reddit 50+ today: 73** (top = LocalLLaMA 311u "8 GB GPU, 262K context, 3.5
+BPW Qwen-Flash-Next Coder at 70 T/s using llama.cpp").
+
+**New relevant items (vs 10-26 baseline):**
+- **198u "I 'hacked' Krea 2 to work with Pose Studio"** (r/StableDiffusion,
+  u/foxdit) — Krea2 + Pose Studio bridge for style diversity (complaint:
+  Qwen/Klein style diversity). → our Krea2 reference-sheet chain (D021) —
+  read the thread for the technique.
+- **Civitai "Gladas' Workflow for Krea 2 Turbo"** (3,175 dl, top new workflow)
+  — Krea2 Turbo ComfyUI workflow → **ADOPT candidate** for reference-sheet
+  speed.
+- **Civitai "mini max character replace — with turbo lora 4 steps"** (2,565 dl)
+  — H3 character-swap + 4-step turbo → **ADOPT candidate** for our
+  charswapmask pipeline + turbo speed.
+- **Civitai "ReDetail 2.0: LTX-2.5 video refine + upscale to 4K (workflow +
+  CLI)"** (1,688 dl) — LTX-2.5 refine/upscale → **ADOPT candidate** for our
+  VFX pipeline (our base model).
+- **Civitai "Easy Workflow — MiniMax H3 + Ultimate Upscale for TURBO Hybrid —
+  8GB"** (1,689 dl) — H3 upscale chain (we have 32 GB — no constraint issue) —
+  review.
+- **137u "18 clip reel of my Minimax H3 LoRA on a 3090"** — H3 LoRA trained +
+  used on a 24 GB card → input for tonight's LoRA training plan.
+- **140u "I finally nailed Moss char loras"** + 157u MOSS-Image-Base LoRA
+  (Smartphone Snapshot Photo Reality v14) — MOSS character-LoRA results →
+  tonight's training inputs.
+- **177u "Flux 3 Image is #1 model"** — Flux-3 adoption signal (our Flux-3-
+  Klein reference path).
+- **149u "Qwen4-27B's 4-way HC shift?"** + 139u "Qwen4 expectations" — Qwen4
+  27B signals continue (writer/agent lineage).
+- **131u IBM Granite Speech 5.0 2B** — another small speech model → audio
+  pipeline candidate (D041 check: speech is fine, verify no music output).
+- **222u ornith-ai/Ornith-1.5-122B** (Qwen finetune; HF 190 likes, 60 k dl) —
+  new open 122B candidate.
+- **Civitai new LoRAs feed** (top: Not Artists 665 k dl, Detail Tweaker 583 k,
+  Hands XL 311 k, blindbox/MoXin/Cute_girl_mix4) — all SD1.5/SDXL/Pony
+  detail+style LoRAs → **NO ADOPT** (not our Krea2/H3/MOSS model family).
+
+**ACTION ITEMS (new today):**
+1. ⚠️ **llama.cpp CVE-2026-116096** (127u PSA, verified): OOB write in
+   Pocket-TTS `pockettts-gen.cpp` on malformed mmproj files; fixed in
+   **b11796+** (current b11871); medium. **Our build = b11583** (2026-10-13)
+   → below fix line. Real risk ≈ 0 (we never load mmproj / run Pocket-TTS) —
+   **update `D:\llama` build at next convenience**, not urgent.
+2. Krea2 + Pose Studio hack (198u) — read thread, evaluate for reference-set
+   style diversity.
+3. Adopt-test: Gladas Krea 2 Turbo workflow + mini-max character replace
+   turbo workflow + ReDetail 2.0 (LTX-2.5 4K refine).
+4. Tonight's LoRA training — inputs gathered: H3 LoRA 3090 reel (137u), MOSS
+   char LoRAs (140u/157u).
+
+**SOURCE FAILURES:** X 429 all 7 · r/comfyui_workflows HTML tier GATED (3
+attempts, fresh-profile fallback, no cards) · Reddit JSON 403 all subs (tier 1
+dormant) · redlib mirrors both failed (catsarch engine error; perennialte
+HTTP 410) · Civitai `/users/{id}` needs auth (401) → authors shown as
+`uid:<n>` (stats via detail endpoint work fine).
+
 ## 2026-10-26 (baseline — first extended watch, D201/D202)
 
 **Source status:** Reddit ✅ via new HTML top-page tier (`rag/reddit_html_top.py`

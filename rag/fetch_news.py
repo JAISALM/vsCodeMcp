@@ -343,11 +343,45 @@ def fetch_x(date, log):
     return out
 
 
+_CIVITAI_USER_CACHE = os.path.join(NEWS_DIR, "state", "civitai_users.json")
+
+
+def _load_civitai_users():
+    try:
+        return json.load(open(_CIVITAI_USER_CACHE, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _save_civitai_users(cache):
+    try:
+        os.makedirs(os.path.dirname(_CIVITAI_USER_CACHE), exist_ok=True)
+        with open(_CIVITAI_USER_CACHE, "w", encoding="utf-8") as f:
+            json.dump(cache, f, indent=1)
+    except Exception:
+        pass
+
+
+def _civitai_detail(mid, hdrs):
+    try:
+        r = requests.get(f"https://civitai.com/api/v1/models/{mid}",
+                         headers=hdrs, timeout=20)
+        return r.json() if r.status_code == 200 else {}
+    except Exception:
+        return {}
+
+
 def fetch_civitai(date, log):
     """Civitai public API (verified reachable no-auth from this machine,
     2026-10-26 probe: order=HOT/NEWEST/POPULAR OK; types enum includes
     ComfyWorkflows/Workflows/LORA; /posts endpoint is 404 so 'interesting
-    posts' is approximated by the HOT feed)."""
+    posts' is approximated by the HOT feed).
+
+    The LIST endpoint returns slim items (no stats/user) — stats come from
+    the DETAIL endpoint (GET /models/{id}: stats.downloadCount/thumbsUp/
+    commentCount, baseModels, userId) + a userId→username cache
+    (news/state/civitai_users.json). Detail calls run only for items that
+    will actually be saved (dedup check first)."""
     out = []
     cfg = CFG.get("civitai", {})
     base = "https://civitai.com/api/v1"
@@ -360,6 +394,8 @@ def fetch_civitai(date, log):
         ("newloras", f"{base}/models?limit={cfg.get('lora_limit', 15)}"
                      f"&types=LORA&order=NEWEST"),
     ]
+    user_cache = _load_civitai_users()
+    seen = _seen()
     for kind, url in fetches:
         try:
             r = requests.get(url, headers=hdrs, timeout=30)
@@ -372,26 +408,48 @@ def fetch_civitai(date, log):
                 mid = it.get("id")
                 if not mid:
                     continue
-                stats = it.get("stats") or {}
-                user = (it.get("user") or {}).get("username", "?")
-                dl = stats.get("downloads", 0)
-                desc = (it.get("description") or "")[:3000]
-                body = (f"Type: {it.get('type')} · Base: {it.get('baseModel')}\n"
-                        f"Author: u/{user} · Downloads: {dl:,} · Likes: "
-                        f"{stats.get('likes', 0):,} · Created: {str(it.get('createdAt', ''))[:10]}\n\n{desc}")
+                if f"civitai/{kind}:{mid}" in seen:
+                    continue
+                # enrich (list items are slim) — only for items being saved
+                det = _civitai_detail(mid, hdrs)
+                time.sleep(0.4)
+                stats = det.get("stats") or {}
+                dl = stats.get("downloadCount", 0)
+                likes = stats.get("thumbsUpCount", 0)
+                base_models = ", ".join(det.get("baseModels") or []) or "n/a"
+                uid = det.get("userId")
+                user = user_cache.get(str(uid)) if uid else None
+                if user is None and uid:
+                    try:
+                        ru = requests.get(f"{base}/users/{uid}", headers=hdrs, timeout=20)
+                        if ru.status_code == 200:
+                            user = ru.json().get("username") or "u/?"
+                        else:
+                            user = f"uid:{uid}"
+                    except Exception:
+                        user = f"uid:{uid}"
+                    user_cache[str(uid)] = user
+                    time.sleep(0.3)
+                user = user or "u/?"
+                desc = (det.get("description") or it.get("description") or "")[:3000]
+                body = (f"Type: {it.get('type')} · Base models: {base_models}\n"
+                        f"Author: u/{user} · Downloads: {dl:,} · Likes: {likes:,} · "
+                        f"Comments: {stats.get('commentCount', 0):,}\n\n{desc}")
                 fn = _save_item(date, f"civitai/{kind}", str(mid),
                                 f"[{it.get('type')}] {it.get('name', '?')} (u/{user}, {dl:,} dl)",
                                 f"https://civitai.com/models/{mid}", body,
                                 {"kind": kind, "type": it.get("type"),
                                  "author": user, "downloads": dl,
-                                 "likes": stats.get("likes", 0)})
+                                 "likes": likes})
                 if fn:
                     saved += 1
                     out.append(fn)
             log.append(f"civitai {kind}: {saved} new of {len(items)}")
         except Exception as e:
             log.append(f"civitai {kind}: {e}")
+        _save_civitai_users(user_cache)
         time.sleep(1.5)
+    _save_civitai_users(user_cache)
     return out
 
 
