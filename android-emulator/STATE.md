@@ -44,6 +44,30 @@ Legacy: `boot_emu.cmd` (emulator.exe, same flags, file stdout to emu_out.log).
 Scheduled task `LmEmu` DELETED 2026-10-29 (recreate with:
 `schtasks /create /tn LmEmu /tr "cmd.exe /c D:\models\vsCodeMcp\android-emulator\boot_headless2.cmd" /sc once /st 09:00` if wanted).
 
+## Round-2 findings (2026-10-29 00:14 IST)
+Phone deliverable RE-VERIFIED this round (litminer_bot.js + SETUP.md match
+reality; TAP mode is tap-only, double-BACK guarded at lines 375/387/391).
+Emulator GPU hypothesis TESTED and RULED OUT:
+- `boot_gpu.cmd` (emulator.exe, `-gpu swiftshader_indirect`, -show-kernel,
+  -verbose) exited **EMU_EXIT=-1073741819 = 0xC0000359 = STATUS_NO_MEMORY**
+  on a 64GB machine. The log shows Vulkan/SwiftShader device init
+  ("Selecting Vulkan device: SwiftShader Device (LLVM 10.0.0)",
+  "Vulkan emulation initialized") then OOM. So a per-process memory cap (DSH
+  job-object limit?) or a SwiftShader alloc failure — NOT the guest stall.
+  The "Crash dump message: ..." log lines are DEBUG diagnostics, not crashes.
+- This run ALSO revealed the guest serial routing when -show-kernel is used
+  with emulator.exe: `-serial con:` + `-append "... console=ttyS0,38400
+  earlyprintk=ttyS0 ..."` (vs `console=0`/`-serial null` otherwise) — so a
+  booting guest's kernel WOULD print to emu_gpu.log; it never did (process
+  died at GPU init first).
+Exit-code reference: 0xC0000135 DLL_NOT_FOUND (missing DLL, earlier);
+0xC0000409 ucrtbase fastfail/abort (crashpad disabled); 0xC0000359 NO_MEMORY
+(swiftshader). All three are HOST-side failures before/around guest start.
+Next-session options (in order): (1) check for a DSH job-object memory cap on
+child processes and re-run -gpu off without it; (2) try -memory 2048 with a
+matching-size ram.img; (3) different machine. `boot_gpu.cmd` + `emu_gpu.log`
+kept as evidence.
+
 ## Boot status — VERDICT (2026-10-29 00:10 IST): guest never boots on this machine
 No run reached a bootable guest (no adbd answer, no serial/kernel output, no
 sys.boot_completed). Two distinct failure points observed:
