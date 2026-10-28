@@ -6,6 +6,79 @@ how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
 
+## 2026-10-28
+
+**Sources:** Reddit ✅ HTML tier (SD 25 + LocalLLaMA 48 + ComfyUI 25 +
+artificial 25; comfyui_workflows gated again — 4th day) · HF ✅ 9 items ·
+Civitai ✅ 85 items — **author resolution now live: all 48 unique authors
+resolved via browser tier (0 unresolved); files patched with real names** ·
+X ❌ all 7 login-walled (tier 3 browser ran; cookies still not set).
+08:00 schtask missed again (machine asleep) — manual fetch run, 302 newly
+indexed. **73 Reddit posts at 50+** (top 340u "everything will be local
+eventually").
+
+**New relevant items (vs 10-27 baseline):**
+- **223u "Mysterious Qwen4 Appearance by New GitHub Accounts"** — Qwen4
+  signals intensify (writer/agent lineage watch).
+- **GPU-unlock cluster (new theme today):** 240u "GPU unlocks (FP32
+  accumulation): why Turing/Ampere/Ada but not Blackwell" · 236u "free 3090
+  speedup hack, verified 15% PP / 5% TG" · 179u "CMP170HX-inspired unlocks
+  30x/40x, up to 2× prefill speedup" · 168u "lower power limit when
+  unlocking" → GPU/VRAM-trick reading for our 5090 (Blackwell is NOT in the
+  unlockable set — consistent with our 5090 being locked).
+- **219u "Ling-3.1-flash-1019 weights out + base model released"** (Ant) —
+  fast-model writer-candidate family; +190u Ling-3.0-flash-Sante (124B /
+  5.1B active) from yesterday.
+- **217u "My MOSS Character Lora Training Results" + 172u "MOSS-Image Vision
+  Text Encode (ComfyUI node + workflow)"** — MOSS char-LoRA cluster continues;
+  the **ComfyUI node + workflow for MOSS's vision text encoder is NEW** →
+  ADOPT candidate if we adopt MOSS for image work.
+- **198u + HF 194-likes "NVIDIA Nemotron-3.5-Bolt-E4B-4GB"** — 4 GB MoE that
+  runs anywhere (edge agent option; not a writer/agent replacement for us).
+- **148u "⚠️ PSA: Fake GitHub projects — especially AI tools & ComfyUI custom
+  nodes"** — supply-chain security → verify origins of the node packs we
+  install via ComfyUI-Manager (esp. new packs before `install_node`).
+- **180u "neuron-steering playground for Qwen3.5-4B in-browser WebGPU"** ·
+  **177u "35B MoE at 20.5 tok/s on an iPhone"** · 173u "NVIDIA/OpenShell
+  private runtime for autonomous AI agents" (context) · 161u "ZPix local
+  open-source app adds lasso inpainting" (our charswapmask is ComfyUI-native —
+  note only).
+- **HF new:** baidu/Unlimited-OCR-2 (256 likes — OCR) · LiquidAI/LFM3-1.7B
+  (208) · ccore/Qwen3.5-4B-3D-Coder (181) · bones-studio/seed dataset (350
+  likes) · nvidia/simready-central-library (51) · Rapidata text-to-3d-with-
+  llm-code (42).
+- **Civitai workflows — NO new adopt candidates today:** top 10 = same as
+  10-27 (downloads rising): Gladas Krea 2 Turbo (3,201) · mini-max char
+  replace turbo 4-step (2,577) · H3 Dasiwa Xtra (2,122) · LTX 2.3 + Director
+  (2,048) · H3 + Ultimate Upscale 8 GB (1,713) · ReDetail 2.0 LTX-2.5 4K
+  (1,700) · H3 Infinite Iteration (1,472) · Krea 2 Workflows (1,414) · H3
+  Looping/Morphing (1,274) · Gladas Anima (1,205).
+- **Civitai new LoRAs — still NO ADOPT:** same legacy SD1.5/SDXL/Pony
+  detail/style set (Not Artists 665 k, Detail Tweaker 583 k/461 k/410 k,
+  Hands XL 311 k, blindbox 307 k, MoXin 288 k, Velvet Mythic Fantasy 246 k
+  — the only Krea2-tagged one, style LoRA, D021 candidate — unchanged),
+  Cute_girl_mix4 231 k, Disney Princess XL 208 k.
+
+**ACTION ITEMS (new today):**
+1. GPU-unlock reading (240u/236u/179u/168u) — confirm none applies to our
+   5090 (Blackwell excluded per 240u) — 10-min read, close the thread.
+2. MOSS-Image Vision Text Encode ComfyUI node/workflow (172u) — inspect the
+   pack + workflow before any MOSS adoption.
+3. Fake-GitHub PSA (148u) — quick check that our installed node packs match
+   their registry origins.
+4. Carried (10-27): llama.cpp b11583 CVE-2026-116096 update at convenience ·
+   Krea2+PoseStudio hack read · adopt-test the 3 Civitai workflows · X
+   cookies (`X_AUTH_TOKEN`/`X_CT0`) — the X tier is wired and waiting.
+
+**SOURCE FAILURES (tier status per D203):** X — tiers 1+2 429 all 7; tier 3
+browser head ran per account: pages render but timeline is login-walled
+(article shells, zero tweet text) → **still awaiting `X_AUTH_TOKEN`/`X_CT0`
+from user** (one-time). r/comfyui_workflows — browser tier GATED 4th day
+(3 attempts, fresh-profile fallback). Reddit JSON 403 all subs (tier 3 HTML
+carries 4/5). redlib mirrors dead. Civitai `/users/{id}` 401 → **resolved via
+browser tier today (48/48 authors, 0 unresolved)** — the uid placeholders are
+gone.
+
 ## 2026-10-27
 
 **Sources:** Reddit ✅ HTML tier (SD 25 + LocalLLaMA 50 + ComfyUI 25 +

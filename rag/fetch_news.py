@@ -488,38 +488,35 @@ def fetch_civitai(date, log):
         time.sleep(1.5)
     # browser-head author tier (D203): Civitai model pages SSR
     # 'href="/user/<name>"' (verified 2026-10-27) while /users/{id} is 401
-    # no-auth. ONE browser session for all unresolved uids (not per item).
+    # no-auth. Runs as a SUBPROCESS under the SYSTEM python — the RAG venv does
+    # NOT have `playwright` (verified 2026-10-28: "No module named 'playwright'"
+    # in-venv). ONE browser session for all unresolved uids (deduped by uid).
     if unresolved:
+        import subprocess
         try:
-            from playwright.sync_api import sync_playwright
-            import browser_head
-            with sync_playwright() as p:
-                ctx = browser_head._launch(p, verbose=True)
-                page = ctx.pages[0] if ctx.pages else ctx.new_page()
-                for uid, mid in unresolved:
-                    try:
-                        page.goto(f"https://civitai.com/models/{mid}",
-                                  wait_until="domcontentloaded", timeout=45_000)
-                        page.wait_for_timeout(3000)
-                        h = page.content()
-                        mu = re.search(r'href="/user/([A-Za-z0-9_]+)"', h)
-                        if mu:
-                            user_cache[str(uid)] = mu.group(1)
-                            log.append(f"civitai author u/{mu.group(1)} "
-                                       f"resolved via browser head (uid {uid})")
-                        else:
-                            log.append(f"civitai author uid:{uid} not found on page "
-                                       f"(browser head tried)")
-                    except Exception as e:
-                        log.append(f"civitai author uid:{uid}: browser head {e}")
-                    time.sleep(1.0)
-                try:
-                    ctx.close()
-                except Exception:
-                    pass
-                _save_civitai_users(user_cache)
+            _pairs_file = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                       "temp", "civitai_author_pairs.json")
+            os.makedirs(os.path.dirname(_pairs_file), exist_ok=True)
+            with open(_pairs_file, "w", encoding="utf-8") as f:
+                json.dump([[str(u), str(m)] for u, m in unresolved], f)
+            child_env = dict(os.environ)
+            child_env["PYTHONIOENCODING"] = "utf-8"
+            _temp_pin = os.path.join(ROOT, "temp")
+            os.makedirs(_temp_pin, exist_ok=True)
+            for _tk in ("TEMP", "TMP", "TMPDIR"):
+                child_env[_tk] = _temp_pin
+            res = subprocess.run(
+                [r"C:\Program Files\Python310\python.exe",
+                 os.path.join(ROOT, "civitai_author_resolve.py"), _pairs_file],
+                capture_output=True, encoding="utf-8", errors="replace",
+                timeout=3000, env=child_env)
+            data = json.loads(res.stdout) if res.stdout.strip().startswith("{") else {}
+            for uid, name in (data.get("resolved") or {}).items():
+                user_cache[uid] = name
+            log.append(f"civitai author browser tier: {len(data.get('resolved') or {})} "
+                       f"resolved, {len(data.get('unresolved') or [])} unresolved")
         except Exception as e:
-            log.append(f"civitai browser author tier: {e}")
+            log.append(f"civitai browser author tier failed: {e}")
     _save_civitai_users(user_cache)
     return out
 
