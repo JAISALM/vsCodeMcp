@@ -6,6 +6,63 @@ how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
 
+## 2026-10-29
+
+**Sources:** Reddit ✅ HTML tier (SD 49 + LocalLLaMA 47 + ComfyUI 25 +
+artificial 25; comfyui_workflows GATED — 5th day) · HF ✅ 11 items · Civitai
+✅ 85 items — **author tier production-verified: 83 named / 2 uid** · X ❌
+login-walled (cookies not set). **08:00 schtask ran cleanly for the first
+time in 3 days (machine awake) — 96 new items, no manual fetch needed.**
+96 Reddit posts at 50+ (top: 1275u BF16-unlock).
+
+**New relevant items (vs 10-28 baseline):**
+- **1275u "RTX 3000 series can run BF16 almost 2× faster — NVIDIA locked it
+  via kernel, not a hardware limit"** — day's top post; GPU-unlock cluster
+  continues (Blackwell still excluded → N/A for our 5090, but the kernel-lock
+  mechanism is confirmed).
+- **993u "Krea 2 king of styles!"** — adoption signal for our Krea2 base.
+- **511u "Openjutsu — one-click character swap (ComfyUI Higgsfield
+  challenge)"** — character-swap node pack → ADOPT candidate for our
+  charswapmask chain.
+- **406u "Character Reference for Anima is released!"** — Anima ecosystem
+  (our Gladas Anima candidate workflow).
+- **296u "H3 Relay Hires node: 0.5 → 2 MP upscaler, ~4× faster than native"**
+  — H3 pipeline **ADOPT candidate**.
+- **297u "PixText: small fast model for fixing text in generated images"** —
+  text-fix tool for our title compositing.
+- **225u "Krea2 BBOX models have finished training and been released"** —
+  Krea2 ecosystem expansion (bounding-box conditioning).
+- **252u "testing minimax h3 ref2va with my ps2 style lora"** — validates our
+  ref2va + style-LoRA technique · 271u H3 SLA + 8-step-LoRA
+  lighting/physics tests.
+- **306u "PSA: 10Eros-Max Beta 7 is out"** — new SD-family checkpoint.
+- **MOSS cluster** (346u sft-normal-people, 253u MOSS-Image-Edit LoRA, 228u
+  tips) — noted; user opted out of MOSS-image checking.
+- **HF new:** tencent/Hy-SimulMT-30B-A3B-FP8 (380) · openbmb/MiniCPM-OCR-1.0
+  (278) · NVIDIA-Nemotron-3.5-Transcribe-30B-A4B (205 — speech-to-text,
+  D041-safe input-side) · secemp9/arxiv-complete dataset (744).
+- **Civitai: no new ADOPT candidates** (same top 10, downloads rising: Gladas
+  Krea 2 Turbo 3,225 · kimimorgam char-replace turbo 2,588 · ReDetail 2.0
+  1,713 — authors now show real names). newloras still the legacy
+  SD1.5/SDXL/Pony set → **NO ADOPT**.
+
+**ACTION ITEMS (new today):**
+1. **H3 Relay Hires node** (296u) — inspect pack/workflow (0.5→2 MP upscaler
+   for our H3 route).
+2. **Openjutsu character swap** (511u) — inspect for the charswapmask chain.
+3. **Krea2 BBOX models** (225u) — quick read: what does BBOX conditioning
+   give us for reference-sheet work?
+4. **PixText** (297u) — text-fix option for title compositing.
+5. Carried: X cookies (`X_AUTH_TOKEN`/`X_CT0`) · candidate-model tests now
+   possible on b11960 (DeepSeek-V4.1-Flash / RecursiveSI-flint) · 3 Civitai
+   workflow adopt-tests · Krea2+PoseStudio read.
+
+**SOURCE FAILURES (tier status per D203):** X — tier 3 login-walled (browser
+ran, no `X_AUTH_TOKEN`/`X_CT0` set). r/comfyui_workflows — browser tier
+GATED 5th day (no further tier exists for that sub). Reddit JSON 403 all
+subs (tier 3 HTML carries 4/5). redlib mirrors dead. Civitai author tier ✅
+production (83 named / 2 uid — tier ran inside the venv subprocess fix).
+
 ## 2026-10-28
 
 **Sources:** Reddit ✅ HTML tier (SD 25 + LocalLLaMA 48 + ComfyUI 25 +
