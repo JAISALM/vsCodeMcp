@@ -6,6 +6,13 @@ how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
 
+**URL RULE (2026-10-30, user directive):** every relevant item line carries
+its **source URL** (reddit / X / civitai / HF) — taken from the `url:`
+frontmatter field of the `rag/news/<date>/<source>_*.md` files (100% present;
+the X tier, when it works, stores tweet URLs the same way). Angle-bracket
+form `<https://…>` so it survives markdown line-wrapping. Applies to all
+future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
+
 ## 2026-10-30
 
 **Sources:** Reddit ✅ HTML tier (SD 1 new/25, artificial 25 new/25, LocalLLaMA +
@@ -20,35 +27,50 @@ idempotent completion: 0 new items, 0 newly indexed, store 1,218.
 
 **New relevant items (vs 10-29 baseline):**
 - **445u "Qwen3.8-Flash-Next tried to send a diagnostic file to a remote
-  location, while stating otherwise"** — privacy/security post about our Qwen
-  family running locally — quick read.
+  location, while stating otherwise"** — privacy post about our Qwen family —
+  <https://cohere.com/blog/concerning-behaviour-popular-open-weight-ai-model>
+- **443u "I think local AI cost me a job"** — <https://www.reddit.com/r/LocalLLaMA/comments/1xils4t/i_think_local_ai_cost_me_a_job/>
 - **434u "TokenGate (Stanford/Berkeley): token-gated attention for long-context
-  prefill"** — prefill speed tech relevant to our 260K ctx.
-- **227u "New MiniMax H3 Finetune by Pika Labs"** — H3 pipeline ADOPT candidate.
-- **168u "NVIDIA's new Open-H3-Regenerate-2K"** — H3 2K regeneration.
+  prefill"** — prefill speed tech relevant to our 260K ctx —
+  <https://www.marktechpost.com/2026-10-25/stanford-berkeley-tokengate-learned-token-pruning-llm-prefill/>
+- **227u "New MiniMax H3 Finetune by Pika Labs"** — H3 pipeline ADOPT candidate —
+  <https://i.redd.it/w5bcogm0zfyh1.png>
+- **168u "NVIDIA's new Open-H3-Regenerate-2K"** — <https://v.redd.it/lw42y195m9yh1>
 - **212u "Qwen Image 2.1 + TRELLIS.2 in Blender: prompt → textured rigged
-  character → village"** — Qwen Image 2.1 + 3D pipeline signal.
-- **184u "Flux 3 Image is #1 model"** — Flux 3 image release chatter.
+  character → village"** — <https://v.redd.it/pbk62dlemfyh1>
+- **184u "Flux 3 Image is #1 model"** — <https://i.redd.it/yv64a5398lxh1.jpeg>
 - **197u "Interactive neuron steering playground for Qwen3.5-4B on WebGPU
-  locally"** — interesting interpretability tool.
+  locally"** — <https://v.redd.it/o8dxp8s94wxh1>
 - **290u/1228 mistralai/Mistral-Large-4-1T-A52B** — day's top HF model (1T
-  MoE — far beyond 32 GB; noted, not runnable here).
-- **GPU-unlock cluster continues** (175u "lower power limit when unlocked" ·
-  143u info post on which consumer cards/tasks · 134u "59% higher throughput
-  on 3090 Ti") — all 30-series; Blackwell excluded → N/A for our 5090.
-- **MOSS cluster** (229u tips · 226u char-LoRA results · 197u showcase · 166u
-  variety tests · 159u "nailed Moss char loras" · 152u hype-psyop debate · 144u
-  MOSS-Image-Edit-HQ v3) — noted; user opted out of MOSS checking.
-- **HF new:** LiquidAI **LFM3-Omni-2B (206) + LFM3-VL-2B (167)** — new LFM3
-  variants (b11960 runs LFM3 natively → optional local tests) ·
-  nvidia/PhysicalAI-Autonomous-Vehicles-Foundation4D (30) · nvidia/Granary-v2
-  (25).
-- **Civitai: no new ADOPT candidates** — same top 10 (Gladas Krea 2 Turbo
-  3,250 dl · kimimorgam char-replace 2,604 · Dasiwa Xtra 2,141 · LTX 2.3
-  Director 2,053 · H3+Ultimate Upscale 1,769 · ReDetail 2.0 1,715 · H3
-  Infinite Iteration 1,497 · Krea 2 Workflows 1,455 · H3 Looping 1,301 ·
-  Gladas Anima 1,233 — all author-named). newloras = same legacy set →
-  **NO ADOPT**.
+  MoE — far beyond 32 GB; noted) — <https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B>
+- **GPU-unlock cluster** (30-series only → N/A for our 5090): 175u power-limit
+  tip <https://i.redd.it/bit36iugnmxh1.png> · 143u which-cards info post
+  <https://www.reddit.com/r/StableDiffusion/comments/1xdim6w/information_post_about_what_are_the_unlocks_for/> · 134u 59% throughput on 3090 Ti
+  <https://www.reddit.com/r/StableDiffusion/comments/1xdoh8k/i_tested_the_rtx_30series_gpu_unlock_up_to_59/>
+- **MOSS cluster** (user opted out of checking): 229u tips
+  <https://www.reddit.com/r/StableDiffusion/comments/1xe1nmu/a_few_tips_for_moss/> · 226u char-LoRA results
+  <https://www.reddit.com/gallery/1xeunzs> · 197u showcase
+  <https://www.reddit.com/gallery/1xd9o13> · 166u variety tests
+  <https://www.reddit.com/gallery/1xg29si> · 159u "nailed Moss char loras"
+  <https://www.reddit.com/r/StableDiffusion/comments/1xfu2d6/huge_shoutout_to_shootthesound_and_fizgig_i/> · 152u hype-psyop debate
+  <https://www.reddit.com/r/StableDiffusion/comments/1xdoqfm/was_the_moss_hype_a_psyop_or_am_i_missing/> · 144u MOSS-Image-Edit-HQ v3
+  <https://www.reddit.com/gallery/1xdwo6o>
+- **HF new:** LiquidAI **LFM3-Omni-2B (206)** <https://huggingface.co/LiquidAI/LFM3-Omni-2B> +
+  **LFM3-VL-2B (167)** <https://huggingface.co/LiquidAI/LFM3-VL-2B> (b11960 runs LFM3
+  natively → optional local tests) · nvidia/PhysicalAI-Autonomous-Vehicles-Foundation4D (30)
+  <https://huggingface.co/nvidia/PhysicalAI-Autonomous-Vehicles-Foundation4D> · nvidia/Granary-v2 (25)
+  <https://huggingface.co/nvidia/Granary-v2>
+- **Civitai: no new ADOPT candidates** — same top 10 (all author-named):
+  Gladas Krea 2 Turbo 3,250 dl <https://civitai.com/models/2807513> · kimimorgam
+  char-replace 2,604 <https://civitai.com/models/2843905> · Dasiwa Xtra 2,141
+  <https://civitai.com/models/2861921> · LTX 2.3 Director 2,053
+  <https://civitai.com/models/2677668> · H3+Ultimate Upscale 1,769
+  <https://civitai.com/models/2901854> · ReDetail 2.0 1,715
+  <https://civitai.com/models/2857731> · H3 Infinite Iteration 1,497
+  <https://civitai.com/models/2895239> · Krea 2 Workflows 1,455
+  <https://civitai.com/models/2896885> · H3 Looping 1,301
+  <https://civitai.com/models/2873520> · Gladas Anima 1,233
+  <https://civitai.com/models/2814428>. newloras = same legacy set → **NO ADOPT**.
 
 **ACTION ITEMS (new today):**
 1. **Pika Labs H3 finetune** (227u) + **NVIDIA Open-H3-Regenerate-2K** (168u)
@@ -78,32 +100,44 @@ time in 3 days (machine awake) — 96 new items, no manual fetch needed.**
 **New relevant items (vs 10-28 baseline):**
 - **1275u "RTX 3000 series can run BF16 almost 2× faster — NVIDIA locked it
   via kernel, not a hardware limit"** — day's top post; GPU-unlock cluster
-  continues (Blackwell still excluded → N/A for our 5090, but the kernel-lock
-  mechanism is confirmed).
-- **993u "Krea 2 king of styles!"** — adoption signal for our Krea2 base.
+  continues (Blackwell still excluded → N/A for our 5090) —
+  <https://i.redd.it/9ew6udlf83xh1.png>
+- **993u "Krea 2 king of styles!"** — adoption signal for our Krea2 base —
+  <https://www.reddit.com/gallery/1xfeonr>
 - **511u "Openjutsu — one-click character swap (ComfyUI Higgsfield
   challenge)"** — character-swap node pack → ADOPT candidate for our
-  charswapmask chain.
+  charswapmask chain — <https://v.redd.it/1p0n1b05l0yh1>
 - **406u "Character Reference for Anima is released!"** — Anima ecosystem
-  (our Gladas Anima candidate workflow).
+  (our Gladas Anima candidate workflow) — <https://www.reddit.com/gallery/1xhfyso>
 - **296u "H3 Relay Hires node: 0.5 → 2 MP upscaler, ~4× faster than native"**
-  — H3 pipeline **ADOPT candidate**.
+  — H3 pipeline **ADOPT candidate** — <https://v.redd.it/kccwx11iu4yh1>
 - **297u "PixText: small fast model for fixing text in generated images"** —
-  text-fix tool for our title compositing.
+  text-fix tool for our title compositing — <https://www.reddit.com/gallery/1xd9186>
 - **225u "Krea2 BBOX models have finished training and been released"** —
-  Krea2 ecosystem expansion (bounding-box conditioning).
+  Krea2 ecosystem expansion (bounding-box conditioning) —
+  <https://www.reddit.com/gallery/1xh6gar>
 - **252u "testing minimax h3 ref2va with my ps2 style lora"** — validates our
-  ref2va + style-LoRA technique · 271u H3 SLA + 8-step-LoRA
-  lighting/physics tests.
-- **306u "PSA: 10Eros-Max Beta 7 is out"** — new SD-family checkpoint.
-- **MOSS cluster** (346u sft-normal-people, 253u MOSS-Image-Edit LoRA, 228u
-  tips) — noted; user opted out of MOSS-image checking.
-- **HF new:** tencent/Hy-SimulMT-30B-A3B-FP8 (380) · openbmb/MiniCPM-OCR-1.0
-  (278) · NVIDIA-Nemotron-3.5-Transcribe-30B-A4B (205 — speech-to-text,
-  D041-safe input-side) · secemp9/arxiv-complete dataset (744).
-- **Civitai: no new ADOPT candidates** (same top 10, downloads rising: Gladas
-  Krea 2 Turbo 3,225 · kimimorgam char-replace turbo 2,588 · ReDetail 2.0
-  1,713 — authors now show real names). newloras still the legacy
+  ref2va + style-LoRA technique — <https://v.redd.it/fp7snoz784xh1> · 271u H3
+  SLA + 8-step-LoRA lighting/physics tests — <https://v.redd.it/fki8d6xp6gxh1>
+- **306u "PSA: 10Eros-Max Beta 7 is out"** — new SD-family checkpoint —
+  <https://huggingface.co/TenStrip/10Eros-Max>
+- **MOSS cluster** (user opted out of MOSS-image checking): 346u
+  sft-normal-people <https://i.redd.it/npmhi04nt8xh1.png> · 253u MOSS-Image-Edit LoRA
+  <https://i.redd.it/aonldybzc1xh1.png> · 228u tips
+  <https://www.reddit.com/r/StableDiffusion/comments/1xe1nmu/a_few_tips_for_moss/>
+- **HF new:** tencent/Hy-SimulMT-30B-A3B-FP8 (380)
+  <https://huggingface.co/tencent/Hy-SimulMT-30B-A3B-FP8> · openbmb/MiniCPM-OCR-1.0
+  (278) <https://huggingface.co/openbmb/MiniCPM-OCR-1.0> ·
+  NVIDIA-Nemotron-3.5-Transcribe-30B-A4B (205 — speech-to-text, D041-safe
+  input-side) <https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B> ·
+  secemp9/arxiv-complete dataset (744) <https://huggingface.co/secemp9/arxiv-complete>
+- **Civitai: no new ADOPT candidates** (same top 10, downloads rising, authors
+  now show real names): Gladas Krea 2 Turbo 3,225
+  <https://civitai.com/models/2807513> · kimimorgam char-replace turbo 2,588
+  <https://civitai.com/models/2843905> · ReDetail 2.0 1,713
+  <https://civitai.com/models/2857731> · Dasiwa Xtra 2,136
+  <https://civitai.com/models/2861921> · LTX 2.3 Director 2,051
+  <https://civitai.com/models/2677668>. newloras still the legacy
   SD1.5/SDXL/Pony set → **NO ADOPT**.
 
 **ACTION ITEMS (new today):**

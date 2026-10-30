@@ -1626,6 +1626,7 @@
 - **Rule of thumb:** any future "this source is walled" conclusion must prove the browser tier failed AND (login walls) that the session cookie is unset. A "source failure" line in a digest names which tier failed and which tier to try next — never just "unavailable".
 - **Persisted for future sessions:** `AGENTS.md` → "CRITICAL: A source is never 'unavailable'" section (standing ladder + gotchas).
 - **Status:** ACTIVE. X = awaiting `X_AUTH_TOKEN`/`X_CT0` from the user (one-time, same as the Reddit cookie).
+- **Addendum 2026-10-30 (user: "keep the url in the daily watch so it is easy to check"):** every relevant-item line in a `DAILY_WATCH.md` block carries its **source URL** (reddit / X / civitai / HF) in angle-bracket form, taken from the `url:` frontmatter of the `rag/news/<date>/<source>_*.md` files (present on 100% of files; X tier stores tweet URLs the same way when it works). 10-29 + 10-30 blocks retro-fitted. Rule persisted in the `DAILY_WATCH.md` header AND in the daily reminder `schedule-6479d179` prompt (which also gained a schtask health-check step: re-run `daily.py --news-only` if `daily_<date>.log` lacks the "done" line or `LastTaskResult` ≠ 0 — the 10-30 run was killed at ~08:06 with exit 267009 = SCHED_S_TASK_TERMINATED, fetch+index had completed).
 
 ## D204 — llama.cpp in-place upgrade pattern (same folder, zero config edits) — 2026-10-29
 
