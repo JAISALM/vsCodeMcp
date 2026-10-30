@@ -2272,3 +2272,18 @@ staged VRAM, graph breaks, output duration/res/audio, and visual quality per rou
 - **Aspect-ratio finding (user: "only the 4th was portrait, others wide cinematic — not sure why"):** D = i2v route inherits the FIRST FRAME's aspect: `char1_sheet.png` is **1152×2048 PORTRAIT** → D output portrait. A/B/C are pinned to 1376×768 (ResolutionSelector widescreen) regardless of refs. Fix if D should be widescreen: feed a widescreen first frame (resize char1_sheet to 1376×768 cover-crop) or set the template's resolution node.
 - **USER VERDICT: "I really liked the output of the 3rd one (C) with and without audio"** → **C (FastH3 OmniRef TEMPLATE, int8 22 GB, audio VAE included) = preferred route** for the pipeline; D stays as the fast i2v option (22 s/it flat).
 - A/B/C/D test CLOSED (D200 resolved).
+
+## 2026-10-30 (2) — Pika H3 Flex ref2va speed runs (user ran `pika_h3_flex_ref2va_LOCAL.json`, 5 s + 15 s, 1 MP)
+
+**User concern:** "114 s for 5 s and 552 s for 15 s are too much at 1 MP — this is not faster than H3, we must've messed something up; 1.8× means 15 s within ~100 s since C did 15 s 1 MP in ~129 s."
+
+**Run data (console):** 5 s: `6/6 [01:19, 13.18 s/it]`, Prompt executed **114.40 s** · 15 s: `6/6 [08:43, 87.31 s/it]`, Prompt executed **552.86 s** · graph breaks 0 / rogues 0 both · MiniMaxH3 19,995 MB staged (same base as B) + AudioVAE 576 MB + VideoVAE 2,677 MB · sampling = 79.1 s / 523.9 s → **overhead (text-enc + VAE decodes + save) is flat ~29-35 s**.
+
+**DIAGNOSIS — nothing is broken; the expectation was based on a misread benchmark:**
+1. **Contract executed exactly:** 6/6 NFE (six-NFE official contract ✓), graph breaks 0, same base file as B (`minimax_h3_ref2va_pruned_int8_convrot`, B = 36.74 s/it @15 s).
+2. **The "1.8× faster / 7 s for 15 s" claims are NOT local single-card metrics** (thehype.news deep-dive): 7 s = **DiT-compute-only on 8×B300**, and 1.8× is vs **fal H3Max** (a different model), both at 768p, text-encoding + VAE decode excluded. Independent single-card estimate for 5 s @1344×768 ≈ **~1 min** — our 114.4 s 5 s run matches it.
+3. **15 s superlinear = attention physics, not a bug:** frames 124→362 (2.92×) → per-step 13.18→87.31 s/it (6.62×; linear would be 2.92×, quadratic 8.52×) — video-DiT attention is ~quadratic in sequence length. Same physics made C jump 16.2→63.27 s/it with the video ref.
+4. **Apples-to-apples vs C:** C 15 s no-video = **166.1 s** controlled (first-pass ~131 s — the user's "129 s" memory) → pika 15 s = **3.3× SLOWER than C total** (per-step 87.3 vs 16.2 = 5.4×). Why: **different distillation targets** — pika distills the **FULL H3 model** (expensive per-step, cheap NFE: 50→6 = **8.3× vs vanilla H3 locally**, 4365→524 s at 15 s), while C's `fasth3_omniref` base is the **fasth3 turbo architecture** (cheap per-step). Pika's value prop = quality/motion at 6 NFE (community: "new king turbo", "handles motion better than any turbo"), NOT raw speed vs our fasth3 routes.
+5. **Per-step gap vs community 5090 report:** community got **8 s/it** (5 s 1 MP) **with the Comfy-Kitchen-Attention pack** — we don't have it installed → our 13.18 s/it is ~1.65× off, consistent with the missing pack.
+
+**Verdict:** workflow correct, no re-run needed for correctness. Speed levers for pika locally: (1) **install Comfy-Kitchen-Attention pack** (user decision — custom node; biggest single lever, community 5090 numbers), (2) **480p native mode** for fast iteration (halves tokens/frame → much cheaper per-step), (3) **use pika for short/quality shots, C for 15 s clips** (C remains the 15 s speed king). Quality verdict on the 5 s/15 s pika outputs = pending user comment.
