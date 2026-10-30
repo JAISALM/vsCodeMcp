@@ -4,6 +4,15 @@ Newest changes first.
 
 ---
 
+## 2026-10-30 — `krea2_turbo3step_LOCAL.json` — KREA2 TURBO 3-STEP DISTILL, JASAIL i2i (validate clean 0/0, user-run pending)
+
+- **Built from** the author's `krea2_turbo_3step_lora_t2i.json` (lvladikov, 11 nodes stock-only — kept untouched as reference; both mirrored to repo `workflows/`). **Changes only:** (1) CLIP → `qwen3vl_4b_fp8_scaled` (ours; author's bf16 4b not present — fp8 text-enc fine on NVIDIA); (2) t2i→**i2i**: deleted `EmptyLatentImage`, added `LoadImage` (`char1_sheet.png`, native shape with upload input) + `VAEEncode` → KSampler latent slot, **denoise 0.7** (was 1.0); (3) prompt → Jaisal rainy street (D137, single-character duplicate-quirk guard); (4) SaveImage prefix `krea2_3step_`; (5) note updated.
+- **Untouched (author's contract):** UNET `krea2_turbo_bf16` (24.5 GB — swap to `krea2_turbo_fp8_scaled` 12.2 GB to halve VRAM; author: fp8 fine on NVIDIA, only cost = some fine detail) · LoRA `krea2_turbo_3step_rank_64_lora_comfyui` @ **1.0** (downloaded 0.41 GB, top-level loras/ → bare combo name) · VAE `qwen_image_vae` (official — already present) · KSampler **3 steps / cfg 1.0 / euler / simple**. **cfg 1.0 = no guidance** (Turbo is CFG-free); **cfg 0.0 in ComfyUI is NOT off — it drops the prompt and breaks the image**.
+- **VALIDATE CLEAN** (0/0, live object_info). **GOTCHA (permanent): this ComfyUI's `VAEEncode` input is named `pixels`, not `images`** — native-shape builders must use `pixels` (validation error `required_input_missing: pixels` otherwise).
+- **Author's known issues (chk00012000):** texture ~1.15× stronger than the 8-step teacher (grain 1.56×), faint doubled edges (hair/rain/thin limbs, worst at 768×1024/1024×768), occasional doubled parts, small faces in crowds weakest, 3 steps at same seed ≠ the 8-step picture. Strength dial is narrow: <1.0 = under-applied, 1.0 = trained point, 1.5 = extrapolation, >1.5 unmeasured.
+- **Bonus mode (author):** same LoRA on `krea2_raw_bf16` (we have it) at **13 steps CFG 3.5** — unsupported, CFG must stay on (Raw falls apart at cfg ≤1).
+- **Status:** awaiting user Enter. char1_sheet.png confirmed in the running server's input/. Benchmark context: 3 steps vs our 8-step stock / 10-step identity-edit Krea2 routes; the sheet is multi-panel (1152×2048 — off the author's trained 512×768…1440×1440/1824×1024 grid; in-distribution = 768×1024/960×1280-class sizes).
+
 ## 2026-10-30 — `pika_h3_flex_ref2va_LOCAL.json` — PIKA REF2V WIRED FOR JASAIL (validate clean 0/0, user-run pending)
 
 - **Built from** the official `video_pika_h3_flex_ref2va.json` template (22→20 nodes after edits). **Changes only:** (1) node 149 `LoadImage` → `char1_sheet.png` = `<Picture 1>` (Jaisal identity); (2) second ref (node 150 `ref_subject_station.png` + link 298) **deleted** (single-ref per D020 — same setup as the user's favorite C route); (3) node 138 prompt → Jaisal street scene, R2V 6-section (D017) + D041 ambient-only (`NO music…` in non_diegetic_music); (4) node 92 SaveVideo prefix `pika_ref2va_`; (5) node 117 note updated; (6) **node 145 LoRA widget → `pika_h3_flex\pika_h3_flex_ref2va_v1_bf16.safetensors`** (folder prefix — see gotcha below).
