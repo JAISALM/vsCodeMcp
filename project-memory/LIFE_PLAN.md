@@ -10,14 +10,17 @@
 
 ## The 4 pillars (user's list)
 1. **Quran + Arabic from scratch** — cannot read the script yet (learned before, forgot completely). Path: letters/joining → Juz Amma (short surahs) → daily recitation + translation. 30–45 min/day fixed block. Once learned: stay in touch, keep Arabic alive.
+   - **Teacher (user, 10-30):** none yet — **Phase 1 (wk 1–4):** apps (Tarteel + Quran.com word-by-word), 30 min/day, self-check. **Phase 2: sister or mother** checks once words are proper. Motivation (his own words): kids around — "dont want them to look at their uncle who doesnt have any idea on arabic but yet prays 5 times a day." **Knows a few surahs by heart** = anchors for the new reading. **Prays 5×/day** — he already runs a 5×/day consistency system (fixed times, small units, non-negotiable); the plan just adds 3 more to the same system. Daily-consistency capacity is PROVEN by the salah rhythm.
 2. **Complete the film** — Jaisal project: pending tasks (see PENDING_ITEMS.md), scripts, pipeline. **The pipeline IS the interview practice** (see pillar 3).
 3. **Job / interview prep** (Java dev → remote, > 11 LPA, by March 2027). Items the user has:
    - **NeetCode 150** = **the SPINE.** 150 finite problems ≈ 1/day over ~5 months, or lock-in bursts. Every technical interview starts here.
+   - **DSA baseline (user, 10-30):** never did LeetCode. Symptoms: start→drop · memorizes rather than logic · "on the verge of completing the task rather than learning by it." Once finished a 48-hr DSA video course + has a DSA book (wrote algorithms/problems/steps) — now remembers nothing. **NOT a noob** — knows basics. **Needs: pattern recognition (when to use which) + problem-decomposition thinking.** NeetCode 150 is organized BY PATTERN = exact fit. **The fixes:** (1) each pattern learned as TRIGGER (what in the problem statement signals it) + SKELETON template + 1 new problem without peeking; (2) unit of success = "explain the trigger + write skeleton from memory + solve a NEW problem" — NOT "completed problem X"; (3) daily floor (1 problem, 45–60 min) — 48-hr marathons = burst without floor = no residue; (4) spaced revisit of old patterns after 1 week.
    - **System Design** (has the book) = what separates 11 LPA from 25–40 LPA + remote/product roles. Start after ~50 NeetCode problems, or 20 min/day in parallel.
    - **React / frontend** = **the multiplier.** Java backend + React = full-stack/product profile = the higher-paying remote offers. Build 1–2 real small projects — **the "guide" UI for the film pipeline** (bridges pillar 2).
    - **Concurrency + GoF Design Patterns** (has both books) = **depth, not a separate finish line.** Read as reference while doing system design / building the pipeline (thread pools, job queues, async). Don't "finish" them as books.
    - **UNIFYING INSIGHT (agent):** the film pipeline is a REAL system — model serving, VRAM management, job queues (concurrency), orchestration (system design), and a React "guide" UI (frontend). **One body of work, two payoffs: the film AND the interview prep.** Don't treat film and job-prep as two separate lives.
-4. **Body** — 60 kg / 175 cm, already lean. Pushup **LADDER** to 100/day (end target, not day 1 — 2–3 week ramp), pull-ups to 20/day, core 3–4×/week, protein. 6-pack = consistency + diet. Once in shape: just maintain pushups.
+4. **Body** — 60 kg / 175 cm, already lean. Pushup **LADDER** to 100/day (end target, not day 1), pull-ups to 20/day, core 3–4×/week, protein. 6-pack = consistency + diet. Once in shape: just maintain pushups.
+   - **Body numbers (user, 10-30):** currently **20 max consecutive pushups** (not a noob); uses the **"Pushups" app** (face-to-screen count, sets, timer) — good, keep it. **Fasts Mon + Thu → no training those days** (ladder designed around 5 training days/week). Pattern = 1 month on, 6 months off (same consistency disease). Ladder: single-set max 20 → 30 → 50 → 100 over ~10–12 weeks. **Pullup number still missing — ask tomorrow with book titles.**
 
 ## Rules (user's own + agent framing)
 - **CONTINUITY IS KEY** (user's words) — daily fixed blocks, small but constant. Islamic engine: "the most beloved deeds to Allah are the constant ones, even if small."
@@ -37,8 +40,16 @@
 **Surface this proactively whenever frustration shows. Remember it often.**
 **Context reminder for frustration moments:** this is a CALCULATED risk (quit with an offer in hand, declined it; 6–8 month runway; 6.5 L rig built) — the calculation still stands; consistency IS the execution side of it. The 6.5 L is sunk — the bar is "out-earn the Accenture offer," not "recover the 6.5 L."
 
+## Body clock + root pattern + accountability (user, 10-30)
+- **Body clock:** currently sleeps ~11 PM; Fajr + sometimes tahajjud; fasting days (Mon/Thu) = automatic wake anchors. Target (his own words): **in bed by ~10:30 PM → cumulative 7 hrs → wake ~4 AM** ("7 hours is enough honestly"). Post-Fajr short nap OK (cap 45–60 min so it doesn't eat the night). **Nov 7+ = clock-reset week:** 7 nights of the 10:30 rule, phone outside the bedroom. **Don't "fix the clock" as a heroic act — fix the sleep ONSET; the wake follows** (his exam-era loop kept spinning because he fixed the wake and ignored the onset). 4 AM waking was never his problem.
+- **Root pattern (his own words):** urgency-driven late-night work (exam era: slept 12 AM, studied 12 AM–3 AM, "urgency to kick in") = a **hiding behavior — "afraid of something and try to hide it with this behavior maybe."** Hiding only works while unseen → naming it + the one-line check-in = visibility = the cure.
+- **Redemption arc (his own words):** "apology to myself for all the things i could have become — not because of the lack of knowledge or interest." Keep as context for the frustration protocol.
+- **Accountability (his own words):** "i dont have a friend whom i cn share these kind of things" → **his one-line check-in to the agent is the floor**: opening the GUI and typing the line (even "pushups done, 1 problem, fajr") is the check-in itself; a day that ends without opening it is DATA, not failure. Sister = Quran Phase-2 human. "Uncle who can read" image = fuel.
+- **Books:** exact titles coming from the user (10-31) → read/skip map pending.
+
 ## Timeline anchors
 - **2026-10-30:** plan written (relapse + decision day).
+- **2026-10-31 (fasting day):** body-clock rehearsal — wake for Fajr, post-Fajr sleep capped ~45–60 min, **in bed by 10:30 PM** (start the onset rule NOW, not Nov 7).
 - **2026-11-06:** last working day.
 - **2026-11-07 / 09:** plan starts (user: "from NOV 7th onwards, or maybe NOV 9th").
 - **2026-11 → 2027-03:** 3–4 months consistency. NeetCode 150 spine + system design + React + film pipeline (one unified body of work).
