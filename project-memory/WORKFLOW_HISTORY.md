@@ -4,6 +4,15 @@ Newest changes first.
 
 ---
 
+## 2026-10-30 — `video_pika_h3_flex_{ref2va,fl2va,t2v}.json` — PIKA H3 FLEX templates downloaded (D205, user-run pending)
+
+- **What:** Pika Labs' open-sourced MiniMax H3 finetune (227u post 2026-10-30, `Pika-Labs/Pika-H3-Flex` on HF + `docs.comfy.org/tutorials/video/pika/pika-h3-flex`). In ComfyUI form = **two bf16 LoRAs** (1.82 GB each, strength 1.0, rank 128 / fused-QKV 384) on the native-layout H3 bases — NOT a checkpoint (the 204.8 GB repo is their Python-diffusers runtime; not downloaded — we own all pieces quantized).
+- **LoRAs:** `E:\ComfyUI_windows_portable\ComfyUI\models\loras\pika_h3_flex\` — `pika_h3_flex_ref2va_v1_bf16.safetensors` + `pika_h3_flex_fl2va_v1_bf16.safetensors` (**renamed from Pika's `_comfy_bf16` names to the `_v1_bf16` names the templates' `LoraLoaderModelOnly` widgets expect**; SHA256 PASS vs Pika's `SHA256SUMS`, kept in-folder).
+- **Templates:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\` — from `Comfy-Org/workflow_templates` (UI format; fl2va/t2v are subgraph templates, instance node `79dd8a95-ce9d-4c14-b264-2162e8bec5ce`, 20 inner nodes). **Pre-wired to our files:** ref2va → `minimax_h3_ref2va_pruned_int8_convrot` (19.5 GB) · fl2va/t2v → `minimax_h3_fl2va_pruned_int8_convrot` (19.5 GB) · `minimax_h3_video_vae_int8_convrot` (2.6 GB) + `minimax_h3_audio_vae_fp32` (0.6 GB) — all present.
+- **Sampling contract (do NOT touch):** ManualSigmas six-NFE knots `1000/750/500/250/100/40/0` + video shift 12 + audio shift 3 + fresh intermediate noise, via `SamplerCustomAdvanced` + `BasicGuider` — a generic 6-step sampler does NOT reproduce it.
+- **Caveats:** Pika's README: end-to-end ComfyUI render NOT verified by them (tensors were). License = MiniMax H3 Community (derivative). Unpruned 31.7 GB fl2va base = optional later A/B.
+- **Status:** awaiting user ComfyUI restart (model-cache refresh so the loras appear) → run ref2va (char1_sheet ref + optional distracted_guide.mp4 motion ref, same Jaisal prompt as A/B/C/D) and fl2va (first-frame driven) → compare vs A/B/C/D baselines (C 16.2 s/it no-video / 569.8 s with-video = user favorite; B 36.7 s/it; D 22.2 s/it). Console checks: LoRA load line, graph breaks 0, no missing-module warnings.
+
 ## 2026-10-25 — `minimaxH3BackgroundSwap_v21a_LOCAL.json` — GREEN RUN (allocator fix CONFIRMED live)
 
 - **User run 10:34–10:54 IST** (after the restart whose args carried `--disable-cuda-malloc`): SyncTile **30 regions** (10 tiles × 3 windows), canvas 2208×2848, 226 frames → completed ~22:50 total; output `output\Bruxos\teste_v001.mp4` (226 f 1104×1424, seed 454958688991025). **No `resource already mapped`** — the allocator fix (bat flag + upscaler sync patch) is PROVEN. SyncTile Stream Decode warned 15.9 GB needed vs 12.9 GB RAM free → it fell back to **half-resolution IMAGE decode** (harmless).
