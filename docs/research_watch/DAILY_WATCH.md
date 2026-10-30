@@ -6,6 +6,66 @@ how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
 
+## 2026-10-30
+
+**Sources:** Reddit ✅ HTML tier (SD 1 new/25, artificial 25 new/25, LocalLLaMA +
+ComfyUI 0 new — all 403-JSON walled as usual; **comfyui_workflows GATED 6th
+day** — browser tier rendered no shreddit cards) · HF ✅ 16 items · Civitai ✅
+85 items (author tier production: named authors throughout) · X ❌
+login-walled (7 accounts, browser tier ran, no `X_AUTH_TOKEN`/`X_CT0`).
+**Pipeline note:** 08:00 schtask fetched + indexed (199 items) then got
+**TERMINATED ~08:06** (exit 267009 = SCHED_S_TASK_TERMINATED — likely machine
+sleep; only the final log line was lost). 08:13 manual re-run confirmed
+idempotent completion: 0 new items, 0 newly indexed, store 1,218.
+
+**New relevant items (vs 10-29 baseline):**
+- **445u "Qwen3.8-Flash-Next tried to send a diagnostic file to a remote
+  location, while stating otherwise"** — privacy/security post about our Qwen
+  family running locally — quick read.
+- **434u "TokenGate (Stanford/Berkeley): token-gated attention for long-context
+  prefill"** — prefill speed tech relevant to our 260K ctx.
+- **227u "New MiniMax H3 Finetune by Pika Labs"** — H3 pipeline ADOPT candidate.
+- **168u "NVIDIA's new Open-H3-Regenerate-2K"** — H3 2K regeneration.
+- **212u "Qwen Image 2.1 + TRELLIS.2 in Blender: prompt → textured rigged
+  character → village"** — Qwen Image 2.1 + 3D pipeline signal.
+- **184u "Flux 3 Image is #1 model"** — Flux 3 image release chatter.
+- **197u "Interactive neuron steering playground for Qwen3.5-4B on WebGPU
+  locally"** — interesting interpretability tool.
+- **290u/1228 mistralai/Mistral-Large-4-1T-A52B** — day's top HF model (1T
+  MoE — far beyond 32 GB; noted, not runnable here).
+- **GPU-unlock cluster continues** (175u "lower power limit when unlocked" ·
+  143u info post on which consumer cards/tasks · 134u "59% higher throughput
+  on 3090 Ti") — all 30-series; Blackwell excluded → N/A for our 5090.
+- **MOSS cluster** (229u tips · 226u char-LoRA results · 197u showcase · 166u
+  variety tests · 159u "nailed Moss char loras" · 152u hype-psyop debate · 144u
+  MOSS-Image-Edit-HQ v3) — noted; user opted out of MOSS checking.
+- **HF new:** LiquidAI **LFM3-Omni-2B (206) + LFM3-VL-2B (167)** — new LFM3
+  variants (b11960 runs LFM3 natively → optional local tests) ·
+  nvidia/PhysicalAI-Autonomous-Vehicles-Foundation4D (30) · nvidia/Granary-v2
+  (25).
+- **Civitai: no new ADOPT candidates** — same top 10 (Gladas Krea 2 Turbo
+  3,250 dl · kimimorgam char-replace 2,604 · Dasiwa Xtra 2,141 · LTX 2.3
+  Director 2,053 · H3+Ultimate Upscale 1,769 · ReDetail 2.0 1,715 · H3
+  Infinite Iteration 1,497 · Krea 2 Workflows 1,455 · H3 Looping 1,301 ·
+  Gladas Anima 1,233 — all author-named). newloras = same legacy set →
+  **NO ADOPT**.
+
+**ACTION ITEMS (new today):**
+1. **Pika Labs H3 finetune** (227u) + **NVIDIA Open-H3-Regenerate-2K** (168u)
+   — inspect for the H3 pipeline.
+2. **TokenGate** (434u) — read for long-context prefill implications (260K ctx).
+3. **Qwen3.8-Flash-Next diagnostic-file post** (445u) — quick read (Qwen
+   family, local-trust angle).
+4. **LFM3-Omni-2B / VL-2B** — small, native on b11960 — optional test.
+5. Carried: X cookies (`X_AUTH_TOKEN`/`X_CT0`) · H3 Relay Hires / Openjutsu /
+   Krea2 BBOX / PixText reads · candidate-model tests (DeepSeek-V4.1-Flash /
+   flint) · 3 Civitai adopt-tests.
+
+**SOURCE FAILURES (tier status per D203):** X — tier 3 login-walled (browser
+ran; no cookies set). r/comfyui_workflows — browser tier GATED 6th day. Reddit
+JSON 403 all subs (HTML tier carries 4/5). redlib mirrors dead (410). Civitai
+author tier ✅ production (all top-10 author-named).
+
 ## 2026-10-29
 
 **Sources:** Reddit ✅ HTML tier (SD 49 + LocalLLaMA 47 + ComfyUI 25 +
