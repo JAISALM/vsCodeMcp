@@ -4,6 +4,14 @@ Newest changes first.
 
 ---
 
+## 2026-10-30 — `pika_h3_flex_ref2va_LOCAL.json` — PIKA REF2V WIRED FOR JASAIL (validate clean 0/0, user-run pending)
+
+- **Built from** the official `video_pika_h3_flex_ref2va.json` template (22→20 nodes after edits). **Changes only:** (1) node 149 `LoadImage` → `char1_sheet.png` = `<Picture 1>` (Jaisal identity); (2) second ref (node 150 `ref_subject_station.png` + link 298) **deleted** (single-ref per D020 — same setup as the user's favorite C route); (3) node 138 prompt → Jaisal street scene, R2V 6-section (D017) + D041 ambient-only (`NO music…` in non_diegetic_music); (4) node 92 SaveVideo prefix `pika_ref2va_`; (5) node 117 note updated; (6) **node 145 LoRA widget → `pika_h3_flex\pika_h3_flex_ref2va_v1_bf16.safetensors`** (folder prefix — see gotcha below).
+- **Untouched (official contract):** UNETLoader `minimax_h3_ref2va_pruned_int8_convrot` (19.5 GB) · LoRA @ **1.0** · `KSamplerSelect=lcm` + `ManualSigmas=1.0, 0.972973, 0.923077, 0.8, 0.571429, 0.333333, 0.0` (six-NFE) · `SamplerCustomAdvanced`+`BasicGuider` · VAEs `minimax_h3_video_vae_int8_convrot` + `minimax_h3_audio_vae_fp32` · CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq` · 5 s (124-frame grid) @ 1344×768 (16:9) · RandomNoise.
+- **VALIDATE CLEAN** (0 errors / 0 warnings / no partner nodes / no spend, live object_info 127.0.0.1:8188). Repo mirror `D:\models\vsCodeMcp\workflows\`.
+- **GOTCHA (permanent):** the running ComfyUI **recursively scans lora subfolders** and lists them with the folder prefix — a bare filename in the combo widget fails validation (`unknown_enum_value`; closest = `pika_h3_flex\pika_h3_flex_ref2va_v1_bf16.safetensors`). Files placed in `loras\<subfolder>\` must be referenced as `subfolder\file.safetensors`. **No server restart needed** — the live catalog already saw the new files.
+- **Status:** awaiting user queue. Baselines to beat/compare: C = 16.2 s/it no-video / 569.8 s with-video (user favorite) · B = 36.7 s/it. Console checks: LoRA load line, graph breaks 0. Optional variants: UNETLoader → `Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8` (community recipe #12, quasi-3D live-action look); add `ref_videos` for motion ref; Comfy-Kitchen-Attention pack not installed (community's 8 s/step 5090 report uses it).
+
 ## 2026-10-30 — `video_pika_h3_flex_{ref2va,fl2va,t2v}.json` — PIKA H3 FLEX templates downloaded (D205, user-run pending)
 
 - **What:** Pika Labs' open-sourced MiniMax H3 finetune (227u post 2026-10-30, `Pika-Labs/Pika-H3-Flex` on HF + `docs.comfy.org/tutorials/video/pika/pika-h3-flex`). In ComfyUI form = **two bf16 LoRAs** (1.82 GB each, strength 1.0, rank 128 / fused-QKV 384) on the native-layout H3 bases — NOT a checkpoint (the 204.8 GB repo is their Python-diffusers runtime; not downloaded — we own all pieces quantized).
@@ -11,7 +19,7 @@ Newest changes first.
 - **Templates:** `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows\` — from `Comfy-Org/workflow_templates` (UI format; fl2va/t2v are subgraph templates, instance node `79dd8a95-ce9d-4c14-b264-2162e8bec5ce`, 20 inner nodes). **Pre-wired to our files:** ref2va → `minimax_h3_ref2va_pruned_int8_convrot` (19.5 GB) · fl2va/t2v → `minimax_h3_fl2va_pruned_int8_convrot` (19.5 GB) · `minimax_h3_video_vae_int8_convrot` (2.6 GB) + `minimax_h3_audio_vae_fp32` (0.6 GB) — all present.
 - **Sampling contract (do NOT touch):** ManualSigmas six-NFE knots `1000/750/500/250/100/40/0` + video shift 12 + audio shift 3 + fresh intermediate noise, via `SamplerCustomAdvanced` + `BasicGuider` — a generic 6-step sampler does NOT reproduce it.
 - **Caveats:** Pika's README: end-to-end ComfyUI render NOT verified by them (tensors were). License = MiniMax H3 Community (derivative). Unpruned 31.7 GB fl2va base = optional later A/B.
-- **Status:** awaiting user ComfyUI restart (model-cache refresh so the loras appear) → run ref2va (char1_sheet ref + optional distracted_guide.mp4 motion ref, same Jaisal prompt as A/B/C/D) and fl2va (first-frame driven) → compare vs A/B/C/D baselines (C 16.2 s/it no-video / 569.8 s with-video = user favorite; B 36.7 s/it; D 22.2 s/it). Console checks: LoRA load line, graph breaks 0, no missing-module warnings.
+- **Status:** NO restart needed (the live catalog already lists the subfolder loras with the `pika_h3_flex\` prefix — see the `_LOCAL` entry above). → run `pika_h3_flex_ref2va_LOCAL.json` (Jaisal-wired) and fl2va (first-frame driven) → compare vs A/B/C/D baselines (C 16.2 s/it no-video / 569.8 s with-video = user favorite; B 36.7 s/it; D 22.2 s/it). Console checks: LoRA load line, graph breaks 0, no missing-module warnings.
 
 ## 2026-10-25 — `minimaxH3BackgroundSwap_v21a_LOCAL.json` — GREEN RUN (allocator fix CONFIRMED live)
 
