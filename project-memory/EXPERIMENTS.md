@@ -2252,3 +2252,23 @@ staged VRAM, graph breaks, output duration/res/audio, and visual quality per rou
   choreography + audio ref).
 - Purpose: phase 1 = each route's raw speed; phase 2 = video-ref cost per route (answers the
   "is B's 74.6 s/it the model or the ref?" question). All 8 files `validate_workflow` clean (0/0).
+
+### RESULTS (user ran all 8, 2026-10-30 morning — order A→B→C→D, both phases)
+
+**Speed table (8/8 steps; total = "Prompt executed" wall time):**
+
+| Route | Base (staged MB) | no-video s/it | no-video total | with-video s/it | with-video total | video-ref cost |
+|---|---|---|---|---|---|---|
+| **A** FastH3 Omni R2V (NVFP4 QAD) | 13,018 | 37.05 / 36.74 | 360.2 / 350.2 s | 71.29 | 653 s (00:10:53) | ~2× |
+| **B** H3 HyperFlow Fast | 13,018 → 19,995 | 36.74 | 350.2 s | 73.75 | 631 s (00:10:31) | ~2× |
+| **C** FastH3 OmniRef TEMPLATE | 21,140 | **16.20** | **166.1 s** | 63.27 | **569.8 s** | ~3.9× |
+| **D** FastVideo H3 i2v | 21,099 | 22.20 | 209.5 s | 22.32 | 211.1 s | ~none |
+
+**Reads:**
+- **C is fastest no-video (16.2 s/it) AND still fastest overall with video (569.8 s < A 653 / B 631)** — despite the OmniRef route's video-ref cost being the steepest (3.9×, vs ~2× for A/B).
+- **D's video ref costs ~nothing** (22.20→22.32 s/it) — the i2v route barely ingests the ref video (first-frame driven).
+- A/B are dead-level twins (37 vs 36.7 s/it no-video; 71.3 vs 73.8 with-video).
+- Compiler: graph breaks 0 for A/B/C (1 for D — its template's subgraph), 0 rogues everywhere.
+- **Aspect-ratio finding (user: "only the 4th was portrait, others wide cinematic — not sure why"):** D = i2v route inherits the FIRST FRAME's aspect: `char1_sheet.png` is **1152×2048 PORTRAIT** → D output portrait. A/B/C are pinned to 1376×768 (ResolutionSelector widescreen) regardless of refs. Fix if D should be widescreen: feed a widescreen first frame (resize char1_sheet to 1376×768 cover-crop) or set the template's resolution node.
+- **USER VERDICT: "I really liked the output of the 3rd one (C) with and without audio"** → **C (FastH3 OmniRef TEMPLATE, int8 22 GB, audio VAE included) = preferred route** for the pipeline; D stays as the fast i2v option (22 s/it flat).
+- A/B/C/D test CLOSED (D200 resolved).
