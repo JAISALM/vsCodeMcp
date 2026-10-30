@@ -4,6 +4,14 @@ Newest changes first.
 
 ---
 
+## 2026-10-30 — `pika_h3_flex_ref2va_kitchen_480p_LOCAL.json` — PIKA REF2V + KITCHEN @ 480p (validate clean 0/0, user-run pending)
+
+- **Built from** `pika_h3_flex_ref2va_kitchen_LOCAL.json` (kitchen chain 145→150→151→126 untouched). **Changes:** (1) `ResolutionSelector` (node 115) **deleted** + its width/height links (276/277) removed; (2) H3 node 136 width/height inputs unhooked and **widgets set to `['', 864, 480, 124, 'match']`** — 864×480 = 0.41 MP, nearest multiple-of-32 to true 480p 16:9 (ResolutionSelector's own multiple was 32); (3) duration stays 5 s via `PrimitiveFloat(132) → ComfyMathExpression(131) → 136.length` (set 132 to 15 for the 15 s run — grid auto 124/362 frames); (4) SaveVideo prefix `pika_480p_`; (5) note updated.
+- **Why:** 480p is Pika's **native** resolution class (in-distribution) and 0.39× the pixels of 1 MP → per-step ~0.2–0.3× → **480p 15 s ≈ ~75–90 s vs ~230 s at 1 MP**; 480p 5 s ≈ ~40–45 s (vs 67 s 1 MP kitchen).
+- **VALIDATE CLEAN** (0/0). Repo mirror `workflows/`.
+- **Upscale pass after (pending user pick):** H3 official latent ×2 (`minimax_h3_latent_upscaler_3d_conv_v1_bf16`, 690 MB, both roots, `comfyui_Minimax_h3_latent_Upscaler` pack — fast, native) · **SeedVR2 sharp 7B** (`models\SEEDVR2\`, 16.5 GB + `ema_vae_fp16`, both roots, `seedvr2_videoupscaler` pack — quality king for hero/final 2K/4K) · LTX-2.5 22B distilled 4K refine (main root only — 21.5 GB int8-convrot + ×2 spatial upscalers + gemma-12b encoder) · RealESRGAN_x4plus/4x-UltraSharp (classic pixel, weak for video).
+- **Status:** awaiting user Enter (5 s first, then duration→15).
+
 ## 2026-10-30 — `pika_h3_flex_ref2va_kitchen_LOCAL.json` — PIKA REF2V + KITCHEN SPARSE ATTENTION (validate clean 0/0, user-run pending)
 
 - **Built from** `pika_h3_flex_ref2va_LOCAL.json` (5 s, 1344×768 = 1 MP, char1_sheet ref, six-NFE LCM contract untouched). **Change: two H3-Optimizations nodes inserted into the model chain** `145(LoRA) → 150(H3MemoryOptimization) → 151(H3SparseAttention) → 126(BasicGuider)`; SaveVideo prefix `pika_kitchen_`.
