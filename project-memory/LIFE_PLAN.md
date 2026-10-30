@@ -2,7 +2,9 @@
 
 **Who:** 27, BTech Computer Science (GPA 7.61), **5 yrs Java developer** (Capgemini 3.3 yrs + Infosys 1.1 yr), codes with AI agents. Knows the basics; "never really interested in programming" until the job. Quit work — **last working day 2026-11-06**. Wants: filmmaker + programmer, remote job paying > 11 LPA, no mediocrity ("mediocrity is not accepted in islam"). Decision day 2026-10-30: relapsed after ~1 month clean, hated it, "i dont want to relapse" — porn out of the equation.
 
-**Cash:** 1.5 L ≈ 3-month runway (money out ~late Jan 2027). Job target is **FLEXIBLE**: "by MARCH is realistic" (user's words) → **3–4 months of consistency from 2026-11-09**. Ramadan 2027 (~early Feb) = the wish, **March 2027 = the realistic target** (not a hard deadline).
+**Cash:** 1.5 L, expenses **15–20k/month** → **6–8 month runway (to ~April–June 2027)** — covers the March target AND the April–May peak; "guide"/freelance work = upside, NOT a survival lifeline. Job target **MARCH 2027** (user: "by MARCH is realistic") → **3–4 months of consistency from 2026-11-09**. Ramadan 2027 (~early Feb) = the wish, March = the realistic target.
+
+**Why he quit (2026-10-30 context):** NOT a simple resignation — had an **Accenture offer in hand, DECLINED it**, then quit. "im not going to settle" — accepting the role would have killed the AI-pipeline investment. **6.5 L sunk** into the rig (PC, AC, other items). **A CALCULATED RISK, not desperation** — the safe fallback was chosen over, deliberately. Bar to beat: rig output must **OUT-EARN the Accenture offer** (do NOT chase "recovering 6.5 L" — that's sunk).
 
 **The trait (user's words):** "ambitious and lazy syndrome" — hyperfocus: "if im interested in something i will go till death to get it done." Burst-type worker: high activation on what's interesting, low default otherwise. **"i know i can."** Design the plan AROUND this: a small daily **FLOOR** (carries the lazy phases) + lock-in **SPRINTS** (the ambition engine rides the bursts). The enemy is NOT laziness — it's **decision fatigue + no floor**.
 
@@ -33,13 +35,16 @@
 5. Ground in the anchor: istighfar + "with the help of Allah."
 6. Reference the trait: "you're a burst worker — this is a lazy-phase valley, not a failure. The floor carries you."
 **Surface this proactively whenever frustration shows. Remember it often.**
+**Context reminder for frustration moments:** this is a CALCULATED risk (quit with an offer in hand, declined it; 6–8 month runway; 6.5 L rig built) — the calculation still stands; consistency IS the execution side of it. The 6.5 L is sunk — the bar is "out-earn the Accenture offer," not "recover the 6.5 L."
 
 ## Timeline anchors
 - **2026-10-30:** plan written (relapse + decision day).
 - **2026-11-06:** last working day.
 - **2026-11-07 / 09:** plan starts (user: "from NOV 7th onwards, or maybe NOV 9th").
 - **2026-11 → 2027-03:** 3–4 months consistency. NeetCode 150 spine + system design + React + film pipeline (one unified body of work).
-- **~2027-01-31:** money out — but job target is **March 2027** (flexible). Bridge if funds run low: film pipeline / freelance "guide" work.
+- **2027-02/03:** verify the market window with posting volume (Feb–Mar) — if job postings surge, the April–May peak is confirmed.
+- **~2027-04/05:** market PEAK window — Indian FY27 starts Apr 1 → budget approvals → hiring waves Apr–Jun; post-March annual reviews → attrition/backfill. Target: **offer by end of March 2027 → join April–May 2027**.
+- **Funds:** 6–8 months → to ~April–June 2027 — covers the target + the peak. No survival bridge needed.
 - **2027-03:** target = remote job (> 11 LPA), inshaAllah. (Ramadan 1448 ~early Feb = the wish, not the hard deadline.)
 - Marriage/house = 2–3 yr horizon — NOT a 3-month variable.
 
