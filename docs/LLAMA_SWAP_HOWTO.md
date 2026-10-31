@@ -53,6 +53,26 @@ them on demand** so they stop fighting over the 5090.
 - `D:\models\qwen\cutover_llama_swap.bat` · `rollback_qwen_direct.bat`
 - `D:\models\qwen\start_qwen_8100.bat` = the permanent manual fallback (untouched)
 
+## Coexisting with ComfyUI + why the MCP still works (the server vs models distinction)
+The ComfyUI **server** is cheap (~2-3 GB idle); **loaded models** are expensive (~20 GB).
+After `/free`, server + Qwen coexist (≈20 GB < 32 GB):
+
+| Time | Qwen (the agent) | ComfyUI | What happens |
+|---|---|---|---|
+| **Chat time** (default) | loaded | server up, **models freed** | agent builds/edits/validates workflows via MCP — all coexists |
+| **Video time** | unloaded | models loaded, user presses Enter | user owns the GUI; agent is offline (agent IS Qwen) |
+| **Transition** | — | `free_comfyui_vram.bat` OR close GUI | one click, then talk to Qwen → auto-loads clean |
+
+- **The MCP needs the SERVER (object_info/validate/inspect), not loaded models** — so
+  "both can't be up" only applies to *loaded models*, which is exactly what the
+  turn-taking serializes. During a video run the user is at the GUI and the agent
+  is unloaded anyway (it can't watch its own run — the run that evicted it).
+- **`D:\models\qwen\free_comfyui_vram.bat`** = `POST http://127.0.0.1:8188/free`
+  (ComfyUI's own unload endpoint; server stays up, models evicted). Run it after a
+  heavy run BEFORE switching back to chat. If it doesn't free enough (orphaned node
+  process squatting), close the GUI instead — or add Berth (stage 2) which names
+  the squatter by PID.
+
 ## "Strata" (from the Reddit thread)
 **Not something we need.** Strata (`Niko1221/Strata`, MIT) is an inference engine
 for **huge MoE models** (e.g. 125B): it splits one checkpoint across GPU VRAM +
