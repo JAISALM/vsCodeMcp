@@ -4,6 +4,9 @@ Newest changes first.
 
 ---
 
+## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — REBUILT AS T2I (~19:5x IST) — AWAITING USER TEST
+Root cause of the "fluke dataset" (11 identical outputs; see EXPERIMENTS): the KSampler base latent was the reference's own VAEEncode (link 73→53 slot 3) at denoise 0.4 → every output ≈ the reference shot + seed noise. **Fix (`utilities\fix_dataset_t2i.py`, backups `*.pre_t2i.bak`):** node 201 `EmptyLatentImage` 1024×1024 → KSampler latent (link 22 rewired 73→201); denoise 0.4 → 1.0; identity path UNCHANGED (patch source latent 73/92, ref_boost 4.0 / ref_boost_a 1.0, `krea2_identity_edit_v1_2` LoRA, grounded encodes 84/85). Both files validate 0/0 (16 nodes, no pruning). **USER:** fresh tab (close old first) → node 200 must show all 10 rows → queue ONE paddy-field prompt → verify setting + face → queue 10. Face drifts → ref_boost 5.5–6.
+
 ## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — PROMPT-EACH WIRE DROPS IN UI — ROOT CAUSE FOUND + FIXED (16:10 IST)
 User report 15:00: both files open WITHOUT the wire (Prompt Each → positive encode)
 + UI warning **"Required input slots have no connection feeding them"** (user: the
