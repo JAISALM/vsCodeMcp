@@ -28,13 +28,28 @@ system_prompt] with link fields preserved; links-array `to_slot` remapped
 (link 100 → to_slot 1; link 12 → 2; link 14 → 3; link 4 → 0). **VALIDATE CLEAN
 0/0 both, 15 nodes, `converted_from_ui: true`** (the earlier build warned "node 200
 feeds no output — pruned"; warning gone). Repo mirrors re-synced.
-**RULE for ALL future builds (permanent):** (1) for `PixaromaPromptEach` ALWAYS use
-the working shape above — never `inputs: []`, never output name `text`;
-(2) a node's `inputs` array must be in **object_info (definition) order** — slot
-index in the file = slot index in the UI; (3) after building, `validate_workflow`
-MUST show `converted_node_count` equal to total node count with NO pruning warning;
-(4) if the wire is ever dropped again, first diff node shape against a known-working
-file before touching the user.
+**FINAL ROOT CAUSE (16:25, user confirmed "perfect, its worked"):** the DECISIVE
+difference was the file HEADER — our files carried `version: 0` (legacy marker →
+converted view) + `last_node_id: 113` / `last_link_id: 24` while holding node 200 +
+link 100 (inherited from the k2f base; the builder added node 200/link 100 without
+bumping the counters). The UI canvas loader honors `last_node_id`/`last_link_id`
+(drops content beyond them) and routes `version: 0` files through the legacy path —
+while the backend queue path reads the node/link arrays directly and ignores the
+header (exactly the user-observed split: run works, UI shows nothing). Every
+working file carries `version: 0.4` + `config: {}` + `extra: {}` + `groups: []` +
+consistent counters. **FIX (`session_tmp\add_native_header.py`):** header normalized
+(`version: 0.4`, `config`/`extra`/`groups`, `last_node_id: 200`, `last_link_id: 100`)
+→ wire renders, warning gone, user confirmed.
+**RULE for ALL future builds (permanent — now the WORKFLOW BUILD CHECKLIST in
+AGENTS.md):** (1) native header on every machine-built file: `version: 0.4`
+(NEVER `0`), `config: {}`, `extra: {}`, `groups: []`, `revision: 0`;
+(2) `last_node_id` = MAX node id, `last_link_id` = MAX link id — bump when
+appending; (3) `PixaromaPromptEach` working shape — never `inputs: []`, never
+output name `text`; (4) a node's `inputs` array in **object_info (definition)
+order**; (5) `validate_workflow` MUST show `converted_node_count` = total nodes
+with NO pruning warning; (6) user opens in a FRESH tab (close old tabs first);
+(7) if a wire is ever dropped again, diff field-by-field against a known-working
+file (`session_tmp\diff_good_bad.py`) before touching the user.
 
 ---
 

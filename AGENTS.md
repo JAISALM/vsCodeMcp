@@ -363,6 +363,39 @@ Native `widgets_values` shapes (verified from native UI files 2026-08-27):
 **Native files have NO `widgets_values_named` key.** Do NOT add it — the UI ignores it
 and its presence is a marker of a machine-built (not UI-saved) file.
 
+### CRITICAL (2026-10-31, user-confirmed): WORKFLOW BUILD CHECKLIST — follow EVERY time
+
+A machine-built UI-format file that lacks the native header makes the UI canvas
+loader SILENTLY drop content (wires missing) while the backend queue path still
+works — a UI-only failure that is invisible to `validate_workflow` on the
+backend side. **Proven 2026-10-31** (`lora_dataset_{jaisal,zidhan}`: user saw
+missing wire 6×; file carried `version: 0` + `last_node_id: 113` /
+`last_link_id: 24` while holding node 200 + link 100; working files all carry
+`version: 0.4` with consistent counters — after header fix the wire rendered).
+
+For EVERY machine-built or modified workflow file:
+1. **Header:** `version: 0.4` (NEVER `0` — `0` = legacy marker → converted
+   view) · `config: {}` · `extra: {}` · `groups: []` · `revision: 0` ·
+   `id` (long UUID-style string).
+2. **Counters:** `last_node_id` = MAX node id in the file · `last_link_id` =
+   MAX link id. The UI loader drops links/nodes beyond these counters. When
+   appending nodes/links to an existing file, ALWAYS bump both.
+3. **Node shape:** copy the EXACT node shape (inputs entries + outputs
+   names/count + `properties`) from a KNOWN-WORKING file of the same node
+   type — never invent the shape. For `PixaromaPromptEach`:
+   `inputs: [{"name":"text","type":"STRING","link":null}]` +
+   `outputs: [prompt STRING, index INT, total INT]` (object_info lists 2
+   outputs; the UI adds `total` at runtime).
+4. **`inputs` array order = object_info (definition) order** — file slot
+   index = UI slot index; `link` fields map by array index.
+5. **`widgets_values`** in native shape (rules above).
+6. **VERIFY:** `validate_workflow` = 0/0 + `converted_node_count` == total
+   node count + NO "feeds no output — pruned" warning.
+7. **USER:** open in a FRESH tab (close any existing tab of that file first —
+   an open tab keeps the stale canvas).
+8. **If a wire is still missing:** diff the file field-by-field against a
+   known-working file (`session_tmp\diff_good_bad.py` pattern) — never guess.
+
 ### CRITICAL: `PixaromaPromptEach` stores prompts as a hidden STATE BLOB (2026-10-23 lesson)
 
 `PixaromaPromptEach` ("Prompt Each Pixaroma", ComfyUI-Pixaroma pack) has ONE hidden
