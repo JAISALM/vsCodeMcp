@@ -147,6 +147,15 @@ with the embedded Python:
 
 ---
 
+## Character LoRA training (2026-10-31, D209)
+
+| Script | What it does |
+|---|---|
+| `prep_lora_dataset.py` | Builds the per-character training sets from the v91 v2 dataset run (`output\You did not name me Dataset 21\`, 00001-00020 Jaisal / 00021-00040 Zidhan) → `input\lora_jaisal\` + `input\lora_zidhan\` (20 png/.txt pairs each). Captions = trigger-first (`jeskvman`/`dlorman`) + identity head + short scene (cut at craft markers); skin phrase normalized to medium-fair (the 22:40 Jaisal batch was prompted "warm dark brown" from a pre-fix canvas but renders medium-fair — labels must match the images). |
+| `build_lora_training.py` | Builds 4 UI-format (v0.4) workflow files: `train_lora_{jaisal,zidhan}.json` (LCOptimizer Krea-2-Turbo → LoadImageTextDataSetFromFolder → ShuffleImageTextDataset(42) → MakeTrainingDataset → TrainLoraNode [batch 1, 200 steps, lr 0.0001, rank 16, AdamW, MSE, bf16, grad-ckpt] → SaveLoRA `loras/<trigger>_<char>` + LossGraphNode) and `test_lora_{jaisal,zidhan}.json` (trigger LoRA @1.0 + trigger t2i prompt + KSampler seed-13 10-step turbo). Train files validate 0/0; test files carry the 1 expected lora_name error until the LoRA exists. **Gotchas baked in (comfy_cli 1.18.0 converter):** links = 6-element LISTS (dict links silently dropped); KSampler 7 native widget values with a valid control keyword (`fixed`); KSampler input `latent_image`; LCOptimizer placeholder positionals + real paths in `widgets_values_named` (UI prefers named; converter reads positionals only). **SaveLoRA writes to `output\`** (`output\loras\<prefix>_00001_.safetensors`) — copy + rename into `E:\ComfyUI_windows_portable\ComfyUI\models\loras\` and restart ComfyUI before the loras combo offers it. |
+
+---
+
 ## Repo maintenance (2026-10-14, D131)
 
 | Script / task | What it does |
