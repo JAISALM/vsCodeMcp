@@ -1,5 +1,16 @@
 # Current Task
 
+**2026-10-31 ~21:05 (user: "the author prompts are rich but FOR A GIRL — we need boy versions, don't trim, create a md with the prompts from its nodes + our character description, i will use ChatGPT/powerful models" + "comfyui free ram isnt working, i had to stop manually twice"):**
+
+**PROMPT REWRITE BRIEF BUILT → `prompts\v91_dataset_prompts_boy_rewrite.md`** (`utilities\build_prompt_rewrite_brief.py`):
+- All 8 author CR Prompt Lists VERBATIM (nodes 257/258/259/2770/2842/2843/260/2772 = 20+20+25+25+25+20+25+7 = 147 lines) — the author's character is a young blonde woman ("Anika").
+- Character descriptions extracted VERBATIM from our own approved prompts: Jaisal (medium wavy black hair eyebrow-length, crooked nose, almond eyes, thin lips, clean-shaven faint stubble, slim, black t-shirt) + Zidhan (short neat black hair, FULL short dense beard, slim, white t-shirt).
+- Brief for the rewriting model: same line counts/order, keep all technical vocabulary (camera/lensing/lighting/skin-texture), feminine lines → best male equivalent keeping the same SHOT TYPE (examples given), EVERY line ends with `ONLY ONE character, no other people, no duplicates.` (D137 Krea2 duplication quirk), hair must match the description exactly (face locked by conditioning).
+- Also in the file: global LCPositive suffix ("ignore original clothing completely, photorealistic, high-detail natural skin texture with pores, soft natural lighting, sharp focus"), generation settings (workflow-locked), LCTextRemove note (author's find-slots empty = inactive).
+- **USER NEXT:** take the MD to ChatGPT/powerful model → get the 8 boy lists back → I embed them into `krea2_v91_dataset_jaisal.json` (replace the 8 CR Prompt List bodies; index switch currently selects node 2843 — for a full dataset run each list in turn via the switch, or I can wire a combined list).
+- **VRAM DIAGNOSIS (user: "free ram isnt working, stopped manually twice"):** GPU now 28991/32607 MiB used — **brain `llama-server` pid 25840** (user restarted it — previous pid 31992; "stopped manually twice" = brain stops), **2× brave.exe** (GPU-accelerated browsers hold VRAM), ComfyUI python pid 37188. ComfyUI's "Free RAM" only releases ComfyUI's OWN model cache — it CANNOT touch VRAM held by other processes (brain ~16-18 GB, browsers). That's why manual stopping was the only thing that worked. **Batch rule:** close extra Brave windows before a batch; if still tight, stop the brain (session goes offline) → run batch → restart brain. v91 file carries LCVRAMCacheClear (node 2850) which clears ComfyUI cache between batch images.
+- **Note:** the adapted file's 8 lists are currently: node 2843 = OUR 10 Jaisal setting prompts (the only list the index switch selects); the other 7 author lists are still in the file (unused by the switch). The ChatGPT rewrite replaces all 8.
+
 **2026-10-31 ~20:45 (user: "restarted, tell me what to do now, can i run any workflows now?"):**
 
 **v91 IS NOW RUNNABLE — machine-adapted file built + validated 0/0:**
