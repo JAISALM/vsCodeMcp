@@ -4,6 +4,9 @@ Newest changes first.
 
 ---
 
+## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — REALISM LoRA WIRED (~20:12 IST)
+Node 202 `LoraLoaderModelOnly` `Krea2-realism-V2.safetensors` @0.8 inserted between identity LoRA (71) and patch (79): chain 55→71→202→79→53 (`utilities\add_realism_lora.py`, backups `*.pre_realism.bak`). Both files validate 0/0 (17 nodes). **Also:** user-supplied v91 pro-grade dataset workflow (lonecatone23) inspected — same t2i architecture (ref_boost 2.0 = tuning data point), NOT runnable here (author's LC pack missing — `LCOptimizer` absent) → copied as reference `ref_krea2_v91_prograde_dataset.json`; its ideas (multi-angle prompt sets, .txt caption auto-save, ADAIN color-match, face-similarity compare) queued for later. LDS (perfectgf/lora-dataset-studio) deferred to curation/training phase (D208).
+
 ## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — REBUILT AS T2I (~19:5x IST) — AWAITING USER TEST
 Root cause of the "fluke dataset" (11 identical outputs; see EXPERIMENTS): the KSampler base latent was the reference's own VAEEncode (link 73→53 slot 3) at denoise 0.4 → every output ≈ the reference shot + seed noise. **Fix (`utilities\fix_dataset_t2i.py`, backups `*.pre_t2i.bak`):** node 201 `EmptyLatentImage` 1024×1024 → KSampler latent (link 22 rewired 73→201); denoise 0.4 → 1.0; identity path UNCHANGED (patch source latent 73/92, ref_boost 4.0 / ref_boost_a 1.0, `krea2_identity_edit_v1_2` LoRA, grounded encodes 84/85). Both files validate 0/0 (16 nodes, no pruning). **USER:** fresh tab (close old first) → node 200 must show all 10 rows → queue ONE paddy-field prompt → verify setting + face → queue 10. Face drifts → ref_boost 5.5–6.
 
