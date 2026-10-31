@@ -395,6 +395,13 @@ For EVERY machine-built or modified workflow file:
    an open tab keeps the stale canvas).
 8. **If a wire is still missing:** diff the file field-by-field against a
    known-working file (`session_tmp\diff_good_bad.py` pattern) — never guess.
+9. **When ADAPTING an author's graph for our characters: audit EVERY text node in
+   the prompt chain** — not just the prompt-list bodies. Dump `widgets_values` of
+   ALL `LCPositive` / `CLIPTextEncode` / `PrimitiveString` nodes and the PREPEND/
+   APPEND widgets of every list node; clear any author-character text. (2026-10-31
+   root cause: author's `LCPositive` node 2837 `["Blonde hair, fit, medium breasts"]`
+   survived the v91 adaptation, was wired into every prompt, and made ALL outputs
+   blonde — proven via the run's .txt captions. Bodies-only verification missed it.)
 
 ### CRITICAL: `PixaromaPromptEach` stores prompts as a hidden STATE BLOB (2026-10-23 lesson)
 
