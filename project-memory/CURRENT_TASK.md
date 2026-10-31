@@ -1,5 +1,14 @@
 # Current Task
 
+**2026-10-31 ~21:35 (user: "placed the md in our folder — claude did some mistake, feels like repeated, is it what we wanted?"):**
+
+**Claude's rewrite VERIFIED GOOD (no mistake) → 16 BOY LISTS EMBEDDED, both files 0/0:**
+- User ran the brief through Claude → `prompts\v91_dataset_prompts_jaisal_zidhan.md` (196 KB). User's "feels repeated" intuition = NOT a bug: every line is a COMPLETE STANDALONE prompt (character-description prefix + scene + global suffix + D137 rule) — the author's own style does exactly this, and it's required because each line runs as its own generation. Verified programmatically: 16 sections (8 lists × Jaisal/Zidhan), line counts EXACT (20/20/25/25/25/20/25/7 per character), ALL prompt lines carry the `ONLY ONE character, no other people, no duplicates` rule (167/167 — first check showed 0 due to my own case-sensitivity bug in the checker, not the file), zero genuine duplicates (only code fences repeat), "feminine" word flags were FALSE POSITIVES ("white dress shirt" = men's shirt ×3, "li**bra**ry" ×2, "defined eyelashes" ×2 = harmless style vocab). The author's lingerie list (node 260) was properly converted (silk scarf/collared shirt/beauty-portrait equivalents).
+- **Embedded into BOTH machine files** (`utilities\embed_v91_lists.py`): `krea2_v91_dataset_jaisal.json` (8 Jaisal lists + jaisal refs) and `krea2_v91_dataset_zidhan.json` (8 Zidhan lists + `zidhan_final_ref.png` refs — both refs confirmed in input dir). Both **validated 0/0, no warnings**.
+- **RUN MAP** (LCIndexSwitch node 2876 widget `[index, 8]`, 0-based → slot order): **0**=LIST 1 (257 multi-angle master), **1**=LIST 2 (258), **2**=LIST 3 (259), **3**=LIST 4 (2770), **4**=LIST 5 (2842), **5**=LIST 6 (2843 — CURRENT DEFAULT), **6**=LIST 7 (260), **7**=LIST 8 (2772). One queue per index = 147 images/character full dataset. Suggested: queue default (index 5, 20 lines) first as the test, then walk 0-7.
+- **USER NEXT:** fresh tab → `krea2_v91_dataset_jaisal.json` → Queue (VRAM rule: close extra Brave windows; stop brain if still tight — session goes offline). Check face hold + setting variety. Then the Zidhan twin the same way.
+- Our old 10 setting prompts remain in `lora_dataset_jaisal.json` (separate t2i route, fallback).
+
 **2026-10-31 ~21:05 (user: "the author prompts are rich but FOR A GIRL — we need boy versions, don't trim, create a md with the prompts from its nodes + our character description, i will use ChatGPT/powerful models" + "comfyui free ram isnt working, i had to stop manually twice"):**
 
 **PROMPT REWRITE BRIEF BUILT → `prompts\v91_dataset_prompts_boy_rewrite.md`** (`utilities\build_prompt_rewrite_brief.py`):
