@@ -11,7 +11,7 @@ LoadImage 1 + 2782 set to the character's final ref. Everything else kept.
 import json
 import re
 
-MD = r"D:\models\vsCodeMcp\prompts\v91_dataset_prompts_jaisal_zidhan.md"
+MD = r"D:\models\vsCodeMcp\prompts\v91_dataset_prompts_kerala_v2.md"  # Kerala v2 (2026-10-31, verified + dups fixed)
 W = r"E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows"
 SRC = W + r"\krea2_v91_dataset_jaisal.json"  # machine-adapted v91 (validated 0/0)
 
