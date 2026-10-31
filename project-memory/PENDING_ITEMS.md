@@ -124,22 +124,34 @@ per-scene 5 s camref → H3 R2V with character refs from the new Klein LoRA set 
 
 ---
 
-## P3 — CHARACTER LoRA v2 (Flux Klein dataset) — **IN PROGRESS** (user building the Klein workflow, self-run)
+## P3 — CHARACTER LoRA (resume: Krea2 realism-stack dataset) — **RESUME PLANNED** (2026-10-31; user: "we need to continue generating the LORA — at least one for Jaisal and Zidhan")
 
-- **Dataset = 20 images** (10 Jaisal + 10 Zidhan) generated from the immutable refs
-  (`data\character_finals\{jaisal,zidhan}_final.png`) via **`flux-2-klein-9b` +
-  `Flux2-Klein-9B-consistency-V2`** LoRA (both present in `E:\ComfyUI_windows_portable\ComfyUI\models\`).
+**FULL REUSABLE TRACKER: `project-memory\LORA_TRAINING_KIT.md`** (workflows, prompts, datasets,
+trained LoRAs, curation rules, resume plan — check it before building anything new).
+
+**Why we stopped (evidence):** (1) `krea2fp_V2` (rank 32, 2026-10-22) = Jaisal strong but
+**Zidhan clean-shaven** (beard lost); (2) the Klein-dataset rebuild (2026-10-24) was
+**ABANDONED: Klein-generated images lack photorealism** ("dummy with no human touch, no
+realism") → never build a character dataset on top of Klein images (`klein_v2_*` dirs never
+materialized); (3) the blocker was already solved = the **D142 Krea2 realism stack** (proven
+2026-10-23) → datasets go through Krea2 + realism stack, NOT Klein.
+
+- **Dataset = 20 images** (10 Jaisal + 10 Zidhan) from the immutable refs
+  (`data\character_finals\{jaisal,zidhan}_final.png` + `locked_refs\*_LOCKED.png`) via
+  `krea2_realism_2mp.json` (D142 stack: `krea2_turbo_fp8_scaled` + turbo-LoRA@0.7 +
+  `Krea2-realism-V2`@0.8 + NegPiP, 12 steps cfg 1 er_sde/simple, 1440×2560) + `krea2_face_lock*`
+  + `k2e_zidhan_beard_sweep.json`.
 - Diverse: the 6 movie scenes + close-ups / 3-4 angles / a profile + mixed lighting (overcast /
   warm / indoor); face clear and well-lit. **Zidhan: full short dense beard in ALL 10** (the beard
   was the old LoRA's failure — it came out clean-shaven). **Jaisal: clean-shaven/faint stubble,
   black tee, crooked nose.** Strict per-image curation: reject noisy/drifted/blackout images —
-  no "acceptable" (2026-10-24 user verdict).
-- **Train: rank 32 (~16 per subject), ~15–20 epochs, triggers `jeskvman`/`dlorman`** → ~2–3 h on
-  the 5090. **Full rank (7 h) rejected as overkill for 2 subjects.** Tooling: Fizgig PRIMARY
-  (D167, LoRA Isolation for 2 subjects — the 2026-10-22 `krea2fp` train recipe: People mode =
-  Fizgig LoRA Isolation, sample prompts = one trigger per line), AI Toolkit SECONDARY.
-- Then: retest with triggers across all 6 scenes at the strict bar (show user, never self-certify).
-- Supersedes old Krea2-based `krea2fp_v2_ep64` (Zidhan clean-shaven) as the character identity pin.
+  no "acceptable" (2026-10-24 user verdict). **Show the curated set to the user before training.**
+- **Train: rank 32, ~15–20 epochs, triggers `jeskvman`/`dlorman` → `krea2fp_v3`** (supersedes
+  `krea2fp_v2_ep64`) → ~2–3 h on the 5090. **Full rank (7 h) rejected as overkill for 2
+  subjects.** Tooling: Fizgig PRIMARY (`D:\tools\Fizgig`, D167 — People mode = LoRA Isolation,
+  sample prompts = one trigger per line), AI Toolkit SECONDARY. Copy finals to shared `loras\`.
+- Then: retest with triggers across all 6 scenes at the strict bar (`krea2_charlora_v3.json`;
+  show user, never self-certify) → **unblocks P4** (H3 R2V for the 6 scenes).
 
 ---
 
