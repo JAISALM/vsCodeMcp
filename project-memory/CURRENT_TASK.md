@@ -1,5 +1,16 @@
 # Current Task
 
+**2026-10-31 ~22:35 (user: "everything perfect except blonde hair — why and how did we miss this?"):**
+
+**BLONDE-HAIR ROOT CAUSE FOUND + FIXED (node 2837 author residue):**
+- **Evidence:** user's new-run folder `output\You did not name me Dataset 21\` (60 images, 3 batches: 20:52 / 21:40 / 22:11, 20 each). The .txt captions are the smoking gun: **`"Blonde hair, fit, medium breasts . Kerala (South Indian) man, ..."`** — the AUTHOR's character description is PREPENDED to every single line.
+- **Root cause:** node **2837 (LCPositive) = `['Blonde hair, fit, medium breasts']`** — the author's character anchor, still wired into the prompt chain (his graph used it as his character description; we replaced the CR bodies but never inspected the LCPositive text nodes). Every prompt = "Blonde hair, fit, medium breasts . <Kerala line with black hair>" → the first words won → blonde hair. (Also explains "European" reads — the prepend says fit/breasts = his female character.)
+- **Batch forensics:** 20:52 batch = file still carried the AUTHOR'S lists (v1 boy lists were embedded ~21:35) → captions = author's woman prompts ("Blonde hair, fit, medium breasts ... charcoal-gray blouse"). 21:40 = v1 boy lists. 22:11 = v2 Kerala lists BUT still + author prepend via 2837.
+- **How we missed it (our blind spot):** the embed + verification battery only covered the CR Prompt List BODIES (`widgets_values[1]`) and the MD file — never the OTHER prompt-chain text nodes (LCPositive 2836/2837). Lesson recorded: when adapting an author's graph, audit EVERY text node in the prompt chain, not just the list bodies.
+- **FIX (both files, verified 0/0, 63 nodes):** 2837 → `['']` (emptied, wiring kept) · 2843 leftover prepend "Jaisal - 10 settings" → `''` · 2836 (our global suffix) untouched. Next queue = first fully clean run (Kerala lines + zero author words + ref_boost 4.0).
+- **Cosmetic:** save folder comes out as `You did not name me Dataset 21` — the save-node name widget is empty (author's default). Images + .txt captions save fine; rename later if desired (LCAdvancedFolder 2862 / LCSaveImage 2859 widgets).
+- **USER NEXT:** fresh tab → queue `krea2_v91_dataset_jaisal.json` again (default list) → hair MUST be black now; check the .txt caption starts with the Kerala line, NOT "Blonde hair...". Then walk LCIndexSwitch 0-7.
+
 **2026-10-31 ~22:20 (user: "check the v2 version, does that work? make sure no issues"):**
 
 **KERALA V2 VERIFIED CLEAN + 4 DUPS FIXED + EMBEDDED, both files 0/0:**
