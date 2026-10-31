@@ -4,6 +4,26 @@ Newest changes first.
 
 ---
 
+## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — PROMPT-EACH WIRE DROPS IN UI (gotcha)
+User report 15:00 IST: both files open WITHOUT the wire (Prompt Each → positive
+encode). File on disk verified intact + native-shaped (node 84 `inputs[3]` =
+`prompt` STRING with `widget: {name: prompt}` + `link: 100`; link entry
+`[100, 200, 0, 84, 3, "STRING"]` consistent on both ends; node 200
+`PixaromaPromptEach` present with 10-prompt state blob; geometry on-canvas) — the
+UI drops the link at load. Forensics: native files prove widget-input links work
+(`withers_has_big_nattys_LOCAL.json`: ShowText|pysssss → H3 `prompt` widget at
+inputs[13], user runs it fine), so the mechanism is sound; the drop is specific to
+this node/slot combo in the current frontend. **WORKAROUND (user, 30 s/file):**
+open in FRESH tab → drag wire from Prompt Each `text` output dot → positive encode
+`prompt` input slot → Ctrl+S → queue. **FALLBACK if the Prompt Each node itself is
+missing/empty:** paste prompts directly into the positive encode prompt field (10
+queue runs) — paste files `utilities\lora_dataset_{jaisal,zidhan}_prompts_paste.txt`.
+**RULE for future builds: do NOT rely on machine-built widget-input links at a
+non-zero slot index of multi-input nodes — always tell the user to verify the wire
+renders after opening; the hand-paste path is the guaranteed route.**
+
+---
+
 ## 2026-10-31 — `lora_dataset_jaisal.json` + `lora_dataset_zidhan.json` — CHARACTER-LoRA DATASET GENERATORS (validate clean 0/0, user-run pending)
 
 - **Built from** the LOCKED-face milestone recipes `k2f_jaisal_crookednose.json` / `k2f_zidhan_sharpnose.json` (D151 — originals unmodified). Chain: UNET `krea2_turbo_fp8_scaled` → LoRA `krea2_identity_edit_v1_2`@1.0 → `Krea2EditModelPatch` (ref_boost 4.0/1.0/fit) → KSampler **10 steps cfg 1 euler/simple, denoise 0.4** → VAEDecode → SaveImage; dual refs → dual `Krea2EditGroundedEncode` (positive wired, negative static per character).
