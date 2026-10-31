@@ -4,6 +4,15 @@ Newest changes first.
 
 ---
 
+## 2026-10-31 — `lora_dataset_jaisal.json` + `lora_dataset_zidhan.json` — CHARACTER-LoRA DATASET GENERATORS (validate clean 0/0, user-run pending)
+
+- **Built from** the LOCKED-face milestone recipes `k2f_jaisal_crookednose.json` / `k2f_zidhan_sharpnose.json` (D151 — originals unmodified). Chain: UNET `krea2_turbo_fp8_scaled` → LoRA `krea2_identity_edit_v1_2`@1.0 → `Krea2EditModelPatch` (ref_boost 4.0/1.0/fit) → KSampler **10 steps cfg 1 euler/simple, denoise 0.4** → VAEDecode → SaveImage; dual refs → dual `Krea2EditGroundedEncode` (positive wired, negative static per character).
+- **Changes vs base:** (1) LoadImage 72+113 → `jaisal_final_ref.png` / `zidhan_final_ref.png` (the LOCKED faces — SHA256-verified against `data\character_finals\*_final.png`); (2) SaveImage prefix → `lora_ds_jaisal_` / `lora_ds_zidhan_`; (3) KSampler `control_after_generate` fixed → **randomize** (fresh seed per queue); (4) NEW `PixaromaPromptEach` node 200 (10 grounded-encode prompts per character — scenes/angles/lighting/clothing anchors per LORA_TRAINING_KIT §4) wired into positive grounded-encode `prompt` slot (link 100, slot 3); positive widget text kept as fallback.
+- **Why:** the k2f chain is PROVEN (it produced the two locked faces) — same face, different scene/expression via the identity-edit LoRA (ref_boost 4.0 = D023 fidelity dial); realism = UNET + grounded prompt wording (no separate realism LoRA needed). This is the dataset route for `krea2fp_v3` (P3).
+- **VALIDATE CLEAN** (0/0 both, 15 nodes). Builder `session_tmp\build_lora_dataset_workflows.py` (idempotent, re-runs from the k2f bases). Paste files `utilities\lora_dataset_{jaisal,zidhan}_prompts_paste.txt`. Repo mirrors in `workflows/`.
+- **BUILDER GOTCHA (permanent):** appending a UI-format link = `wf["links"].append([id, from, 0, to, slot, "TYPE"])` — a `+` with a scalar list FLATTENS the entry (mixed list of lists + scalars) and silently breaks the wire; also `nodes[NNN] = {...}` on an id→node dict does NOT add the node to `wf["nodes"]` — must `.append()` the node object.
+- **Status:** awaiting user Enter — open each in a FRESH tab, queue 2–3× per character (seed randomizes), verify the prompt-each → positive-encode wire is visible (if not, reconnect text→prompt). Outputs `output\lora_ds_{jaisal,zidhan}_*.png` → curation (KIT §4) → user approval → Fizgig `krea2fp_v3`.
+
 ## 2026-10-30 — `pika_h3_flex_ref2va_kitchen_480p_LOCAL.json` — PIKA REF2V + KITCHEN @ 480p (validate clean 0/0, user-run pending)
 
 - **Built from** `pika_h3_flex_ref2va_kitchen_LOCAL.json` (kitchen chain 145→150→151→126 untouched). **Changes:** (1) `ResolutionSelector` (node 115) **deleted** + its width/height links (276/277) removed; (2) H3 node 136 width/height inputs unhooked and **widgets set to `['', 864, 480, 124, 'match']`** — 864×480 = 0.41 MP, nearest multiple-of-32 to true 480p 16:9 (ResolutionSelector's own multiple was 32); (3) duration stays 5 s via `PrimitiveFloat(132) → ComfyMathExpression(131) → 136.length` (set 132 to 15 for the 15 s run — grid auto 124/362 frames); (4) SaveVideo prefix `pika_480p_`; (5) note updated.

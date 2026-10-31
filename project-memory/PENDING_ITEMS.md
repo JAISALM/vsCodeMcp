@@ -136,11 +136,17 @@ realism") → never build a character dataset on top of Klein images (`klein_v2_
 materialized); (3) the blocker was already solved = the **D142 Krea2 realism stack** (proven
 2026-10-23) → datasets go through Krea2 + realism stack, NOT Klein.
 
-- **Dataset = 20 images** (10 Jaisal + 10 Zidhan) from the immutable refs
-  (`data\character_finals\{jaisal,zidhan}_final.png` + `locked_refs\*_LOCKED.png`) via
-  `krea2_realism_2mp.json` (D142 stack: `krea2_turbo_fp8_scaled` + turbo-LoRA@0.7 +
-  `Krea2-realism-V2`@0.8 + NegPiP, 12 steps cfg 1 er_sde/simple, 1440×2560) + `krea2_face_lock*`
-  + `k2e_zidhan_beard_sweep.json`.
+- **Dataset = 20 images** (10 Jaisal + 10 Zidhan) from the locked refs
+  (`data\character_finals\{jaisal,zidhan}_final.png` = `output\k2f_*_00001_.png`, SHA256-verified;
+  in-server copies `input\{jaisal,zidhan}_final_ref.png` — D151 lock reconfirmed 2026-10-31)
+  via the **BUILT dataset generators** `lora_dataset_{jaisal,zidhan}.json` (2026-10-31,
+  validate 0/0): the proven k2f identity-edit chain (`krea2_turbo_fp8_scaled` +
+  `krea2_identity_edit_v1_2`@1.0, ref_boost 4.0, denoise 0.4, 10 steps cfg 1 euler/simple) +
+  `PixaromaPromptEach` (node 200) with 10 prompts each wired into the positive grounded-encode
+  (link 100); SaveImage prefix `lora_ds_{jaisal,zidhan}_`; seed control randomize.
+  **USER RUNS 2–3 queues per character** (fresh tab, fresh seed each queue → 20–30 candidates;
+  outputs `output\lora_ds_{jaisal,zidhan}_*.png`). Paste files:
+  `utilities\lora_dataset_{jaisal,zidhan}_prompts_paste.txt`.
 - Diverse: the 6 movie scenes + close-ups / 3-4 angles / a profile + mixed lighting (overcast /
   warm / indoor); face clear and well-lit. **Zidhan: full short dense beard in ALL 10** (the beard
   was the old LoRA's failure — it came out clean-shaven). **Jaisal: clean-shaven/faint stubble,

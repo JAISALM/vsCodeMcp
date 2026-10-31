@@ -27,15 +27,17 @@
    beard-verified Zidhan dataset = `krea2fp_v3` (§9). We already have `krea2fp_v2_ep64`
    covering both subjects — the retrain fixes the beard, not the architecture.
 
-## 1. Characters & IMMUTABLE refs (D137)
+## 1. Characters & IMMUTABLE refs (D137 + D151 LOCKED, reconfirmed 2026-10-31)
 
 | Character | Spec | Immutable refs (do NOT regenerate) |
 |---|---|---|
-| **Jaisal** (char1) | ~26, wavy black hair, slim build, plain black t-shirt, crooked nose, clean-shaven/faint stubble | `data\character_finals\jaisal_final.png` (4.5 MB) · `data\locked_refs\jaisal_LOCKED.png` |
-| **Zidhan** (char2) | ~26, black hair in loose top bun, slim build, plain white t-shirt, **FULL short dense beard** | `data\character_finals\zidhan_final.png` (4.1 MB) · `data\locked_refs\zidhan_LOCKED.png` |
+| **Jaisal** (char1) | ~26, medium wavy black hair (eyebrow length), **crooked naturally-bent nose**, clean-shaven faint stubble, slim build, plain black t-shirt, warm Keralite tan | `data\character_finals\jaisal_final.png` (= `output\k2f_jaisal_crookednose_00001_.png`, SHA256-verified) · `data\locked_refs\jaisal_LOCKED.png` · **`input\jaisal_final_ref.png`** (in-server ref) |
+| **Zidhan** (char2) | ~26, **short neat black hair (halal fade — "top bun" spec DEPRECATED)**, **sharp angular nose**, **FULL short dense beard**, slim build, plain white t-shirt, warm Keralite tan | `data\character_finals\zidhan_final.png` (= `output\k2f_zidhan_sharpnose_00001_.png`, SHA256-verified) · `data\locked_refs\zidhan_LOCKED.png` · **`input\zidhan_final_ref.png`** (in-server ref) |
 
 Krea2 quirks (every prompt): it CANNOT make faceless characters; it DUPLICATES the character —
 "ONLY ONE character, no other people, no duplicates" in every dataset prompt.
+**Distinguishing axes (D151):** face shape (slim vs round), NOSE (crooked vs sharp-angular),
+beard (clean-shaven vs full), hair (medium wavy vs short), tee (black vs white).
 
 ## 2. Trained LoRAs inventory (disk-verified 2026-10-31)
 
@@ -56,7 +58,9 @@ folder as `<name>_rankNN_epNN.safetensors` (combo-ready bare names).
 
 | Workflow | Role |
 |---|---|
-| `krea2_realism_2mp.json` | **THE dataset generator** — D142 realism stack, 1440×2560 (see §5) |
+| **`lora_dataset_jaisal.json`** / **`lora_dataset_zidhan.json`** (BUILT 2026-10-31, validate 0/0) | **THE dataset generators** — the PROVEN k2f identity-edit chain (see below) + `PixaromaPromptEach` node 200 with 10 prompts wired into the positive grounded-encode `prompt` slot (link 100). Refs = `*_final_ref.png` (locked faces, hash-verified). SaveImage prefix `lora_ds_{jaisal,zidhan}_`. KSampler seed control = `randomize`. Paste files: `utilities\lora_dataset_{jaisal,zidhan}_prompts_paste.txt`. **RUN: open in a FRESH tab, queue 2–3× per character (fresh seed each queue = 20–30 candidates). Check: the wire from Prompt Each → positive-encode prompt slot is visible; if missing, reconnect (text out → prompt in).** |
+| k2f chain (inside the above, from `k2f_{jaisal_crookednose,zidhan_sharpnose}.json` — DO NOT MODIFY the originals) | UNET `krea2_turbo_fp8_scaled` → LoRA `krea2_identity_edit_v1_2`@1.0 → `Krea2EditModelPatch` (ref_boost **4.0**/1.0/fit) → KSampler **10 steps cfg 1 euler/simple denoise 0.4** → VAEDecode; dual refs → dual `Krea2EditGroundedEncode` (positive = prompt-each, negative = static per-character — Jaisal neg has "beard, stubble beard", Zidhan neg does NOT) |
+| `krea2_realism_2mp.json` | D142 realism stack t2i (1440×2560) — for standalone realistic images (NOT anchor-based) |
 | `krea2_dataset_char1.json` / `krea2_dataset_char2.json` | per-character dataset batches |
 | `krea2_t2i_char1.json` / `krea2_t2i_char2.json` (+ `_pe3` variants) | t2i PE3 dataset variant |
 | `krea2_1click_dataset.json` | one-click dataset |
@@ -122,10 +126,14 @@ er_sde/simple** · 1440×2560 (4MP portrait). Fresh t2i seed variance in this st
 
 ## 9. RESUME PLAN (minimum to start the story — 2026-10-31)
 
-1. **Dataset:** `krea2_realism_2mp.json` (+ `krea2_face_lock*` for approved faces,
-   `k2e_zidhan_beard_sweep.json` for the beard) → 10 Jaisal + 10 Zidhan (beard in ALL Zidhan)
-   into a NEW `data\<run>\` dir.
-2. **Cure** per §4 → **user approves the set** (show all 20).
+1. **Dataset — WORKFLOWS BUILT 2026-10-31 (validate 0/0):** `lora_dataset_jaisal.json` +
+   `lora_dataset_zidhan.json` (k2f identity-edit chain + prompt-each, 10 prompts each, refs =
+   locked `*_final_ref.png`, prefix `lora_ds_{jaisal,zidhan}_`, seed randomize). **USER RUNS:**
+   open each in a FRESH tab → queue **2–3× per character** (fresh seed each queue → 20–30
+   candidates/char) → outputs land in `output\lora_ds_{jaisal,zidhan}_*.png`.
+2. **Curate** per §4 (reject noisy/drifted/duplicate; beard in ALL Zidhan; clothing anchors
+   intact) → **user approves the set** (show all 20; copy the approved 10+10 into
+   `data\lora_ds_v3_{jaisal,zidhan}\`).
 3. **Train:** Fizgig → `krea2fp_v3` (rank 32, 15–20 epochs, triggers `jeskvman`/`dlorman`,
    LoRA Isolation) → copy `krea2fp_v3_epNN.safetensors` to shared `loras\`.
 4. **Verify:** `krea2_charlora_v3.json` with the new LoRA @1.0 → strict bar → user verdict.

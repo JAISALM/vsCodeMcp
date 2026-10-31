@@ -1283,6 +1283,16 @@
   nose"). **NEXT:** variation set (several seeds per character, same description) → fresh
   character LoRA → retest with triggers (`jeskvman`/`dlorman`); then per-shot refs (2–3, D020) →
   MiniMax H3 R2V (NO music D041) → SFX + assembly by Nov 22.
+- **2026-10-31 RECONFIRMED (user re-locked in chat: "these are our character images"):**
+  hash-verified (SHA256) that `data\character_finals\jaisal_final.png` =
+  `output\k2f_jaisal_crookednose_00001_.png` and `data\character_finals\zidhan_final.png` =
+  `output\k2f_zidhan_sharpnose_00001_.png` — AND the `input\{jaisal,zidhan}_final_ref.png`
+  copies hash-match too → every dataset workflow anchors on `*_final_ref.png`. **Dataset
+  generation BUILT:** `lora_dataset_{jaisal,zidhan}.json` = k2f chain (identity-edit LoRA,
+  ref_boost 4.0, denoise 0.4, 10 steps cfg 1) + `PixaromaPromptEach` (10 prompts wired into
+  the positive grounded-encode `prompt` slot) — validate 0/0 both. User runs 2–3 queues each
+  (KSampler seed control = randomize) → strict curation (LORA_TRAINING_KIT.md §4) → user
+  approves → Fizgig `krea2fp_v3`.
 
 ## D139 — DSH + GHCP (GitHub Copilot / VS Code agent) cross-client collaboration verified (2026-10-18)
 - **Milestone (user-approved "we did good"):** the two agent clients worked as one pipeline —

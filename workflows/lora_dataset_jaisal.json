@@ -1,0 +1,1230 @@
+{
+ "id": "k2f-jaisal-crookednose",
+ "revision": 0,
+ "last_node_id": 113,
+ "last_link_id": 24,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    60,
+    -160
+   ],
+   "size": [
+    480,
+    130
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0",
+    "models": [
+     {
+      "name": "krea2_turbo_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/diffusion_models/krea2_turbo_fp8_scaled.safetensors",
+      "directory": "diffusion_models"
+     }
+    ]
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    60,
+    30
+   ],
+   "size": [
+    480,
+    140
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      4,
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0",
+    "models": [
+     {
+      "name": "qwen3vl_4b_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+      "directory": "text_encoders"
+     }
+    ]
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    60,
+    220
+   ],
+   "size": [
+    480,
+    90
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      6,
+      7,
+      8,
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0",
+    "models": [
+     {
+      "name": "qwen_image_vae.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/vae/qwen_image_vae.safetensors",
+      "directory": "vae"
+     }
+    ]
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 71,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    60,
+    370
+   ],
+   "size": [
+    480,
+    120
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "krea2_identity_edit_v1_2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 72,
+   "type": "LoadImage",
+   "pos": [
+    640,
+    -160
+   ],
+   "size": [
+    520,
+    440
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "choose file to upload",
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10,
+      12,
+      13
+     ]
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      10,
+      12,
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "jaisal_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 113,
+   "type": "LoadImage",
+   "pos": [
+    682,
+    674
+   ],
+   "size": [
+    520,
+    440
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "choose file to upload",
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      11,
+      14,
+      15,
+      18
+     ]
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      11,
+      14,
+      15,
+      18
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "jaisal_final_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 73,
+   "type": "VAEEncode",
+   "pos": [
+    1260,
+    60
+   ],
+   "size": [
+    225,
+    0
+   ],
+   "flags": {
+    "collapsed": true
+   },
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "pixels",
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      16,
+      19,
+      22
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 92,
+   "type": "VAEEncode",
+   "pos": [
+    1250,
+    970
+   ],
+   "size": [
+    225,
+    0
+   ],
+   "flags": {
+    "collapsed": true
+   },
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "pixels",
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 11
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 79,
+   "type": "Krea2EditModelPatch",
+   "pos": [
+    2320,
+    -160
+   ],
+   "size": [
+    420,
+    350
+   ],
+   "flags": {},
+   "order": 21,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    },
+    {
+     "localized_name": "source_latent",
+     "name": "source_latent",
+     "type": "LATENT",
+     "link": 16
+    },
+    {
+     "localized_name": "source_latent_b",
+     "name": "source_latent_b",
+     "shape": 7,
+     "type": "LATENT",
+     "link": 17
+    },
+    {
+     "localized_name": "ref_boost_mask",
+     "name": "ref_boost_mask",
+     "shape": 7,
+     "type": "MASK",
+     "link": null
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "shape": 7,
+     "type": "VAE",
+     "link": 9
+    },
+    {
+     "localized_name": "source_image",
+     "name": "source_image",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "localized_name": "source_image_b",
+     "name": "source_image_b",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 18
+    },
+    {
+     "localized_name": "ref_boost",
+     "name": "ref_boost",
+     "shape": 7,
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "ref_boost_a",
+     "name": "ref_boost_a",
+     "shape": 7,
+     "type": "FLOAT",
+     "widget": {
+      "name": "ref_boost_a"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "fit_mode",
+     "name": "fit_mode",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "fit_mode"
+     },
+     "link": null
+    },
+    {
+     "name": "target_latent",
+     "shape": 7,
+     "type": "LATENT",
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditModelPatch"
+   },
+   "widgets_values": [
+    4.0,
+    1.0,
+    "fit"
+   ]
+  },
+  {
+   "id": 84,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1631,
+    -156
+   ],
+   "size": [
+    620,
+    330
+   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    },
+    {
+     "localized_name": "image",
+     "name": "image",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "localized_name": "image_b",
+     "name": "image_b",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 14
+    },
+    {
+     "localized_name": "prompt",
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": 100
+    },
+    {
+     "localized_name": "grounding_px",
+     "name": "grounding_px",
+     "shape": 7,
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "system_prompt",
+     "name": "system_prompt",
+     "shape": 7,
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      20
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), identity, slim build, plain black t-shirt, plain background, and lighting EXACTLY the same as the reference image. Change ONLY the nose: give him a slightly CROOKED, naturally bent nose (a subtly deviated nose bridge, NOT perfectly straight, NOT a soft rounded nose, NOT a sharp angular pointed nose). Keep the almond eyes, thin lips, clean-shaven faint stubble, and everything else EXACTLY the same. ONLY ONE person, natural realistic skin with pores, face fully integrated, no face-swap seam.",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 85,
+   "type": "Krea2EditGroundedEncode",
+   "pos": [
+    1620,
+    250
+   ],
+   "size": [
+    620,
+    330
+   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    },
+    {
+     "localized_name": "image",
+     "name": "image",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "image_b",
+     "name": "image_b",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 15
+    },
+    {
+     "localized_name": "prompt",
+     "name": "prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "prompt"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "grounding_px",
+     "name": "grounding_px",
+     "shape": 7,
+     "type": "INT",
+     "widget": {
+      "name": "grounding_px"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "system_prompt",
+     "name": "system_prompt",
+     "shape": 7,
+     "type": "STRING",
+     "widget": {
+      "name": "system_prompt"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2EditGroundedEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, different face, wrong face, changed face, face swap seam, duplicate character, multiple people, deformed hands, mutated limbs, bad anatomy, extra fingers, watermark, text, logo, beard, stubble beard",
+    768,
+    ""
+   ]
+  },
+  {
+   "id": 53,
+   "type": "KSampler",
+   "pos": [
+    2791,
+    -170
+   ],
+   "size": [
+    320,
+    560
+   ],
+   "flags": {},
+   "order": 22,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 3
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 20
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 21
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 22
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      23
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    90201,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    0.4
+   ]
+  },
+  {
+   "id": 54,
+   "type": "VAEDecode",
+   "pos": [
+    2810,
+    440
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {
+    "collapsed": false
+   },
+   "order": 23,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 23
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      24
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 29,
+   "type": "SaveImage",
+   "pos": [
+    3195,
+    -134
+   ],
+   "size": [
+    760,
+    860
+   ],
+   "flags": {},
+   "order": 24,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 24
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "lora_ds_jaisal_"
+   ]
+  },
+  {
+   "id": 200,
+   "type": "PixaromaPromptEach",
+   "pos": [
+    1151,
+    -276
+   ],
+   "size": [
+    420,
+    640
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "links": [
+      100
+     ]
+    },
+    {
+     "localized_name": "index",
+     "name": "index",
+     "type": "INT",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PixaromaPromptEach"
+   },
+   "widgets_values": [
+    "{\"version\": 2, \"prompts\": [\"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal close-up portrait, plain light gray background, soft overcast daylight, neutral calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores, crisp realistic detail.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal close-up, plain neutral background, warm golden hour light, slight warm smile. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, dim warm interior, single warm lamp light, looking slightly downward, thoughtful expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: full profile view, plain light background, soft overcast light, neutral expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, standing in a green Kerala paddy field, overcast soft light, distant palm trees, calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: medium shot, old whitewashed village house wall, warm morning light, looking at camera, relaxed expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, rural dirt road with a parked bicycle, golden hour light, walking, natural expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: close-up, dim moody interior, warm lamp light, serious expression, plain dark background. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal, rainy street, light rain, cool overcast light, looking slightly off camera, calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, open village ground with dry grass, late afternoon warm light, relaxed faint smile. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\"], \"text\": \"\", \"split\": \"line\", \"expand\": true, \"trim\": true, \"skipEmpty\": true, \"cap\": 200, \"wiredAt\": \"after\"}"
+   ],
+   "widgets_values_named": {
+    "prompteach": "{\"version\": 2, \"prompts\": [\"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal close-up portrait, plain light gray background, soft overcast daylight, neutral calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores, crisp realistic detail.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal close-up, plain neutral background, warm golden hour light, slight warm smile. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, dim warm interior, single warm lamp light, looking slightly downward, thoughtful expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: full profile view, plain light background, soft overcast light, neutral expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, standing in a green Kerala paddy field, overcast soft light, distant palm trees, calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: medium shot, old whitewashed village house wall, warm morning light, looking at camera, relaxed expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, rural dirt road with a parked bicycle, golden hour light, walking, natural expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: close-up, dim moody interior, warm lamp light, serious expression, plain dark background. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: frontal, rainy street, light rain, cool overcast light, looking slightly off camera, calm expression. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\", \"Keep the man's face, MEDIUM WAVY black hair (falling to eyebrow length), slightly CROOKED naturally bent nose, almond eyes, thin lips, clean-shaven faint stubble, slim build, plain black t-shirt, and skin EXACTLY the same as the reference image. Change ONLY the setting and pose: three-quarter angle, open village ground with dry grass, late afternoon warm light, relaxed faint smile. ONLY ONE character, no other people, no duplicates. Natural photorealistic skin with visible pores.\"], \"text\": \"\", \"split\": \"line\", \"expand\": true, \"trim\": true, \"skipEmpty\": true, \"cap\": 200, \"wiredAt\": \"after\"}"
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   55,
+   0,
+   71,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   71,
+   0,
+   79,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   79,
+   0,
+   53,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   56,
+   0,
+   84,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   56,
+   0,
+   85,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   57,
+   0,
+   54,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   57,
+   0,
+   73,
+   1,
+   "VAE"
+  ],
+  [
+   8,
+   57,
+   0,
+   92,
+   1,
+   "VAE"
+  ],
+  [
+   9,
+   57,
+   0,
+   79,
+   4,
+   "VAE"
+  ],
+  [
+   10,
+   72,
+   0,
+   73,
+   0,
+   "IMAGE"
+  ],
+  [
+   11,
+   113,
+   0,
+   92,
+   0,
+   "IMAGE"
+  ],
+  [
+   12,
+   72,
+   0,
+   84,
+   1,
+   "IMAGE"
+  ],
+  [
+   13,
+   72,
+   0,
+   85,
+   1,
+   "IMAGE"
+  ],
+  [
+   14,
+   113,
+   0,
+   84,
+   2,
+   "IMAGE"
+  ],
+  [
+   15,
+   113,
+   0,
+   85,
+   2,
+   "IMAGE"
+  ],
+  [
+   16,
+   73,
+   0,
+   79,
+   1,
+   "LATENT"
+  ],
+  [
+   17,
+   92,
+   0,
+   79,
+   2,
+   "LATENT"
+  ],
+  [
+   18,
+   113,
+   0,
+   79,
+   6,
+   "IMAGE"
+  ],
+  [
+   19,
+   73,
+   0,
+   79,
+   10,
+   "LATENT"
+  ],
+  [
+   20,
+   84,
+   0,
+   53,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   21,
+   85,
+   0,
+   53,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   22,
+   73,
+   0,
+   53,
+   3,
+   "LATENT"
+  ],
+  [
+   23,
+   53,
+   0,
+   54,
+   0,
+   "LATENT"
+  ],
+  [
+   24,
+   54,
+   0,
+   29,
+   0,
+   "IMAGE"
+  ],
+  [
+   100,
+   200,
+   0,
+   84,
+   3,
+   "STRING"
+  ]
+ ],
+ "version": 0
+}
