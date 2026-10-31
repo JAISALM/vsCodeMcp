@@ -4,23 +4,37 @@ Newest changes first.
 
 ---
 
-## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — PROMPT-EACH WIRE DROPS IN UI (gotcha)
-User report 15:00 IST: both files open WITHOUT the wire (Prompt Each → positive
-encode). File on disk verified intact + native-shaped (node 84 `inputs[3]` =
-`prompt` STRING with `widget: {name: prompt}` + `link: 100`; link entry
-`[100, 200, 0, 84, 3, "STRING"]` consistent on both ends; node 200
-`PixaromaPromptEach` present with 10-prompt state blob; geometry on-canvas) — the
-UI drops the link at load. Forensics: native files prove widget-input links work
-(`withers_has_big_nattys_LOCAL.json`: ShowText|pysssss → H3 `prompt` widget at
-inputs[13], user runs it fine), so the mechanism is sound; the drop is specific to
-this node/slot combo in the current frontend. **WORKAROUND (user, 30 s/file):**
-open in FRESH tab → drag wire from Prompt Each `text` output dot → positive encode
-`prompt` input slot → Ctrl+S → queue. **FALLBACK if the Prompt Each node itself is
-missing/empty:** paste prompts directly into the positive encode prompt field (10
-queue runs) — paste files `utilities\lora_dataset_{jaisal,zidhan}_prompts_paste.txt`.
-**RULE for future builds: do NOT rely on machine-built widget-input links at a
-non-zero slot index of multi-input nodes — always tell the user to verify the wire
-renders after opening; the hand-paste path is the guaranteed route.**
+## 2026-10-31 — `lora_dataset_{jaisal,zidhan}.json` — PROMPT-EACH WIRE DROPS IN UI — ROOT CAUSE FOUND + FIXED (16:10 IST)
+User report 15:00: both files open WITHOUT the wire (Prompt Each → positive encode)
++ UI warning **"Required input slots have no connection feeding them"** (user: the
+workflow RUNS fine via backend — only the UI shows it broken). **ROOT CAUSE (proven
+by comparing against the working files `krea2_cine_test` / `krea2_ab_A_baseline` /
+`krea2_t2i_char1`, all user-run):** our builder wrote node 200 `PixaromaPromptEach`
+in the WRONG SHAPE —
+- working shape: `inputs: [{"text", "STRING", "link": null}]` + `outputs: [prompt STRING, index INT, total INT]` (3 outputs, first named **`prompt`**);
+- ours was: `inputs: []` + `outputs: [text STRING, index INT]` (2 outputs, first named **`text`** — object_info output list is only 2, the UI adds `total` at runtime).
+The missing `text` input entry (a `forceInput: true` socket in the definition) is
+exactly what triggers the "Required input slots have no connection feeding them"
+lint, and the mismatched outputs/slots made the UI drop link 100 at load.
+Second deviation: node 84 `Krea2EditGroundedEncode` `inputs` array order differed
+from object_info order (file: [clip, image, image_b, prompt, …] vs definition
+[clip, prompt, image, image_b, …]) — the working files ALWAYS carry the
+definition order (their link target `CLIPTextEncode` slot 1 = same order in file
+and definition). **FIX (applied 16:10, `session_tmp\fix_dataset_shapes.py`):**
+node 200 rebuilt to the working shape (text input entry `link: null`, outputs
+`[prompt, index, total]`, state blob + `widgets_values_named` kept); node 84
+inputs reordered to definition order [clip, prompt, image, image_b, grounding_px,
+system_prompt] with link fields preserved; links-array `to_slot` remapped
+(link 100 → to_slot 1; link 12 → 2; link 14 → 3; link 4 → 0). **VALIDATE CLEAN
+0/0 both, 15 nodes, `converted_from_ui: true`** (the earlier build warned "node 200
+feeds no output — pruned"; warning gone). Repo mirrors re-synced.
+**RULE for ALL future builds (permanent):** (1) for `PixaromaPromptEach` ALWAYS use
+the working shape above — never `inputs: []`, never output name `text`;
+(2) a node's `inputs` array must be in **object_info (definition) order** — slot
+index in the file = slot index in the UI; (3) after building, `validate_workflow`
+MUST show `converted_node_count` equal to total node count with NO pruning warning;
+(4) if the wire is ever dropped again, first diff node shape against a known-working
+file before touching the user.
 
 ---
 

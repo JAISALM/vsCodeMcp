@@ -391,6 +391,23 @@ array whose element is a JSON state string — NOT an array of prompt strings:
   failed rebuild leaves an EMPTY node object in the file. Rebuilding from a clean
   base file is safer than patching a UI-mangled file.
 
+**CRITICAL (2026-10-31): `PixaromaPromptEach` node SHAPE — the UI silently drops the wire on the wrong shape.**
+The node MUST be built in the working shape (verified against user-run
+`krea2_cine_test` / `krea2_ab_A_baseline` / `krea2_t2i_char1`):
+`inputs: [{"name":"text","type":"STRING","link":null}]` (the definition has a
+`forceInput: true` text socket — omitting the entry triggers the UI lint
+"Required input slots have no connection feeding them") and
+`outputs: [prompt STRING, index INT, total INT]` — 3 outputs, first named
+**`prompt`** (object_info lists only 2; the UI adds `total` at runtime). A
+machine-built `inputs: []` / `outputs: [text, index]` shape makes the UI SILENTLY
+drop the output link at load (wire missing in the UI, while the run still works
+via backend conversion). Also: a node's `inputs` array MUST be in object_info
+(definition) order — file slot index = UI slot index (a different order
+mis-maps the `link` fields). Verify after building: `validate_workflow` must
+report `converted_node_count` = total node count with NO pruning warning.
+(2026-10-31 root cause + fix: `lora_dataset_{jaisal,zidhan}.json`, see
+WORKFLOW_HISTORY.)
+
 **HAND-PASTE RULE (2026-10-23, user order — applies to EVERY build):** the node's
 state blob does not reliably re-populate in the UI (interactions clobber it,
 browser-cached canvases survive restarts), so the user PASTES the prompts into the
