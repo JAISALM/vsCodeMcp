@@ -1,5 +1,16 @@
 # Current Task
 
+**2026-10-31 ~21:55 (user: "still got it wrong — no dark-skin mention anywhere, came out BLONDE / 'European gay men' look. Lets get the root of kerala boy. Identify where we went wrong, i will ask claude again"):**
+
+**ROOT CAUSE FOUND (3 gaps) + brief v2 written + workflow anchor strengthened:**
+- **Refs are CORRECT** (inspected both): `jaisal_final_ref.png` = dark-skinned Indian man, dark wavy hair, black t-shirt; `zidhan_final_ref.png` = dark-skinned, short hair + full black beard, white t-shirt. The identity ANCHOR image is not the problem.
+- **Gap 1 (prompts — the main hole):** our character description handed to Claude had NO absolute ethnicity/skin words — it said "Man, 26 ... skin EXACTLY the same as the reference image" = a RELATIVE instruction. Image models follow absolute words far better; with nothing absolute, Krea2's prior for "man, 26" (white European man) won → blonde/fair output. (Black hair WAS stated, so hair stayed dark.) The description we extracted came from our OLD t2i prompts, which had the same hole.
+- **Gap 2 (workflow — FIXED NOW):** v91's identity patch ran the AUTHOR's ref_boost 2.0/0.9 (tuned for his blonde character whose prompts agreed with the ref). Both files now at **4.0/1.0** (our D023 proven strong values, node 169) — the reference face+skin now dominate; re-validated 0/0 both files.
+- **Gap 3 (framing):** v1 kept the author's European editorial set (penthouse, cashmere, antique bookstore, Rembrandt, silk scarf, "seductive") → even a correct face reads European in that world.
+- **NEW BRIEF → `prompts\v91_kerala_identity_brief_v2.md`** (for Claude, replaces the v1 character-description approach): absolute KERALA identity blocks at the start of EVERY line (Jaisal: "Kerala (South Indian) man, about 26, warm dark brown skin with natural texture, medium wavy black hair..."; Zidhan: same + short hair + full short dense black beard), "NEVER describe blonde/fair/white skin anywhere", clothing = canon t-shirts + natural Indian casuals (no Western model-glamour), SCENES re-rooted to Kerala (paddy/backwaters/coconut groves/laterite/Kochi old city/veranda/monsoon — 3 tiers: rural/urban/domestic), framing = grounded documentary South Indian look (no seductive/mirror-vanity/jewelry), keep v1's photographic craft (lenses/DOF/skin texture) + D137 rule + global suffix + same line counts (20/20/25/25/25/20/25/7 × 2 chars).
+- **USER NEXT:** take brief v2 to Claude → 16 blocks → I embed (same `embed_v91_lists.py` pattern, new output file) → both anchors (ref_boost 4.0 + absolute words) should hold the Kerala look. If a line still drifts fair, that's a re-run with a different seed (D137), not a prompt rewrite.
+- Memory: D137 character canon EXTENDED with absolute skin/ethnicity wording (see DECISIONS update).
+
 **2026-10-31 ~21:35 (user: "placed the md in our folder — claude did some mistake, feels like repeated, is it what we wanted?"):**
 
 **Claude's rewrite VERIFIED GOOD (no mistake) → 16 BOY LISTS EMBEDDED, both files 0/0:**
