@@ -1268,6 +1268,19 @@
   (clean-shaven vs full beard), hair (medium wavy vs short), tee (black vs white). Both are warm
   Keralite tan (NOT a fair/American look, NOT a generic dark Tamilian) per the user's "Keralite,
   not American" directive.
+- **CANON EXTENSION ~21:55 (2026-10-31 - absolute identity words MANDATORY in every prompt
+  line, after the blonde-output failure):** v1 of the v91 rewrite brief carried no absolute
+  ethnicity/skin words (only the relative "skin EXACTLY the same as the reference image") and
+  the identity patch ran the author's weak ref_boost 2.0 -> Krea2's default prior (white
+  European man) won -> outputs came out blonde/fair "European male model" look. RULE going
+  forward: every prompt line OPENS with the absolute block - Jaisal: "Kerala (South Indian)
+  man, about 26, warm dark brown skin with natural texture, medium wavy black hair falling to
+  eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips,
+  clean-shaven faint stubble, lean slim build" / Zidhan: same but "short neat black hair,
+  full short dense black beard". NEVER the relative skin instruction alone, NEVER
+  blonde/fair/white skin words. Workflow anchor at ref_boost 4.0/1.0 (both v91 dataset
+  files). Scenes rooted in Kerala (no European editorial set). Full brief:
+  prompts\v91_kerala_identity_brief_v2.md.
 - **How locked:** Krea2 Identity Edit (face-lock) NOSE-only edits anchored on each character's
   OWN t2i ref (so ONLY the nose changed, everything else preserved): Jaisal base =
   `ff8144a1_000` (k2d_jaisal_v3, seed 820), Zidhan base = `3f8b025e_000` (k2c_zidhan_distinct2,
