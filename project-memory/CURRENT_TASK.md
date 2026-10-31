@@ -1,5 +1,10 @@
 # Current Task
 
+**2026-10-31 ~22:05 (user: "dress can be kerala style? does that matter for LoRA training? skin/body type matter? i will share the md — give me the prompt for claude"):**
+- **Training answers given:** clothing variety is GOOD for a char-LoRA (learns "this person in any clothes"); skin type + body type MUST be consistent across all dataset images (fair/blonde strays pollute the LoRA's skin prior — curation-exclude them at training time, D208 phase). Dataset = future training set → lock consistency now.
+- **Paste prompt for Claude saved → `prompts\claude_kerala_rewrite_prompt.md`** (user shares it WITH `v91_kerala_identity_brief_v2.md`; previous v1 output file = structural reference only, v2 supersedes). Prompt carries the hard rules: absolute identity blocks verbatim (Jaisal/Zidhan), never blonde/fair/white skin, never relative "same as reference", base t-shirts + natural Kerala/South Indian clothing (Kerala-style wear welcome, no Western model-glamour), Kerala scenes + lighting, keep photographic craft, every line ends with global suffix + D137 rule, 16 blocks exact line counts (20/20/25/25/25/20/25/7 × 2).
+- **USER NEXT:** Claude → 16 blocks → I embed via `embed_v91_lists.py` pattern (new output file, e.g. `v91_dataset_prompts_kerala_v2.md` → both workflow files) → user runs. Workflow anchors already at ref_boost 4.0/1.0 (both files 0/0).
+
 **2026-10-31 ~21:55 (user: "still got it wrong — no dark-skin mention anywhere, came out BLONDE / 'European gay men' look. Lets get the root of kerala boy. Identify where we went wrong, i will ask claude again"):**
 
 **ROOT CAUSE FOUND (3 gaps) + brief v2 written + workflow anchor strengthened:**
