@@ -13,6 +13,105 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-10-31
+
+**Sources:** Reddit ✅ HTML tier (LocalLLaMA 1 new/47, ComfyUI 0 new/25, artificial 0 new/50 —
+all 403-JSON walled as usual; **comfyui_workflows GATED 7th day** — redlib.perennialte.ch
+now also dead (410), catsarch parses no posts) · HF ✅ 12 trending + 1 downloads + 8
+datasets · Civitai ✅ 85 items, **0 new** in all four categories (deduped vs store) · X ❌
+login-walled (7 accounts, 429, browser tier ran, no `X_AUTH_TOKEN`/`X_CT0`).
+**Pipeline note:** 08:00 schtask got KILLED at start (LastTaskResult 0xC000013A Ctrl-C;
+log = header only) → 09:05 manual `daily.py --news-only` re-run completed idempotently:
+1150 items, **100 newly indexed**, store 1318.
+
+**New relevant items (vs 10-30 baseline):**
+- **Pika-Labs published Pika-H3-Flex on HF (198 likes)** — the model our kitchen pipeline
+  runs, now with the OFFICIAL package: **6-step generation**, FL2VA + Ref2VA adapters
+  (FP32 LoRA rank/alpha 128 on MiniMax-H3 base), native 480p/768p all 11 aspect ratios,
+  up to 12 ref files (9 img + 3 vid + 3 audio), 24 fps, 32 kHz stereo audio, 5–15 s;
+  **ComfyUI supported — `comfy/loras/` ships BF16 LoRA weights + R2V/FL2VA/T2V workflows** —
+  <https://huggingface.co/Pika-Labs/Pika-H3-Flex>
+- **Open-H3-Regenerate-2K landed in ComfyUI** (yesterday's 168u NVIDIA announcement →
+  today's ComfyUI port: refinement nodes + noise controls + comparisons) —
+  <https://v.redd.it/li33sky01lyh1> (+ SD thread <https://www.reddit.com/r/StableDiffusion/comments/1xhwa8d/openh3regenerate2k/>)
+- **Krea2 BBOX models finished training + released (239u)** — carried watch item RESOLVED
+  — <https://www.reddit.com/gallery/1xh6gar>
+- **LTX 2.5 open-source "film studio" on an 8 GB card** (#OpenSourceHiggsfield: cast,
+  script, render seamless LTX 2.5 takes) — relevant to the pending LTX-2.5 A/B test —
+  <https://v.redd.it/5y9xqdkjohyh1>
+- **SameFace — new ComfyUI node pack (42u)** — "measures it and moves it back" = face
+  consistency tooling — <https://v.redd.it/a2qrlrkjziyh1>
+- **kaitchup Qwen3.8-27B-SLQ GGUF "statistically lossless" (192u)** — SLQ quants
+  EAR98 Q5_K_S 18.5 GB / EAR98.5 Q5_K_M 20.3 GB / EAR99 Q6_K 23.3 GB (MTP tensors
+  retained, MTP disabled in eval) — candidate A/B for our Qwen3.8-27B brain —
+  <https://huggingface.co/kaitchup/Qwen3.8-27B-SLQ-GGUF>
+- **PSA: llama.cpp CVE-2026-116096 (132u)** — we run b11960 → check affected component +
+  patched build — <https://www.reddit.com/r/LocalLLaMA/comments/1xfizft/psa_llamacpp_cve2026116096/>
+- **Kokoro voice clone in ~600 MB VRAM (234u)** — narration voice option for the film
+  (audio stays ambient-only per D041; cloning ≠ music) — <https://v.redd.it/2yxkwfdpsfyh1>
+- **Gemma-4-31B-Humanlike-Chat (266u)** — "2.0's improved human voice on official Gemma 4
+  31B" — writer-model candidate (our writer is Gemma4-31B) —
+  <https://www.reddit.com/gallery/1xjdjy0>
+- **Krea2 1500+ style ComfyUI wildcard node (122u)** — <https://www.reddit.com/gallery/1xit315>
+- **HF new:** **Clover-35B-A3B-Preview** (176 likes — 35B MoE, 3B active — 32 GB candidate
+  note) <https://huggingface.co/Diffuspace/Clover-35B-A3B-Preview> · **LFM3-Audio-2B**
+  (154 — audio variant of the tracked LFM3 family)
+  <https://huggingface.co/LiquidAI/LFM3-Audio-2B> · **LFM3-1.7B** (487 likes)
+  <https://huggingface.co/LiquidAI/LFM3-1.7B> · **Nemotron-3.5-Transcribe-30B-A4B**
+  (417 — local transcription) <https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B>
+  · **Ling-3.1-flash-1019** (inclusionAI) <https://huggingface.co/inclusionAI/Ling-3.1-flash-1019>
+  · **baidu/Unlimited-OCR-2** (400) <https://huggingface.co/baidu/Unlimited-OCR-2>
+- **DeepSeek-V4.1-Flash-1017 cluster** (carried candidate): **41 tok/s on one 3090** via
+  musicurgy delta-inference-engine (170u) <https://github.com/musicurgy/delta-inference-engine>
+  · Unsloth Dynamic v3.1 GGUF release (335u) <https://i.redd.it/v9q24jegzlyh1.png>
+- **Qwen-family chatter:** Qwen4 expectations (163u)
+  <https://www.reddit.com/r/LocalLLaMA/comments/1xfrti9/qwen4_expectations/> · Qwen4-27B
+  "4-way HC shift" (156u) <https://www.reddit.com/r/LocalLLaMA/comments/1xftcj0/qwen427bs_4way_hc_shift/>
+  · Qwen27b vs GPT 6 (196u) <https://i.redd.it/a3awgopisnyh1.png> · "Qwen 3.8 flash next
+  rooted an LG TV of spyware/adware" (192u — our family)
+  <https://www.reddit.com/r/LocalLLaMA/comments/1xhoeo3/used_qwen_38_flash_next_on_underspeced_pc_to_root/>
+- **GPU-market cluster (5090 supply):** not accepting orders from board partners, backorders
+  unavailable (192u)
+  <https://videocardz.com/newz/nvidia-reportedly-not-accepting-rtx-5090-orders-from-board-partners-even-backorders-are-unavailable>
+  · discontinued 5090s → Chinese-lab die-ripping (449u)
+  <https://wccftech.com/the-discontinued-rtx-5090s-are-entering-chinese-labs-where-they-are-turned-into-ai-gpus/>
+  · 5080 removed from marketplace (246u) <https://i.redd.it/34ods6vogkyh1.png> · CMP170HX
+  unlock tool 30/40-series-only (N/A our 5090, 179u)
+  <https://wccftech.com/nvidia-rtx-30-40-gpus-get-faster-in-ai-llms-with-new-unlock-tool-but-prices-surge-too/>
+- **Civitai: 0 NEW** across hot/newest/comfyworkflows/newloras (store dedup) → **NO ADOPT**.
+- **MOSS (user opted out of checking):** news round-up (31u) + Character & Style Catalog
+  v0.1.2 34,251 samples (137u) <https://i.redd.it/csmdjery8lyh1.png> — noted, not chased.
+- **Tool packs:** MarcoStudio 13 image/video tools MIT (24u) <https://v.redd.it/g0dkuxhk0myh1>
+  — **no-adopt for now** (generic toolbox) · Motion Previs Studio 3D camera blocking +
+  ComfyUI rendering (27u) <https://v.redd.it/u1jw4i5q2oyh1> — **no-adopt for now** (heavy;
+  camera control already covered by H3 prompting) · **Primal VAE** (Ostris, 159u — "better
+  than Flux.2 VAE") — we anchor on qwen_image_vae (Krea2) / H3 VAE — noted, no action —
+  <https://i.redd.it/yns229gpioyh1.png>
+
+**ACTION ITEMS (new today):**
+1. **Pika-H3-Flex official package** — fetch `comfy/loras/` BF16 weights + the Comfy
+   workflows; compare against the community int8 pruned weights our 66.86 s kitchen run
+   used. TOP ADOPT candidate.
+2. **Open-H3-Regenerate-2K ComfyUI nodes** — inspect the refinement nodes + noise controls
+   for the H3 pipeline (follow-up on yesterday's 168u announcement).
+3. **Krea2 BBOX released** — locate model + node (Civitai/HF) — carried item resolved;
+   relevant to character-region editing.
+4. **Qwen3.8-27B-SLQ EAR99 Q6_K (23.3 GB)** — A/B candidate in a SEPARATE slot (never
+   replace the live brain without user OK).
+5. **llama.cpp CVE-2026-116096** — read the PSA (b11960 running) + check patched build.
+6. **LTX 2.5 8 GB film studio** — inspect for the pending LTX-2.5 A/B test.
+7. **Kokoro 600 MB voice clone** — evaluate for narration (D041: ambient-only audio;
+   narration voice ≠ music).
+8. Carried: X cookies (`X_AUTH_TOKEN`/`X_CT0`) · H3 Relay Hires / Openjutsu / PixText
+   reads · candidate models (DeepSeek-V4.1-Flash-1017 + delta-inference-engine,
+   Gemma-4-31B-Humanlike-Chat writer test) · LFM3-Audio-2B / 1.7B optional local tests.
+
+**SOURCE FAILURES (tier status per D203):** X — tier 3 login-walled (browser ran; no
+cookies set). r/comfyui_workflows — browser tier GATED 7th day (redlib.perennialte.ch now
+410; catsarch parses no posts). Reddit JSON 403 all subs (HTML tier carries 3/5 —
+ComfyUI/artificial returned 0 new, so nothing lost). Civitai ✅ 0 new (store dedup, all
+four categories).
+
 ## 2026-10-30
 
 **Sources:** Reddit ✅ HTML tier (SD 1 new/25, artificial 25 new/25, LocalLLaMA +
