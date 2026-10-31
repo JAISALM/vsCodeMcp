@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-10-31 ~22:50 (user: "clear all images from this workflow, start fresh / new folder, I'm about to run"):**
+- **Cleared all contaminated v91 outputs:** deleted `output\You did not name me Dataset 21\` (120 files = 60 png + 60 .txt — the 20:52/21:40/22:11 batches) and `output\Dataset\Jaisal\` (60 png — this morning's author-list batches). Kept `output\Dataset\zidane\` (20 png, 10/20 t2i-era — NOT v91). Every deleted image was contaminated (author-list prompts and/or the node-2837 blonde prepend).
+- **New fresh save folder (both files, 0/0):** LCAdvancedFolder 2862 → `folder='Dataset_v2'`, `prefix='Jaisal'`/`Zidhan' per file, include_prefix_in_path=False → this run saves to `output\Dataset_v2\` as `Jaisal_00001.png` (+.txt captions) and `Zidhan_00001.png` — fresh numbering, character in filename, one clean folder.
+- **Attire coverage in v2 lists (user asked):** mundu ×48, lungi ×16, kurta ×16, t-shirts ×54, jeans ×29, vests ×26 — Kerala wear already baked in (good for char-LoRA: same person, many clothes). Tracksuit etc. = future batch once ready (dataset is cumulative).
+- **USER RUNNING NOW:** fresh tab → `krea2_v91_dataset_jaisal.json` → Queue → images in `output\Dataset_v2\Jaisal_*.png`. Check first 2: .txt starts with "Kerala (South Indian) man...", hair black, skin dark brown. Then LCIndexSwitch 0-7. Then Zidhan file.
+
 **2026-10-31 ~22:35 (user: "everything perfect except blonde hair — why and how did we miss this?"):**
 
 **BLONDE-HAIR ROOT CAUSE FOUND + FIXED (node 2837 author residue):**
