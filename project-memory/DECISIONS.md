@@ -1274,11 +1274,11 @@
   the identity patch ran the author's weak ref_boost 2.0 -> Krea2's default prior (white
   European man) won -> outputs came out blonde/fair "European male model" look. RULE going
   forward: every prompt line OPENS with the absolute block - Jaisal: "Kerala (South Indian)
-  man, about 26, warm dark brown skin with natural texture, medium wavy black hair falling to
+  man, about 26, medium fair skin with a soft natural tan and even complexion (user target ~22:43: MEDIUM FAIR - not dark, not cream/pale), medium wavy black hair falling to
   eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips,
   clean-shaven faint stubble, lean slim build" / Zidhan: same but "short neat black hair,
   full short dense black beard". NEVER the relative skin instruction alone, NEVER
-  blonde/fair/white skin words. Workflow anchor at ref_boost 4.0/1.0 (both v91 dataset
+  blonde/white/cream/pale skin words (the skin words MUST say medium-fair). Workflow anchor ref_boost lowered 4.0 -> 3.0 on 2026-10-31 ~22:45 because the *_final_ref.png refs are dark-skinned and at 4.0 the face came out too dark: 3.0 lets the medium-fair words win while keeping strong face identity. (both v91 dataset
   files). Scenes rooted in Kerala (no European editorial set). Full brief:
   prompts\v91_kerala_identity_brief_v2.md.
 - **How locked:** Krea2 Identity Edit (face-lock) NOSE-only edits anchored on each character's

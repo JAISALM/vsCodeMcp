@@ -1,5 +1,12 @@
 # Current Task
 
+**2026-10-31 ~22:45 (user: "face too dark — he is MEDIUM FAIR, not dark or cream"):**
+- **Skin target CORRECTED (user directive ~22:43):** NOT "warm dark brown" (v2's descriptor) and NOT cream/pale — **medium fair with a soft natural tan** (a lighter Keralite complexion; still NOT the fair/American look).
+- **FIXED in MD + both files:** "warm dark brown skin with natural texture" → "medium fair skin with a soft natural tan and even complexion" on ALL 334 identity heads (167/char) + 13 mid-line skin mentions (347 total); 0 dark-brown-skin lines left; re-embedded both files (`embed_v91_lists.py`), **ref_boost 4.0 → 3.0** in both (node 169) — the `*_final_ref.png` refs are dark-skinned, so at 4.0 the anchor dragged the face dark; 3.0 lets the medium-fair words win while keeping face identity. Both **validated 0/0, 63 nodes**. D151 canon in DECISIONS.md updated (skin target + ref_boost 3.0 rationale).
+- **NOT touched:** LCClarity 2853 (author's Custom curve — next lever if faces still crushed), LCImageAdjust 2834 (all-zero = neutral), 2839/2833 (bypassed).
+- **USER RE-RUNS** (fresh tab!): `krea2_v91_dataset_jaisal.json` → Queue → `output\Dataset_v2\Jaisal_*.png`. Check: face reads medium-fair (light warm tan), not dark, not cream; hair black; caption starts with "Kerala (South Indian) man...". If a face still runs dark, that line's lighting words (monsoon/dusk scenes) are the cause — brighten those words, don't rewrite identity.
+- **OPTIONAL next (best anchor fix):** regenerate a medium-fair `*_final_ref.png` (quick t2i with the new descriptor; user runs) → swap the refs → can go back to ref_boost 4.0. Offered to user.
+
 **2026-10-31 ~22:50 (user: "clear all images from this workflow, start fresh / new folder, I'm about to run"):**
 - **Cleared all contaminated v91 outputs:** deleted `output\You did not name me Dataset 21\` (120 files = 60 png + 60 .txt — the 20:52/21:40/22:11 batches) and `output\Dataset\Jaisal\` (60 png — this morning's author-list batches). Kept `output\Dataset\zidane\` (20 png, 10/20 t2i-era — NOT v91). Every deleted image was contaminated (author-list prompts and/or the node-2837 blonde prepend).
 - **New fresh save folder (both files, 0/0):** LCAdvancedFolder 2862 → `folder='Dataset_v2'`, `prefix='Jaisal'`/`Zidhan' per file, include_prefix_in_path=False → this run saves to `output\Dataset_v2\` as `Jaisal_00001.png` (+.txt captions) and `Zidhan_00001.png` — fresh numbering, character in filename, one clean folder.
