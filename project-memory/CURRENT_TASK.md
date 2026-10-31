@@ -1,5 +1,18 @@
 # Current Task
 
+**2026-10-31 ~20:45 (user: "restarted, tell me what to do now, can i run any workflows now?"):**
+
+**v91 IS NOW RUNNABLE — machine-adapted file built + validated 0/0:**
+- **`krea2_v91_dataset_jaisal.json`** (workflows dir; `utilities\build_v91_jaisal.py`) — the proven v91 pro-grade dataset workflow adapted to our machine, **validate 0/0, no warnings**:
+  - **Deleted 13 dead nodes** whose classes are NOT installed (author-local pack): Fast Bypasser ×4 (2785/2845/2870/2875 — all pruned, feed no save node), Label (2852), Node Collector (2805 — its 4 branches = author's bypassed post menu; live chain = decode → clarity → adjust → save), Mute/Bypass Repeater (2784 — isolated), LCNote ×6 (104/114/121/252/2816/2817 — annotations). Verified every one feeds no output before deleting.
+  - **Live chain intact**: 2891 KSampler (seed 13 FIXED, 10 steps cfg 1 euler/simple) → 35 VAEDecode → 2853 LCClarity → 2834 LCImageAdjust → **2859 LCSaveImage** (via 2862 LCAdvancedFolder "Dataset" folder) + 2827 LCBatchImageComparer (face-similarity vs raw decode) + 2821 LC123SaveText (.txt captions) + 2850 LCVRAMCacheClear.
+  - **RemBG branches LIVE** (author's proven setup): refs pass through 2892/2893 LCRemBG → LCAnySwitch → patch source latents; enums fixed to local `birefnet.safetensors (local)` + vitmatte placeholder (method "none" = unused).
+  - **Widget fixes**: 171 identity LoRA → `krea2_identity_edit_v1_2.safetensors`; LoadImage 1+2782 → `jaisal_final_ref.png`; 2888 LCOptimizer → current 13-value shape [Krea 2 (Turbo), Optimal, ★ Recommended ×3, Auto, auto ×4, off, auto, auto]; 2797 aspect → `Instagram Portrait (4:5) - 1080x1350` (installed pack's label).
+  - **Prompts embedded**: node 2843 CR Prompt List body = Jaisal's 10 setting prompts (one per line = CR_PromptList splits on \n); LCIndexSwitch [5,8] = 0-based → any_06 = 2843 (slot order 257,258,259,2770,2842,2843,260,2772) — verified, no switch change.
+- **USER NEXT:** open `krea2_v91_dataset_jaisal.json` in a FRESH tab → Queue Prompt → 10 images (one per prompt line, batch) land in `output\Dataset\` with .txt captions + face-compare previews. ~30-45 s/image on the 5090. If a line drifts, re-run just that line (fixed seed 13 = deterministic).
+- **Fallbacks:** `lora_dataset_jaisal.json` (my t2i + realism LoRA) still ready. **Zidhan version** (`krea2_v91_dataset_zidhan.json`) to be built the same way once Jaisal's batch looks good (swap refs to `zidhan_final_ref.png` + Zidhan's 10 prompts).
+- **rgthree-comfy was git-pulled** (43 files) — irrelevant now (the 3 missing classes aren't rgthree's — they're the author's local pack), no restart needed for the adapted file.
+
 **2026-10-31 ~20:23 (user: "that workflow is not some random one — it's PROVEN, people admiring it (Civitai 2805529 'Krea2 ID Edit Pro-Grade Character Dataset Creator') — this is why i asked civitai for daily RAG" + supplied the author's 4 LC pack repos + DOUBT: "i dont see any changes — realism lora not wired as stated — are we sure we are not generating the same 10 images again?"):**
 
 **v91 = PROVEN COMMUNITY WORKFLOW — now RUNNABLE (LC packs installed):**
