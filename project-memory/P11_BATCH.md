@@ -115,7 +115,7 @@ lower priority than those.
 ## Status board
 | item | state |
 |---|---|
-| P11-1 heretic brain | venv done (CUDA torch installed) · **heretic 2.0 from repo installing** (PyPI only has 1.4.0 = old config style; repo configs are 2.0-style with ARA plugin) · 55.6 GB original downloading · **conversion path refined**: D:\llama = b11960 (current) but NO NVFP4 in its quantizer → heretic output → `llama.cpp-src/convert_hf_to_gguf.py` (source clone, running) → F16 → `llama-quantize.exe Q4_K_M/Q5_K_M` (MTP head: verify converter support, else drop spec flags) · RUN = user (brain stopped, bnb_4bit) |
+| P11-1 heretic brain | **toolchain COMPLETE** (venv torch 2.14.1+cu130 CUDA ✓, heretic 2.0.0 from repo, converter deps ✓) · 55.6 GB original downloading · **3-bat user pipeline ready**: `run_brain.bat` → `convert_and_quantize.bat` → manual MODEL-line swap (mmproj unchanged; MTP exported via `--mtp`) · RUN = user (brain stopped, bnb_4bit, est 2-4h) |
 | P11-2 Body Double | setup done · downloads DEFERRED · gated files need license+token · low-res test later |
 | P11-3 opencast | DONE (LoRA + validated canvas workflow) · app skipped |
 
