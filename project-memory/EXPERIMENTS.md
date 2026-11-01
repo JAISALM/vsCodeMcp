@@ -4,6 +4,22 @@ Newest experiments first.
 
 ---
 
+## 2026-11-01 — Reddit deep-read: Krea2 character-LoRA realism recipe (4 threads fully read)
+
+- **Trigger:** user ran `lora_stack_ab.json` (4 strength branches, turbo UNET, cfg 1) → "all 24 images similar or same = just realism LoRA working, our LoRA isn't." Ordered full read of 4 r/StableDiffusion Krea2 threads (browser-head fetched, parsed: `session_tmp\reddit_krea2\post{1..4}_*.txt`).
+- **Thread contents:**
+  - Post1 "I've trained 100+ Krea 2 character LoRAs" (score 879): dataset quality > size (30 clean > 100 mediocre), body coverage (face + shoulders + waist + full body, angles), too-similar images bake in (70% same style → inflexible), **final epoch ≠ best epoch** (earlier checkpoints often better likeness/natural skin/flexibility), test outside dataset comfort zone. Comments: LoKR factor 4/8 + sigmoid ≈ "almost perfect likeness within 1000 steps on AI-toolkit, even one headshot"; automagic3 is the go-to optimizer; epochs > steps for comparing runs.
+  - Post2 "Tried training a character lora with Krea 2" (lemmy thread): OP config preserved by user in `E:\Krea2\Lora_helper\krea2loraconfig.txt` (Krea-2-Raw, arch krea2, LoKR linear32/alpha32/full_rank/factor4, 5000 steps, automagic3, lr 1e-4, sigmoid timesteps, flowmatch, sample = 30 steps guidance 4 @1024; ref photo `ComfyUI_03395_.png`).
+  - Post3 "Character Loras with Krea2 (again)": THE RECIPE (the "most realistic" poster's workflow): **generate 2-3MP; RAW model + turbo LoRA @0.5; 16 steps; CFG 2; euler + (Bong Tangent OR beta57); wan 2.1 VAE; Ostris' Rebalance.**
+  - Post4 "My MOSS Character Lora Training Results": MOSS model thread — workflow = MOSS/Qwen, not applicable to Krea2.
+- **Mechanics decoded:** "Bong Tangent" = `ClownsharKSampler_Beta` (RES4LYF pack, **already installed**) with `sampler_name="linear/euler"`, `scheduler="beta"`, `bongmath=True` (FilmStudio-Vionex pack uses exactly this 2-pass pattern: pass1 linear/euler+beta 15 steps + pass2 exponential/res_4s_munthe-kaas+kl_optimal 3 steps denoise 0.27). "beta57" = standard KSampler scheduler option. **"Ostris' Rebalance" = NOT a LoRA** — it's the `ConditioningKrea2Rebalance` node (per-layer re-weighting of Qwen3-VL-4B's 12-tap conditioning; counters safety-filter quality dilution / "unfilter"). Pack = `nova452/ComfyUI-ConditioningKrea2Rebalance` (**cloned into `E:\comfyUi_latest\...\custom_nodes\`** — needs ComfyUI RESTART to register). Node widgets: `multiplier` (FLOAT, default 4.0) + `per_layer_weights` (STRING, default `"1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.5,5.0,1.1,4.0,1.0"` — the KNP strong-style workflow uses multiplier 2.5 = "balanced"). Ostris HF has no rebalance file (checked full model list); KNP CivArchive workflow (model 2750448) documents the 12-layer weights.
+- **Why our 24 images were identical:** turbo UNET + **cfg 1** = zero guidance — the character identity words in the prompt have no steering force; whatever the LoRA stack's face prior is, it dominates identically across strength branches. RAW + **cfg 2** = prompt actually steers the face.
+- **Built:** `krea2_raw_recipe.json` (validate 26/26 converted; only 3× unknown-class errors = Rebalance pack not yet registered, clears on restart): **A** = `krea2_raw_bf16` + char@1.0 + `krea2_turbo_lora_rank_64_bf16`@0.5 + Rebalance(2.5, default 12-layer weights) on positive + 16 steps cfg 2 euler **beta57** + `wan_2.1_vae.pth` (downloaded 507MB from `Wan-AI/Wan2.1-T2V-14B`) + 1152×2048 seed 42; **B** = A minus turbo LoRA (pure RAW identity check); **C** = A with `simple` scheduler (beta57 control). Anti-plastic negative, Jaisal identity-head prompt (paste file `utilities\krea2_raw_recipe_prompts_paste.txt`).
+- **User actions:** restart ComfyUI → open workflow fresh tab → paste prompt → queue once → 3 images `rawrec_A/B/C` → judge face. **Pending result.**
+- **Also noted:** Ostris published `ostris/primal_vae` (HF, 2026-10-31) — community asking if it works in ComfyUI; candidate future VAE. Post1 OP keeps a public Krea2 LoRA library on HF (commissions).
+
+---
+
 ## 2026-11-01 — Fizgig v1 single-subject "anime girl" mystery (RESOLVED — sample-prompt bug, not training)
 
 - **Goal:** why did `krea2jaisal_v1`/`krea2zidhan_v1` previews come out as ANIME characters.
