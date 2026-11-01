@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-01 — krea2_raw_recipe run (user) → v1 LoRA verdict: WEAK-IDENTITY ARTIFACT; v2 retrain in ai-toolkit
+
+- **Goal:** test the OP's exact recipe (RAW + turbo@0.45 + AuraFlow(5) + 16 steps cfg 2.5 euler + bong_tangent/beta57 + wan VAE + 832×1216, Rebalance on A) for Jaisal identity.
+- **Result (user, ~08:05):** all 3 branches "pretty cap" — none resemble Jaisal. Verified by viewing `oprec_A_00001` / `oprec_B_00001`: right TYPE (wavy black hair, black tee, young South Indian man, Kerala scene) but NOT Jaisal's face. ~30% likeness.
+- **Verdict:** inference-layer tuning is EXHAUSTED. A LoRA can only express what its weights encode; v1 (Fizgig, 300 steps) encodes ~30% of the identity. User (rightly): people abandon at 50-60%. **v1 is a training artifact, not a pipeline artifact.** The RAW+cfg2.5 pipeline remains the correct inference path (kept for v2 testing).
+- **Confirmed training-side truth:** the community-proven recipe is an **AI-TOOLKIT** recipe (lemmy OP's config `E:\Krea2\Lora_helper\krea2loraconfig.txt` = AI-toolkit YAML; repo `ostris/ai-toolkit`). v1 was trained in Fizgig (different engine, 300 steps).
+- **Action (started):** ai-toolkit install at `D:\models\ai-toolkit` (py3.12 venv, torch 2.13.0 cu130, job pwsh-334). Datasets located: `D:\lora_training\jaisal_3110` + `D:\lora_training\zidane_3110` (20 png + 20 txt each, 1080×1344, bare-trigger captions). v2 configs: `session_tmp\aitk_{jaisal,zidhan}_v2.yml` = OP's exact recipe (LoKR 32/alpha32/full_rank/factor4, 5000 steps, automagic3, flowmatch+sigmoid, lr 1e-4, save_every 100, sample_every 100) + local `krea2_raw_bf16.safetensors` (qfloat8 quantized base for 32GB VRAM).
+- **Next:** run jaisal v2 → scan checkpoints 100-1000 by eye (final epoch ≠ best) → test winner in ComfyUI (test_lora2 pattern on RAW+cfg2.5) → zidhan → wire into movie pipeline. If v2 still <60%: dataset layer (tight face coverage per 100+-LoRAs OP rule).
+
+---
+
 ## 2026-11-01 — Reddit deep-read: Krea2 character-LoRA realism recipe (4 threads fully read)
 
 - **Trigger:** user ran `lora_stack_ab.json` (4 strength branches, turbo UNET, cfg 1) → "all 24 images similar or same = just realism LoRA working, our LoRA isn't." Ordered full read of 4 r/StableDiffusion Krea2 threads (browser-head fetched, parsed: `session_tmp\reddit_krea2\post{1..4}_*.txt`).

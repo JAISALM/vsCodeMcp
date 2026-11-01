@@ -13,6 +13,108 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-01
+
+**Sources:** Reddit ✅ HTML tier (32 new items — artificial 11 / LocalLLaMA 8 / StableDiffusion 7 /
+ComfyUI 6; JSON 403 on all subs as usual) · HF ✅ 5 trending models + 3 datasets + 1 top-download ·
+Civitai ⚠️ PARTIAL — only 1 item captured today (hot: DreamShaper XL re-trending); no ComfyWorkflow /
+new-LoRA captures · X ✅ **tier-3 browser RECOVERED** (anonymous profile pages rendered with full
+metadata — `X_AUTH_TOKEN`/`X_CT0` still NOT set) — 99 items from 4 of 7 tracked accounts (MaxLiu09,
+PixelAigc, akatz_ai, xieenze_jr; no capture for BennyDaBall_OG / Alissonerdx / diodiogod); 96 of 99
+are 2024–25 timeline backfill, only 3 posts dated 2026-10.
+**Pipeline note:** 08:00 schtask clean — log `fetch: 104 new items` + `done`, LastTaskResult 0 — no
+re-run needed.
+
+**New relevant items (vs 10-31 baseline):**
+- **Betelgeuse: Qwen 3.8 Flash Next @ 22 tok/s sustained (spiking 48) on RTX 3060 12 GB + 16 GB
+  DDR4, "100% bit-exact" (413u)** — new memory/offload recipe for our Qwen 3.8 family (agent/writer
+  LLMs) — GPU+VRAM-tricks candidate, bit-exact claim is checkable
+  <https://v.redd.it/lnqnbp15nsyh1>
+- **Tiny sliders for MiniMax H3 — control motion/emotion "without training a LoRA" [ComfyUI] (137u)**
+  — no-LoRA H3 control layer; complements our Krea2 char-LoRA + sheet pipeline (H3 video routes)
+  <https://v.redd.it/6snf3fm9zoyh1>
+- **FastH3 + ComfyUI: short anime scene from character sheets (45u)** — sheet → H3 scene, exactly
+  our Krea2 reference-sheet → H3 pattern (Krea2 reference sheets / H3 video routes)
+  <https://v.redd.it/4ysutygq1qyh1>
+- **LayerShop update: now with Regions (50u)** — region-scoped layer editing — candidate for
+  charswapmask/SAM3 character-region edits <https://v.redd.it/g62bzjf6vtyh1>
+- **MINIMAX H3 4K (180u)** — H3 4K output route — follow-up on the carried H3-Hires item
+  <https://v.redd.it/o8io2bvvtqyh1>
+- **Blender previsualization with MiniMax H3 (38u)** — Blender camera-blocking → H3 render (H3 video
+  routes / previz) <https://v.redd.it/akqdv3440wyh1>
+- **H3 Morphing (23u)** — H3 morphing feature (H3 video routes) <https://v.redd.it/8h3phdx23myh1>
+- **PSA: DFlash2 GGUF for Qwen 3.8 Flash Next, +17% avg (131u)** — quant upgrade for our LLM family
+  (writer+agent LLMs + llama.cpp) <https://huggingface.co/nazeshinjite/Qwen3.8-Flash-Next-DFlash2-GGUF/>
+- **Pika H3 "Flexing its muscles" (24u)** — community demo of Pika-H3-Flex (10-31's TOP ADOPT
+  candidate — compare against our kitchen run) <https://v.redd.it/b02yf82u5qyh1>
+- **vLLM PLE disk offload on nightly (167u)** — disk-offload path for large models (GPU+VRAM
+  tricks; we run llama.cpp — informational) <https://github.com/vllm-project/vllm/pull/59958>
+- **Edge0/Audio8-TTS-Realistic-0.6b — HF trending (163 likes, 2.7k dl)** — small realistic TTS,
+  runs locally — narration-voice option (D041: audio stays ambient-only for music; a narration
+  voice ≠ music) <https://huggingface.co/Edge0/Audio8-TTS-Realistic-0.6b>
+- **speridlabs/idol — HF trending (214 likes, 2.4k dl)** — no description in capture — unverified,
+  low priority <https://huggingface.co/speridlabs/idol>
+- **X — @PixelAigc (195 likes, 10-31): how super-long AI videos (1300 s / 640 s / 500 s / 1010 s)
+  get made — multi-minute generation method** — long-form video route (H3 video routes)
+  <https://x.com/PixelAigc/status/2116511077202833801>
+- **X — @MaxLiu09 (4994 likes, 10-12): "made an open-source one that does the same thing" +
+  Blender extension** — capture carries only t.co short links — verify what it is before acting
+  <https://x.com/MaxLiu09/status/2109530569566744620> · **@MaxLiu09 (10-12): Motion2MixamoRig
+  passes 200 GitHub stars** — motion → Mixamo rigging — marginal for our H3-video pipeline —
+  **NO ADOPT** <https://x.com/MaxLiu09/status/2109689869312377094>
+- **Civitai — DreamShaper XL re-trending (hot, 639k dl)** — old SDXL checkpoint — **NO ADOPT**
+  (we anchor on Krea2 / H3 / Qwen Image, not SDXL) <https://civitai.com/models/112902> · no new
+  ComfyWorkflow/LoRA captures today (partial fetch — see Sources).
+- **GPU/hardware cluster (market):** PCB shortage, orders booked until 2030 (262u)
+  <https://wccftech.com/ai-boom-triggers-massive-pcb-shortage-with-orders-booked-until-2030/> ·
+  AMD November Radeon GPU + GDDR6 price increase (141u)
+  <https://videocardz.com/newz/amd-reportedly-plans-another-radeon-gpu-and-gddr6-price-increase-in-november>
+  · "Guys I think I found our GPUs" (Business Insider, 138u)
+  <https://www.linkedin.com/posts/businessinsider_the-ai-boom-is-facing-a-new-phenomenon-heaps-activity-7521314592090705920-K6m8>
+  — continuation of the 10-31 5090 supply cluster; no action for our 5090.
+- **LLM chatter:** "spent a lot on my rig but I can only run Gemma 4" (138u — our writer-model
+  family) <https://www.reddit.com/r/LocalLLaMA/comments/1xkcyn6/spent_a_lot_on_my_rig_but_i_can_only_run_gemma_4/>
+  · **Koboldcpp v1.124 released** (llama.cpp fork; we run llama.cpp directly — informational)
+  <https://github.com/LostRuins/koboldcpp/releases/tag/v1.124> · "What happens once China stops
+  providing free, OSS models?" (172u) <https://i.redd.it/npcf6t3r3vyh1.png> · one-person studio
+  ships a 12-chapter FPS coded by AI agents in 20 days (26u — agent-LLM capability context)
+  <https://www.reddit.com/r/artificial/comments/1xikfco/a_oneperson_studio_shipped_a_steam_demo_of_a/>
+  · **Qwen Image 2.1** anime-cosplay gallery (132u — new Qwen-image version; we anchor
+  qwen_image VAE / Krea2 — informational) <https://www.reddit.com/gallery/1xj4hfm>
+- **MOSS (user opted out of checking):** MOSS-Image-Base + 8-steps-dmd2 6mp examples (122u)
+  <https://www.reddit.com/gallery/1xjmxyo> · Ostris training MOSS Image on Primal VAE — "4K images
+  at 1080p compute cost" (123u — follow-up on the 10-31 Primal VAE note)
+  <https://www.reddit.com/r/StableDiffusion/comments/1xkb7ay/ostris_is_training_moss_image_to_use_primal_vae/>
+  — noted, not chased.
+- **HF datasets (marginal):** ccore/ThreeJS-3D-Scenes (4,146 3D scenes + prompts + thinking
+  traces) <https://huggingface.co/ccore/ThreeJS-3D-Scenes> · codepawl/simready-glb (2,595 CC-BY
+  GLB models) <https://huggingface.co/codepawl/simready-glb> — 3D asset/scene data for previz —
+  no action for now.
+
+**ACTION ITEMS (new today):**
+1. **H3 "tiny sliders" (no-LoRA motion/emotion control)** — find the workflow/nodes; test with our
+   Krea2 character sheets (H3 video routes). TOP new H3 item.
+2. **Betelgeuse bit-exact Flash Next recipe (413u)** — read the post, identify the quant/offload
+   method; A/B in a SEPARATE slot (never replace the live brain without user OK).
+3. **DFlash2 GGUF (nazeshinjite, +17% avg)** — A/B candidate for our Qwen 3.8 Flash Next setup.
+4. **FastH3 character-sheet workflow (45u)** — inspect for our sheet → H3 scene pipeline.
+5. **LayerShop "Regions" update** — check the node for charswapmask/SAM3 region edits.
+6. **Pika H3 community demo (24u)** — compare against our 66.86 s kitchen run; continue 10-31 TOP
+   ADOPT (official `comfy/loras/` BF16 weights + workflows).
+7. **Edge0/Audio8-TTS-Realistic-0.6b** — evaluate local narration (D041: ambient-only music rule;
+   narration voice is OK).
+8. Carried: X cookies (`X_AUTH_TOKEN`/`X_CT0`) — tier worked anonymously today, so deprioritized
+   · H3 4K / Relay Hires reads · LTX-2.5 A/B · Gemma-4-31B-Humanlike-Chat writer test · llama.cpp
+   CVE-2026-116096.
+
+**SOURCE FAILURES (tier status per D203):** X — tier-3 browser **recovered** today (anonymous
+profile pages rendered with full metadata; `X_AUTH_TOKEN`/`X_CT0` still unset — cookies now a
+nice-to-have, not required); 3 of 7 tracked accounts (BennyDaBall_OG, Alissonerdx, diodiogod)
+captured nothing this run. Reddit JSON 403 on all subs (HTML tier carried — 32 new items today).
+Civitai — PARTIAL: only 1 item captured today (hot DreamShaper XL); ComfyWorkflow/new-LoRA
+categories returned nothing — treat as partial fetch, NOT a verified zero-new day. HF ✅ (5
+trending models + 3 datasets + 1 top-download).
+
 ## 2026-10-31
 
 **Sources:** Reddit ✅ HTML tier (LocalLLaMA 1 new/47, ComfyUI 0 new/25, artificial 0 new/50 —
