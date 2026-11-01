@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-01 — Fizgig v1 single-subject "anime girl" mystery (RESOLVED — sample-prompt bug, not training)
+
+- **Goal:** why did `krea2jaisal_v1`/`krea2zidhan_v1` previews come out as ANIME characters.
+- **Diagnosis (proven):** sample-prompt token mismatch. Single-subject captions are NOT fused (ground truth .txt = `jeskv, a man, ...` — fused tokens `gwelt, a man` → `gweltman` are a MULTI-PERSON isolation mechanism); v1 SAMPLE_PROMPT was the fused `jeskvman`/`dloroman` → token absent from captions → previews = pure base prior (anime boy/girl), identical e0→e15, likeness ~0.00–0.08 (unrelated band). Training was fine (loss stable 0.03–0.06 e1–e14, min e11 jaisal / e13 zidhan; e15 end-spike 0.25/0.23).
+- **Proof without retraining (Repair Studio):** `POST /api/studio/load {family:krea2, primary:<abs .safetensors>, fast, turbo}` → poll `GET /api/studio/status` until `state=ready` → `POST /api/studio/render {state:{prompt,seed,strength}}` → `GET /api/studio/image?which=baseline|tweaked` (script: `session_tmp\fizgig_studio_resample_test.py`). Rendered `krea2jaisal_v1-000011` + `krea2zidhan_v1-000013` with correct identity-head prompts (turbo preview = movie pipeline): Jaisal = real wavy-haired Keralite man (strong); Zidhan = right face/short hair but beard renders LIGHT vs the dataset's full dense beard (dataset verified consistent — data good; beard = binding strength, try other epochs or beard-forward captions).
+- **Staged for production:** `models\loras\krea2jaisal_v1_e11.safetensors` + `krea2zidhan_v1_e13.safetensors`; test workflows `test_lora2_{jaisal,zidhan}.json` (v91 turbo 7-node pipeline, LoRA strength 1.0, prompts open `jeskv, a man, ...`/`dlor, a man, ...`, SaveImage `lora_test2_*`).
+- **Rules learned:** (1) sample prompt tokens must EXACTLY match caption tokens (single-subject = bare trigger + class; multi-person = fused token). (2) Likeness % baseline is user/desktop-selected and PERSISTS across runs (`gallery_likeness.py`) — re-select in the UI or scores stay invalid. (3) Studio workbench = free way to re-render any trained LoRA with any prompt (no retraining, ~10 min).
+- **Result:** NOT a training failure — LoRAs are usable; Jaisal strong, Zidhan needs beard verification in the 1024 production pipeline.
+
+---
+
 ## 2026-10-25 — withers seamless-vlog template: first completed run (P9 item 6, 0.42.5 + sageattention 2.2.0)
 
 **Goal:** prove the author's 1-click vlog template end-to-end on our stack with a LONG
