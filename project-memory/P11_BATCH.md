@@ -119,6 +119,21 @@ lower priority than those.
 | P11-2 Body Double | setup done · downloads DEFERRED · gated files need license+token · low-res test later |
 | P11-3 opencast | DONE (LoRA + validated canvas workflow) · app skipped |
 
+## 2026-11-01 ~21:55 (conversion CLI PRE-VALIDATED — run_brain.bat footer corrected)
+`convert_hf_to_gguf.py --help` (current llama.cpp source): outtype choices are lowercase
+`{f32,f16,bf16,q8_0,tq1_0,tq2_0,auto}` (no `-m`/single-file flag exists — splitting is
+controlled by `--split-max-tensors/--split-max-size`). **`--mtp` flag present** (exports
+the MTP/NextN head — REQUIRED so the brain's `--spec-type draft-mtp` survives; `--no-nextn`
+disables it). Corrected recipe (also in run_brain.bat footer):
+```
+1. D:\models\ai-movie\repos\heretic\.venv\Scripts\python D:\llama\llama.cpp-src\convert_hf_to_gguf.py "D:\models\qwen\heretic_out\qwen38-27B-brain" --outtype bf16 --mtp
+2. D:\llama\llama-quantize.exe <bf16.gguf> D:\models\qwen\Qwen3.8-27B-heretic-Q4_K_M.gguf Q4_K_M
+```
+Plus `--dry-run` exists — ONCE the Qwen download completes, run
+`... --dry-run --outtype bf16 --mtp <dir>` to confirm the qwen3_5 arch + MTP export
+plans cleanly BEFORE the real 55 GB conversion. mmproj stays the existing
+`mmproj-BF16.gguf` (language-model-only modification; no `--mmproj` re-export needed).
+
 ## 2026-11-01 ~21:50 status (user back at 9:30 PM — tonight = ZIDHAN V2 TRAINING)
 User corrected the timeline: 9:30 was PM, not AM. **Tonight's priority = zidhan v2 LoRA
 training (launch verified ready — see CURRENT_TASK.md top entry).** This batch's GPU
