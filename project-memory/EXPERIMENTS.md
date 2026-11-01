@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-01 — AI-Toolkit v2 first-run crash hunt → Windows commit-charge ceiling root cause + low-commit loader
+
+- **Goal:** make `train_jaisal_v2.bat` execute end-to-end (user's first run failed; demand = root cause + execution-verified fix).
+- **Findings (all execution-proven):**
+  1. `-l train_jaisal_v2.log` (bare name) → `toolkit/print.py:32` `os.makedirs('')` → WinError 3. Fixed = absolute log paths in both bats.
+  2. `safetensors.torch.load_file` on the 26.3 GB `krea2_raw_bf16.safetensors` → deterministic 0xC0000005 in `torch_cpu.dll` (same fault offset 3×). Isolation ladder: plain 26 GB alloc+fill OK · pure-Python full-file mmap OK · `safe_open(framework="np")` OK · `safe_open(framework="pt")` → **`OSError 1455 "The paging file is too small"`** = the smoking gun: the pt-framework open commits the entire file mapping up front; with ~59 GB of 124.6 GB commit limit already used (brain 19.3 GB), the 26 GB mapping + load copies overflow → hard crash (not a clean Python error). Version-independent (crashes on 0.7.0 and 0.9.0rc1).
+  3. Quantize step (qfloat8) crash = same ceiling under the full job's memory state. The quantizer itself is innocent: real 26 GB model + real `aitk_post_load` quantized clean standalone (`session_tmp\st_postload_test.py` → POST-LOAD OK; krea2's block-names list resolves empty → live path = "quantizing extras" whole-module pass).
+- **Fix (in place):** `_load_state_dict_low_commit()` in `E:\AI-Toolkit-Easy-Install\AI-Toolkit\extensions_built_in\diffusion_models\krea2\krea2.py` — lazy file mmap + per-tensor raw-byte reconstitution (BF16 = uint16 → `.view(torch.bfloat16)`), `load_file` fallback. Verified: 430 tensors / 33 s / dtype counts correct (256 bf16 + 174 f32) / value sanity OK. Patch compiles (`py_compile`).
+- **Environment rule (permanent):** for >4 GB safetensors on this machine, never rely on the pt-framework `load_file`/`safe_open` while other large RAM consumers (brain server) are running — use the low-commit loader or close the consumers. venv safetensors now 0.8.0 (diffusers pins >=0.8.0-rc.0).
+- **Status:** load + quantize paths execution-verified; training loop itself = user's run (D192) after closing all apps (~50 GB RAM + 32 GB VRAM freed).
+
 ## 2026-11-01 — krea2_raw_recipe run (user) → v1 LoRA verdict: WEAK-IDENTITY ARTIFACT; v2 retrain in ai-toolkit
 
 - **Goal:** test the OP's exact recipe (RAW + turbo@0.45 + AuraFlow(5) + 16 steps cfg 2.5 euler + bong_tangent/beta57 + wan VAE + 832×1216, Rebalance on A) for Jaisal identity.
