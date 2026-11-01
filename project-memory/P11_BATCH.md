@@ -115,6 +115,14 @@ lower priority than those.
 ## Status board
 | item | state |
 |---|---|
-| P11-1 heretic brain | venv done (CUDA torch verifying) · 55.6 GB original downloading · swap recipe documented · RUN = user |
+| P11-1 heretic brain | venv done (CUDA torch installed) · **heretic 2.0 from repo installing** (PyPI only has 1.4.0 = old config style; repo configs are 2.0-style with ARA plugin) · 55.6 GB original downloading · **conversion path refined**: D:\llama = b11960 (current) but NO NVFP4 in its quantizer → heretic output → `llama.cpp-src/convert_hf_to_gguf.py` (source clone, running) → F16 → `llama-quantize.exe Q4_K_M/Q5_K_M` (MTP head: verify converter support, else drop spec flags) · RUN = user (brain stopped, bnb_4bit) |
 | P11-2 Body Double | setup done · downloads DEFERRED · gated files need license+token · low-res test later |
 | P11-3 opencast | DONE (LoRA + validated canvas workflow) · app skipped |
+
+## 2026-11-01 ~21:50 status (user back at 9:30 PM — tonight = ZIDHAN V2 TRAINING)
+User corrected the timeline: 9:30 was PM, not AM. **Tonight's priority = zidhan v2 LoRA
+training (launch verified ready — see CURRENT_TASK.md top entry).** This batch's GPU
+work (heretic run) waits for a free-GPU window (after zidhan scan, ~morning/afternoon).
+Only background activity left: Qwen 55.6 GB download (disk-only), heretic-2.0 repo
+install, llama.cpp source clone. FLUX3: user to click Agree on
+https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy then provide a token.
