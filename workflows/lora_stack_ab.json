@@ -1,0 +1,2570 @@
+{
+ "version": 0.4,
+ "last_node_id": 301,
+ "last_link_id": 52,
+ "id": "lora_stack_ab",
+ "config": {},
+ "extra": {},
+ "groups": [],
+ "revision": 0,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    320,
+    70
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    40,
+    140
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    260
+   ],
+   "size": [
+    320,
+    50
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 200,
+   "type": "PixaromaPromptEach",
+   "pos": [
+    400,
+    470
+   ],
+   "size": [
+    420,
+    320
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "prompt",
+     "name": "prompt",
+     "type": "STRING",
+     "links": [
+      11
+     ]
+    },
+    {
+     "localized_name": "index",
+     "name": "index",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "localized_name": "total",
+     "name": "total",
+     "type": "INT",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PixaromaPromptEach",
+    "promptEachState": {
+     "version": 2,
+     "rows": [
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a short PATCHY BEARD on his chin and jaw (clearly visible sparse uneven patches of dark hair, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is walking alone along a narrow Kerala backwater path during the monsoon. The camera is behind him at a slight three-quarter angle as he naturally looks back over one shoulder, his wavy hair down and loose, the sparse beard visible on the side of his jaw. He is wearing a plain dark t-shirt. Lush tropical vegetation, soft mist, wet damp surfaces, subdued overcast daylight, humid monsoon atmosphere. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+       "enabled": true
+      },
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a short PATCHY BEARD on his chin and jaw (clearly visible sparse uneven patches of dark hair, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is sitting alone on a simple wooden Kerala houseboat, naturally relaxed, looking out toward the calm backwater, his wavy hair down and loose around his neck, face in a natural three-quarter profile. He is wearing a plain dark t-shirt. Wooden houseboat deck, calm water, tropical greenery, soft natural daylight. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+       "enabled": true
+      },
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a short PATCHY BEARD on his chin and jaw (clearly visible sparse uneven patches of dark hair, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is standing alone on a small ordinary Kerala street during a light monsoon rain, his wavy hair down and slightly wet, the sparse beard visible on his chin and jaw, rain streaks visible in the air, wet road and surrounding surfaces, tropical vegetation and ordinary residential details, natural cloudy monsoon daylight, neutral relaxed expression. He is wearing a plain dark t-shirt. Sharp focus on the man's face, his face is the main subject, in focus, crisp facial detail. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+       "enabled": true
+      },
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt walking through a quiet college campus pathway, green trees and students far in the background, soft natural daylight, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+       "enabled": true
+      },
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt standing beside an old whitewashed temple wall, a few flowers at its base, soft morning light, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+       "enabled": true
+      },
+      {
+       "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt sitting in the back seat of an auto-rickshaw, street and market life blurred behind him, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+       "enabled": true
+      }
+     ],
+     "split": "line",
+     "expand": true,
+     "trim": true,
+     "skipEmpty": true,
+     "cap": 200,
+     "wiredAt": "after"
+    }
+   },
+   "widgets_values": [
+    "{\"version\":2,\"prompts\":[\"jeskv, a man, Kerala (South Indian) man, about 26 years old, medium fair skin with a soft natural tan and even complexion, medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, plain black t-shirt, cinematic film still, 35mm lens, natural skin texture with visible pores, soft diffused daylight, subtle film grain, shallow depth of field, photorealistic\"],\"text\":\"\",\"split\":\"line\",\"expand\":true,\"trim\":true,\"skipEmpty\":true,\"cap\":200,\"wiredAt\":\"after\"}"
+   ],
+   "widgets_values_named": {
+    "prompteach": "{\"version\":2,\"prompts\":[\"jeskv, a man, Kerala (South Indian) man, about 26 years old, medium fair skin with a soft natural tan and even complexion, medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, plain black t-shirt, cinematic film still, 35mm lens, natural skin texture with visible pores, soft diffused daylight, subtle film grain, shallow depth of field, photorealistic\"],\"text\":\"\",\"split\":\"line\",\"expand\":true,\"trim\":true,\"skipEmpty\":true,\"cap\":200,\"wiredAt\":\"after\"}"
+   }
+  },
+  {
+   "id": 300,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    220
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    ""
+   ]
+  },
+  {
+   "id": 301,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    460
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "studio portrait, studio lighting, posed portrait, headshot, professional photoshoot, fashion photography, model, celebrity, stock photo, beauty campaign, airbrushed skin, plastic skin, waxy skin, artificial skin, generic AI face, woman, girl, female, text, words, letters, subtitles, captions, dialogue, speech bubble, logo, watermark, label, social media overlay, screenshot, UI, deformed face, bad eyes, extra fingers, malformed hands, distorted anatomy, oversaturated skin, over-processed image, excessive bokeh, anime, cartoon, illustration, painting, drawing, sketch, 3d render, cgi, mixed art styles"
+   ]
+  },
+  {
+   "id": 102,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    100
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2jaisal_v1_e11.safetensors",
+    1.5
+   ]
+  },
+  {
+   "id": 103,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    290
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    0.6
+   ]
+  },
+  {
+   "id": 104,
+   "type": "KSampler",
+   "pos": [
+    1800,
+    160
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 106,
+   "type": "VAEDecode",
+   "pos": [
+    2100,
+    160
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 107,
+   "type": "FameGridColorFinish",
+   "pos": [
+    2350,
+    160
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 108,
+   "type": "SaveImage",
+   "pos": [
+    2600,
+    160
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ab_A_char150_real060"
+   ]
+  },
+  {
+   "id": 101,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1450,
+    360
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "COMBO",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "COMBO",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "COMBO",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1152,
+    2048,
+    1
+   ]
+  },
+  {
+   "id": 112,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    600
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2jaisal_v1_e11.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 113,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    790
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 114,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    980
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "famegrid_spicy_3167060.safetensors",
+    0.7
+   ]
+  },
+  {
+   "id": 115,
+   "type": "KSampler",
+   "pos": [
+    1800,
+    660
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 116,
+   "type": "VAEDecode",
+   "pos": [
+    2100,
+    660
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 117,
+   "type": "FameGridColorFinish",
+   "pos": [
+    2350,
+    660
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 118,
+   "type": "SaveImage",
+   "pos": [
+    2600,
+    660
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ab_B_char100_real100_fame070"
+   ]
+  },
+  {
+   "id": 111,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1450,
+    860
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "COMBO",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "COMBO",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "COMBO",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1152,
+    2048,
+    1
+   ]
+  },
+  {
+   "id": 122,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    1100
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2jaisal_v1_e11.safetensors",
+    1.5
+   ]
+  },
+  {
+   "id": 123,
+   "type": "KSampler",
+   "pos": [
+    1800,
+    1160
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 126,
+   "type": "VAEDecode",
+   "pos": [
+    2100,
+    1160
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 127,
+   "type": "FameGridColorFinish",
+   "pos": [
+    2350,
+    1160
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 128,
+   "type": "SaveImage",
+   "pos": [
+    2600,
+    1160
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ab_C_char150_only"
+   ]
+  },
+  {
+   "id": 121,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1450,
+    1360
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "COMBO",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "COMBO",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "COMBO",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1152,
+    2048,
+    1
+   ]
+  },
+  {
+   "id": 132,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    1500
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2jaisal_v1_e11.safetensors",
+    1.5
+   ]
+  },
+  {
+   "id": 133,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    1690
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    0.8
+   ]
+  },
+  {
+   "id": 134,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1450,
+    1880
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "famegrid_spicy_3167060.safetensors",
+    0.5
+   ]
+  },
+  {
+   "id": 135,
+   "type": "KSampler",
+   "pos": [
+    1800,
+    1560
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "fixed",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 136,
+   "type": "VAEDecode",
+   "pos": [
+    2100,
+    1560
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 137,
+   "type": "FameGridColorFinish",
+   "pos": [
+    2350,
+    1560
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 138,
+   "type": "SaveImage",
+   "pos": [
+    2600,
+    1560
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ab_D_char150_real080_fame050"
+   ]
+  },
+  {
+   "id": 131,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1450,
+    1760
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "COMBO",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "COMBO",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "COMBO",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1152,
+    2048,
+    1
+   ]
+  }
+ ],
+ "links": [
+  [
+   2,
+   56,
+   0,
+   300,
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   56,
+   0,
+   301,
+   0,
+   "CLIP"
+  ],
+  [
+   11,
+   200,
+   0,
+   300,
+   1,
+   "STRING"
+  ],
+  [
+   12,
+   55,
+   0,
+   102,
+   0,
+   "MODEL"
+  ],
+  [
+   13,
+   102,
+   0,
+   103,
+   0,
+   "MODEL"
+  ],
+  [
+   14,
+   103,
+   0,
+   104,
+   0,
+   "MODEL"
+  ],
+  [
+   15,
+   101,
+   0,
+   104,
+   3,
+   "LATENT"
+  ],
+  [
+   16,
+   300,
+   0,
+   104,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   17,
+   301,
+   0,
+   104,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   18,
+   104,
+   0,
+   106,
+   0,
+   "LATENT"
+  ],
+  [
+   19,
+   57,
+   0,
+   106,
+   1,
+   "VAE"
+  ],
+  [
+   20,
+   106,
+   0,
+   107,
+   0,
+   "IMAGE"
+  ],
+  [
+   21,
+   107,
+   0,
+   108,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   55,
+   0,
+   112,
+   0,
+   "MODEL"
+  ],
+  [
+   23,
+   112,
+   0,
+   113,
+   0,
+   "MODEL"
+  ],
+  [
+   24,
+   113,
+   0,
+   114,
+   0,
+   "MODEL"
+  ],
+  [
+   25,
+   114,
+   0,
+   115,
+   0,
+   "MODEL"
+  ],
+  [
+   26,
+   111,
+   0,
+   115,
+   3,
+   "LATENT"
+  ],
+  [
+   27,
+   300,
+   0,
+   115,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   28,
+   301,
+   0,
+   115,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   29,
+   115,
+   0,
+   116,
+   0,
+   "LATENT"
+  ],
+  [
+   30,
+   57,
+   0,
+   116,
+   1,
+   "VAE"
+  ],
+  [
+   31,
+   116,
+   0,
+   117,
+   0,
+   "IMAGE"
+  ],
+  [
+   32,
+   117,
+   0,
+   118,
+   0,
+   "IMAGE"
+  ],
+  [
+   33,
+   55,
+   0,
+   122,
+   0,
+   "MODEL"
+  ],
+  [
+   34,
+   122,
+   0,
+   123,
+   0,
+   "MODEL"
+  ],
+  [
+   35,
+   121,
+   0,
+   123,
+   3,
+   "LATENT"
+  ],
+  [
+   36,
+   300,
+   0,
+   123,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   37,
+   301,
+   0,
+   123,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   38,
+   123,
+   0,
+   126,
+   0,
+   "LATENT"
+  ],
+  [
+   39,
+   57,
+   0,
+   126,
+   1,
+   "VAE"
+  ],
+  [
+   40,
+   126,
+   0,
+   127,
+   0,
+   "IMAGE"
+  ],
+  [
+   41,
+   127,
+   0,
+   128,
+   0,
+   "IMAGE"
+  ],
+  [
+   42,
+   55,
+   0,
+   132,
+   0,
+   "MODEL"
+  ],
+  [
+   43,
+   132,
+   0,
+   133,
+   0,
+   "MODEL"
+  ],
+  [
+   44,
+   133,
+   0,
+   134,
+   0,
+   "MODEL"
+  ],
+  [
+   45,
+   134,
+   0,
+   135,
+   0,
+   "MODEL"
+  ],
+  [
+   46,
+   131,
+   0,
+   135,
+   3,
+   "LATENT"
+  ],
+  [
+   47,
+   300,
+   0,
+   135,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   48,
+   301,
+   0,
+   135,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   49,
+   135,
+   0,
+   136,
+   0,
+   "LATENT"
+  ],
+  [
+   50,
+   57,
+   0,
+   136,
+   1,
+   "VAE"
+  ],
+  [
+   51,
+   136,
+   0,
+   137,
+   0,
+   "IMAGE"
+  ],
+  [
+   52,
+   137,
+   0,
+   138,
+   0,
+   "IMAGE"
+  ]
+ ]
+}
