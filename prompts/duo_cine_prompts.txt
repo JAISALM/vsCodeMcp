@@ -1,0 +1,92 @@
+# DUO CINEMATIC PROMPTS — ZIDHAN v2 + JAISAL v2 (heavy test set, 8 shots)
+# Workflow: krea2_duo_zidhan_jaisal_cine.json -> CLIPTextEncode positive node (swap prompt, re-queue)
+# LoRAs: Power Lora Loader slot 1 = krea2zidhan_v2.safetensors @1.0, slot 2 = krea2jaisal_v2.safetensors @1.0
+# Default 21:9 3MP. If the two faces start blending, drop one LoRA to 0.85.
+#
+# === D1 — ESTABLISHING: two-shot standing, golden hour street (pre-loaded in workflow) ===
+dlor, jeskv, A cinematic ultrawide film still: two young men standing side by side in a vast, empty old-world street at golden hour, a two-shot framing both characters together, both whole bodies in view with plenty of space around them.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on both of their hair and shoulders.
+Framing: extreme wide shot, 21:9 ultrawide, eye-level camera, shallow depth of field on the background, both figures clearly separated and fully visible.
+Medium: 35mm anamorphic film.
+Palette: warm amber and teal shadows, dusty gold highlights.
+Background: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.
+The two subjects: on the left, a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers; on the right, a young man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt. Both standing still, looking toward the camera with calm expressions, a relaxed friendship between them.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D2 — FOOTBALL: mid-kick on an old concrete ground ===
+dlor, jeskv, A cinematic film still: two young men playing football together on an old concrete ground, a wide shot with both whole bodies in view, one of them mid-kick with the ball at his foot.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph, a sense of frozen motion.
+Lighting: warm late-afternoon sun, long shadows stretching across the concrete ground, soft rim light on their shoulders and hair.
+Framing: wide shot, both subjects' whole bodies in view with space around them, slightly low eye-level camera, shallow depth of field on the background.
+Medium: 35mm anamorphic film.
+Palette: warm amber and dusty green, long golden shadows.
+Background: an old concrete ground bordered by weathered walls and a few trees, soft haze, no other people.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, mid-kick with a black-and-white football at his foot; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt and dark trousers, running toward the ball with a focused expression.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D3 — BACKWATER: two in a wooden boat, golden hour ===
+dlor, jeskv, A cinematic film still: two young men standing in a small wooden boat on a still backwater at golden hour, a two-shot with both whole bodies in view, the boat's bow leading into the frame.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: low golden-hour sun skimming the water, warm reflections rippling across the backwater, soft rim light on both of their heads and shoulders.
+Framing: full shot, head to toe for both, slightly low camera from the water level, shallow depth of field on the distant shore.
+Medium: 35mm anamorphic film.
+Palette: warm amber and gold reflections, deep teal-green water shadows.
+Background: a calm Kerala backwater at sunset, palm-fringed banks receding into soft golden haze, a few birds low over the water.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt. Both standing still, looking across the water with calm expressions.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D4 — MONSOON: shared umbrella on a rain-soaked street ===
+dlor, jeskv, A cinematic film still: two young men walking side by side under a single shared umbrella on a rain-soaked old-world street at dusk, a two-shot with both upper bodies in view, rain streaking through the lamplight.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: cold overcast dusk, wet asphalt reflecting sodium street lamps, one warm lamp glow from behind-right rim-lighting both of them.
+Framing: medium-wide shot, both subjects from the knees up, slightly low eye-level angle, shallow depth of field, background bokeh from wet street lamps.
+Medium: 35mm anamorphic film.
+Palette: cold blue-grey shadows, warm amber lamp highlights, wet-look skin.
+Background: a narrow old-world street at night, rain streaking through the lamp light, soft bokeh.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt. The left man holds the umbrella over both of them, the right man's shoulder tucked close, both looking ahead with quiet expressions.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D5 — FESTIVAL: string lights at dusk, veranda ===
+dlor, jeskv, A cinematic film still: two young men sitting on the edge of an old wooden veranda at dusk, a two-shot with both whole bodies in view, a string of warm festival lights glowing above them.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: warm tungsten festival string-light glow from above and behind, the last blue of dusk in the sky, soft warm key light on both faces.
+Framing: wide shot, both subjects' whole bodies in view with the veranda rail in the foreground, eye-level camera, shallow depth of field on the distant courtyard.
+Medium: 35mm anamorphic film.
+Palette: warm amber and deep blue dusk, glowing bokeh points from the string lights.
+Background: an old courtyard at dusk, weathered walls, a few potted plants, soft haze under the string lights.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt and dark trousers. Both seated with their legs dangling over the veranda edge, relaxed, one mid-laugh with head slightly back, the other watching him with a calm smile.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D6 — MISTY FOREST: walking side by side, profile ===
+dlor, jeskv, A cinematic film still: two young men walking side by side through a misty pine forest, a wide two-shot with both whole bodies in view, seen from a profile view, one slightly ahead of the other.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: soft diffused overcast light through morning mist, thin shafts of pale light falling across the forest floor.
+Framing: wide shot, both subjects' whole bodies in view with plenty of space, profile view from their right side, eye-level camera, deep atmospheric perspective in the misty background.
+Medium: 35mm anamorphic film.
+Palette: desaturated greens and greys, pale cold highlights, soft contrast.
+Background: a misty pine forest, tall trunks dissolving into layers of fog, a narrow path disappearing into the mist.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, mid-stride; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt and dark trousers, mid-stride a half-step behind. Both with calm expressions, the natural bend of the right man's nose clear in profile.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D7 — ROOFTOP: blue-hour conversation, city bokeh ===
+dlor, jeskv, A cinematic film still: two young men leaning on a rooftop railing in blue hour, a two-shot with both upper bodies in view, distant city lights in soft bokeh behind them.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: deep blue-hour sky, distant warm city lights, a single cool fill on both faces, warm rim light from the city glow on their shoulders.
+Framing: medium shot, both subjects from the waist up, slightly low angle looking up at them, shallow depth of field, the city lights dissolving into round bokeh.
+Medium: 35mm anamorphic film.
+Palette: deep blue and warm amber contrast, high contrast shadows.
+Background: a distant old-city skyline in blue hour, scattered warm window lights, soft atmospheric haze.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt, leaning on the railing with one arm, looking at his friend; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt, mid-gesture with one hand raised, telling a story.
+ONLY TWO characters, no other people, no duplicates, no third person.
+#
+# === D8 — VERANDA CHESS: afternoon light, quiet contrast ===
+dlor, jeskv, A cinematic film still: two young men playing a game of chess on an old wooden veranda in the afternoon, a two-shot with both upper bodies in view, the chessboard between them.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: warm late-afternoon sun through a wooden window, dappled light across the veranda, soft key light on both faces.
+Framing: medium shot, both subjects from the waist up, the chessboard in the soft-focus foreground, eye-level camera, shallow depth of field on the courtyard beyond.
+Medium: 35mm anamorphic film.
+Palette: warm amber and honey tones, soft green shadows from the courtyard plants.
+Background: an old courtyard in warm afternoon light, weathered walls, dappled tree shade, soft haze.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt, leaning forward over the board with a focused expression; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt, watching the board with a calm thoughtful expression.
+ONLY TWO characters, no other people, no duplicates, no third person.
