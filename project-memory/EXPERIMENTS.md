@@ -4,6 +4,20 @@ Newest experiments first.
 
 ---
 
+## 2026-11-02 — Duo LoRA strength ladder (krea2_duo_zidhan_jaisal_cine, D1 shot, 21:9 3MP)
+
+- **Goal:** two character LoRAs (zidhan v2 + jaisal v2) without blur or identity drift.
+- **Ladder (user-run, same rig 16-step euler/bong_tangent cfg 2.5, 2712×1160):**
+  - **1.0 / 1.0** → both characters + outfits correct, but SOFT: hair blobbed on both faces, texture smeared (total weight 2.0× over-constrains the shared face regions).
+  - **0.6–0.7** (user-set) → identity DRIFT — "2 people coming" = faces no longer the trained characters (generic/mixed).
+  - **0.8 / 0.8** (agent-set) → superseded by user's 0.6/0.7 trial.
+  - **Applied ~19:50: 0.85 / 0.85** + bleed-prevention negatives (identical faces, feature mixing, features bleeding between the two men, mixed hair colors, swapped outfits, hybrid/blended faces, same person twice, 3/4 people) + distinct-faces positive anchor ("clearly DIFFERENT from each other: distinct faces, different hairstyles, different facial hair"). Validate 0/0.
+- **Community research (same day):** standard stacking = every identity adapter applied everywhere → hybrid faces, duplicated identities, missing subjects (GitHub `ComfyUI-Krea2-MultiLoRA-Composer` README + Reddit r/StableDiffusion multi-LoRA threads + PixAI multi-character guide). Fixes: (a) total-weight rule — weakest stack that works; (b) per-character trigger words anchored to position; (c) position declaration in global prompt; (d) bleed-prevention negatives; (e) spatial routing. Krea2 = DiT → natural-language position anchoring beats SDXL `left:`/`right:` syntax.
+- **Real fix (prepared):** `ComfyUI-Krea2-MultiLoRA-Composer` (lokitsar) CLONED into `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\` — per-character region + trigger + strength + denoising schedule, spatial adapter-delta routing (a char LoRA contributes ZERO outside its region), supersample → sharp at high res. Needs ComfyUI RESTART (user) → then build Composer duo workflow (object_info for node shapes after restart).
+- **Next:** user ① queues the updated duo (0.85 + new negatives) ② restarts ComfyUI → agent builds Composer duo workflow → definitive A/B.
+
+---
+
 ## 2026-11-01 — AI-Toolkit v2 first-run crash hunt → Windows commit-charge ceiling root cause + low-commit loader
 
 - **Goal:** make `train_jaisal_v2.bat` execute end-to-end (user's first run failed; demand = root cause + execution-verified fix).
