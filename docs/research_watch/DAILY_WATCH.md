@@ -13,6 +13,102 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-02
+
+**Sources:** Reddit ✅ HTML tier (33 posts 50+: LocalLLaMA 5 / StableDiffusion 10 /
+ComfyUI 0 / artificial 0 — JSON 403 on all subs as usual; ComfyUI top ≈ 29u) ·
+HF ✅ 6 trending models + 4 datasets (top-downloads 0) · Civitai ⚠️ PARTIAL — hot only
+(DreamShaper XL 112902, 639k dl — re-identified via browser head this run); no
+ComfyWorkflow/new-LoRA captures · X ✅ tier-3 browser (4 of 7 accounts: MaxLiu09,
+PixelAigc, xieenze_jr; no capture BennyDaBall_OG / Alissonerdx / diodiogod) — 99
+items, again mostly 2024–25 timeline backfill (ID range 1823…–1901… ≈ 2024–25;
+only the 2109…/2116… 2026-10/11 posts are new-era, already flagged 11-01).
+**Pipeline note:** 08:00 schtask clean — LastTaskResult 0, log `fetch: 9 new
+items` + `done` — no re-run needed.
+
+**New relevant items (vs 11-01 baseline):**
+- **SenseTime open-sourced SenseNova 6.8 Code2Video — "video creation through
+  code, with natural-language editing" (99u)** — new code-driven video route
+  (code + NL editing, vs our prompt-driven H3 route) — watch; potential
+  deterministic-composition complement <https://www.reddit.com/r/StableDiffusion/comments/1xguh4z/>
+- **ZenTrainer — open-source LoRA trainer INSIDE ComfyUI (image + video, live
+  previews, NVIDIA/AMD) (134u)** — in-ComfyUI LoRA training; complements our
+  AI-Toolkit krea2 recipe (live preview is the useful part) — evaluate, NOT a
+  recipe replacement <https://www.reddit.com/r/StableDiffusion/comments/1xjjst7/i_made_zentrainer_an_open_source_lora_trainer_that_runs_inside_comfyui_image_video_models_live_previews_nvidia_or_amd/>
+- **KreaMossMix Workflow — "one model composes, the other finishes it" (100u)**
+  — Krea + MOSS compose/finish chain — candidate for our Krea2 reference-sheet
+  pipeline <https://www.reddit.com/gallery/1xj1xxe>
+- **"Sulphur-3 is coming soon!" (155u)** — new image-model family teaser —
+  watch for the release; candidate in the Krea2-alternative pool
+  <https://www.reddit.com/r/StableDiffusion/comments/1xl6amz/sulphur3_is_coming_soon/>
+- **burner22/numbat — HF trending (204 likes, 5.8k dl) = ALLEGED Anthropic
+  "Mythos-class" checkpoint leak (claims ~14T params)** — 11-01 community
+  audit: 43 tensors rebuild exactly from their own names via a seeded RNG =
+  random-number tensors → **treat as hoax/unverified — DO NOT DOWNLOAD**
+  <https://huggingface.co/burner22/numbat>
+- **Comfy-Org/Idol (released 11-01, HF API)** — ComfyUI single-file
+  image-to-3D port of `speridlabs/idol` (resolves 11-01's "unverified" flag) —
+  **NO ADOPT** (no 3D in our pipeline); note for future 3D/turnaround-table
+  work <https://huggingface.co/Comfy-Org/Idol>
+- **AtomicChat/LFM3-1.7B-Uncensored-GGUF (178 likes, 46k dl)** — small
+  uncensored agent-LLM GGUF — utility-tier option only (marginal)
+  <https://huggingface.co/AtomicChat/LFM3-1.7B-Uncensored-GGUF>
+- **DeepSeek open-sourced a super-agent coding prototype: "one Router, many
+  Workers, minimal human attention" (7u, r/artificial)** — agent architecture
+  (router/worker) — read for our DSH/writer pipeline context
+  <https://www.reddit.com/r/artificial/comments/1xlc9ye/>
+- **Open Jutsu Studio — put your characters into real footage, keep going (23u,
+  ComfyUI sub)** — character-into-live-footage compositing — adjacent to
+  charswapmask/SAM3 region work <https://www.reddit.com/r/ComfyUI/comments/1xjette/>
+- **Higgsfield chatter: "why am I seeing so many Higgsfield" (29u)** +
+  "Updated Minimax Music Video Workflow" (122u) — Body Double context (our
+  open-source-higgsfield setup pending) · D041 note: music-video workflow
+  pattern ≠ our no-music rule — watch only
+  <https://www.reddit.com/r/ComfyUI/comments/1xjmrh4/>
+- **Hardware cluster continues (no action for our 5090):** "Don't people pay
+  attention anymore when buying hardware for AI?" (311u)
+  <https://www.reddit.com/r/LocalLLaMA/comments/1xl4ckr/dont_people_pay_attention_anymore_when_buying/>
+  · "Coding is solved* (exclusions apply)" (316u)
+  <https://www.reddit.com/r/LocalLLaMA/comments/1xl90rr/coding_is_solved_exclusions_apply/>
+  · "I'm just laughing at Fal" (137u — fal.ai pricing)
+  <https://www.reddit.com/r/StableDiffusion/comments/1xjkajg/im_just_laughing_at_fal/>
+  · PCB shortage (302u — carried 11-01)
+  <https://wccftech.com/ai-boom-triggers-massive-pcb-shortage-with-orders-booked-until-2030/>
+- **Krea 2 vs MiniMax H3 text-encoder comparison — "what impact do abliterated
+  text encoders really have?" (112u)** — TE ablation data for our exact rig
+  (Krea2 + H3) — read for prompt-expansion quality trade-offs
+  <https://www.reddit.com/r/StableDiffusion/comments/1xicnjs/krea_2_and_minimax_h3_text_encoder_comparison/>
+- **MOSS (user opted out of checking — noted, not chased):** "Moss image edit
+  vs Fibo-2.0-edit" (114u) <https://www.reddit.com/gallery/1xg526w>
+- **Unidentified media posts (no titles captured in today's HTML tier —
+  honest gap):** t3_1xklq96 (316u) <https://www.reddit.com/gallery/1xklq96> ·
+  t3_1xk5m1s "Try this workflow, too." (88u)
+  <https://v.redd.it/vfmusamesryh1>
+
+**ACTION ITEMS (new today):**
+1. **SenseNova 6.8 Code2Video (99u)** — evaluate as an alternative/complement
+   video route (code-driven + NL editing) — H3 video routes.
+2. **ZenTrainer (134u)** — inspect for future character-LoRA runs (live
+   previews); keep AI-Toolkit krea2 recipe as primary.
+3. **KreaMossMix workflow (100u)** — inspect for the Krea2 sheet chain.
+4. **Sulphur-3** — watch for the release (Krea2-alternative pool).
+5. **burner22/numbat — DO NOT DOWNLOAD** (RNG-tensor audit) — record as hoax
+   signal; warn user if it re-surfaces.
+6. **DeepSeek super-agent prototype (7u)** — read for router/worker agent
+   architecture (DSH/writer context).
+7. Carried (11-01): H3 "tiny sliders" workflow test · Betelgeuse bit-exact
+   Flash-Next recipe A/B · DFlash2 GGUF A/B · FastH3 sheet workflow ·
+   LayerShop Regions · Pika H3-Flex ADOPT · Audio8-TTS-0.6b narration
+   evaluation (D041) · llama.cpp CVE-2026-116096 · X cookies deprioritized.
+
+**SOURCE FAILURES (tier status per D203):** Reddit JSON 403 all subs (HTML tier
+carried — 33 items 50+ today) · ComfyUI sub: 0 posts at 50+ (top ≈ 29u — not a
+failure, genuinely quiet) · Civitai PARTIAL — hot category only;
+ComfyWorkflow/new-LoRA categories returned nothing (treat as partial, NOT
+verified-zero) · X — 3 of 7 accounts captured nothing this run (same 3 as
+11-01); backfill-dominated capture = low-signal day, not a fetch failure ·
+HF ✅ (6 trending models + 4 datasets; top-downloads returned 0 rows).
+
 ## 2026-11-01
 
 **Sources:** Reddit ✅ HTML tier (32 new items — artificial 11 / LocalLLaMA 8 / StableDiffusion 7 /

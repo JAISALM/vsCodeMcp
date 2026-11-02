@@ -15,7 +15,7 @@ direct bot fetches — the HF org creation dates below are the reliable
 timeline). Docs hub:
 https://docs.ltx.io/open-source-model/vfx-post-production/overview
 
-HF release timeline (verified via HF API, 2026-10-21):
+HF release timeline (verified via HF API, 2026-11-02):
 
 | Date | LoRA | Version | What it does |
 |---|---|---|---|
@@ -33,6 +33,7 @@ HF release timeline (verified via HF API, 2026-10-21):
 | 2026-09-27 | `LTX-2.5-22b-IC-LoRA-Restore` | 1.0 | damaged/archival footage restoration (base tag LTX-2.3, runs on 2.5) |
 | 2026-09-28 | `LTX-2.5-22b-IC-LoRA-SDR-To-HDR` | 1.0 + scene-emb | SDR video → gradeable HDR (EXR sequence, BT.2020/HLG master; ACEScct working rep) |
 | 2026-09-28 | `LTX-2.5-22b-IC-LoRA-Alpha-Gen` | 0.9 | frame-aligned **alpha matte** (grayscale) from RGB video — white = keep, black = transparent, gray = partial |
+| 2026-10-28 | `LTX-2-Marking` (watermarking, not a LoRA) | — | official **content watermarking** for LTX-2 video + audio (VideoSeal / PixelSeal / AudioSeal stack), MIT license — provenance/fingerprint layer for delivery QA; optional, not a generation model <https://huggingface.co/Lightricks/LTX-2-Marking> |
 
 Also (earlier, 2.5): `Pixel-Spatial-Upscaler-x2` (2026-08-11). Docs list six
 post-production capabilities: **Native HDR, SDR→HDR, Alpha Gen (beta),
@@ -189,3 +190,11 @@ Check log:
   Reference** (LiconStudio, 2.3 — multi-ref identity), **IC-LoRA-Cameraman**
   (cseti, 2.3 — camera-motion transfer), **ID-LoRA** (AviadDahan, 2.3 —
   appearance + voice from image + audio).
+- **2026-11-02 (weekly #4):** one new official release in the window —
+  **`LTX-2-Marking` (10-28)**: content watermarking for LTX-2 video + audio
+  (VideoSeal/PixelSeal/AudioSeal), MIT — added to the timeline above. It is a
+  provenance/fingerprinting tool, NOT a generation/LoRA model → optional
+  delivery-QA layer, no pipeline re-wiring. No new IC-LoRAs, no new base-model
+  releases (latest generation model = 09-28 Alpha-Gen). Comfy-Org also shipped
+  `Comfy-Org/Idol` (11-01, image-to-3D single-file port) — NOT LTX, NOT
+  relevant (no 3D in our pipeline — NO ADOPT).
