@@ -1,0 +1,83 @@
+# ZIDHAN V2 + DUO CINEMATIC PROMPTS (Krea2 cine rig, 21:9 3MP default; 4:3 2MP for portraits)
+# Workflow: krea2_zidhan_v2_cine.json -> CLIPTextEncode node (positive). Swap the prompt, re-queue.
+# LoRA: Power Lora Loader slot 1 = chosen krea2zidhan_v2 checkpoint (strength 1.0)
+#
+# === ZIDHAN SOLO (5 cinematic shots) ===
+# Z1
+dlor, A cinematic ultrawide film still: a single young man standing alone in a vast, empty old-world street at golden hour, appearing small against the vast location, his whole body in view with plenty of space around him, an establishing shot clearly showing the location.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on his hair and beard.
+Framing: extreme wide shot, 21:9 ultrawide, eye-level camera, a shallow depth of field effect on the background elements drawing focus to the central figure.
+Medium: 35mm anamorphic film.
+Palette: warm amber and teal shadows, dusty gold highlights.
+Background: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.
+In the center of the frame: a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, standing still, looking toward the camera with a calm expression.
+ONLY ONE character, no other people, no duplicates.
+
+# Z2
+dlor, A cinematic film still: a single young man in the rain, a medium close-up framing him from roughly the chest up, his face filling most of the frame, rain droplets on his skin and beard catching the light.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: cold overcast night, wet asphalt reflecting sodium street lamps, a single warm street-lamp glow from behind-left rim-lighting his head and shoulders.
+Framing: medium close-up, chest up, slightly low eye-level angle, shallow depth of field, background bokeh from wet street lamps.
+Medium: 35mm anamorphic film.
+Palette: cold blue-grey shadows, warm amber lamp highlights, wet-look skin.
+Background: a narrow old-world street at night, rain streaking through the lamp light, soft bokeh.
+The subject: a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt, looking straight into the camera with a steady calm expression, a few rain droplets on his face.
+ONLY ONE character, no other people, no duplicates.
+
+# Z3
+dlor, A cinematic film still: a single young man walking through a misty pine forest, a wide shot with his whole body in view against the vast location, seen from a profile view from his right side.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: soft diffused overcast light through morning mist, a thin shaft of pale light falling across the forest floor.
+Framing: wide shot, whole body in view with plenty of space, profile view from his right side, eye-level camera, deep atmospheric perspective in the misty background.
+Medium: 35mm anamorphic film.
+Palette: desaturated greens and greys, pale cold highlights, soft contrast.
+Background: a misty pine forest, tall trunks dissolving into layers of fog, a narrow path disappearing into the mist.
+The subject: a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, mid-stride, calm expression.
+ONLY ONE character, no other people, no duplicates.
+
+# Z4
+dlor, A cinematic film still: a single young man standing in a small wooden boat on a still backwater at golden hour, a full shot with his entire body from head to toe filling most of the frame.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: low golden-hour sun skimming the water, warm reflections rippling across the backwater, soft rim light on his head and shoulders.
+Framing: full shot, head to toe, slightly low camera from the water level, the boat's bow leading into the frame, shallow depth of field on the distant shore.
+Medium: 35mm anamorphic film.
+Palette: warm amber and gold reflections, deep teal-green water shadows.
+Background: a calm Kerala backwater at sunset, palm-fringed banks receding into soft golden haze, a few birds low over the water.
+The subject: a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt, standing still in the wooden boat, looking across the water with a calm expression.
+ONLY ONE character, no other people, no duplicates.
+
+# Z5
+dlor, A cinematic film still: an extreme close-up of a single young man's face, the face filling the frame, the eyes the anchor point.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph, skin texture visible.
+Lighting: dramatic low-key side light, one strong warm source from the left, the right side of the face falling into soft shadow, a faint catchlight in the dark brown eyes.
+Framing: extreme close-up, the face filling the frame, eye-level, very shallow depth of field, the background a smooth dark bokeh.
+Medium: 35mm anamorphic film.
+Palette: warm amber key light, deep cool shadows, high contrast.
+Background: a dark out-of-focus interior, indistinct warm bokeh points.
+The subject: a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, a calm steady expression looking just past the camera.
+ONLY ONE character, no other people, no duplicates.
+
+# === DUO: ZIDHAN + JAISAL (2) ===
+# For the duo workflow: Power Lora Loader slot 1 = zidhan v2, slot 2 = krea2jaisal_v2.safetensors (both 1.0)
+# D1
+dlor, jeskv, A cinematic ultrawide film still: two young men standing side by side in a vast, empty old-world street at golden hour, a two-shot framing both characters together, both whole bodies in view with plenty of space around them.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.
+Lighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on both of their hair and shoulders.
+Framing: extreme wide shot, 21:9 ultrawide, eye-level camera, shallow depth of field on the background, both figures clearly separated and fully visible.
+Medium: 35mm anamorphic film.
+Palette: warm amber and teal shadows, dusty gold highlights.
+Background: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.
+The two subjects: on the left, a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers; on the right, a young man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt. Both standing still, looking toward the camera with calm expressions, a relaxed friendship between them.
+ONLY TWO characters, no other people, no duplicates, no third person.
+
+# D2
+dlor, jeskv, A cinematic film still: two young men playing football together on an old concrete ground, a wide shot with both whole bodies in view, one of them mid-kick with the ball at his foot.
+Style: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph, a sense of frozen motion.
+Lighting: warm late-afternoon sun, long shadows stretching across the concrete ground, soft rim light on their shoulders and hair.
+Framing: wide shot, both subjects' whole bodies in view with space around them, slightly low eye-level camera, shallow depth of field on the background.
+Medium: 35mm anamorphic film.
+Palette: warm amber and dusty green, long golden shadows.
+Background: an old concrete ground bordered by weathered walls and a few trees, soft haze, no other people.
+The two subjects: the left man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, mid-kick with a black-and-white football at his foot; the right man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt and dark trousers, running toward the ball with a focused expression.
+ONLY TWO characters, no other people, no duplicates, no third person.
