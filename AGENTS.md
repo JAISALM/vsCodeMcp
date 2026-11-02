@@ -360,6 +360,8 @@ Native `widgets_values` shapes (verified from native UI files 2026-08-27):
 - `VAELoader`: `[vae_name]` (1) · `LoraLoaderModelOnly`: `[lora_name, strength]` (2)
 - `VAEDecode`: `[]` (0) · `EmptyLatentImage`: `[width, height, batch_size]` (3)
 
+**CRITICAL (2026-11-02): hidden `control_after_generate` widgets shift EVERY widget list — check the node SOURCE, not just object_info.** Any node whose `seed` INT widget declares `"control_after_generate": true` in its `INPUT_TYPES` (native `KSampler` AND custom samplers, e.g. `Krea2SupersampledKSampler`) carries a HIDDEN control widget (`"fixed"/"increment"/"decrement"/"randomize"`) at index 1 of the UI widget list — object_info omits it, so a `widgets_values` built from object_info order is ONE SHORT and every value after the seed mis-maps (observed: `cfg`←`'euler'`, `sampler_name`←`'bong_tangent'`, `scheduler`←`1`, `denoise`←`'lanczos'` → "Invalid input" on queue). `validate_workflow` does NOT catch this (it only checks object_info-listed widgets, so 7-vs-8 values both pass). **Rule: for any machine-built file containing a custom sampler node, grep the pack's `nodes.py` `INPUT_TYPES` for `control_after_generate` / hidden widgets and insert the control keyword at the right index (use `"randomize"` to match the rig's KSampler).** Also confirm the node's `web/*.js` does not `addWidget` (a JS-inserted widget shifts everything after it; `Krea2CharacterRouter`'s canvas JS only READS widgets — verified safe).
+
 **Native files have NO `widgets_values_named` key.** Do NOT add it — the UI ignores it
 and its presence is a marker of a machine-built (not UI-saved) file.
 
