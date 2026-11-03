@@ -13,6 +13,36 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-03
+
+**Sources:** Reddit ✅ HTML tier (91 new: SD 17 / LocalLLaMA 22 / ComfyUI 38 / artificial 14; 56 posts at 50+; JSON 403 all subs as usual) · HF ✅ 12 trending models + 9 datasets (top-downloads 0 rows again) · Civitai ⚠️ hot 1 new (DreamShaper XL re-identified, 639k dl — known); newest/ComfyWorkflows/new-LoRAs = 0 new (quiet day, not verified-zero) · X ❌ all 7 accounts login-walled (429 engine-blocked + login-gated browser tier — the one-time tier-4 fix remains `X_AUTH_TOKEN`+`X_CT0` env, deprioritized). **Pipeline note:** 08:00 schtask did NOT run today (last run 11-02 08:00, machine asleep?) — daily re-run at 09:50 IST (`--news-only`, idempotent, exit 0): 105 newly indexed items.
+
+**New relevant items (vs 11-02 baseline):**
+- **Weight-space programming cluster (378u + 347u) — MIT CSAIL: "GPT-6 Astra edits Qwen3.5 0.8B weights in-place, math 7.9→48.1"** — the day's top-relevance pair: direct weight-space editing as a training alternative/complement — exactly our LoRA-training territory (in-place weight edits vs low-rank deltas for character LoRAs) — READ the blog <https://rikiyat.github.io/blog/weight-space-programming/> · <https://explainx.ai/blog/weight-space-programming-gpt-6-astra-edits-qwen3-5-0-8b-weights-math-7-9-to-48-1-mit-csail-2026>
+- **Sulphur-3 is ON HF now — FusionCow/Sulphur-3 (272 likes, 195 dl)** — the 11-02 "coming soon" teaser materialized on HF — Krea2-alternative pool candidate; check the model card/architecture before any sheet test <https://huggingface.co/FusionCow/Sulphur-3>
+- **nazeshinjite/Qwen3.8-Flash-Next-DFlash2-GGUF (139u thread)** — fresh DFlash2 GGUF for OUR exact model family — A/B candidate for the brain (carried 11-02 action item) <https://huggingface.co/nazeshinjite/Qwen3.8-Flash-Next-DFlash2-GGUF/>
+- **"Betelgeuse running Qwen 3.8 Flash Next IQ4_XS" (162u)** — new speed data point for the carried Flash-Next recipe A/B <https://www.reddit.com/r/LocalLLaMA/comments/1xkh2ns/betelgeuse_running_qwen_38_flash_next_iq4_xs_at/>
+- **"qwen 3.8 27b is sometimes so smart it scares me" (211u)** — community sentiment on the model family we run locally (brain + agent) — context only <https://www.reddit.com/r/LocalLLaMA/comments/1xmbym0/qwen_38_27b_is_sometimes_so_smart_it_scares_me/>
+- **microsoft/Mage-VL-Cowork (145u + HF trending)** — new Microsoft VL agent model — writer/agent pipeline context <https://huggingface.co/microsoft/Mage-VL-Cowork>
+- **Edge0/Audio8-TTS-Realistic-Air (HF trending, 251 likes / 7.2k dl)** — new realistic-voice TTS variant in the Audio8 family — D041 narration pool (voice ≠ music — allowed) — evaluate for movie narration <https://huggingface.co/Edge0/Audio8-TTS-Realistic-Air>
+- **OBLITERATUS/DeepSeek-V4.1-Flash-1017-obliterated (222 likes / 1.1k dl)** — abliterated Flash variant (TE-ablation context carried 11-02) <https://huggingface.co/OBLITERATUS/DeepSeek-V4.1-Flash-1017-obliterated>
+- **sensenova/SenseNova-Loop-9B-Preview (190 likes / 1.5k dl)** — new SenseTime family preview (carried SenseNova 6.8 Code2Video thread) — watch <https://huggingface.co/sensenova/SenseNova-Loop-9B-Preview>
+- **burner22/numbat RE-SURFACED on trending (299 likes / 7.1k dl, up from 204/5.8k 11-01)** — the recorded RNG-tensor HOAX — still DO NOT DOWNLOAD; warn if user asks <https://huggingface.co/burner22/numbat>
+- **AMD "another Radeon GPU + GDDR6 price increase in November" (156u)** + "spent a lot on my rig but I can only run gemma 4" (182u) — hardware cluster (no action for our 5090) <https://videocardz.com/newz/amd-reportedly-plans-another-radeon-gpu-and-gddr6-price-increase-in-november>
+- **ComfyUI-sub signals under 50u (relevant):** MOSS image DAILY roundups now running (31 Oct / 1 Nov / 2 Nov — fast-moving; user opted out of MOSS chasing, noted only) <https://www.reddit.com/r/ComfyUI/comments/1xm72g8/a_quick_mossimage_news_roundup_2nd_november_2026/> · **"fizgig H3 still images — latent runs in any workflow" (14u)** — H3 still-image latent injection — candidate for our H3 sheet chain <https://www.reddit.com/r/comfyui/comments/1xhtrxj/fizgig_h3_still_images_latent_runs_in_any_workflow/> · **"FastH3 videos getting darker and darker" (16u)** — FastH3 exposure issue — check vs our FastH3 sheet workflow (carried) <https://www.reddit.com/r/comfyui/comments/1xka09k/fasth3_videos_getting_darker_and_darker/> · **"why LTX 2.5 is being ignored" (11u)** <https://www.reddit.com/r/comfyui/comments/1xgyt9z/why_ltx25_is_being_ignored/> · **"STEM Studio — my submission for open-source Higgsfield" (14u)** — open-source Higgsfield context (our pending setup) <https://www.reddit.com/r/comfyui/comments/1xjoztu/stem_studio_my_submission_for_opensourcehiggsfield/> · koboldcpp v1.124 release <https://github.com/LostRuins/koboldcpp/releases/tag/v1.124>
+- **Unidentified top media posts (no titles captured in the HTML tier — honest gap):** t3_1xljdnj (421u — day's top post, image) <https://i.redd.it/dwgmz70zi3zh1.png> · t3_1xlys6k (336u) <https://www.reddit.com/gallery/1xlys6k> · t3_1xlwpqv (316u) <https://i.redd.it/ufmzse0g77zh1.png> · t3_1xkibxw (217u) <https://i.redd.it/4zhosp53cuyh1.png>
+
+**ACTION ITEMS (new today):**
+1. **Weight-space programming (MIT CSAIL, 378u/347u)** — READ the rikiyat blog; assess in-place weight editing vs our LoRA-delta character training (tonight's V3 train is the testbed).
+2. **Sulphur-3 HF card (FusionCow)** — check architecture/model card; if Krea-family DiT → sheet-test candidate.
+3. **DFlash2 GGUF (nazeshinjite)** — A/B against the brain (carried 11-02).
+4. **Audio8-TTS-Realistic-Air** — evaluate for D041 movie narration (voice-only, no music).
+5. **FastH3 darkening issue** — check our FastH3 sheet workflow for the same exposure drift (carried).
+6. **burner22/numbat re-surfaced** — keep the hoax flag current; DO NOT DOWNLOAD.
+7. Carried (11-02): SenseNova 6.8 Code2Video evaluation · ZenTrainer inspection · KreaMossMix sheet-chain inspection · DeepSeek super-agent architecture read · H3 "tiny sliders" workflow · Betelgeuse bit-exact Flash-Next A/B · LayerShop Regions · Pika H3-Flex ADOPT · llama.cpp CVE-2026-116096.
+
+**SOURCE FAILURES (tier status per D203):** Reddit JSON 403 all subs (HTML tier carried — 91 new items) · r/comfyui_workflows HTML tier GATED (8th consecutive day) · X — all 7 accounts: engine 429 + browser tier login-gated (anonymous X walled; tier-4 fix = one-time `X_AUTH_TOKEN`+`X_CT0` env — not set, deprioritized) · Civitai — hot only had 1 new (DreamShaper XL, known); newest/ComfyWorkflows/new-LoRAs returned 0 new (quiet day — treat as partial, NOT verified-zero) · HF top-downloads 0 rows (API quirk, carried) · 08:00 schtask missed today (machine asleep) — manual 09:50 re-run covered it.
+
 ## 2026-11-02
 
 **Sources:** Reddit ✅ HTML tier (33 posts 50+: LocalLLaMA 5 / StableDiffusion 10 /
