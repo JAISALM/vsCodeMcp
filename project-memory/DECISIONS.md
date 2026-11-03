@@ -1737,3 +1737,16 @@
 - **Prepared:** Composer pack CLONED to `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-Krea2-MultiLoRA-Composer` (needs ComfyUI restart to register — user restarts when GPU is free; brain on GPU meanwhile). After restart: agent pulls the Composer node shapes from object_info and builds `krea2_duo_composer.json` (zidhan region + `dlor` trigger on left half, jaisal region + `jeskv` trigger on right half, shared scene block, supersample on) → definitive A/B vs the stacked version.
 - **Test order:** ① user queues the updated stacked duo (0.85 + new negatives, fresh tab) ② restart ComfyUI ③ agent builds Composer duo workflow ④ A/B both on D1.
 - **Status:** active — the Composer route is the standing solution for ANY future multi-character Krea2 scene; stacked-LoRA + prompt-anchoring is the fallback when the Composer is inconvenient.
+- **SUPERSEDED 2026-11-03 (D214):** Composer route EXHAUSTED — runs #1/#2 both produced 3 people even with one-person boxes + count guards (the routing is a soft attention bias, cannot constrain the count), and face quality trailed solo runs.
+
+## D214 — Multi-character duo technique = TWO-PASS generate + inpaint (community-verified) — 2026-11-03
+
+- **Date:** 2026-11-03 ~06:00 (user: "check again in civitai, X, reddit how people are creating multiple people in image with their lora… we need a technique").
+- **Problem:** every single-pass multi-LoRA approach failed on Krea2: stacked (blur/drift/3-people), spatial-bias routing via the Composer (3 people again — soft bias can't prevent duplication; faces below solo quality). The movie project needs a RELIABLE duo pipeline with SOLO face quality.
+- **Research:** Reddit r/StableDiffusion (two independent threads) + Civitai multi-character guides converge on ONE method: **"create an image with the right number of characters, then inpaint each LoRA one at a time"** — the only reliable way to ensure "the only character affected is the one you intend". (Regional-prompter/LoRA-stop-step stacks are the A1111-era variant; inpaint-per-character is the robust one.)
+- **Decision:** duo shots = **`krea2_duo2pass_base.json` → `krea2_duo2pass_inpaint.json`** (both validated 0/0, built from the proven rig):
+  1. **Base pass:** jaisal v2 @1.0 full-frame (solo-quality right man) + duo-scene prompt describing left man (bearded white-tee) + "EXACTLY two men… NOT three".
+  2. **Inpaint pass:** LoadImage(base) + `MaskRectArea` (left third, % coords, user adjusts per shot) + `VAEEncodeForInpaint` (grow 6) + zidhan v2 @1.0 + denoise 1.0.
+- **Why this is the technique:** each character gets a FULL-FRAME @1.0 solo-LoRA pass → solo face quality by design (no shared-weight compromise); the head-count is set by the base PROMPT (not by LoRA weight juggling); the left man is mask-REPLACED so any base-pass bleed (e.g. a 2nd jaisal in the left slot) gets regenerated as zidhan.
+- **Per-shot cost:** 2 queue clicks + 1 mask-position check (MaskRectArea x/w) — acceptable for the movie project.
+- **Status:** active — the STANDING duo technique for the movie project. Composer (`krea2_duo_composer.json`) kept for reference only. If a shot needs BOTH characters re-drawn (both faces wrong), re-run the base with the other character's LoRA and swap the mask side.
