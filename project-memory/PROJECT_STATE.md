@@ -4,6 +4,7 @@
 - **Agent Brain:** Qwen3.8-27B-NVFP4-MTP-LOW (@8100) — Handles tools, coding, and orchestration.
 - **Writer Models:** Gemma4-31B-QAT (@8106) as default; Ortenzya Q5 (@8107) as prose backup.
 - **Hardware:** NVIDIA RTX 5090 (32GB VRAM) + 64GB System RAM.
+- **Second machine (2026-11-03):** GTX 1660 Ti (6 GB) + 16 GB DDR4. User is running **qwen3.5-4b Q6** via llama.cpp (machine unconfirmed, assumed the 1660 Ti box — the 18 s-for-"hi" timing fits CPU-only + thinking-mode). Ideal config: `qwen35_4b_q6_server.bat` (workspace root: `-ngl 99`, 8192 ctx, flash-attn, q8 KV, `/no_think` system prompt). Verify "offloaded N/NN layers" in the log.
 - **llama.cpp:** `D:\llama` = **b11960** (CUDA 13.4 self-contained, upgraded from b11583 on 2026-10-29 — D204 in-place pattern, old build at `D:\llama_bkp_b11960_*`). Above CVE-2026-116096 fix line; v0.8.0 adds LFM3 / DeepSeek-V4.1-Flash / Flint arch support. Restart 8100 via `D:\models\qwen\start_qwen_8100.bat`.
 - **SLA (Sparse Linear Attention):** Used in MiniMax H3 workflows to keep 1MP generation under 4 minutes.
 
