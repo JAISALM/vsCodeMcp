@@ -1751,3 +1751,14 @@
 - **Per-shot cost:** 2 queue clicks + 1 mask-position check (MaskRectArea x/w) — acceptable for the movie project.
 - **Status:** active — the STANDING duo technique for the movie project. Composer (`krea2_duo_composer.json`) kept for reference only. If a shot needs BOTH characters re-drawn (both faces wrong), re-run the base with the other character's LoRA and swap the mask side.
 - **EXTENDED 2026-11-04 (N-character generalization — user has 4 character LoRAs):** for 3+ characters the base pass carries **NO character LoRA** (generic men in distinct outfits; count from prompt) and identity is added in **N sequential inpaint passes** (each: load previous output, mask that person's band, one LoRA @1.0, denoise 1.0). Built as `krea2_quad_base` + `krea2_quad_inpaint_{1..4}` (all 0/0). Rationale: a full-frame character LoRA in the base bleeds into ALL described slots (observed 06:30 — duo base gave 2 jaisals), so with N≥3 the base stays LoRA-free. Per shot: 1 base + N queue clicks + N mask checks.
+
+## D215 — Character-swap vs generation routing: swap = same-body face-level only; build changes = generation route — 2026-11-04
+
+- **Date:** 2026-11-04 ~06:51 (user: swap "jaisal's hands and zidhan's face" + future fat/skinny question).
+- **Finding:** H3 character swap (akatz LoRA, and our prompt-swap workflows) is **by design face-level only** — the card: "keep the reference character's face, hair and clothing; follow the source performance's pose, gaze, expression and movement." The source performance owns the body/pose/motion; build (hands, frame) is NOT swapped.
+- **Decision (routing hierarchy for the movie project):**
+  1. **Same-body-type face/hair/clothing replacement onto existing footage** → H3 swap. Wire **akatz `h3_character_swap_v1.5` @1.0** (both versions already local; V1.5 = card-recommended; recipe: ref2va INT8 base + adapter + `fl2v_turbo_8step_768p` @1.0, 8 steps, CFG 1, er_sde). A/B vs the current pure prompt-swap (awaiting user's go).
+  2. **Different-build characters (fat + skinny, etc.)** → GENERATION, never swap: Krea2 base with build descriptions ("heavy-set, large round belly" / "very slim, narrow frame") + per-character LoRA inpaint passes (two-pass/quad kit, D214) → H3 R2V from the still (D020: 2 refs, short prompt). Bodies come from the still; swap can only re-enter if the source body already matches.
+  3. Trained character LoRAs encode face + build together — build is a description dimension in the base pass and a LoRA-locked dimension in the inpaint passes.
+- **Status:** active.
+
