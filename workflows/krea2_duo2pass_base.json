@@ -1,0 +1,1008 @@
+{
+ "id": "aa80b907-e29e-49b4-a8a8-e125b9b995f2",
+ "revision": 0,
+ "last_node_id": 30,
+ "last_link_id": 56,
+ "nodes": [
+  {
+   "id": 12,
+   "type": "CLIPLoader",
+   "pos": [
+    5073.391609357771,
+    753.5457216564039
+   ],
+   "size": [
+    270,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      23
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+    "type": "krea2",
+    "device": "default"
+   }
+  },
+  {
+   "id": 9,
+   "type": "SaveImage",
+   "pos": [
+    6574.3163401234415,
+    742.7035696229873
+   ],
+   "size": [
+    472.59134640572756,
+    669.9545290332442
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 47
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "duo2pass_base"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "duo_zidhan_jaisal_cine"
+   }
+  },
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    5068.081630806847,
+    620.2695509827195
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      56
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "krea2_raw_bf16.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "krea2_raw_bf16.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": 22,
+   "type": "VAEDecode",
+   "pos": [
+    6174.592824842519,
+    400.4167908060177
+   ],
+   "size": [
+    270,
+    198
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 39
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 46
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      47
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode",
+    "aux_id": "spacepxl/ComfyUI-VAE-Utils",
+    "ver": "d69e7afaa9edc3cd99096dc063ec37e71b2d1184"
+   }
+  },
+  {
+   "id": 21,
+   "type": "VAELoader",
+   "pos": [
+    5077.089006893418,
+    924.9941947684099
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      46
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "aux_id": "spacepxl/ComfyUI-VAE-Utils",
+    "ver": "d69e7afaa9edc3cd99096dc063ec37e71b2d1184"
+   },
+   "widgets_values": [
+    "wan_2.1_vae.pth"
+   ],
+   "widgets_values_named": {
+    "vae_name": "wan_2.1_vae.pth"
+   }
+  },
+  {
+   "id": 17,
+   "type": "SDXLEmptyLatentSizePicker+",
+   "pos": [
+    5688.623860080423,
+    1197.5204751719898
+   ],
+   "size": [
+    327.2837890625,
+    170
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "resolution",
+     "name": "resolution",
+     "type": "COMBO",
+     "widget": {
+      "name": "resolution"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "INT",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "width_override",
+     "name": "width_override",
+     "type": "INT",
+     "widget": {
+      "name": "width_override"
+     },
+     "link": 29
+    },
+    {
+     "localized_name": "height_override",
+     "name": "height_override",
+     "type": "INT",
+     "widget": {
+      "name": "height_override"
+     },
+     "link": 30
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      21
+     ]
+    },
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "INT",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SDXLEmptyLatentSizePicker+",
+    "cnr_id": "comfyui_essentials",
+    "ver": "1.1.0"
+   },
+   "widgets_values": [
+    "832x1216 (0.68)",
+    1,
+    0,
+    0
+   ],
+   "widgets_values_named": {
+    "resolution": "832x1216 (0.68)",
+    "batch_size": 1,
+    "width_override": 0,
+    "height_override": 0
+   }
+  },
+  {
+   "id": 8,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    5814.409711343109,
+    501.9955491378118
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 53
+    },
+    {
+     "localized_name": "shift",
+     "name": "shift",
+     "type": "FLOAT",
+     "widget": {
+      "name": "shift"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampling",
+     "name": "sampling",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "sampling"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    5,
+    "flow"
+   ],
+   "widgets_values_named": {
+    "shift": 5,
+    "sampling": "flow"
+   }
+  },
+  {
+   "id": 28,
+   "type": "ConditioningMultiply",
+   "pos": [
+    5785.159959717483,
+    356.55056617356723
+   ],
+   "size": [
+    270,
+    58
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "conditioning",
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 49
+    },
+    {
+     "localized_name": "multiplier",
+     "name": "multiplier",
+     "type": "FLOAT",
+     "widget": {
+      "name": "multiplier"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      50
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningMultiply",
+    "cnr_id": "comfy-core",
+    "ver": "0.27.0"
+   },
+   "widgets_values": [
+    1
+   ],
+   "widgets_values_named": {
+    "multiplier": 1
+   }
+  },
+  {
+   "id": 7,
+   "type": "KSampler",
+   "pos": [
+    6221.280315293295,
+    658.6800622722978
+   ],
+   "size": [
+    270,
+    474
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 7
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 50
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 11
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 21
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      39
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    119124096740433,
+    "randomize",
+    16,
+    2.5,
+    "euler",
+    "bong_tangent",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 119124096740433,
+    "control_after_generate": "randomize",
+    "steps": 16,
+    "cfg": 2.5,
+    "sampler_name": "euler",
+    "scheduler": "bong_tangent",
+    "denoise": 1
+   },
+   "color": "#009933"
+  },
+  {
+   "id": 6,
+   "type": "CLIPTextEncode",
+   "pos": [
+    5654.598179756391,
+    1037.337534414161
+   ],
+   "size": [
+    297.56278017160366,
+    94.6078603688618
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 55
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "selfie, amateur photo, low-resolution photo, blurry, low quality, jpeg artifacts, compression artifacts, watermark, worst quality, bad quality, low resolution, pixelated, noisy, grainy, oversharpened, overexposed, underexposed, flat lighting, washed out, dull colors, color banding, soft focus, out of focus, deformed, distorted, disfigured, malformed, mutated, bad anatomy, extra limbs, extra fingers, fused fingers, missing fingers, bad hands, wrong anatomy, twisted limbs, multiple people, other people, duplicates, cartoon, illustration, anime, drawing identical faces, twin characters, both men looking the same, feature mixing, features bleeding between the two men, mixed hair colors, swapped outfits, hybrid faces, blended faces, same person appearing twice, 3 people, 4 people, extra man"
+   ],
+   "widgets_values_named": {
+    "text": "selfie, amateur photo, low-resolution photo, blurry, low quality, jpeg artifacts, compression artifacts, watermark, worst quality, bad quality, low resolution, pixelated, noisy, grainy, oversharpened, overexposed, underexposed, flat lighting, washed out, dull colors, color banding, soft focus, out of focus, deformed, distorted, disfigured, malformed, mutated, bad anatomy, extra limbs, extra fingers, fused fingers, missing fingers, bad hands, wrong anatomy, twisted limbs, multiple people, other people, duplicates, cartoon, illustration, anime, drawing"
+   },
+   "color": "#009933",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 20,
+   "type": "ResolutionSelector",
+   "pos": [
+    5353.5651863406,
+    1195.0512817347915
+   ],
+   "size": [
+    270,
+    150
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "aspect_ratio",
+     "name": "aspect_ratio",
+     "type": "COMBO",
+     "widget": {
+      "name": "aspect_ratio"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "megapixels",
+     "name": "megapixels",
+     "type": "FLOAT",
+     "widget": {
+      "name": "megapixels"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "multiple",
+     "name": "multiple",
+     "type": "INT",
+     "widget": {
+      "name": "multiple"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "preview",
+     "name": "preview",
+     "shape": 7,
+     "type": "RESOLUTION_PREVIEW",
+     "widget": {
+      "name": "preview"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "INT",
+     "links": [
+      29
+     ]
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "INT",
+     "links": [
+      30
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ResolutionSelector",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "21:9 (Ultrawide)",
+    3,
+    8
+   ],
+   "widgets_values_named": {
+    "aspect_ratio": "21:9 (Ultrawide)",
+    "megapixels": 3,
+    "multiple": 8
+   }
+  },
+  {
+   "id": 5,
+   "type": "CLIPTextEncode",
+   "pos": [
+    5609.197113884735,
+    706.6819935284279
+   ],
+   "size": [
+    400.98497326758115,
+    279.78283467403924
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 54
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      49
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "jeskv, A cinematic ultrawide film still: a vast, empty old-world street at golden hour, exactly two young men standing side by side, a two-shot framing both characters together, both whole bodies in view with plenty of space around them.\nStyle: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.\nLighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on both of their hair and shoulders.\nFraming: extreme wide shot, 21:9 ultrawide, eye-level camera, shallow depth of field on the background, both figures clearly separated and fully visible.\nMedium: 35mm anamorphic film.\nPalette: warm amber and teal shadows, dusty gold highlights.\nBackground: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.\nThe two subjects: on the left, a young Indian man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers; on the right, a young Indian man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt.\nBoth standing still, looking toward the camera with calm expressions, a relaxed friendship between them.\nEXACTLY two men total in the entire frame, one on the left and one on the right. No other people anywhere. NOT three men. No duplicates."
+   ],
+   "widgets_values_named": {
+    "text": "dlor, jeskv, A cinematic ultrawide film still: two young men standing side by side in a vast, empty old-world street at golden hour, a two-shot framing both characters together, both whole bodies in view with plenty of space around them.\nStyle: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.\nLighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on both of their hair and shoulders.\nFraming: extreme wide shot, 21:9 ultrawide, eye-level camera, shallow depth of field on the background, both figures clearly separated and fully visible.\nMedium: 35mm anamorphic film.\nPalette: warm amber and teal shadows, dusty gold highlights.\nBackground: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.\nThe two subjects: on the left, a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers; on the right, a young man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt. Both standing still, looking toward the camera with calm expressions, a relaxed friendship between them.\nONLY TWO characters, no other people, no duplicates, no third person."
+   },
+   "color": "#009933",
+   "bgcolor": "#353"
+  },
+  {
+   "id": 30,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    5698.408092494073,
+    9.854352729060508
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 56
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      53
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2jaisal_v2.safetensors",
+    1.0
+   ]
+  }
+ ],
+ "links": [
+  [
+   7,
+   8,
+   0,
+   7,
+   0,
+   "MODEL"
+  ],
+  [
+   11,
+   6,
+   0,
+   7,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   21,
+   17,
+   0,
+   7,
+   3,
+   "LATENT"
+  ],
+  [
+   39,
+   7,
+   0,
+   22,
+   0,
+   "LATENT"
+  ],
+  [
+   46,
+   21,
+   0,
+   22,
+   1,
+   "VAE"
+  ],
+  [
+   47,
+   22,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   49,
+   5,
+   0,
+   28,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   50,
+   28,
+   0,
+   7,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   29,
+   20,
+   0,
+   17,
+   2,
+   "INT"
+  ],
+  [
+   30,
+   20,
+   1,
+   17,
+   3,
+   "INT"
+  ],
+  [
+   53,
+   30,
+   0,
+   8,
+   0,
+   "MODEL"
+  ],
+  [
+   54,
+   12,
+   0,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   55,
+   12,
+   0,
+   6,
+   0,
+   "CLIP"
+  ],
+  [
+   56,
+   1,
+   0,
+   30,
+   0,
+   "MODEL"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 1.1167815779426455,
+   "offset": [
+    -4659.984386559884,
+    28.44656219274634
+   ]
+  },
+  "frontendVersion": "1.45.20",
+  "VHS_latentpreview": false,
+  "VHS_latentpreviewrate": 0,
+  "VHS_MetadataImage": true,
+  "VHS_KeepIntermediate": true
+ },
+ "extensions": {
+  "seed_widgets": {
+   "7": 0
+  }
+ },
+ "version": 0.4
+}

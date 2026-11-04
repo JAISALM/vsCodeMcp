@@ -1,0 +1,805 @@
+{
+ "id": "f19258a3-9ea2-48d8-812b-ae4d669c8002",
+ "version": 0.4,
+ "config": {},
+ "extra": {},
+ "revision": 0,
+ "last_node_id": 35,
+ "last_link_id": 71,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    5068.081630806847,
+    620.2695509827195
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      60
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "krea2_raw_bf16.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "krea2_raw_bf16.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": 8,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    5814.409711343109,
+    501.9955491378118
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 60
+    },
+    {
+     "localized_name": "shift",
+     "name": "shift",
+     "type": "FLOAT",
+     "widget": {
+      "name": "shift"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampling",
+     "name": "sampling",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "sampling"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      61
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    5,
+    "flow"
+   ],
+   "widgets_values_named": {
+    "shift": 5,
+    "sampling": "flow"
+   }
+  },
+  {
+   "id": 12,
+   "type": "CLIPLoader",
+   "pos": [
+    5073.391609357771,
+    753.5457216564039
+   ],
+   "size": [
+    270,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      62,
+      68
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.25.0"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+    "type": "krea2",
+    "device": "default"
+   }
+  },
+  {
+   "id": 21,
+   "type": "VAELoader",
+   "pos": [
+    5077.089006893418,
+    924.9941947684099
+   ],
+   "size": [
+    270,
+    82
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      67
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "aux_id": "spacepxl/ComfyUI-VAE-Utils",
+    "ver": "d69e7afaa9edc3cd99096dc063ec37e71b2d1184"
+   },
+   "widgets_values": [
+    "wan_2.1_vae.pth"
+   ],
+   "widgets_values_named": {
+    "vae_name": "wan_2.1_vae.pth"
+   }
+  },
+  {
+   "id": 31,
+   "type": "Krea2CharacterRouter",
+   "pos": [
+    480,
+    80
+   ],
+   "size": [
+    400,
+    460
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 61
+    },
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 62
+    },
+    {
+     "name": "scene_prompt",
+     "type": "STRING",
+     "widget": {
+      "name": "scene_prompt"
+     },
+     "link": null
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "name": "regions_json",
+     "type": "STRING",
+     "widget": {
+      "name": "regions_json"
+     },
+     "link": null
+    },
+    {
+     "name": "feather",
+     "type": "FLOAT",
+     "widget": {
+      "name": "feather"
+     },
+     "link": null
+    },
+    {
+     "name": "overlap_policy",
+     "type": "COMBO",
+     "widget": {
+      "name": "overlap_policy"
+     },
+     "link": null
+    },
+    {
+     "name": "schedule_softness",
+     "type": "FLOAT",
+     "widget": {
+      "name": "schedule_softness"
+     },
+     "link": null
+    },
+    {
+     "name": "strict",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "strict"
+     },
+     "link": null
+    },
+    {
+     "name": "debug",
+     "type": "BOOLEAN",
+     "widget": {
+      "name": "debug"
+     },
+     "link": null
+    },
+    {
+     "name": "supersample_scale",
+     "type": "FLOAT",
+     "widget": {
+      "name": "supersample_scale"
+     },
+     "link": null
+    },
+    {
+     "name": "canvas_lora_json",
+     "type": "STRING",
+     "widget": {
+      "name": "canvas_lora_json"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "links": [
+      63
+     ]
+    },
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "links": [
+      64
+     ]
+    },
+    {
+     "name": "prompt",
+     "type": "STRING",
+     "links": null
+    },
+    {
+     "name": "mask_preview",
+     "type": "IMAGE",
+     "links": [
+      71
+     ]
+    },
+    {
+     "name": "diagnostics",
+     "type": "STRING",
+     "links": null
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "links": [
+      65
+     ]
+    },
+    {
+     "name": "share_prompt_json",
+     "type": "STRING",
+     "links": null
+    },
+    {
+     "name": "target_width",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "target_height",
+     "type": "INT",
+     "links": null
+    },
+    {
+     "name": "supersample_plan",
+     "type": "KREA2_SUPERSAMPLE_PLAN",
+     "links": [
+      66
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2CharacterRouter"
+   },
+   "widgets_values": [
+    "A cinematic ultrawide film still: a vast, empty old-world street at golden hour, a two-shot framing both characters together, both whole bodies in view with plenty of space around them.\nStyle: moody cinematic film still, anamorphic look, subtle film grain, realistic photograph.\nLighting: warm low-angle golden-hour sunlight raking across the street, long shadows, soft rim light on both of their hair and shoulders.\nFraming: extreme wide shot, 21:9 ultrawide, eye-level camera, shallow depth of field on the background, both figures clearly separated and fully visible.\nMedium: 35mm anamorphic film.\nPalette: warm amber and teal shadows, dusty gold highlights.\nBackground: a long empty old-world street with weathered buildings receding into soft haze, gentle atmospheric depth.\nBoth standing still, looking toward the camera with calm expressions, a relaxed friendship between them.\nEXACTLY two men total in the entire frame: one on the left in a white t-shirt, one on the right in a black t-shirt. Each man stands alone in his own area. No other people anywhere. NOT three men. No duplicates, no twins, no extra man.",
+    2712,
+    1160,
+    "[\n  {\n    \"name\": \"zidhan (left)\",\n    \"enabled\": true,\n    \"lora\": \"krea2zidhan_v2.safetensors\",\n    \"trigger\": \"dlor\",\n    \"prompt\": \"a young man in his mid-twenties with short neat black hair, a full short dense black beard, dark brown eyes, lean slim build, wearing a plain white t-shirt and dark trousers, standing ALONE on the left side of the street, only ONE man in this area, no second man beside him, no duplicate of him\",\n    \"strength\": 1.0,\n    \"x\": 0.08,\n    \"y\": 0.08,\n    \"w\": 0.3,\n    \"h\": 0.84,\n    \"start\": 0.0,\n    \"end\": 1.0\n  },\n  {\n    \"name\": \"jaisal (right)\",\n    \"enabled\": true,\n    \"lora\": \"krea2jaisal_v2.safetensors\",\n    \"trigger\": \"jeskv\",\n    \"prompt\": \"a young man in his mid-twenties with medium wavy black hair falling to eyebrow length, slightly crooked naturally bent nose, dark brown almond eyes, thin lips, clean-shaven with faint stubble, lean slim build, wearing a plain black t-shirt, standing ALONE on the right side of the street, only ONE man in this area, no second man beside him, no duplicate of him\",\n    \"strength\": 1.0,\n    \"x\": 0.62,\n    \"y\": 0.08,\n    \"w\": 0.3,\n    \"h\": 0.84,\n    \"start\": 0.0,\n    \"end\": 1.0\n  }\n]",
+    0.08,
+    "nearest",
+    0.04,
+    true,
+    false,
+    1.0,
+    "{\"enabled\": false, \"lora\": \"None\", \"trigger\": \"\", \"prompt\": \"\", \"strength\": 1.0, \"coverage\": \"unboxed\", \"start\": 0.0, \"end\": 1.0}"
+   ]
+  },
+  {
+   "id": 32,
+   "type": "Krea2SupersampledKSampler",
+   "pos": [
+    940,
+    120
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 63
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 64
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 69
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 65
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 67
+    },
+    {
+     "name": "supersample_plan",
+     "type": "KREA2_SUPERSAMPLE_PLAN",
+     "link": 66
+    },
+    {
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    },
+    {
+     "name": "downscale_method",
+     "type": "COMBO",
+     "widget": {
+      "name": "downscale_method"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      70
+     ]
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "links": null
+    },
+    {
+     "name": "working_image",
+     "type": "IMAGE",
+     "links": null
+    },
+    {
+     "name": "diagnostics",
+     "type": "STRING",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Krea2SupersampledKSampler"
+   },
+   "widgets_values": [
+    119124096740433,
+    "randomize",
+    16,
+    2.5,
+    "euler",
+    "bong_tangent",
+    1.0,
+    "lanczos"
+   ]
+  },
+  {
+   "id": 33,
+   "type": "CLIPTextEncode",
+   "pos": [
+    480,
+    620
+   ],
+   "size": [
+    400,
+    180
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 68
+    },
+    {
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      69
+     ]
+    }
+   ],
+   "title": "negative (empty)",
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    ""
+   ]
+  },
+  {
+   "id": 34,
+   "type": "SaveImage",
+   "pos": [
+    1360,
+    160
+   ],
+   "size": [
+    320,
+    260
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 70
+    },
+    {
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_duo_composer"
+   ]
+  },
+  {
+   "id": 35,
+   "type": "PreviewImage",
+   "pos": [
+    1360,
+    460
+   ],
+   "size": [
+    320,
+    244
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 71
+    },
+    {
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [],
+   "title": "region masks",
+   "properties": {
+    "Node name for S&R": "PreviewImage"
+   },
+   "widgets_values": [
+    "mask"
+   ]
+  }
+ ],
+ "links": [
+  [
+   60,
+   1,
+   0,
+   8,
+   0,
+   "MODEL"
+  ],
+  [
+   61,
+   8,
+   0,
+   31,
+   0,
+   "MODEL"
+  ],
+  [
+   62,
+   12,
+   0,
+   31,
+   1,
+   "CLIP"
+  ],
+  [
+   63,
+   31,
+   0,
+   32,
+   0,
+   "MODEL"
+  ],
+  [
+   64,
+   31,
+   1,
+   32,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   65,
+   31,
+   5,
+   32,
+   3,
+   "LATENT"
+  ],
+  [
+   66,
+   31,
+   9,
+   32,
+   5,
+   "KREA2_SUPERSAMPLE_PLAN"
+  ],
+  [
+   67,
+   21,
+   0,
+   32,
+   4,
+   "VAE"
+  ],
+  [
+   68,
+   12,
+   0,
+   33,
+   0,
+   "CLIP"
+  ],
+  [
+   69,
+   33,
+   0,
+   32,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   70,
+   32,
+   0,
+   34,
+   0,
+   "IMAGE"
+  ],
+  [
+   71,
+   31,
+   3,
+   35,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": []
+}
