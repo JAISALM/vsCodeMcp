@@ -4,6 +4,23 @@ Newest changes first.
 
 ---
 
+## 2026-11-04 — `krea2_quad_base.json` + `krea2_quad_inpaint_{1,2,3,4}.json` — FOUR-CHARACTER GENERATE + SEQUENTIAL-INPAINT KIT — VALIDATED 0/0 (06:30 IST)
+
+**Generalization of the two-pass duo technique to N characters** (user created 2 more character LoRAs → 4 people needed for the movie). Built by `session_tmp\build_quad_kit.py` from the proven rig. **Key design change from the duo:** the base pass carries **NO character LoRA** — 4 generic men in distinct outfits (white/black/blue/yellow tees, left→right), count from the prompt only ("EXACTLY four men… NOT five, NOT three"). This kills base-bleed (the 06:30 duo observation: a full-frame character LoRA pulls ALL described slots toward it). Identity is then added per-slot in **4 sequential inpaint passes**, each a solo full-frame @1.0 LoRA on that person's band → solo face quality by design.
+
+- **`krea2_quad_base.json`** (12 nodes): rig minus both character LoRAs → UNET(1)→AuraFlow(8)→KSampler(7) → VAEDecode(22) → SaveImage(`quad_base`) · 21:9 3MP rig · positive = 4-generic-men scene · negative = duo file's.
+- **`krea2_quad_inpaint_{1..4}.json`** (13 nodes each): LoadImage(prev output) + `MaskRectArea` band + `VAEEncodeForInpaint`(grow 6) + one `LoraLoaderModelOnly` @1.0 + KSampler denoise 1.0. **Sequential chain** — each pass loads the previous pass's output:
+  | file | loads | mask band (x,y,w,h,blur %) | LoRA (preset) | saves |
+  |---|---|---|---|---|
+  | `_1` | `quad_base_00001_.png` | 6,6,21,88,10 | `krea2zidhan_v2` (`dlor`) | `quad_final_1` |
+  | `_2` | `quad_final_1_00001_.png` | 28,6,21,88,10 | `krea2jaisal_v2` (`jeskv`) | `quad_final_2` |
+  | `_3` | `quad_final_2_00001_.png` | 50,6,21,88,10 | **placeholder** — pick new LoRA | `quad_final_3` |
+  | `_4` | `quad_final_3_00001_.png` | 72,6,21,88,10 | **placeholder** — pick new LoRA | `quad_final_4` |
+- **Slots (left→right):** 1 = zidhan (white tee, beard) · 2 = jaisal (black tee, wavy hair) · 3 = NEW char (blue tee) · 4 = NEW char (yellow tee). Inpaints 3/4 carry NEUTRAL prompts + jaisal LoRA as placeholder — **the user picks the correct new LoRA from the dropdown and (ideally) sets the trigger/description**; the neutral prompt is a safe default.
+- **Per-shot flow:** fresh tab → queue `quad_base` (check: exactly 4 men, right positions) → queue `_1` → `_2` → `_3` → `_4` (each: verify the mask band covers that man, adjust `MaskRectArea` x/w if he's not centered in his band). 1 base + 4 queue clicks + 4 mask checks.
+- **Why sequential:** each pass's `VAEEncodeForInpaint` (denoise 1.0) regenerates ONLY the masked band; the other 3 men are protected by the encode node, so earlier characters survive later passes. The final `quad_final_4` = all 4 at solo quality.
+- **USER:** open `quad_base` in a FRESH tab → queue → then `_1`→`_4` in order, each fresh tab. **Pick the 2 new LoRAs** in the `_3`/`_4` LoRA dropdowns (currently placeholder `krea2jaisal_v2`).
+
 ## 2026-11-03 — `krea2_duo2pass_base.json` + `krea2_duo2pass_inpaint.json` — TWO-PASS DUO PIPELINE (generate + inpaint) — VALIDATED 0/0 (06:15 IST)
 
 **THE duo technique (movie-pipeline ready).** Built by `session_tmp\build_duo2pass.py` from the proven `krea2_duo_zidhan_jaisal_cine.json` rig. **Community-verified method** (Reddit r/StableDiffusion + Civitai multi-char guides, researched on user's request): "create an image with the right number of characters, then inpaint each LoRA one at a time" — the only RELIABLE multi-LoRA-character method; stacking and spatial-bias routing both bleed/duplicate. **Why faces come out solo-quality:** each character gets a FULL-FRAME @1.0 solo-LoRA pass (the composer's "not as good as single lora" is fixed by design — no shared-weight compromise).
