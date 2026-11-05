@@ -1762,3 +1762,15 @@
   3. Trained character LoRAs encode face + build together — build is a description dimension in the base pass and a LoRA-locked dimension in the inpaint passes.
 - **Status:** active.
 
+## D216 — Character-handling policy by character class (LoRA'd / LoRA-free / recurring-fat) — 2026-11-05
+
+- **Date:** 2026-11-05 (user restated + confirmed the three-class policy; agent verified the V3 kit against disk).
+- **Decision (three classes):**
+  1. **Characters WITH LoRAs (jaisal, zidhan, + the 2 new):** physical characteristics need NOTHING special in the pipeline — the base description sets the silhouette, the inpaint pass (two-pass/quad kit, D214) locks the whole body. Nothing in the quad kit needs changing.
+  2. **Characters WITHOUT LoRAs:** build words + fitted clothing + relative contrast in the base prompt (D215 generation route); optionally an identity-edit pass with a reference image (D023) for recurring faces.
+  3. **Recurring fat character (definitive route):** TRAIN him with the V3 AI-Toolkit kit (`D:\models\qwen\launch_krea2{zidane,jaisal}V3.bat` pattern → `session_tmp\aitk_krea2*V3.yml`) — the LoRA then owns build + face together (D215 item 3).
+- **V3 kit verified on disk (2026-11-05):** dataset `D:/lora_training/zidaneV3_3110` = 20 images + 20 captions, trigger-first (`zidv3` + identity head), framing mix = full-body (6) + profile/three-quarter (2) + close-up (3+) — the mix is what teaches build + face together. Recipe: AI-Toolkit LoKr linear-32, flowmatch, 5000 steps, qfloat8 on `krea2_raw_bf16`, output `F:\aitk_output\krea2zidaneV3\`.
+- **Gotcha (build in captions):** the zidaneV3 captions say "average build" — for the fat character the build phrase MUST appear in EVERY caption and full-body shots must DOMINATE the set (build is a whole-body signal; close-ups don't teach it).
+- **Supersedes:** ad-hoc fat-character handling in D215 item 2 (generation-only) when the character becomes RECURRING — one-time fat characters still go through the D215 generation route.
+- **Status:** active.
+
