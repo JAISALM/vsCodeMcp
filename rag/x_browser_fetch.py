@@ -35,12 +35,16 @@ def fetch_account(acct: str, poll_rounds: int = 25, scrolls: int = 6):
     from playwright.sync_api import sync_playwright
     url = f"https://x.com/{acct}"
     cookies = []
-    if os.environ.get("X_AUTH_TOKEN"):
-        cookies.append({"name": "auth_token", "value": os.environ["X_AUTH_TOKEN"],
-                        "domain": ".x.com", "path": "/"})
-    if os.environ.get("X_CT0"):
-        cookies.append({"name": "ct0", "value": os.environ["X_CT0"],
-                        "domain": ".x.com", "path": "/"})
+    # inject into BOTH domains: desktop-browser sessions may carry the cookies
+    # under .twitter.com (legacy host) while the fetch target is x.com
+    for _dom in (".x.com", ".twitter.com"):
+        if os.environ.get("X_AUTH_TOKEN"):
+            cookies.append({"name": "auth_token",
+                            "value": os.environ["X_AUTH_TOKEN"],
+                            "domain": _dom, "path": "/"})
+        if os.environ.get("X_CT0"):
+            cookies.append({"name": "ct0", "value": os.environ["X_CT0"],
+                            "domain": _dom, "path": "/"})
     with sync_playwright() as p:
         ctx = browser_head._launch(p, verbose=True)
         if cookies:
@@ -85,10 +89,12 @@ def parse_profile(page_html: str, acct: str):
     article shells but NO tweet text — detect that and report it as a login
     wall with the actionable fix (set X_AUTH_TOKEN / X_CT0)."""
     tweets, seen = [], set()
-    # each <article> chunk: id from the tweetDate link, text from tweetText,
-    # date from <time datetime=...>
+    # each <article> chunk: id from the first status link in the header
+    # (X dropped the data-testid="tweetDate" attr in a 2026-11 DOM change —
+    # the href="/<user>/status/<id>" link + <time datetime> survive), text
+    # from tweetText (testid still present), date from <time datetime=...>
     for chunk in re.split(r"<article\b", page_html)[1:]:
-        mid = re.search(r'data-testid="tweetDate" href="/\w+/status/(\d+)"', chunk)
+        mid = re.search(r'href="/\w+/status/(\d+)"', chunk)
         if not mid:
             continue
         tid = mid.group(1)

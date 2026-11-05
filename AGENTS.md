@@ -252,10 +252,21 @@ skipped". Fall through to the BROWSER HEAD.**
    one-time env cookie unlocks it exactly like a logged-in browser:
    - Reddit JSON → `REDDIT_SESSION_COOKIE` (already wired, tier 1).
    - **X → set `X_AUTH_TOKEN` (auth_token) + `X_CT0` (ct0) user-level env** —
-     `rag/x_browser_fetch.py` injects them as cookies and reads the full
-     timeline. (Anonymous X is login-walled: syndication 429, mcp engine 429,
-     nitter mirrors dead, threadreader 404, browser head renders article shells
-     without text. Verified 2026-10-27.)
+     `rag/x_browser_fetch.py` injects them as cookies (into BOTH `.x.com` and
+     `.twitter.com`) and reads the full timeline. **UNLOCKED 2026-11-05** —
+     env vars set from the user's Brave session (Brave is the user's X browser;
+     the account is Google-only so a fresh login in our head is impossible —
+     Google blocks sign-ins in automation-flagged browsers; desktop profiles had
+     no X session to copy, so the values came from DevTools: Brave on an x.com
+     page, F12, Application, Cookies, `https://x.com`, copy `auth_token` +
+     `ct0`). Session expires **2026-11-27** — if X goes gated again, repeat
+     that 2-minute copy and set the two user-scope env vars. (Anonymous X is
+     login-walled: syndication 429, mcp engine 429, nitter mirrors dead,
+     threadreader 404, browser head renders article shells without text.
+     Verified 2026-10-27.) **DOM change 2026-11-05:** X dropped the
+     `data-testid="tweetDate"` attribute — `x_browser_fetch.py` now keys
+     tweet ids off the first `href="/<user>/status/<id>"` link per article
+     (`<time datetime>` and the `tweetText` testid survive).
    - Civitai author → `rag/browser_head.py` on the model page (SSR carries
      `href="/user/<name>"`; `/users/{id}` is 401 no-auth). Wired into
      `fetch_civitai`.
