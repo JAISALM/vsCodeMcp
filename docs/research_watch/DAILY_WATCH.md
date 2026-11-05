@@ -13,6 +13,39 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-05
+
+**Sources:** Reddit ✅ HTML tier (SD 7 new / LocalLLaMA 10 new / ComfyUI 7 new / artificial 36 new; 70 posts at 50+; JSON 403 all subs as usual) · HF ✅ 22 trending models + 14 datasets (top-downloads 0 rows — 4th day) · Civitai ⚠️ hot only (DreamShaper XL, known — no-adopt) · X ⚠️ PixelAigc backfill only (50 files = 24 unique ×2; other 6 accounts login-walled). **Pipeline note:** 08:00 schtask did NOT run today (no log, no news dir — machine asleep?) — manual 09:51 re-run (`--news-only`): **completed clean in ~15min — no X-tier hang today** (1717 items, 274 newly indexed, store 1885).
+
+**New relevant items (vs 11-04 baseline):**
+- **t3_1xnhzbz (378u) — "Introducing Hy4 (open weights soon)"** — Tencent's Hy4 — open weights coming soon — model landscape (brain/agent pool when the weights drop) <https://hy.tencent.ai/research/hy4?langVersion=en>
+- **t3_1xnuva2 (225u) — "Unsloth Qwen3.8-Flash-Next GGUFs V3.1 Update (November 4th 2026)"** — unsloth refreshed the GGUFs for OUR exact brain family — A/B candidate for the brain (carried Flash-Next recipe) <https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF>
+- **t3_1xnrt67 (170u) — "Better Image-Edit workflow for MiniMax H3"** — H3 image-edit workflow — candidate for the movie H3 chain <https://v.redd.it/z20dzydo9mzh1>
+- **t3_1xn6mm0 (161u) — "gemma4: graph optimizations (massive gains on pp for E2B and E4B)" — llama.cpp PR #31356** — our brain's toolchain (pairs with the carried "can only run gemma 4" thread) <https://github.com/ggml-org/llama.cpp/pull/31356>
+- **t3_1xms6eq (144u) — "Is Qwen 3.8 27B still the king"** — community sentiment on OUR exact model (brain + agent) — READ <https://www.reddit.com/r/LocalLLaMA/comments/1xms6eq/is_qwen_38_27b_still_the_king/>
+- **t3_1xn81vh (141u) — "Krea 3 Technical Report"** — Krea 3! our stack is Krea2 — next-gen architecture/quality context for the image pipeline (character LoRAs likely won't transfer — note for the movie) <https://www.reddit.com/gallery/1xn81vh>
+- **t3_1xncdmm (124u) — "No more paywalls for Flux 2 Klein checkpoints on Civitai"** — Flux 2 Klein checkpoints now freely downloadable on Civitai — image-model pool <https://i.redd.it/obsllzhw9izh1.jpeg>
+- **t3_1xmuowj (112u) — "Reshoot 4D: Reshoot Anyone in 4D"** — character-reshoot tooling (4D) — character-work context <https://v.redd.it/pjlfkrzwsezh1>
+- **t3_1xngaid (103u) — "ComfyUI v0.44.0 released"** — check node changes affecting our workflows (we run a recent version) <https://github.com/Comfy-Org/ComfyUI/releases/tag/v0.44.0>
+- **t3_1xnqxlq (411u) — "I am big enough to admit that this is me"** — day's top post (self-deprecating image post; context only) <https://i.redd.it/lqr4hd2s4mzh1.jpeg>
+- **t3_1xnx3cs (264u) — ricursiveAI/Ripple-65B-Preview** + **t3_1xnjiu4 (260u) — Axion1-0/Axion-1.0-35B** — new open-model releases (brain-pool context) <https://huggingface.co/ricursiveAI/Ripple-65B-Preview> · <https://huggingface.co/Axion1-0/Axion-1.0-35B>
+- **t3_1xlusil (138u) — "Proposal: A community revolution for private quality benchmarks (and why endless chasing tok/s is rotting our brains)"** — community quality-vs-speed debate <https://www.reddit.com/r/LocalLLaMA/comments/1xlusil/proposal_a_community_revolution_for_private/>
+- **t3_1xn5cfw (143u, up from 102u 11-04) — "Electricity per AI image on RTX 5090-class: about 3 to 10 cents per 1,000 images (FLUX.2 klein, 1024×1024)"** — cost data for our 5090 generation runs <https://www.reddit.com/r/StableDiffusion/comments/1xn5cfw/electricity_per_ai_image_on_an_rtx_pro_6000_rtx/>
+- **HF NEW:** moonshotai/Kimi-K3.1-Pro (574 likes) — Moonshot's new Pro model (brain/agent pool) <https://huggingface.co/moonshotai/Kimi-K3.1-Pro> · unsloth/DeepSeek-V4.1-Flash-1017-GGUF (345 / 690k dl) — unsloth's cut of the carried 1017 build <https://huggingface.co/unsloth/DeepSeek-V4.1-Flash-1017-GGUF>
+- **Carried + RISING (not new):** Qwen-Image-2.1-Turbo-Quantized (5652) · idol (632) · Sulphur-3 (364) · numbat (343 — still DO NOT DOWNLOAD) · Audio8-TTS (296) · OBLITERATUS (250) · SenseNova-Loop (235) · Open-H3-Regenerate-2K (201) · weight-space cluster (434/378/437 — still top)
+- **Civitai:** DreamShaper XL (u/Lykon, 640k dl) hot — known, NO-ADOPT (SDXL-era generalist checkpoint; not in our Krea2/H3 stack) <https://civitai.com/models/112902>
+- **X:** 50 files = PixelAigc timeline backfill (24 unique, listed twice) — no new signal; other 6 accounts login-walled (9th day).
+
+**ACTION ITEMS (new today):**
+1. **Unsloth Qwen3.8-Flash-Next GGUFs V3.1 (t3_1xnuva2)** — A/B the refreshed GGUFs against the brain's current recipe (carried Flash-Next A/B; V3.1 may improve speed/quality).
+2. **Krea 3 Technical Report (t3_1xn81vh)** — READ; assess impact on our Krea2 pipeline (character LoRAs likely won't transfer).
+3. **"Better Image-Edit workflow for MiniMax H3" (t3_1xnrt67)** — READ + adopt candidate for the H3 sheet/edit chain.
+4. **gemma4 graph-optimizations llama.cpp PR #31356 (t3_1xn6mm0)** — check applicability to the brain (carried gemma4 thread).
+5. **Hy4 (Tencent) open-weights announcement** — watch; brain/agent pool when weights drop.
+6. Carried (11-04): H3 tiny sliders A/B · Krea2/H3 text encoder comparison · Strata 20× patch · P-H3-Image-Comfy · X-tier timeout fix.
+
+**SOURCE FAILURES (tier status per D203):** 08:00 schtask did NOT run today (no log entry, no news dir — machine asleep?) — manual 09:51 re-run covered it (clean ~15min, no X hang today; store 1885, 274 newly indexed) · X — 6/7 accounts login-walled (9th consecutive day; tier-4 fix = one-time `X_AUTH_TOKEN`+`X_CT0` env — not set, deprioritized) · Civitai — hot only (DreamShaper XL, known); newest/ComfyWorkflows/new-LoRAs returned 0 new (partial, NOT verified-zero) · HF top-downloads 0 rows (API quirk, 4th day) · Reddit JSON 403 all subs (HTML tier carried — 70 at 50+) · r/comfyui_workflows HTML tier GATED (10th consecutive day).
+
 ## 2026-11-04
 
 **Sources:** Reddit ✅ HTML tier (126 items, 92 posts at 50+; JSON 403 all subs as usual) · HF ✅ 19 trending models + 11 datasets (top-downloads 0 rows — 3rd day) · Civitai ⚠️ hot only (DreamShaper XL, known — no-adopt) · X ⚠️ PARTIAL — PixelAigc timeline backfill only (25 files, mostly old 2024-25 posts + 1 recent); other 6 accounts still login-walled. **Pipeline note:** 08:00 schtask CRASHED today (Result 3221225786, log header only, no "done") — manual 09:50 re-run (`--news-only`) hung in the X tier ~3.7h after the PixelAigc backfill (idle python, no browser process, no profile lock) — killed at 13:50; the watch ran on the 169 captured files.
