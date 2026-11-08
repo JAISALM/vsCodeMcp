@@ -755,3 +755,125 @@ upgrade path over MiniLM-384d).
 7. "Background text addition" community LoRA — still absent (3rd check).
 8. ComfyUI-LTXVideo pack missing from running install — fix before VFX workflows.
 9. User to provide a "ComfyUI channel" (Discord) feed URL to wire into the RAG.
+
+## 2026-11-08
+
+**Sources (3-day catch-up — machine down 11-06/11-07/11-08, power outage):** 08:00 schtask
+fired at 08:52 post-boot but FAILED (Result 2147946720, no log) → manual re-run, clean.
+Reddit ✅ HTML tier (SD 21 new / LocalLLaMA 28 / ComfyUI 21 / artificial 50; 49 posts at
+50+; JSON 403 all subs as usual) · HF ✅ 14 trending + **3 top-downloads (API quirk
+RESOLVED after ~4 days of 0 rows)** + 10 datasets · Civitai: hot 1 (DreamShaper XL,
+known) + ComfyWorkflows 1 (LTX 2.5 low-VRAM) + newest/LoRAs 0 · X ✅ **ALL 7 ACCOUNTS
+via browser-head tier — 41 posts, ZERO walls** (first full X run since the 11-05 cookie
+unlock; latest posts mostly image-only art; text parsing verified live 11/11 with-text).
+Store 2075 items, 190 newly indexed.
+
+**New relevant items (vs 11-05 baseline):**
+
+*Brain / agent toolchain (our exact model family):*
+- **t3_1xqbesv (135u) — "Effects of KV Cache Quantization on Qwen3.8 27B"** — KV-cache
+  quant for OUR exact brain model — READ for brain speed/VRAM tuning <https://www.reddit.com/r/LocalLLaMA/comments/1xqbesv/effects_of_kv_cache_quantization_on_qwen38_27b/>
+- **t3_1xqacka (195u) — llama.cpp PR #30966 "llama_moe_cache: run missed experts on CPU + tuning script"** —
+  MoE CPU offload in our toolchain (carried brain-toolchain cluster) <https://github.com/ggml-org/llama.cpp/pull/30966>
+- **t3_1xo3ikc (161u) — "What are you looking forward to in Qwen 4?"** — next-gen expectations
+  for our brain family <https://www.reddit.com/r/LocalLLaMA/comments/1xo3ikc/what_are_you_looking_forward_to_in_qwen_4/>
+- **t3_1xp9jt1 (431u) — "Latest Open-Source Labs are gutting away cybersecurity and reverse-engineering
+  capabilities"** — day's top post (context) <https://i.redd.it/e9368ci3yyzh1.png>
+- **award_wow_2 (268u) — NousResearch/Arete-27B (Qwen finetune)** — new 27B brain-pool candidate
+  <https://huggingface.co/NousResearch/Arete-27B>
+- **t3_1xnu6y1 (121u) — "Kimi K3.1 is probably benchmaxxed (with some evidence)"** — context for the
+  carried Kimi-K3.1-Pro <https://i.redd.it/24084yfbrmzh1.png>
+- **t3_1xpvfx8 (230u) — "Harness Leaderboard — Kimi Code, Hermes, Pi, Claude Code, Codex vs Terminal
+  Bench 2.1"** — agent-harness class (= our DSH) <https://huggingface.co/spaces/joelniklaus/harness-leaderboard>
+- **t3_1xpm8mw (237u) — "Mirage: a 22 MB VLM (scene descriptions + detection + OCR + segmentation +
+  spatial relations, single pass)"** — tiny VLM (RAG/VLM context) <https://www.reddit.com/gallery/1xpm8mw>
+- **t3_1xpdk0i (180u) — "A 0.1B model just killed 8B embedding models… I tried it out"** — tiny
+  embeddings — RAG upgrade path over our MiniLM-384d <https://www.reddit.com/gallery/1xpdk0i>
+- **t3_1xntou1 (163u) — "LFM3-Omni-2B fully offline on iPhone 18 Pro Max at ~80 tok/s (WebGPU)"** —
+  edge-LLM context <https://v.redd.it/vrc0vshunmzh1>
+- **t3_1xobe4h (361u) — "CCORE GLB-3D-Coder 4B final model + full weights"** (+ **t3_1xozbe6 (177u)** —
+  3,918-example dataset) — 3D codegen (not our niche; pool context) <https://v.redd.it/5ya4a2v5fqzh1> · <https://i.redd.it/ulne0ine2wzh1.jpeg>
+- **t3_1xp32od (196u) — "Introducing Inkling 2 Small" (Thinking Machines)** — model-pool context
+  <https://thinkingmachines.ai/news/inkling-2-small/>
+- **t3_1xqd058 (277u) — "Use your phone to monitor anything with local models — 100% local agent
+  (iOS/Android)"** — local-agent context <https://v.redd.it/g80qnydhc80i1>
+
+*Krea2 / H3 (movie pipeline):*
+- **t3_1xo3pjo (91u) — Kijai MiniMax-H3_comfy: new TurboH3 FL2VA pruned INT8 ConvRot (i2va)** —
+  H3 image-to-VIDEO for our movie i2v chain (pairs with carried H3 tiny sliders) — ADOPT candidate
+  <https://huggingface.co/Kijai/MiniMax-H3_comfy/blob/main/diffusion_models/minimax_h3_fl2va_turboh3_i2va_pruned_int8_convrot.safetensors>
+- **t3_1xmuea8 (90u) — "SPEEDing up more than just MiniMax-H3 without retraining — drop-in KSampler
+  replacement for image, edit, and video"** — H3 speed-up, drop-in — A/B candidate
+  <https://www.reddit.com/r/StableDiffusion/comments/1xmuea8/speeding_up_more_than_just_minimaxh3_without/>
+- **t3_1xohwh5 (142u) — "Krea 2 Turbo — 4 Step LoRA comeback (trained to 133K checkpoint, ~55K more
+  than the 'final' 78K in Sep)"** — the 10-26 carried turbo-LoRA item, retrained further —
+  reference-sheet speed-up candidate <https://www.reddit.com/gallery/1xohwh5>
+- **t3_1xllwpg (84u) — "Easier Poses Ref2V MM-H3 — Semi-Transparent Canny"** — pose control for
+  character shots <https://v.redd.it/167z4b5544zh1>
+- **t3_1xqfcjs (87u) — "Ultima Online (6 min) made with MiniMax H3 in ComfyUI on a single 24 GB GPU"** —
+  H3 long-form on 24 GB <https://v.redd.it/uj6rbctsw80i1>
+- **t3_1xpz5ti (107u) — "Rebuilt Higgsfield's 'Miracle' demo edit-by-edit with Viggle-remake"** —
+  video-editing context <https://v.redd.it/7aztbitmr40i1>
+- **t3_1xo18u8 (91u) — Fizgig v9.0.4: Fibo 2.0 training, Z-Image Base, masks from SAM 3.1, Detail
+  crops** — our LoRA-training GUI update; SAM 3.1 masks = charswapmask chain
+  <https://github.com/shootthesound/Fizgig/releases/tag/v9.0.4>
+- **ComfyUI sub (sub-50):** t3_1xlbcpn (17u) — "ComfyUI-skkut-utils: 1400+ Visual Krea 2 Style
+  Selector" — Krea2 style picker for our pipeline <https://www.reddit.com/gallery/1xlbcpn> ·
+  t3_1xlu284 (15u) — "SeedVR2 vs Open-H3 vs FlashVSR+ Turbo 4K upscale — actual tests on RTX 5090" —
+  our upscaling route <https://www.youtube.com/watch?v=27kdYJlOONA> · t3_1xoc3tv (20u) — "H3
+  Singularity V2 on 12 GB 3060, 4-step up to 2336×1312" — H3 low-VRAM <https://v.redd.it/s82p1ykxrqzh1>
+  · t3_1xqasyo (14u) — FilmDateStamp: optical burn-in + emulsion halation node — film look for the
+  movie <https://www.reddit.com/gallery/1xqasyo> · t3_1xmukz1 (18u) — prompt enhancer running a small
+  local LLM without permanent VRAM <https://i.redd.it/pqqnho27sezh1.png> · t3_1xodw5i (14u) — low-VRAM
+  upscaler <https://www.reddit.com/gallery/1xodw5i>
+
+*Hardware (continues the 11-04 PCB-shortage cluster — DON'T BUY NOW):*
+- **t3_1xojryw (268u) — "NVIDIA RTX PRO 5500 Blackwell appears at $17,999 MSRP (higher than RTX PRO
+  6000's $16,000)"** <https://videocardz.com/newz/nvidia-rtx-pro-5500-blackwell-appears-at-17999-msrp-higher-than-rtx-pro-6000>
+- **t3_1xmgmd8 (129u) — "RTX 8000 48GB prices decreased over last 2 years, while 3090 prices doubled"**
+  <https://www.reddit.com/r/LocalLLaMA/comments/1xmgmd8/rtx_8000_48gb_prices_have_decreased_over_the_last/>
+- **t3_1xn40w7 (154u) — "World's biggest PCIe GPU — 4-GPU AMD prototype pictured"**
+  <https://videocardz.com/newz/worlds-biggest-pcie-graphics-card-discovered-prototype-amd-radeon-rx-470-board-with-four-gpus-has-been-pictured>
+
+*Civitai:*
+- **(comfyworkflows) "LTX 2.5 — Pure 2K/3K Ultra-Low VRAM (Universal Workflow)"** (1,136 dl) — low-VRAM
+  LTX 2.5 route — ADOPT-CANDIDATE (eval): LTX = our weekly-watch org; universal 2K/3K low-VRAM
+  workflow = alternative video route alongside H3 <https://civitai.com/models/2877939>
+- **(hot) DreamShaper XL** (Lykon, 640k dl) — known NO-ADOPT <https://civitai.com/models/112902>
+
+*HF:*
+- **Top-downloads BACK (3 rows after ~4 days of 0):** microsoft/Florence-2-base (10.09M dl) ·
+  Comfy-Org/Wan-2.2 (9.90M) · Comfy-Org/Z-Image-Turbo (9.69M) — API quirk resolved
+  <https://huggingface.co/microsoft/Florence-2-base>
+- **NEW trending:** NousResearch/Arete-27B (220) · webAI-Official/TwIL-8B (215) ·
+  ccore/Qwen3.5-4B-GLB-3D-Coder (260) · xtools-at/DeepSeek-V4-Pro-Qwen3.5-9B-UNCENSORED-heretic (528)
+  · openvivo/BluePixel-Turbo (native 4K instruction-based edit, 4 steps) <https://huggingface.co/openvivo/BluePixel-Turbo>
+- **Carried + RISING:** Qwen-Image-2.1-Turbo-Quantized 5713 · Kimi-K3.1-Pro 1643 (up from 574) ·
+  unsloth Flash-Next 1.42M dl · idol 1139 · Sulphur-3 405 · numbat 381 (DO-NOT-DOWNLOAD) · AtomicChat
+  1017 117k dl · Ripple-65B 376 · OBLITERATUS 275 · P-H3-Image-Comfy 233
+- **Datasets:** ccore/ThreeJS-3D-Scenes + codepawl GLB-3D sets (abo/scanned-objects/simready) — 3D
+  asset cluster · tencent/TailorRig · NousResearch arete-data-pairs / Propaganda_Eval
+
+*X:* all 7 accounts readable (41 posts) — first full X tier since the 11-05 cookie unlock; latest
+posts mostly image-only (art accounts); text parsing verified (11/11 with-text on the older
+timeline). No new relevant TEXT posts in this window.
+
+**ACTION ITEMS (new):**
+1. t3_1xqbesv — KV-cache quant for Qwen3.8 27B — READ (our exact brain model)
+2. t3_1xo3pjo — TurboH3 FL2VA i2va pruned INT8 ConvRot — ADOPT candidate (movie i2v chain)
+3. t3_1xohwh5 — Krea2 Turbo 4-step LoRA retrained to 133K — check the new checkpoint (carried 10-26)
+4. t3_1xmuea8 — drop-in KSampler H3 speed-up — A/B candidate
+5. Civitai LTX 2.5 ultra-low-VRAM 2K/3K workflow — inspect (alternative video route)
+6. t3_1xo18u8 — Fizgig v9.0.4 (SAM 3.1 masks + Fibo 2.0 training) — LoRA-training GUI update
+7. t3_1xpdk0i — 0.1B embedding model — RAG upgrade path over MiniLM-384d
+8. t3_1xqacka — llama.cpp MoE CPU-offload PR #30966 — brain toolchain
+9. Hardware cluster (RTX PRO 5500 at $17,999) — don't buy now
+10. Carried: unsloth Flash-Next V3.1 A/B (brain) · Krea 3 tech report · H3 image-edit workflow · gemma4
+    PR #31356 · Hy4 watch · H3 tiny sliders A/B · Krea2/H3 text-encoder comparison · Strata 20× patch
+    · P-H3-Image-Comfy
+
+**SOURCE FAILURES:** 08:00 schtask fired 08:52 (post-boot) but FAILED (Result 2147946720; no 11-08
+log) → manual re-run clean (~45min; 3-day catch-up; store 2075) · Reddit JSON 403 all subs (expected
+tier-1 noise — HTML tier carried 49 at 50+) · r/comfyui_workflows HTML tier GATED (day 13) · X — NO
+failures (all 7 accounts via browser-head tier — login wall down since 11-05) · Civitai newest/new
+LoRAs = 0 new (partial — NOT verified-zero) · HF top-downloads RESOLVED (3 rows).
