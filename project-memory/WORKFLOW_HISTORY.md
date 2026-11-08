@@ -4,6 +4,16 @@ Newest changes first.
 
 ---
 
+## 2026-11-08 — `krea2_jaisal2_cine.json` + `krea2_zidane2_cine.json` — V3 A/B TEST WORKFLOWS ("jaisal2" / "zidane2") — VALIDATED 0/0 (11:24 IST)
+
+Built by `session_tmp\build_jaisal2_zidane2.py` as EXACT copies of the proven single-char cine rig (`Krea2_jaisal_v2_cine.json` / `krea2_zidhan_v2_cine.json` — same node ids, positions, links, header), with only 3 nodes swapped per file: node 29 `LoraLoaderModelOnly` → the v3 LoRA @1.0 · node 5 positive prompt → v3 trigger + v3 identity head **verbatim from the v3 dataset captions** · node 9 SaveImage prefix.
+
+- **`krea2_jaisal2_cine.json`** — `krea2jaisal_v3.safetensors` @1.0 · trigger `jaiv3` · identity = "South Asian man, mid-20s, light brown skin, wavy shoulder-length black hair, thin mustache and short chin stubble, brown eyes, straight medium nose, medium lips, slim build" (verbatim from `D:\lora_training\jaisalV3_3110` captions) · black tee · saves `jaisal2_cine`.
+- **`krea2_zidane2_cine.json`** — `krea2zidane_v3.safetensors` @1.0 · trigger `zidv3` · identity = "Middle Eastern man, late 20s, light brown skin, short black hair with faded sides, short dark trimmed beard, brown eyes, straight medium nose, medium lips, average build" (verbatim from `D:\lora_training\zidaneV3_3110` captions) · white tee + dark trousers (matches zidhan's look) · saves `zidane2_cine`.
+- **Purpose (user 11-08):** Jaisal + Zidane are the movie's 2 characters, each with 2 LoRA versions (v2 = 1st, v3 = 2nd = "jaisal2"/"zidane2"). These two files = the A/B test: run each vs its v2 counterpart (same scene, same seed behavior via randomize) → if v3 wins, **v3 becomes the FINAL Jaisal/Zidane**, and the **v2 LoRAs become 2 SEPARATE supporting characters** in the movie (fills quad `_3`/`_4` with already-trained LoRAs — no new training; the user will share the script later to name the supports).
+- **Validation:** both 0/0, `converted_node_count` = 13 = total, no pruning. Mirrored to `D:\models\vsCodeMcp\workflows\`.
+- **USER:** open each in a FRESH tab → queue → judge vs the v2 outputs (face match to the v3 dataset samples, build, style hold).
+
 ## 2026-11-08 — CONSOLIDATED NOTE — PROVEN GOOD-IMAGE RECIPE (user ask: "keep a note of the workflow which we tried for getting good images")
 
 The full proven rig (user-verified sharp: hair strands, skin texture, street detail — 11-02 pixel-comparison). Any new still-image work starts from here. Source files: `Krea2_jaisal_v2_cine.json` (single, the tested baseline) · `krea2_duo_zidhan_jaisal_cine.json` (duo) · `krea2_duo2pass_{base,inpaint}.json` (two-pass) · `krea2_quad_{base,inpaint_1..4}.json` (quad).
