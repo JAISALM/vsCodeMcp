@@ -4,6 +4,16 @@ Newest experiments first.
 
 ---
 
+## 2026-11-08 — V3 character-LoRA A/B (jaisal2/zidane2 vs v2) — FINAL CAST LOCKED (user-run, single-char cine rig, 21:9 3MP)
+
+- **Goal:** decide the final character versions — v2 (`krea2jaisal_v2`/`krea2zidhan_v2`) vs v3 (`krea2jaisal_v3`/`krea2zidane_v3`) for the leads Jaisal + Zidane (D218).
+- **Setup:** `krea2_jaisal2_cine.json` + `krea2_zidane2_cine.json` — exact copies of the proven single-char cine rig, only LoRA (node 29 @1.0) + positive prompt (trigger + identity head VERBATIM from the v3 dataset captions) + save prefix swapped. Identity blocks verbatim = no prompt-vs-LoRA fight (D217/D218 rule).
+- **Character type canon (user):** **Jaisal = SKINNY · Zidane = MUSCULAR** — prompts carry the build anchor (jaisal = "very skinny slim build"; zidane = "muscular build with broad shoulders"; the zidaneV3 captions say "average build", so the prompt is the muscle anchor).
+- **Runs (user):** ① golden-hour street (both) → user: **"both are good"** → v3 wins for BOTH leads. ② scene v2 (jaisal = rainy lane at night → **GOOD** · zidane = dusk riverfront → face under-lit, eyes read darker than the v3 samples — the low-key prompt pulled the face dark). ③ scene v3 zidane = bright sunny garden (face fully/evenly lit, "warm brown eyes") → user saw the SEA background = **STALE-TAB incident** (file on disk was already the garden version — mtime-verified; the open tab re-queued the old canvas — an open tab re-saves stale state over the file). ④ scene v4 zidane = **SEATED on a wooden bench, medium close-up (waist up)**, fitted white tee, dappled sunny light → user: **"PERFECT"**.
+- **Result:** **FINAL CAST LOCKED — Jaisal = `krea2jaisal_v3` (`jaiv3`, skinny) · Zidane = `krea2zidane_v3` (`zidv3`, muscular).** The v2 LoRAs (`jeskv`/`dlor`) = the 2 separate SUPPORTING characters (distinct looks read as different people; fill quad `_3`/`_4` — no new training).
+- **Lessons:** (1) identity block VERBATIM from the dataset captions = clean A/B (no fighting) · (2) low-key scenes under-light faces and darken iris reads — face-verification tests use BRIGHT EVEN LIGHT first (dusk riverfront failed, sunny garden passed) · (3) **always close a workflow tab fully before reopening after a file change** — stale tabs re-queue/re-save old canvas state (the sea-background run) · (4) seated waist-up framing shows build (shoulders) better than standing wide-shot for muscular verification.
+- **Next:** user shares the SCRIPT → name the 2 supports → wire quad `_3`/`_4` to `krea2jaisal_v2` + `krea2zidhan_v2` with the supports' outfit/description words → quad sequence run (D192 user-run).
+
 ## 2026-11-02 — Duo LoRA strength ladder (krea2_duo_zidhan_jaisal_cine, D1 shot, 21:9 3MP)
 
 - **Goal:** two character LoRAs (zidhan v2 + jaisal v2) without blur or identity drift.
