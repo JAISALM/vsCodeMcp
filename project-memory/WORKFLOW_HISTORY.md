@@ -4,6 +4,31 @@ Newest changes first.
 
 ---
 
+## 2026-11-08 — CONSOLIDATED NOTE — PROVEN GOOD-IMAGE RECIPE (user ask: "keep a note of the workflow which we tried for getting good images")
+
+The full proven rig (user-verified sharp: hair strands, skin texture, street detail — 11-02 pixel-comparison). Any new still-image work starts from here. Source files: `Krea2_jaisal_v2_cine.json` (single, the tested baseline) · `krea2_duo_zidhan_jaisal_cine.json` (duo) · `krea2_duo2pass_{base,inpaint}.json` (two-pass) · `krea2_quad_{base,inpaint_1..4}.json` (quad).
+
+**The rig (copy AS-IS, never re-derive):**
+| node | value | note |
+|---|---|---|
+| UNETLoader | `krea2_raw_bf16.safetensors` | base model, `default` dtype |
+| CLIPLoader | `qwen3vl_4b_fp8_scaled.safetensors` · type `krea2` | Krea2's text encoder |
+| VAELoader | `wan_2.1_vae.safetensors` | |
+| flow shift | AuraFlow `(5, 'flow')` | |
+| conditioning | ConditioningMultiply `1` | Krea2 conditioning patch |
+| KSampler | 16 steps · cfg 2.5 · `euler` · `bong_tangent` · denoise 1.0 (t2i) / 0.25–0.3 (atmosphere-only i2i) | native 7-value `widgets_values` (hidden `randomize` at index 1) |
+| ResolutionSelector | 21:9 · 3.0 MP (2712×1160) · multiple 8 | 4:3 / 2.0 MP for portraits (faces = more pixels) |
+| style (optional) | `Krea2_Cinematic_Artstyle.safetensors` @0.7 | moody cinematic tone; 0.5 = face distortion, 0.8–1.0 = too much style (D025) |
+| character | per-char LoRA @1.0 via **native `LoraLoaderModelOnly`** (D212 — never Power Lora Loader) | v2: `krea2jaisal_v2` (`jeskv`) / `krea2zidhan_v2` (`dlor`) · v3 (new chars): `krea2jaisal_v3` (`jaiv3`) / `krea2zidane_v3` (`zidv3`) |
+
+**Prompt structure (7 sections, proven):** scene → Style/Lighting/Framing/Medium/Palette/Background → identity (verbatim from the LoRA's dataset captions — what the LoRA learned) → `ONLY ONE character, no other people, no duplicates` (Krea2 duplicates — count guards on every multi-char prompt: "EXACTLY N men… NOT N+1. No duplicates, no twins, no extra man").
+
+**Identity consistency across a series:** ① solo = character LoRA @1.0 · ② scene-change without re-prompting identity = `krea2_identity_edit.json` v1.2 (`ref_boost` 4.0, KSampler 10 steps cfg 1 turbo, grounding 384–768px, 1 MP) · ③ skin-tone/lighting match: wire the style LoRA @0.7 + use an in-scene reference (D025).
+
+**Speed paths:** reference sheets = turbo pass (10 steps cfg 1) or the 4-step turbo LoRA (`krea2_turbo_3step_rank_64_lora_comfyui`) · LoRA dataset generation = v91 dataset workflow (t2i + identity patch ref_boost 3.0 + identity-edit @1.0 + RemBG-cut refs, auto .txt captions) · LoRA training = V3 AI-Toolkit kit (LoKr linear-32, flowmatch, 5000 steps, lr 1e-4, qfloat8, 1024 res — `launch_*V3.bat`).
+
+**Multi-character (the decisive rule — D214/D216):** LoRA-FREE base (distinct outfits + build words + relative contrast + count guards) → per-character MASK inpaint (MaskRectArea band + VAEEncodeForInpaint grow 6 + solo LoRA @1.0, denoise 1.0, sequential). Stacked LoRAs and spatial-bias routing (Composer) are EXHAUSTED — they bleed/duplicate (11-02 runs). See 11-03/11-04 entries above.
+
 ## 2026-11-04 — `krea2_quad_base.json` + `krea2_quad_inpaint_{1,2,3,4}.json` — FOUR-CHARACTER GENERATE + SEQUENTIAL-INPAINT KIT — VALIDATED 0/0 (06:30 IST)
 
 **Generalization of the two-pass duo technique to N characters** (user created 2 more character LoRAs → 4 people needed for the movie). Built by `session_tmp\build_quad_kit.py` from the proven rig. **Key design change from the duo:** the base pass carries **NO character LoRA** — 4 generic men in distinct outfits (white/black/blue/yellow tees, left→right), count from the prompt only ("EXACTLY four men… NOT five, NOT three"). This kills base-bleed (the 06:30 duo observation: a full-frame character LoRA pulls ALL described slots toward it). Identity is then added per-slot in **4 sequential inpaint passes**, each a solo full-frame @1.0 LoRA on that person's band → solo face quality by design.

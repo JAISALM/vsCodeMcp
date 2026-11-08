@@ -1774,3 +1774,16 @@
 - **Supersedes:** ad-hoc fat-character handling in D215 item 2 (generation-only) when the character becomes RECURRING — one-time fat characters still go through the D215 generation route.
 - **Status:** active.
 
+## D217 — V3 character LoRAs accepted (final merged files) + multi-character consistency solution (create → lock → compose) — 2026-11-08
+
+- **Date:** 2026-11-08 (user completed zidaneV3 + jaisalV3 trainings 11-03/11-04; agent visually judged samples and picked).
+- **Checkpoint pick:** samples at steps 4900/5000 judged via `read_image` for both characters — both clean (zidaneV3 = `zidv3` identity head: faded sides, trimmed beard, brown eyes, black tee; jaisalV3 = `jaiv3` head: wavy shoulder-length hair, thin mustache, chin stubble), no overfit degradation at 5000 → **kept the FINAL merged files** (same pattern as the v2 picks): `D:\ai-toolkit-output\krea2{zidane,jaisal}V3\krea2{zidane,jaisal}V3.safetensors` → copied to the active loras dir as **`krea2zidane_v3.safetensors`** + **`krea2jaisal_v3.safetensors`** (1.46 GB each). Triggers: `zidv3` / `jaiv3`. The 50 step checkpoints remain in `D:\ai-toolkit-output` if a re-pick is ever needed.
+- **Multi-character consistency solution (user's decisive question — fat+bald vs skinny+short pair):** framework = **create → lock → compose**:
+  1. **Create:** a character is a GENERATED identity (no real photos exist). Solo sheet = t2i base (7-section) → identity-edit lock (D023, ref_boost 4.0) → v91 sheet (20 images). **The sheet IS the LoRA's training set** — sheet quality = LoRA quality. Build characters: full-body shots DOMINANT + build phrase in EVERY caption (close-ups can't teach build — D216 gotcha).
+  2. **Lock:** V3 AI-Toolkit LoRA (per D216 item 3 for recurring characters). **Each character gets its OWN LoRA — never a combined/stacked LoRA** (stacking = hybrid face + duplication, proven 11-02; Composer exhausted D213).
+  3. **Compose:** the hard part for a contrasting pair — **relative scale is NOT owned by either LoRA** (each knows its absolute build, neither knows "how much bigger than the other") → the LoRA-free BASE prompt carries the contrast ("the left man is MUCH wider and bigger than the right man", D216) + the proven two-pass/quad mask-inpaint composes them (D214). The base silhouette must match each LoRA's build or the inpaint pass fights the layout (pasted-in look).
+  4. **Pair sheet:** the two-pass OUTPUT = the canonical two-shot → joint reference + H3 R2V feed (D020). "Character sheet for 2 people" = 2 solo sheets + 1 generated pair shot.
+- **Scale-break levers (if the fat guy comes out not-fat-enough):** stronger build words in base · wider gap between characters · depth trick (one in front of the other — scale reads naturally) · keep mask bands in the gap with blur 10 to blend the boundary.
+- **Decisive test:** the user's fat+bald vs skinny+short pair is the stress test — if two-pass works there, it works anywhere. Protocol: ① fat guy (recurring) → full-body-dominant dataset + `aitk_*V3.yml` → user runs launch bat (D192) · ② skinny guy same if recurring (else D216 item 2) · ③ two-shot via quad `_3`/`_4` → judge: faces = solo sheets, relative scale holds, no bleed, lighting continuous.
+- **Status:** active. AWAITING the 2 characters' names/triggers/descriptions (quad `_3`/`_4` still placeholders).
+
