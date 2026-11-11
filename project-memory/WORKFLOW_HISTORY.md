@@ -17,6 +17,19 @@ Adapted from the STOCK native ComfyUI template `image_minimax_h3_image_t2i` (v0.
 
 ---
 
+## 2026-11-11 — `h3image_20mp_cine.json` — H3-IMAGE 20MP / KIJAi-SAMPLER VARIANT FOR THE A/B (built 20:20 IST, server down → validate on first restart)
+
+Fetched from the community 20MP workflow (r/StableDiffusion u/LilBrownBebeShoes, HF storage bucket `buckets/n8te0/diffusion`, 208 KB, version 0.4, last_node_id 124 / last_link_id 253). The author's key claim: "the official ComfyUI workflows for MiniMax Image are pretty bad at showcasing the model's capabilities" — his settings come from **Kijai's MiniMax testing in Discord**. Purpose: the SECOND H3-Image leg of the A/B (alongside `h3image_t2i_cine.json` = stock-template leg) — if the stock euler sampler looks weak, this Kijai-sampler 20MP variant is the fallback.
+
+- **Sampler (the headline difference):** `SamplerLCM`(59) `s_noise 1.10 → s_noise_end 0.90` + `BasicScheduler`(30) `simple · 6 steps · cfg 1` — vs the stock leg's plain euler. A second sampler path (`RandomNoise`(28)+`SamplerCustomAdvanced`(27)+`BasicGuider`(29), `VisualizeSigmasKJ`(31)) is also in the graph via switch groups — left untouched.
+- **Structure:** T2I + **EDIT dual mode** (rgthree Any-Switch nodes 90/92/93 + `FastGroupsBypasser`(91) + `ComfySwitchNode`(121) = `False` default; note 123 = "Leave only one option enabled") · edit mode loads `LoadImage`(88) (author's `Historical_31_.jpg` — swap to our H3-Image output or v3 sheet when using edit mode) · PE caption-expansion branch = `TextGenerateV2`(15) + PE `CLIPLoader`(11, `qwen3.8_27b_w4a8.safetensors` — **NOT on disk**) · `Resolution Fix` subgraphs (instances 105/119) **derive W/H at runtime** from aspect+MP via `MathExpression|pysssss` (`round(sqrt(a/b·c·10⁶)/32)·32`) · latent-upscale subgraph (instance 119, `lanczos · 512 · disabled` default) · `SaveImageAdvanced`(86, avif/sRGB/crf18) · author's Notes (122-124) kept.
+- **Adaptations (5, per `session_tmp\adapt_h3image_20mp.py`):** ① CLIP(2) → `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` (author's int8 25.3 GB variant not on disk) ② T2I prompt(13) → empty (hand-paste rule) ③ `TextGenerateV2`(15) `sampling_mode` on→**off** (widgets 13→3, AGENTS.md dynamic-combo rule; PE branch stays COLD so the missing PE model never loads — re-enable later by downloading the 6.8 GB PE + flipping back) ④ SaveImage prefix → `h3image20_cine` ⑤ ResolutionSelector instance(105) author's `4:3 (Standard) @ 20MP` → **`21:9 (Ultrawide) @ 16MP`** (consistent with our stock leg; flip back to `["4:3 (Standard)",20]` for the author's headline 20MP 4:3 test).
+- **Models:** UNET(78) `minimax_h3_image_pruned_int8_convrot.safetensors` = **the file downloading tonight** (19.5 GB) · VAE(3) `minimax_h3_image_vae_fp16` on disk ✓ · CLIP NVFP4 on disk ✓.
+- **Status:** built + mirrored (`workflows\`); **validate 0/0 on first v0.45.2 restart** (server down during build). **GATE: UNET download must finish first.**
+- **Open items:** author's PE `qwen3.8_27b_w4a8` (not on disk — optional) · edit-mode ref image = author's vintage portrait (swap when used) · all-in-one Pose-Studio variant = Civitai 3045966 (auth-walled API → user browser click).
+
+---
+
 ## 2026-11-08 — `krea2_jaisal2_cine.json` + `krea2_zidane2_cine.json` — V3 A/B TEST WORKFLOWS ("jaisal2" / "zidane2") — VALIDATED 0/0 (11:24 IST)
 
 Built by `session_tmp\build_jaisal2_zidane2.py` as EXACT copies of the proven single-char cine rig (`Krea2_jaisal_v2_cine.json` / `krea2_zidhan_v2_cine.json` — same node ids, positions, links, header), with only 3 nodes swapped per file: node 29 `LoraLoaderModelOnly` → the v3 LoRA @1.0 · node 5 positive prompt → v3 trigger + v3 identity head **verbatim from the v3 dataset captions** · node 9 SaveImage prefix.
