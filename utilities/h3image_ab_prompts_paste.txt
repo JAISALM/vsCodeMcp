@@ -1,0 +1,48 @@
+=====================================================================
+H3-IMAGE vs KREA2 — A/B PROMPTS (built 2026-11-11 19:20 IST)
+=====================================================================
+PIPELINE (user runs — D192):
+  LEG A (current): krea2_jaisal2_cine.json / krea2_zidane2_cine.json
+                   (Krea2 t2i + jaiv3/zidv3 LoRA, face from LoRA)
+  LEG B (hybrid):  h3image_t2i_cine.json  ->  H3-Image scene (21:9 16MP)
+                   -> krea2_identity_edit.json:
+                      node 72 LoadImage  = the h3image_cine_XXXX.png output
+                      node 113 LoadImage = v3 face sheet
+                                             (jaisal: krea2_jaisal2_cine_*.png
+                                              zidane: krea2_zidane2_cine_*.png)
+                      node 84 instruction = ID-EDIT INSTRUCTION below
+                      ref_boost 4.0 (node 79, already set)
+  OPTIONAL speed-up: akhaliq/minimax-h3-image-pdmd-2step (2-step LoRA,
+  rank-128, 1.4x faster than stock 6-step) — HF, add to a LoraLoader
+  AFTER the UNET in the H3-Image workflow if we want ~2-step drafts.
+
+NOTE on the identity-edit output: it regenerates at its own ResolutionSelector
+(16:9, 2 MP default — node 83/82). The face-locked result is 16:9 2MP even
+though the H3 input was 21:9 16MP — for the A/B judge FACE FIDELITY +
+SCENE FIDELITY, framing gets fixed later in the H3 Editor stage.
+
+---------------------------------------------------------------------
+LEG B — H3-IMAGE PROMPT (jaisal, rainy lane — v4-verified scene)
+paste into h3image_t2i_cine.json prompt node (MiniMax caption style):
+---------------------------------------------------------------------
+The image is a cinematic film still in a 21:9 frame, shot on 35mm with shallow depth of field. A rain-soaked old-world alley at night, narrow and enclosed by weathered stone walls with peeling plaster. A man stands in the middle third of the frame, waist up, angled slightly toward the camera. He is a South Asian man in his mid-20s with light brown skin, wavy shoulder-length black hair, a thin mustache and short chin stubble, brown eyes, a straight medium nose and medium lips, and a very skinny slim build. He wears a plain black t-shirt, shoulders relaxed, head tilted slightly down, lost in thought. A single flickering amber street lamp hangs from a rusted bracket above him, the only warm light in the frame; its glow catches the wet cobbles beneath his feet and throws long soft reflections across the slick stone. The rest of the alley falls into deep teal shadow, rain still falling in thin silver streaks, mist rising off the wet ground. The palette is dominated by cold teal and near-black with the lone amber pool of light. The background is softly out of focus, a dark doorway and dripping eaves barely visible. His face is evenly lit by the lamp with no deep shadows across the features. ONLY ONE man in the frame, no other people, no duplicates, no animals, no vehicles, no readable text, no signage with letters, no watermark, no frame border.
+
+---------------------------------------------------------------------
+LEG B — H3-IMAGE PROMPT (zidane, sunny garden — v4-verified scene)
+---------------------------------------------------------------------
+The image is a cinematic film still in a 21:9 frame, shot on 35mm with shallow depth of field. A lush open garden in bright sunny daylight, dappled canopy light through green leaves. A man sits on a weathered wooden bench in the middle third of the frame, medium close-up, waist up, body angled slightly left, face turned toward the camera. He is a Middle Eastern man in his late 20s with light brown skin, short black hair with faded sides, a short dark trimmed beard, warm brown eyes, a straight medium nose and medium lips, and a muscular build with broad shoulders. He wears a fitted plain white t-shirt that shows the width of his shoulders. His expression is calm with a faint half-smile, looking just past the camera. The garden behind him is lush and out of focus, fresh green foliage and warm golden sunlight through the leaves, a few soft bokeh highlights. His face is fully and evenly lit by the bright daylight with gentle fill from the open sky, no deep shadows on the face, warm brown eyes clearly readable. The palette is fresh greens with warm golden sunlight. ONLY ONE man in the frame, no other people, no duplicates, no animals, no readable text, no signage with letters, no watermark, no frame border.
+
+---------------------------------------------------------------------
+ID-EDIT INSTRUCTION (node 84 of krea2_identity_edit.json)
+---------------------------------------------------------------------
+Keep the scene, pose, clothing, lighting and background exactly as they are in the image. Only change: replace the man's face with the face of the man in the reference image — same facial structure, same skin tone, same eyes, same hair and beard. Do not change the body, pose, clothing, camera angle, or lighting.
+
+---------------------------------------------------------------------
+JUDGE (record in EXPERIMENTS.md):
+1. Face fidelity vs v3 sheets (eyes, iris color, structure, hair, beard)
+2. Scene fidelity (composition, lighting, palette survived the edit)
+3. Skin/lighting seam (D025 tone-match — style LoRA @0.7 already wired in
+   the identity rig as node 95)
+4. Time per image (H3 ~25s on 5090 per BennyDaBall + identity-edit pass)
+   vs Krea2 single-pass time
+=====================================================================
