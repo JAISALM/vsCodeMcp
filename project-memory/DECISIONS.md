@@ -1801,3 +1801,10 @@
 - **CHARACTER TYPE CANON (user 2026-11-08 — REMEMBERED):** **Jaisal = SKINNY · Zidane = MUSCULAR** (the two leads' body types for the movie).
 - **Build-anchoring note:** the zidaneV3 dataset captions say "average build" (what the LoRA learned) vs the MUSCULAR canon → the workflow prompts carry the build anchor: jaisal2 prompt = "very skinny slim build" · zidane2 prompt = "muscular build with broad shoulders" (face features stay verbatim from the captions; build words are the prompt's job — D216). If the muscular read is too weak in test images → retrain zidaneV3 with "muscular build" in EVERY caption + muscular full-body shots dominating (D216 pattern). Same lever for jaisal if "very skinny" needs more weight.
 
+## D219 — Communication policy: minimal push — only absolutely-necessary items to the user — 2026-11-11
+
+- **Date:** 2026-11-11 (user: "check everything again, don't push it to me until it's absolutely necessary").
+- **Rule:** the agent keeps watch/verification work running SILENTLY (catch-ups, source checks, memory updates, D131 commits) and surfaces to the user only what is ABSOLUTELY NECESSARY: a blocker that needs the user's action (a run to queue, a consent, a credential that genuinely broke) or a finding that directly changes the movie pipeline. No walls of action lists, no re-listing carried items, no nagging reminders of known-pending items (script, cookie dates) — those live in memory and are raised at most once when they actually become due.
+- **X tier status (verified 2026-11-11 live):** `X_AUTH_TOKEN`/`X_CT0` user-scope env set (auth_token len 40, ct0 len 160); live single-account probe returned full tweet text — X is WORKING (no walls). Session expires 2026-11-27 — re-copy only if a fetch actually fails with a login wall (do not pre-emptively nag about it).
+- **Status:** active.
+
