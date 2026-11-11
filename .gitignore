@@ -61,3 +61,11 @@ ragt_*/
 rag/*_tmp/
 rag/*.zip
 rag/grpcio_wheels/
+
+# --- cleaned 2026-11-11 (repo hygiene, user directive) ---
+# 14 Higgsfield competition REFERENCE clones (964 MB, 5581 files) - kept on
+# disk in repos/ for reading, but they are external projects: NEVER commit them.
+repos/
+# deleted 2026-11-11 (pre-PC-migration experiments, user-confirmed not needed):
+# android-emulator/ (10.8 GB), litminer-bot/ (97 MB), Microsoft/ (PS cache)
+
