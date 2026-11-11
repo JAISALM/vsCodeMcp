@@ -756,6 +756,55 @@ upgrade path over MiniLM-384d).
 8. ComfyUI-LTXVideo pack missing from running install — fix before VFX workflows.
 9. User to provide a "ComfyUI channel" (Discord) feed URL to wire into the RAG.
 
+## 2026-11-11
+
+**Sources (3-day catch-up — PC off/asleep 11-09/11-10 + 11-11 08:00 miss; manual run 11-11 ~17:25 IST):** `daily.py --news-only` clean (exit 0). Reddit ✅ HTML tier (SD 23 / LocalLLaMA 21 / ComfyUI 25 / artificial 25; JSON 403 all subs as usual) · HF ✅ 17 trending + 12 datasets + 3 downloads · Civitai: hot 1 + ComfyWorkflows 1 + newest/new-LoRAs 0 · X ✅ **6 of 7 accounts via browser-head tier — 55 posts, ZERO walls** (Alissonerdx absent; MaxLiu09 backfill-dominated, old 2024 IDs). Store 2258 items, 183 newly indexed.
+
+**New relevant items (vs 11-08 baseline):**
+
+*H3 / movie pipeline (the big ones):*
+- **t3_1xsj747 (199u, 11-10) — "H3 Editor: a timeline video editor for MiniMax H3 inside ComfyUI — you write shots instead of wiring graphs" (open source, GPL-3.0)** — shot-based H3 timeline = a movie-assembly layer above our R2V workflows — TOP ADOPT candidate <https://www.reddit.com/r/stablediffusion/comments/1xsj747/h3_editor_a_timeline_video_editor_for_minimax_h3/>
+- **MiniMax H3-Image open weights + native ComfyUI day-0 support (11-10 cluster)** — "H3-Image is now available with open weights!" <https://i.redd.it/u421wox54t0i1.jpeg> · "MiniMax-H3-Image in ComfyUI!" <https://i.redd.it/qde2u57mjt0i1.png> · "natively supported in ComfyUI on day-0" <https://v.redd.it/o37u7zutct0i1> · "H3 Image 20MP Workflow" <https://www.reddit.com/gallery/1xt9ocv> · "300 random prompts across styles" bench <https://jo-nike.github.io/h3-image-bench/> — HF: `MiniMaxAI/MiniMax-H3-Image` (11-03, 143K dl) + `MiniMaxAI/MiniMax-H3-Image-PE` (11-08) + `Comfy-Org/MiniMax-H3-Image` (352K dl) — the official H3 IMAGE model + PE variant — ADOPT candidate (H3 image chain / Krea2 alternative pool) <https://huggingface.co/MiniMaxAI/MiniMax-H3-Image>
+- **"pi-H3: 2–4 Steps Without a VAE Decoder — will be released Nov 16" (11-11, 103u)** — the carried 11-05 P-H3-Image-Comfy item now has a release date; HF `PrunaAI/P-H3-Image-Comfy` trending — WATCH (Nov 16) <https://hanshengchen.com/blog/pi-h3/>
+- **"ReCaVSR — one-step streaming video super-resolution built on Wan2.2" (11-10, 19u)** — upscaling cluster (alongside SeedVR2/FlashVSR/RelayVSR) <https://v.redd.it/xb5gv8b01t0i1>
+- **"Fixing MiniMax H3 Video Upscaling details loss with RelayVSR & DLSS5 Nodes with only 6 GB VRAM" (11-10, 21u)** — H3-output upscaling on low VRAM; HF `Comfy-Org/RelayVSR` (11-05, 91K dl) <https://v.redd.it/qlsbz3oi6s0i1>
+- **"Super Huge Update for Minimax H3 Temporal Spatial Node" (11-06, 172u)** — H3 temporal-spatial node update <https://i.redd.it/75z8gwfuzyzh1.png>
+- **t3_1xq3fiz (11-07, 14u) — "MiniMax H3 running locally on an RTX 5060 Ti 16GB"** — low-VRAM H3 recipe (backup path for our 32 GB 5090) <https://www.reddit.com/r/comfyui/comments/1xq3fiz/minimax_h3_running_locally_on_an_rtx_5060_ti_16gb/>
+- **"MOSS-Image-SFT control LoRAs — pose, depth, canny and the rest" (11-10, 196u)** + MOSS roundups 6th/7th/10th Nov <https://www.reddit.com/r/comfyui/comments/1xp4q0c/a_quick_mossimage_news_roundup_6th_november_2026/> · <https://www.reddit.com/r/comfyui/comments/1xq7gbc/a_quick_mossimage_news_roundup_7th_november_2026/> · <https://www.reddit.com/r/comfyui/comments/1xsmt6h/a_quick_mossimage_news_roundup_10th_november_2026/> + "Moss SFT INT8-convrot is just fine" (11-07, 112u) + "Moss training speed boost in Fizgig" (11-08, 163u) — MOSS control-LoRA cluster (pose/depth/canny = character-sheet control) <https://www.reddit.com/gallery/1xsh4xq>
+- **"Kandinsky S2V 1.0 — 2B and 21B models" (11-04, 100u)** — new open video model (t2v pool alongside H3/LTX) <https://v.redd.it/6160glrp1nzh1>
+- **"[Model Release] Qwen-Image-2.1 Uncensored Omni — ~1M images, 9 local formats" (11-05, 165u)** — our Krea2 base family (Qwen-Image-2.1) <https://www.reddit.com/gallery/1xotduk>
+- **t3_1xsysy3 (11-10, 31u) — "Open Source Higgsfield results are out"** + HF `Viggle/Viggle-Remake` trending — the Higgsfield "Miracle" remake model open-sourced (character motion/remake) <https://www.reddit.com/r/comfyui/comments/1xsysy3/open_source_higgsfield_results_are_out_congrats/>
+- **"[Papers] LTX-Video: Realtime Video Latent Diffusion" (11-09, 97u)** — LTX cluster (VFX pipeline org) <https://www.reddit.com/gallery/1xs5io9>
+- **"Hybrid Pipeline Test: audio from MiniMax H3 + visuals from Nano Banana 2, edited in DaVinci Resolve" (11-10, 4u)** — external validation of OUR exact pipeline shape (H3 audio + stills + Resolve assembly, no music — D041) <https://v.redd.it/hctc3bst5v0i1>
+- **"SolordZ_Realism_Moss_Base — realism-focused version" (11-10, 119u)** — MOSS realism base <https://www.reddit.com/gallery/1xsqrzv>
+- **HF trending (new):** `VideoRebirthAI/hyperflow-h3-flash` (H3 flash variant — H3 cluster) · `mradermacher/gemma-4-31B-it-ARA-heretic-GGUF` (writer pool — our writer is Gemma4-31B) · `mradermacher` + `xtools-at` DeepSeek-V4-Pro-Qwen3.5-9B-UNCENSORED-heretic GGUFs (brain/agent merges) · `baidu/ERNIE-5.5-Flash-Base` + `moonshotai/Kimi-K3.1-Pro` (brain pool) <https://huggingface.co/VideoRebirthAI/hyperflow-h3-flash>
+
+*Brain / hardware:*
+- **t3_1xs7ffm (11-09, 200u) — "Same prompt, DeepSeek V4.1 Flash vs Qwen 3.8 FN: 94 tok/s vs 350 tok/s"** — our brain family's speed context <https://www.reddit.com/r/LocalLLaMA/comments/1xs7ffm/same_prompt_deepseek_v41_flash_vs_qwen_38_fn_94/>
+- **`tencent/Qwen3.8-27B-DSpine-b16` (11-08, 287u)** — Qwen3.8-27B DSpine (sparse) variant — brain cluster <https://huggingface.co/tencent/Qwen3.8-27B-DSpine-b16>
+- **"NVIDIA reportedly cancels GeForce RTX 5080 24GB launch, brings back 16GB over GDDR7 costs" (11-11, 209u)** — hardware news — don't buy now (we have the 5090) <https://videocardz.com/newz/nvidia-reportedly-cancels-geforce-rtx-5080-24gb-launch-brings-back-16gb-model-over-gddr7-costs>
+- **"Intel Arc Pro B70 32GB ($1,299) vs RTX 5090 ($6,500+) on Qwen3.8-27B: about 1/2 speed gen" (11-08, 179u)** — cheaper-alternative context <https://www.reddit.com/gallery/1xr78s5>
+- **"Microsoft patent: paying you to train AI on your idle GPU" (11-10, 8u)** + **"US takes Nvidia CEO affair public" (11-10, 267u)** — context only <https://www.techspot.com/news/114499-microsoft-patent-describes-paying-you-train-ai-idle.html> · <https://www.reddit.com/r/LocalLLaMA/comments/1xsljn6/nobody_wondering_why_the_us_takes_nvidia_ceo/>
+
+*Civitai:*
+- LTX 2.5 low-VRAM 2K/3K workflow (2877939) reappears, 1,176 dl (up from 1,136) — carried ADOPT-candidate (eval) <https://civitai.com/models/2877939> · DreamShaper XL hot — known NO-ADOPT <https://civitai.com/models/112902>
+
+*X:* 6 of 7 accounts readable (BennyDaBall_OG 6, xieenze_jr 6, PixelAigc 6, diodiogod 5, akatz_ai 7, MaxLiu09 25 — backfill-dominated old 2024 IDs; Alissonerdx absent) — 55 posts, ZERO walls; all image-only (no text bodies captured this run) — consistent with the 11-08 art-account pattern.
+
+**ACTION ITEMS (new):**
+1. t3_1xsj747 — H3 Editor (shot-based H3 timeline editor, GPL-3.0) — inspect for movie assembly (TOP item)
+2. MiniMax H3-Image open weights + native ComfyUI day-0 — ADOPT candidate (H3 image chain / Krea2 alternative pool)
+3. pi-H3 (release Nov 16) — calendar it; inspect `PrunaAI/P-H3-Image-Comfy` at release (carried 11-05)
+4. ReCaVSR + RelayVSR/DLSS5 — H3-output upscaling options (alongside carried SeedVR2/FlashVSR)
+5. MOSS-Image control LoRAs (pose/depth/canny) — character-sheet control route
+6. Kandinsky S2V 1.0 (2B/21B) — t2v pool eval
+7. Viggle-Remake open weights — character motion/remake
+8. t3_1xs7ffm — DeepSeek V4.1 Flash vs Qwen 3.8 FN speed read (brain)
+9. Hardware (5080 24GB cancelled / Arc Pro B70 $1,299) — don't buy now
+10. Carried from 11-08: KV-cache quant Qwen3.8 27B READ · TurboH3 FL2VA i2va ADOPT-candidate · Krea2 Turbo 133K check · H3 KSampler speedup A/B · LTX 2.5 low-VRAM inspect · Fizgig v9.0.4 · 0.1B embeddings (RAG) · MoE CPU-offload PR · unsloth Flash-Next V3.1 A/B · Krea 3 tech report · H3 image-edit workflow · gemma4 PR #31356 · Hy4 · H3 tiny sliders A/B · Strata 20× patch
+
+**SOURCE FAILURES:** 08:00 schtask missed on 11-09/11-10/11-11 (PC off/asleep — LastRunTime still 11-08 08:52, Result 2147946720) → manual `daily.py --news-only` clean (store 2258, 183 newly indexed) · Reddit JSON 403 all subs (expected tier-1 noise — HTML tier carried 94 posts) · r/comfyui_workflows HTML tier GATED (day 17) · X — NO walls (6 of 7 accounts via browser-head; Alissonerdx absent; all image-only) · Civitai newest/new-LoRAs = 0 (partial — NOT verified-zero).
+
 ## 2026-11-08
 
 **Sources (3-day catch-up — machine down 11-06/11-07/11-08, power outage):** 08:00 schtask
