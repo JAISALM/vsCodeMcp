@@ -4,6 +4,19 @@ Newest changes first.
 
 ---
 
+## 2026-11-11 — `h3image_t2i_cine.json` — H3-IMAGE T2I LEG FOR THE KREA2-HYBRID A/B (built 18:55 IST, server down → validate on first restart)
+
+Adapted from the STOCK native ComfyUI template `image_minimax_h3_image_t2i` (v0.45.0+, native nodes only — fetched from `Comfy-Org/workflow_templates`, stock copy kept as `image_minimax_h3_image_t2i.json`). Purpose: USER'S HYBRID HYPOTHESIS (11-11) — **H3-Image generates the SCENE (16 MP, better composition/lighting), then `krea2_identity_edit.json` (ref_boost 4.0, face ref from v3 sheets) swaps in the character face** — sidesteps Krea2-trained LoRAs (jaiv3/zidv3) not applying to H3-Image. A/B = (a) Krea2 t2i + jaiv3/zidv3 single pass vs (b) this leg + identity-edit pass — user runs both (D192), same shot prompt.
+
+- **Structure:** SaveImage(9) ← subgraph `b350fbfc-…` (Text to Image (MiniMax H3 Image)) fed by `ResolutionSelector`(14) → instance W/H. Inside: UNETLoader(1) → CLIPLoader(2, type `minimax`) → VAELoader(3) → `MiniMaxH3ImageConditioning`(5, makes empty latent + W/H) → `ConditioningZeroOut`(6) → KSampler(7) `[seed 42, randomize, 6, cfg 1, euler, simple, denoise 1]` → VAEDecode(8); PE branch = `TextGenerateV2`(15, 13-widget `on` shape) + `CLIPLoader`(16, `qwen3.5_9b`) + `ComfySwitchNode`(22).
+- **Adaptations (instance 23 + internals, per D019 subgraph rule):** ① `ResolutionSelector` → `21:9 (Ultrawide)` + `16.0` MP (exact enum from object_info cache; bench = ~16 MP → 6272×2688 = our cine aspect) ② instance `switch` widget → `False` (PE OFF — PE model `qwen3.5_9b_w4a8_gptq` 6.8 GB not on disk; the jo-nike 600-prompt bench ran PE-off too) ③ CLIP → `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` (14.6 GB, **ON DISK** — the int8 25.3 GB variant the template names is NOT on disk; the bench author made this exact swap) ④ SaveImage prefix → `h3image_cine` ⑤ prompt = placeholder (A/B prompt pasted by user, same text fed to the Krea2 leg).
+- **Sampler (distillation-fixed, do not change):** 6 steps · cfg 1 · euler/simple · denoise 1 · no negative prompt (`ConditioningZeroOut`).
+- **Models:** UNET `minimax_h3_image_pruned_int8_convrot.safetensors` 19.5 GB — **DOWNLOADING (night of 11-11)** · VAE `minimax_h3_image_vae_fp16.safetensors` 1.1 GB — on disk ✓ · CLIP NVFP4 — on disk ✓ · bench-proven on RTX 5080 16 GB (dynamic VRAM streaming) → 5090 32 GB comfortable.
+- **Status:** built + mirrored (`workflows\`); **validate 0/0 on first v0.45.2 restart** (server was down during build; template is native so risk is low). **GATE: UNET download must finish first.**
+- **Open items:** optional PE model (6.8 GB) if prompt-enhancement proves worth it · realism LoRA `mmh3_realism_v2` (71 MB, civitai 3041489) for H3 Editor finals (civitai API blocked tonight — browser tier or user click tomorrow).
+
+---
+
 ## 2026-11-08 — `krea2_jaisal2_cine.json` + `krea2_zidane2_cine.json` — V3 A/B TEST WORKFLOWS ("jaisal2" / "zidane2") — VALIDATED 0/0 (11:24 IST)
 
 Built by `session_tmp\build_jaisal2_zidane2.py` as EXACT copies of the proven single-char cine rig (`Krea2_jaisal_v2_cine.json` / `krea2_zidhan_v2_cine.json` — same node ids, positions, links, header), with only 3 nodes swapped per file: node 29 `LoraLoaderModelOnly` → the v3 LoRA @1.0 · node 5 positive prompt → v3 trigger + v3 identity head **verbatim from the v3 dataset captions** · node 9 SaveImage prefix.
