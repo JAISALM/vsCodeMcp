@@ -12,11 +12,11 @@
 1. **Quran + Arabic from scratch** — cannot read the script yet (learned before, forgot completely). Path: letters/joining → Juz Amma (short surahs) → daily recitation + translation. 30–45 min/day fixed block. Once learned: stay in touch, keep Arabic alive.
    - **Teacher (user, 10-30):** none yet — **Phase 1 (wk 1–4):** apps (Tarteel + Quran.com word-by-word), 30 min/day, self-check. **Phase 2: sister or mother** checks once words are proper. Motivation (his own words): kids around — "dont want them to look at their uncle who doesnt have any idea on arabic but yet prays 5 times a day." **Knows a few surahs by heart** = anchors for the new reading. **Prays 5×/day** — he already runs a 5×/day consistency system (fixed times, small units, non-negotiable); the plan just adds 3 more to the same system. Daily-consistency capacity is PROVEN by the salah rhythm.
 2. **Complete the film** — Jaisal project: pending tasks (see PENDING_ITEMS.md), scripts, pipeline. **The pipeline IS the interview practice** (see pillar 3).
-3. **Job / interview prep** (Java dev → remote, > 11 LPA, by March 2027). Items the user has:
+3. **Job / interview prep** (Java dev → GCC/Europe remote, > 11 LPA, by March 2027). **Execution Day 1 = 2026-11-12** (jobless since 11-06; 11-07→11-12 stomach issues). **Full book triage (12 → 5 spine / 4 multipliers / 4 reference) + stack decision + market reality in `JOB_PREP.md`.** Stack: Java + Spring + **Angular** (not React) + AI (film pipeline = the differentiator). Items the user has:
    - **NeetCode 150** = **the SPINE.** 150 finite problems ≈ 1/day over ~5 months, or lock-in bursts. Every technical interview starts here.
    - **DSA baseline (user, 10-30):** never did LeetCode. Symptoms: start→drop · memorizes rather than logic · "on the verge of completing the task rather than learning by it." Once finished a 48-hr DSA video course + has a DSA book (wrote algorithms/problems/steps) — now remembers nothing. **NOT a noob** — knows basics. **Needs: pattern recognition (when to use which) + problem-decomposition thinking.** NeetCode 150 is organized BY PATTERN = exact fit. **The fixes:** (1) each pattern learned as TRIGGER (what in the problem statement signals it) + SKELETON template + 1 new problem without peeking; (2) unit of success = "explain the trigger + write skeleton from memory + solve a NEW problem" — NOT "completed problem X"; (3) daily floor (1 problem, 45–60 min) — 48-hr marathons = burst without floor = no residue; (4) spaced revisit of old patterns after 1 week.
    - **System Design** (has the book) = what separates 11 LPA from 25–40 LPA + remote/product roles. Start after ~50 NeetCode problems, or 20 min/day in parallel.
-   - **React / frontend** = **the multiplier.** Java backend + React = full-stack/product profile = the higher-paying remote offers. Build 1–2 real small projects — **the "guide" UI for the film pipeline** (bridges pillar 2).
+   - **Frontend: ANGULAR** (user 11-12: "i see jb posting needs java + angular"). Java backend + Angular = full-stack profile = the higher-paying remote offers. React = fallback only if he widens to US/product. Build 1–2 real small projects — **the "guide" UI for the film pipeline** (bridges pillar 2; Angular practice AND portfolio in one).
    - **Concurrency + GoF Design Patterns** (has both books) = **depth, not a separate finish line.** Read as reference while doing system design / building the pipeline (thread pools, job queues, async). Don't "finish" them as books.
    - **UNIFYING INSIGHT (agent):** the film pipeline is a REAL system — model serving, VRAM management, job queues (concurrency), orchestration (system design), and a React "guide" UI (frontend). **One body of work, two payoffs: the film AND the interview prep.** Don't treat film and job-prep as two separate lives.
 4. **Body** — 60 kg / 175 cm, already lean. Pushup **LADDER** to 100/day (end target, not day 1), pull-ups to 20/day, core 3–4×/week, protein. 6-pack = consistency + diet. Once in shape: just maintain pushups.
@@ -45,13 +45,14 @@
 - **Root pattern (his own words):** urgency-driven late-night work (exam era: slept 12 AM, studied 12 AM–3 AM, "urgency to kick in") = a **hiding behavior — "afraid of something and try to hide it with this behavior maybe."** Hiding only works while unseen → naming it + the one-line check-in = visibility = the cure.
 - **Redemption arc (his own words):** "apology to myself for all the things i could have become — not because of the lack of knowledge or interest." Keep as context for the frustration protocol.
 - **Accountability (his own words):** "i dont have a friend whom i cn share these kind of things" → **his one-line check-in to the agent is the floor**: opening the GUI and typing the line (even "pushups done, 1 problem, fajr") is the check-in itself; a day that ends without opening it is DATA, not failure. Sister = Quran Phase-2 human. "Uncle who can read" image = fuel.
-- **Books:** exact titles coming from the user (10-31) → read/skip map pending.
+- **Books:** titles received 11-12 (12 books) → **triaged in `JOB_PREP.md`** (5 spine / 4 multipliers / 4 reference — none "covered"; each has a unit of success, not a finish line).
 
 ## Timeline anchors
 - **2026-10-30:** plan written (relapse + decision day).
 - **2026-10-31 (fasting day):** body-clock rehearsal — wake for Fajr, post-Fajr sleep capped ~45–60 min, **in bed by 10:30 PM** (start the onset rule NOW, not Nov 7).
 - **2026-11-06:** last working day.
-- **2026-11-07 / 09:** plan starts (user: "from NOV 7th onwards, or maybe NOV 9th").
+- **2026-11-07 / 09:** plan starts (user: "from NOV 7th onwards, or maybe NOV 9th"). **11-07 → 11-12: stomach issues — a few days off, NOT a failure** (the day doesn't start from zero).
+- **2026-11-12:** **EXECUTION DAY 1.** Jobless since 11-06. Book triage done (`JOB_PREP.md`). Frontend = **Angular**. Strategy = GCC + Europe + US-remote for volume. **Open question: GCC relocation-OK or remote-only?**
 - **2026-11 → 2027-03:** 3–4 months consistency. NeetCode 150 spine + system design + React + film pipeline (one unified body of work).
 - **2027-02/03:** verify the market window with posting volume (Feb–Mar) — if job postings surge, the April–May peak is confirmed.
 - **~2027-04/05:** market PEAK window — Indian FY27 starts Apr 1 → budget approvals → hiring waves Apr–Jun; post-March annual reviews → attrition/backfill. Target: **offer by end of March 2027 → join April–May 2027**.
@@ -62,12 +63,12 @@
 ## Daily skeleton (proposed — adjust freely)
 - **Fajr:** Quran 30–45 min (wk 1–4: reading fundamentals) + Arabic 15 min.
 - **09:00–13:00:** deep work — film pipeline / scripts (PENDING_ITEMS.md) = system design + concurrency practice.
-- **14:00–16:00:** interview spine — NeetCode (1–2 problems) + system design (20 min) + React (build the "guide" UI).
+- **14:00–16:00:** interview spine — NeetCode (1 problem) + Spring (20 min) + Angular (wk 2+, build the "guide" UI).
 - **17:00–17:45:** body — pushup ladder, pull-ups, core.
 - **Night:** 10 min review — what got done, what is tomorrow's ONE thing.
 
 ## Reality check (agent, 2026-10-30)
 - 4 pillars = **1 career track** (film pipeline = job portfolio = system design + concurrency + React practice) + **2 daily habits** (Quran/Arabic, body) + **1 flexible deadline** (March 2027).
-- **NeetCode 150 is the spine** (finite, ~1/day). System design + React = multipliers. Concurrency + GoF = depth (read, don't "finish").
+- **NeetCode 150 is the spine** (finite, ~1/day). System design + Angular = multipliers. Concurrency + GoF + JVM books = depth (read, don't "finish") — **full 12-book triage in `JOB_PREP.md`.**
 - Film pipeline is NOT a separate life from the job — it IS the interview practice.
 - Relapse rule (2026-10-30): isolate flagged media-library titles from the default view — environment design, not willpower.
