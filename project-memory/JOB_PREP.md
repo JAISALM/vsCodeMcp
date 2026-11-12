@@ -58,14 +58,12 @@
 - **OPEN QUESTION (user to confirm):** is GCC relocation-OK (can move), or remote-only? Relocation-OK opens a much bigger, better-paying pool.
 - 5-yr exp + AI pipeline + full-stack = realistic senior/full-stack remote profile above 11 LPA.
 
-## THIS WEEK (2026-11-12 → 11-18) — concrete
-- **Day 1 (today, 11-12):** LeetCode account + NeetCode 150 tracker. Do the first **2–3 problems (arrays)**. **Decide the Angular project (Option A pipeline command center vs Option B prep tracker) + scaffold the Spring Boot skeleton** (his home turf — 1–2 h). Set the daily skeleton live (LIFE_PLAN.md).
-- **Weeks 1–2:** JS/TS + HTTP basics, 30–60 min/day (freeCodeCamp / MDN / angular.dev getting-started).
-- **Week 3:** Angular components *inside the project* — first Angular UI consuming the Spring Boot skeleton.
-- **Daily:** Fajr → Quran 30 min · morning 2 h film pipeline (PENDING_ITEMS.md) · afternoon 1 NeetCode problem + Spring 20 min (the why/how pattern note) · 17:00 body (pushup ladder — 5 training days; Mon/Thu fasting = no training) · night: one-line review.
-- **Spring why/how:** one pattern page/week — **this week: ControllerAdvice** (worked example above).
-- **End-of-week-1 deliverable:** ~10 NeetCode problems + one small Spring REST endpoint (+ project skeleton) + ControllerAdvice why/how page.
-- **Fasting days (Mon/Thu):** no training; Quran + NeetCode continue.
+## THIS WEEK (2026-11-12 → 11-18) — SIMPLIFIED (user 11-12: "i dont want to over complicate things, first week i will just schedule the pipeline and do neetcode")
+- **WEEK 1 = PIPELINE + NEETCODE ONLY.** No Angular project decisions, no course shopping, no Spring why/how pages — those are **WEEK 2+, conditional on the pipeline being steady.** (Agent over-planned 11-12; user pulled back to the floor — respect that, do NOT re-add structure.)
+- **Day 1 (today):** LeetCode account + NeetCode 150 tracker + first **2–3 problems (arrays)**. Pipeline: scheduled runs per PENDING_ITEMS.md.
+- **Daily:** Fajr → Quran 30 min · morning 2 h film pipeline (scheduled) · afternoon 1–2 NeetCode problems · 17:00 body (5 training days; Mon/Thu fasting = no training) · night: one-line review.
+- **End-of-week-1 deliverable:** pipeline running on schedule + ~10–14 NeetCode problems.
+- **Week 2+ (only if week 1 was steady):** Angular course (angular.dev + Net Ninja; Labex $99/yr = optional supplement) · Spring why/how (ControllerAdvice page first) · project scaffold (Option A pipeline command center / Option B prep tracker).
 
 ## "NOW OR NEVER" — honest frame (agent, 2026-11-12)
 User: "i know this is a crucial spot of my life, its now or never… i keep living under my expectation." → **keep the urgency as FUEL, but the FLOOR carries the days.** "Now or never" is the old urgency engine — it spikes, then hides. The floor (one-line check-in) is what survives the valleys. Results lag input; the only daily question is "did I do today's one thing?" Anchor: "with god's grace."
