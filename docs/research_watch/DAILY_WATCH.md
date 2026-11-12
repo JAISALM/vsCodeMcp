@@ -13,6 +13,71 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-12
+
+**Sources:** Reddit ✅ 113 posts at 50+ (JSON 403 all subs as usual; HTML tier clean) · HF ✅ 36 trending + 6 top-downloads + 24 datasets · Civitai ✅ hot + ComfyWorkflows (newest/newloras 0 new) · X ⚠️ all 7 accounts via browser-head (IDs pulled, saved bodies EMPTY — 6 key statuses fetched individually, worked). **Pipeline note:** 08:00 schtask FAILED (LastTaskResult 2147946720 — machine asleep) → manual `daily.py --news-only` 09:51 stuck 92 min on a profile lock held by 3 ORPHAN headless_shell procs (from ~06:46, zero net connections) → killed strays + re-run 11:24 → clean in 27 min (2285 items, 195 newly indexed, store 2453). **GAP NOTE:** last block was 11-05 (7-day gap; 11-06/11-07/11-09/11-10 have no store data) — 11-08 store scanned for gap fill (2 items below).
+
+**New relevant items (vs 11-05 baseline):**
+
+*H3-Image (OUR A/B legs — the big cluster today):*
+- **t3_1xsj747 (199u) — "H3 Editor: a timeline video editor for MiniMax H3 inside ComfyUI… (open source, GPL-3.0)"** — the H3 Editor we adopted (D220) is now trending community-wide — validation of the assembly-layer choice <https://www.reddit.com/r/StableDiffusion/comments/1xsj747/h3_editor_a_timeline_video_editor_for_minimax/>
+- **t3_1xsrphc (184u) — "MiniMax H3 Image is natively supported in ComfyUI on day-0"** — native H3-Image support = our v0.45.2 + native nodes path confirmed by the community <https://v.redd.it/o37u7zutct0i1>
+- **t3_1xtoutk (155u) — "According to Ostris, H3 Image has a VAE issue"** + **xieenze_jr X: "the main reason H3 Image struggles on detail is that it has a highly compressed latent space… H3 Image VAE scores worse on every metric, even worse than the SD 1.5 VAE"** — root cause for detail loss = the VAE, not the UNET → try alternate VAEs in the A/B leg <https://www.reddit.com/r/StableDiffusion/comments/1xtoutk/according_to_ostris_h3_image_has_a_vae_issue/> · <https://x.com/xieenze_jr/status/2119663862274503050>
+- **t3_1xszz5f (159u) — "300 random prompts across styles on MiniMax H3" (h3-image-bench)** — 300-prompt H3-Image benchmark = A/B judging reference <https://jo-nike.github.io/h3-image-bench/>
+- **t3_1xt9ocv (155u) — "MiniMax H3 Image 20MP Workflow"** — the 20MP workflow we already adapted (`h3image_20mp_cine.json`) is the community thread to watch for VAE fixes <https://www.reddit.com/gallery/1xt9ocv>
+- **t3_1xt9yzt (163u) — "H3 Image is wildly creative"** + **t3_1xsp3xt (183u) — official MiniMaxAI/MiniMax-H3-Image repo trending** — quality sentiment + official repo (we run the Comfy-Org port) <https://www.reddit.com/gallery/1xt9yzt> · <https://huggingface.co/MiniMaxAI/MiniMax-H3-Image>
+- **BennyDaBall_OG X (11-10) — full H3-Image review: 25 s/image (17-18 s seed-only) on 5090, 5472×3648 native, 6 steps no upscaler/LoRA, "very literal… small faces far from the camera smear… great for keyframes in video production using H3 video"** — our carried "Benny 25 s" baseline in full = the A/B ground-truth expectation <https://x.com/BennyDaBall_OG/status/2120251186574168146>
+
+*Krea2 (identity leg):*
+- **t3_1xohwh5 (150u) — "Krea 2 Turbo — 4 Step LoRA comeback (trained to 133K checkpoint, ~55K more than the 'final' 78K in Sep)"** — the Krea2 Turbo LoRA we run in the identity leg got a bigger checkpoint — candidate upgrade <https://www.reddit.com/gallery/1xohwh5>
+- **t3_1xs9wrj (161u) — "Krea2 is King #2"** — stack sentiment <https://www.reddit.com/gallery/1xs9wrj>
+
+*H3 video route:*
+- **t3_1xp9nbb (172u) — "Super Huge Update for Minimax H3 Temporal Spatial Node"** — our H3 video node got a major update — check changelog before the next shoot <https://i.redd.it/75z8gwfuzyzh1.png>
+- **PixelAigc X — MiniMax-H3-I2V-Anime-Motion-LoRA** (anime-motion LoRA for H3 I2V) — anime-only; we are photoreal → no-adopt, context <https://x.com/PixelAigc/status/2120758059815629100>
+- **t3_1xtyxzo (154u) — ComfyUI blog: "Doubling LLM token rates in ComfyUI" / "LLMs just got twice as fast in ComfyUI 🚀"** — PE/TextGenerate perf doubling — relevant to our PE-gated 20MP leg <https://blog.comfy.org/p/doubling-llm-token-rates-in-comfyui>
+
+*Brain/writer/agent pool:*
+- **t3_1xs7ffm (203u) — "Same prompt, DeepSeek V4.1 Flash vs Qwen 3.8 FN: 94 tok/s vs 350 tok/s"** — OUR brain family beats DeepSeek V4.1 Flash 3.7× on speed — brain A/B data point <https://www.reddit.com/r/LocalLLaMA/comments/1xs7ffm/same_prompt_deepseek_v41_flash_vs_qwen_38_fn_94/>
+- **t3_1xr2aaa (288u) — tencent/Qwen3.8-27B-DSpine-b16** — a DSpine quant of OUR exact brain — A/B candidate <https://huggingface.co/tencent/Qwen3.8-27B-DSpine-b16>
+- **t3_1xted8w (268u) — "Ernie 5.5 Flash will be released in two weeks"** + **baidu/ERNIE-5.5-Flash-Base trending** — brain-pool release date ~Nov 26 <https://www.reddit.com/gallery/1xted8w> · <https://huggingface.co/baidu/ERNIE-5.5-Flash-Base>
+- **t3_1xqacka (239u) — llama.cpp PR #30966 "llama_moe_cache: run missed experts on CPU"** — MoE feature for our brain/agent toolchain (pairs with carried gemma4 PR #31356) <https://github.com/ggml-org/llama.cpp/pull/30966>
+- **t3_1xpvfx8 (256u) — "Harness Leaderboard — Kimi Code, Hermes, Pi, Claude Code, Codex… on Terminal Bench 2.1 & Deep SWE 1.1"** — agent-harness benchmarking (our agent class) <https://huggingface.co/spaces/joelniklaus/harness-leaderboard>
+- **t3_1xrkomn (294u) — "L11 N8147 is a neuron that makes Qwen-3.5-4B get things confidently wrong… but writes interesting poetry"** — neuron-level quirk of OUR 4B agent family (qwen35_4b_q6 server) <https://www.reddit.com/gallery/1xrkomn>
+- **t3_1xp32od (204u) — "Introducing Inkling 2 Small" (Thinking Machines)** + **t3_1xt82mz (205u) — MSR backdoored an AI agent by editing <10 dormant neurons** — brain-pool release + agent-safety research <https://thinkingmachines.ai/news/inkling-2-small/> · <https://www.microsoft.com/en-us/research/blog/lazare-veni-foras-reprogramming-dormant-neurons-to-backdoor-ai-agents/>
+- **t3_1xqafp1 (185u) — "testing Qoduck (maybe qwen4) on Qoder"** — Qwen4 rumor — brain/writer pool watch <https://i.redd.it/v7ug4550w70i1.png>
+- **t3_1xpm8mw (279u) — "Mirage: a 22 MB visual-language model" (scene desc + detection + OCR + segmentation, single pass)** — tiny VLM for the agent pool <https://www.reddit.com/gallery/1xpm8mw>
+- **t3_1xpdk0i (219u) — "A 0.1B model just killed 8B embedding models"** — context (we do no embeddings) <https://www.reddit.com/gallery/1xpdk0i>
+
+*Image/3D pool + hardware:*
+- **t3_1xqeznz (154u) — "[Papers] WeLM-Image MoE 31.7B-5.4B: Unified Image Generation Model"** — new unified image MoE — image-pool context <https://www.reddit.com/gallery/1xqeznz>
+- **t3_1xtl83k (150u) — "I can't stop making cheap flash photos with MOSS-Image-Base"** — new image model in active use — image-pool context <https://www.reddit.com/gallery/1xtl83k>
+- **t3_1xozbe6 (188u) — "CCORE GLB-3D-Coder dataset: 3,918 examples across 40 domains" + t3_1xt6rc7 (203u) — 1.7B GLB-3D-Coder for Godot** — 3D-coding route; not our 2D→video pipeline → no-adopt, context <https://i.redd.it/ulne0ine2wzh1.jpeg> · <https://v.redd.it/gizdfgcmdw0i1>
+- **t3_1xtdwps (209u) — "NVIDIA reportedly cancels RTX 5080 24GB launch, brings back 16GB over GDDR7 costs"** + **t3_1xojryw (277u) — "RTX PRO 5500 Blackwell appears at $17,999"** — GPU-market context (we have the 5090) <https://videocardz.com/newz/nvidia-reportedly-cancels-geforce-rtx-5080-24gb-launch-brings-back-16gb-model-over-gddr7-costs> · <https://videocardz.com/newz/nvidia-rtx-pro-5500-blackwell-appears-at-17999-msrp-higher-than-rtx-pro-6000>
+- **t3_1xr78s5 (180u) — "Intel Arc Pro B70 32GB ($1,299) vs RTX 5090 on Qwen3.8-27B: ~1/2 speed (1/3 prefill) at 1/5 price"** — cheaper-brain alternative benchmark (context only) <https://www.reddit.com/gallery/1xr78s5>
+- **HF: Viggle/Viggle-Remake (136k downloads, trending)** — character animation/remake model — character-route context (we do H3 video) <https://huggingface.co/Viggle/Viggle-Remake> · **NousResearch/Arete-27B (418 likes, Qwen finetune)** — brain-pool context <https://huggingface.co/NousResearch/Arete-27B> · **PrunaAI/P-H3-Image-Comfy (899k downloads)** — pi-H3, release Nov 16 (carried) <https://huggingface.co/PrunaAI/P-H3-Image-Comfy>
+
+*Civitai:*
+- **(hot) 112902 — DreamShaper XL (Lykon, 641k downloads)** — known SDXL checkpoint — NO-ADOPT (not our stack) <https://civitai.com/models/112902>
+- **(comfyworkflows) 2877939 — "LTX 2.5 — Pure 2K/3K Ultra-Low VRAM (Universal Workflow)"** — LTX 2.5 low-VRAM video workflow — alternative video route; we are H3-centric → CONTEXT (fits the weekly labs+LTX thread; revisit if H3 video ever underperforms) <https://civitai.com/models/2877939>
+
+*Gap fill (11-08 store, vs 11-05 baseline):*
+- **t3_1xp9jt1 (431u, 11-08) — "Latest Open-Source Labs are gutting away cybersecurity and reverse-engineering"** — open-source models in the security field — brain-pool context <https://www.reddit.com/gallery/1xp9jt1>
+- **t3_1xobe4h (361u, 11-08) — "CCORE GLB-3D-Coder 4B final model and full weights are out"** — 4B 3D-coder final (pairs with the 11-12 dataset post) <https://www.reddit.com/gallery/1xobe4h>
+
+**ACTION ITEMS:**
+1. **VAE experiment in the H3-Image A/B** (from ostris + xieenze_jr above): if leg B shows detail loss, swap the H3 VAE for a better round-trip VAE (xieenze's comparison names the winners; SD1.5-class VAE as the floor) — a one-line UNET/VAE-loader change in `h3image_t2i_cine.json`.
+2. **Krea2 Turbo 133K checkpoint** (t3_1xohwh5): pull the extended LoRA → A/B vs our current identity-leg checkpoint at the same strength.
+3. **Use Benny's review as A/B ground truth** (25 s/image, very literal, distant small faces smear, "great for keyframes") — the A/B judging criteria are now externalized.
+4. **Watch t3_1xt9ocv (20MP workflow thread)** for community VAE fixes before running the 20MP leg.
+5. **H3 Temporal Spatial Node "super huge update"** — check the changelog for compatibility with our H3 video workflow before the next shoot.
+6. **ERNIE 5.5 Flash (~Nov 26)** — add to the brain-pool A/B list when it lands. pi-H3 remains Nov 16.
+
+**Source failures (honest):**
+- Reddit JSON API 403 all subs (as usual) — HTML tier clean (113 posts at 50+). redlib.perennialte.ch mirror 410 (r/artificial) — HTML top-page tier fallback OK (25/25).
+- X tier: all 7 accounts fetched via browser-head but SAVED BODIES WERE EMPTY (article-shell-without-text, the known DOM-change symptom recurring) — 6 key statuses fetched individually via `fetch_x_status.py` (cookies valid, worked). diodiogod "new" items = 2021-era stale-tweet artifact (ignore).
+- 08:00 schtask: LastTaskResult 2147946720 (machine asleep at 08:00). Manual re-run stuck 92 min on a profile lock held by 3 ORPHAN headless_shell procs (from ~06:46, zero network connections — killed before the 11:24 re-run, which completed clean in 27 min). LESSON: check for orphan browser procs before diagnosing a "slow" browser-tier run.
+
 ## 2026-11-05
 
 **Sources:** Reddit ✅ HTML tier (SD 7 new / LocalLLaMA 10 new / ComfyUI 7 new / artificial 36 new; 70 posts at 50+; JSON 403 all subs as usual) · HF ✅ 22 trending models + 14 datasets (top-downloads 0 rows — 4th day) · Civitai ⚠️ hot only (DreamShaper XL, known — no-adopt) · X ⚠️ PixelAigc backfill only (50 files = 24 unique ×2; other 6 accounts login-walled). **Pipeline note:** 08:00 schtask did NOT run today (no log, no news dir — machine asleep?) — manual 09:51 re-run (`--news-only`): **completed clean in ~15min — no X-tier hang today** (1717 items, 274 newly indexed, store 1885).
