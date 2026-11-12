@@ -28,6 +28,19 @@ with the embedded Python:
 - `data/` — data artifacts (`object_info_cache.json`, `vram_monitor.csv`, `analyze_out.txt`)
 - `project-memory/`, `workflow_backups/` — unchanged
 
+## check_safetensors.py — safetensors integrity checker (added 2026-11-12)
+
+`& "C:\Program Files\Python310\python.exe" D:\models\vsCodeMcp\utilities\check_safetensors.py <path> [path2 ...]`
+
+Header-level integrity check for `.safetensors` files/dirs (recursive). Encodes the
+2026-11-12 incident lesson: layout = `[8B len][JSON header][data][trailing header
+copy]`, `data_offsets` are ABSOLUTE (file-based, header included). Verdicts:
+COMPLETE / OK / TRUNCATED / HALF-FILE (header ~2× physical = dual-layout header
+with only one copy present) / UNREADABLE. **Use after every zero-ref model
+download/move — size-match alone is NOT an integrity check** (the 84.4 GB
+comfy_models batch was 100% half-files and still passed size matching).
+Exit 0 = all good, 1 = any broken.
+
 ---
 
 ## The scripts
