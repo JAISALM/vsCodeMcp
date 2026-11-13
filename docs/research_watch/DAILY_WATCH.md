@@ -13,6 +13,53 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-13
+
+**Sources:** Reddit ✅ 69 posts at 50+ (JSON 403 all subs as usual; HTML top-page tier) · HF ✅ 19 trending + 3 top-downloads + 12 datasets · Civitai ✅ hot + ComfyWorkflows (both items = 11-12 knowns → 0 new) · X ✅ 40 IDs (saved bodies EMPTY — 7 key new statuses fetched individually, worked). **Pipeline note:** 08:00 schtask FAILED (machine asleep — LastTaskResult 2147946720, last run 11-12 11:29; same mode as 11-09..11-12) → manual `daily.py --news-only` re-run → clean (2476 items, 191 newly indexed, store 2644); **r/comfyui_workflows HTML tier GATED this run** (rc=3, no shreddit cards → fresh-profile retry next run).
+
+**New relevant items (vs 11-12 baseline):**
+
+*Our exact brain + writer (user's A/B days = today/tomorrow):*
+- **unsloth/Qwen3.8-27B-GGUF trending #1 (5756 likes, 5.9M dl)** — unsloth's official GGUF quants of our EXACT brain model = quant-alternative pool to the running NVFP4-MTP-LOW brain <https://huggingface.co/unsloth/Qwen3.8-27B-GGUF>
+- **t3_1xpicjz (115u) — "qwen38_27b hitting 6645 toks on prefill and 316"** — community perf numbers on our brain family = throughput reference <https://www.reddit.com/r/LocalLLaMA/comments/1xpicjz/qwen38_27b_hitting_6645_toks_on_prefill_and_316/>
+- **t3_1xto0fa (111u) — "opensource method macq beats unsloth ggufs"** — MacQ = new open quant method claimed to beat unsloth GGUFs — watch for future brain/writer quants <https://www.reddit.com/r/LocalLLaMA/comments/1xto0fa/opensource_method_macaq_beats_unsloth_ggufs/>
+- **mradermacher/gemma-4-31B-it-ARA-heretic-GGUF (224 likes, 78K dl)** — new heretic GGUF quant of our WRITER family (gemma-4-31B) — optional add to today's writer A/B pool <https://huggingface.co/mradermacher/gemma-4-31B-it-ARA-heretic-GGUF>
+- **t3_1xruzry (154u) — "Drummers Orion 26B-A4B v1 and v1.1 plus a new"** — new small-MoE brain-pool candidate <https://www.reddit.com/r/LocalLLaMA/comments/1xruzry/drummers_orion_26b_a4b_v1_and_v11_plus_a_new/>
+- **t3_1xq4yju (143u) — "obsessive17b: a 11 GB websearch subagent"** + **xtools-at/DeepSeek-V4-Pro-Qwen3.5-9B-UNCENSORED-heretic (4136 likes)** — small agentic-LLM candidates for the agent tier <https://www.reddit.com/r/LocalLLaMA/comments/1xq4yju/obsessive17b_a_11_gb_websearch_subagent/>
+
+*H3-Image / our A/B legs:*
+- **akatz_ai X (11-12) — "Generate at 33 megapixels (4704×7040) in ComfyUI with H3 Image"** — 33 MP = the H3-Image ceiling vs our 16 MP leg — post-A/B resolution step for final outputs <https://x.com/akatz_ai/status/2118403164374552897>
+- **VideoRebirthAI/hyperflow-h3-flash (216 likes, 242K dl)** — new fast H3 video variant — video-route context <https://huggingface.co/VideoRebirthAI/hyperflow-h3-flash>
+- **BennyDaBall_OG X (11-11) — LFM3-1.7B NVFP4 quants updated with a new solver: "4–7% closer to BF16, stock llama.cpp, no patches, free re-download"** — quant-tuning craft from our ground-truth reviewer; technique transfers to small-model quants <https://x.com/BennyDaBall_OG/status/2120575920503222778>
+- **t3_1xpz5ti (126u) — "Rebuilt Higgsfield's 'Miracle' demo edit by edit with Viggle-Remake — no private beta, run it locally"** — practical confirmation of the local char-animation route (Viggle-Remake = 11-12 context item) <https://www.reddit.com/r/StableDiffusion/comments/1xpz5ti/rebuilt_higgsfields_miracle_demo_edit_by_edit/>
+- **t3_1xtpc2v (196u) — "LucidML world model: images → interactive real-time video, runs on RTX 3060+"** — new open interactive-video route (lucidml/gta on HF) — context only, H3-first <https://www.reddit.com/comments/1xtpc2v>
+- **MaxLiu09 X (11-11) — pose retargeting into physics sim = "local optima based on physics, aesthetics, semiotics"** — pose-pipeline research context for our pose-reference work <https://x.com/MaxLiu09/status/2120560878919778535>
+
+*Audio (D041 route):*
+- **t3_1xs46nh (118u) — "omni_voice is the fastest and best voice clone"** — community confirmation of our OmniVoice TTS app <https://www.reddit.com/r/LocalLLaMA/comments/1xs46nh/omni_voice_is_the_fastest_and_best_voice_clone/>
+
+*Training / tools:*
+- **t3_1xqzu2f (165u) + t3_1xtkg94 (160u) — Fizgig v9.6.0 release** — our LoRA training tool shipped a major release (our checkout = 10-20 vintage) — update before next character training <https://github.com/shootthesound/Fizgig/releases/tag/v9.6.0>
+- **t3_1xtgnh9 (133u) — "you can now train your own llms with less memory"** — low-memory LLM training (LoRA context) <https://www.reddit.com/r/LocalLLaMA/comments/1xtgnh9/you_can_now_train_your_own_llms_with_less_memory/>
+
+*Datasets:*
+- **nvidia/PhysicalAI-Human-1M-100K** — 1M human-motion samples (100K subset) — pose-reference pipeline asset (pose gallery sourcing) <https://huggingface.co/nvidia/PhysicalAI-Human-1M-100K>
+
+*Context / no-adopt:* Muse Ember open-source drama t3_1xs0qmx (248u) <https://www.reddit.com/gallery/1xs0qmx> · moonshotai/Kimi-K3.1-Pro (1944 likes) <https://huggingface.co/moonshotai/Kimi-K3.1-Pro> · ricursiveAI/Ripple-65B-Preview (518) <https://huggingface.co/ricursiveAI/Ripple-65B-Preview> · webAI-Official/TwIL-8B (314) <https://huggingface.co/webAI-Official/TwIL-8B> · 3D datasets (sand3d-objaverse / tencent/TailorRig / pixel-art-atlas) — no-adopt (no 3D in our pipeline) · Civitai 0 new (112902 DreamShaper + 2877939 LTX-2.5-low-VRAM = both 11-12 knowns).
+
+**ACTION ITEMS:**
+1. **Writer A/B (USER, today/tomorrow):** optional new candidate = `gemma-4-31B-it-ARA-heretic-GGUF` alongside the existing pool (QAT-31B / Ortenzya / gemma-4-31B-it / 26B-A4B).
+2. **Brain A/B (post-writer):** add `unsloth/Qwen3.8-27B-GGUF` quants to the brain pool vs current NVFP4-MTP-LOW (t3_1xpicjz = throughput reference).
+3. **A/B legs:** after the 16 MP verdict, try the winning leg at 4704×7040 (33 MP, akatz_ai's setup) for final outputs.
+4. **Fizgig:** update the `D:\tools\Fizgig` checkout (10-20) to v9.6.0 before next character training.
+5. **Pose-reference pipeline:** `nvidia/PhysicalAI-Human-1M-100K` = candidate pose-gallery source.
+
+**Source failures (honest):**
+- 08:00 schtask missed (machine asleep — same mode as 11-09..11-12). Manual `daily.py --news-only` re-run clean.
+- Reddit JSON API 403 all subs (as usual); redlib mirrors dead (catsarch + perennialte 410); HTML top-page tier carried (SD 20/24, LocalLLaMA 5/23, ComfyUI 25/25, artificial 25/25); **r/comfyui_workflows GATED this run** (fresh-profile retry next run).
+- X tier: saved bodies EMPTY again (article-shell DOM) — 7 key new statuses individually fetched via `fetch_x_status.py` (cookies valid, worked). GOTCHA: parallel browser-tier jobs on the shared profile lock-collide (both first attempts failed) — run them SEQUENTIALLY.
+- Civitai: 0 new items.
+
 ## 2026-11-12
 
 **Sources:** Reddit ✅ 113 posts at 50+ (JSON 403 all subs as usual; HTML tier clean) · HF ✅ 36 trending + 6 top-downloads + 24 datasets · Civitai ✅ hot + ComfyWorkflows (newest/newloras 0 new) · X ⚠️ all 7 accounts via browser-head (IDs pulled, saved bodies EMPTY — 6 key statuses fetched individually, worked). **Pipeline note:** 08:00 schtask FAILED (LastTaskResult 2147946720 — machine asleep) → manual `daily.py --news-only` 09:51 stuck 92 min on a profile lock held by 3 ORPHAN headless_shell procs (from ~06:46, zero net connections) → killed strays + re-run 11:24 → clean in 27 min (2285 items, 195 newly indexed, store 2453). **GAP NOTE:** last block was 11-05 (7-day gap; 11-06/11-07/11-09/11-10 have no store data) — 11-08 store scanned for gap fill (2 items below).
