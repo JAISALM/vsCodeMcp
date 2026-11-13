@@ -28,18 +28,26 @@ with the embedded Python:
 - `data/` — data artifacts (`object_info_cache.json`, `vram_monitor.csv`, `analyze_out.txt`)
 - `project-memory/`, `workflow_backups/` — unchanged
 
-## check_safetensors.py — safetensors integrity checker (added 2026-11-12)
+## check_safetensors.py — safetensors integrity checker (added 2026-11-12, CORRECTED to v2 on 2026-11-13)
 
 `& "C:\Program Files\Python310\python.exe" D:\models\vsCodeMcp\utilities\check_safetensors.py <path> [path2 ...]`
+`& "C:\Program Files\Python310\python.exe" D:\models\vsCodeMcp\utilities\check_safetensors.py --load <file>` (real-loader ground truth, slow)
 
-Header-level integrity check for `.safetensors` files/dirs (recursive). Encodes the
-2026-11-12 incident lesson: layout = `[8B len][JSON header][data][trailing header
-copy]`, `data_offsets` are ABSOLUTE (file-based, header included). Verdicts:
-COMPLETE / OK / TRUNCATED / HALF-FILE (header ~2× physical = dual-layout header
-with only one copy present) / UNREADABLE. **Use after every zero-ref model
-download/move — size-match alone is NOT an integrity check** (the 84.4 GB
-comfy_models batch was 100% half-files and still passed size matching).
-Exit 0 = all good, 1 = any broken.
+Header-level integrity check for `.safetensors` files/dirs (recursive). **FORMAT
+(TRUTH, verified on known-good files): `data_offsets` = `[start, end]` PAIR of
+ABSOLUTE file-relative offsets (header INCLUDED) — the 2nd element is the END
+offset, not a size.** Layout = `[8B len][JSON header][data][optional trailing
+header copy of H bytes]`. Complete ⟺ `max(end) + H == size` (trailing header) or
+`max(end) == size` (no trailing header). Verdicts: COMPLETE / OK / TRUNCATED
+(last tensor ends past EOF) / GAP / UNREADABLE. `--load` mode reads EVERY tensor
+via the real safetensors `.get_tensor()` — the only true ground truth (a header
+check can be fooled by a corrupted-but-parseable header). **v2 history: the v1
+checker (11-12) computed `off + sz` (treated end as a size) → good files read as
+"~2× size = half-file" and ~115 GB of archive files were deleted on false
+positives; v1's loader test also called `.get()` instead of `.get_tensor()` so
+every key "failed" with AttributeError. Do NOT regress to either bug.**
+**Use after every zero-ref model download/move — size-match alone is NOT an
+integrity check.** Exit 0 = all good, 1 = any broken.
 
 ---
 
