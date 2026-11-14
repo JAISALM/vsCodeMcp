@@ -71,3 +71,25 @@ Full machine list: `projects.json` (this dir). Category split: 24 all-in-one stu
 3. **Directly stealable ideas for episode 1:** h3-recast's BFS face-Lora-on-H3 + FaceRefine lip pass (we already hold BFS head LoRAs) · Dataset-Forge (auto LoRA datasets from one face — our tonight's dataset runs) · seriesmith (episode scripts → shots) · seam (AI transitions between our shots) · element-forge (editable LTX VFX on our plates) · shotcheck/motion-guard (QA before the upscale pass).
 4. **D041 check:** several film/music-video entries are music-video-centric (Mondo Music Video, Xenoform) — their pipelines bake in score; any borrowed workflow MUST get the NO-music rule injected first.
 5. **Winners 11/6** — check the list repo again after that date (stats refresh via `node scripts/build.mjs`).
+
+## WINNERS (announced 2026-11-06; official page comfy.org/open-source-higgsfield, updated 11-10) — captured 2026-11-14
+
+$10,000 tier (RTX 5090 rigs, per official page): **ComfyUI Panorama Stickers** (nomadoor) · **Blocksfield** (SquaredCubeRBX / @Hcoder10) · **Imagination Studio** (SamJWasserman & u1tra_instinct) · **Paint a Plate** (AInVFX — also won the $2,000-cash VFX track). Smaller: ComfyArt (jtydhr88, $500 Flux credits) · Creativefield (@rhymeas, $250) · **Genobi** (Radek Rudnicki, $1k API credits) · **H3 Motion** (PxTicks, $250 Comfy credits ×10 builds). Ten-builds track: **Reshoot 4D** (itsmetamike) · OneShot MV (VisualFrisson) · Freefield (neuregex) · H3 Motion (PxTicks) · **Splat Edit Engine** (Burgstall-labs) · Sonder App (SonderSaid) · Max Editor (jonathan_7gramirez) · Genobi · **Henge (Alissonerdx — our X watch account!)** · H3-AudioRetake-Studio (nebsh83).
+
+**Repos (verified via jutsuhq/open-source-higgsfield projects.json, 119 entries):**
+| Winner | Repo |
+|---|---|
+| ComfyUI Panorama Stickers | `nomadoor/ComfyUI-Panorama-Stickers` |
+| Blocksfield | `Hcoder10/blocksfield` |
+| Imagination Studio | `drowzeys/Imagination-Studio-by-keys-Wasserman` |
+| Paint a Plate | `AInVFX/ainvfx-paintaplate` |
+| Genobi | `koshimazaki/genobi` |
+| H3 Motion | `PxTicks/h3-motion` |
+| Reshoot 4D | `itsmetamike/reshoot-4d` |
+| OneShot MV | `VisualFrisson/ComfyUI-OneShotMV` |
+| Freefield | `neuregex/freefield` |
+| Splat Edit Engine | `Burgstall-labs/ComfyUI-SpEdE` |
+| Sonder Editor | `SonderSaid/ComfyUI-Sonder-Editor` |
+| Henge | `alisson-anjos/Henge` |
+
+**Our verdicts:** ADOPT-CANDIDATES = **Paint a Plate** (plate VFX = our D169 LTX-VFX domain; D041 check) + **H3 Motion** (H3 motion transfer = core video domain) + **Reshoot 4D** (camera — compare vs `minimaxH3Camera_v20`) + **Henge** (Alissonerdx = our X watch account — check what it does). D041-filter-first = H3-AudioRetake-Studio + OneShot MV. Context-only = Panorama Stickers / Blocksfield / Imagination Studio / ComfyArt / Freefield / Genobi / Sonder / Splat Edit.
