@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-14 — VNCCS PoseStudio face consistency (user run, author's reference workflow as-shipped) — FAILED (face drift)
+
+- **Goal:** pose transfer for our characters via `VNCCS_PoseStudio_QI2.1_REFERENCE.json` (stage ② of the pose gallery).
+- **Run (user, pre-crash):** author's reference workflow as-shipped (or with our character swapped into `DancersBunny.png`'s slot) → **face consistency BAD** (user: "the face consistency looks bad man"; reddit/civitai demo images of the author look consistent → user hypothesized prompt issue).
+- **Diagnosis (workflow audited this turn — the author's OWN file carries the problem):** ① the text node's `prompt` INPUT (id484 `TextEncodeQwenImage21`) is WIRED to the pose node's `lighting_prompt` output (link 791) — a connected link overrides the widget, so the author's pose one-liner in the widget is at best dead/merged text; the running prompt is the pose node's lighting string ② even the one-liner carries ZERO face/identity description ("replace the pose of \<image 2> with the pose of \<image 1>. keep the character of \<image 2>") — the author's consistent demos = the SAME single character ref repeated, identity carried by the reference image, NOT by the prompt ③ wiring: `image_1` = pose render from the interactive 3D node (id488), `image_2` = LoadImage character image.
+- **Fix recipe (user, UI):** unplug the `lighting_prompt` wire → own the prompt in the widget → add an identity anchor (pose instruction + "same face as \<image 2>: 26yo Indian man, wavy black hair, plain black t-shirt") → `image_2` = clean SINGLE FRONTAL face ref (`jaisal_face_frontal.png` / `zidane_face_frontal.png`, not the 3-panel sheet) → keep LoRA@1.0 + int8 stack (not the drift cause).
+- **CRASH SIDE-EFFECT (same turn, my fault):** the restart to ask about this hit `ImportError: huggingface-hub>=1.5.0,<2.0 … found 2.4.0` — the hub 2.4.0 I installed into the server's embedded python for the Viggle download broke transformers 5.9.0's import chain. FIXED: hub downgraded to 1.33.0, failing import chain verified clean. **Rule: never pip-install into the server's embedded python without checking the transformers/torch pins.**
+- **Status:** AWAITING user's re-run after the fix (and the ComfyUI restart, which also loads the OpenPose Studio + Viggle-Remake packs).
+
+---
+
 ## 2026-11-08 — V3 character-LoRA A/B (jaisal2/zidane2 vs v2) — FINAL CAST LOCKED (user-run, single-char cine rig, 21:9 3MP)
 
 - **Goal:** decide the final character versions — v2 (`krea2jaisal_v2`/`krea2zidhan_v2`) vs v3 (`krea2jaisal_v3`/`krea2zidane_v3`) for the leads Jaisal + Zidane (D218).
