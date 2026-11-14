@@ -13,6 +13,61 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-14
+
+**Sources:** Reddit ✅ 68 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier; r/comfyui_workflows GATED 2nd straight day) · HF ✅ 39 trending + 6 top-downloads + 24 datasets · Civitai ✅ 4 items, 2 new · X ✅ all 7 accounts via browser-head, 40 tweets with full bodies (session healthy — no rotation). **Pipeline note:** 08:00 schtask catch-up died at launch (no log, stale code) → manual re-run hung ~12 min on a transient x.com stall (established conn, server sending nothing — same class as the user's Brave x.com hang this morning) → killed + re-run clean in 8 min (2696 items, 220 newly indexed, store 2864). All X tiers carry hard timeouts (30/90/300s) so no indefinite hang possible.
+
+**New relevant items (vs 11-13 baseline):**
+
+**H3-Image / H3 video (our A/B core):**
+- **BennyDaBall_OG (A/B ground truth) validated OUR planned combo** — HyperFlow's Flash INT8 + PrunaAI P-H3 image LoRA → H3 images on a single 5090: 3872×2176 (8 MP) 8.7 s @ 6 steps vs 14.1 s stock H3 INT8; under 1 s at small sizes (512×288: 0.86 s); seed-only change 1344×768 in 0.86 s. Caveat: Flash 6-step "moves compositions vs stock" (his fisherman grew a hood); P-H3's own 8-step schedule stays closer (+1.7 s). All local ComfyUI. <https://x.com/BennyDaBall_OG/status/2120949801621807429>
+- **Benny 16 MP benchmark table** (stock ComfyUI 0.45.0, 6 steps, 5090): 2048² BF16 8.24 s / W4A8 3.68 s / NVFP4 3.07 s; 4096² BF16 27.40 s / W4A8 14.52 s / NVFP4 12.93 s; sizes 40.23/12.55/12.54 GB — reference parity numbers for our 16 MP leg. <https://x.com/BennyDaBall_OG/status/2121291541683577120>
+- **Benny Qwen Image 2.1 Turbo NVFP4 v2** — rebuilt with next solver, calibrated on image EDITING (not just t2i): LPIPS 0.166→0.136, PSNR 20.5→21.3 dB, edits 25% lower error per step; same 5.69 GB/speed; drop-in stock ComfyUI. Relevant to our identity-edit leg. <https://x.com/BennyDaBall_OG/status/2121074516382162996>
+- **MiniMaxAI/MiniMax-H3-Image** — official H3-Image model on HF (trending #1, 949 score, 437k dl; t2i/i2i/image-editing). <https://huggingface.co/MiniMaxAI/MiniMax-H3-Image>
+- **Comfy-Org/MiniMax-H3-Image** — official ComfyUI port (trending 318, 1.25M dl). <https://huggingface.co/Comfy-Org/MiniMax-H3-Image>
+- **Viggle/Viggle-Remake** — MiniMax-H3-based **character-replacement video-editing LoRA** (v2v, GGUF, 183k dl) — the video-side counterpart of our image char-swap. <https://huggingface.co/Viggle/Viggle-Remake>
+- **VideoRebirthAI/hyperflow-h3-flash** — H3 video (audio-video, t2v/i2v) in GGUF/safetensors (389k dl) — the model Benny's hybrid uses; local H3-video candidate. <https://huggingface.co/VideoRebirthAI/hyperflow-h3-flash>
+
+**Pose pipeline (our pending build):**
+- **facebook/sam-3d-body-dinov3** — 3D human mesh recovery + human pose estimation (Meta, 1141 likes) — pose-reference asset candidate alongside the nvidia PhysicalAI-Human dataset. <https://huggingface.co/facebook/sam-3d-body-dinov3>
+
+**Civitai (first new items since 11-12):**
+- **2877939 "LTX 2.5 — Pure 2K/3K Ultra-Low VRAM (Universal Workflow)"** (NeronLTXEngine, LTXV 2.5, 8 reviews) — **config-only upload** (18.5 KB); checkpoint comes separately — watch for it (next-gen LTX for our labs route). <https://civitai.com/models/2877939>
+- **112902 DreamShaper XL Turbo-Lightning** — 2024 classic back on hot (641k dl) — no-adopt (SDXL base; we're on Krea2/H3/LTX). <https://civitai.com/models/112902>
+
+**Training tools / quant (next character training + brain A/B):**
+- **Fizgig v9.7.0** released (supersedes the v9.6.0 update plan from 11-13). <https://github.com/shootthesound/Fizgig/releases/tag/v9.7.0>
+- **unsloth/Qwen3.8-Flash-Next-GGUF** (2.3M dl) + **huihui-ai/Huihui-Qwen3.8-27B-abliterated-GGUF** (4M dl) + **tencent/Qwen3.8-27B-DSpine-b16** (speculative-decoding draft model, sglang — caveat: our brain runs llama.cpp, DSpine is sglang-native) — brain A/B pool keeps expanding. <https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF> <https://huggingface.co/huihui-ai/Huihui-Qwen3.8-27B-abliterated-GGUF> <https://huggingface.co/tencent/Qwen3.8-27B-DSpine-b16>
+- **xtools-at/DeepSeek-V4-Pro-Qwen3.5-9B-UNCENSORED-heretic** — top trending (3657) — 9B heretic merge, agent-fast context only. <https://huggingface.co/xtools-at/DeepSeek-V4-Pro-Qwen3.5-9B-UNCENSORED-heretic>
+- Reddit: "train your own LLMs with less memory" (151 up) <https://www.reddit.com/gallery/1xtgnh9> · "macaq beats unsloth GGUFs" (135 up) <https://www.reddit.com/gallery/1xto0fa> · llama.cpp PR 28392 (139 up) <https://www.reddit.com/gallery/1xt9o3t>
+
+**Audio (D041 — TTS/narration only, no music):**
+- **Zyphra/ZONOS3-Mini** — multilingual TTS + voice cloning, GGUF (13k dl) — OmniVoice territory candidate. <https://huggingface.co/Zyphra/ZONOS3-Mini>
+- **ConwayResearch/Underdog-Woof** — on-device CPU-only TTS (numpy) — zero-GPU narration fallback. <https://huggingface.co/ConwayResearch/Underdog-Woof>
+- OmniVoice community thread #2 (125 up) — the 11-13 confirmation keeps rippling. <https://www.reddit.com/gallery/1xs46nh>
+
+**GPU/hardware context (no action):**
+- Alleged **96 GB RTX 5090** listed in China (254 up) <https://videocardz.com/newz/alleged-geforce-rtx-5090-with-96gb-listed-for-sale-in-china> · CMP 170HX voltage-glitch → A100 viral (244 up) <https://www.reddit.com/gallery/1xu1dkz>
+- **speridlabs/idol** — Gaussian-splatting image-to-3D (Apache-2.0, 2.3k likes) — 3D context, no adopt. <https://huggingface.co/speridlabs/idol>
+
+**X account activity (40 new, full bodies saved):** BennyDaBall_OG 5 (3 relevant above) · MaxLiu09 7 <https://x.com/MaxLiu09/status/2121199711055172041> · akatz_ai 7 <https://x.com/akatz_ai/status/2112625528805208257> · Alissonerdx 5 <https://x.com/Alissonerdx/status/2108452516556829295> · PixelAigc 5 <https://x.com/PixelAigc/status/2116445686577265633> · xieenze_jr 6 <https://x.com/xieenze_jr/status/2109484157952999505> · diodiogod 5 <https://x.com/diodiogod/status/620828381482191488>
+
+**ACTION ITEMS:**
+1. **Nov 16 pi-H3 (PrunaAI/P-H3-Image-Comfy) arrival → test Benny's hybrid leg** (HyperFlow-Flash INT8 @ 6 steps + P-H3 LoRA) as the fast H3-Image leg — his 5090 numbers: 8.7 s @ 8 MP, <1 s drafts; watch composition drift at 6 steps vs stock (his caveat).
+2. **Post-A/B: bench our 16 MP leg against Benny's table** (NVFP4 4096² = 12.93 s @ 6 steps stock ComfyUI) — target parity, then the 4704×7040 step.
+3. **User (browser, no GPU):** pull Benny's **Qwen Image 2.1 Turbo NVFP4 v2** (drop-in, edit-calibrated) — strengthens the identity-edit leg.
+4. **Evaluate sam-3d-body-dinov3** for the pose-reference gallery (CPU inference — zero GPU conflict; pairs with the nvidia PhysicalAI-Human dataset).
+5. **Fizgig v9.7.0** replaces the v9.6.0 update plan — update `D:\tools\Fizgig` before next character training.
+6. **Watch for the LTX-2.5 checkpoint** behind civitai 2877939's low-VRAM 2K/3K universal workflow — evaluate vs our LTX labs route when it drops.
+7. **Brain A/B pool (post-writer A/B):** rank Flash-Next-GGUF + huihui abliterated + unsloth quants vs our NVFP4-MTP-LOW; DSpine draft = sglang-only, likely not portable to our llama.cpp brain.
+8. **Post-A/B:** Viggle-Remake as the character-consistency-in-video candidate (H3 v2v char replacement).
+
+**Source failures (honest):**
+- Reddit JSON tier: 403 all subs (standing; mirrors dead — redlib.catsarch.com browser-failed, perennialte.ch 410) → HTML top-page tier worked (SD 22 / LocalLLaMA 24 / ComfyUI 50 / artificial 25 posts, 0 new each).
+- **r/comfyui_workflows HTML tier GATED 2nd straight day** (rc=3, no shreddit-post cards even in fresh temp profile) — retrying next run; if it persists 3 days, try the browser-tier retry from a warm profile.
+- X syndication: 429 (standing) → all 7 accounts via browser-head tier ✓ (40 tweets, full bodies).
+- Civitai boards healthy (hot 30 / newest 25 / comfyworkflows 15 / newloras 15) — 2 new items.
+
 ## 2026-11-13
 
 **Sources:** Reddit ✅ 69 posts at 50+ (JSON 403 all subs as usual; HTML top-page tier) · HF ✅ 19 trending + 3 top-downloads + 12 datasets · Civitai ✅ hot + ComfyWorkflows (both items = 11-12 knowns → 0 new) · X ✅ 40 IDs (saved bodies EMPTY — 7 key new statuses fetched individually, worked). **Pipeline note:** 08:00 schtask FAILED (machine asleep — LastTaskResult 2147946720, last run 11-12 11:29; same mode as 11-09..11-12) → manual `daily.py --news-only` re-run → clean (2476 items, 191 newly indexed, store 2644); **r/comfyui_workflows HTML tier GATED this run** (rc=3, no shreddit cards → fresh-profile retry next run).
