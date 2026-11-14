@@ -4,6 +4,56 @@ Newest changes first.
 
 ---
 
+## 2026-11-14 — TEST QUEUE REFERENCE — the 4 tests + Viggle-Remake (LIVING DOC: user asks questions about a workflow → answer in chat + update its entry here; user re-checks from this block)
+
+Plain-English "what are we trying to achieve" per workflow. All files in `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows`. Models all in `E:\ComfyUI_windows_portable\ComfyUI\models`.
+
+### ① Multi-character replacement with selection
+
+**Goal:** take a SOURCE VIDEO and replace its actor(s) with our characters (Jaisal/Zidhan) — the original motion, camera and scene stay; only the people change. "Selection" = **SAM3 masks** — the model auto-detects the person(s) in the video and the mask decides WHO gets replaced (that's the selection part; no hand-painted mask needed).
+
+1. **`minimax_h3_sam_r2v_2char_cinematic.json`** (82 nodes) — **the main one, FIXED + validated 11-14 (valid:true)**
+   - **What it does:** source video (node 153, currently placeholder `boar_grave_talking_camref.mp4`) → SAM3 detects the people → H3 **FL2VA** (first-last-video-audio) re-renders the clip with YOUR characters in their places → 124 frames @ 1344×768 → RTX Video SuperRes ×2 → out prefix `H3/r2v`.
+   - **Why 4 images:** FL2VA has **NO starting frame** — "the 0.00-second mark is composed by combining the references" (note 224). The 4 = **2× identity** (who: `image_enhanced_…00026` / `…00042` = author's woman/old man) + **1× action-pose** (`action_pose_variation_…` = body position) + **1× facial-angle** (`facial_angle_variation_…` = where heads point). Model composes frame 0 from these, then animates.
+   - **What you change in the UI:** ① 4 LoadImages → Jaisal + Zidhan refs (identity) + a pose ref + a face-angle ref ② the two text nodes `'woman in coral blouse'`/`'old man'` → our descriptions (D137: Jaisal = wavy black hair, black tee; Zidhan = top bun, white tee) ③ node 153 source clip + `start_time` (currently 5 s) ④ the omni-prompt node (author's demo text → your scene, `<Subject 1>`/`<Subject 2>` structure).
+   - **Check:** both identities hold · **no face-swap between the two** · SAM masks picked the right people · source motion/camera preserved.
+   - **Models (all on disk, verified 11-14):** UNET `minimax_h3_fl2va_int8_convrot` (31.7 GB) · turbo 8-step LoRA (1.82 GB) · video VAE fp16 + audio VAE fp32 · **CLIP `qwen3vl_32b_minimax_h3_int8_convrot` (25.277 GB — the one downloaded 11-14, was the author's "heretic" variant — swapped)** · SAM3 `sam3.1_multiplex_fp16` (the selection part) · node 223 LoRA slot = `minimax_h3_character_swap_v1.0_ref2va_r64_gl` @0.0 (author's MysticXXX not on disk; disabled no-op).
+   - **Author's docs:** NOT found as a post — they live INSIDE the file: 8 Note nodes (224/225/258/259/260/265/266/276 — the `<Subject N>` structure, `True`/`Fasel` keyword system, noise guidance, soundscape format).
+2. **`MiniMax-H3-Character-Swap-Mask_LOCAL.json`** (32 nodes) — **single** character swap, mask-driven (ref2va stack: `minimax_h3_ref2va_pruned_fp8_scaled` + nvfp4 CLIP + SAM3) — 1 image (`char1_sheet.png` → swap for Jaisal or Zidhan sheet). The H3 leg of test ④ too.
+3. **`CharSwap_v1.1_fro_LOCAL.json`** (32 nodes) — same stack as #2, the **v1.1** variant (LoRA `minimax_h3_character_swap_v1.1_ref2va_fro`) — run both, compare which swap holds identity better.
+4. **`H3_Face_Refine_Auto_Select.json`** / **`H3_Face_Refine_Manual_Select.json`** (36 nodes each) — the **selection** pair: Auto = the workflow picks the face to refine itself; Manual = you draw/choose. 2 images each (`character_reference.png` + `second_reference.png`). **FIXED + validated 11-14 (valid:true, 0/0):** ① stripped 5–6 stale `MiniMax H3\` prefixes (files all on disk: fl2va_pruned_int8 19.53 GB + turbo 8step + VAEs) ② node 108 `inputs: []` → proper 2-entry widget shape (validator: "weight_dtype missing") ③ **node 108 carried `properties["Node name for S&R"] = "UnetLoaderGGUF"`** (fearnworks pack, 1 input) — author's leftover from their muted-GGUF-route experiment, contradicted the file's own note ("Wired: UNETLoader… pruned int8") → S&R removed, node is now a plain core UNETLoader. Muted GGUF loaders (node 3 `CLIPLoaderGGUF` Q4_K_M, Manual node 11 `UnetLoaderGGUF`) left as-is (muted = not loaded). `bbox\face_yolov8m.pt` / `segm\person_yolov8m-seg.pt` (H3FaceTrackCrop/H3FaceSelect face-detection weights) — NOT flagged by the validator, left as the author shipped. The 10 Note nodes (100/110/111/112…) explain the whole thing: why face-refine exists (small head-in-frame = poor faces, crop→regen low-denoise→composite), wired-vs-muted model routes, audio→lipsync wiring, and the **LoRA/steps agreement rule** (8-step LoRA → steps=8, mismatch = mush).
+5. **`H3_Recast_LOCAL.json`** (22 nodes) — **recast** (from the h3-recast challenge winner): 3 images (scene + 2 face refs — `distracted_scene_retirees`/`distracted_p2_face`/`distracted_p3_face`) — up to 3 people replaced in one pass + lip pass. Subgraph-based (models inside the subgraph, not at root).
+6. **`minimaxH3BackgroundSwap_v21a_LOCAL.json`** (20 nodes) — the inverse: **background** swap, characters untouched (5 images: `Flux2-Klein_00502` + `guia_1..4`).
+
+### ② Cinematic shot in Qwen 2.1 (user's current run)
+
+**Goal:** character sheets / cinematic stills with Qwen Image 2.1 (the t2i leg that pairs with H3-Image in the A/B).
+7. **`09j_QWEN21_JAISAL_sheet.json`** / **`09k_QWEN21_ZIDANE_sheet.json`** (14 nodes each) — 3-panel character sheets per character (ref `jaisal_sheet_ref_3panel.png` / `zidane_sheet_ref_3panel.png`); subgraph-based (models inside).
+8. **`QWEN_click_multiple_character_angles-v1.0.json`** (11 nodes) — multi-angle sheet from ONE image (`title_moody_00006_.png` → 8 SaveImage outputs = different camera angles).
+9. **`qwen21_face_test.json`** (17 nodes) — **face/identity test** — `qwen_image_2.1_bf16` (13.25 GB ✓) + `qwen3vl_8b_fp8` ✓ + 2.1 VAE ✓ — images `jaisal_face_frontal.png` / `zidane_face_frontal.png`. **Also = the QWEN SIDE of test ④.**
+
+### ③ H3 image details
+
+**Goal:** fine detail (skin/fabric/eyes) in H3-Image outputs — the A/B legs + a dedicated detailer pass.
+10. **`h3image_20mp_cine.json`** (33 nodes) — H3-Image 20 MP leg with the Kijai sampler (`SamplerLCM s_noise 1.10→0.90, 6 steps, cfg 1` — the community 20MP workflow's headline difference vs stock euler); PE branch off (`qwen3.8_27b_w4a8` optional 6.8 GB, not on disk).
+11. **`h3image_t2i_cine.json`** (5 root nodes) — the STOCK-template H3-Image t2i leg (16 MP 21:9, PE off, NVFP4 CLIP) — subgraph-based; A/B twin of #10.
+12. **`WF-H3_zuanfilm-Face_Detailer.json`** (30 nodes) — **the details pass** (from the zuanfilm Face Detailer): fl2va_pruned_int8 + turbo 4-step 768p LoRA + 2 images (`second_reference.png` + `queen-face_.png` → swap for our face ref). **Check vs #10: skin/fabric/eye detail at 100% zoom.**
+
+### ④ H3 vs Qwen edit
+
+**Goal:** same scene/character, edit in H3 vs edit in Qwen 2.1 — side-by-side: identity fidelity / detail / artifacts / speed. Fair A/B = **same scene X on both sides**.
+13. H3 side: `MiniMax-H3-Character-Swap-Mask_LOCAL.json` (item 2)
+14. Qwen side: `qwen21_face_test.json` (item 9) — same scene/character, then compare.
+
+### ⑤ Viggle-Remake (installed 11-14 — "Viggle-Animate v2")
+
+**Goal:** "remake any video, just ask" — recast people, swap outfits, add/remove objects, change background/weather/light — **original motion, camera, timing kept**. The 5090 route = int8 files (base+LoRA pre-merged, downloading 11-14 night: `viggle_remake_{swap,edit}_pruned_int8_convrot` 19.53 GB each).
+15. **`viggle_remake_remake_swap_ui.json`** (20 nodes) — **swap** mode (recast people). As-shipped it points at the 80-GB-card bf16 stack (`minimax_h3_fl2va_bf16` + bf16 CLIP + `viggle_remake_swap_comfyui` LoRA — NOT on our machine). **Our int8 wiring (2-node change per COMFYUI.md):** Load Diffusion Model → `viggle_remake_swap_pruned_int8_convrot` · delete the LoRA loader · CLIP → `qwen3vl_32b_minimax_h3_int8_convrot` (on disk) · VAEs already correct.
+16. **`viggle_remake_remake_edit_ui.json`** (20 nodes) — **edit** mode (objects/background) — same int8 swap with the `edit` file.
+- Node pack `ComfyUI-Viggle-Remake` installed in custom_nodes (Keyframe Until / Conditioning / Noise nodes) — **needs ComfyUI restart to appear** · example inputs in `input/` (`remake_swap_*`, `remake_edit_*`) · test order: their examples first (sanity), then our clips · **D041: their examples carry original soundtracks — technique test, never their audio.**
+
+---
+
 ## 2026-11-11 — `h3image_t2i_cine.json` — H3-IMAGE T2I LEG FOR THE KREA2-HYBRID A/B (built 18:55 IST, server down → validate on first restart)
 
 Adapted from the STOCK native ComfyUI template `image_minimax_h3_image_t2i` (v0.45.0+, native nodes only — fetched from `Comfy-Org/workflow_templates`, stock copy kept as `image_minimax_h3_image_t2i.json`). Purpose: USER'S HYBRID HYPOTHESIS (11-11) — **H3-Image generates the SCENE (16 MP, better composition/lighting), then `krea2_identity_edit.json` (ref_boost 4.0, face ref from v3 sheets) swaps in the character face** — sidesteps Krea2-trained LoRAs (jaiv3/zidv3) not applying to H3-Image. A/B = (a) Krea2 t2i + jaiv3/zidv3 single pass vs (b) this leg + identity-edit pass — user runs both (D192), same shot prompt.
