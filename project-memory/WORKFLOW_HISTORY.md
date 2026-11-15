@@ -4,6 +4,31 @@ Newest changes first.
 
 ---
 
+## 2026-11-15 — Pose quality: VNCCS drop on selected poses + the H3-Image pose-ref route (user: "trying with vncc utils, quality issue when we select few poses — other workflows? pose image one? we need high quality")
+
+**Problem:** in the VNCCS PoseStudio rig (`VNCCS_PoseStudio_QI2.1_REFERENCE.json`), quality drops on some selected poses. **Likely cause:** the rig runs the pose-specialized LoRA `VNCCS_QI2_PoseStudioV1` @1.0 — LoRAs are strong inside their training pose-distribution and degrade on poses outside it (extreme angles / unusual hands / partial keypoint coverage). Secondary cause: sparse pose-render input → QI2.1 must re-derive the body and hallucinates.
+
+**Key finding (11-15):** THREE VNCCS LoRA versions are on disk in `models\loras\QI2.1\VNCCS\` — `VNCCS_QI2_PoseStudioV1` (0.15 GB, what the reference rig is pinned to) + **`VNCCS_QI2_PoseStudioV1.1`** + **`VNCCS_QI2_PoseStudioV2`** (0.15 GB each) — the two newer versions are UNUSED. **Immediate zero-cost A/B (user, in the UI): on the same failing poses, swap the LoRA name widget V1 → V1.1 → V2, same seed — if V2 covers more pose diversity it's the quality fix without any rebuild.**
+
+**New workflow built + validated 11-15: `h3image_pose_ref_cine.json` (34 nodes) — THE "POSE IMAGE ONE" ROUTE, high-quality leg.** Built by `session_tmp\build_h3image_pose_ref.py` as a copy of `h3image_20mp_cine.json` (author baseline kept as `*.preposeref.bak`):
+- **What it does:** H3-Image (`MiniMaxH3ImageConditioning` node 61 natively takes **5 ref images** `image_0..4`) composes a full character IN a pose from TWO refs — `image_0` = character/face ref (identity), `image_1` = pose ref (body position). This is the 11-12 decision "H3 pose control = pose REFERENCE IMAGES, not skeleton input" applied to H3-Image, and it's the same architecture as civitai 3045966 (FoxFurEssence's all-in-one H3-Image+Pose-Studio) — **but ours runs fully local, no civitai click needed** (model already on disk).
+- **Changes from the author's file (4):** ① node 88 LoadImage → `jaisal_face_frontal.png` (titled "CHARACTER reference (image_0)") ② NEW node 96 LoadImage (exact native shape of 88) → `jaisal_3_running.png` (titled "POSE reference (image_1)") ③ link 254: node 96 → node 61 `images.image_1` (was null; `last_link_id` 253→254) ④ node 13 prompt = Jaisal identity anchor + "EXACTLY in the pose of the second reference image… keep the face EXACTLY like the first reference image" + `[SCENE: …]` template (Zidhan: swap both LoadImages to `zidane_face_frontal.png` + a Zidhan pose image).
+- **Models (all on disk):** UNET `minimax_h3_image_pruned_int8_convrot` (19.54 GB) · VAE `minimax_h3_image_vae_fp16` (1.09 GB) · CLIP `qwen3vl_32b_minimax_h3_nvfp4_awq` (14.61 GB) · Kijai sampler `SamplerLCM` s_noise 1.10→0.90, 6 steps, cfg 1 · 21:9 @ 16 MP default (ResolutionSelector 14).
+- **Pose-ref sources (no OpenPose render needed for the first test — character-in-pose images already in `input\`):** `jaisal_3_running.png` (running) · `jaisal_5_jump.png` (jump) · `jaisal_2_closeup.png` · `jaisal_4_middle.png` (bridge) · `attitude_00004_.png` (attitude pose). Stick-figure route = OpenPose Studio render → same `image_1` slot (or save its output and load it).
+- **Validation:** `validate_workflow` = 3 errors + 1 warning, IDENTICAL set to the untouched author's `h3image_20mp_cine.json` (node 11 PE-branch CLIP `qwen3.8_27b_w4a8` not on disk — branch is OFF by default · node 13 Primitive widget artifact · node 91 dead `Fast Groups Bypasser (rgthree)` pruned) → **zero new errors introduced by the build**. `spends_credits: false`.
+- **How to run (D192 — user queues):** fresh tab → queue → check: face = Jaisal (not a new face) · pose matches the pose ref · detail at 100% zoom vs the VNCCS output of the SAME pose. Swap the `[SCENE]` text for the target scene.
+
+**Ranked routes for high-quality pose→character (all local, zero new downloads):**
+1. **`h3image_pose_ref_cine.json` (NEW — above)** — best quality ceiling (H3-Image >> QI2.1 for full-body from sparse refs); face ref + pose ref composition.
+2. **VNCCS V1.1 / V2 LoRA A/B (30 s, one widget each)** — if the newer pose-LoRA covers the failing poses, the rig stays as-is (fastest, QI2.1 stack).
+3. **`qwen21_face_test.json` rig WITHOUT the VNCCS LoRA (or @0.5)** — diagnostic A/B: isolates whether the LoRA itself causes the drop (no-LoRA + identity-anchor prompt + pose image ref). If no-LoRA wins on those poses → LoRA distribution problem; keep the LoRA only where it helps.
+4. **`krea2_identity_edit.json` v1.2 (ref_boost 4.0)** — the proven face-lock tool; take a good character image → identity-edit into the new pose (pose from prompt + ref). Best FACE fidelity; pose control looser — for hero/sustained poses, not dynamic action.
+5. **Stage ④ (after a posed still is locked):** pose image → action-pose slot of `minimax_h3_sam_r2v_2char_cinematic` + explicit motion job (2-anchor pattern, D020) — for VIDEO.
+
+**Watch:** civitai 3045966 all-in-one (H3-Image+Pose-Studio) remains a user-browser item — now OPTIONAL (our local route 1 supersedes it for stills).
+
+---
+
 ## 2026-11-14 — TEST QUEUE REFERENCE — the 4 tests + Viggle-Remake (LIVING DOC: user asks questions about a workflow → answer in chat + update its entry here; user re-checks from this block)
 
 Plain-English "what are we trying to achieve" per workflow. All files in `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows`. Models all in `E:\ComfyUI_windows_portable\ComfyUI\models`.
