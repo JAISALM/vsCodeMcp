@@ -29,6 +29,35 @@ Your job is to help the user reason about workflows, create workflows, debug the
 
 ---
 
+# CRITICAL: Morning first check — RAG daily job (2026-11-15, user: "whenever i start the pc, that's the first thing you should check")
+
+The PC is usually asleep at the 08:00 RAG trigger, so the daily news/RAG run is
+often MISSED. The first thing to do when the user starts the PC / opens a new
+morning session — BEFORE anything else:
+
+1. Check the task: `Get-ScheduledTaskInfo VsCodeMcp-RagDaily` — did it run
+   today (LastRunTime) and did it succeed (LastTaskResult = 0)?
+2. Check the store: `rag\news\` — is `daily_YYYY-MM-DD.log` /
+   `digest_YYYY-MM-DD.md` fresh for today?
+3. If missed or stale: `Start-ScheduledTask -TaskName VsCodeMcp-RagDaily`
+   (runs `run_daily_rag.bat` → `daily.py` in task context) and monitor.
+   **Gotcha (2026-11-15):** task-context python output is BLOCK-BUFFERED to
+   `news\logs\scheduled.log` — no log lines for the first minutes is NORMAL;
+   verify liveness via the process tree instead (`Win32_Process` commandlines
+   matching `run_daily_rag|daily\.py|vsCodeMcp\\rag` — a `node mcp_fetch.js`
+   child = actively fetching).
+4. `StartWhenAvailable=True` is set (persisted 2026-11-15) — the task now
+   auto-catches-up on next boot after a missed 08:00; the manual check above
+   is still the verification tier.
+5. If the task run is dead (nonzero result, no process tree): fall back to the
+   proven manual pattern — `D:\models\vsCodeMcp\rag\.venv\Scripts\python.exe
+   D:\models\vsCodeMcp\rag\daily.py --news-only` from an interactive session
+   (idempotent; safe alongside a stale task).
+6. Report the outcome (items fetched / newly indexed / store count) so the
+   user's morning digest is current.
+
+---
+
 # CRITICAL: Persistent Project Memory
 
 This project has persistent memory stored in:
