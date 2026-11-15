@@ -13,6 +13,47 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-15
+
+**Sources:** Reddit ✅ 56 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier; r/artificial 29/50) · HF ✅ 27 trending + 3 top-downloads + 13 datasets · Civitai ✅ 2 items, 0 new · X ✅ 155 IDs (all backfill — see below). **Pipeline note (the big one):** today's 08:00 schtask MISSED (PC asleep at trigger; the task had `StartWhenAvailable=False`) → manually triggered 08:52:44 → **clean completion ~09:00 (LastTaskResult 0, "daily RAG complete", digest fresh) = first clean task-context run since 11-04** (11-14's 08:29 attempt died `0x800710E0` pre-flush). **Fix persisted: `StartWhenAvailable=True`** → future missed 08:00s auto-catch-up on next boot. Gotcha learned: task-context python is BLOCK-buffered to `scheduled.log` — liveness must be verified via the process tree (cmd→venv→uv-python `daily.py` + `node mcp_fetch.js` child), not the log mtime.
+
+**New relevant items (vs 11-14 baseline):**
+
+**H3-Image / our A/B leg:**
+- **t3_1xu3dum (145u, r/StableDiffusion) — "native 100 megapixel no upscaling minimax h3"** — H3-Image at 100 MP native, no upscaler = resolution-ceiling context above the 33 MP akatz item (11-14) and our 16 MP leg — post-A/B resolution-step target <https://www.reddit.com/r/StableDiffusion/comments/1xu3dum/native_100_megapixel_no_upscaling_minimax_h3/>
+- **chatrlabs/Qwen-Image-2.1-Uncensored-Omni-Quantized (296 likes, 96k dl)** — quantized QI2.1 (omni) — optional lighter route for our QI2.1 pose stack (VNCCS currently runs bf16 UNET + int8 CLIP) — evaluate only if the current stack is too heavy <https://huggingface.co/chatrlabs/Qwen-Image-2.1-Uncensored-Omni-Quantized>
+
+**Local LLM tier (brain/writer/agent):**
+- **Edge0/Edge0-145B-NVFP4 (HF trending) + edge0.ai blog (141u)** — 145B frontier-class NVFP4 "on your own computer" — writer/agent-tier candidate; our 64 GB RAM rig is marginal (145B NVFP4 ≈ 80 GB+) — watch, likely not feasible <https://edge0.ai/blog/introducing-edge0-145b-frontier-ai-capabilities-on-your-own-computer> <https://huggingface.co/Edge0/Edge0-145B-NVFP4>
+- **Qwen/Qwen3.8-Flash-Next official repo trending #1 (7131 likes, 3.0M dl)** — official home of the flash variant our brain family is benchmarked against (11-14 carried the unsloth GGUF; now official) <https://huggingface.co/Qwen/Qwen3.8-Flash-Next>
+- **moonshotai/Kimi-K3.1-Pro (2037 likes, 41k dl)** + **meituan-longcat/LongCat-2.5** + **NousResearch/Arete-27B** + **DavidAU/Qwen3.5-9B-Defiant-Fable-NEO-IMATRIX-MAX-MTP-GGUF (1770 likes, 2.1M dl)** — brain/agent pool expansion (the 9B MTP-quant = agent-tier candidate) <https://huggingface.co/moonshotai/Kimi-K3.1-Pro> <https://huggingface.co/meituan-longcat/LongCat-2.5> <https://huggingface.co/NousResearch/Arete-27B> <https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF>
+
+**Watch items (calendar):**
+- **ERNIE 5.5 Flash BASE release page live** (140u) — our ~Nov-26 calendar item: the base model is public now, full Flash still pending <https://ernie.baidu.com/release/ernie-5-5-flash-base>
+- **arXiv 2610.14162 — "Next-Concept Modeling: Fast, Parallel Coarse-to-Fine Text Generation" (380u, day's top LocalLLaMA item)** — Ré/Mirhoseini group: multiscale-VQ-VAE + level-parallel transformer; 21× faster than strongest DLM on LM1B, 31× on XSum — fast-text-generation direction relevant to our writer/agent tier (local inference) — read-only for now <https://arxiv.org/abs/2610.14162>
+
+**Context (no action):**
+- 8×V100 "lawyer rig" running 80% of DeepSeek V4-1-Flash @ 4-bit NVFP4 + 1 TB RAM (190u) — multi-GPU NVFP4 context <https://www.tomshardware.com/tech-industry/artificial-intelligence/lawyer-upgrades-eight-v100-private-ai-server-to-run-80-percent-of-deepseek-v4-1-flash-at-4-bit-nvfp4-precision-adds-1tb-of-ram-an-nvidia-rtx-3090-and-fixes-crashes-caused-by-a-bad-psu>
+- 96 GB RTX 5090 China listing re-trending (254u) <https://videocardz.com/newz/alleged-geforce-rtx-5090-with-96gb-listed-for-sale-in-china> · Jensen Huang "resigns from CEO" r/StableDiffusion (160u — unverified community claim) <https://www.reddit.com/r/StableDiffusion/comments/1xue4mk/jensen_huang_resigns_from_ceo_position_nvidia/>
+
+**Civitai: 0 new** — 112902 (DreamShaper XL) + 2877939 (LTX-2.5 universal low-VRAM workflow) both = 11-14 items; the LTX-2.5 checkpoint is still not dropped <https://civitai.com/models/2877939>.
+
+**X accounts: backfill day — no new content.** 155 IDs fetched; every "new" ID is OLDER than the 11-14 latests (store dedupes): MaxLiu09 = 2024-11 IDs, akatz_ai = 2024-25 IDs, diodiogod = 2020 IDs, xieenze_jr = 2024 IDs (4K-gen + SANA linear-DiT posts) + `2119663862274503050` whose body has failed 3× (11-11/11-12/11-14 — empty every time, likely deleted/private) <https://x.com/xieenze_jr/status/2119663862274503050>. Benny's 13 "new" = pre-11-14 timeline backfill (his 11-14 posts remain the latest).
+
+**ACTION ITEMS:**
+1. **Nov-16 pi-H3 (PrunaAI) arrival → test the hybrid leg** (HyperFlow-Flash INT8 @ 6 steps + P-H3 LoRA) — carried over; Benny's 5090 numbers are the benchmark (8.7 s @ 8 MP, <1 s drafts).
+2. **User (browser, no GPU):** Benny's Qwen Image 2.1 Turbo NVFP4 v2 + civitai 3045966 all-in-one H3-Image+Pose-Studio — carried over.
+3. **chatrlabs QI2.1 quant** — evaluate as the lighter VNCCS/pose-gallery route only if the bf16+int8 stack proves too heavy.
+4. **r/comfyui_workflows GATED 3rd straight day** — escalate per the 11-14 rule: next run = browser-tier retry from a WARM profile.
+5. **ERNIE 5.5 Flash** — watch for the full release (base is live now).
+
+**Source failures (honest):**
+- Reddit JSON tier: 403 all subs (standing) → HTML top-page tier worked (r/artificial 29/50).
+- **r/comfyui_workflows HTML tier GATED 3rd straight day** (rc=3, no shreddit-post cards even in a fresh temp profile) → warm-profile browser retry next run.
+- X syndication: 429 (standing) → all accounts via browser-head tier ✓ (155 IDs, bodies saved; backfill-heavy day).
+- xieenze_jr 2119663862274503050: body empty 3 runs straight (11-11/11-12/11-14) — likely deleted/private.
+- Civitai boards healthy (hot 30 / newest 25 / comfyworkflows 15 / newloras 15) — 0 new items.
+
 ## 2026-11-14
 
 **Sources:** Reddit ✅ 68 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier; r/comfyui_workflows GATED 2nd straight day) · HF ✅ 39 trending + 6 top-downloads + 24 datasets · Civitai ✅ 4 items, 2 new · X ✅ all 7 accounts via browser-head, 40 tweets with full bodies (session healthy — no rotation). **Pipeline note:** 08:00 schtask catch-up died at launch (no log, stale code) → manual re-run hung ~12 min on a transient x.com stall (established conn, server sending nothing — same class as the user's Brave x.com hang this morning) → killed + re-run clean in 8 min (2696 items, 220 newly indexed, store 2864). All X tiers carry hard timeouts (30/90/300s) so no indefinite hang possible.
