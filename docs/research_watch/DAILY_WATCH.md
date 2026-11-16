@@ -13,6 +13,54 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-16
+
+**Sources:** Reddit ✅ 36 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier: r/artificial 34/50, r/ComfyUI 12/50, r/LocalLLaMA 15/49) · HF ✅ 14 trending + 1 top-download + 3 datasets · Civitai ✅ 1 new (comfyworkflows) + 0 new (hot/newest/newloras) · X ✅ 235 IDs (all backfill — see below). **Pipeline:** the 08:00 schtask ran CLEAN this morning (LastTaskResult 0, 131 items, "done" marker) — the first clean 08:00 boot run with the 11-15 `StartWhenAvailable=True` fix in place; no manual trigger needed.
+
+**New relevant items (vs 11-15 baseline):**
+
+**H3-Image / H3-Video (our film stack):**
+- **t3_1xvpmt8 (10u, r/ComfyUI) — "10-minute wordless animated film with MiniMax H3, LTX-2.5 and Wan 2.2 — what broke and how I got around it"** — the day's most relevant item: a 10-minute wordless film on OUR exact model class (wordless = also fits the no-music rule, D041) with an explicit failure/fix list — long-form lessons for the movie <https://www.reddit.com/r/comfyui/comments/1xvpmt8/i_made_a_10minute_wordless_animated_film_with/>
+- **Abiray/MiniMax-H3-Image-GGUF (236 likes, 127.8k dl)** — community GGUF quant of H3-Image — an alternate/lighter runtime route for our image stack (we run int8 convrot natively); watch, evaluate only if the current stack proves heavy <https://huggingface.co/Abiray/MiniMax-H3-Image-GGUF>
+- **t3_1xvbwwg (7u) — "MiniMax H3-Image multi-reference workflow"** — community multi-ref H3-Image workflow; skim for our anchor-rig slot-order ideas <https://www.reddit.com/r/comfyui/comments/1xvbwwg/minimax_h3image_multireference_workflow/>
+- **t3_1xwkggi (7u) — "3 months of practice on MiniMax H3"** — community H3 experience post; skim <https://www.reddit.com/r/comfyui/comments/1xwkggi/3_months_of_practice_on_minimax_h3/>
+- **t3_1xttr3q (6u) — "continuity problems where the alien is slightly changing across scenes even though I generate each scene with the same reference image"** — the community hitting EXACTLY our WORLD BOOK problem (same-ref continuity drift); cross-validates the two-layer design (appearance anchor alone is not enough — hence the geometry layer) <https://www.reddit.com/r/ComfyUI/comments/1xttr3q/>
+
+**LTX-2.5 (our ~Nov-26-era calendar item — checkpoint still not dropped):**
+- **t3_1xuk5dd (7u) — "I built a timeline editor for LTX 2.5 in ComfyUI (workflow included)"** — community tooling ahead of the checkpoint drop; ready-made test rig for when LTX-2.5 lands <https://youtu.be/bfTLDC0c2sQ>
+
+**New image-model contender:**
+- **t3_1xw5y0y (29u) — "A quick MOSS-Image news round-up — 14th November 2026"** + **t3_1xv1r6o (5u) — "KREA2 vs Z-Image vs Moss vs Qwen 2.1 which one should I choose?"** — MOSS-Image is surfacing as a t2i/i2i contender next to our Krea2 reference stack; watch <https://www.reddit.com/r/comfyui/comments/1xw5y0y/a_quick_mossimage_news_roundup_14th_november_2026/> <https://www.reddit.com/r/StableDiffusion/comments/1xv1ql8/krea2_vs_zimage_vs_moss_vs_qwen_21_which_one/>
+
+**Local LLM tier (brain/writer/agent):**
+- **t3_1xwttcw (139u, 95 comments) — "Latest version of strata made my Qwen3.8-Flash-Next dumb and useless"** — strata-tool regression report on the Qwen3.8-Flash-Next family (our brain family); we run llama.cpp not strata — context only <https://www.reddit.com/r/LocalLLaMA/comments/1xwttcw/latest_version_of_strata_made_my_qwen38flashnext/>
+- **higurashi-ai/Haru-4B (312 likes, 2k dl)** — 4B character model — marginal for the brain tier; a possible tiny roleplay model for the kids' short app (D135) <https://huggingface.co/higurashi-ai/Haru-4B>
+- **adventists-ai/Sophon-Realtime-v1 (261 likes, 0 dl)** — brand-new realtime model — watch for the realtime tier <https://huggingface.co/adventists-ai/Sophon-Realtime-v1>
+
+**Geometry layer (the new Panorama-Stickers world system, D224):**
+- **codepawl/pixel-atlas-glb dataset (25.2k dl, trending) — 6,194 low-poly 3D GLB game objects with 16×16 pixel-art UV textures** — ready-made 3D world-object asset class = exactly what the Panorama Studio `world` input (mesh/splat) accepts; pixel style ≠ the film's photoreal look, but a test asset for the 3D-World stage <https://huggingface.co/datasets/codepawl/pixel-atlas-glb>
+- **t3_1xvjgwk (8u) — "AI 4DGS Velma from Scooby-Doo"** — 4D Gaussian-splat characters; the splat world input is getting community traction <https://www.reddit.com/r/GaussianSplatting/comments/1xve6k6/>
+
+**Civitai (1 new — verdict):**
+- **2889463 (comfyworkflows, 387 dl, 30 thumbs) — "Using Minimax H3 as an AI GIF Generator"** — H3 2-second video → trim → frame-cut GIF loop (`video_minimax_h3_pixel_art_gif_maker.json`, 99 KB). **VERDICT: ADOPT as a side route** — graft onto our H3 R2V outputs for short-form previews / the kids' short app; zero new models needed (baseModel: MiniMax H3, which we run) <https://civitai.com/models/2889463>
+
+**Context (no action):** Qwen3.8-Flash-Next still trending #1 (7.1k likes, 3.0M dl) · DavidAU Qwen3.5-9B GGUF 2.14M dl · chatrlabs QI2.1 quant 120.6k dl (the 11-15 lighter VNCCS candidate) · Edge0-145B 41.6k dl (infeasible on our 64 GB) · LongCat-2.5 + Arete-27B (11-15 pool) · **ERNIE 5.5 Flash BASE page still the only ERNIE item (151u/140u) — full Flash not out yet** <https://ernie.baidu.com/release/ernie-5-5-flash-base> · intfloat/multilingual-e5-small 9.5M dl (our RAG embedder class) <https://huggingface.co/intfloat/multilingual-e5-small> · creative/short-form chatter: "turning AI glitches into a sitcom plot" (32u) + 8×V100 lawyer rig + regulation/national-model threads — context <https://www.reddit.com/r/LocalLLaMA/comments/1xu2mdo/the_regulation_of_local_ai_couldshould_be_viewed/>
+
+**X accounts: backfill day again — no new content.** 235 IDs fetched; snowflake dates verify every account's newest ID is OLDER than the 11-15 latests (BennyDaBall newest = 2026-10-19, xieenze_jr newest = 2025-03-30, MaxLiu09/PixelAigc/akatz_ai/Nekodificador = 2016-2025 backfill).
+
+**ACTION ITEMS:**
+1. **Read t3_1xvpmt8** (the 10-minute wordless H3 film — the "what broke" list) — long-form lessons for the movie; HTML-tier fetch (Reddit JSON walled).
+2. **Skim t3_1xvbwwg** (H3-Image multi-reference workflow) — slot-order ideas for our anchor rig.
+3. **Watch Abiray H3-Image-GGUF** — evaluate as the lighter H3-Image runtime only if the int8 convrot stack proves heavy.
+4. **r/comfyui_workflows GATED 4th straight day** (now even with the warm-profile retry) — bounded gap: the main r/ComfyUI sub is healthy (12 items). Next escalation = manual Brave-browser copy of the sub (user tier) OR accept the gap a week.
+5. **LTX-2.5 checkpoint** — still not dropped; the t3_1xuk5dd timeline editor = ready-made test rig for the moment it lands.
+
+**Source failures (honest):**
+- Reddit JSON tier: 403 all subs (standing) → HTML top-page tier worked (r/artificial 34/50, r/ComfyUI 12/50, r/LocalLLaMA 15/49).
+- **r/comfyui_workflows GATED 4th straight day** — JSON 403 + mirrors dead (redlib.catsarch.com "success (no content)", redlib.perennialte.ch 410) + HTML top page GATED even in a WARM profile (rc=3, no shreddit-post cards). The 11-15 warm-profile escalation did NOT break the gate.
+- X syndication: 429 (standing) → all accounts via browser-head tier ✓ (235 IDs, bodies saved; backfill-heavy day).
+- Civitai boards healthy (hot 0/30, newest 0/25, comfyworkflows 1/15, newloras 0/15; author tier 1 resolved, 0 unresolved).
+
 ## 2026-11-15
 
 **Sources:** Reddit ✅ 56 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier; r/artificial 29/50) · HF ✅ 27 trending + 3 top-downloads + 13 datasets · Civitai ✅ 2 items, 0 new · X ✅ 155 IDs (all backfill — see below). **Pipeline note (the big one):** today's 08:00 schtask MISSED (PC asleep at trigger; the task had `StartWhenAvailable=False`) → manually triggered 08:52:44 → **clean completion ~09:00 (LastTaskResult 0, "daily RAG complete", digest fresh) = first clean task-context run since 11-04** (11-14's 08:29 attempt died `0x800710E0` pre-flush). **Fix persisted: `StartWhenAvailable=True`** → future missed 08:00s auto-catch-up on next boot. Gotcha learned: task-context python is BLOCK-buffered to `scheduled.log` — liveness must be verified via the process tree (cmd→venv→uv-python `daily.py` + `node mcp_fetch.js` child), not the log mtime.
