@@ -5,8 +5,24 @@ Built on the proven H3-Image reference-anchor mechanism (same as pose refs):
 a reference slot is an anchor — pose ref locked the body, a panorama ref locks
 the world.
 
-**Status:** rig built + validated 11-16 (`h3image_world_shot.json`, 0/0, 15/15
-wires in real frontend). PENDING: first panorama generation (user queues).
+**Two layers (11-16, Panorama Stickers — the "We Open Sourced World
+Generation" pack by Mickmumpitz, installed 11-11 as
+`custom_nodes\ComfyUI-Panorama-Stickers`):**
+- **GEOMETRY layer** — `LC 360 View 🧭` (Kijai MaskMaker) / `PanoramaStudio` /
+  `MoGePanoramaInference` / `PanoramaSeamPrep`: one **2:1 equirectangular**
+  panorama → flat camera views from ANY angle, parallax-correct, zero
+  hallucinated geometry. Rig: `world_pano_angles.json` (built + validated 11-16).
+- **APPEARANCE layer** — the H3-Image anchor rigs (`h3image_world_shot.json`):
+  character + world appearance at maximum detail, same-angle fidelity.
+- They STACK, they don't compete: the H3 panorama is the geometry layer's
+  Sky input; the H3 shot rig is the Studio's "fix the shot, put it back where
+  it was" model. For **short-form content (e.g. the kids' short app, D135)**
+  the Panorama-Stickers chain alone is the complete world pipeline (pano +
+  character stickers + camera moves = cheap short-form) — the film uses both.
+
+**Status:** rigs built + validated 11-16 (`h3image_world_shot.json` 0/0 15/15;
+`world_pano_angles.json` 0/0, 2/2 wires in real frontend). PENDING: first
+panorama generation (user queues).
 
 ---
 
@@ -63,7 +79,14 @@ Rules (D024 climate consistency):
   - UNWIRE the face LoadImage (node 4 → image_0) — pure world pass, no people.
   - Prompt = the location bible + `empty scene, no people, no humans, no
     figures, wide establishing view`.
-  - Width/height (conditioning widgets): **3392×1184** (21:9 wide, ~4 MP).
+  - Width/height (conditioning widgets), two variants:
+    - **3392×1184** (21:9 wide, ~4 MP) = the CINEMATIC establishing shot —
+      feeds the APPEARANCE layer (world anchor ref for shot stills).
+    - **4096×2048** (true 2:1 equirectangular) = the GEOMETRY input — feeds
+      `LC 360 View` / `PanoramaStudio` (Stage 2, Tier 1). An H3 T2I ERP will
+      have seam/pole artifacts: quick fix = `close_seam=true` on the LC 360
+      View node; proper fix = `PanoramaSeamPrep` (moves the seam to center +
+      outputs an inpaint mask) → inpaint the seam band (Krea2 i2i denoise 0.3).
   - Seed: fixed 77 for the first attempt; vary only if re-rolling.
 - Save the best take to `input\world_<LOC>_pano.png`
   (root of `input\` — keeps the LoadImage widget a plain filename).
@@ -77,15 +100,35 @@ Rules (D024 climate consistency):
 
 ## Stage 2 — ANGLE SET (when shots need other camera angles)
 
-One panorama = ONE camera angle. A shot from a different angle makes H3-Image
-re-derive the unseen geometry (hallucinated back of the bridge). Prevent it:
+TWO tiers, geometric first:
 
-- For each needed angle (front / side / wide / low-from-water), generate it
-  FROM the master: same rig PANO PASS + `world_<LOC>_pano.png` wired as image_1
-  (face still unwired) + prompt = bible + `camera: SIDE view of the same
-  bridge, same square railings, same open river`.
-- Save as `input\world_<LOC>_<angle>.png`.
-- 2-4 angles per location is enough for the film.
+**Tier 1 — GEOMETRIC (no hallucination, preferred):** `world_pano_angles.json`
+(3 nodes: LoadImage → `LC 360 View 🧭` → SaveImageAdvanced, built + validated
+11-16, 2/2 wires). Input = the **2:1 equirectangular** master panorama
+(Stage 1, 4096×2048 take). The node projects flat views from the SAME pixels:
+- `yaw` 0 = the panorama's centre, + = right · `pitch` + = up (−3 to −6 =
+  the seated-camera tilt) · `fov` 70 default.
+- The `views` box takes a whole set at once, one line per view
+  `name: yaw, pitch, fov`:
+  ```
+  hero: 0, -4
+  left bank: -70, -4
+  right bank: 70, -4
+  up mist: 0, 15, 55
+  ```
+- Output = one 1920×1080 frame per line (batch) → SaveImageAdvanced prefix
+  `world_<LOC>_angles`. These are TRUE camera angles — the railings stay
+  square and the river stays open because they ARE the panorama's pixels,
+  not a re-derivation.
+- Seam artifacts from the H3 ERP: `close_seam=true` on the node blends the
+  left/right edges; the proper path = `PanoramaSeamPrep` + seam-band inpaint.
+
+**Tier 2 — H3 RE-DERIVATION (fallback only, angles the pano can't cover):**
+same rig PANO PASS + `world_<LOC>_pano.png` wired as image_1 (face unwired)
++ prompt = bible + `camera: SIDE view of the same bridge, same square
+railings, same open river`. Save as `input\world_<LOC>_<angle>.png`. Hallucination
+risk: the model re-derives unseen geometry — use Tier 1 whenever the angle
+exists in the panorama.
 
 ## Stage 3 — SHOT STILLS (character in the world)
 
@@ -116,6 +159,13 @@ re-derive the unseen geometry (hallucinated back of the bridge). Prevent it:
   NO-music rules (D041).
 - The panorama keeps the world coherent even when the character moves out of
   frame; the still anchors the first frame.
+- **ALTERNATE video route (geometry layer):** `PanoramaStudio` — the pano as
+  `background` (Sky, no parallax), the character shot as a `sticker` (with
+  `sticker_state` round-trip: "fix the shot with a generation model, then put
+  it back where it was" = exactly the H3 shot stage), keyframed Camera → the
+  `video` output holds all frames with parallax-correct world. Best for
+  moves/crane shots; the R2V route above is still the default for
+  character-driven takes.
 
 ## Stage 5 — CONTINUITY QA
 
@@ -131,8 +181,9 @@ re-derive the unseen geometry (hallucinated back of the bridge). Prevent it:
 
 | Asset | Path |
 |---|---|
-| master panorama | `input\world_<LOC>_pano.png` |
-| angle views | `input\world_<LOC>_<angle>.png` |
+| master panorama (2:1 ERP for geometry; 21:9 take also saved for cinematic) | `input\world_<LOC>_pano.png` |
+| geometric angle views (LC 360 View batch) | `world_<LOC>_angles_*.png` (output; rig prefix) |
+| H3 re-derivation angles (Tier 2) | `input\world_<LOC>_<angle>.png` |
 | shot stills (output) | `h3image_world_<loc>_*.png` (rig prefix `h3image_world`) |
 | location bibles | this doc, "Location bibles" section below (one block per location) |
 
