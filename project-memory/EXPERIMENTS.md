@@ -4,7 +4,16 @@ Newest experiments first.
 
 ---
 
-## 2026-11-14 — VNCCS PoseStudio face consistency (user run, author's reference workflow as-shipped) — FAILED (face drift)
+## 2026-11-16 — ComfyUI 0.45 frontend "zero wires" root-cause hunt (headless Playwright into the live app) — SUCCESS (root cause found: `version` JSON type)
+
+- **Goal:** explain why `h3image_pose_ref_simple.json` loaded with all 13 nodes but ZERO links in the 0.45 frontend, while the numeric-`version` twin (`h3image_pose_ref_cine.json`) loaded 25/25 links. User had rejected the stale-tab hypothesis.
+- **Method (harness `session_tmp\ui_wire_check.py`):** headless Playwright Chromium (`--use-gl=angle --use-angle=swiftshader-webgl --disable-gpu`) → live app `http://127.0.0.1:8188/` (fresh context, no profile) → wait `window.app && window.app.graph` → `app.loadGraphData(fileData)` → count `app.graph.links` + per-link `inputs[to_slot].link` + screenshot.
+- **Results:** ① string-`"0.4"` file = **0/15 links** (7 "floating links", 14 console errors `Link undefined belongs to graph … cannot overwrite it.`) vs numeric-`0.4` twin = **25/25** ② wrapping `graph.configure` proved the data reaching it is INTACT (15/15 links, ids 100-114) — the drop happens INSIDE the graph library's link-creation pass ③ manual `node.connect()` after load succeeds on every socket — sockets/types fine, only the loader's link path broken ④ dumped the real frontend bundle chunks (`session_tmp\chunks\`, 156 files) and read the graph library source: `configure` branches on **strict `e.version === .4`** (numeric); the else-branch builds links via `LLink.create(t)` which expects OBJECT-form links (`t.id`, `t.origin_id`, …) — feeding it ARRAY-form links yields `id: undefined` for every link → first link registers under key `undefined`, the rest rejected as "cannot overwrite" → zero visible wires ⑤ **FIX = one pair of quotes:** `"version": "0.4"` → `"version": 0.4` → **15/15 links + screenshot confirmed all wires** ⑥ full scan of `user\default\workflows`: the simple file was the ONLY string-`"0.4"` file; 45 author files carry string versions (`"7.8"` etc.) and work (consistent legacy handling — untouched).
+- **Debunked (red herrings):** link-id/node-id collisions (author files with collisions work; renumbering simple's links 1-15→100-114 changed nothing) · `last_link_id`/counters · node shapes · validation pipeline (links reach `configure` intact) · stale-tab/cache.
+- **Conclusion:** machine-built UI-format files MUST carry `version` as the JSON NUMBER `0.4`. The string form silently downgrades link loading to the legacy object-form path. `validate_workflow` (backend) and file-level structural checks CANNOT catch this — it is a frontend-runtime type check; the only reliable verification is loading the file in the actual frontend (the harness above) or checking `type(json.load(f)['version']) is float`.
+- **Rule recorded in AGENTS.md** (build checklist item 1).
+
+---
 
 - **Goal:** pose transfer for our characters via `VNCCS_PoseStudio_QI2.1_REFERENCE.json` (stage ② of the pose gallery).
 - **Run (user, pre-crash):** author's reference workflow as-shipped (or with our character swapped into `DancersBunny.png`'s slot) → **face consistency BAD** (user: "the face consistency looks bad man"; reddit/civitai demo images of the author look consistent → user hypothesized prompt issue).

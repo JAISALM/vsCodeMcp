@@ -419,6 +419,19 @@ For EVERY machine-built or modified workflow file:
 1. **Header:** `version: 0.4` (NEVER `0` — `0` = legacy marker → converted
    view) · `config: {}` · `extra: {}` · `groups: []` · `revision: 0` ·
    `id` (long UUID-style string).
+   **CRITICAL (2026-11-16): `version` MUST be the JSON NUMBER `0.4`, never the
+   STRING `"0.4"`.** The 0.45 frontend `configure` branches on strict
+   `e.version === .4` (numeric). A string `"0.4"` falls into the LEGACY link
+   path, which calls `X.create()` (object-form links) on array-form links →
+   EVERY link gets `id: undefined` → console spam
+   "Link undefined belongs to graph … cannot overwrite it" + the graph loads
+   with ALL nodes but ZERO wires (verified 2026-11-16 in the real frontend:
+   `h3image_pose_ref_simple.json` string-version = 0/15 links; same file with
+   numeric `0.4` = 15/15 + screenshot confirmed). Author-saved files carry
+   string versions like `"7.8"` and work fine (consistent legacy handling) —
+   only machine-built `0.4` files must use the numeric type. Verify with:
+   `python -c "import json;print(type(json.load(open(f))['version']))"` →
+   must print `<class 'float'>`.
 2. **Counters:** `last_node_id` = MAX node id in the file · `last_link_id` =
    MAX link id. The UI loader drops links/nodes beyond these counters. When
    appending nodes/links to an existing file, ALWAYS bump both.
