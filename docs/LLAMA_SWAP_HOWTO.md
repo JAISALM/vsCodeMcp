@@ -105,6 +105,22 @@ brain auto-loads on the next message, `POST /api/models/unload` from the UI).
 Until then, the shift bats handle the direct-server case (taskkill +
 `start_qwen_8100.bat`).
 
+**2026-11-16 addition — `auto_free_comfyui` watcher (the zero-click tier):**
+`D:\models\qwen\auto_free_comfyui.ps1` (+ `.bat` launcher) polls ComfyUI's
+`/queue` every 3 s; when a run FINISHES (queue busy → empty for ~9 s = 3
+polls, the grace so a quick follow-up run keeps models warm) it auto-POSTs the
+proper `/free` body — models evicted, **server never stopped**. It is now
+auto-started (minimized window) by `run_nvidia_gpu.bat`, so it lives exactly as
+long as ComfyUI. The logon scheduled-task variant could not be registered from
+the agent session (`Register-ScheduledTask` → Access denied) — the launcher-bat
+auto-start makes it unnecessary. Stop it: close the minimized
+"auto-free-comfyui" window. **RAM note (measured 11-16):** the idle ComfyUI
+server costs only ~1.9 GB RAM + ~2 GB VRAM — after `/free` the model files'
+page cache is reclaimable, so the server happily coexists with the loaded
+brain (Qwen ~17 GB RAM); stopping the server buys only ~2 GB and is not needed.
+Desktop shortcuts added for all four bats (Free VRAM / Shift to Qwen /
+Shift to ComfyUI / Auto-Free Watcher).
+
 ## "Strata" (from the Reddit thread)
 **Not something we need.** Strata (`Niko1221/Strata`, MIT) is an inference engine
 for **huge MoE models** (e.g. 125B): it splits one checkpoint across GPU VRAM +
