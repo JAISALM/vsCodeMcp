@@ -1,0 +1,771 @@
+{
+  "id": "67aa6046-e850-4a21-b725-624de3a89e94",
+  "version": 0.4,
+  "last_node_id": 13,
+  "last_link_id": 114,
+  "config": {},
+  "extra": {},
+  "revision": 0,
+  "groups": [],
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        -600,
+        0
+      ],
+      "size": [
+        610,
+        90
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            100,
+            101
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "minimax_h3_image_pruned_int8_convrot.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {},
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoader",
+      "pos": [
+        -600,
+        180
+      ],
+      "size": [
+        610,
+        120
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            102
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "type": "minimax",
+        "device": "default"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [
+        -600,
+        360
+      ],
+      "size": [
+        610,
+        90
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            103,
+            104
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "minimax_h3_image_vae_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "minimax_h3_image_vae_fp16.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": [
+        -600,
+        540
+      ],
+      "size": [
+        640,
+        740
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            105
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "jaisal_face_frontal.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "jaisal_face_frontal.png",
+        "upload": "image"
+      },
+      "title": "CHARACTER reference (image_0)"
+    },
+    {
+      "id": 5,
+      "type": "LoadImage",
+      "pos": [
+        -600,
+        840
+      ],
+      "size": [
+        640,
+        740
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            106
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "world_bridge_pano.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "pose_dwpose_00024.png",
+        "upload": "image"
+      },
+      "title": "WORLD reference (image_1) \u2014 for pure panorama pass: remove this wire and use 21:9 3392x1184"
+    },
+    {
+      "id": 6,
+      "type": "MiniMaxH3ImageConditioning",
+      "pos": [
+        0,
+        360
+      ],
+      "size": [
+        470,
+        310
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 102
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 103
+        },
+        {
+          "name": "images.image_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 105
+        },
+        {
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 106
+        },
+        {
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "images.image_3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "images.image_4",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": null
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            107
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "MiniMaxH3ImageConditioning"
+      },
+      "widgets_values": [
+        "A 26-year-old Indian man with wavy black hair, slim build, wearing a plain black t-shirt (identity EXACTLY like the first reference image), <ACTION: e.g. standing at the edge of the old stone bridge>. The location is EXACTLY the second reference image: same architecture, same railings, same river, same props, same materials, same light and weather. [SCENE: e.g. low camera from the water, cinematic, photorealistic, monsoon light]. PANO PASS: leave the first reference UNWIRED and prompt = location bible + 'empty scene, no people, no humans'.",
+        2560,
+        1440
+      ],
+      "widgets_values_named": {
+        "prompt": "A 26-year-old Indian man with wavy black hair, slim build, wearing a plain black t-shirt. EXACTLY in the pose of the second reference image: same body position, arm and hand placement, head angle, and balance. Keep the face and identity EXACTLY like the first reference image. [SCENE: e.g. running through a wet village street at golden hour, camera tracking from the side, cinematic, photorealistic]",
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "id": 7,
+      "type": "SamplerLCM",
+      "pos": [
+        0,
+        900
+      ],
+      "size": [
+        440,
+        120
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            109
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "SamplerLCM"
+      },
+      "widgets_values": [
+        1.1,
+        0.9,
+        0
+      ],
+      "widgets_values_named": {
+        "s_noise": 1.1,
+        "s_noise_end": 0.9,
+        "noise_clip_std": 0
+      }
+    },
+    {
+      "id": 8,
+      "type": "BasicScheduler",
+      "pos": [
+        0,
+        1050
+      ],
+      "size": [
+        440,
+        120
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 100
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            110
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        6,
+        1
+      ],
+      "widgets_values_named": {
+        "scheduler": "simple",
+        "steps": 6,
+        "denoise": 1
+      }
+    },
+    {
+      "id": 9,
+      "type": "RandomNoise",
+      "pos": [
+        0,
+        1200
+      ],
+      "size": [
+        440,
+        90
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            111
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        77,
+        "fixed"
+      ],
+      "widgets_values_named": {
+        "noise_seed": 77,
+        "control_after_generate": "fixed"
+      }
+    },
+    {
+      "id": 10,
+      "type": "BasicGuider",
+      "pos": [
+        420,
+        480
+      ],
+      "size": [
+        160,
+        50
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 101
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 107
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            114
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "BasicGuider"
+      }
+    },
+    {
+      "id": 11,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        420,
+        780
+      ],
+      "size": [
+        710,
+        1040
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 111
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 114
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 109
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 110
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 108
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            112
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "SamplerCustomAdvanced"
+      }
+    },
+    {
+      "id": 12,
+      "type": "VAEDecode",
+      "pos": [
+        840,
+        780
+      ],
+      "size": [
+        210,
+        50
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 112
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 104
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            113
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 13,
+      "type": "SaveImageAdvanced",
+      "pos": [
+        840,
+        360
+      ],
+      "size": [
+        890,
+        1380
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "showAdvanced": false,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 113
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.2"
+      },
+      "widgets_values": [
+        "h3image_world",
+        "avif",
+        "auto",
+        "sRGB",
+        18,
+        "still images"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "h3image_pose_simple",
+        "format": "avif",
+        "format.bit_depth": "auto",
+        "format.input_color_space": "sRGB",
+        "format.crf": 18,
+        "format.save_mode": "still images"
+      }
+    }
+  ],
+  "links": [
+    [
+      100,
+      1,
+      0,
+      8,
+      0,
+      "MODEL"
+    ],
+    [
+      101,
+      1,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      102,
+      2,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      103,
+      3,
+      0,
+      6,
+      1,
+      "VAE"
+    ],
+    [
+      104,
+      3,
+      0,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      105,
+      4,
+      0,
+      6,
+      2,
+      "IMAGE"
+    ],
+    [
+      106,
+      5,
+      0,
+      6,
+      3,
+      "IMAGE"
+    ],
+    [
+      107,
+      6,
+      0,
+      10,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      108,
+      6,
+      1,
+      11,
+      4,
+      "LATENT"
+    ],
+    [
+      109,
+      7,
+      0,
+      11,
+      2,
+      "SAMPLER"
+    ],
+    [
+      110,
+      8,
+      0,
+      11,
+      3,
+      "SIGMAS"
+    ],
+    [
+      111,
+      9,
+      0,
+      11,
+      0,
+      "NOISE"
+    ],
+    [
+      112,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      113,
+      12,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      114,
+      10,
+      0,
+      11,
+      1,
+      "GUIDER"
+    ]
+  ]
+}
