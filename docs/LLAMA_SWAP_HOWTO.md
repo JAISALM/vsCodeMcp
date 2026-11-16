@@ -73,6 +73,38 @@ After `/free`, server + Qwen coexist (≈20 GB < 32 GB):
   process squatting), close the GUI instead — or add Berth (stage 2) which names
   the squatter by PID.
 
+## 2026-11-16 FIX — why `free_comfyui_vram.bat` was a NO-OP + the one-click shift pair
+
+**Root cause (proven):** the bat ran `curl.exe -s -X POST http://127.0.0.1:8188/free`
+with **NO JSON body**. The handler (`server.py` ~1294) does `json_data = await
+request.json()` → a body-less request makes the server return **`500 Internal
+Server Error`** (verified live), so neither `unload_models` nor `free_memory` is
+ever set and nothing is unloaded — while `curl -s` swallowed the 500 and the bat
+printed a fake `Done. Models evicted from VRAM`. That's why a full manual
+ComfyUI stop was needed after the H3 run. **No custom node is needed for this —
+`POST /free` is a CORE ComfyUI endpoint** (no installed pack provides a
+free-memory node; the "FreeVideo" hits in the H3 packs are unrelated).
+
+**Fixed 11-16 (files in `D:\models\qwen\`, mirrored in `docs\`):**
+- **`free_comfyui_vram.bat` → `free_comfyui_vram.ps1`** — sends the proper body
+  `{"unload_models":true,"free_memory":true}` (verified HTTP 200), then POLLS
+  `/system_stats` before/after and prints the ACTUAL VRAM freed (the flag is
+  consumed by the prompt-queue worker on its next iteration, not instantly).
+  No fake success: a fresh/idle server honestly reports "nothing was loaded".
+- **`shift_to_qwen.bat`** — ComfyUI→brain shift: POST `/free` (server stays up)
+  → verify VRAM came back → start `start_qwen_8100.bat` if :8100 is dark.
+- **`shift_to_comfy.bat`** — brain→ComfyUI shift: llama-swap daemon →
+  `POST /api/models/unload` (graceful); direct `llama-server` → `taskkill /F /IM
+  llama-server.exe`; then starts `run_nvidia_gpu.bat` if :8188 is dark.
+  (Run between tasks — the brain goes down while ComfyUI owns the GPU.)
+
+**State check 11-16:** :8100 is still the DIRECT `llama-server.exe` (PID 2084) —
+the llama-swap cutover was never run. The cutover (`cutover_llama_swap.bat`,
+between tasks) is still the upgrade that makes shifts graceful (daemon stays up,
+brain auto-loads on the next message, `POST /api/models/unload` from the UI).
+Until then, the shift bats handle the direct-server case (taskkill +
+`start_qwen_8100.bat`).
+
 ## "Strata" (from the Reddit thread)
 **Not something we need.** Strata (`Niko1221/Strata`, MIT) is an inference engine
 for **huge MoE models** (e.g. 125B): it splits one checkpoint across GPU VRAM +
