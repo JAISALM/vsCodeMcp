@@ -32,8 +32,8 @@ try { $null = Invoke-RestMethod "http://127.0.0.1:8100/v1/models" -TimeoutSec 3 
 if ($brainUp) {
     Write-Host "Brain endpoint is up (if this is the llama-swap daemon, the model auto-loads on your next message)."
 } else {
-    Write-Host "Brain (:8100) is dark - starting Qwen (cold load ~1-2 min)..."
-    Start-Process "D:\models\qwen\start_qwen_8100.bat" -WorkingDirectory "D:\models\qwen"
+    Write-Host "Brain (:8100) is dark - starting Qwen via Qwen3.827BMTP.bat (cold load ~1-2 min)..."
+    Start-Process "D:\models\qwen\Qwen3.827BMTP.bat" -WorkingDirectory "D:\models\qwen"
 }
 
 Write-Host ""

@@ -19,7 +19,7 @@ if ($viaSwap) {
     $k = taskkill /F /IM llama-server.exe 2>&1
     Write-Host ("taskkill llama-server: " + ($k -join " "))
     Write-Host "NOTE: this is the DIRECT llama-server setup (pre-cutover). The brain"
-    Write-Host "comes back when you double-click start_qwen_8100.bat (or shift_to_qwen.bat)."
+    Write-Host "comes back when you double-click the Qwen3.827BMTP shortcut (or shift_to_qwen.bat)."
 }
 
 Write-Host ""
