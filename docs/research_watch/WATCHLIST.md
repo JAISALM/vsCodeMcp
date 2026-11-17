@@ -35,6 +35,7 @@ mentions, is added here IN THE SAME TURN (D131 commit).**
 
 - **Reddit:** r/LocalLLaMA (top week), r/ComfyUI (top week — GATED 4+ days as of 11-17 → manual Brave tier), r/artificial (top week)
 - **X:** `PixelAigc`, `BennyDaBall_OG` (cookie tier — user-level env, expiry 2026-11-27 → re-copy from Brave DevTools)
+  - **2026-11-17 added:** `ai_hakase_` (JP ComfyUI/GenAI aggregator — posts blockout→H3 route content), `aichof21` (JP — "image-gen only" practitioner who ran the blockout→H3 route end-to-end; self-described no-Blender user)
 - **Civitai:** boards (H3/Krea2 image + workflow boards; author via browser tier)
 - **HF trending/datasets:** brain + world/dataset signals (USDCraft-10K class = geometry layer)
 
@@ -64,3 +65,16 @@ mentions (t3_1xuk5dd timeline editor = ready test rig carry).
 - **FLUX3** (black-forest-labs): gated on the user (HF token + Agree).
 - **t3_1xvpmt8** (10-min wordless H3 film): read carry.
 - **civitai 2889463**: ADOPT side route carry.
+
+## Route-validation watch (blockout → H3 R2V, our P2)
+
+- **Community proof the 3D-previs → H3 route works with NO Blender
+  (2026-11-15/16, X):** `aichof21` (self-described "image-gen only, no
+  Blender") + `ai_hakase_` ran it: **Claude Code (Opus 5.5) builds a 3D
+  previs video in Three.js** → pass the previs video + character sheet to
+  **MiniMax H3** → 10 s 8:9 output. Demo video saved
+  `data\x_aichof_previs_h3_1080p.mp4` (1080×1214). **Implication:** our
+  S1-S6 Blender blockouts are the same previs step — the route is validated
+  by a third party who did NOT use Blender; our editable `.blend` + 5 stills
+  per scene are directly convertible to the H3 camref (5 s square) → R2V.
+  Two independent community validations now (this X + the 11-14 Blender one).
