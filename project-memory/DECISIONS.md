@@ -1877,3 +1877,12 @@
 - **Watch:** the weekly lab list already covers the HF `Qwen` org — a Qwen4-27B drop lands in `docs/research_watch/` automatically; on sight, flag it as the D225 upgrade candidate (NVFP4/MTP quant preferred to match the :8100 stack).
 - **Status:** active — no action until Qwen4-27B (or a dense 27B-class successor) is released.
 
+## D226 — Three-way image-EDIT stack: FLUX.2-Klein-9B (fast workhorse) / Qwen-Image-2.1 (multi-ref, ~8 min/edit) / H3 image-edit (user-verified working) (2026-11-17, user: "h3 edit workflow is working and i tested, its good, so now we have 3 workflows/editing models flux klein 9b, qwen 2.1 and h3 … qwen image edit is good, and it can have multiple reference … its kind slow, it took 8 min for a edit")
+
+- **Decision:** we now have THREE working image-edit routes; routing rule:
+  - **FLUX.2 Klein 9B (Krea2)** — the FAST workhorse: t2i + identity-edit v1.2 (ref_boost 4.0) + realism stack (D142). Seconds-to-a-minute class (turbo). Use for: character stills, LoRA datasets (P3), identity locks, bulk variations.
+  - **Qwen-Image-2.1 edit** — GOOD quality + **MULTI-REFERENCE** (several reference images in one edit = the route for compositing BOTH characters into one scene still without a LoRA). **SLOW: ~8 min/edit** (user-measured on the official workflow). Use for: two-character scene stills, precise multi-ref edits where Klein/H3 can't hold both identities. Budget the 8 min (it's a queue item, D192).
+  - **MiniMax H3 image-edit** — user TESTED + confirmed working 2026-11-17 ("its good"). Workflow on disk: `E:\minimax_workflow\Workflow for Minimax H3 image editing w ComfyUI.json` (P8 inventory). Use for: scene-level edits where H3's prior (our video runtime's image side) matches the target look.
+- **Why it matters:** P4 (6-scene H3 R2V, DEADLINE Nov 22) needs per-scene 2-char face/style anchors. P3 (character LoRA) remains the primary route, but **Qwen-Image-2.1 multi-ref is the fallback/supplement** — if a scene needs char1+char2 composed together, a 2-ref Qwen 2.1 edit (8 min) can produce the anchor still even before `krea2fp_v3` trains.
+- **Status:** active.
+
