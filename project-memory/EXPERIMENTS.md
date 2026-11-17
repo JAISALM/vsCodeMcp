@@ -2406,3 +2406,26 @@ staged VRAM, graph breaks, output duration/res/audio, and visual quality per rou
 **Result:** v91 CONFIRMS our t2i rebuild (same architecture, ref_boost 2.0 as a tuning data point vs our 4.0). Copied as reference ref_krea2_v91_prograde_dataset.json. **Realism LoRA = YES for details — wired:** node 202 Krea2-realism-V2 @0.8 between identity LoRA (71) and patch (79) in both dataset files (utilities\add_realism_lora.py, backups *.pre_realism.bak); both validate 0/0 (17 nodes).
 **LDS (perfectgf/lora-dataset-studio):** full local dataset studio (generate via ComfyUI incl. Krea 2 Edit + FLUX.2 Klein, curate, caption, ai-toolkit training, review/test; Windows zip, ~16 GB VRAM) — DEFERRED to the curation/captioning/training phase (D208). Flux-Klein workflow stays deferred for quality (fallback).
 **Status:** awaiting user's one-prompt paddy-field test (fresh tab, node 200 must show 10 rows).
+
+## 2026-11-17 — MOVIE 6-SCENE BLOCKOUT BATCH (S1-S6) via Blender MCP: ALL SCENES DONE (user: "we should check the comfyui blender blockout things… lots of things in my plate")
+
+**Goal:** unblock PENDING_ITEMS P2 — blockout the movie's 6 scenes (graybox, 5 cameras each, EEVEE stills) so the H3 R2V route (D118) has env/cam refs. Proven recipe from the 2026-10-12 boar-grave case (D106).
+
+**Result: PASS — all 6 scenes built + 5 stills each (1280×720 EEVEE) + editable .blend saved:**
+| Scene | .blend | stills dir |
+|---|---|---|
+| S1 paddy (post-harvest, wet overcast, 3 farmers, 154 stubble, 2 ditches, 3 hay piles) | `data\s1_paddy_blockout.blend` (398 KB) | `data\s1_paddy\` |
+| S2 behind normal Kerala house (house + slanted roof + veranda posts, yard, fence, 2 trees, 2 chars) | `data\s2_behind_house_blockout.blend` (154 KB) | `data\s2_behind_house\` |
+| S3 inside house (7.4×6.4 room, doorway gap, bed, table, char1 + char2) | `data\s3_inside_house_blockout.blend` (140 KB) | `data\s3_inside_house\` |
+| S4 Kerala bike (road + ditches + 3 trees, graybox bike + seated char1, char2 on verge) | `data\s4_kerala_bike_blockout.blend` (161 KB) | `data\s4_kerala_bike\` |
+| S5 minimal (ground + char1 + crate) | `data\s5_minimal_blockout.blend` (118 KB) | `data\s5_minimal\` |
+| S6 rural village (3 houses, road, 4 trees, well, 3 figures) | `data\s6_rural_village_blockout.blend` (171 KB) | `data\s6_rural_village\` |
+
+**Recipe (reusable):** clean slate → ground plane → props (boxes/cylinders/spheres, one material each, `Principled BSDF` base color only) → char placeholders (cylinder body h1.4 @z0.7 + sphere head r0.26 @z1.62 — char1 BLUE / char2 RED / extra GRAY) → overcast sun (energy ~1.0, angle 45-55°, color (0.85,0.88,0.95)) + gray world (0.16) → 5 cameras `cam_long/cam_cu/cam_ground/cam_reverse/cam_low` with `TRACK_TO` empty targets (track -Z, up Y; cu=lens70, low=lens30-35, others 50) → `BLENDER_EEVEE` 1280×720 PNG stills → `save_as_mainfile`.
+
+**Gotchas (new):**
+- **MCP live scene is SHARED STATE — the #1 trap of this batch:** after building scene B, scene A is no longer in the scene. A "fix" call that assumed S3 was still loaded (it wasn't — S6 was) silently re-aimed S6's cameras, overwrote `s3_*.png` with S6 renders, and saved S6 content as `s3_inside_house_blockout.blend`. **Rule: every scene = one self-contained call (clean slate → build → render → save) + a sanity check of object names before trusting the save.** S3 was rebuilt correctly after the clobber.
+- **Interior composition:** a big room (9.4×8.4) + corner camera = wall-dominant frames. Fix: smaller room (7.4×6.4), camera pulled toward center, wider lenses (30-35mm), char placed BESIDE furniture (first pass had char1 standing inside the table — placeholder positions must be checked against furniture footprints).
+- **Head gap:** head @z1.72 left a visible floating gap over body top @z1.4 → head @z1.62 (overlap).
+
+**Status:** S1-S6 blockouts DONE (still tier — per the boar-grave precedent, stills are the enough-tier for env refs). NEXT: per-scene 5 s square camref mp4 (PNG-sequence render + `imageio_ffmpeg` encode, recipe in PENDING_ITEMS P2) → H3 R2V with char refs (user queues, D192).

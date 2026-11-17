@@ -81,7 +81,7 @@ ComfyUI is active. STOP-ON-FAILURE for env changes.
 
 ---
 
-## P2 — BLENDER LAYOUT → VIDEO (blockout → camera-ref → H3 R2V) — **NOT STARTED for movie scenes** (user-named)
+## P2 — BLENDER LAYOUT → VIDEO (blockout → camera-ref → H3 R2V) — **S1-S6 BLOCKOUTS DONE 2026-11-17** (user-named)
 
 **What:** blockout each movie scene in Blender → render a 5 s square camera-motion reference →
 feed character-ref + environment-ref + camera-ref into MiniMax H3 R2V → finished scene video.
@@ -117,9 +117,12 @@ Pipeline is PROVEN (boar-grave case); the movie's 6 scenes have not been blockou
   staged at `E:\minimax_workflow\blender+minimax\boar_grave\` (blend + 5 renders + camref mp4 +
   identity refs + both workflows + README). `face_yolov8m.pt` in `models\ultralytics\bbox\`.
 
-**To do (movie):** blockout the 6 scenes — S1 paddy (post-harvest, rain, farmers), S2 behind
-normal Kerala house, S3 inside house, S4 Kerala bike, S5 minimal 7's ground, S6 rural village →
-per-scene 5 s camref → H3 R2V with character refs from the new Klein LoRA set (P3).
+**To do (movie):** ~~blockout the 6 scenes~~ **DONE 2026-11-17 — all 6 blockout-built via Blender MCP**
+(EXPERIMENTS 2026-11-17): `data\s{1..6}_*` (still dirs `s1_paddy`, `s2_behind_house`,
+`s3_inside_house`, `s4_kerala_bike`, `s5_minimal`, `s6_rural_village` + editable .blend each,
+5 cameras × 1280×720 stills each). REMAINING: per-scene 5 s square camref mp4 (PNG-sequence
+render + `imageio_ffmpeg` encode, recipe above) → H3 R2V with character refs from the new
+Klein LoRA set (P3).
 **Boar-grave note:** the two existing blockout angles (side + upper) are ENOUGH — no rebuild.
 
 ---
