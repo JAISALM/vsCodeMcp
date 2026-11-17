@@ -1886,3 +1886,14 @@
 - **Why it matters:** P4 (6-scene H3 R2V, DEADLINE Nov 22) needs per-scene 2-char face/style anchors. P3 (character LoRA) remains the primary route, but **Qwen-Image-2.1 multi-ref is the fallback/supplement** — if a scene needs char1+char2 composed together, a 2-ref Qwen 2.1 edit (8 min) can produce the anchor still even before `krea2fp_v3` trains.
 - **Status:** active.
 
+## D227 — Character set expands to 5: Jaisal-v3 + Zidhan-v3 leads, the two v2 LoRAS become NAMED supporting characters, + GRANDPA via identity-edit-first (2026-11-17, user: "we trained lora for 4 characters now 2 jaisal and 2 zidane, out of which we will pick v3 of jaisal and zidane and other older items we will name it as separate characters; one more important character we need now is a grandpa — might need to train older guys lora, or image identity edit should do the job")
+
+- **Verified on disk** (`E:\ComfyUI_windows_portable\ComfyUI\models\loras`, ~1.5 GB each): `krea2jaisal_v2.safetensors` (11-01), `krea2jaisal_v3.safetensors` (11-03), `krea2zidhan_v2.safetensors` (11-02), `krea2zidhan_v3.safetensors` (11-04).
+- **Decision — the character slots:**
+  - **char1 Jaisal (lead)** = `krea2jaisal_v3` · **char2 Zidhan (lead)** = `krea2zidhan_v3`.
+  - **char3 + char4 (supporting)** = `krea2jaisal_v2` + `krea2zidhan_v2` — NAMED as separate characters (zero-cost supporting cast from already-trained LoRAs; names/appearances assigned from the final script).
+  - **char5 GRANDPA (new)** — older man. **Identity-edit FIRST, not LoRA:** Krea2 identity-edit v1.2 (ref_boost 4.0, realism stack, D023/D142) on a clean grandpa reference = same fast route as the leads' face lock, no 2–3 h training. Escalate to a grandpa LoRA ONLY if the script puts him in many shots / close-ups and identity-edit drift shows across the set. Needs ONE clean reference image (user provides a real photo, or we t2i-generate a concept from the script's description and lock it via identity-edit).
+- **Script gate (user, same message):** the FINAL football-story script is being written in a separate chat. On delivery: (1) character-name + appearance table mapped onto the 5 slots above, (2) per-scene cast list (who is in S1–S6) → determines per-scene refs + R2V prompts, (3) workflow prep. S5 = minimal 7's ground = the football 7-a-side pitch (story is football-related — scene set confirmed).
+- **Status:** active — waiting on the final script.
+
+

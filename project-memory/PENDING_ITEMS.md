@@ -127,7 +127,7 @@ Klein LoRA set (P3).
 
 ---
 
-## P3 — CHARACTER LoRA (resume: Krea2 realism-stack dataset) — **RESUME PLANNED** (2026-10-31; user: "we need to continue generating the LORA — at least one for Jaisal and Zidhan")
+## P3 — CHARACTER LoRA (resume: Krea2 realism-stack dataset) — **COMPLETED 2026-11-01..04 (user trained) + D227 cast plan (2026-11-17)**
 
 **FULL REUSABLE TRACKER: `project-memory\LORA_TRAINING_KIT.md`** (workflows, prompts, datasets,
 trained LoRAs, curation rules, resume plan — check it before building anything new).
@@ -161,6 +161,17 @@ materialized); (3) the blocker was already solved = the **D142 Krea2 realism sta
   sample prompts = one trigger per line), AI Toolkit SECONDARY. Copy finals to shared `loras\`.
 - Then: retest with triggers across all 6 scenes at the strict bar (`krea2_charlora_v3.json`;
   show user, never self-certify) → **unblocks P4** (H3 R2V for the 6 scenes).
+- **STATUS UPDATE (2026-11-17, user + D227):** LoRAs ARE TRAINED (user, 2026-11-01..04) —
+  on disk `E:\ComfyUI_windows_portable\ComfyUI\models\loras\`: `krea2jaisal_v2` (11-01),
+  `krea2jaisal_v3` (11-03), `krea2zidhan_v2` (11-02), `krea2zidhan_v3` (11-04) (~1.5 GB
+  each). **Cast plan (D227):** Jaisal-v3 + Zidhan-v3 = LEADS (char1/char2); the two v2 LoRAs
+  are NAMED as separate SUPPORTING characters (char3/char4 — zero-cost cast, names from the
+  final script); **GRANDPA (char5)** = identity-edit-first (Krea2 identity-edit v1.2,
+  ref_boost 4.0, D023) — train a grandpa LoRA only if he lands in many shots. **P3's old
+  "resume" scope (krea2fp_v3 rebuild) is SUPERSEDED** — the 4 trained LoRAs above are the
+  working character set. REMAINING: (a) final script → name + appearance table mapped onto
+  the 5 slots + per-scene cast list, (b) retest v3 leads across all 6 scenes at the strict
+  bar (`krea2_charlora_v3.json`, show user) → **unblocks P4**.
 
 ---
 
