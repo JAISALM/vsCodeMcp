@@ -13,6 +13,45 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-17
+
+**Sources:** Reddit ✅ 55 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier) · HF ✅ 13 trending + 2 top-downloads + 6 datasets · Civitai ✅ 2 comfyworkflows (1 new) · X ✅ 146 IDs (all backfill — see below). **Pipeline:** the 08:00 RAG schtask caught up at **08:40** (PC boot ~08:40, `StartWhenAvailable` working) but was STILL RUNNING at watch time (result 267009 = 0x41301 executing; block-buffered log, 2 lines) — it continued in the background; the community watch ran independently with its own fetches (no re-run needed — the task is alive, not failed).
+
+**New relevant items (vs 11-16 baseline):**
+
+**Local-LLM tier (brain/writer/agent):**
+- **t3_1xxlgpb (324u, 112 comments) — Tencent "Introducing Hy4 flash"** (official: <https://hy.tencent.ai/research/hy4-flash>) — a NEW open model from Tencent's Hunyuan line — brain-pool candidate; action: watch the HF `tencent` org for weights (org not on the weekly lab list — consider adding it) <https://www.reddit.com/r/LocalLLaMA/comments/1xxlgpb/>
+- **t3_1xwgiow (116u, 85 comments) — "LFM-2.5-24B-A2B + Hermes is awesome!"** — Liquid AI's small MoE (24B total / 2B active) + Hermes finetune — brain-tier context (efficient locally) <https://www.reddit.com/r/LocalLLaMA/comments/1xwgiow/lfm2524ba2b_hermes_is_awesome/>
+- **t3_1xxxs0a (114u) — "Small Gemma 4 tokenizers were recently updated by Google — fix for an issue that caused nonsense output when encountering certain tokens"** (gemma-4-E4B-it discussion #50) — brain-tier context (gemma4-12b = the LTX text-encoder family) <https://huggingface.co/google/gemma-4-E4B-it/discussions/50>
+- **t3_1xxxbt9 (165u) — "Open weight models account for 30% usage at enterprises to save money"** — policy context <https://www.reddit.com/r/LocalLLaMA/comments/1xxxbt9/open_weight_models_account_for_30_usage_at/>
+
+**HF (new this run):**
+- **n4ze3m/tiny-voca (192 likes, 860 dl)** — 4.5M-param English TTS, two voices (F2/M2), CPU-only ~70× realtime, Apache-2.0, **M2 ranks 8th on the Open TTS leaderboard (16-Nov snapshot)** — audio-tier pool note (offline narration fallback; D041-compliant — no music; movie dialogue stays H3-native) <https://huggingface.co/n4ze3m/tiny-voca>
+- **IFM/PAN2 (202 likes, 374 dl)** — the source org now trending (follows this morning's weekly #6 `Comfy-Org/PAN2` port note) — T2V pool candidate <https://huggingface.co/IFM/PAN2>
+
+**Datasets (new):**
+- **nvidia/USDCraft-10K (6.5k dl)** — simulation-ready **articulated 3D assets in OpenUSD** — asset class for the GEOMETRY layer (the world layer; articulated = animated props) <https://huggingface.co/datasets/nvidia/USDCraft-10K>
+- **laion/laion-audio-xl (11.4k dl)** — 4.36M captioned audio clips (from CLAP2's 366M corpus) — audio-research context (D041: no-music rule — SFX corpus, not score) <https://huggingface.co/datasets/laion/laion-audio-xl>
+
+**Civitai (1 new — verdict):**
+- **2863388 (comfyworkflows, 986 dl, 30 likes) — "MiniMax H3 4/8-step Accelerating Workflow Collection (8GB)"** (u/luckyboy2026) — H3 video + **lightx2v 4/8-step distillation LoRA** + UniblockSwap for 8-GB GPUs (T2V / I2V / first-and-last-frame / R2V all in one). **VERDICT: NO ADOPT for our hardware** (32 GB 5090 — we run H3 natively on the tuned Kijai stack; the 8 GB rig is for low-VRAM machines) — but the **lightx2v 4/8-step speed-distillation idea is worth watching** (same family as the pi-H3 2–4-step calendar item) <https://civitai.com/models/2863388>
+
+**Carried over (no new action):** regulation t3_1xu2mdo (398u) · rasa t3_1xwmnkw (236u) · lawyer rig t3_1xw2ogq (233u) · national open models t3_1xw4ue3 (181u) · strata regression t3_1xwttcw (165u) · IBM Granite prompt injection t3_1xw09tu (163u) · **ERNIE 5.5 Flash BASE page still the only ERNIE item (151u) — full Flash not out yet** <https://ernie.baidu.com/release/ernie-5-5-flash-base> · uncensored t3_1xutb77 (147u) · Qwen3.8-Flash-Next 2.99M dl · DavidAU 9B GGUF 2.17M · Haru-4B 436 likes (rising) · chatrlabs QI2.1 quant 142.9k dl · **Abiray H3-Image-GGUF rising (288 likes, 155.5k dl — watch continues)** <https://huggingface.co/Abiray/MiniMax-H3-Image-GGUF> · Edge0-145B 41.6k dl · LongCat-2.5.
+
+**X accounts: backfill day again — no new content.** 146 IDs; snowflake-verified: PixelAigc's new IDs = 2026-11-01/02, BennyDaBall new = 2026-10-19, xieenze_jr / MaxLiu09 / Nekodificador / akatz_ai = 2016–2025 backfill. All older than the 11-16 latests.
+
+**ACTION ITEMS:**
+1. **Watch the HF `tencent` org for Hy4-Flash weights** — new open model (324u thread) = brain-pool candidate; the org is not on the weekly lab list — consider adding it to the Monday reminder.
+2. **Civitai 2863388 (lightx2v 4/8-step) — NO ADOPT for our hardware** (32 GB box); the distillation idea is tracked alongside the pi-H3 calendar item.
+3. Carried from 11-16: read **t3_1xvpmt8** (10-min wordless H3 film "what broke" list) · skim **t3_1xvbwwg** (H3-Image multi-ref) · r/comfyui_workflows gate status pending today's daily-task completion (4th day GATED as of 11-16).
+4. User-side (unchanged): FLUX3 gate (HF token + Agree click) · D041 drama-3 output-class check · X cookie re-copy before 2026-11-27.
+
+**Source failures (honest):**
+- Reddit JSON tier: 403 all subs (standing) → HTML top-page tier carried the 50+ list.
+- 08:00 RAG task: caught up 08:40 (PC boot), still executing at watch time (267009; block-buffered log) — running in background, NOT a failure; the watch did not need the `daily.py --news-only` fallback.
+- X syndication: 429 (standing) → all accounts via browser-head tier ✓ (146 IDs, backfill day). X cookies still set (expire 2026-11-27 — 10 days left).
+- Civitai boards healthy (comfyworkflows 2 rows, 1 new).
+
 ## 2026-11-16
 
 **Sources:** Reddit ✅ 36 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier: r/artificial 34/50, r/ComfyUI 12/50, r/LocalLLaMA 15/49) · HF ✅ 14 trending + 1 top-download + 3 datasets · Civitai ✅ 1 new (comfyworkflows) + 0 new (hot/newest/newloras) · X ✅ 235 IDs (all backfill — see below). **Pipeline:** the 08:00 schtask ran CLEAN this morning (LastTaskResult 0, 131 items, "done" marker) — the first clean 08:00 boot run with the 11-15 `StartWhenAvailable=True` fix in place; no manual trigger needed.
