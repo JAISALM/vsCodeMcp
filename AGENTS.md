@@ -302,7 +302,31 @@ skipped". Fall through to the BROWSER HEAD.**
 
 **Wired into the daily RAG (`rag/fetch_news.py`):**
 - Reddit: tier 3 = `reddit_html_top.py` (browser-rendered `shreddit-post` cards).
+  **DEPTH TIER (2026-11-17):** the card tier only carries title/score/author —
+  the `.json` endpoints are IP-rate-limited from this machine EVEN WITH A VALID
+  SESSION COOKIE (HTTP 403 with AND without the cookie; browser head with the
+  cookie gets the "whoa there, pardner" rate-limit page; the cookie itself is
+  fine — JWT `exp` verified 2026-11-17 to **2027-04-04**, so the wall is the
+  egress IP on the JSON API, not the cookie). BUT the HTML **post** pages render
+  in the SAME persistent profile the card tier uses, so the top-scoring NEW
+  posts get a per-post browser-head pass for the FULL body + top comments:
+  `reddit_post_fetch.py` (one browser session, paced **10 s** between posts,
+  hard cap 4 posts/run, stops on the first whole-IP rate-limit and defers the
+  rest to the next run). `_enrich_reddit_posts` rewrites the card-tier store
+  file with the full content. **PACING GOTCHA (2026-11-17):** a burst of ~6
+  requests in 20 min (incl. `.json` endpoints) tripped a whole-IP "Blocked"
+  cooldown that persisted >40 min — do NOT probe `.json` endpoints in a loop;
+  the depth tier is additive + best-effort and the list tier runs on its own
+  schedule.
 - X: tier 3 = `x_browser_fetch.py` (browser head; cookie-gated → full timeline).
+  **USER-ENV FALLBACK (2026-11-17):** `x_browser_fetch.py` now reads
+  `X_AUTH_TOKEN`/`X_CT0` from the process env **OR** the user-level registry
+  (`HKCU\Environment`) — long-lived agents / stale scheduled-task contexts
+  started BEFORE the cookies were set (2026-11-05) never inherit them, which
+  silently degraded those runs to anonymous (login-walled) timelines. Verified
+  2026-11-17: with both process env vars CLEARED, the fallback still injected
+  the session cookies and returned full tweet text. `fetch_news.py`'s
+  `fetch_x` also propagates the registry cookies into the child's env.
 - Civitai: author resolution = browser head (one session for all unresolved).
 
 **Rule of thumb for any future "this source is walled" conclusion:** prove it

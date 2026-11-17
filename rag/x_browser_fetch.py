@@ -31,19 +31,45 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import browser_head
 
 
+def _user_env(name):
+    """Process env first; fall back to the USER-level registry value
+    (HKCU\\Environment). The cookies were set user-level (2026-11-05), but
+    processes started BEFORE that (long-lived agents, stale scheduled-task
+    contexts) never inherit them — without this fallback those runs silently
+    fetch anonymous (login-walled) timelines. Verified 2026-11-17: an agent
+    process had X_CT0 but NOT X_AUTH_TOKEN in its process env while both were
+    set user-level; the fallback restores the full-timeline tier for every
+    process regardless of when its parent started."""
+    v = os.environ.get(name, "")
+    if v:
+        return v
+    if sys.platform == "win32":
+        import winreg
+        try:
+            k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment")
+            val, _t = winreg.QueryValueEx(k, name)
+            winreg.CloseHandle(k)
+            return val or ""
+        except Exception:
+            return ""
+    return ""
+
+
 def fetch_account(acct: str, poll_rounds: int = 25, scrolls: int = 6):
     from playwright.sync_api import sync_playwright
     url = f"https://x.com/{acct}"
+    auth_token = _user_env("X_AUTH_TOKEN")
+    ct0 = _user_env("X_CT0")
     cookies = []
     # inject into BOTH domains: desktop-browser sessions may carry the cookies
     # under .twitter.com (legacy host) while the fetch target is x.com
     for _dom in (".x.com", ".twitter.com"):
-        if os.environ.get("X_AUTH_TOKEN"):
+        if auth_token:
             cookies.append({"name": "auth_token",
-                            "value": os.environ["X_AUTH_TOKEN"],
+                            "value": auth_token,
                             "domain": _dom, "path": "/"})
-        if os.environ.get("X_CT0"):
-            cookies.append({"name": "ct0", "value": os.environ["X_CT0"],
+        if ct0:
+            cookies.append({"name": "ct0", "value": ct0,
                             "domain": _dom, "path": "/"})
     with sync_playwright() as p:
         ctx = browser_head._launch(p, verbose=True)
@@ -120,9 +146,12 @@ def parse_profile(page_html: str, acct: str):
                 "syndication 429, mcp engine 429, all nitter mirrors dead, "
                 "threadreader 404, browser head renders article shells without "
                 "text). FIX (one-time, same pattern as REDDIT_SESSION_COOKIE): set "
-                "user-level env X_AUTH_TOKEN (auth_token) + X_CT0 (ct0) — the "
-                "browser tier then injects the session cookies and reads the full "
-                "timeline.")
+                "user-level env X_AUTH_TOKEN (auth_token) + X_CT0 (ct0) — this tier "
+                "reads them from the process env OR the user registry (HKCU "
+                "Environment fallback, 2026-11-17), injects the session cookies "
+                "and reads the full timeline. NOTE: if the cookies are EXPIRED "
+                "(X sessions last ~30 days), re-copy from Brave DevTools — an "
+                "expired cookie renders the login wall just like no cookie.")
     elif not tweets:
         note = "page rendered but no tweet blocks found (DOM layout change?)"
     return {"account": acct, "tweets": tweets, "gated": gated, "note": note}

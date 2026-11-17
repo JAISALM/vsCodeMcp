@@ -109,6 +109,7 @@ def _save_item(date, source, item_id, title, url, body, extra_meta):
 
 def fetch_reddit(date, log):
     out = []
+    enrich_queue = []  # (sub, id, url, score) — depth-tier candidates (2026-11-17)
     limit = CFG.get("reddit_limit_per_sub", 30)
     for sub in CFG["subreddits"]:
         data = None
@@ -229,6 +230,9 @@ def fetch_reddit(date, log):
                                      "note": "browser-rendered HTML top page (JSON API walled)"})
                     if fn:
                         saved += 1
+                        enrich_queue.append((sub, p["id"],
+                                             p["url"] or f"https://www.reddit.com/r/{sub}/",
+                                             p["score"] or 0))
                 log.append(f"reddit r/{sub}: via HTML top page tier "
                            f"({saved} new of {len(html_posts)} posts)")
             else:
@@ -248,9 +252,87 @@ def fetch_reddit(date, log):
                                  "flair": d.get("link_flair_text")})
                 if fn:
                     out.append(fn)
+                    if d.get("permalink"):
+                        enrich_queue.append((sub, d["id"],
+                                             f"https://www.reddit.com{d['permalink']}",
+                                             d.get("score") or 0))
         except Exception as e:
             log.append(f"reddit r/{sub}: parse error {e}")
+    # depth tier (2026-11-17): the list tiers carry title/score only — the
+    # .json endpoints are IP-rate-limited even with a valid session cookie
+    # (verified 2026-11-17: HTTP 403 with cookie, browser "whoa"/"Blocked").
+    # The HTML POST PAGES render in the same persistent profile the card tier
+    # uses, so the top-scoring NEW posts get a per-post browser-head pass for
+    # the full body + top comments (reddit_post_fetch.py, paced, best-effort).
+    if enrich_queue:
+        _enrich_reddit_posts(date, log, enrich_queue)
     return out
+
+
+def _enrich_reddit_posts(date, log, queue):
+    """Depth tier: full body + top comments for the top-scoring new posts
+    (one browser session, paced 10 s apart, stops on the first whole-IP
+    rate-limit; remaining posts enrich on a later run). Rewrites the card-tier
+    store file (same name _save_item would produce) with the full content."""
+    import subprocess
+    max_posts = CFG.get("reddit_enrich_max", 4)
+    queue = sorted(queue, key=lambda t: -(t[3] or 0))[:max_posts]
+    by_url = {}
+    for _sub, _pid, u, _sc in queue:
+        by_url[u] = (_sub, _pid, _sc)
+    env = dict(os.environ)
+    env["PYTHONIOENCODING"] = "utf-8"
+    _pin = os.path.join(ROOT, "temp")
+    os.makedirs(_pin, exist_ok=True)
+    for _k in ("TEMP", "TMP", "TMPDIR"):
+        env[_k] = _pin
+    try:
+        res = subprocess.run(
+            [r"C:\Program Files\Python310\python.exe",
+             os.path.join(ROOT, "reddit_post_fetch.py"),
+             *[u for u in by_url], "--top", "5"],
+            capture_output=True, text=True, timeout=900, encoding="utf-8",
+            errors="replace", env=env)
+    except Exception as e:
+        log.append(f"reddit depth tier failed: {e}")
+        return
+    data = json.loads(res.stdout) if res.stdout.strip().startswith("{") else None
+    if not data:
+        log.append(f"reddit depth tier: no JSON (rc={res.returncode} "
+                   f"{(res.stderr or '').strip()[-200:]})")
+        return
+    enriched = 0
+    for r in data.get("results") or []:
+        hit = by_url.get(r["url"])
+        if not hit or not (r.get("body") or r.get("comments")):
+            continue
+        _sub, _pid, _sc = hit
+        safe = re.sub(r"[^A-Za-z0-9_-]", "_", _pid)[:60]
+        safe_src = re.sub(r"[^A-Za-z0-9_-]", "_", f"reddit/{_sub}")[:24]
+        fn = os.path.join(NEWS_DIR, date, f"{safe_src}_{safe}.md")
+        lines = [r["body"][:6000], ""]
+        if r.get("comments"):
+            lines.append("## Top comments (per-post browser-head depth tier)")
+            for c in r["comments"]:
+                who = f"u/{c['author']}" if c.get("author") else "u/?"
+                sc = f" ({c['score']} pts)" if c.get("score") else ""
+                lines.append(f"### {who}{sc}\n\n{c['text']}")
+        hdr = (f"source: reddit/{_sub}\n"
+               f"id: {_pid}\n"
+               f"url: {r['url']}\n"
+               f"fetched: {date}\n"
+               f"score: {_sc}\n"
+               f"enriched: true\n"
+               f"title: {r.get('title', '')}\n"
+               f"note: full body + top comments via per-post browser head "
+               f"(JSON API IP-rate-limited even with valid session cookie, 2026-11-17)")
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(f"---\n{hdr}\n---\n\n# {r.get('title') or _pid}\n\n"
+                    + "\n".join(lines) + "\n")
+        enriched += 1
+    log.append(f"reddit depth tier: {enriched}/{len(queue)} top-scoring new "
+               f"posts enriched with full body+comments"
+               + (f" — {data['note']}" if data.get("note") else ""))
 
 
 def fetch_hf(date, log):
@@ -312,6 +394,25 @@ def fetch_x(date, log):
                     try:
                         child_env = dict(os.environ)
                         child_env["PYTHONIOENCODING"] = "utf-8"
+                        # X session cookies: process env first, then the
+                        # USER-level registry (HKCU\Environment). The cookies
+                        # were set user-level (2026-11-05) — processes started
+                        # before that, or in a different context, never
+                        # inherit them, so without this the child fetches
+                        # anonymous (login-walled) timelines. 2026-11-17.
+                        if sys.platform == "win32":
+                            import winreg
+                            for _vk in ("X_AUTH_TOKEN", "X_CT0"):
+                                if not child_env.get(_vk):
+                                    try:
+                                        _k = winreg.OpenKey(
+                                            winreg.HKEY_CURRENT_USER, r"Environment")
+                                        _v, _t = winreg.QueryValueEx(_k, _vk)
+                                        winreg.CloseHandle(_k)
+                                        if _v:
+                                            child_env[_vk] = _v
+                                    except Exception:
+                                        pass
                         _temp_pin = os.path.join(ROOT, "temp")
                         os.makedirs(_temp_pin, exist_ok=True)
                         for _tk in ("TEMP", "TMP", "TMPDIR"):
