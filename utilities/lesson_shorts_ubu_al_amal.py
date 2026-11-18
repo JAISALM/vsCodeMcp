@@ -110,6 +110,32 @@ def spec():
     )
 
 
+def rescale(sp, k):
+    """Uniform time rescale of a whole spec (user, 2026-11-18: 40 s version for
+    distribution — 2x 20 s WhatsApp status + 40 s Instagram). All beats keep
+    their relative pacing; nothing is dropped or added."""
+    import copy
+    sp = copy.deepcopy(sp)
+    sp["duration"] = sp["duration"] * k
+    sp["handle_fade"] = [t * k for t in sp["handle_fade"]]
+    for it in sp.get("text", []):
+        it["t0"] *= k
+        it["t1"] *= k
+    for sc in sp["scenes"]:
+        sc["t0"] *= k
+        sc["t1"] *= k
+        for key in ("card_fade", "label_fade", "fadeout", "ring_fade", "ring_progress"):
+            if key in sc:
+                sc[key] = [t * k for t in sc[key]]
+        for el in sc.get("elements", []):
+            el["t0"] *= k
+            el["t1"] *= k
+        for it in sc.get("text", []):
+            it["t0"] *= k
+            it["t1"] *= k
+    return sp
+
+
 def main():
     root = r"D:\models\vsCodeMcp\data\refanim"
     out = os.path.join(root, "ubu_al_amal.mp4")

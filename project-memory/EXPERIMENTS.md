@@ -4,6 +4,22 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU 40 s PIPELINE (D240/D241) — SUCCESS, all verified
+
+- `build_ubu_al_amal.py` ran end-to-end: 2400 frames @60 → `ubu_al_amal_40.mp4` (40.000 s) → SFX at retimed beats → `ubu_al_amal_40_sfx.mp4` (h264+AAC, 40.000 s) → cuts `ubu_40s_part1.mp4` (20.033 s) / `ubu_40s_part2.mp4` (20.008 s) — all ffprobe-verified.
+- `rescale()` = uniform 5/6 time scale of the whole spec (scene/element/text/fade times) — beats keep relative pacing; SFX beat times recomputed at the same scale (door 28.0, whoosh 28.58, steps 4.33/4.67/29.08/29.5/29.92).
+- Part 1 cut = `-t 20 -c copy` (20.033 s = next keyframe — fine for status); part 2 = `-ss 20` re-encode (exact 20.008 s).
+
+## 2026-11-18 — ENG-DEGREE video understanding (D242/D243) — PARTIAL: visuals mapped, narration needs user
+
+- Frames @3 s → `contact_sheet.jpg`: full beat map (rain walk → #1 phone-in-puddle → #2/#3 springs → umbrella dome → idea bulb → #5 rocket → last twist + allapinne end card).
+- Spectrogram: audio = **heavy periodic music loop** + sparse narration — root cause of all transcription failures.
+- **Transcription attempts (all failed to produce readable text):** turbo auto-detect → English hallucinations (past end-time!); turbo `language=ml` → character garble; Systran large-v3 auto → ml 0.99 but garbled; large-v3 on **demucs htdemucs vocals stem** (separation verified working, GPU, ~14 s) → still character-level garble with real words leaking through (road, pole, propeller, pariharam, alappam).
+- **Conclusion:** audio quality + colloquial delivery defeats local whisper. Script text must come from the user (their content). Pipeline + breakdown documented (`docs\NARRATED_VIDEO_PIPELINE.md`, `data\eng_degree\BEAT_BREAKDOWN.md`).
+- Toolchain verified for future: app-venv whisper/demucs on GPU works mechanically (load model from snapshot dir, `HF_HUB_CACHE` for demucs model resolution).
+
+---
+
 ## 2026-11-18 — Template B PALETTE A/B (user: "can we try a different color palette rather than the green one?") — awaiting user pick
 
 - **Engine refactor:** `render()` frame body extracted to module-level `draw_frame(t, img, ov, d_ov, spec, fonts, stars)` + `_prepare(spec)` + new **`preview(spec, t, out_path)`** — single-frame A/B previews in ~10 s instead of a 40-min render. `STAR_COL` made a monkeypatchable global. py_compile clean.

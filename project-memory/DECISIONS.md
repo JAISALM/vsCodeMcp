@@ -1961,6 +1961,30 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D243 — Series lanes: ANIMATION vs ROBLOX; script text comes from the USER (2026-11-18, user: "this will coming under the same pipeline as the football one, but this is animation, other is roblox")
+
+- Two lanes under ONE series pipeline: **ANIMATION lane** = engineering-degree video (allapinne-style flat 2D — USER supplies the assets: "i will be getting the graphics for that particular script") · **ROBLOX lane** = football set (Template C / Blender low-poly 3D).
+- **Whisper FAILS on the eng-degree audio** (720×1280, 74.4 s, heavy music loop + sparse colloquial narration): turbo hallucinates English, Systran large-v3 garbles character-level even after **demucs htdemucs vocals separation** (both in OmniVoice app venv, GPU float16, verified working). Recovered only word fragments (road, pole, propeller, pariharam). **Rule: narration SCRIPT TEXT comes from the user** (their content — ask for it or their OmniVoice line WAVs); do not fabricate from garbled transcripts.
+- Beat breakdown of the eng-degree video saved `data\eng_degree\BEAT_BREAKDOWN.md`; generic pipeline = **`docs\NARRATED_VIDEO_PIPELINE.md`** (5 stages: script→lines, assets, compose, audio, cuts).
+- Transcription toolchain (reusable): app venv `C:\Users\user\AppData\Local\com.debpalash.omnivoice-studio\project\.venv` has faster-whisper 1.2.1 + whisperx + demucs 4.1.0 + torch cu128; models in `C:\Users\user\AppData\Local\OmniVoice\hf_cache` (load faster-whisper straight from the snapshot dir). Console cp1252 cannot print Malayalam — write to file, don't rely on stdout.
+
+## D242 — Engineering-degree video = second narration video (2026-11-18, user attached `script_original.mp4`)
+
+- 720×1280, 74.4 s, allapinne-style flat 2D animation (Kerala, rain, phone-in-puddle story, #1/#2/#3/#5 numbered attempts, umbrella dome, idea bulb, rocket upgrade, last-twist).
+- Story beats + partial-word transcript in `data\eng_degree\BEAT_BREAKDOWN.md`.
+- **Awaiting user:** script text (or OmniVoice line WAVs) + per-beat graphics assets. Then: content spec + build script per `docs\NARRATED_VIDEO_PIPELINE.md`.
+
+## D241 — Distribution standard: 40 s video = 2×20 s WhatsApp status + 40 s Instagram (2026-11-18, user: "if the duration is 40 seconds it would have been much better so that we can post 2 20 second video as whatsapp status, people will see that and instagram one 40 second video")
+
+- Target length for the series: **40 s**. Cuts: part1 0–20 s, part2 20–40 s (WhatsApp status), full 40 s (Instagram).
+- Ubu executed: `rescale(spec, 5/6)` (uniform 48→40 s) → `data\refanim\ubu_al_amal_40.mp4` + `_sfx` + `ubu_40s_part1/2.mp4` — all ffprobe-verified (40.000 / 20.033 / 20.008 s).
+
+## D240 — Ubu al-Amal PIPELINE captured (2026-11-18, user: "this is done, capture the pipeline")
+
+- **`utilities\build_ubu_al_amal.py`** — one command reproduces the whole 40 s deliverable set: retime 48→40 s (`rescale()`, uniform 5/6, nothing dropped) → render 2400 frames @60 (Template B, 2× SS, ~35 min) → x264 → SFX bed at RETIMED beats (door 28.0, whoosh 28.58, S1 steps 4.33/4.67, S4 steps 29.08/29.5/29.92) → aac mix → distribution cuts → ffprobe verify.
+- Engine gained `preview(spec, t, out_path)` single-frame helper (10 s A/B checks vs 40-min renders) + `STAR_COL` monkeypatchable global.
+- Generic pipeline doc: `docs\NARRATED_VIDEO_PIPELINE.md`.
+
 ## D239 — Narration tool = OmniVoice Studio (user's open-source voice studio), for NARRATION only (2026-11-18, user: "C:\Users\user\AppData\Local\VoiceStudio (Current User) — this is the voice studio, this is for narration not for SFX")
 
 - **App:** OmniVoice Studio (open-source, `omnivoice-studio.exe` + bundled ffmpeg + uv) at `C:\Users\user\AppData\Local\VoiceStudio (Current User)` — app data in `C:\Users\user\AppData\Local\com.debpalash.omnivoice-studio` (project .venv = Python 3.12).
