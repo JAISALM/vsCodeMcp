@@ -169,13 +169,14 @@ materialized); (3) the blocker was already solved = the **D142 Krea2 realism sta
   final script); **GRANDPA (char5)** = identity-edit-first (Krea2 identity-edit v1.2,
   ref_boost 4.0, D023) — train a grandpa LoRA only if he lands in many shots. **P3's old
   "resume" scope (krea2fp_v3 rebuild) is SUPERSEDED** — the 4 trained LoRAs above are the
-  working character set. REMAINING: (a) final script → name + appearance table mapped onto
-  the 5 slots + per-scene cast list, (b) retest v3 leads across all 6 scenes at the strict
+  working character set. REMAINING: (a) ~~final script → name + appearance table mapped onto
+  the 5 slots + per-scene cast list~~ **DONE 2026-11-18 — final script v3 on disk + full map
+  `docs\EPISODE1_CHAR_SCENE_MAP.md`** · (b) retest v3 leads across all 6 scenes at the strict
   bar (`krea2_charlora_v3.json`, show user) → **unblocks P4**.
 
 ---
 
-## P4 — H3 R2V VIDEO for the 6 movie scenes — **NOT STARTED** (blocked on P3)
+## P4 — H3 R2V VIDEO for the movie scenes — **NOT STARTED** (P3 LoRAs now trained; refs = D227 cast set; **Nov 22 deadline RE-SCOPED 2026-11-18** — full-episode script + network outage week; see `docs\EPISODE1_CHAR_SCENE_MAP.md` open item 4)
 
 - Per scene: **2–3 frame refs max** (D020), each an explicit frame anchor for one shot with a
   simple prompt; **6-section R2V prompt with `<Picture N>`/`<Subject N>` tags in connection
@@ -186,6 +187,13 @@ materialized); (3) the blocker was already solved = the **D142 Krea2 realism sta
   Kerala house, S3 inside a Kerala house, S4 on a Kerala bike (rural road), S5 minimal local 7's
   ground (small goals, low fence, benches — NOT a stadium; prompt proven), S6 rural village
   (paddy + homes + palms).
+  **(2026-11-18: these 6 = the 2026 blockout BASE for FINAL script v3 (`episode1\episode1_full_script_FINAL_v3.md`):
+  2026 scenes 1–6 + the 23-return + 25 reuse them; the 1950 part needs 7 NEW blockouts
+  (Maracanã, shore+MARJAN, deck, Madras telegraph counter, port, golden-hour village + THE X
+  spot, S3 corners) — full scene→blockout table + gap list: `docs\EPISODE1_CHAR_SCENE_MAP.md`
+  (also: refs now = the 5-slot cast per D227 — Jaisal/Zidhan v3 leads, v2 LoRA supporting cast,
+  grandpa Abu Bakar identity-edit, 12 kids, 1950 face-echoes; the commentator's line = P1 dub
+  target.)**
 - Refs = Klein-LoRA stills (face + style anchors, D021) + optionally a Blender camref (P2) for
   the camera motion.
 - **HARD DEADLINE: Nov 22.**

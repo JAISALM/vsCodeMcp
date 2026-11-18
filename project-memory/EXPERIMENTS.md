@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — SCRIPT v2→v3 DIFF ANALYSIS (final script locked) + EPISODE1 CHAR/SCENE→ASSET MAP
+
+- **Goal:** the user made a final pass on the script ("i have made few changes, that will be our final one" — `episode1\episode1_full_script_FINAL_v3.md`, 07:13 IST). Catch every change and update the asset/workflow plan.
+- **Method:** `git diff --no-index` v2 vs v3 = 326 diff lines, **17 hunks — all processed** (saved `session_tmp\v2_v3_diff.txt`). No full re-read needed beyond the hunks + context.
+- **The 8 changes (full list in `docs\EPISODE1_CHAR_SCENE_MAP.md` "v2 → v3 change log"):** ① Scene 24 REMOVED — the Sc. 23 360° return now carries the 2026 payoff (watch in Jaisal's fist = "he is in the present"; wooden scoreboard "WINNING ELEVEN 3 — ROCKSTAR BOYS 1"; the commentator's line with Malayalam original kept for dubbing; Akhil's full-spray = optional background frame) · ② **letter → TELEGRAPH CABLE** everywhere (Sc. 9 Muallim draws the form boxes, Zidhan fills them; Sc. 13 = telegram counter + brass key + strip machine; Sc. 16 FIFA "a cable from Madras" — historically anchored: telegrams = the 1950 standard) · ③ **THE X** (arecanut climbers' tree-cross) upgraded to the film's iconic 3× parallel set-piece (Sc. 7–9 spot → Brazil match wingers → Uruguay clip) · ④ Sc. 23 rewritten (Jaisal's bare wrist + watch in fist; "admiration in both directions") · ⑤ Sc. 25: Grandpa's wrist bare, Jaisal fastens the salt-crust watch on himself · ⑥ team = **the Winning Eleven** + bedsheet banner (Sc. 6) · ⑦ **Adam = Jaisal's NEPHEW** (Shafiq = Jaisal's cousin) — the last "still to confirm" relation item is closed · ⑧ timing: Part 2 CORE ≈ 21:55, Sc. 22 +Jaisal monologue (36 words), Sc. 23 → 1:45.
+- **Pipeline impact (what changed in the plan):** S1/S5 = the 2026 match ground (the Scene 23 return lands THERE — the return is NOT on the Maracanã); Madras blockout = telegraph counter + brass key + form boxes + strip machine (not a letter tray); THE X needs a dedicated spot (two arecanut trees crossing); S5 set-dress gains the WINNING ELEVEN bedsheet banner + the wooden scoreboard; the commentator's Malayalam original = a **P1 dubbing target**; the 12-kid concept batch is unblocked (script is final).
+- **Result:** `docs\EPISODE1_CHAR_SCENE_MAP.md` = v3-final (character table, scene→blockout table, blockout gap list, change log, open items). Memory: CURRENT_TASK gate line closed.
+- **Next:** the open items in the map (char3/char4 fits, grandpa reference, 12-kid batch GO, P4 re-scope) + the local-only blockout batch (offline week).
+
+---
+
 ## 2026-11-16 — ComfyUI 0.45 frontend "zero wires" root-cause hunt (headless Playwright into the live app) — SUCCESS (root cause found: `version` JSON type)
 
 - **Goal:** explain why `h3image_pose_ref_simple.json` loaded with all 13 nodes but ZERO links in the 0.45 frontend, while the numeric-`version` twin (`h3image_pose_ref_cine.json`) loaded 25/25 links. User had rejected the stale-tab hypothesis.
