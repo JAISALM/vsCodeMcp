@@ -348,6 +348,11 @@ def render(spec, out_dir, skip_frames=False):
     nframes = int(round(dur * fps))
     frames_dir = os.path.join(out_dir, "frames")
     os.makedirs(frames_dir, exist_ok=True)
+    # clear stale frames (ffmpeg's frame_%04d.png pattern would encode ALL of
+    # them — a shorter re-render after a longer one leaves the tail behind)
+    for old in os.listdir(frames_dir):
+        if old.startswith("frame_") and old.endswith(".png"):
+            os.remove(os.path.join(frames_dir, old))
     bg = make_bg().resize((WW, HH), Image.BILINEAR)
     stars = make_stars()
     FMAP = {"big": F_SERIF, "caption": F_SERIF, "close": F_SERIF_UP}

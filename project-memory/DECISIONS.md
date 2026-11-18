@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D235 — Video length serves the CONTENT, not a format goal (2026-11-18, user: "we over stretched the video, just for the sake of getting 1 min video? this can be wrapped in 40s, i think thats another issue")
+
+- **Decision:** the duration of a lesson-short is set by its BEATS, never by matching a reference's length or a "1 minute" target. Ubu al-Amal restructured 60 s → **40 s** (v5): all five beats + their content kept, only air removed — S0 0–4.5 (the padding hook line "A HADITH IN ONE MINUTE" CUT), S1 4.5–12, S2 12–22, S3 22–30, S4 30–36, S5 36–40.
+- **Reason:** stretched pacing is the exact defect the user scored 1/5 on in v1 ("too much delay after one sentence") — a format goal silently re-introduced it.
+- **Rule:** every future video's duration is derived from its beat count/content; a re-score of the 40 s cut confirms or tunes the rhythm.
+- **Status:** active.
+
 
 
 

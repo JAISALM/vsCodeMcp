@@ -4,6 +4,15 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v5 — 40 s cut (user: "we over stretched the video, just for the sake of getting 1 min video? this can be wrapped in 40s") (SUCCESS)
+
+- **Change:** all five beats + content kept, air removed. S0 0–4.5 (padding hook line "A HADITH IN ONE MINUTE" CUT — it was pure padding and factually wrong), S1 4.5–12, S2 12–22, S3 22–30, S4 30–36, S5 36–40. `card_scene`'s card_fade now derives from the scene's t0 (was hardcoded [5.9, 6.4] — would have popped cards mid-scene).
+- **Bug caught on verify:** the 40 s render left the previous 60 s render's tail (frames 1200–1799) in `frames/`; ffmpeg's `frame_%04d.png` pattern encoded ALL 1800 → a 60 s video. Fixed: `render()` now clears stale `frame_*.png` at start (engine-level guard). Lesson: always ffprobe the output duration after any duration change.
+- **Result:** `data\refanim\ubu_al_amal.mp4` v5 = exactly 40.000 s. Verified t=34 (door/figure + hijrah line) and t=39.2 (closing + citation).
+- **Principle (D235):** length serves the content's beats, never a format goal.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v4 — curved (bezier) limbs (user: "still not that smooth — is it minimax/comfyui instead? setup issue?") (SUCCESS)
 
 - **Diagnosis (user asked if it's a config issue — it is NOT):** the residual "not smooth" = the *method's ceiling*: figures were 2-segment bent sticks (shoulder→elbow→hand as straight segments with a hard kink at the joint). Supersampling fixed edge aliasing, but a bent stick still reads as a stick. The ref's figures are *flowing single curves*.
