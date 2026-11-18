@@ -29,14 +29,14 @@ Source: **`episode1\episode1_full_script_FINAL_v3.md` — USER-CONFIRMED FINAL (
 | **Jaisal** | 28–29 | left the academy after the semi-final; blames "the system" | Grandpa's watch (from Scene 4), muddy hands/feet, the graphic T-shirt that drains in 1950 | `krea2jaisal_v3` ✓ (D137 look: wavy black hair, slim, plain black tee) |
 | **Zidhan** | ~28 | the coach who stayed; always carries a **notepad + pen** ("SPRAY: 0", injury log) | notepad & pen, whistle on a string, drenched shirt in 1950 | `krea2zidhan_v3` ✓ (D137 look: top bun, white tee, **beard in every shot**) |
 
-### 2026 supporting adults
+### 2026 supporting adults — **D229 (2026-11-18): ALL = t2i character sheet + identity-edit; NO LoRA consumed** (user: "akhil as random character, we dont need to consume the lora we trained" — the v2 LoRAs are PARKED as reusable actor faces)
 | Character | Age | Script role | Asset route |
 |---|---|---|---|
-| **Akhil** | 18–20 | rides an **Activa**, carries a *kaikkott* (shovel), groundsman / first-aid man (Scene 3) | **char3 slot = `krea2jaisal_v2`** (young-man fit is approximate — confirm look with user; rename in prompts) |
-| **The Father** | ~40s | rushes to a wedding in another district (Scene 3) | **char4 slot = `krea2zidhan_v2`** (middle-aged fit approximate — confirm with user) |
-| **Shafiq's wife** | ~35 | skeptical mother; hanging washing (Scenes 5, 5A) | **NEW — no female LoRA**: t2i concept sheet (Kerala housewife, 3 angles) → pick → identity-edit v1.2 (ref_boost 4.0) for scene stills. Small role (2 scenes). |
+| **Akhil** | 18–20 | rides an **Activa**, carries a *kaikkott* (shovel), groundsman / first-aid man (Sc. 3; optional spray frame Sc. 23) | **NEW sheet** (young Kerala man, Activa + kaikkott) + identity-edit |
+| **The Father** | ~40s | rushes to a wedding in another district (Sc. 3) | **NEW sheet** (middle-aged man, wedding-hurry) + identity-edit |
+| **Shafiq's wife** | ~35 | skeptical mother; hanging washing (Sc. 5, 5A) | **NEW sheet** (Kerala housewife, 3 angles) + identity-edit |
 | **Shafiq** | — | Gulf, WhatsApp only — OFF-SCREEN (phone screen in Scene 5) | none (phone UI only) |
-| **Grandpa Abu Bakar** | ~81 | sits in "stillness", dreams of his father's ship, calls Jaisal "Jaisalu", the watch (Scenes 1, 4, 25, 30) | **char5 = identity-edit FIRST** (D227 confirmed by script — he is CORE). 1 clean reference (user photo of an 80s Malayali grandpa, or t2i concept) → identity-edit v1.2. **Watch = set-piece prop, must be consistent (glint/tick).** |
+| **Grandpa Abu Bakar** | ~81 | sits in "stillness", dreams of his father's ship, calls Jaisal "Jaisalu", the watch (Sc. 1, 4, 25; the 23-fist beat) | **NEW sheet (D229: no LoRA — user decision)**: t2i concept (thin 80s Malayali grandpa, white beard, stillness) → user picks → identity-edit v1.2. **Watch = set-piece prop, full chain: table (4) → boy (11) → Jaisal's fist w/ salt crust (23) → his wrist (25).** |
 
 ### 2026 kids (11–12) — 12 characters (team name: **the Winning Eleven**, v3 — named after the
 football-game series, "with a wink at the eleven men of 1950"; a **bedsheet banner hand-painted
@@ -116,7 +116,7 @@ All 7 = the same graybox recipe (EXPERIMENTS 2026-11-17) — ~5–10 min each lo
 
 ## Open items for the user (v3-confirmed status)
 
-1. **char3/char4 fits:** `krea2jaisal_v2` → **Akhil**? `krea2zidhan_v2` → **The Father**? (the v2 looks are "older Jaisal"/"older Zidhan" — close-ish; if the script's Akhil/Father looks are very different, a t2i concept + identity-edit may beat the LoRA fit for those two)
+1. ~~char3/char4 fits~~ — **RESOLVED by D229 (2026-11-18): Akhil AND The Father = NEW t2i sheets (no LoRA consumed); the v2 LoRAs are parked as reusable actor faces.** The sheet batch now = 12 kids + grandpa + Akhil + The Father + Shafiq's wife + 1950 supporting (Sulaiman, little Abu Bakar, Muallim, Vaidyar, postmaster, Varela).
 2. **Grandpa Abu Bakar reference:** a real photo of an 80s Malayali grandpa you have in mind, or I t2i-generate the concept (stillness, thin, white beard, watch) and you pick?
 3. ~~Adam's relation to Jaisal~~ — **RESOLVED v3: Adam = Jaisal's NEPHEW** (Shafiq = Jaisal's cousin; Adam = Shafiq's son). Scene 1 kitchen blocking = uncle/nephew framing.
 4. **The P4 deadline (Nov 22) is re-scoped** — the script is a full episode (v3: 24 core scenes, Scene 24 removed; Part 2 CORE ≈ 21:55). Propose: **2026 scenes first** (1, 2, 3, 4, 5, 6, 23-return, 25 = our 6 blockouts + scoreboard set-dress, ~2 weeks), **1950 part second** (needs the 7 new blockouts + the B&W grade pipeline).
