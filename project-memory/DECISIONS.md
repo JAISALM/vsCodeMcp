@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D236 — Smooth motion standard: crossfade scene dissolves + eased slide text; local fonts/ override dir (2026-11-18, user: "better, but the transitions are not smooth enough its like forced image transition … only the text, and the sliding animation needs improvement … lets work on the fonts, and lets install it if needed")
+
+- **Scene transitions:** consecutive scenes OVERLAP by 0.7 s — each card scene carries a `fadeout` window; the engine renders both scenes during the overlap, so cards DISSOLVE into each other (old fades out while new fades in) — no more hard cuts.
+- **Text motion:** default mode is now `slide` (eased slide-up 30 px + fade, ease-out-cubic) — the ref's text motion — replacing the typewriter (kept available as `mode="type"`).
+- **Fonts:** engine checks `D:\models\vsCodeMcp\fonts\` FIRST (`caption.ttf`/`big.ttf`/`close.ttf`/`label.ttf`/`handle.ttf`), then system fonts — so a font can be dropped in from any machine with no install/admin (offline-safe per D228; a download only after the offline window ends 2026-11-24). System candidates A/B'd: Palatino (current), Constantia italic, Felix Titan italic, Georgia italic (captions); Arial Bold vs GILL UBIQUITOUS CONDENSED (labels — the ref uses a condensed bold sans for stat labels).
+- **Status:** active for all Template B videos.
+
 ## D235 — Video length serves the CONTENT, not a format goal (2026-11-18, user: "we over stretched the video, just for the sake of getting 1 min video? this can be wrapped in 40s, i think thats another issue")
 
 - **Decision:** the duration of a lesson-short is set by its BEATS, never by matching a reference's length or a "1 minute" target. Ubu al-Amal restructured 60 s → **40 s** (v5): all five beats + their content kept, only air removed — S0 0–4.5 (the padding hook line "A HADITH IN ONE MINUTE" CUT), S1 4.5–12, S2 12–22, S3 22–30, S4 30–36, S5 36–40.

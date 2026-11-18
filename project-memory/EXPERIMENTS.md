@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v6 — crossfade dissolves + slide text + font A/B (user 3/5: "transitions are not smooth enough, its like forced image transition … only the text, and the sliding animation needs improvement … lets work on the fonts") (SUCCESS)
+
+- **Transitions:** scenes now overlap 0.7 s; each carries a `fadeout` window; the engine renders BOTH scenes during the overlap → card/figure/label/text all dissolve (verified frames: t=4.2 hook-fading-out + card-fading-in; t=11.6 S1 at ~50% while S2's card+figures fade up). No more hard cuts.
+- **Text:** default mode `slide` — eased 30 px slide-up + fade (ease-out-cubic); typewriter kept as `mode="type"`.
+- **Fonts:** engine checks `D:\models\vsCodeMcp\fonts\` first (caption.ttf/big.ttf/close.ttf/label.ttf/handle.ttf) → system fallback. A/B sheet `data\refanim\font_ab.png`: caption candidates Palatino (current) vs Constantia vs Felix Titan (caps-only display face — NOT for sentence captions) vs Georgia italic; label candidates Arial Bold vs GILL UBIQUITOUS CONDENSED (matches the ref's condensed sporty labels); closing = Baskerville (kept).
+- **Bugs:** (1) stray `]` in ring_fade line (SyntaxError) — fixed + `py_compile` before render now standard; (2) `fonts` dict KeyError 'small' — restored `FMAP.get(k, F_LABEL)` fallback for small/cite.
+- **Result:** `data\refanim\ubu_al_amal.mp4` v6 = 40.000 s.
+- **Next:** user picks caption font (sheet) → drop .ttf into `fonts/` (or agent installs after D228 offline window ends 2026-11-24) → re-render.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v5 — 40 s cut (user: "we over stretched the video, just for the sake of getting 1 min video? this can be wrapped in 40s") (SUCCESS)
 
 - **Change:** all five beats + content kept, air removed. S0 0–4.5 (padding hook line "A HADITH IN ONE MINUTE" CUT — it was pure padding and factually wrong), S1 4.5–12, S2 12–22, S3 22–30, S4 30–36, S5 36–40. `card_scene`'s card_fade now derives from the scene's t0 (was hardcoded [5.9, 6.4] — would have popped cards mid-scene).
