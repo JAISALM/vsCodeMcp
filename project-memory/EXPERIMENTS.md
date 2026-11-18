@@ -4,6 +4,17 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — Template B lesson-shorts renderer: data-driven neon line-art → 9 s demo (SUCCESS)
+
+- **Goal:** verify the animation/lesson-shorts pipeline (the template-factory line): can we produce @aiishadahir-style contrast-card shorts programmatically, with the two user-specified audio modes (narration-alone / text + natural sound)?
+- **Config:** `utilities\lesson_shorts_template_b.py` (Python 3.10 `C:\Program Files\Python310` — PIL + numpy; fonts = georgia/arial — **Cambria on this machine is `.ttc`-only**, `cambria.ttf` does not exist; ffmpeg = `D:\ffmpeg\...\ffmpeg.exe`). Scene spec = JSON primitives (`line/circle/rect/dot` + color + reveal timing + glow + pulse) → 270 frames @ 30 fps (9 s) → libx264 yuv420p crf 19; optional `--audio` mux (Mode A narration / Mode B ambient).
+- **Result:** `data\refanim\template_b_demo.mp4` (9.0 s, 1080×1920, silent) = TAWAKKUL contrast card: top card (clock, window+moon, figure+box, 3 locked doors) draws on → gold label "WITHOUT TAWAKKUL · carrying it alone" → typewriter caption + gold cursor → gold citation (SURAH AT-TALAQ 65:3) → bottom card (glowing figure, gold open door, "04 · FUTURE", progress ring) + handle watermark. Verified visually at t=2.5/5.2/8.5 s.
+- **Fixes along the way:** font path (missing `cambria.ttf` → `georgia.ttf`) · `rounded_card` passed the Image instead of a Draw object · bottom card's 3rd door overflowed the card edge (local 970 > 960) → repositioned doors to right-edge ≤ 930.
+- **Audio classification (same session):** spectral analysis of the 3 reference videos (50 ms hop / 0.5 s win — activity ratio, envelope std, median centroid, median flatness, voiceband 100–3000 Hz ratio, 3–8 Hz envelope modulation): v2 = narration (voiceband 0.92 / flatness 0.17 / centroid 1119 Hz) · v1 = narration over ambient bed (mod 0.43 + continuous floor, activity 0.995) · v3 = natural sound (crowd; env-std 2.2 dB = no speech pauses).
+- **Conclusion:** Template B is batch-ready offline — per-video content = edit the JSON (scene primitives + caption + citation + timings). NEXT: audio stages (Mode A TTS/dub, Mode B ControlFoley) + a real topic for the first video.
+
+---
+
 ## 2026-11-18 — SCRIPT v2→v3 DIFF ANALYSIS (final script locked) + EPISODE1 CHAR/SCENE→ASSET MAP
 
 - **Goal:** the user made a final pass on the script ("i have made few changes, that will be our final one" — `episode1\episode1_full_script_FINAL_v3.md`, 07:13 IST). Catch every change and update the asset/workflow plan.

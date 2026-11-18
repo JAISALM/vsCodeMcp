@@ -1950,6 +1950,17 @@
 - **Character-sheet batch (built + validated 0/0 10/10):** `workflows\krea2_charsheet_t2i.json` (Krea2 t2i, fp8 CLIP, 3-step turbo contract, 1024×1024) + `utilities\charsheet_prompts_paste.txt` (19 lines = 5 starters + 3 adults [Grandpa ~81, Akhil 19, Sulaiman ~55 1950 ship captain] + 11 1950 men) — clean frontal face anchors. **USER QUEUES 2-3 at a time** (swap the CLIPTextEncode prompt + SaveImage prefix `krea2_char_<name>_`). Jaisal + Zidhan = LoRAs (locked, no sheets).
 - **Status:** active.
 
+## D234 — Lesson-shorts template factory: Template B = PROGRAMMATIC renderer (not AI); TWO audio modes (narration-only / text+natural-sound), both D041 no-music (2026-11-18, user: "lets continue checking the animation video pipeline … these kind of videos, with narration alone … some videos have narration, with no music … some has no narration, just the text alone with natural sound … similar items we need to build")
+
+- **Decision:**
+  - **Template B (neon line-art da'wah contrast shorts) is built PROGRAMMATICALLY, not AI-generated** — `utilities\lesson_shorts_template_b.py` (Python PIL, data-driven JSON scene spec → 30 fps PNG sequence → ffmpeg). Reason: the style is pure geometry (single-stroke lines/circles/rects/dots + gold accents) → pixel-identical brand across the whole series, zero style drift, free batch generation, fully offline (D228-safe). AI's role in this line = script/quote drafting (local LLM) + Template A scene stills (Krea2 t2i, user queues).
+  - **TWO AUDIO MODES (user-specified), both obeying the D041 HARD RULE (NO music ever):** **Mode A = narration alone** (voice track = user dub → `clean_audio.py`, or parked TTS IndicF5-ML / Fish S2 Pro-EN; optional quiet ducked natural-ambient bed) · **Mode B = text + natural sound** (no voice; scene-matched ambience via ControlFoley TC-V2A — user queues per D192).
+  - **Template C (low-poly football) = Blender** (MCP, local, agent-runnable) · **Template A = Krea2 t2i stills + ffmpeg zoompan** (user queues).
+  - **Reference audio classification (spectral estimate — user to confirm by ear):** v2 @aiishadahir = Mode A narration (voiceband 0.92) · v1 grave = narration over ambient bed (3–8 Hz modulation 0.43 + continuous floor) · v3 @thefinalthird = Mode B natural sound (crowd ambient; env std 2.2 dB, no speech pauses).
+- **Built + verified 11-18:** `docs\LESSON_SHORTS_PIPELINE.md` (per-line toolchain, content-integrity spec, format spec, stages) + Template B renderer + 9 s demo `data\refanim\template_b_demo.mp4` (TAWAKKUL contrast card, 1080×1920, silent; ref frames + audio wavs in `data\refanim\`).
+- **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
+- **Status:** active.
+
 
 
 
