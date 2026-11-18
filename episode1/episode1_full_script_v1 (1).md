@@ -44,7 +44,7 @@
 | **Zidhan** | The coach who stayed. Always carries a **notepad and pen** (injury log, drills, "SPRAY: 0"). |
 | **Grandpa Abu Bakar** (~81) | Sits in "stillness", dreams of his father's ship. Calls Jaisal "Jaisalu". |
 | **Akhil** (18–20) | Rides an Activa, carries a *kaikkott* (shovel), doubles as groundsman / first-aid man. |
-| **Adam** (11–12) | Tall. Shafiq's son. Needs to play. **[CONFIRM relation to Jaisal: brother / cousin / nephew.]** |
+| **Adam** (11–12) | Tall. Shafiq's son. Needs to play. **[relation to Jaisal: brother / cousin / nephew.]** |
 | **Shafiq's wife** | Skeptical of anyone who says "a leg might break". Shafiq works in the Gulf (WhatsApp only). |
 | **The Father** | Rushes to a wedding in another district. |
 | **Zidhan's kids** (11–12) | Anto (GK), Gopu (captain), **Pachu (the tactical-foul kid)**, Babu (long passer), Ragu (striker), Velu, Kutti, Karu, Chandru, Musthu, Tomy. 5-a-side: Anto, Pachu, Gopu, Babu, Ragu on the pitch; the rest on the bench. |
@@ -134,6 +134,8 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(Visual: The screen is dark. We hear the distant, hauntingly beautiful sound of the Azan. As the light of dawn breaks, we see Jaisal waking from a nap. He performs his mandatory morning prayer in a quiet, spiritual atmosphere.)**
 
 **(NEW — Visual detail: the room is bare but lived-in. On the wall, a faded team photograph with a handwritten caption: *"SEMI-FINAL."* A younger Jaisal stands in the back row in a muddy kit. Beneath the cot, half-hidden in dust, the corner of a football. Jaisal's eyes slide past both without stopping.)**
+//we dopnt need this visual , muslims dont carry images at their home , its considered as harama
+
 
 **Action:** Jaisal moves to the kitchen. He opens the fridge, plucks a few fresh, aromatic mint leaves, and steeps them in hot water. No tea powder, just pure, fragrant mint tea.
 
@@ -147,6 +149,8 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(SUDDENLY: A loud, sharp CRACK of a firecracker echoes from the backyard. Jaisal jumps slightly and rushes toward the backyard, his *parambu*, passing through the scent of wet earth and coconut trees.)**
 
 ---
+//this is an extra emotional stuff , which we are trying to establish again and again
+we can make this scene if needed , but edit can decided whether its needed or not  completely 
 
 ## Scene 1A: The Room He Doesn't Look At  ⏱ 0:45  [⊕ EXT]
 
@@ -165,6 +169,9 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(In the center of the pitch, a bandicoot rat lies dead. The ball rolls to a stop near it.)**
 
 **(The sound of an Activa engine humming. Akhil (18-20) zips into the field, a *kaikkott* (Kerala shovel) balanced in one hand. Zidhan stands on the sideline, catches Akhil's eye, and uses a series of urgent gestures, pointing to the rat and then to his watch.)**
+the shot sequence is the main thing here 
+we must be thinking like a director ,and each cut shouldnt feel forcefull by the movie
+we can easily give scene of activa from behind or a side shot of akhil coming with kaikkott in activa 
 
 **Zidhan:** (Gesturing urgency) "Akhil! Get in here and clear this mess, fast!"
 **(Akhil hops off the Activa, scoops the rat out of the mud with one swift motion, and tosses it aside. The field is cleared, and the game restarts with a roar.)**
@@ -216,6 +223,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 ---
 
+the below scene is not needed , lets go to 4 directly
 ## Scene 3A: The Wedding Car  ⏱ 0:45  [⊕ EXT]
 
 **(Visual: The father's car, a dented white Ambassador, honking at the field's edge. The injured boy is lifted into the back seat with his foot on his father's knee. The wedding suit hangs on a hook, creased. The father looks at his watch for the last time and sighs. Through the rear window, the boy looks back at the pitch like a soldier leaving a front.)**
@@ -234,7 +242,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Jaisal:** (Looking up) "This wild boar got caught in the cracker trap. The dogs kept digging it up, so I'm digging a bigger one this time."
 **(Jaisal pauses, looking at Zidhan with a philosophical glint.)**
 **Jaisal:** "You know, Zidhan... dogs only know how to dig up the past things."
-**(Zidhan laughs, realizing Jaisal is calling him a 'dog' for his obsession with previous failures.)**
+**(Zidhan laughs, realizing Jaisal is calling him a 'dog' for his obsession with previous failures. and he can murmur , naay le , meaning a.. dog .. huh .. in a normal way )**
 
 **(NEW)** **Zidhan:** (The laugh fades) "You haven't been to the ground since the semi-final."
 **(NEW — Jaisal doesn't answer. He digs. The scratch of the shovel is the only reply.)**
@@ -250,6 +258,8 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 **(Transition: Jaisal walks to the washbasin, washing his muddy hands and feet. As he grabs the towel, he looks over at Grandpa, who is now without his watch; it is resting on the table.)**
 
+i would like to add a doalogue from zidhan indicating he calls jaisals name at house , and asks whether grandpa is sleeeping or what ?
+
 **Jaisal:** "You've been dreaming a lot lately, Grandpa."
 **Grandpa:** (Softly) "Our dream is not to destroy others, Jaisalu... it is to live happily within them."
 **Jaisal:** "What are you dreaming about now? My mother?"
@@ -262,29 +272,31 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 ## Scene 5: The House of Shafiq  ⏱ 1:45  [CORE]
 
-**(Visual: Jaisal checks his phone, a WhatsApp from Shafiq in the Gulf: "Bring him! He's ready!")**
+**(Visual: Jaisal checks his phone, a WhatsApp from Shafiq in the Gulf: "all set ! He's waiting for u !")**
 
 **(Inside, Jaisal meets Shafiq's wife and the young boy, Adam. NEW — Adam is already in a mismatched kit, shin guards made of folded newspaper under his socks, a pair of too-small boots in his hand.)**
 
-**Shafiq's Wife:** (Skeptical) "*Aarelum kayyo kaalo odichu ennum paranjond ingott vannaal athre ullu* (If you just come here saying a hand or a leg might break, that's all it is!)."
-**Adam:** (Bouncing with excitement) "But Amma! I want to play! I *have* to play!"
+**Shafiq's Wife:** (Skeptical) "*Aarelum kayyo kaalo odichu ennum paranjond ingott vannaal athre ullu* (If you just come here saying a hand or a leg broken , that's all it is!)."
+**Adam:** (Bouncing with excitement) "But Umma ! I want to play! I *have* to play!"
 **Jaisal:** (Smiling) "Don't worry. We'll take care of him. He's the missing piece Zidhan needs."
 
 ---
 
 ## Scene 5A: The Header  ⏱ 1:00  [⊕ EXT]
 
+//the below visual is over sketchy .. we can plan it like , a cocunut has fallen and roll near the pathway .. so as adam comes he kicks the cocunut
 **(Visual: Before they leave, in the yard, Adam can't stand still. A coconut falls from a palm and hits the ground; he sprints, jumps, and heads a second falling coconut clean across the yard into a bucket. The bucket rings like a bell. His mother, hanging washing, stops with a wet shirt in her hands.)**
 
-**Jaisal:** (Under his breath) "*Kaalappoott.*"
+**Jaisal:** (Under his breath) "*kaal keduvaratthanda , meaning dont damage your legs because he kicked it without boot with only his sandals.*"
 
 **(He looks at Adam the way Zidhan looks at a kid he trusts.)**
 
 ---
 
+//final will be at 6PM
 ## Scene 6: The Tournament (The First Half)  ⏱ 3:30  [CORE]
 
-**(NEW — Title card over a hand-painted banner: *"THE FINAL — 4 PM."* A plank-and-bamboo gallery, a rope for a boundary. A boy with a school notebook sells tickets; Jaisal pays ten rupees for a ticket printed on a torn matchbox label.)**
+**(NEW — Title card over a hand-painted banner: *"THE FINAL — 6 PM."* A plank-and-bamboo gallery, a rope for a boundary. A boy with a school notebook sells tickets; Jaisal pays ten rupees for a ticket printed on a torn matchbox label.)**
 
 **(NEW — Zidhan, on the sideline, sees him come in with Adam. Zidhan nods at Adam: "Bench. Second half." Adam sits, hopping with impatience, a bib on his lap. Zidhan to Jaisal:)**
 **Zidhan:** (NEW) "Aren't you watching?"
@@ -303,10 +315,14 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(Jaisal stands up. He slowly brings his wrist up, looks at the grandfather's watch, and adjusts the dial.)**
 
 **Jaisal:** (A whisper) "Let's change the history."
+//this is where the time shift happens
+not after , not at half time , jaisals shifts it as soon as he saw the fighting culture , that makes perfect sense to do this , because its Adams who made that tackle and being dragged into the fight , lets not involve pachu here , that will mess up jaisals emotion , jaisal dont want Adams to be like someone else ..
 
 **(The colors of Kerala begin to fade into a cinematic Black & White transition. The noise of the fight thins into a single tick.)**
 
 ---
+
+//below scene is not needed 
 
 ## Scene 6A: The Rest of the First Half  ⏱ 1:30  [⊕ EXT]
 
@@ -340,8 +356,8 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Zidhan:** "And the system is a place you stopped visiting."
 **(Jaisal flinches. He looks away.)**
 **Jaisal:** "We aren't the players. We're the coaches. We bring the brains of 2026 to the heart of 1950."
-**Zidhan:** "I've got eleven kids and a notebook."
-**Jaisal:** "Pen."
+**Zidhan:** "with what , I've got only a notebook."
+**Jaisal:** "Pen.?"
 
 **(Jaisal tears a clean page from Zidhan's notebook, kneels, and writes on his knee. We see only the last line, in large clear handwriting: *"Our dream is not to destroy others. It is to live happily within them."* He folds it in four.)**
 
@@ -430,6 +446,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(Jaisal throws. Seven thuds. Then, after a long moment, an eighth.)**
 **Jaisal:** "Eight."
 **Gopalan:** "That one would have fallen by evening. It doesn't count."
+jaisal has to cross midfielder in his book and says , 1 is ready (in malayalam , oraalayi)
 **Jaisal:** "Midfielder."
 **Gopalan:** "What's a midfielder?"
 **Jaisal:** "The man who counts what everyone else is guessing."
@@ -454,6 +471,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Pakru:** (The faintest twitch of one eyebrow) "...No."
 **Jaisal:** (Delighted) "Perfect."
 
+//instead of toddy tapper , we can use arecanut tree climber , arcenut trees are flexible so climber will move from one to another quickly , perfect for wingers
 ### 10D: The Montage  (0:20, minimal dialogue)
 **Visual:** Fast cuts, sound only.
 - **Tea shop:** a lean man pulls tea in a one-metre arc and lands the glass in Jaisal's hand without a drop spilled. **Bappu.** At the corner table a card player calls Jaisal's hand from his left eyebrow. **Thomas.**
@@ -469,6 +487,16 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Jaisal:** "It's a long story. You're my Forward."
 
 ---
+
+//recruitment can be cut short , we dont need these details to be shown in the recruitment phase , the wingers can be the arecunut tree climbers both , they will climb two trees in x shape and we can have a parallel in football ground
+that will be iconic
+so the midfielder , goalkeper and the striker , along with coir makers , those are the recruitment we will be showing 
+others , we can have the details in script , but the direction will be happening in pitch 
+the pass , the x way of going past / making behind the runs in footbal 
+when we have the dfensive midfiler or defeneder shoves up , we can show the parallel of market 
+
+so scene 10X , and A-E should be trimmed , 
+lets keep the recruitment shots minimal , so that we can show something in the ground 
 
 ## Scene 10X: Extended Recruitment  ⏱ +2:00  [⊕ EXT]
 
@@ -495,6 +523,11 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 ---
 
+//here we can trim down few scenes , lets be real , 5 year olds wont ask our name , we have to ask their name .. so its not about jaisals , but jaisal asking his grandpas's name 
+lets rewright the scene in that way 
+jaisal hears the name .. maybe jaisal can give his watch to that kid ?? indicating the viewrs that this is not a time travel movie , because the ultimate core is magical realism 
+and some people might think this as time travel due to the fact we are showcasing the watch , its a tool of remembering things .. thats the metaphor we should give right ? 
+scene 11 have to rewrite
 ## Scene 11: The Ship — "Vaappaa!"  ⏱ 1:00  [CORE]
 
 **Visual:** Dusk. The MARJAN at anchor, a gangplank down to the beach. The new team stands in a ragged line: fishermen, a tea-maker, a card player, a thief still holding the basket of fish. They look like a village photograph.
@@ -528,13 +561,19 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Gopalan:** "That is a coconut."
 **Jaisal:** "In Brazil the ball will be heavy leather, heavier when wet. If you can control this on a moving ship, you can control anything."
 
+//we are in a boat in sea , we cannot bend down and pick the cocunut , let that one be floating , and they realise .. then they will continue
 **(Karunan kicks it and it skews into the sea. Antappan reaches over the rail and lifts it out by hand.)**
 **Antappan:** "It floats."
 
 **(MATCH CUT: the spinning coconut becomes a swinging harbour lamp at night.)**
 
 ---
-
+\//didnt get this scene exactly , 
+so after hearing counter 11 is closed , what was on zidhanes mind ?
+//so we must remove india will not 's NOT , and then replace something , or Zidhane can prepare a letter on his own when he was traveling to madras , since he knows letter is being snet fro madras , so he will replace it inside the envelope , 
+WE CAN SHOW only parallele , that the burned letter had india will not , and the new one has INdia will 
+indicating the change to the audience 
+otherwise , this scene ewill worth nothing 
 ## Scene 13: The Madras Post Office  ⏱ 1:50  [CORE]
 
 **Visual:** Madras at dawn. A tall red-brick post office, brass counters, rubber stamps, ceiling fans turning slowly. Zidhan reaches the telegram counter. A stout postmaster with spectacles on a string frowns at a paper strip. Zidhan reads it upside down: *"INDIA WILL NOT PARTICIPATE IN FIFA WORLD CUP. LETTER FOLLOWS."* The postmaster's finger hovers over a brass key.
@@ -566,6 +605,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 ---
 
+//lets change the dialogue according to the setup we have amde i the new scene 
 ## Scene 14: "Where Are the Other Players?"  ⏱ 0:40  [CORE]
 
 **Visual:** The Madras bazaar, ten minutes later. Zidhan, with Sulaiman's coin pouch, buys a bag of shiny brown **rubber seeds**, a ream of paper, and fifteen pairs of striped socks. ("For whom?" "For people who don't know they need them yet.") The MARJAN anchors in the harbour. The whole team lines the rail, looking down.
@@ -589,7 +629,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Muallim:** (Without looking up) "Then the wind will love you."
 
 ---
-
+//we have to trim down this shot a little bit , we cannot kick away all the cocunuts , but we can show a scene with more cocunut at the boat when we start the scene , and it has few left when they reach meaning during the course of 40 days , a lots of them went into the sea 
 ## Scene 15: The Voyage & The Tactics Board  ⏱ 1:30  [CORE]
 
 **Visual (Montage, 0:50): the sea as a gym.**
@@ -622,6 +662,8 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **(Zidhan glances at the seeds. He says nothing. We file it away.)**
 
 ---
+//lets not include this scene , i know its good for emotional connection , but having an extra scene for jaisals backdrop is not needed for this episode , let it be it , 
+scene 15 itself was too long , also no sane person will get his 5 yr old boy to brazil , at 1950 from kerala , lets not include abu bakr in this , nor sulaimna , the sailor can be muallim right ? who can onboard into the marjan with zidhane , so that pathemari can be drived back by the one who bought marjan at Madras ?
 
 ## Scene 15A: The Night Deck  ⏱ +1:30  [⊕ EXT]
 
@@ -670,9 +712,12 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 **Radio commentary (English):** "Passing back to the goalkeeper. Cowardice or genius, I cannot tell. And now... it's in the net!"
 
-**Result:** India 2, Sweden 1.
+\//lets put sweden 0 meaning india has not faced that much competiotion , and were able to do most of the items , with parallel footages 
+**Result:** India 4, Sweden 0.
 
 ---
+
+//the visual story telling is the core of this , we should come up with a unique way of story telling via the direction , thats the geenrstion part ,m we will worry about that  when we are geenrating this visual 
 
 ## Scene 18: Italy and Paraguay — Glimpses  ⏱ 0:25  [CORE]
 
@@ -749,6 +794,9 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 **(Then Uruguay take over, not with skill but with *weight.* A hard tackle from behind on Kuttappan; play on. A shirt-pull on Raghavan; play on. Varela stands on Gopalan's foot at a throw-in and apologises courteously. 1-1 from a corner: Uruguay's tallest man rises over Chandu and Pakru. Pakru, who has said "No" to every cross all match, looks at the sky and says "Yes." 2-1 from a goalmouth scrum in the mud. Jaisal could say the word: foul, hold, stand on toes. He opens his mouth and says nothing. He is still a believer.)**
 
+//we can have this in directional plate , and add more dialogues 
+when the ball comes through air pakru says no in slow motions and jumps , ball beyond his had and we will show his close up , the striker will say YES in slow motion to his face and run to the corner for celebrating , this is directional item , where we can add , but overall the scene is good 
+
 **(Varela wins the ball and stops, hand raised, to argue a trivial point with the linesman. Two full minutes of clock burn. India's rhythm dies. Gopalan to Thomas: "He's counting the clock." Thomas: "He's using it." 3-1.)**
 
 **(The whistle. Eleven men from Malabar sit down in the mud, one by one. Pakru unfolds his arms and opens them. Varela crosses the swamp and shakes Gopalan's hand.)**
@@ -777,6 +825,14 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 
 ---
 
+//this scene is not needed , in fact what we should show is the scoreline , that says 3-1 for zidhanes team .. 
+meaning uruguay vs india's score is actually the 5's footballs final score and zidane won the game 
+and zidna eand jaisals have admiration for each othe , jaisals is realising he was wrong , that fundamentals along with the tacticts are the key , fundamentals has to be strong 
+either this can be conveyed in the commentary or monomlogue 
+but i feel commentary would be better 
+the commentator can express this feeling of mine (writer) through that scene , kind of spoon feeding to the audience , but thats beldning to that scene properly 
+
+
 ## Scene 24: The 2026 Payoff  ⏱ 1:00  [CORE]
 
 **Visual:** The paddy field, the second half, full colour. The hand-painted wooden scoreboard reads **0-0.** The kids are mud to the eyebrows: **Anto, Gopu, Pachu, Babu, Ragu**, and on the bench **Velu, Kutti, Karu, Chandru, Musthu, Tomy**. The faces are the ones we have just spent twenty minutes with in black and white. **Adam is on the pitch now.** The bib is gone from the bench.
@@ -794,7 +850,7 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Zidhan:** (Laughing) "It's full!"
 
 ---
-
+//this is also not needed , lets cut striaght into jaisals hoe and grandpas interaction 
 ## Scene 24A: Home With Adam  ⏱ +0:45  [⊕ EXT]
 
 **(Visual: Dusk. Jaisal walks Adam home; Adam relives the goal with both arms. At the door, Shafiq's wife looks at his knee, then at Jaisal.)**
@@ -812,9 +868,10 @@ Method: each scene's ⏱ is my staged-runtime estimate; the *dialogue* column co
 **Grandpa:** (Not looking at him) "How was the time travel?"
 **Jaisal:** "I didn't go to escape it, Grandpa. I went to look at it."
 **(Grandpa turns his head, slowly, for the first time. His eyes are clear.)**
-**Grandpa:** "Did you see my father?"
+//these are not needed , he can aks this , 
+<!-- **Grandpa:** "Did you see my father?"
 **Jaisal:** (Smiling, eyes wet) "He asked my name."
-**Grandpa:** (A faint smile) "He asks everyone's name."
+**Grandpa:** (A faint smile) "He asks everyone's name." -->
 **(Grandpa lifts his wrist to his ear and listens. *Tick. Tick.*)**
 **Grandpa:** "And?"
 **Jaisal:** (Looking out at the dark palms) "Good. I want to do it again, Grandpa. Frequently."
@@ -872,6 +929,7 @@ My recommendation is still 20 + 20, because every one of those cuts removes some
 5. **Third coach** is the Vaidyar, so the empty-spray motif has a 1950 answer.
 6. **Names invented:** the MARJAN, Muallim Moideen, Vaidyar Madhavan, the eleven 1950 players, the 2026 kids' names. All changeable; the emotion should stay.
 7. **2026 match score is 0-0 → 1-0.** The first half in Part 1 is scoreless, so the winner is Adam's header at the very end.
+this is wrong , we wont specify who's the winner etc 
 8. **T-shirts drain** during the voyage so the colour flood in Scene 23 lands harder.
 9. **The mud in the Uruguay game** is my invention. It makes the Maracanã look like the Kerala paddy.
 
@@ -881,3 +939,9 @@ My recommendation is still 20 + 20, because every one of those cuts removes some
 - **The real 1950 Indian squad** (Sailen Manna, Talimeran Ao, Mewalal and others) is not on screen. If you want that contrast, the best place is a two-line exchange in Scene 15 or Scene 16.
 
 **Send me your notes in any form** (scene numbers, "change this line", names, deleted beats). Then I'll produce the locked version and a clean scene index we can use to plan production.
+
+final verdict , 
+I have added details through tout the cript after reading them , make correct changes and lets keep this script ready 
+I dont feel any cringe ness after reading it , its a solid script , lets not force ourself to keep the first half secod half timing 
+we can strat the magical realism in middle so that we dont need to exactly cap the flashback the same amount as the present , and that decision gives us more time , to explain and travel thtough 1050's and dont need a particular explanatin to the viewers
+

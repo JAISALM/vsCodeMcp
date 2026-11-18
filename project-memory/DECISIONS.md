@@ -1896,4 +1896,12 @@
 - **Script gate (user, same message):** the FINAL football-story script is being written in a separate chat. On delivery: (1) character-name + appearance table mapped onto the 5 slots above, (2) per-scene cast list (who is in S1–S6) → determines per-scene refs + R2V prompts, (3) workflow prep. S5 = minimal 7's ground = the football 7-a-side pitch (story is football-related — scene set confirmed).
 - **Status:** active — waiting on the final script.
 
+## D228 — NETWORK OUTAGE WINDOW 2026-11-18 → 2026-11-24: ALL network-dependent work PAUSED (user 2026-11-18 07:06 IST: "the internet speed has dropped significantly for the week, till 24 november it will be 2mbps, which is too slow to even load items, so lets stop the RAG and other stuff for this week, and will resume on 24 november, till that i will look at other task we have")
+
+- **Decision:** during 11-18 → 11-24, NO network-dependent work: daily RAG (task **`VsCodeMcp-RagDaily` DISABLED 2026-11-18** — re-enable on 11-24), weekly lab watch / HF API diffs, web research tiers, Reddit/X/Civitai fetches, model downloads. **`VsCodeMcp-MdDailyCommit` STAYS ON** (local git safety net; KB-scale pushes survive 2 Mbps, failed pushes auto-retry).
+- **What stays available (local-only):** Blender blockouts/camrefs, workflow building + validation, memory/script work, GPU generations (user queues, D192), and **two local-only chores that fit the window: ① X cookie re-copy from Brave DevTools (session expires 2026-11-27 — do it DURING this week, it needs no internet) ② C: cache ~90 GB go/no-go decision.**
+- **RESUME CHECKLIST (2026-11-24, 08:00 IST — reminder scheduled):** `Enable-ScheduledTask VsCodeMcp-RagDaily` → run the 08:00 RAG catch-up (the 11-18..24 news window was NOT watched — a one-shot catch-up digest is expected to be sparse/stale; do NOT backfill day-by-day) → resume the lab watch (WATCHLIST.md orgs, including the 5 added 11-17: meituan-longcat/Wan-AI/google/tencent/nvidia) → verify X timeline (cookies) → re-check D225 (Qwen4-27B) + LongCat-Video-Avatar-1.6 ADOPT candidate.
+- **Status:** active until 2026-11-24.
+
+
 
