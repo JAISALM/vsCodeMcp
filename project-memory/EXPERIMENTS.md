@@ -11,6 +11,7 @@ Newest experiments first.
 - **SFX:** verified **ControlFoley TC-V2A NOT installed** (`models\audio_encoders` = placeholder file only; only MiniMax H3 audio VAE present) + D228 offline until 11-24 → proper Mode B unblocks after 11-24. Built **`utilities\synth_ambient.py`** (reusable helper, D228-safe): synthesized night ambience (wind = LP pink noise + two slow gust LFOs, room tone floor, bandpassed whoosh swell at 34.3 s = door beat) → mixed under v8 → **`data\refanim\ubu_al_amal_sfx.mp4`** (h264 + AAC, 48.000 s, ffprobe-verified). First audio deliverable on this video.
 - **Score trend (user):** v4–v6 3.0 → v7 2.5 — recorded as programmatic-renderer ceiling; MiniMax hybrid is the documented escape hatch (D234).
 - **Result:** v8 = 48.000 s @ 60 fps; `_sfx.mp4` variant with synthesized bed.
+- **Sound v2 (user: "we dont want this much frequent sound … repeating the same heavy wind or sea sound is not good … keep it mildly so its easy to focus")** — root cause: the two-sine gust LFO (0.07/0.13 Hz) made a PERIODIC swell that read like repeating sea/wave; levels were hot (whoosh −16 dB peak). Fix in `synth_ambient.py`: gust LFO replaced with a **non-repeating slow random walk** (random targets every 4 s, one-pole τ≈9 s); layers softened to deep rumble LP 90 Hz + faint high hiss 1.2–3.2 kHz + room-tone floor; whoosh cut to −26 dB peak; added `--gain` flag. Re-mixed `ubu_al_amal_sfx.mp4` now measures **mean −48.7 dB / max −26.5 dB** (volumedetect) — a whisper bed.
 
 ---
 
