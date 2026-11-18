@@ -52,44 +52,44 @@ def spec():
                 dict(s="A HADITH IN ONE MINUTE", t0=4.6, t1=5.4, font="small",
                      color="gold", align="center", x=W // 2, y=970, spacing=5),
             ]),
-            # ---- S1 the same action (6-18) ----
-            card_scene(6, 18, "THE SAME ACTION", [8.0, 8.6],
+            # ---- S1 the same action (6-16) ----
+            card_scene(6, 16, "THE SAME ACTION", [7.8, 8.4],
                        road(120, 960, FEET, 6.4)
                        + figure(FXL, FEET, 6.8, pose="walk")
                        + figure(FXR, FEET, 7.1, pose="walk"),
-                       [T("They prayed the same prayers.", 8.5, 11.2, 560),
-                        T("They worked the same hours.", 11.0, 13.7, 640)]),
-            # ---- S2 two intentions (18-32) ----
-            card_scene(18, 32, "TWO INTENTIONS", [20.0, 20.6],
-                       road(120, 960, FEET, 17.9, 18.05)
-                       + figure(FXL, FEET, 17.9, pose="carry_L", instant=True)
-                       + figure(FXR, FEET, 17.9, pose="carry_R", instant=True)
-                       + lantern(FXL - 52, FEET - 112, 19.5)
-                       + coin(FXR + 52, FEET - 112, 21.5),
-                       [T("But one worked for Allah.", 22.0, 24.5, 560),
-                        T("One worked for the world.", 24.3, 26.8, 640)]),
-            # ---- S3 the outcome (32-46) ----
-            card_scene(32, 46, "THE PROMISE", [33.5, 34.1],
-                       road(120, 960, FEET, 31.9, 32.05)
-                       + figure(FXL, FEET, 31.9, pose="carry_L", instant=True)
-                       + figure(FXR, FEET, 31.9, pose="carry_R", instant=True)
-                       + arrow_up(FXL, FEET - 265, 55, 34.0)
-                       + ring_circle(FXR, FEET - 302, 26, 36.5, color="dim"),
-                       [T("\u201cEach person will have", 34.5, 37.0, 560),
-                        T("what they intended.\u201d", 36.8, 39.3, 640)]),
-            # ---- S4 the hijrah example (46-56) ----
-            card_scene(46, 56, "THE EXAMPLE \u00b7 HIJRAH", [49.5, 50.1],
-                       door(620, 1100, 740, FEET, 47.0, beam=True)
-                       + figure(680, FEET, 48.5, pose="walk"),
-                       [T("\u201cWhoever\u2019s hijrah was for Allah \u2014", 49.0, 52.0, 560),
-                        T("his hijrah was to Allah.\u201d", 51.8, 54.5, 640)]),
-            # ---- S5 closing (56-60) ----
-            dict(t0=56, t1=60, text=[
-                dict(s="ACTIONS ARE BY", t0=56.4, t1=57.2, font="big", align="center",
+                       [T("They prayed the same prayers.", 8.2, 10.2, 560),
+                        T("They worked the same hours.", 10.0, 12.0, 640)]),
+            # ---- S2 two intentions (16-30) ----
+            card_scene(16, 30, "TWO INTENTIONS", [18.5, 19.1],
+                       road(120, 960, FEET, 15.9, 16.05)
+                       + figure(FXL, FEET, 15.9, pose="carry_L", instant=True)
+                       + figure(FXR, FEET, 15.9, pose="carry_R", instant=True)
+                       + lantern(FXL - 52, FEET - 112, 17.5)
+                       + coin(FXR + 52, FEET - 112, 19.5),
+                       [T("But one worked for Allah.", 20.5, 22.5, 560),
+                        T("One worked for the world.", 22.3, 24.3, 640)]),
+            # ---- S3 the outcome (30-44) ----
+            card_scene(30, 44, "THE PROMISE", [31.0, 31.6],
+                       road(120, 960, FEET, 29.9, 30.05)
+                       + figure(FXL, FEET, 29.9, pose="carry_L", instant=True)
+                       + figure(FXR, FEET, 29.9, pose="carry_R", instant=True)
+                       + arrow_up(FXL, FEET - 265, 55, 31.0)
+                       + ring_circle(FXR, FEET - 302, 26, 32.5, color="dim"),
+                       [T("\u201cEach person will have", 33.0, 35.0, 560),
+                        T("what they intended.\u201d", 34.8, 36.8, 640)]),
+            # ---- S4 the hijrah example (44-54) ----
+            card_scene(44, 54, "THE EXAMPLE \u00b7 HIJRAH", [47.5, 48.1],
+                       door(620, 1100, 740, FEET, 45.0, beam=True)
+                       + figure(680, FEET, 46.5, pose="walk"),
+                       [T("\u201cWhoever\u2019s hijrah was for Allah \u2014", 48.5, 50.5, 560),
+                        T("his hijrah was to Allah.\u201d", 50.3, 52.3, 640)]),
+            # ---- S5 closing (54-60) ----
+            dict(t0=54, t1=60, text=[
+                dict(s="ACTIONS ARE BY", t0=54.4, t1=55.2, font="big", align="center",
                      x=W // 2, y=820),
-                dict(s="INTENTIONS.", t0=56.9, t1=57.7, font="big", align="center",
+                dict(s="INTENTIONS.", t0=54.9, t1=55.7, font="big", align="center",
                      x=W // 2, y=906),
-                dict(s="SAHIH AL-BUKHARI \u00b7 1", t0=57.8, t1=58.6, font="cite",
+                dict(s="SAHIH AL-BUKHARI \u00b7 1", t0=55.9, t1=56.7, font="cite",
                      color="gold", align="center", x=W // 2, y=1000, spacing=5),
             ]),
         ],

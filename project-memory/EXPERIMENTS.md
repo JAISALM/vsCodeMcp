@@ -4,6 +4,21 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v2 polish pass (user scored v1 1/5) — 5 engine fixes (SUCCESS)
+
+- **User critique of v1 (1/5):** ① drawings have extra lines / lines not clear ② text not fading in properly ③ a "spacebar" visible when each keyword is typed ④ font not good ⑤ too much delay after one sentence.
+- **Root causes + fixes (all in `utilities\lesson_shorts_template_b.py`):**
+  - ① the neon glow was 2-3 stacked halo passes (width+7, width+12) → at line scale that reads as doubled/muddy lines. Now ONE soft halo (width+5, alpha ~38·glow) + crisp full-brightness core (alpha 248).
+  - ② typewriter lines were drawn at `alpha = 255·f` while typing → the in-progress line looked grey/dim until it snapped to white. Now types at FULL brightness — the typing IS the animation, no alpha ramp.
+  - ③ the gold cursor bar at the typing edge looked like a stray "spacebar" → removed entirely.
+  - ④ Georgia → **Baskerville** (`C:/Windows/Fonts/BASKVILL.TTF`) — the closest system serif to the reference's elegant high-contrast look (machine font audit: only georgia/times/pala/baskvill/cambriat/sylfaen available; no Playfair until the post-24th download window).
+  - ⑤ rhythm: typing = 2 s/line, line-2 starts 0.2 s before line-1 ends, scenes 12–14 s, no dead air after the last line.
+- **Result:** `data\refanim\ubu_al_amal.mp4` re-rendered (same 60 s, 1800 frames). Verified frames t=12.5 (crisp full-brightness Baskerville captions, clean figures), t=26 (lantern/coin), t=57.5 (closing + gold citation).
+- **Still open (next polish pass):** lantern prop reads small/dim at card scale · carry-pose arms slightly stiff · `@yourhandle` placeholder · audio stage (Mode B ControlFoley / Mode A TTS-dub).
+- **Conclusion:** the v1 problems were all engine-level (glow stacking, alpha-ramped typing, cursor bar, font, timing) — NOT spec/content problems. v2 renders clean; awaiting the user's re-score.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL 60 s video (first REAL lesson-shorts content video) (SUCCESS)
 
 - **Goal:** the user's first real video — a popular hadith that "explains something", 1 minute. Picked **Sahih al-Bukhari 1** (Ubu al-Amal, "actions are by intentions" + the hijrah continuation) — the most famous hadith in the collection, and long enough to fill 60 s.

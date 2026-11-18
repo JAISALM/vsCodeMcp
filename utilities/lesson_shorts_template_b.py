@@ -52,7 +52,7 @@ GOLD = (212, 169, 78)
 WHITE = (238, 242, 238)
 MUTED = (150, 165, 155)
 
-F_SERIF = "C:/Windows/Fonts/georgia.ttf"
+F_SERIF = "C:/Windows/Fonts/BASKVILL.TTF"   # elegant high-contrast serif (ref-class look)
 F_LABEL = "C:/Windows/Fonts/arialbd.ttf"
 F_HANDLE = "C:/Windows/Fonts/arial.ttf"
 
@@ -105,8 +105,8 @@ def stroke_overlay(ov, kind, geom, color, width, f, glow=1.0, alpha=255, fill=Fa
         return
     col = COLORS.get(color, LINE)
     d = ImageDraw.Draw(ov)
-    ga = int(55 * glow) * alpha // 255
-    ca = int(235 * alpha) // 255
+    ga = int(38 * glow) * alpha // 255   # ONE soft halo (a double halo made lines look doubled/muddy)
+    ca = int(248 * alpha) // 255        # crisp full-brightness core
 
     def passes(w_extra, a):
         if a <= 0:
@@ -136,9 +136,7 @@ def stroke_overlay(ov, kind, geom, color, width, f, glow=1.0, alpha=255, fill=Fa
                 d.ellipse([x - r, y - r, x + r, y + r], fill=(col[0], col[1], col[2], a))
 
     if glow > 0:
-        passes(width + 7, ga)
-        if glow > 1.5:
-            passes(width + 12, max(0, ga - 30))
+        passes(width + 5, ga)
     passes(width, ca)
 
 
@@ -328,13 +326,9 @@ def render(spec, out_dir, skip_frames=False):
             center = it.get("align", "center") == "center"
             a = int(255 * f)
             if mode == "type" and f < 1.0:
+                # typing = the animation itself: FULL brightness, no grey ramp, no cursor bar
                 shown = s[: int(len(s) * f)]
-                text_overlay(ov, (x, y), shown, font, color, a, it.get("spacing", 0), center)
-                if shown:
-                    wsh = ImageDraw.Draw(ov).textlength(shown, font=font)
-                    cx = (W // 2 - ImageDraw.Draw(ov).textlength(s, font=font) / 2) if center else x
-                    ImageDraw.Draw(ov).rectangle([cx + wsh + 5, y + 6, cx + wsh + 11, y + 6 + font.size * 0.8],
-                                                 fill=(GOLD[0], GOLD[1], GOLD[2], 230))
+                text_overlay(ov, (x, y), shown, font, color, 255, it.get("spacing", 0), center)
             else:
                 text_overlay(ov, (x, y), s, font, color, a, it.get("spacing", 0), center)
 
