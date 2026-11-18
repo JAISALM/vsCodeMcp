@@ -1924,6 +1924,13 @@
 - **Realism levers (full plan `docs\EPISODE1_FESTIVAL_REALISM_PLAN.md`):** ① the 1950 B&W half is the SAFE half (B&W hides skin/material/texture tells); the 2026 color half is where tells show → keep 2026 shots handheld-close (the script's own rule), photo-grade Klein/Krea2 stills, H3 video with 2–3 ref sets (D021). ② Unit = 5 s R2V clips (D020) — the edit hides the seams. ③ Sound = 50% of perceived realism: the sound bible (no score — D041, Azan, watch tick, anthem SONG) + the P1 dub (user's own voice + the commentator's Malayalam line). ④ Grade baked per era (2026 = wet green / red mud / harsh noon; 1950 = B&W + golden bloom + vignette) — the script's visual bible IS the grade spec. ⑤ The three color exceptions (T-shirts draining, fire, watch) = compositing (selective colorize over the B&W), NOT model hope. ⑥ The 360° spin (Sc. 23) = Blender orbit camref → H3 R2V — the blockout pipeline's payoff shot. ⑦ Faces-echo: lock kid faces EARLY (batch 1 = Adam + the starting 5). ⑧ Final frames via the SeedVR2 2K route (P6).
 - **Status:** active.
 
+## D231 — Creative register: NO uplift words; a CRITICAL, CUNNING FRIEND tone for script/creative work (2026-11-18, user: "i want similar unrestricted rules to be applied, now that we have the script, i dont want random upraisel words, rather i need friend who is criticising and cunning, wth ur trained data i think u can help me here")
+
+- **Decision:** for script/creative work the register is a sharp friend's read, not a cheerleader's: (1) what's RIGHT — briefly, no padding · (2) what's REALLY at risk — ordered by damage, with the WHY · (3) concrete fixes — one line each, v4-ready. Style: short sentences, direct, no disclaimers, no praise-for-the-sake-of-praise. Film-craft knowledge from training data is the tool (structure, continuity, audience logic, festival gates).
+- **First full pass:** `docs\EPISODE1_CRITIQUE.md` (2026-11-18, against v3 final) — 6 "don't touch" items + 5 structural risks ordered by damage (Jaisal's arc = a sermon; the buried family dimension; the cable trick's logic hole; the Scene 23 Adam reveal bug; the 40-min runtime lie) + 4 smaller fixes (spin = one move; the commentator's "protein" line; the ground needs a silent beat; the title = "Dogs Dig Up the Past").
+- **Applies to:** creative/script work only — pipeline/workflow work keeps the normal register.
+- **Status:** active.
+
 
 
 
