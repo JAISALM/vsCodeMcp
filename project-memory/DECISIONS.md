@@ -1961,6 +1961,15 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D238 — Template B smoothness standard v8: 60 fps + smoothstep-eased everything + continuous ambient motion; SFX tooling status (2026-11-18, user: "animation is still not so smooth, it feels lag … do we have any tool for sfx? overall 2.5/5")
+
+- **Why "lag":** v6/v7 felt stop-go because (a) all ramps were LINEAR (mechanical), (b) elements popped in fast then sat perfectly still most of their scene, (c) 30 fps. v8 fixes all three.
+- **Engine rules (all Template B videos):** render at **60 fps** · `ramp()` is now **smoothstep** (every fade/draw eased) · every element supports `float`/`float_freq`/`float_phase` — a continuous slow sine drift; figures carry a 1.2 px breathing bob (phase from x so figures desync), lantern/coin/arrow groups float together (same phase = one object), stars drift with slow parallax · draw windows extended (road 1.1 s, figure limbs 0.7 s each, lantern 1.0 s).
+- **SFX tooling status:** **ControlFoley TC-V2A is NOT installed** (verified 2026-11-18: `E:\ComfyUI_windows_portable\ComfyUI\models\audio_encoders` = empty placeholder) and the machine is offline until 2026-11-24 (D228) — so the proper Mode B route unblocks **after 11-24** (install model → agent builds workflow → user queues per D192).
+- **Offline SFX fallback (built 2026-11-18):** `utilities\synth_ambient.py` — synthesized natural ambience beds (wind = LP pink noise + two slow gust LFOs, room tone, bandpassed whoosh swells at beat times), fully offline, no queue. D041-safe (natural sounds only, no music).
+- **Honest ceiling:** user scores on Ubu al-Amal line-art: v4 3.0 → v5 3.0 → v6 3.0 → v7 2.5. The programmatic renderer has a ceiling (clean diagram ≠ flowing AI line-art). If v8 still doesn't hit the bar, the escape hatch is the **MiniMax hybrid** (our frames as R2V refs → user queues → screen-blend the AI clips over our exact bg, D234).
+- **Status:** active standard.
+
 ## D237 — Ubu al-Amal audio route: Mode B ambient via ControlFoley (user queues); humming/vocals = USER-provided file + ffmpeg mix (2026-11-18, user: "do we have sound? if need any earth sound, water streaming, or thunder, or wind, or any islamic huming how we wil do it?")
 
 - **Natural sounds (earth/wind/water/thunder) = Mode B:** agent BUILDS the ControlFoley TC-V2A workflow (video in → scene-matched ambient out); **USER queues it in the ComfyUI UI** (D192). For this video's story (night, lantern, door): quiet night wind + room tone + soft footsteps + soft whoosh at the door fit; water/thunder only if the user wants a stormy mood (none of them is in the visuals).

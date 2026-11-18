@@ -52,7 +52,7 @@ def spec():
     # every caption line now takes 2.8 s (was 2.0 s), beats get real holds, total
     # falls to 48 s — same five beats, no padding, just breathing room.
     return dict(
-        duration=48.0, fps=30, handle="@yourhandle", handle_fade=[1.5, 2.1],
+        duration=48.0, fps=60, handle="@yourhandle", handle_fade=[1.5, 2.1],
         text=[],
         scenes=[
             # ---- S0 hook (0-5.0) ----

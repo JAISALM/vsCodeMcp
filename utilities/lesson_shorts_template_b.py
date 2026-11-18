@@ -72,7 +72,19 @@ FONT_SIZES = {"big": 64, "caption": 48, "small": 28, "cite": 30, "close": 60}
 def ramp(t, t0, t1):
     if t1 <= t0:
         return 1.0 if t >= t1 else 0.0
-    return max(0.0, min(1.0, (t - t0) / (t1 - t0)))
+    x = max(0.0, min(1.0, (t - t0) / (t1 - t0)))
+    return x * x * (3.0 - 2.0 * x)   # smoothstep — every fade/draw is eased, no mechanical linear ramp
+
+
+def shift_geom(geom, dy):
+    """Shift a geometry by dy (1080x1920 space) for continuous float/sway motion."""
+    if dy == 0:
+        return geom
+    if len(geom) >= 2 and isinstance(geom[0], (list, tuple)):        # line: [[x,y],...]
+        return [[p[0], p[1] + dy] for p in geom]
+    if len(geom) == 3:                                              # circle/dot: [x,y,r]
+        return [geom[0], geom[1] + dy, geom[2]]
+    return [geom[0], geom[1] + dy, geom[2], geom[3] + dy]           # rect
 
 
 def partial_polyline(pts, f):
@@ -200,7 +212,7 @@ def rounded_card(d, x, y, w, h, r, fill, outline, width=2, alpha=255):
 # scene-element LIBRARY (absolute canvas coords) — the reusable "drawing" kit
 # ---------------------------------------------------------------------------
 def road(x0, x1, y, t0, t1=None, color="dim"):
-    t1 = t1 or t0 + 0.7
+    t1 = t1 or t0 + 1.1          # v8: slower, more fluid sweep
     return [dict(kind="line", geom=[[x0, y], [x1, y]], color=color, width=3, t0=t0, t1=t1)]
 
 
@@ -216,10 +228,12 @@ def bezier_cubic(p0, p1, p2, p3, n=22):
     return pts
 
 
-def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, instant=False):
+def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, instant=False, sway=1.2):
     """A clean single-stroke figure — FLOWING CURVED limbs (cubic bezier), rounded ends.
     pose: stand | walk | carry_L | carry_R.
-    instant=True: fully drawn at scene start (continuity across cuts)."""
+    instant=True: fully drawn at scene start (continuity across cuts).
+    sway: v8 — a very slow, tiny vertical "breathing" bob so a standing figure
+          never reads as frozen (phase derived from x so figures don't sync)."""
     s = scale
     head_r = 18 * s
     head_cy = feet_y - 242 * s
@@ -229,18 +243,18 @@ def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, insta
     if instant:
         t1 = t0 + 0.03
     else:
-        t1 = t0 + 0.4
+        t1 = t0 + 0.7           # v8: longer, more fluid draw (was 0.4)
 
     def el(kind, geom, dt, color_=color, glow_=glow, width=3):
         if instant:
             return dict(kind=kind, geom=geom, color=color_, width=width, t0=t0, t1=t1, glow=glow_)
-        return dict(kind=kind, geom=geom, color=color_, width=width, t0=t0 + dt, t1=t0 + dt + 0.4,
+        return dict(kind=kind, geom=geom, color=color_, width=width, t0=t0 + dt, t1=t0 + dt + 0.7,
                     glow=glow_)
 
     def limb(pts, dt):
         """limb (curved polyline) + rounded cap at its end."""
-        cap_t0 = (t0 + dt + 0.35) if not instant else t0
-        cap_t1 = (cap_t0 + 0.3) if not instant else t1
+        cap_t0 = (t0 + dt + 0.55) if not instant else t0
+        cap_t1 = (cap_t0 + 0.5) if not instant else t1
         return [el("line", pts, dt),
                 dict(kind="dot", geom=[pts[-1][0], pts[-1][1], 1.9 * s],
                      color=color, width=3, t0=cap_t0, t1=cap_t1, glow=0.0)]
@@ -292,38 +306,55 @@ def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, insta
         leg_r = curve([x, hip_y], [x + 5 * s, hip_y + 45 * s],
                       [x + 13 * s, feet_y - 45 * s], [x + 13 * s, feet_y - 2 * s])
         els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
+    if sway:
+        # whole-figure slow breathing bob; phase from x so side-by-side figures desync
+        phase = (x % 97) / 15.0
+        for e in els:
+            e["float"] = sway
+            e["float_phase"] = phase
+            e["float_freq"] = 0.22
     return els
 
 
 def lantern(x, y, t0, t1=None):
-    """Hanging lantern with a GLOWING GOLD core (the 'light for Allah' motif)."""
-    t1 = t1 or t0 + 0.8
+    """Hanging lantern with a GLOWING GOLD core (the 'light for Allah' motif).
+    v8: the WHOLE group floats together (same phase) so it reads as one hanging
+    object — slower fluid draw too."""
+    t1 = t1 or t0 + 1.0
+    fl = dict(float=2.2, float_phase=0.4)
     return [
-        dict(kind="line", geom=[[x - 13, y - 20], [x + 13, y - 20]], color="line", width=3, t0=t0, t1=t0 + 0.3),
-        dict(kind="circle", geom=[x, y - 3, 13], color="line", width=3, t0=t0 + 0.2, t1=t1),
-        dict(kind="line", geom=[[x - 9, y + 13], [x + 9, y + 13]], color="line", width=3, t0=t0 + 0.4, t1=t0 + 0.7),
-        dict(kind="dot", geom=[x, y - 3, 18], color="gold", t0=t0 + 0.5, t1=t0 + 1.0, alpha=80, glow=0.0),
-        dict(kind="dot", geom=[x, y - 3, 5.5], color="gold", t0=t0 + 0.5, t1=t0 + 0.8, pulse=True, glow=0.0),
+        dict(kind="line", geom=[[x - 13, y - 20], [x + 13, y - 20]], color="line", width=3,
+             t0=t0, t1=t0 + 0.5, **fl),
+        dict(kind="circle", geom=[x, y - 3, 13], color="line", width=3, t0=t0 + 0.3, t1=t1, **fl),
+        dict(kind="line", geom=[[x - 9, y + 13], [x + 9, y + 13]], color="line", width=3,
+             t0=t0 + 0.6, t1=t0 + 1.0, **fl),
+        dict(kind="dot", geom=[x, y - 3, 18], color="gold", t0=t0 + 0.8, t1=t0 + 1.4, alpha=80,
+             glow=0.0, **fl),
+        dict(kind="dot", geom=[x, y - 3, 5.5], color="gold", t0=t0 + 0.8, t1=t0 + 1.2, pulse=True,
+             glow=0.0, **fl),
     ]
 
 
 def coin(x, y, t0, t1=None):
-    """Worldly-gain motif: a coin (outer ring + inner ring)."""
-    t1 = t1 or t0 + 0.8
+    """Worldly-gain motif: a coin (outer ring + inner ring). v8: floats as one object."""
+    t1 = t1 or t0 + 1.0
+    fl = dict(float=1.8, float_phase=2.1)
     return [
-        dict(kind="circle", geom=[x, y, 13], color="line", width=3, t0=t0, t1=t1),
-        dict(kind="circle", geom=[x, y, 7], color="dim", width=2, t0=t0 + 0.3, t1=t0 + 0.7),
+        dict(kind="circle", geom=[x, y, 13], color="line", width=3, t0=t0, t1=t1, **fl),
+        dict(kind="circle", geom=[x, y, 7], color="dim", width=2, t0=t0 + 0.5, t1=t0 + 1.1, **fl),
     ]
 
 
 def arrow_up(x, y_bottom, height, t0, t1=None, glow=2.5):
-    """Gold acceptance arrow (outcome motif)."""
-    t1 = t1 or t0 + 0.9
+    """Gold acceptance arrow (outcome motif). v8: slower draw + gentle float."""
+    t1 = t1 or t0 + 1.1
     yt = y_bottom - height
+    fl = dict(float=1.4, float_phase=1.0)
     return [
-        dict(kind="line", geom=[[x, y_bottom], [x, yt]], color="gold", width=4, t0=t0, t1=t0 + 0.5, glow=glow),
+        dict(kind="line", geom=[[x, y_bottom], [x, yt]], color="gold", width=4, t0=t0, t1=t0 + 0.8,
+             glow=glow, **fl),
         dict(kind="line", geom=[[x - 13, yt + 17], [x, yt], [x + 13, yt + 17]], color="gold", width=4,
-             t0=t0 + 0.4, t1=t1, glow=glow),
+             t0=t0 + 0.6, t1=t1, glow=glow, **fl),
     ]
 
 
@@ -411,7 +442,10 @@ def render(spec, out_dir, skip_frames=False):
         for s in stars:
             a = max(12, min(170, int(s["base"] + 55 * math.sin(2 * math.pi * t * s["freq"] + s["phase"]))))
             r = s["r"] * SS
-            d_ov.ellipse([s["x"] * SS - r, s["y"] * SS - r, s["x"] * SS + r, s["y"] * SS + r],
+            # slow parallax drift — the sky never stands still (v8 anti-lag)
+            sx = s["x"] + 5 * math.sin(2 * math.pi * t * 0.011 * s["freq"] + s["phase"])
+            sy = s["y"] + 4 * math.cos(2 * math.pi * t * 0.009 * s["freq"] + s["phase"] * 1.7)
+            d_ov.ellipse([sx * SS - r, sy * SS - r, sx * SS + r, sy * SS + r],
                          fill=(200, 215, 205, a))
         for scene in spec.get("scenes", []):
             if t < scene["t0"] or t >= scene["t1"]:
@@ -437,13 +471,19 @@ def render(spec, out_dir, skip_frames=False):
                     # drawings "bloom" into the scene instead of popping (v7 flow fix)
                     fe = ease_out(f)
                     a_in = min(1.0, (t - el["t0"]) / 0.5)
+                    # continuous float/sway — nothing sits perfectly still (v8 anti-lag)
+                    dy = 0.0
+                    if el.get("float"):
+                        dy = el["float"] * math.sin(2 * math.pi * t * el.get("float_freq", 0.35)
+                                                    + el.get("float_phase", 0.0))
+                    geom = shift_geom(el["geom"], dy)
                     alpha = 255
                     if el.get("pulse") and f >= 1.0:
                         alpha = int(255 * (0.8 + 0.2 * math.sin(2 * math.pi * t * 0.8)))
                     alpha = alpha * el.get("alpha", 255) // 255
                     alpha = int(alpha * a_in * out)
                     if alpha > 0:
-                        stroke_overlay(ov, el["kind"], el["geom"], el["color"], el.get("width", 3),
+                        stroke_overlay(ov, el["kind"], geom, el["color"], el.get("width", 3),
                                        fe, el.get("glow", 1.0), alpha, el.get("fill", False))
                 lf = ramp(t, *scene.get("label_fade", [scene["t0"], scene["t0"] + 0.5]))
                 if lf > 0 and scene.get("label_gold"):

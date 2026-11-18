@@ -4,6 +4,16 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v8 — anti-lag pass (60 fps, smoothstep, ambient motion) + first offline SFX bed (user: "animation still not so smooth, it feels lag … do we have any tool for sfx? … 2.5/5") (SUCCESS)
+
+- **Diagnosis of "lag":** (a) linear ramps = mechanical fades, (b) elements popped in then sat frozen for most of the scene (stop-go feel), (c) 30 fps.
+- **v8 fixes:** ① **60 fps** render (2880 frames, ~40 min) ② `ramp()` → **smoothstep** — every fade/draw eased ③ **continuous ambient motion**: figures breathe (1.2 px sine bob, phase from x), lantern/coin/arrow float as single objects (group = same phase), stars parallax-drift ④ slower fluid draws (road 1.1 s, figure limbs 0.7 s each, lantern/coin 1.0 s, arrow 1.1 s).
+- **SFX:** verified **ControlFoley TC-V2A NOT installed** (`models\audio_encoders` = placeholder file only; only MiniMax H3 audio VAE present) + D228 offline until 11-24 → proper Mode B unblocks after 11-24. Built **`utilities\synth_ambient.py`** (reusable helper, D228-safe): synthesized night ambience (wind = LP pink noise + two slow gust LFOs, room tone floor, bandpassed whoosh swell at 34.3 s = door beat) → mixed under v8 → **`data\refanim\ubu_al_amal_sfx.mp4`** (h264 + AAC, 48.000 s, ffprobe-verified). First audio deliverable on this video.
+- **Score trend (user):** v4–v6 3.0 → v7 2.5 — recorded as programmatic-renderer ceiling; MiniMax hybrid is the documented escape hatch (D234).
+- **Result:** v8 = 48.000 s @ 60 fps; `_sfx.mp4` variant with synthesized bed.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v7 — relaxed 48 s pace + Constantia + eased/fading draws (user: "pace is off, its 30s video i think … font i prefer the 2nd and the first for yellow … drawings should fade in some amount so it feels flowing") (SUCCESS)
 
 - **Pace:** v6's 40 s cut felt rushed (2.0 s/line). v7 = **48.0 s** (1440 frames, ffprobe-verified): every caption line 2.8 s (was 2.0 s), beats get real holds, no padding (D235 intact — the extra 8 s is breathing room, not filler).
