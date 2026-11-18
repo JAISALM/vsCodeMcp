@@ -4,6 +4,15 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v4 — curved (bezier) limbs (user: "still not that smooth — is it minimax/comfyui instead? setup issue?") (SUCCESS)
+
+- **Diagnosis (user asked if it's a config issue — it is NOT):** the residual "not smooth" = the *method's ceiling*: figures were 2-segment bent sticks (shoulder→elbow→hand as straight segments with a hard kink at the joint). Supersampling fixed edge aliasing, but a bent stick still reads as a stick. The ref's figures are *flowing single curves*.
+- **Fix:** limbs now drawn as **cubic-bezier curves sampled to 22-point dense polylines** (`bezier_cubic()` in the engine), per pose: stand (gentle relaxed drape), walk (mid-stride knee bend), carry_L/carry_R (extended arm with natural droop). Rounded caps kept.
+- **Result:** `data\refanim\ubu_al_amal.mp4` v4 (60 s). Verified t=12.5 (relaxed standing figures), t=24 (carry pose + gold lantern vs coin), t=40 (arrow/circle). Limbs read as flowing single strokes — matches the ref's line-quality class.
+- **Tool decision (recorded in docs):** line-art set stays programmatic (consistency/offline/text/exact timing). MiniMax hybrid = documented escape hatch for a more organic look (my frames as R2V refs → user queues → screen-blend AI clips over my exact bg). Football set (v3 ref) = 3D low-poly → **Blender Template C** (agent-runnable, no queue, no drift — image/video models can't hold a consistent 3D scene across 1800 frames).
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v3 — quality gap vs the reference (user: "still pixelated, not clear, not neat — check against the ones I suggested") (SUCCESS)
 
 - **Side-by-side diagnosis (ref `v2_t30.jpg` vs our v2):** the real gaps were ① **aliasing** — PIL draws lines with ZERO anti-aliasing → jagged edges = the "pixelation" ② thick muddy double-ring glow (wide halo reads as a second line) ③ angular stiff figures vs the ref's flowing single-stroke figures ④ upright font vs the ref's **italic** serif captions.

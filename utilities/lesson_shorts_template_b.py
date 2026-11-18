@@ -198,8 +198,20 @@ def road(x0, x1, y, t0, t1=None, color="dim"):
     return [dict(kind="line", geom=[[x0, y], [x1, y]], color=color, width=3, t0=t0, t1=t1)]
 
 
+def bezier_cubic(p0, p1, p2, p3, n=22):
+    """Sample a cubic bezier into a dense polyline (smooth flowing limbs)."""
+    pts = []
+    for i in range(n + 1):
+        u = i / n
+        w0, w1 = (1 - u) ** 3, 3 * (1 - u) ** 2 * u
+        w2, w3 = 3 * (1 - u) * u ** 2, u ** 3
+        pts.append([w0 * p0[0] + w1 * p1[0] + w2 * p2[0] + w3 * p3[0],
+                    w0 * p0[1] + w1 * p1[1] + w2 * p2[1] + w3 * p3[1]])
+    return pts
+
+
 def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, instant=False):
-    """A clean single-stroke figure — straight limbs, rounded ends, relaxed pose.
+    """A clean single-stroke figure — FLOWING CURVED limbs (cubic bezier), rounded ends.
     pose: stand | walk | carry_L | carry_R.
     instant=True: fully drawn at scene start (continuity across cuts)."""
     s = scale
@@ -220,41 +232,59 @@ def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, insta
                     glow=glow_)
 
     def limb(pts, dt):
-        """limb + rounded cap at its end (cap appears as the limb finishes).
-        Returns a list: the limb line + the cap dot (render order = list order)."""
+        """limb (curved polyline) + rounded cap at its end."""
         cap_t0 = (t0 + dt + 0.35) if not instant else t0
         cap_t1 = (cap_t0 + 0.3) if not instant else t1
         return [el("line", pts, dt),
                 dict(kind="dot", geom=[pts[-1][0], pts[-1][1], 1.9 * s],
                      color=color, width=3, t0=cap_t0, t1=cap_t1, glow=0.0)]
 
+    def curve(p0, c1, c2, p3):
+        return bezier_cubic(p0, c1, c2, p3)
+
     els = [
         el("circle", [x, head_cy, head_r], 0.0),
         el("line", [[x, neck_y + 3], [x, hip_y]], 0.15),          # straight spine
     ]
     if pose == "stand":
-        a_l = [[x - 3 * s, sy], [x - 15 * s, sy + 44 * s], [x - 19 * s, sy + 84 * s]]
-        a_r = [[x + 3 * s, sy], [x + 15 * s, sy + 44 * s], [x + 19 * s, sy + 84 * s]]
-        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
-        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        a_l = curve([x - 3 * s, sy + 4 * s], [x - 13 * s, sy + 34 * s],
+                    [x - 17 * s, sy + 58 * s], [x - 19 * s, sy + 84 * s])
+        a_r = curve([x + 3 * s, sy + 4 * s], [x + 13 * s, sy + 34 * s],
+                    [x + 17 * s, sy + 58 * s], [x + 19 * s, sy + 84 * s])
+        leg_l = curve([x, hip_y], [x - 5 * s, hip_y + 45 * s],
+                      [x - 13 * s, feet_y - 45 * s], [x - 13 * s, feet_y - 2 * s])
+        leg_r = curve([x, hip_y], [x + 5 * s, hip_y + 45 * s],
+                      [x + 13 * s, feet_y - 45 * s], [x + 13 * s, feet_y - 2 * s])
         els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     elif pose == "walk":
-        a_l = [[x - 3 * s, sy], [x - 19 * s, sy + 40 * s], [x - 15 * s, sy + 80 * s]]
-        a_r = [[x + 3 * s, sy], [x + 19 * s, sy + 40 * s], [x + 15 * s, sy + 80 * s]]
-        leg_l = [[x, hip_y], [x - 27 * s, feet_y - 4 * s]]
-        leg_r = [[x, hip_y], [x + 25 * s, feet_y - 2 * s]]
+        a_l = curve([x - 3 * s, sy + 4 * s], [x - 14 * s, sy + 32 * s],
+                    [x - 16 * s, sy + 56 * s], [x - 15 * s, sy + 80 * s])
+        a_r = curve([x + 3 * s, sy + 4 * s], [x + 14 * s, sy + 32 * s],
+                    [x + 16 * s, sy + 56 * s], [x + 15 * s, sy + 80 * s])
+        leg_l = curve([x, hip_y], [x - 7 * s, hip_y + 40 * s],
+                      [x - 24 * s, feet_y - 32 * s], [x - 27 * s, feet_y - 4 * s])
+        leg_r = curve([x, hip_y], [x + 9 * s, hip_y + 36 * s],
+                      [x + 24 * s, feet_y - 30 * s], [x + 25 * s, feet_y - 2 * s])
         els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     elif pose == "carry_L":  # left arm extended out, holding something
-        a_l = [[x - 3 * s, sy], [x - 27 * s, sy + 40 * s], [x - 46 * s, sy + 58 * s]]
-        a_r = [[x + 3 * s, sy], [x + 15 * s, sy + 44 * s], [x + 19 * s, sy + 84 * s]]
-        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
-        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        a_l = curve([x - 3 * s, sy + 4 * s], [x - 20 * s, sy + 28 * s],
+                    [x - 36 * s, sy + 46 * s], [x - 46 * s, sy + 58 * s])
+        a_r = curve([x + 3 * s, sy + 4 * s], [x + 13 * s, sy + 34 * s],
+                    [x + 17 * s, sy + 58 * s], [x + 19 * s, sy + 84 * s])
+        leg_l = curve([x, hip_y], [x - 5 * s, hip_y + 45 * s],
+                      [x - 13 * s, feet_y - 45 * s], [x - 13 * s, feet_y - 2 * s])
+        leg_r = curve([x, hip_y], [x + 5 * s, hip_y + 45 * s],
+                      [x + 13 * s, feet_y - 45 * s], [x + 13 * s, feet_y - 2 * s])
         els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     elif pose == "carry_R":
-        a_l = [[x - 3 * s, sy], [x - 15 * s, sy + 44 * s], [x - 19 * s, sy + 84 * s]]
-        a_r = [[x + 3 * s, sy], [x + 27 * s, sy + 40 * s], [x + 46 * s, sy + 58 * s]]
-        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
-        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        a_l = curve([x - 3 * s, sy + 4 * s], [x - 13 * s, sy + 34 * s],
+                    [x - 17 * s, sy + 58 * s], [x - 19 * s, sy + 84 * s])
+        a_r = curve([x + 3 * s, sy + 4 * s], [x + 20 * s, sy + 28 * s],
+                    [x + 36 * s, sy + 46 * s], [x + 46 * s, sy + 58 * s])
+        leg_l = curve([x, hip_y], [x - 5 * s, hip_y + 45 * s],
+                      [x - 13 * s, feet_y - 45 * s], [x - 13 * s, feet_y - 2 * s])
+        leg_r = curve([x, hip_y], [x + 5 * s, hip_y + 45 * s],
+                      [x + 13 * s, feet_y - 45 * s], [x + 13 * s, feet_y - 2 * s])
         els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     return els
 
