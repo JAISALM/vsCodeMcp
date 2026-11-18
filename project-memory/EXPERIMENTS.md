@@ -4,6 +4,18 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL 60 s video (first REAL lesson-shorts content video) (SUCCESS)
+
+- **Goal:** the user's first real video — a popular hadith that "explains something", 1 minute. Picked **Sahih al-Bukhari 1** (Ubu al-Amal, "actions are by intentions" + the hijrah continuation) — the most famous hadith in the collection, and long enough to fill 60 s.
+- **Config:** engine = upgraded `utilities\lesson_shorts_template_b.py` (scene sequences + figure/prop library: `figure` [stand/walk/carry poses], `lantern`, `coin`, `arrow_up`, `ring_circle`, `door` + beam, `road`) + content = `utilities\lesson_shorts_ubu_al_amal.py`. 1800 frames @ 30 fps → libx264 yuv420p crf 19. 5 scenes: HOOK (0–6) / THE SAME ACTION (6–18, two figures walking) / TWO INTENTIONS (18–32, lantern vs coin in hand) / THE PROMISE (32–46, gold arrow vs empty circle) / THE EXAMPLE·HIJRAH (46–56, figure through gold-beamed door) / CLOSING (56–60, "ACTIONS ARE BY INTENTIONS." + gold citation).
+- **Result:** `data\refanim\ubu_al_amal.mp4` (60 s, 1080×1920, silent). Frames at t=10/24/38/52/58.5 visually verified — all scenes + typewriter captions + labels + citation land.
+- **Citation:** "Innamal a'malu bin niyyat, wa li-kulli maridhin ma nawaa… fa-man haajara ila Allahi wa rasulihi fa hujuhu ila Allahi wa rasulihi" — SAHIH AL-BUKHARI 1 (also Muslim 1907). High confidence; USER TO VERIFY per content-integrity spec.
+- **Fixes:** `door()` knob dot was missing its radius (IndexError at the S4 frame) → added r=4.
+- **Known polish items (next pass):** lantern reads small/dim at card scale (bump size + glow) · carry-pose arms slightly stiff · handle still `@yourhandle` placeholder.
+- **Audio stage (not done):** Mode B target — ControlFoley TC-V2A ambient on the video (user queues, D192; suggested ambient order in `data\refanim\ubu_al_amal_script.md`); Mode A alternative = TTS/dub narration. D041: no music either way.
+
+---
+
 ## 2026-11-18 — Template B lesson-shorts renderer: data-driven neon line-art → 9 s demo (SUCCESS)
 
 - **Goal:** verify the animation/lesson-shorts pipeline (the template-factory line): can we produce @aiishadahir-style contrast-card shorts programmatically, with the two user-specified audio modes (narration-alone / text + natural sound)?
