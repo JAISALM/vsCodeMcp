@@ -1931,6 +1931,14 @@
 - **Applies to:** creative/script work only — pipeline/workflow work keeps the normal register.
 - **Status:** active.
 
+## D232 — Role split: creative decisions = USER, operations = AGENT (2026-11-18, user: "youre not that good as a creative thinking head, i feel youre operational guy so lets stick to that … we are good with the v3 … we will list out the next step and then we will do one by one")
+
+- **Decision:** the agent is the **OPERATIONS** head, NOT a creative head. Creative decisions (script content, title, spin design, directorial choices, what to keep/cut) = the USER's call. The agent **executes + lists operations one-by-one + flags technical constraints + keeps the asset plan consistent.** The D231 critic's pass = a *structural/continuity/pipeline-impact* tool (continuity bugs, runtime, what changes for the pipeline), NOT creative direction.
+- **The Ferguson line was the user's EXPLANATION** (to convey the arc's poetry), NOT a script change — the v3 script is FINAL, no v4, no new line.
+- **Division of labor (standing):** the AGENT does local work (blockouts, camrefs, workflow builds, memory, the operations list) and flags technical constraints. The USER does GPU job queueing, creative decisions, and dubs.
+- **Next-step discipline (user: "we will list out the next step and then we will do one by one"):** present the operations list in waves, execute one at a time, confirm before moving to the next.
+- **Status:** active.
+
 
 
 
