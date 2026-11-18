@@ -8,7 +8,7 @@ Newest experiments first.
 
 - Engine gained `PALETTES` (7 named) + `apply_palette()` + `render/preview(palette=)` + `spec["palette"]`. Grid `data\refanim\palette_week.png` (A green · B indigo · C amber · D slate · E teal · F clay · G plum) — all 7 verified distinct after fixing the fallback bug.
 - **Bug found:** content spec now carries `palette="C_amber"`, so a naive loop `preview(spec, t)` rendered ALL panels in C — the spec's key wins over nothing passed explicitly. Fix: A/B grids must pass `palette=name` explicitly.
-- Ubu 40 s re-render in C launched (background) — same 40 s timeline, SFX bed unchanged (audio is palette-agnostic).
+- Ubu 40 s re-render in C COMPLETED + verified: `ubu_al_amal_40.mp4` / `_sfx` (40.000 s) / `ubu_40s_part1` (20.033 s) / `part2` (20.008 s) — all ffprobe-verified; amber ground + card visually confirmed from the encoded video (frame t=19.6 = crossfade moment, scene mid-dissolve by design).
 
 ---
 
