@@ -118,7 +118,43 @@ def crickets(n, sr, seed):
     return left, right
 
 
-def synth(duration, whoosh_times=(), seed=7, gain=1.0):
+def footstep(bed, n, sr, t_c, amp=0.05):
+    """ONE soft distant footstep at exact time t_c (per-action, not random):
+    bandpassed body (100-600 Hz) + low thump (65 Hz, fast decay), 12 ms attack / 60 ms decay."""
+    i0 = max(0, int((t_c - 0.03) * sr))
+    i1 = min(n, int((t_c + 0.09) * sr))
+    m = i1 - i0
+    if m <= 0:
+        return
+    rng = np.random.default_rng(1000 + int(round(t_c * 100)))
+    tt = np.arange(m) / sr
+    body = bandpass(rng.standard_normal(m), 100, 600)
+    body = body / (np.max(np.abs(body)) + 1e-9)
+    thump = np.sin(2 * np.pi * 65 * tt) * np.exp(-tt / 0.035)
+    atk = 0.012
+    env = np.zeros(m)
+    mm = tt < atk
+    env[mm] = tt[mm] / atk
+    env[~mm] = np.exp(-(tt[~mm] - atk) / 0.06)
+    bed[i0:i1] += (body * 0.5 + thump) * env * amp
+
+
+def door_creak(bed, n, sr, t0, dur=1.3, amp=0.045):
+    """Door creak at exact time t0: ~95 Hz carrier with 17 Hz 'creak' wobble + faint
+    190 Hz partial, slow swell (0.5 s) then decay. LOW band only — reads as wood, not static."""
+    i0 = max(0, int(t0 * sr))
+    i1 = min(n, int((t0 + dur) * sr))
+    m = i1 - i0
+    if m <= 0:
+        return
+    tt = np.arange(m) / sr
+    car = np.sin(2 * np.pi * 95 * tt) + 0.4 * np.sin(2 * np.pi * 190 * tt)
+    am = 0.5 + 0.5 * np.sin(2 * np.pi * 17 * tt)
+    env = np.clip(tt / 0.5, 0.0, 1.0) * np.exp(-np.maximum(tt - 0.5, 0.0) / 0.5)
+    bed[i0:i1] += car * am * env * amp
+
+
+def synth(duration, whoosh_times=(), seed=7, gain=1.0, door=None, steps=()):
     """NIGHT bed v3 (user: v2 'feels like static noise' — filtered white noise is
     static under close listening). Real nature STRUCTURE instead:
       - 3 distant crickets (pitched, rhythmic, desynced — the unmistakable summer night)
@@ -160,6 +196,12 @@ def synth(duration, whoosh_times=(), seed=7, gain=1.0):
         e[~m] = np.exp(-(tt[~m] - atk) / 0.5)
         bed[i0:i1] += seg * e * 0.035
 
+    # --- ACTION SFX at exact timeline times (per-action, not random)
+    if door is not None:
+        door_creak(bed, n, SR, door)
+    for st in steps:
+        footstep(bed, n, SR, st)
+
     # gentle fades + overall gain
     fi = int(1.5 * SR)
     fo = int(2.5 * SR)
@@ -179,13 +221,18 @@ def main():
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--gain", type=float, default=1.0,
                     help="final bed multiplier (0.5 = half as loud; v2 default levels are already mild)")
+    ap.add_argument("--door", type=float, default=None,
+                    help="door-beat time — adds a low wood creak there (the whoosh is separate)")
+    ap.add_argument("--steps", default=None,
+                    help="comma-separated exact footstep times, e.g. 5.2,5.6,34.9,35.4,35.9")
     ap.add_argument("--out", required=True)
     ap.add_argument("--video", default=None, help="mix the bed under this video")
     ap.add_argument("--mix-out", default=None)
     a = ap.parse_args()
 
     whoosh = a.whoosh if a.whoosh else []
-    stereo = synth(a.duration, whoosh, a.seed, a.gain)
+    steps = [float(x) for x in a.steps.split(",")] if a.steps else ()
+    stereo = synth(a.duration, whoosh, a.seed, a.gain, door=a.door, steps=steps)
 
     import wave
     with wave.open(a.out, "wb") as w:
