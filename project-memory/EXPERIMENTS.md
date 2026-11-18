@@ -4,6 +4,16 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v7 — relaxed 48 s pace + Constantia + eased/fading draws (user: "pace is off, its 30s video i think … font i prefer the 2nd and the first for yellow … drawings should fade in some amount so it feels flowing") (SUCCESS)
+
+- **Pace:** v6's 40 s cut felt rushed (2.0 s/line). v7 = **48.0 s** (1440 frames, ffprobe-verified): every caption line 2.8 s (was 2.0 s), beats get real holds, no padding (D235 intact — the extra 8 s is breathing room, not filler).
+- **Fonts (user pick from font_ab.png):** caption+hook = **Constantia italic** (`constani.ttf`, row 2) replacing Palatino · yellow labels = **Arial Bold** (row LABEL 1, unchanged) · closing = Baskerville (unchanged).
+- **Flow:** every element now gets a **0.5 s soft alpha fade-in** on top of its draw window, and all draw progress is **eased (ease-out-cubic)** instead of linear — drawings "bloom" in instead of popping; card fade eased too.
+- **Audio route decided (D237):** natural sounds (earth/wind/water/thunder) = Mode B **ControlFoley TC-V2A** — agent builds the workflow, **user queues** (D192) · Islamic humming/mawwal = VOCALS, ControlFoley can't do them → **user supplies the clip**, agent mixes under the video with ffmpeg (low bed). D041 = no instrumental music (vocals are the user's call).
+- **Result:** `data\refanim\ubu_al_amal.mp4` v7 = 48.000 s. Verified t=8 (S1 Constantia + figures) and t=35 (S4 door+beam+figure, hijrah line mid-slide).
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v6 — crossfade dissolves + slide text + font A/B (user 3/5: "transitions are not smooth enough, its like forced image transition … only the text, and the sliding animation needs improvement … lets work on the fonts") (SUCCESS)
 
 - **Transitions:** scenes now overlap 0.7 s; each carries a `fadeout` window; the engine renders BOTH scenes during the overlap → card/figure/label/text all dissolve (verified frames: t=4.2 hook-fading-out + card-fading-in; t=11.6 S1 at ~50% while S2's card+figures fade up). No more hard cuts.

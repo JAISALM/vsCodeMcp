@@ -54,7 +54,7 @@ GOLD = (212, 169, 78)
 WHITE = (238, 242, 238)
 MUTED = (150, 165, 155)
 
-F_SERIF = "C:/Windows/Fonts/palai.ttf"      # Palatino italic — matches the ref's italic-serif captions
+F_SERIF = "C:/Windows/Fonts/constani.ttf"   # Constantia italic — user pick v6 (A/B sheet row 2, 2026-11-18)
 F_SERIF_UP = "C:/Windows/Fonts/BASKVILL.TTF"  # upright high-contrast serif (closing line)
 F_LABEL = "C:/Windows/Fonts/arialbd.ttf"
 F_HANDLE = "C:/Windows/Fonts/arial.ttf"
@@ -425,7 +425,7 @@ def render(spec, out_dir, skip_frames=False):
             if "card" in scene:
                 cx, cy, cw, ch = scene["card"]
                 cf = ramp(t, *scene.get("card_fade", [scene["t0"], scene["t0"] + 0.4]))
-                ca = int(255 * cf * out)
+                ca = int(255 * ease_out(cf) * out)
                 if ca > 0:
                     rounded_card(d_ov, cx * SS, cy * SS, cw * SS, ch * SS, 26 * SS,
                                  CARD_BG, CARD_BORDER, max(3, 2 * SS), ca)
@@ -433,14 +433,18 @@ def render(spec, out_dir, skip_frames=False):
                     f = ramp(t, el["t0"], el["t1"])
                     if f <= 0:
                         continue
+                    # eased draw + a soft 0.5 s alpha fade-in on EVERY element —
+                    # drawings "bloom" into the scene instead of popping (v7 flow fix)
+                    fe = ease_out(f)
+                    a_in = min(1.0, (t - el["t0"]) / 0.5)
                     alpha = 255
                     if el.get("pulse") and f >= 1.0:
                         alpha = int(255 * (0.8 + 0.2 * math.sin(2 * math.pi * t * 0.8)))
                     alpha = alpha * el.get("alpha", 255) // 255
-                    alpha = int(alpha * out)
+                    alpha = int(alpha * a_in * out)
                     if alpha > 0:
                         stroke_overlay(ov, el["kind"], el["geom"], el["color"], el.get("width", 3),
-                                       f, el.get("glow", 1.0), alpha, el.get("fill", False))
+                                       fe, el.get("glow", 1.0), alpha, el.get("fill", False))
                 lf = ramp(t, *scene.get("label_fade", [scene["t0"], scene["t0"] + 0.5]))
                 if lf > 0 and scene.get("label_gold"):
                     a = int(255 * lf * out)

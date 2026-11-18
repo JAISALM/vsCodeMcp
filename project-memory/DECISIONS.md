@@ -1961,6 +1961,12 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D237 — Ubu al-Amal audio route: Mode B ambient via ControlFoley (user queues); humming/vocals = USER-provided file + ffmpeg mix (2026-11-18, user: "do we have sound? if need any earth sound, water streaming, or thunder, or wind, or any islamic huming how we wil do it?")
+
+- **Natural sounds (earth/wind/water/thunder) = Mode B:** agent BUILDS the ControlFoley TC-V2A workflow (video in → scene-matched ambient out); **USER queues it in the ComfyUI UI** (D192). For this video's story (night, lantern, door): quiet night wind + room tone + soft footsteps + soft whoosh at the door fit; water/thunder only if the user wants a stormy mood (none of them is in the visuals).
+- **Islamic humming (mawwal) = VOCALS, not SFX:** ControlFoley cannot generate vocals. Route: USER supplies the audio clip (a mawwal/recitation they own; or find one after the D228 offline window, 2026-11-24) → agent mixes it under the video with ffmpeg (low bed, ducked). D041 bans INSTRUMENTAL music — vocals are a separate category, user's call.
+- **Status:** active — Ubu al-Amal audio = Mode B ambient first, humming bed only if the user provides a clip.
+
 ## D236 — Smooth motion standard: crossfade scene dissolves + eased slide text; local fonts/ override dir (2026-11-18, user: "better, but the transitions are not smooth enough its like forced image transition … only the text, and the sliding animation needs improvement … lets work on the fonts, and lets install it if needed")
 
 - **Scene transitions:** consecutive scenes OVERLAP by 0.7 s — each card scene carries a `fadeout` window; the engine renders both scenes during the overlap, so cards DISSOLVE into each other (old fades out while new fades in) — no more hard cuts.
