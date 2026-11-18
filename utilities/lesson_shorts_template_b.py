@@ -67,6 +67,49 @@ FONT_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file_
                                          "..", "fonts"))
 
 COLORS = {"line": LINE, "dim": DIM, "gold": GOLD, "white": WHITE, "muted": MUTED}
+
+# 7 daily palettes (D244 — one per weekday for the daily-upload series from
+# 2026-11-25). Gold accent + white text constant; the ground/card/line tints
+# are what change. C_amber = user-picked for Ubu al-Amal.
+PALETTES = {
+    "A_green": dict(BG_TOP=(10, 26, 18), BG_BOT=(5, 13, 9), CARD_BG=(14, 33, 24),
+                    CARD_BORDER=(38, 70, 54), LINE=(232, 240, 233), DIM=(140, 158, 148),
+                    GOLD=(212, 169, 78), WHITE=(238, 242, 238), MUTED=(150, 165, 155),
+                    STAR_COL=(200, 215, 205)),
+    "B_indigo": dict(BG_TOP=(9, 13, 34), BG_BOT=(4, 6, 20), CARD_BG=(13, 17, 42),
+                     CARD_BORDER=(36, 45, 90), LINE=(216, 226, 248), DIM=(118, 130, 172),
+                     GOLD=(233, 184, 78), WHITE=(240, 244, 252), MUTED=(132, 142, 176),
+                     STAR_COL=(210, 218, 245)),
+    "C_amber": dict(BG_TOP=(28, 19, 11), BG_BOT=(14, 10, 6), CARD_BG=(36, 26, 17),
+                    CARD_BORDER=(78, 57, 37), LINE=(242, 232, 216), DIM=(172, 150, 124),
+                    GOLD=(242, 188, 86), WHITE=(247, 243, 235), MUTED=(176, 156, 132),
+                    STAR_COL=(235, 220, 190)),
+    "D_slate": dict(BG_TOP=(17, 19, 26), BG_BOT=(8, 9, 13), CARD_BG=(23, 26, 34),
+                    CARD_BORDER=(54, 60, 74), LINE=(228, 232, 240), DIM=(130, 136, 150),
+                    GOLD=(232, 179, 68), WHITE=(244, 246, 250), MUTED=(142, 148, 160),
+                    STAR_COL=(215, 220, 230)),
+    "E_teal": dict(BG_TOP=(8, 30, 32), BG_BOT=(4, 15, 17), CARD_BG=(11, 37, 40),
+                   CARD_BORDER=(30, 76, 80), LINE=(214, 238, 235), DIM=(114, 154, 154),
+                   GOLD=(226, 182, 88), WHITE=(236, 246, 244), MUTED=(134, 164, 164),
+                   STAR_COL=(190, 222, 218)),
+    "F_clay": dict(BG_TOP=(33, 21, 14), BG_BOT=(17, 11, 7), CARD_BG=(42, 28, 19),
+                   CARD_BORDER=(88, 58, 40), LINE=(245, 231, 212), DIM=(182, 156, 128),
+                   GOLD=(245, 194, 92), WHITE=(250, 245, 237), MUTED=(184, 162, 138),
+                   STAR_COL=(241, 226, 198)),
+    "G_plum": dict(BG_TOP=(25, 14, 29), BG_BOT=(13, 7, 16), CARD_BG=(34, 20, 38),
+                   CARD_BORDER=(70, 44, 78), LINE=(234, 222, 242), DIM=(152, 128, 162),
+                   GOLD=(238, 188, 92), WHITE=(247, 241, 251), MUTED=(160, 142, 168),
+                   STAR_COL=(222, 202, 237)),
+}
+
+
+def apply_palette(name):
+    """Swap the active palette (D244 daily series — one per weekday)."""
+    p = PALETTES[name]
+    for k, v in p.items():
+        globals()[k] = v
+    globals()["COLORS"] = {"line": p["LINE"], "dim": p["DIM"], "gold": p["GOLD"],
+                           "white": p["WHITE"], "muted": p["MUTED"]}
 FONT_SIZES = {"big": 64, "caption": 48, "small": 28, "cite": 30, "close": 60}
 
 
@@ -511,7 +554,10 @@ def draw_frame(t, img, ov, d_ov, spec, fonts, stars):
     return img.resize((W, H), Image.LANCZOS)          # 2x supersample -> clean AA
 
 
-def render(spec, out_dir, skip_frames=False):
+def render(spec, out_dir, skip_frames=False, palette=None):
+    pal = palette or spec.get("palette")
+    if pal:
+        apply_palette(pal)
     fps = spec["fps"]
     dur = spec["duration"]
     nframes = int(round(dur * fps))
@@ -534,9 +580,12 @@ def render(spec, out_dir, skip_frames=False):
     return frames_dir, nframes, fps
 
 
-def preview(spec, t, out_path):
+def preview(spec, t, out_path, palette=None):
     """Render a single frame at time t to out_path — fast A/B preview for
     palette / font / timing checks without a full render."""
+    pal = palette or spec.get("palette")
+    if pal:
+        apply_palette(pal)
     fonts, bg, stars = _prepare(spec)
     img = bg.copy()
     ov = Image.new("RGBA", (WW, HH), (0, 0, 0, 0))

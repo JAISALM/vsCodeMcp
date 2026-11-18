@@ -1961,6 +1961,20 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D245 — Capability boundary for the eng-degree (ANIMATION lane): we compose, the user supplies assets (2026-11-18, user: "are we good to make similar kind of items from our end?")
+
+- **We CAN (fully in-house, proven on Ubu):** the whole pipeline — timeline spec, text animation (locked fonts), narration placement (OmniVoice lines), ambience + action SFX (D041 no music), 40 s distribution cuts, all in our line-art style.
+- **We CANNOT (yet):** allapinne-style flat-2D CHARACTER animation (walk cycles, trampoline physics, rain) — that's motion-graphics production (After Effects / Toonly class) or AI-video models. For the eng-degree video: **user supplies per-beat graphics** (their words: "getting the graphics"), we composite + narrate + cut.
+- If the user wants US to generate the animation itself: MiniMax H3 hybrid route — but offline until 2026-11-24 (D228) + D041 NO-music statement mandatory.
+- Status: awaiting script text + assets (D243).
+
+## D244 — 7 daily palettes + palette C for Ubu; daily uploads from 2026-11-25 (user: "palette i will pick c … keep 7 patterns for every day, we will start our daily upload from 25th onwards insha allah")
+
+- **C (Lantern Amber) = Ubu's palette** — Ubu 40 s deliverable set re-rendering in C (D240 pipeline).
+- **7 palettes = 7 weekdays** for the daily-upload series (starts **2026-11-25**): `PALETTES` registry in the engine — A_green · B_indigo · C_amber · D_slate · E_teal · F_clay · G_plum. `apply_palette(name)` / `spec["palette"]` / `render(palette=)` / `preview(palette=)`. Grid: `data\refanim\palette_week.png`.
+- GOTCHA: a spec carrying `palette` overrides the loop — A/B grids must pass explicit `palette=` (first grid came out all-C).
+- Daily pattern plan: one video per day, rotating palette by weekday (or user-chosen per video — spec key).
+
 ## D243 — Series lanes: ANIMATION vs ROBLOX; script text comes from the USER (2026-11-18, user: "this will coming under the same pipeline as the football one, but this is animation, other is roblox")
 
 - Two lanes under ONE series pipeline: **ANIMATION lane** = engineering-degree video (allapinne-style flat 2D — USER supplies the assets: "i will be getting the graphics for that particular script") · **ROBLOX lane** = football set (Template C / Blender low-poly 3D).

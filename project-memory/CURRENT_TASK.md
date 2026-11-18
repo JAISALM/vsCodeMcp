@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-18 (19:05) PALETTE C LOCKED + 7 DAILY PALETTES (user: "palette i will pick c … keep 7 patterns for every day, daily upload from 25th insha allah")**
+
+- **C (Lantern Amber) = Ubu's palette** — 40 s deliverable set RE-RENDERING in C now (background; same timeline + SFX).
+- **7 palettes live** in engine `PALETTES` (A green · B indigo · C amber · D slate · E teal · F clay · G plum) — grid `data\refanim\palette_week.png`. Daily series starts **2026-11-25**, one video/day, palette per day (D244).
+- **Eng-degree (D245):** boundary set — we compose/narrate/cut (in-house), USER supplies per-beat graphics + script text. Awaiting: script + assets.
+
 **2026-11-18 (18:50) ENG-DEGREE VIDEO (second narration video) + UBU 40 s DELIVERED (user, maghrib: "second one is with narration … this is animation, other is roblox")**
 
 - **Ubu 40 s DONE (D240/D241):** pipeline captured in `utilities\build_ubu_al_amal.py` — `data\refanim\ubu_al_amal_40.mp4` + `_sfx` (40.000 s) + `ubu_40s_part1.mp4` / `part2.mp4` (20 s WhatsApp cuts) — all verified. Generic pipeline doc: `docs\NARRATED_VIDEO_PIPELINE.md`.

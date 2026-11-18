@@ -4,6 +4,14 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — 7-palette registry + C for Ubu (D244) — grid verified, re-render running
+
+- Engine gained `PALETTES` (7 named) + `apply_palette()` + `render/preview(palette=)` + `spec["palette"]`. Grid `data\refanim\palette_week.png` (A green · B indigo · C amber · D slate · E teal · F clay · G plum) — all 7 verified distinct after fixing the fallback bug.
+- **Bug found:** content spec now carries `palette="C_amber"`, so a naive loop `preview(spec, t)` rendered ALL panels in C — the spec's key wins over nothing passed explicitly. Fix: A/B grids must pass `palette=name` explicitly.
+- Ubu 40 s re-render in C launched (background) — same 40 s timeline, SFX bed unchanged (audio is palette-agnostic).
+
+---
+
 ## 2026-11-18 — UBU 40 s PIPELINE (D240/D241) — SUCCESS, all verified
 
 - `build_ubu_al_amal.py` ran end-to-end: 2400 frames @60 → `ubu_al_amal_40.mp4` (40.000 s) → SFX at retimed beats → `ubu_al_amal_40_sfx.mp4` (h264+AAC, 40.000 s) → cuts `ubu_40s_part1.mp4` (20.033 s) / `ubu_40s_part2.mp4` (20.008 s) — all ffprobe-verified.
