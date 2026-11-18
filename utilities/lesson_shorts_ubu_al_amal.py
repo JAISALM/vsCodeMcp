@@ -85,9 +85,9 @@ def spec():
                         T("his hijrah was to Allah.\u201d", 50.3, 52.3, 640)]),
             # ---- S5 closing (54-60) ----
             dict(t0=54, t1=60, text=[
-                dict(s="ACTIONS ARE BY", t0=54.4, t1=55.2, font="big", align="center",
+                dict(s="ACTIONS ARE BY", t0=54.4, t1=55.2, font="close", align="center",
                      x=W // 2, y=820),
-                dict(s="INTENTIONS.", t0=54.9, t1=55.7, font="big", align="center",
+                dict(s="INTENTIONS.", t0=54.9, t1=55.7, font="close", align="center",
                      x=W // 2, y=906),
                 dict(s="SAHIH AL-BUKHARI \u00b7 1", t0=55.9, t1=56.7, font="cite",
                      color="gold", align="center", x=W // 2, y=1000, spacing=5),

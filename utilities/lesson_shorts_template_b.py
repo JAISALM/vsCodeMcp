@@ -40,6 +40,8 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1080, 1920
+SS = 2                       # supersampling: everything drawn at 2x, LANCZOS-downscaled
+WW, HH = W * SS, H * SS      # -> anti-aliased lines and text (PIL itself has no AA)
 FFMPEG = r"D:\ffmpeg\ffmpeg-2025-08-25-git-1b62f9d3ae-full_build\bin\ffmpeg.exe"
 
 BG_TOP = (10, 26, 18)
@@ -52,12 +54,13 @@ GOLD = (212, 169, 78)
 WHITE = (238, 242, 238)
 MUTED = (150, 165, 155)
 
-F_SERIF = "C:/Windows/Fonts/BASKVILL.TTF"   # elegant high-contrast serif (ref-class look)
+F_SERIF = "C:/Windows/Fonts/palai.ttf"      # Palatino italic — matches the ref's italic-serif captions
+F_SERIF_UP = "C:/Windows/Fonts/BASKVILL.TTF"  # upright high-contrast serif (closing line)
 F_LABEL = "C:/Windows/Fonts/arialbd.ttf"
 F_HANDLE = "C:/Windows/Fonts/arial.ttf"
 
 COLORS = {"line": LINE, "dim": DIM, "gold": GOLD, "white": WHITE, "muted": MUTED}
-FONT_SIZES = {"big": 64, "caption": 52, "small": 28, "cite": 30}
+FONT_SIZES = {"big": 64, "caption": 48, "small": 28, "cite": 30, "close": 60}
 
 
 def ramp(t, t0, t1):
@@ -101,22 +104,24 @@ def partial_circle(cx, cy, r, f, start_deg=-90.0):
 
 
 def stroke_overlay(ov, kind, geom, color, width, f, glow=1.0, alpha=255, fill=False):
+    """All coords arrive in 1080x1920 space; drawn at SSx, downscaled -> AA."""
     if f <= 0.0:
         return
     col = COLORS.get(color, LINE)
     d = ImageDraw.Draw(ov)
-    ga = int(38 * glow) * alpha // 255   # ONE soft halo (a double halo made lines look doubled/muddy)
+    ga = int(30 * glow) * alpha // 255   # ONE subtle halo (wide halos made lines look doubled/muddy)
     ca = int(248 * alpha) // 255        # crisp full-brightness core
 
     def passes(w_extra, a):
         if a <= 0:
             return
+        w_extra = max(2, int(round(w_extra * SS)))
         if kind == "line":
-            pts = partial_polyline(geom, f)
+            pts = [[p[0] * SS, p[1] * SS] for p in partial_polyline(geom, f)]
             if len(pts) >= 2:
                 d.line(pts, fill=(col[0], col[1], col[2], a), width=w_extra, joint="curve")
         elif kind == "circle":
-            cx, cy, r = geom
+            cx, cy, r = geom[0] * SS, geom[1] * SS, geom[2] * SS
             c = partial_circle(cx, cy, r, f)
             if c["full"]:
                 d.ellipse([cx - r, cy - r, cx + r, cy + r],
@@ -125,35 +130,36 @@ def stroke_overlay(ov, kind, geom, color, width, f, glow=1.0, alpha=255, fill=Fa
                 d.arc([cx - r, cy - r, cx + r, cy + r], c["a0"], c["a1"],
                       fill=(col[0], col[1], col[2], a), width=w_extra)
         elif kind == "rect":
-            x0, y0, x1, y1 = geom
+            x0, y0, x1, y1 = geom[0] * SS, geom[1] * SS, geom[2] * SS, geom[3] * SS
             pts = partial_polyline(rect_perimeter_pts(x0, y0, x1, y1), f)
             d.line(pts, fill=(col[0], col[1], col[2], a), width=w_extra, joint="curve")
             if fill and f >= 1.0:
                 d.rectangle([x0, y0, x1, y1], fill=(col[0], col[1], col[2], int(a * 0.45)))
         elif kind == "dot":
-            x, y, r = geom[0], geom[1], geom[2] * f
+            x, y, r = geom[0] * SS, geom[1] * SS, geom[2] * SS * f
             if r > 0.3:
                 d.ellipse([x - r, y - r, x + r, y + r], fill=(col[0], col[1], col[2], a))
 
     if glow > 0:
-        passes(width + 5, ga)
+        passes(width + 4, ga)
     passes(width, ca)
 
 
 def text_overlay(ov, xy, s, font, color, alpha=255, spacing=0, center=False):
+    """xy in 1080x1920 space; fonts are loaded at SSx size."""
     if alpha <= 0 or not s:
         return
     col = COLORS.get(color, WHITE)
     d = ImageDraw.Draw(ov)
+    x, y = xy[0] * SS, xy[1] * SS
     if spacing:
-        x, y = xy
         for ch in s:
             d.text((x, y), ch, font=font, fill=(col[0], col[1], col[2], alpha))
-            x += d.textlength(ch, font=font) + spacing
+            x += d.textlength(ch, font=font) + spacing * SS
     else:
         if center:
-            xy = (xy[0] - d.textlength(s, font=font) / 2, xy[1])
-        d.text(xy, s, font=font, fill=(col[0], col[1], col[2], alpha))
+            x = xy[0] * SS - d.textlength(s, font=font) / 2
+        d.text((x, y), s, font=font, fill=(col[0], col[1], col[2], alpha))
 
 
 def make_bg():
@@ -192,17 +198,16 @@ def road(x0, x1, y, t0, t1=None, color="dim"):
     return [dict(kind="line", geom=[[x0, y], [x1, y]], color=color, width=3, t0=t0, t1=t1)]
 
 
-def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=2.0, instant=False):
-    """A clean single-stroke figure. pose: stand | walk | carry_L | carry_R.
+def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=1.3, instant=False):
+    """A clean single-stroke figure — straight limbs, rounded ends, relaxed pose.
+    pose: stand | walk | carry_L | carry_R.
     instant=True: fully drawn at scene start (continuity across cuts)."""
     s = scale
-    head_r = 20 * s
-    head_cy = feet_y - 240 * s
-    neck = (x, head_cy + head_r)
-    sy = feet_y - 175 * s
-    hip = (x, feet_y - 105 * s)
-    mid_l = (x - 8 * s, feet_y - 55 * s)
-    mid_r = (x + 8 * s, feet_y - 55 * s)
+    head_r = 18 * s
+    head_cy = feet_y - 242 * s
+    neck_y = head_cy + head_r
+    hip_y = feet_y - 108 * s
+    sy = feet_y - 176 * s
     if instant:
         t1 = t0 + 0.03
     else:
@@ -214,50 +219,55 @@ def figure(x, feet_y, t0, pose="stand", scale=1.0, color="line", glow=2.0, insta
         return dict(kind=kind, geom=geom, color=color_, width=width, t0=t0 + dt, t1=t0 + dt + 0.4,
                     glow=glow_)
 
+    def limb(pts, dt):
+        """limb + rounded cap at its end (cap appears as the limb finishes).
+        Returns a list: the limb line + the cap dot (render order = list order)."""
+        cap_t0 = (t0 + dt + 0.35) if not instant else t0
+        cap_t1 = (cap_t0 + 0.3) if not instant else t1
+        return [el("line", pts, dt),
+                dict(kind="dot", geom=[pts[-1][0], pts[-1][1], 1.9 * s],
+                     color=color, width=3, t0=cap_t0, t1=cap_t1, glow=0.0)]
+
     els = [
         el("circle", [x, head_cy, head_r], 0.0),
-        el("line", [list(neck), [x + 3 * s, (neck[1] + hip[1]) / 2], list(hip)], 0.15),
+        el("line", [[x, neck_y + 3], [x, hip_y]], 0.15),          # straight spine
     ]
     if pose == "stand":
-        els += [
-            el("line", [[x - 2, sy], [x - 16 * s, sy + 42 * s], [x - 22 * s, sy + 82 * s]], 0.3),
-            el("line", [[x + 2, sy], [x + 16 * s, sy + 42 * s], [x + 22 * s, sy + 82 * s]], 0.35),
-            el("line", [list(hip), list(mid_l), [x - 16 * s, feet_y]], 0.5),
-            el("line", [list(hip), list(mid_r), [x + 16 * s, feet_y]], 0.55),
-        ]
+        a_l = [[x - 3 * s, sy], [x - 15 * s, sy + 44 * s], [x - 19 * s, sy + 84 * s]]
+        a_r = [[x + 3 * s, sy], [x + 15 * s, sy + 44 * s], [x + 19 * s, sy + 84 * s]]
+        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
+        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     elif pose == "walk":
-        els += [
-            el("line", [[x - 2, sy], [x - 18 * s, sy + 40 * s], [x - 22 * s, sy + 80 * s]], 0.3),
-            el("line", [[x + 2, sy], [x + 20 * s, sy + 36 * s], [x + 16 * s, sy + 78 * s]], 0.35),
-            el("line", [list(hip), [x - 20 * s, feet_y - 30 * s], [x - 30 * s, feet_y]], 0.5),
-            el("line", [list(hip), [x + 14 * s, feet_y - 40 * s], [x + 24 * s, feet_y - 6 * s]], 0.55),
-        ]
-    elif pose == "carry_L":  # left arm (viewer's left) extended, holding something
-        els += [
-            el("line", [[x - 2, sy], [x - 26 * s, sy + 38 * s], [x - 44 * s, sy + 56 * s]], 0.3),
-            el("line", [[x + 2, sy], [x + 16 * s, sy + 42 * s], [x + 20 * s, sy + 82 * s]], 0.35),
-            el("line", [list(hip), list(mid_l), [x - 16 * s, feet_y]], 0.5),
-            el("line", [list(hip), list(mid_r), [x + 16 * s, feet_y]], 0.55),
-        ]
+        a_l = [[x - 3 * s, sy], [x - 19 * s, sy + 40 * s], [x - 15 * s, sy + 80 * s]]
+        a_r = [[x + 3 * s, sy], [x + 19 * s, sy + 40 * s], [x + 15 * s, sy + 80 * s]]
+        leg_l = [[x, hip_y], [x - 27 * s, feet_y - 4 * s]]
+        leg_r = [[x, hip_y], [x + 25 * s, feet_y - 2 * s]]
+        els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
+    elif pose == "carry_L":  # left arm extended out, holding something
+        a_l = [[x - 3 * s, sy], [x - 27 * s, sy + 40 * s], [x - 46 * s, sy + 58 * s]]
+        a_r = [[x + 3 * s, sy], [x + 15 * s, sy + 44 * s], [x + 19 * s, sy + 84 * s]]
+        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
+        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     elif pose == "carry_R":
-        els += [
-            el("line", [[x - 2, sy], [x - 16 * s, sy + 42 * s], [x - 20 * s, sy + 82 * s]], 0.3),
-            el("line", [[x + 2, sy], [x + 26 * s, sy + 38 * s], [x + 44 * s, sy + 56 * s]], 0.35),
-            el("line", [list(hip), list(mid_l), [x - 16 * s, feet_y]], 0.5),
-            el("line", [list(hip), list(mid_r), [x + 16 * s, feet_y]], 0.55),
-        ]
+        a_l = [[x - 3 * s, sy], [x - 15 * s, sy + 44 * s], [x - 19 * s, sy + 84 * s]]
+        a_r = [[x + 3 * s, sy], [x + 27 * s, sy + 40 * s], [x + 46 * s, sy + 58 * s]]
+        leg_l = [[x, hip_y], [x - 13 * s, feet_y - 2 * s]]
+        leg_r = [[x, hip_y], [x + 13 * s, feet_y - 2 * s]]
+        els += limb(a_l, 0.3) + limb(a_r, 0.35) + limb(leg_l, 0.5) + limb(leg_r, 0.55)
     return els
 
 
 def lantern(x, y, t0, t1=None):
-    """Small hanging lantern with a lit core (the 'light for Allah' motif)."""
+    """Hanging lantern with a GLOWING GOLD core (the 'light for Allah' motif)."""
     t1 = t1 or t0 + 0.8
     return [
-        dict(kind="line", geom=[[x - 10, y - 16], [x + 10, y - 16]], color="line", width=3, t0=t0, t1=t0 + 0.3),
-        dict(kind="circle", geom=[x, y - 2, 9], color="line", width=3, t0=t0 + 0.2, t1=t1),
-        dict(kind="line", geom=[[x - 7, y + 11], [x + 7, y + 11]], color="line", width=3, t0=t0 + 0.4, t1=t0 + 0.7),
-        dict(kind="dot", geom=[x, y - 2, 13], color="white", t0=t0 + 0.5, t1=t0 + 1.0, alpha=60),
-        dict(kind="dot", geom=[x, y - 2, 4], color="white", t0=t0 + 0.5, t1=t0 + 0.8, pulse=True),
+        dict(kind="line", geom=[[x - 13, y - 20], [x + 13, y - 20]], color="line", width=3, t0=t0, t1=t0 + 0.3),
+        dict(kind="circle", geom=[x, y - 3, 13], color="line", width=3, t0=t0 + 0.2, t1=t1),
+        dict(kind="line", geom=[[x - 9, y + 13], [x + 9, y + 13]], color="line", width=3, t0=t0 + 0.4, t1=t0 + 0.7),
+        dict(kind="dot", geom=[x, y - 3, 18], color="gold", t0=t0 + 0.5, t1=t0 + 1.0, alpha=80, glow=0.0),
+        dict(kind="dot", geom=[x, y - 3, 5.5], color="gold", t0=t0 + 0.5, t1=t0 + 0.8, pulse=True, glow=0.0),
     ]
 
 
@@ -308,10 +318,10 @@ def render(spec, out_dir, skip_frames=False):
     nframes = int(round(dur * fps))
     frames_dir = os.path.join(out_dir, "frames")
     os.makedirs(frames_dir, exist_ok=True)
-    bg = make_bg()
+    bg = make_bg().resize((WW, HH), Image.BILINEAR)
     stars = make_stars()
-    fonts = {k: ImageFont.truetype(F_SERIF if k in ("big", "caption") else F_LABEL, s)
-             for k, s in FONT_SIZES.items()}
+    FMAP = {"big": F_SERIF, "caption": F_SERIF, "close": F_SERIF_UP}
+    fonts = {k: ImageFont.truetype(FMAP.get(k, F_LABEL), s * SS) for k, s in FONT_SIZES.items()}
 
     def draw_text_items(ov, items, t, fonts):
         for it in items:
@@ -335,12 +345,13 @@ def render(spec, out_dir, skip_frames=False):
     for fi in range(nframes):
         t = fi / fps
         img = bg.copy()
-        ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ov = Image.new("RGBA", (WW, HH), (0, 0, 0, 0))
         d_ov = ImageDraw.Draw(ov)
         for s in stars:
             a = max(12, min(170, int(s["base"] + 55 * math.sin(2 * math.pi * t * s["freq"] + s["phase"]))))
-            r = s["r"]
-            d_ov.ellipse([s["x"] - r, s["y"] - r, s["x"] + r, s["y"] + r], fill=(200, 215, 205, a))
+            r = s["r"] * SS
+            d_ov.ellipse([s["x"] * SS - r, s["y"] * SS - r, s["x"] * SS + r, s["y"] * SS + r],
+                         fill=(200, 215, 205, a))
         for scene in spec.get("scenes", []):
             if t < scene["t0"] or t >= scene["t1"]:
                 continue
@@ -348,7 +359,8 @@ def render(spec, out_dir, skip_frames=False):
                 cx, cy, cw, ch = scene["card"]
                 cf = ramp(t, *scene.get("card_fade", [scene["t0"], scene["t0"] + 0.4]))
                 if cf > 0:
-                    rounded_card(d_ov, cx, cy, cw, ch, 26, CARD_BG, CARD_BORDER, 2, int(255 * cf))
+                    rounded_card(d_ov, cx * SS, cy * SS, cw * SS, ch * SS, 26 * SS,
+                                 CARD_BG, CARD_BORDER, max(3, 2 * SS), int(255 * cf))
                 for el in scene.get("elements", []):
                     f = ramp(t, el["t0"], el["t1"])
                     if f <= 0:
@@ -363,29 +375,32 @@ def render(spec, out_dir, skip_frames=False):
                 if lf > 0 and scene.get("label_gold"):
                     a = int(255 * lf)
                     cx, cy, ch = scene["card"][0], scene["card"][1], scene["card"][3]
+                    # text_overlay scales coords itself — pass 1080x1920 space
                     x, y = cx + 30, cy + ch - 52
                     text_overlay(ov, (x, y), scene["label_gold"], fonts["small"], "gold", a)
                     if scene.get("label_sub"):
-                        wlab = d_ov.textlength(scene["label_gold"], font=fonts["small"])
-                        text_overlay(ov, (x + wlab + 18, y + 3), scene["label_sub"], fonts["small"], "muted", a)
+                        wlab = d_ov.textlength(scene["label_gold"], font=fonts["small"]) / SS
+                        text_overlay(ov, (x + wlab + 18, y + 3),
+                                     scene["label_sub"], fonts["small"], "muted", a)
                 if scene.get("ring"):
                     rf = ramp(t, *scene.get("ring_fade", [scene["t0"], scene["t0"] + 0.5]))
                     if rf > 0:
                         cx, cy, cw = scene["card"][0], scene["card"][1], scene["card"][2]
-                        rcx, rcy, rr = cx + cw - 50, cy + 50, 22
+                        rcx, rcy, rr = (cx + cw - 50) * SS, (cy + 50) * SS, 22 * SS
                         d_ov.ellipse([rcx - rr, rcy - rr, rcx + rr, rcy + rr],
-                                     outline=(60, 85, 72, int(200 * rf)), width=4)
+                                     outline=(60, 85, 72, int(200 * rf)), width=4 * SS)
                         prog = ramp(t, *scene.get("ring_progress", [scene["t0"], scene["t1"]]))
                         if prog > 0:
                             start = -90 + 360 * (t * 0.15)
                             d_ov.arc([rcx - rr, rcy - rr, rcx + rr, rcy + rr], start, start + 360 * prog,
-                                     fill=(GOLD[0], GOLD[1], GOLD[2], int(255 * rf)), width=5)
+                                     fill=(GOLD[0], GOLD[1], GOLD[2], int(255 * rf)), width=5 * SS)
             draw_text_items(ov, scene.get("text", []), t, fonts)
         draw_text_items(ov, spec.get("text", []), t, fonts)
         a = int(255 * ramp(t, *spec.get("handle_fade", [1.5, 2.1])))
         text_overlay(ov, (W // 2, 1846), spec.get("handle", "@yourhandle"), fonts["small"], "muted",
                      a, center=True)
         img.paste(Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB"))
+        img = img.resize((W, H), Image.LANCZOS)          # 2x supersample -> clean AA
         if not skip_frames or not os.path.exists(os.path.join(frames_dir, f"frame_{fi:04d}.png")):
             img.save(os.path.join(frames_dir, f"frame_{fi:04d}.png"))
     return frames_dir, nframes, fps

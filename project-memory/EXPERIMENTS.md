@@ -4,6 +4,22 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — UBU AL-AMAL v3 — quality gap vs the reference (user: "still pixelated, not clear, not neat — check against the ones I suggested") (SUCCESS)
+
+- **Side-by-side diagnosis (ref `v2_t30.jpg` vs our v2):** the real gaps were ① **aliasing** — PIL draws lines with ZERO anti-aliasing → jagged edges = the "pixelation" ② thick muddy double-ring glow (wide halo reads as a second line) ③ angular stiff figures vs the ref's flowing single-stroke figures ④ upright font vs the ref's **italic** serif captions.
+- **Fixes (engine):**
+  ① **2× supersampling** — every frame drawn at 2160×3840, LANCZOS-downscaled to 1080×1920 → true AA on lines AND text. This alone fixed "pixelated/not clear".
+  ② glow = ONE subtle halo (width+4, alpha ~30·glow) + crisp full-brightness core.
+  ③ **figure redesign**: straight spine, straight relaxed legs, 2-segment relaxed arms, **rounded caps** (small dots at limb ends), head r 18, subtle glow — matches the ref's clean single-stroke look.
+  ④ fonts: captions/hook = **Palatino italic** (`palai.ttf`, closest system font to the ref's italic serif) · closing line = **Baskerville** upright (brand punch).
+  ⑤ lantern bigger (body r 13) with a GLOWING GOLD core (was a dim white dot) — now reads clearly at card scale.
+  ⑥ bug: after the SS change the card label double-scaled its coords → "THE SAME ACTION" landed off-canvas; fixed (pass 1080-space coords to `text_overlay`).
+- **"Dot in the head" mystery solved:** v1/v2 head centers pixel-checked = exactly the card background color — the dot was an optical illusion (thin ring + preview contrast), NOT a drawn dot.
+- **Result:** `data\refanim\ubu_al_amal.mp4` v3 (60 s). Verified frames t=12.5 (AA lines, italic captions, label back), t=24 (gold-glow lantern vs coin), t=57.5 (Baskerville closing + gold citation). Render time at 2× ≈ 18–20 min for 1800 frames.
+- **Conclusion:** the drawing-quality gap was engine-level (no AA + glow stacking + font choice), NOT content. v3 matches the ref's line-quality class; awaiting user re-score.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v2 polish pass (user scored v1 1/5) — 5 engine fixes (SUCCESS)
 
 - **User critique of v1 (1/5):** ① drawings have extra lines / lines not clear ② text not fading in properly ③ a "spacebar" visible when each keyword is typed ④ font not good ⑤ too much delay after one sentence.
