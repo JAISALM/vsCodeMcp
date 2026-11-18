@@ -53,6 +53,7 @@ DIM = (140, 158, 148)
 GOLD = (212, 169, 78)
 WHITE = (238, 242, 238)
 MUTED = (150, 165, 155)
+STAR_COL = (200, 215, 205)   # sky-star tint (per-palette A/B: monkeypatch this)
 
 F_SERIF = "C:/Windows/Fonts/constani.ttf"   # Constantia italic — user pick v6 (A/B sheet row 2, 2026-11-18)
 F_SERIF_UP = "C:/Windows/Fonts/BASKVILL.TTF"  # upright high-contrast serif (closing line)
@@ -379,6 +380,137 @@ def door(x0, y0, x1, y1, t0, beam=False):
 # ---------------------------------------------------------------------------
 # renderer
 # ---------------------------------------------------------------------------
+def ease_out(x):
+    return 1.0 - (1.0 - x) ** 3
+
+
+def draw_text_items(ov, items, t, fonts, out=1.0):
+    for it in items:
+        f = ramp(t, it["t0"], it["t1"])
+        if f <= 0:
+            continue
+        font = fonts.get(it.get("font", "caption"), fonts["caption"])
+        color = it.get("color", "white")
+        mode = it.get("mode", "slide")
+        x, y = it.get("x", W // 2), it.get("y", 800)
+        s = it["s"]
+        center = it.get("align", "center") == "center"
+        a = int(255 * f * out)
+        if a <= 0:
+            continue
+        if mode == "type" and f < 1.0:
+            # typing = the animation itself: FULL brightness, no grey ramp, no cursor bar
+            shown = s[: int(len(s) * f)]
+            text_overlay(ov, (x, y), shown, font, color, int(255 * out),
+                         it.get("spacing", 0), center)
+        elif mode == "slide":
+            # eased slide-up + fade (the ref's text motion)
+            e = ease_out(f)
+            text_overlay(ov, (x, y + 30 * (1 - e)), s, font, color,
+                         int(255 * e * out), it.get("spacing", 0), center)
+        else:
+            text_overlay(ov, (x, y), s, font, color, a, it.get("spacing", 0), center)
+
+
+def _prepare(spec):
+    """Shared setup for render() and preview(): fonts + background + stars."""
+    def resolve_font(local_name, system_path):
+        p = os.path.join(FONT_DIR, local_name)
+        return p if os.path.exists(p) else system_path
+
+    FMAP = {
+        "big": resolve_font("big.ttf", F_SERIF),
+        "caption": resolve_font("caption.ttf", F_SERIF),
+        "close": resolve_font("close.ttf", F_SERIF_UP),
+    }
+    fonts = {k: ImageFont.truetype(FMAP.get(k, F_LABEL), s * SS) for k, s in FONT_SIZES.items()}
+    bg = make_bg().resize((WW, HH), Image.BILINEAR)
+    stars = make_stars()
+    return fonts, bg, stars
+
+
+def draw_frame(t, img, ov, d_ov, spec, fonts, stars):
+    """Draw one frame at time t into img (stars, scenes, global text, handle).
+    Returns the final 1080x1920 RGB image."""
+    for s in stars:
+        a = max(12, min(170, int(s["base"] + 55 * math.sin(2 * math.pi * t * s["freq"] + s["phase"]))))
+        r = s["r"] * SS
+        # slow parallax drift — the sky never stands still (v8 anti-lag)
+        sx = s["x"] + 5 * math.sin(2 * math.pi * t * 0.011 * s["freq"] + s["phase"])
+        sy = s["y"] + 4 * math.cos(2 * math.pi * t * 0.009 * s["freq"] + s["phase"] * 1.7)
+        d_ov.ellipse([sx * SS - r, sy * SS - r, sx * SS + r, sy * SS + r],
+                     fill=(STAR_COL[0], STAR_COL[1], STAR_COL[2], a))
+    for scene in spec.get("scenes", []):
+        if t < scene["t0"] or t >= scene["t1"]:
+            continue
+        # scene exit alpha — scenes OVERLAP their neighbours by the fadeout
+        # window, so consecutive cards dissolve into each other (no hard cut)
+        fout = scene.get("fadeout")
+        out = (1.0 - ramp(t, *fout)) if fout else 1.0
+        if out <= 0.0:
+            continue
+        if "card" in scene:
+            cx, cy, cw, ch = scene["card"]
+            cf = ramp(t, *scene.get("card_fade", [scene["t0"], scene["t0"] + 0.4]))
+            ca = int(255 * ease_out(cf) * out)
+            if ca > 0:
+                rounded_card(d_ov, cx * SS, cy * SS, cw * SS, ch * SS, 26 * SS,
+                             CARD_BG, CARD_BORDER, max(3, 2 * SS), ca)
+            for el in scene.get("elements", []):
+                f = ramp(t, el["t0"], el["t1"])
+                if f <= 0:
+                    continue
+                # eased draw + a soft 0.5 s alpha fade-in on EVERY element —
+                # drawings "bloom" into the scene instead of popping (v7 flow fix)
+                fe = ease_out(f)
+                a_in = min(1.0, (t - el["t0"]) / 0.5)
+                # continuous float/sway — nothing sits perfectly still (v8 anti-lag)
+                dy = 0.0
+                if el.get("float"):
+                    dy = el["float"] * math.sin(2 * math.pi * t * el.get("float_freq", 0.35)
+                                                + el.get("float_phase", 0.0))
+                geom = shift_geom(el["geom"], dy)
+                alpha = 255
+                if el.get("pulse") and f >= 1.0:
+                    alpha = int(255 * (0.8 + 0.2 * math.sin(2 * math.pi * t * 0.8)))
+                alpha = alpha * el.get("alpha", 255) // 255
+                alpha = int(alpha * a_in * out)
+                if alpha > 0:
+                    stroke_overlay(ov, el["kind"], geom, el["color"], el.get("width", 3),
+                                   fe, el.get("glow", 1.0), alpha, el.get("fill", False))
+            lf = ramp(t, *scene.get("label_fade", [scene["t0"], scene["t0"] + 0.5]))
+            if lf > 0 and scene.get("label_gold"):
+                a = int(255 * lf * out)
+                cx, cy, ch = scene["card"][0], scene["card"][1], scene["card"][3]
+                # text_overlay scales coords itself — pass 1080x1920 space
+                x, y = cx + 30, cy + ch - 52
+                text_overlay(ov, (x, y), scene["label_gold"], fonts["small"], "gold", a)
+                if scene.get("label_sub"):
+                    wlab = d_ov.textlength(scene["label_gold"], font=fonts["small"]) / SS
+                    text_overlay(ov, (x + wlab + 18, y + 3),
+                                 scene["label_sub"], fonts["small"], "muted", a)
+            if scene.get("ring"):
+                rf = ramp(t, *scene.get("ring_fade", [scene["t0"], scene["t0"] + 0.5]))
+                if rf > 0:
+                    cx, cy, cw = scene["card"][0], scene["card"][1], scene["card"][2]
+                    rcx, rcy, rr = (cx + cw - 50) * SS, (cy + 50) * SS, 22 * SS
+                    d_ov.ellipse([rcx - rr, rcy - rr, rcx + rr, rcy + rr],
+                                 outline=(60, 85, 72, int(200 * rf * out)), width=4 * SS)
+                    prog = ramp(t, *scene.get("ring_progress", [scene["t0"], scene["t1"]]))
+                    if prog > 0:
+                        start = -90 + 360 * (t * 0.15)
+                        d_ov.arc([rcx - rr, rcy - rr, rcx + rr, rcy + rr], start, start + 360 * prog,
+                                 fill=(GOLD[0], GOLD[1], GOLD[2], int(255 * rf * out)),
+                                 width=5 * SS)
+        draw_text_items(ov, scene.get("text", []), t, fonts, out)
+    draw_text_items(ov, spec.get("text", []), t, fonts)
+    a = int(255 * ramp(t, *spec.get("handle_fade", [1.5, 2.1])))
+    text_overlay(ov, (W // 2, 1846), spec.get("handle", "@yourhandle"), fonts["small"], "muted",
+                 a, center=True)
+    img.paste(Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB"))
+    return img.resize((W, H), Image.LANCZOS)          # 2x supersample -> clean AA
+
+
 def render(spec, out_dir, skip_frames=False):
     fps = spec["fps"]
     dur = spec["duration"]
@@ -390,135 +522,28 @@ def render(spec, out_dir, skip_frames=False):
     for old in os.listdir(frames_dir):
         if old.startswith("frame_") and old.endswith(".png"):
             os.remove(os.path.join(frames_dir, old))
-    bg = make_bg().resize((WW, HH), Image.BILINEAR)
-    stars = make_stars()
-
-    def resolve_font(local_name, system_path):
-        p = os.path.join(FONT_DIR, local_name)
-        return p if os.path.exists(p) else system_path
-
-    FMAP = {
-        "big": resolve_font("big.ttf", F_SERIF),
-        "caption": resolve_font("caption.ttf", F_SERIF),
-        "close": resolve_font("close.ttf", F_SERIF_UP),
-    }
-    fonts = {k: ImageFont.truetype(FMAP.get(k, F_LABEL), s * SS) for k, s in FONT_SIZES.items()}
-
-    def ease_out(x):
-        return 1.0 - (1.0 - x) ** 3
-
-    def draw_text_items(ov, items, t, fonts, out=1.0):
-        for it in items:
-            f = ramp(t, it["t0"], it["t1"])
-            if f <= 0:
-                continue
-            font = fonts.get(it.get("font", "caption"), fonts["caption"])
-            color = it.get("color", "white")
-            mode = it.get("mode", "slide")
-            x, y = it.get("x", W // 2), it.get("y", 800)
-            s = it["s"]
-            center = it.get("align", "center") == "center"
-            a = int(255 * f * out)
-            if a <= 0:
-                continue
-            if mode == "type" and f < 1.0:
-                # typing = the animation itself: FULL brightness, no grey ramp, no cursor bar
-                shown = s[: int(len(s) * f)]
-                text_overlay(ov, (x, y), shown, font, color, int(255 * out),
-                             it.get("spacing", 0), center)
-            elif mode == "slide":
-                # eased slide-up + fade (the ref's text motion)
-                e = ease_out(f)
-                text_overlay(ov, (x, y + 30 * (1 - e)), s, font, color,
-                             int(255 * e * out), it.get("spacing", 0), center)
-            else:
-                text_overlay(ov, (x, y), s, font, color, a, it.get("spacing", 0), center)
-
+    fonts, bg, stars = _prepare(spec)
     for fi in range(nframes):
         t = fi / fps
         img = bg.copy()
         ov = Image.new("RGBA", (WW, HH), (0, 0, 0, 0))
         d_ov = ImageDraw.Draw(ov)
-        for s in stars:
-            a = max(12, min(170, int(s["base"] + 55 * math.sin(2 * math.pi * t * s["freq"] + s["phase"]))))
-            r = s["r"] * SS
-            # slow parallax drift — the sky never stands still (v8 anti-lag)
-            sx = s["x"] + 5 * math.sin(2 * math.pi * t * 0.011 * s["freq"] + s["phase"])
-            sy = s["y"] + 4 * math.cos(2 * math.pi * t * 0.009 * s["freq"] + s["phase"] * 1.7)
-            d_ov.ellipse([sx * SS - r, sy * SS - r, sx * SS + r, sy * SS + r],
-                         fill=(200, 215, 205, a))
-        for scene in spec.get("scenes", []):
-            if t < scene["t0"] or t >= scene["t1"]:
-                continue
-            # scene exit alpha — scenes OVERLAP their neighbours by the fadeout
-            # window, so consecutive cards dissolve into each other (no hard cut)
-            fout = scene.get("fadeout")
-            out = (1.0 - ramp(t, *fout)) if fout else 1.0
-            if out <= 0.0:
-                continue
-            if "card" in scene:
-                cx, cy, cw, ch = scene["card"]
-                cf = ramp(t, *scene.get("card_fade", [scene["t0"], scene["t0"] + 0.4]))
-                ca = int(255 * ease_out(cf) * out)
-                if ca > 0:
-                    rounded_card(d_ov, cx * SS, cy * SS, cw * SS, ch * SS, 26 * SS,
-                                 CARD_BG, CARD_BORDER, max(3, 2 * SS), ca)
-                for el in scene.get("elements", []):
-                    f = ramp(t, el["t0"], el["t1"])
-                    if f <= 0:
-                        continue
-                    # eased draw + a soft 0.5 s alpha fade-in on EVERY element —
-                    # drawings "bloom" into the scene instead of popping (v7 flow fix)
-                    fe = ease_out(f)
-                    a_in = min(1.0, (t - el["t0"]) / 0.5)
-                    # continuous float/sway — nothing sits perfectly still (v8 anti-lag)
-                    dy = 0.0
-                    if el.get("float"):
-                        dy = el["float"] * math.sin(2 * math.pi * t * el.get("float_freq", 0.35)
-                                                    + el.get("float_phase", 0.0))
-                    geom = shift_geom(el["geom"], dy)
-                    alpha = 255
-                    if el.get("pulse") and f >= 1.0:
-                        alpha = int(255 * (0.8 + 0.2 * math.sin(2 * math.pi * t * 0.8)))
-                    alpha = alpha * el.get("alpha", 255) // 255
-                    alpha = int(alpha * a_in * out)
-                    if alpha > 0:
-                        stroke_overlay(ov, el["kind"], geom, el["color"], el.get("width", 3),
-                                       fe, el.get("glow", 1.0), alpha, el.get("fill", False))
-                lf = ramp(t, *scene.get("label_fade", [scene["t0"], scene["t0"] + 0.5]))
-                if lf > 0 and scene.get("label_gold"):
-                    a = int(255 * lf * out)
-                    cx, cy, ch = scene["card"][0], scene["card"][1], scene["card"][3]
-                    # text_overlay scales coords itself — pass 1080x1920 space
-                    x, y = cx + 30, cy + ch - 52
-                    text_overlay(ov, (x, y), scene["label_gold"], fonts["small"], "gold", a)
-                    if scene.get("label_sub"):
-                        wlab = d_ov.textlength(scene["label_gold"], font=fonts["small"]) / SS
-                        text_overlay(ov, (x + wlab + 18, y + 3),
-                                     scene["label_sub"], fonts["small"], "muted", a)
-                if scene.get("ring"):
-                    rf = ramp(t, *scene.get("ring_fade", [scene["t0"], scene["t0"] + 0.5]))
-                    if rf > 0:
-                        cx, cy, cw = scene["card"][0], scene["card"][1], scene["card"][2]
-                        rcx, rcy, rr = (cx + cw - 50) * SS, (cy + 50) * SS, 22 * SS
-                        d_ov.ellipse([rcx - rr, rcy - rr, rcx + rr, rcy + rr],
-                                     outline=(60, 85, 72, int(200 * rf * out)), width=4 * SS)
-                        prog = ramp(t, *scene.get("ring_progress", [scene["t0"], scene["t1"]]))
-                        if prog > 0:
-                            start = -90 + 360 * (t * 0.15)
-                            d_ov.arc([rcx - rr, rcy - rr, rcx + rr, rcy + rr], start, start + 360 * prog,
-                                     fill=(GOLD[0], GOLD[1], GOLD[2], int(255 * rf * out)),
-                                     width=5 * SS)
-            draw_text_items(ov, scene.get("text", []), t, fonts, out)
-        draw_text_items(ov, spec.get("text", []), t, fonts)
-        a = int(255 * ramp(t, *spec.get("handle_fade", [1.5, 2.1])))
-        text_overlay(ov, (W // 2, 1846), spec.get("handle", "@yourhandle"), fonts["small"], "muted",
-                     a, center=True)
-        img.paste(Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB"))
-        img = img.resize((W, H), Image.LANCZOS)          # 2x supersample -> clean AA
+        img = draw_frame(t, img, ov, d_ov, spec, fonts, stars)
         if not skip_frames or not os.path.exists(os.path.join(frames_dir, f"frame_{fi:04d}.png")):
             img.save(os.path.join(frames_dir, f"frame_{fi:04d}.png"))
     return frames_dir, nframes, fps
+
+
+def preview(spec, t, out_path):
+    """Render a single frame at time t to out_path — fast A/B preview for
+    palette / font / timing checks without a full render."""
+    fonts, bg, stars = _prepare(spec)
+    img = bg.copy()
+    ov = Image.new("RGBA", (WW, HH), (0, 0, 0, 0))
+    d_ov = ImageDraw.Draw(ov)
+    img = draw_frame(t, img, ov, d_ov, spec, fonts, stars)
+    img.save(out_path)
+    return out_path
 
 
 def encode(frames_dir, nframes, fps, out, audio=None):

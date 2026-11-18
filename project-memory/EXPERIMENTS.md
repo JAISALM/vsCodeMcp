@@ -4,6 +4,14 @@ Newest experiments first.
 
 ---
 
+## 2026-11-18 — Template B PALETTE A/B (user: "can we try a different color palette rather than the green one?") — awaiting user pick
+
+- **Engine refactor:** `render()` frame body extracted to module-level `draw_frame(t, img, ov, d_ov, spec, fonts, stars)` + `_prepare(spec)` + new **`preview(spec, t, out_path)`** — single-frame A/B previews in ~10 s instead of a 40-min render. `STAR_COL` made a monkeypatchable global. py_compile clean.
+- **4 palettes rendered** (same S2 frame, t=19.6, via `session_tmp\palette_ab.py`) → **`data\refanim\palette_ab.png`** 2×2 grid: **A = current deep green** (ref) · **B = midnight indigo** (cool night) · **C = lantern amber** (warm, fits the lantern story) · **D = slate + gold** (neutral modern). Gold accents + white text constant across all.
+- **Result:** grid verified visually; awaiting user pick (D232). On pick → full 60 fps re-render (~40 min) + SFX re-mix.
+
+---
+
 ## 2026-11-18 — UBU AL-AMAL v8 — anti-lag pass (60 fps, smoothstep, ambient motion) + first offline SFX bed (user: "animation still not so smooth, it feels lag … do we have any tool for sfx? … 2.5/5") (SUCCESS)
 
 - **Diagnosis of "lag":** (a) linear ramps = mechanical fades, (b) elements popped in then sat frozen for most of the scene (stop-go feel), (c) 30 fps.

@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D239 — Narration tool = OmniVoice Studio (user's open-source voice studio), for NARRATION only (2026-11-18, user: "C:\Users\user\AppData\Local\VoiceStudio (Current User) — this is the voice studio, this is for narration not for SFX")
+
+- **App:** OmniVoice Studio (open-source, `omnivoice-studio.exe` + bundled ffmpeg + uv) at `C:\Users\user\AppData\Local\VoiceStudio (Current User)` — app data in `C:\Users\user\AppData\Local\com.debpalash.omnivoice-studio` (project .venv = Python 3.12).
+- **Engines verified in `C:\Users\user\AppData\Local\OmniVoice\hf_cache`:** `k2-fsa/OmniVoice` + `openbmb/VoxCPM2` (TTS / voice) · `deepdml + Systran faster-whisper-large-v3` + `sherpa-onnx-whisper-tiny` (alignment/transcription) · `adefossez/HTDemucs` (stem separation).
+- **Pipeline rule (user-confirmed):** the app is for **NARRATION/DIALOGUE ONLY — not SFX** (SFX = our synth route / ControlFoley per D238). Route: user generates line WAVs in the app → agent places each at the exact beat time from the timeline → ambient bed ducks ~6 dB under dialogue → action SFX in between → final mix (ffmpeg).
+- **Status:** active; first narration target TBD (Ubu spoken version vs football).
+
 ## D238 — Template B smoothness standard v8: 60 fps + smoothstep-eased everything + continuous ambient motion; SFX tooling status (2026-11-18, user: "animation is still not so smooth, it feels lag … do we have any tool for sfx? overall 2.5/5")
 
 - **Why "lag":** v6/v7 felt stop-go because (a) all ramps were LINEAR (mechanical), (b) elements popped in fast then sat perfectly still most of their scene, (c) 30 fps. v8 fixes all three.
