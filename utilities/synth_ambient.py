@@ -67,32 +67,90 @@ def slow_drift(duration, seed, tau=9.0, depth=0.4):
     return y
 
 
+def smooth_gate(gate, sr, attack_s=0.004, release_s=0.012):
+    """Box-smooth a 0/1 gate so chirp edges don't click."""
+    k_a = max(1, int(attack_s * sr))
+    k_r = max(1, int(release_s * sr))
+    kernel = np.ones(k_r - k_a + 1) / (k_r - k_a + 1)
+    sm = np.convolve(gate, kernel, mode="same")
+    # slight exponential tails at the burst boundaries
+    sm = np.clip(sm, 0.0, 1.0)
+    return sm
+
+
+def crickets(n, sr, seed):
+    """Distant crickets = STRUCTURED sound (pitched carriers + burst rhythm), not noise.
+    Each 'insect': sine carrier with a slight downward drift, amplitude-modulated by a
+    chirp pulse train (4 ms on / off at its own rate), grouped into bursts of 0.3-0.6 s
+    with random 0.5-1.8 s gaps. Softened with a one-pole LP so it reads distant, not harsh.
+    Returns (left, right) float arrays."""
+    rng = np.random.default_rng(seed)
+    t = np.arange(n) / sr
+    # (carrier Hz, amplitude, pan 0=full L..1=full R, chirp rate Hz)
+    voices = [
+        (5200.0, 0.010, 0.12, 34.0),
+        (5900.0, 0.007, 0.88, 29.0),
+        (6500.0, 0.0045, 0.45, 38.0),
+    ]
+    left = np.zeros(n)
+    right = np.zeros(n)
+    for fc, amp, pan, rate in voices:
+        # burst mask: on 0.3-0.6 s, off 0.5-1.8 s, random walk (never repeating)
+        burst = np.zeros(n, dtype=np.float32)
+        i = int(rng.uniform(0.5, 2.5) * sr)
+        while i < n:
+            end = min(n, i + int(rng.uniform(0.3, 0.6) * sr))
+            burst[i:end] = 1.0
+            i = end + int(rng.uniform(0.5, 1.8) * sr)
+        # chirp pulse train at this cricket's own rate
+        period = 1.0 / rate
+        pulse = ((t / period) % 1.0) < (0.004 / period)
+        gate = smooth_gate(burst * pulse.astype(np.float32), sr)
+        # carrier with a gentle downward drift (real crickets dip)
+        drift_hz = 60.0 * np.sin(2 * np.pi * 0.11 * t + rng.uniform(0, 6.28))
+        sig = np.sin(2 * np.pi * (fc * t + drift_hz * t / (2 * np.pi)))
+        sig = lowpass(sig, 8500.0)
+        sig = sig * gate * amp
+        g = np.cos(pan * np.pi / 2)
+        d = np.sin(pan * np.pi / 2)
+        left += sig * g
+        right += sig * d
+    return left, right
+
+
 def synth(duration, whoosh_times=(), seed=7, gain=1.0):
+    """NIGHT bed v3 (user: v2 'feels like static noise' — filtered white noise is
+    static under close listening). Real nature STRUCTURE instead:
+      - 3 distant crickets (pitched, rhythmic, desynced — the unmistakable summer night)
+      - barely-there low wind RUMBLE (<90 Hz — low enough to read as air, not noise)
+      - faint room-tone floor
+    No broadband hiss anywhere -> no static."""
     n = int(duration * SR)
     t = np.arange(n) / SR
     rng = np.random.default_rng(seed)
 
-    # --- MILD bed (v2): three quiet layers, all shaped by the non-repeating drift
-    # deep rumble (LP 90 Hz) — night air, NOT wave-like
-    rumble = lowpass(rng.standard_normal(n), 90.0)
-    rumble = rumble / (np.max(np.abs(rumble)) + 1e-9) * 0.020
-    # soft high hiss (1.2-3.2 kHz) — distant air movement
-    hiss = bandpass(rng.standard_normal(n), 1200.0, 3200.0)
-    hiss = hiss / (np.max(np.abs(hiss)) + 1e-9) * 0.012
-    # room-tone floor (LP 400 Hz)
-    tone = lowpass(rng.standard_normal(n), 400.0)
-    tone = tone / (np.max(np.abs(tone)) + 1e-9) * 0.005
-
     drift = slow_drift(duration, seed)
-    bed = (rumble + hiss + tone) * drift
+    # deep wind rumble — LOW band only (no high frequencies = no 'static' perception)
+    rumble = lowpass(rng.standard_normal(n), 90.0)
+    rumble = rumble / (np.max(np.abs(rumble)) + 1e-9) * 0.016 * drift
+    # room-tone floor
+    tone = lowpass(rng.standard_normal(n), 300.0)
+    tone = tone / (np.max(np.abs(tone)) + 1e-9) * 0.003
 
-    # --- very soft whoosh at each beat time (felt, not heard)
+    left = rumble + tone
+    right = rumble + tone
+    cl, cr = crickets(n, SR, seed)
+    left += cl
+    right += cr
+    bed = (left + right) / 2.0   # mono bed -> stereo identical (keep it simple)
+
+    # --- very soft whoosh at each beat time: LOW band (250-900 Hz = air, not hiss)
     for wt in whoosh_times:
         i0, i1 = int((wt - 0.2) * SR), int((wt + 0.9) * SR)
         i0 = max(0, i0)
         i1 = min(n, i1)
         seg = rng.standard_normal(i1 - i0)
-        seg = bandpass(seg, 400, 1800)
+        seg = bandpass(seg, 250, 900)
         seg = seg / (np.max(np.abs(seg)) + 1e-9)
         tt = np.arange(i1 - i0) / SR
         e = np.zeros_like(tt)
@@ -100,9 +158,9 @@ def synth(duration, whoosh_times=(), seed=7, gain=1.0):
         m = tt < atk
         e[m] = (tt[m] / atk) ** 2
         e[~m] = np.exp(-(tt[~m] - atk) / 0.5)
-        bed[i0:i1] += seg * e * 0.05                              # ~ -26 dBFS peak
+        bed[i0:i1] += seg * e * 0.035
 
-    # gentle fades, then overall gain (target: a whisper bed, easy to focus over)
+    # gentle fades + overall gain
     fi = int(1.5 * SR)
     fo = int(2.5 * SR)
     bed[:fi] *= np.linspace(0, 1, fi)
