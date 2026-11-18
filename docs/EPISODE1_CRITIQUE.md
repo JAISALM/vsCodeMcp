@@ -40,3 +40,21 @@ Zidhan burns the Federation's form, sends a duplicate, the postmaster is "too re
 
 ## One-line summary
 The WRITING is festival-credible (rules, texture, historical skeleton, prop throughline). The RISKS are structural (Jaisal's arc, cable logic, the Adam bug, runtime) — all fixable in a v4 pass without touching what works. The EXECUTION layer (AI tells) is the real enemy — and the film's rules are all seam-hiding devices.
+
+---
+
+## USER REBUTTAL (2026-11-18 ~09:50) — what survives, what's withdrawn
+
+The user pushed back on all five. The friend concedes where the standard was wrong:
+
+- **#1 Jaisal's arc — WITHDRAWN (thesis is valid).** The film's thesis is clear: tactics alone ≠ everything (Ferguson: "attack wins games, defend win titles" — but physicality + rough fouls are as important as tactics). The emotion is valid. **KEPT (artifact only):** the Ferguson line is in the user's HEAD, not the script — if it's wanted, it should be a *line* in the script (Zidhan's, or Jaisal's realization) so it can be dubbed. No new asset.
+- **#2 Family dimension — WITHDRAWN (over-read).** The mechanism is SIMPLE and the user will keep it simple: Jaisal hands over the watch → little Abu Bakar holds it to his ear → the SAME action in the climax. **KEPT (one note):** make the *ear* action VISIBLE in both the boy's scene (Sc. 11) and the climax (Sc. 23/25) so it reads as a repeated RULE, not a one-off.
+- **#3 Cable trick / time-travel logic — WITHDRAWN (wrong standard).** It's MAGICAL REALISM "in the mind, in Jaisal's mind and his philosophy" — "a little realism, not atmost perfection." The "how is anyone going back in time" question is ANSWERED BY THE FILM ITSELF (it's his mind; the watch is the family's). **KEPT (optional, costs nothing):** the fire + "Counter 11 closed" = the "little bit of realism" that sells the trick to the audience (dream COHERENCE, not physics) — already in the script, connecting them is free. User's call.
+- **#4 Scene 23 — WITHDRAWN (user's design is cleaner).** The return = ONLY Jaisal + Zidhan's spin; everything else dissolves into the crowd; ONLY the scoreboard is shown. The kids' heap + the "faces we know from black and white: … Adam" line are CUT — so the "Adam bug" dissolves (the line no longer exists). **Pipeline: no change** (the kid sheets are still needed for the MATCH scenes, just not the reveal).
+- **#5 Runtime — WITHDRAWN (user's call).** Keep everything for now; see what's gripping, then trim in the edit. **Pipeline: no change** (generate per scene; the cut happens at edit).
+
+**The spin = directorial choice (user has ideas).** The options stay a MENU, not a prescription: the spin IS the move / colour is the reveal (the last 90°) / the rings are motion blur. The user designs it; the pipeline (Blender orbit camref → H3 R2V) is unchanged.
+
+**The title = "Dogs Dig Up the Past" + Malayalam (user: "i want the malayalam version too since its in the dialogue too").** The line is Jaisal's (Sc. 4: "dogs only know how to dig up the past things") + Zidhan's "Naayle" (a dog, huh) + "you bury it so badly" (Sc. 20). Malayalam title options: **"നായന്മാർ മുൻകാലം കുഴിക്കുന്നു"** (literal: dogs dig up the past) or **"കഴിഞ്ഞ കാലം കുഴിക്കുന്ന നായ"** (poetic: the dog that digs up the past). NOTE: if the dub gives the line a Malayalam original, the title = that line verbatim. **Mid-film FREEZE-FRAME title card (user: "i can literally stop the frame after jaisal said this dialogue and give typography, a cool title card reveal, i always wanted"):** freeze on a STILL Jaisal (the Sc. 4 shot must END on a 1 s still beat after the line — that's the frame that freezes) → hold 2–3 s → typography in (Malayalam large, English below, "Naayle" as a small sub if wanted) → release. **Compositing only (DaVinci) — NO new generation** (reuse the last frame of the dialogue shot). Cheap, and it's the director's device the user always wanted.
+
+**Net: the asset plan is UNCHANGED. Two pipeline notes survive:** (a) the Sc. 4 shot ends on a still beat (for the freeze-frame card); (b) the Ferguson line, if kept = one new line, no new asset.
