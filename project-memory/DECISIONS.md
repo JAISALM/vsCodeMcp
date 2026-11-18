@@ -1910,7 +1910,7 @@
   - **LoRA = the two leads ONLY:** Jaisal = `krea2jaisal_v3`, Zidhan = `krea2zidhan_v3` (locked). LoRA is reserved for characters with ~15+ shots / close-up heavy (face-drift risk). Everything else = **t2i character sheet (3 angles) + Krea2 identity-edit v1.2 (ref_boost 4.0)** — minutes per character, proven (D023).
   - **Grandpa Abu Bakar (~81):** NEW t2i sheet (user decision: NO LoRA — "we dont lora for this i think"). Concept = stillness, thin, white beard, the watch (his prop chain: table → boy → Jaisal's fist → his wrist, Sc. 4/11/23/25).
   - **Akhil:** sheet (NOT the `krea2jaisal_v2` LoRA — "use akhil as random character, we dont need to consume the lora we trained"). Activa + kaikkott look.
-  - **The 12 kids** (Adam + the 11): sheets, **Adam first** (most shot: tactical foul, the header, the return heap). Each 2026 kid's locked face = the 1950 player echo (identity-edit AGE-UP: "same face, now a weathered 1950 adult") — the faces-echo rule is carried by the identity chain, no kid LoRAs.
+  - **The kids (2026, 5-a-side):** sheets. **SUPERSEDED by D233:** the 2026 team is **5-a-side** (5 starters: Adam, Anto, Gopu, Babu, Ragu; bench 7) and the 1950 players are **completely different people** (NO faces-echo / NO age-up) — so the kid sheets are standalone 2026 anchors, not the base of a 1950 age-up. Adam = most shot (tactical foul, the header, the return heap). No kid LoRAs.
   - **Supporting (2026+1950):** Shafiq's wife, Sulaiman, little Abu Bakar (5), Muallim, Vaidyar, postmaster, Varela = sheets.
   - **The parked v2 LoRAs** (`krea2jaisal_v2`, `krea2zidhan_v2`) = NOT consumed by Episode 1 → they become **reusable actor faces** (below).
   - **Reuse library (user idea, confirmed):** the FACE is the asset, the NAME is the label — the same sheet/LoRA look recast under different names in the user's other videos ("the same look can be used as actors"). Structure: `data\cast_library\<actor>\` = sheet(s) + LoRA ref (if any) + usage log (project, name, first-use). Episode 1's cast = the first entries; the 4 LoRA faces = 4 distinct adult-male actors available to every future project.
@@ -1937,6 +1937,17 @@
 - **The Ferguson line was the user's EXPLANATION** (to convey the arc's poetry), NOT a script change — the v3 script is FINAL, no v4, no new line.
 - **Division of labor (standing):** the AGENT does local work (blockouts, camrefs, workflow builds, memory, the operations list) and flags technical constraints. The USER does GPU job queueing, creative decisions, and dubs.
 - **Next-step discipline (user: "we will list out the next step and then we will do one by one"):** present the operations list in waves, execute one at a time, confirm before moving to the next.
+- **Status:** active.
+
+## D233 — Character-set correction: 2026 = 5-a-side, 1950 = 11-a-side, completely different people (NO faces-echo); names kept; spin-shot design; work order (2026-11-18, user: "there are only kids in 2026, the 1950s ones are grown men in their 20s … we dont need the same face man … the kids are playing 5's not 11's though the team name is Winning Eleven … lets go with completely different people, and 1950 aesthetics/looks will be different than 2026 … keep the names as is")
+
+- **Decision (SUPERSEDES the D229 faces-echo / age-up clause):**
+  - **The 2026 team = 5-a-side** (5 STARTERS: Anto [GK], Gopu [captain], Babu [long passer], Ragu [striker], Adam [the nephew]; BENCH 7: Pachu, Velu, Kutti, Karu, Chandru, Musthu, Tomy). The name "Winning Eleven" = a wink at the 1950 eleven — NOT the 2026 player count.
+  - **The 1950 team = 11 GROWN MEN in their 20s, completely DIFFERENT people** — NOT the 2026 kids' faces (NO faces-echo / NO age-up) — period 1950s Kerala look (simple cotton shirts, 1950s hair, weathered/sun-worn). The 1950 B&W grade is applied to the VIDEO in post; the character sheets stay COLOR (identity anchors).
+  - **NAMES KEPT** = the script's 1950 eleven (Antappan, Gopalan, Pakru, Bappu, Raghavan, Velayudhan, Kuttappan, Karunan, Chandu, Moosa, Thomas) — the echo lives in the NAMES/theme, not the faces.
+  - **SPIN / RETURN SHOT (user design):** Jaisal + Zidhan hand-in-hand → close-up on the hands → turn back the hands → spin → the watch appears on Jaisal's hand → the environment changes in a pan.
+  - **WORK ORDER (user):** ① character sheets ② environment consistency ③ motion.
+- **Character-sheet batch (built + validated 0/0 10/10):** `workflows\krea2_charsheet_t2i.json` (Krea2 t2i, fp8 CLIP, 3-step turbo contract, 1024×1024) + `utilities\charsheet_prompts_paste.txt` (19 lines = 5 starters + 3 adults [Grandpa ~81, Akhil 19, Sulaiman ~55 1950 ship captain] + 11 1950 men) — clean frontal face anchors. **USER QUEUES 2-3 at a time** (swap the CLIPTextEncode prompt + SaveImage prefix `krea2_char_<name>_`). Jaisal + Zidhan = LoRAs (locked, no sheets).
 - **Status:** active.
 
 
