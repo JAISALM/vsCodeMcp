@@ -738,7 +738,6 @@ Dialogue column = spoken words in the scene. Estimates only; the film's real run
 
 *(Malayalam original, kept for dubbing: "2026 il modern tactics ange attam etthi nilkunna velayilum chila gameukal jayikka tactics maathram pora kurach protiens venam, tholod thol cherth maatturach kaarirumbinte karutthum, kaalappoottinte kuthippum kond athaa winning eleven boys cup adichirikkuka aan.")*
 
-*(OPTIONAL single frame: in the background, Akhil holds up a **full** bottle of first-aid spray.)*
 ---
 
 
