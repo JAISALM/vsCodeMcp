@@ -1,7 +1,9 @@
 # JOB_PREP.md — interview-prep execution (2026-11-12)
 
-**User = Jaisu** (real name Jaisal). Shared career file: `CAREER.md` (levels +
-intention + current state — read that FIRST; this file = execution detail).
+**User = the author** (also "narrator" — real name deliberately NOT recorded
+here; name-collision rule in `CAREER.md`). Shared career file: `CAREER.md`
+(levels + intention + current state — read that FIRST; this file = execution
+detail).
 
 **Profile:** 5-yr Java dev (Capgemini 3.3 yr + Infosys 1.1 yr, service-based), BTech CS 7.61, **Tier-3 college (Kerala)**, NOT IIT. Jobless since **2026-11-06** (last working day). 11-07→11-12 stomach issues; **execution Day 1 = 2026-11-12**. Target: **GCC + Europe remote, good money** (> 11 LPA). "my only hope is in java, and AI related stuff since java is boss of enterprise." Aiming high → must compete on LeetCode too.
 

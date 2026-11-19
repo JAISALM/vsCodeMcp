@@ -1,8 +1,14 @@
 # Current Task
 
-**2026-11-19 (08:30) SHARED CAREER FILE — Jaisu (D251)**
+**2026-11-19 (08:05) NAME REMOVED FROM REPO — user = "the author / narrator" (D251 update) + writer-chat handoff**
 
-- **`project-memory\CAREER.md`** created = single shared file (user = **Jaisu**, real name Jaisal): WHO · INTENTION (4 lives) · LEVELS · CURRENT STATE · RULES · POINTERS.
+- CAREER.md / AGENTS.md / LIFE_PLAN.md / JOB_PREP.md all updated: no real name in this repo — the film's character "Jaisal" is based on the author, and the collision would confuse future AI-film sessions. Film work = character; user = author/narrator.
+- Author → WRITER chat for episode-1 continuation ("dogs dig the past" beat; details ready there; workflows built side-wise). Then: open items list (handle spelling, Gmail, Arabic font, football first match, eng-degree inputs, first scenario-tied video).
+- Interview-prep blockage → environment design (phone distractions uninstalled; boredom = the return ramp). Floor unchanged: 1 NeetCode problem + check-in.
+
+**2026-11-19 (08:30) SHARED CAREER FILE (D251)**
+
+- **`project-memory\CAREER.md`** created = single shared file (user = **the author / narrator** — real name deliberately not recorded; see the 08:05 entry above): WHO · INTENTION (4 lives) · LEVELS · CURRENT STATE · RULES · POINTERS.
 - **AGENTS.md** "USER CONTEXT FIRST" rule: every fresh chat reads CAREER.md before interpreting any ask — no more isolated-prompt interpretation.
 - Cross-refs added to LIFE_PLAN.md + JOB_PREP.md. Committed.
 - Standing maintenance: career state change → update CAREER.md CURRENT STATE same turn.

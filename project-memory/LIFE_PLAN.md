@@ -1,8 +1,10 @@
 # Life Plan (2026-10-30 — user's own words, PERSONAL not the ComfyUI project)
 
-**User = Jaisu** (real name Jaisal — the film's "Jaisal" character is him).
-**Shared career file: `CAREER.md`** (levels + intention + current state — read
-that FIRST; this file = deep detail).
+**User = the author** (also "narrator" — real name deliberately NOT recorded
+in this repo: the film's character "Jaisal" is based on him, and the name
+collision confuses AI sessions — see `CAREER.md`). **Shared career file:
+`CAREER.md`** (levels + intention + current state — read that FIRST; this
+file = deep detail).
 
 **Who:** 27, BTech Computer Science (GPA 7.61), **5 yrs Java developer** (Capgemini 3.3 yrs + Infosys 1.1 yr), codes with AI agents. Knows the basics; "never really interested in programming" until the job. Quit work — **last working day 2026-11-06**. Wants: filmmaker + programmer, remote job paying > 11 LPA, no mediocrity ("mediocrity is not accepted in islam"). Decision day 2026-10-30: relapsed after ~1 month clean, hated it, "i dont want to relapse" — porn out of the equation.
 

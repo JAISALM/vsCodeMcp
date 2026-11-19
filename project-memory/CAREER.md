@@ -1,11 +1,13 @@
-# CAREER.md — Jaisu's whole career plan, in one file (single shared source of truth)
+# CAREER.md — the author's whole career plan, in one file (single shared source of truth)
 
-**Created 2026-11-19 (D251).** The user's name is **Jaisal**; in this file and for this
-plan he is **Jaisu**. (The "Jaisal" character in the ComfyUI film project is his own
-name — the film is *his* story.)
+**Created 2026-11-19 (D251).** In this repo the user is referred to as **the author**
+(also **narrator**). His real name is deliberately NOT recorded here: the film
+project's lead character "Jaisal" is based on him, and using his name in this repo
+makes future AI-film sessions confuse the CHARACTER with the USER. Rule: film work =
+character "Jaisal" (the on-screen lead, his story); the user = **author / narrator**.
 
 **PURPOSE:** any chat — in any state, with no history — reads this file first and
-understands ① who Jaisu is, ② his actual levels, ③ his INTENTION behind his asks,
+understands ① who the author is, ② his actual levels, ③ his INTENTION behind his asks,
 so prompts are never treated as isolated one-offs. This file is a **2-minute index +
 state snapshot**. Deep detail lives in the pointer files at the bottom; when detail
 changes, update the relevant pointer file AND the CURRENT STATE block below.
@@ -18,7 +20,7 @@ block in the SAME turn. This file must never lag reality.
 
 ## WHO
 
-Jaisu, 27, Kerala. BTech CS (GPA 7.61, Tier-3 college — not IIT). **5-year Java
+The author, 27, Kerala. BTech CS (GPA 7.61, Tier-3 college — not IIT). **5-year Java
 developer** (Capgemini 3.3 yr + Infosys 1.1 yr, service-based). Codes with AI agents.
 **Quit 2026-11-06 — with an Accenture offer in hand, DECLINED it** ("im not going
 to settle") — a CALCULATED risk, 6.5 L already invested in the AI rig. Cash runway
@@ -51,7 +53,7 @@ this lens before acting:
 4. **The daily habits:** Quran/Arabic from scratch (can't read the script yet)
    + body (pushup ladder). The salah rhythm PROVES his daily-consistency capacity.
 
-## LEVELS — where Jaisu actually is (be honest with these)
+## LEVELS — where the author actually is (be honest with these)
 
 - **Java/Spring:** 5 yrs enterprise service work — strong "HOW", weak "WHY"
   (diagnosed 11-12: "i know the how, not the why" — senior interviews probe why).
@@ -71,8 +73,16 @@ this lens before acting:
 - **Consistency:** the "1 month on, 6 months off" pattern is the disease; the
   one-line daily check-in is the cure (the floor).
 
-## CURRENT STATE — updated 2026-11-19
+## CURRENT STATE — updated 2026-11-19 (08:00)
 
+- **Today (author, 08:00):** heading to the WRITER chat to continue the film script
+  (episode 1 — new beat: "dogs dig the past"; all details ready there; workflows
+  built side-wise as items land). Then working the open items list.
+- **Interview-prep blockage (self-diagnosed, 08:00):** mental block on interview
+  prep → deliberate **environment design**: uninstalled the phone distractions,
+  letting boredom force the return to prep/study mode ("its me vs me,
+  psychological"). Same principle as the 10-30 relapse rule (environment design,
+  not willpower). Floor unchanged: **1 NeetCode problem + the check-in**.
 - **Job:** jobless since 11-06. Execution Day 1 = 11-12. **Week 1 = pipeline +
   NeetCode ONLY** (user simplified — do NOT re-add structure). Week 2+ (Angular /
   Spring why-how pages / project scaffold) = conditional on week 1 being steady.
