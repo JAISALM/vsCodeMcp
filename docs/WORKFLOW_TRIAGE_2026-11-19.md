@@ -31,6 +31,6 @@
 - Old flat 52-file mirror list retired (files now live in stage folders).
 
 ## Open items
-1. **`ZuanfilmRetroLab` node pack NOT installed** — `movies/grade/Zuanfilm_Retrolab.json` needs a one-time small pack clone + ComfyUI restart. User decides (minimal-network window until 11-24; third-party code consent).
+1. **`ZuanfilmRetroLab` pack — INSTALLED 2026-11-19 (D259):** `zuanfilm/Zuanfilm-Retrolab` (Apache-2.0) cloned to `custom_nodes\Zuanfilm-Retrolab` (author-approved; zero extra pip deps; `NODE_CLASS_MAPPINGS` exact match; tests included). **One ComfyUI restart to load it** (user's call — open canvases lost on restart). After restart `movies/grade/Zuanfilm_Retrolab.json` is fully runnable.
 2. `E:\minimax_workflow` staging dir untouched (download area; `consistent_environment` / `sol_h3_weights` / `NVlabs-Sana` = out of scope until 11-24 per user — download-dependent).
 3. `special/` is recoverable from git? No — it's local-only. If a special file proves reusable later, promote: move to `movies/<stage>/` + it enters the mirror on next resync.
