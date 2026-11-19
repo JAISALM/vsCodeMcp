@@ -11,23 +11,40 @@
 
 ## Channel 1 — learnhadithAndQuranDaily
 
-**Style reference (attached 2026-11-19, `data\quran_ref\`):** Surah At-Takwir recitation video, 720×1280, 103.8 s:
-per verse = cinematic background matching the imagery (sun setting, stars darkening,
-volcanic sea, fire, buried-alive mound) + Arabic calligraphy verse + English
-translation + surah/verse header; audio = recitation (Arabic, ~3.4 s/verse).
-Beat map: `data\quran_ref\BEAT_BREAKDOWN.md`.
+**FORMAT PIVOT (user 2026-11-19: copyright on recitation recordings):**
+- **NO recitation audio** — a reciter's recording is a copyrighted performance
+  (the Quran/hadith TEXT is fine; the audio is not). Channel 1 **explains**
+  hadith & Quran via NARRATION (Voice Studio), never recitation.
+- **Daily 40 s** videos, each covering **important details with respect to
+  CURRENT AFFAIRS & SCENARIOS** (today's news/event → the hadith/verse that
+  speaks to it).
+- **ALWAYS carries a WARNING** — because it is the word of God: reverence +
+  cite the source + "always verify from the original".
+
+**Daily format spec (40 s):**
+| t | Beat |
+|---|---|
+| 0–5 s | TODAY'S SCENARIO — current affairs / everyday situation, one line (hook) |
+| 5–13 s | THE WORD — hadith text / Quran verse + source card (e.g. SAHIH AL-BUKHARI 1) |
+| 13–32 s | THE EXPLANATION — meaning, lesson, how it applies to the scenario |
+| 32–40 s | THE WARNING — "this is the word of God — verify from the original" + @handle |
+
+**Sources:** the RAG daily news store feeds the scenario beat (same store as
+Channel 2 — one news fetch, two lenses: Islamic perspective / issue perspective).
+Ubu al-Amal = launch piece (done, palette C — not scenario-tied, acceptable as
+day 1). Takvir reference (`data\quran_ref\`, beat map saved) = LAYOUT reference
+only (header + text stack + clean background) — its recitation audio is OUT.
 
 **Pipeline:**
-- Audio: recitation WAV per verse (user supplies / reciter — Quran is recited by a
-  human, NEVER TTS; narration/explanation can be TTS via Voice Studio).
-- Text: Arabic (calligraphy font — **NOT on this machine yet; no Amiri/Sakkal in
-  C:\Windows\Fonts, D228 offline until 11-24** — user drops `fonts\amiri\` or we
-  download after 11-24. PIL shaping: Windows wheels carry libraqm — verify first
-  render). Malayalam = `Nirmala.ttc` (verified rendering ✓).
-- Backgrounds: per-verse stills/clips (user supplies, or MiniMax hybrid after 11-24,
-  D041 no-music always).
-- Compose: Template B engine (1080×1920 @60, v8, 7 palettes), 40 s cuts (D241).
-- Ubu al-Amal = first Channel-1 piece (done, palette C).
+- Audio: narration WAVs per beat (Voice Studio, EN + ML versions — D239).
+- Text: Arabic verse text shown as TEXT (calligraphy font — **NOT on machine
+  yet; no Amiri/Sakkal in C:\Windows\Fonts, D228 until 11-24** — user drops
+  `fonts\amiri\` or we fetch after 11-24; verify libraqm shaping first).
+  Malayalam = `Nirmala.ttc` ✓.
+- Visuals: Template B line-art scenes for the scenario beat (our style); the
+  warning beat = text card + source.
+- Compose: Template B engine (1080×1920 @60, v8, 7 palettes), 40 s + 2×20 s
+  cuts (D241).
 **Platforms:** Instagram + YouTube + Facebook + X, EN page + ML page = **8 accounts**,
 fresh Gmail (USER action — agent cannot create the account). Handle spelling to
 confirm: `learnhadithAndQuranDialy` vs `…Daily`.

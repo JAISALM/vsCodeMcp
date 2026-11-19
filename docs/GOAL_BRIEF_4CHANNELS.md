@@ -30,17 +30,27 @@ His framing of the four channels (his own words):
 
 ### Channel 1 — `learnhadithAndQuranDaily` (handle spelling pending: "Dialy"? "Daily"?)
 
-- **Content:** daily Islamic learning — hadith lessons, Quran surah videos.
+- **Content:** daily Islamic learning — **EXPLAINER videos on hadith & Quran**
+  (narration, in the creator's language). **NO recitation audio** — a reciter's
+  recording is a copyrighted performance (the Quran/hadith text is fine; the
+  audio is not).
+- **Daily 40 s format (creator's spec):** each video covers important details
+  **with respect to current affairs & scenarios** (today's event/situation →
+  the hadith/verse that speaks to it), and **ALWAYS carries a warning** —
+  because it is the word of God (reverence + source citation + "verify from
+  the original").
+- **Daily beat structure:** 0–5 s today's scenario (hook) · 5–13 s the word
+  (text + source card, e.g. SAHIH AL-BUKHARI 1) · 13–32 s the explanation ·
+  32–40 s the warning + handle.
+- **Scenario source:** the project's daily news-RAG store (shared with
+  Channel 2 — one news fetch, two lenses: Islamic perspective / issue lens).
 - **Languages:** English + Malayalam (separate social pages per language; 4
   platforms × 2 languages = 8 accounts, all on a fresh Gmail — creator's action).
 - **Cadence:** daily from 2026-11-25.
-- **Style reference (provided by creator, analyzed):** a 104 s "Surah At-Takwir"
-  recitation video, 720×1280. Per verse (~3.4 s): a cinematic background matching
-  the verse's imagery (sun setting behind mountains, stars darkening, a volcanic
-  sea, flames, a lone earth mound) + Arabic calligraphy of the verse + an English
-  translation line + a small `SURAH AT-TAKWIR • VERSE N` header. Audio = a human
-  Quran recitation only. Notable economy: verses 1–18 use real backgrounds,
-  verses 19–30 are text-only on dark — so ~18 background assets per surah video.
+- **Layout reference (provided by creator, analyzed):** a 104 s "Surah At-Takwir"
+  video, 720×1280 — per-verse text stack (header + calligraphy verse +
+  translation line) over a clean matching background. Used as a LAYOUT/style
+  reference only; its recitation audio is OUT per the copyright rule above.
 - **First piece shipped:** "Ubu al-Amal" — a 40 s line-art (stick-figures +
   lantern) explainer of the famous hadith "Innamal a'malu bin niyyat" (Sahih
   al-Bukhari 1), with a synthesized cricket-night ambience + action SFX. Done,
@@ -167,9 +177,10 @@ All of this runs on the creator's PC and is version-controlled:
 
 1. **Handle spelling:** `learnhadithAndQuranDialy` — is it `…Daily`? (8 accounts
    to register: IG/YT/FB/X × EN+ML, on a fresh Gmail — creator's action.)
-2. **Channel-1 content queue** from 2026-11-25: day 1 = Ubu (ready). Day 2 =
-   a Takwir-style surah video? What recitation + background source (creator's
-   assets vs AI-generated after 11-24)?
+2. **Channel-1 content queue** from 2026-11-25: day 1 = Ubu (ready, not
+   scenario-tied). Day 2+ = the daily 40 s explainers (scenario → word →
+   explanation → warning) — first scenario-tied topic? (The news store can
+   auto-suggest candidates.)
 3. **Channel-2 cadence** (daily vs weekly) and the **script-approval loop** —
    how much does the creator review before publish?
 4. **Channel-3 language** (English first?) and **first match**; confirm

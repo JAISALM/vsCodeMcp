@@ -1961,6 +1961,14 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D250 — Channel-1 FORMAT PIVOT: explainers, no recitation (copyright), current-affairs-tied, always-warning (user 2026-11-19: "there is a copyright issue on the recitation … lets explain hadith and quran, lets pick small 40 second videos daily which cover important details with respect to current affairs and scenarios, and its always on warning because it is a word of God")
+
+- **NO recitation audio** — a reciter's recording is a copyrighted performance (the Quran/hadith TEXT is free; the AUDIO is not). Channel 1 = NARRATED EXPLAINERS (Voice Studio, EN + ML).
+- **Daily 40 s format:** ① 0–5 s TODAY'S SCENARIO (current affairs / everyday situation — hook) ② 5–13 s THE WORD (hadith/verse + source card) ③ 13–32 s THE EXPLANATION ④ 32–40 s THE WARNING ("the word of God — verify from the original") + @handle.
+- **Scenario source = the RAG daily news store** — same store as Channel 2: one news fetch, two lenses (Islamic perspective / issue perspective).
+- Ubu = launch piece (not scenario-tied — acceptable as day 1). Takvir ref = LAYOUT reference only (header + text stack + clean background); its recitation audio is OUT.
+- Arabic still shown as TEXT (calligraphy font pending — D243/D228).
+
 ## D249 — Channel handles + platforms + daily start 2026-11-25 (user 2026-11-19: "lets create handle, learnhadithAndQuranDialy one english and one malayalam page in both instagram and youtube, and facebook, twitter. new gmail account has to be created for those. and lets start uploading content daily starting from Nov 25th")
 
 - Handle spelling **TO CONFIRM** (user wrote `learnhadithAndQuranDialy` — typo for `…Daily`?): one **English** + one **Malayalam** page on **Instagram, YouTube, Facebook, X** = 8 accounts.

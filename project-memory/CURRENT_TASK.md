@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-19 (07:50) CHANNEL-1 FORMAT PIVOT (D250: no recitation — copyright; daily 40 s explainers tied to current affairs; always-warning beat)**
+
+- Format spec locked in `docs\CHANNELS_PLAN.md` + `docs\GOAL_BRIEF_4CHANNELS.md` (for external LLM consultation).
+- Scenario beats sourced from the RAG daily news store (shared with Channel 2).
+- **AWAITING USER:** ① handle spelling (`Dialy`→`Daily`?) ② Gmail (their action) ③ first scenario-tied topic for day 2 (news store can suggest candidates) ④ Arabic font into `fonts\` (or after 11-24) ⑤ football first match + EN/ML ⑥ eng-degree script + assets (D243/D245).
+
 **2026-11-19 (07:00) 4-CHANNEL VISION (user, overnight: "thinking out loud, thinking big" + attached Takwir ref video)**
 
 - **Vision (D246-D249):** ① learnhadithAndQuranDaily (EN+ML, 8 accounts, daily from 25th) ② pradhaana_prashnam (punchline-first issues, RAG-news automated) ③ Football Talkies (tactical-lite, XG/shot data) ④ Jaisal Cut (user's art). Master plan: **`docs\CHANNELS_PLAN.md`**.
