@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-19 (12:35) LANGUAGES FINAL + ITEMS SHEET (D254)**
+
+- Football = **EN only** · pradhana = **ML** (Kerala/Malayalam daily news source needed in RAG — agent item 2.1; first script = author structures, we pick up).
+- **`docs\OPEN_ITEMS.md`** = single items sheet (per channel + owners). Eng-degree video composable **without ComfyUI** (E.3 — Template B + ffmpeg; ComfyUI only for a generated-graphic beat, user queues).
+- Agent queue: 2.1 Malayalam news source · 3.3 PIL tactics-board renderer · 1.3 day-2 pairings (11-20).
+
 **2026-11-19 (12:25) HANDLE FINAL + ANIMATION STRATEGY (D253)**
 
 - **Handle = `@learnhadithAndQuranDaily`** (author: "daily only, dialy is different meaning"). Template/calendar/docs updated.

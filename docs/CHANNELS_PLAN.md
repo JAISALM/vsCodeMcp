@@ -5,8 +5,8 @@
 | # | Channel | Purpose (user) | Language | Cadence | Pipeline |
 |---|---|---|---|---|---|
 | 1 | **learnhadithAndQuranDaily** (handle = **Daily** — user-confirmed 2026-11-19: "daily only, dialy is different meaning") | "for becoming better muslim" | **EN + ML** (separate pages) | Daily from **2026-11-25** | Islamic explainers (Ubu-style, D250) + narration |
-| 2 | **pradhaana_prashnam** ("main issue") | revenue | ML | weekly/daily (news-driven) | punchline-first issue explainers, news-scraper automated |
-| 3 | **Football Talkies** | revenue | EN (ML later?) | per major match | tactical-lite animation + XG/shot data |
+| 2 | **pradhaana_prashnam** ("main issue") | revenue | **ML (final, D254)** | weekly/daily (news-driven) | punchline-first issue explainers; **Kerala/Malayalam-specific news** source; social issues + simple-yet-effective humor |
+| 3 | **Football Talkies** | revenue | **EN (final, D254 — "football must be in english, not in malayalam")** | per major match | tactical-lite animation + XG/shot data |
 | 4 | **Jaisal Cut** | "where as artist i perform" | — | — | user's own art (Krea2/ComfyUI character lane already exists) |
 
 ## Channel 1 — learnhadithAndQuranDaily
@@ -55,16 +55,21 @@ word).
 **Format (user):** punchline FIRST — "pradhaana prashnam" (the main issue) as the
 cold open in one line → then explain the issue/idea. Topics: issue, society,
 politics, ideas.
+**Language: MALAYALAM (final, D254).** **Tone (user, D254):** interesting Kerala
+news + social issues + **simple yet effective humor**. **First script = user
+structures it, then we pick it up** (compose/narrate/cut — OPEN_ITEMS 2.2).
+
 **Pipeline:**
-- Source: **our RAG daily news** (`rag\daily.py` already fetches news every day) →
-  weekly-top or daily issue pick.
+- Source: **Kerala/Malayalam-specific news, pulled DAILY** (D254 — the current RAG
+  store is general news; a Malayalam source must be ADDED to the daily job —
+  OPEN_ITEMS 2.1; web scraping allowed even during D228).
 - Script: one-line punchline + 3-4 supporting beats (40 s).
 - Narration: Voice Studio (D239) or clone — ML.
-- Animation: Template B line-art (issue visual metaphor) or user graphics.
+- Animation: Layer 1 (Template B punchline cards + visual metaphor — D253).
 - SFX: light (D041 no music).
 - Automation level: news pick is automatable; script approval = user (it's opinion
   content — user's voice/face, not agent's).
-**Open:** first topic, script approval loop.
+**Open:** Malayalam news source (2.1) · first script (2.2) · platform name spelling (2.3).
 
 ## Channel 3 — Football Talkies
 
@@ -82,9 +87,10 @@ tactical terms + engaging narratives ("why Arda Güler is the modern No.10",
 - Scraping is web (allowed — RAG runs daily); only MODEL downloads are blocked
   until 11-24 (D228).
 **Pipeline:** match pick → data fetch (XG/shot map) → 3-player narrative script →
-Template B animation (pitch diagram + stat callouts — line-art fits tactical
-explainers well) → 40–60 s short.
-**Open:** first match, EN vs ML.
+Layer-1 animation (PIL tactics board from the data + stat callouts — D253) →
+40–60 s short. **Language: ENGLISH (final, D254 — "football must be in english,
+not in malayalam").**
+**Open:** first match (OPEN_ITEMS 3.1) → data fetch (3.2) → PIL board renderer (3.3).
 
 ## Channel 4 — Jaisal Cut
 
@@ -124,12 +130,11 @@ video). This is what every daily/weekly video is made of.**
 - Narration = Voice Studio (D239); SFX = synthesized (D236)
 - Distribution cuts + ffprobe verify in every build script (D240 pattern)
 
-## Open questions (user)
+## Open items → single sheet
 
-1. ~~Handle spelling~~ **RESOLVED (2026-11-19): `learnhadithAndQuranDaily`** ("dialy is different meaning").
-2. Channel 2 name on platforms: `pradhaana_prashnam` exactly?
-3. Football language: EN first?
-4. First daily content (25th): Ubu in C (ready) — then what? (Takwir-style verse
-   video? need recitation + backgrounds)
-5. Gmail: user creates the account(s) — then agent preps bio/profile copy per
-   platform (EN + ML).
+**`docs/OPEN_ITEMS.md`** (D254) is the ONE open-items sheet — per channel, with
+owners. Resolved-so-far: ① handle = `learnhadithAndQuranDaily` (2026-11-19) ②
+football language = **EN** (D254) ③ pradhana language = **ML** (D254).
+Remaining: pradhana platform-name spelling · first football match · day-2 topic ·
+Gmail (author) → 8-account bios (agent) · Malayalam news source (agent) ·
+eng-degree script text + beat graphics (author).

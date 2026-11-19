@@ -99,8 +99,12 @@ this lens before acting:
   after 11-24), football first match, eng-degree inputs.
 - **Film:** episode 1 script FINAL v3 (user-confirmed 11-18); workflow-prep gate
   done (D227); pending tasks in PENDING_ITEMS.md.
-- **Open questions:** GCC relocation-OK vs remote-only (decides the applicant
-  pool) · first scenario-tied Islamic video topic · voiceover language for channels.
+- **Open items (single sheet: `docs\OPEN_ITEMS.md`, D254):** languages RESOLVED —
+  channel 1 = EN+ML (8 accounts), football = **EN only**, pradhana = **ML** (needs
+  a Kerala/Malayalam daily news source in the RAG job — agent). Remaining: Gmail
+  (author) → 8-account bios · first football match (author) · day-2 topic (agent,
+  11-20) · eng-degree script text + beat graphics (author) · Arabic font (11-24) ·
+  X cookie refresh (11-27) · GCC relocation-OK vs remote-only (job).
 - **Funds:** runway to ~April–June 2027 — covers the March target + the April–May
   hiring peak. "The bar is OUT-EARN the Accenture offer, not recover the 6.5 L."
 

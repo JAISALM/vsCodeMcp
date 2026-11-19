@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D254 — Languages FINAL + items sheet + eng-degree without ComfyUI (user 2026-11-19: "football must be in english, not in malayalam · pradhaan prashnam should be in malayalam, that requires pulling details daily for malayalam/kerala specific news, interesting news we had, the social issues, simple yet effective humor … i will structure one script and then we will pick it up · so lets prepare the items properly · are u good to create animation of the engineering video i shared without comfyui?")
+
+- **Football Talkies = ENGLISH ONLY** (no Malayalam).
+- **Pradhana = MALAYALAM**: needs a **Kerala/Malayalam daily news source** added to the RAG job (current store = general news; scraping allowed — D228). Tone = interesting Kerala news + social issues + **simple yet effective humor**. **First script = user structures it, then we pick it up** (compose/narrate/cut).
+- **Eng-degree video WITHOUT ComfyUI = YES** (agent answer, confirmed in-sheet E.3): Template B + ffmpeg composes everything (cards, beat-graphic placement, transitions, narration mix, cuts) from the user's script text + per-beat graphics. ComfyUI enters ONLY if a beat has no graphic and we must GENERATE it — and even then the USER queues (D192).
+- **`docs\OPEN_ITEMS.md`** = the single open-items sheet (per channel, with owners) — "lets prepare the items properly". Scattered open-questions sections now point at it.
+
 ## D253 — Handle = `learnhadithAndQuranDaily` + two-layer animation strategy (user 2026-11-19: "daily only, dialy is different meaning right" · "whats the plan for the football and pradhnaa_prshnam videos? hwo we are going to animate? using comfyui only right?")
 
 - **Channel-1 handle FINAL: `@learnhadithAndQuranDaily`** ("dialy" = a different word). Template + calendar updated.
