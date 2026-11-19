@@ -40,6 +40,16 @@ def main():
             import ingest_project
             ingest_project.run()
 
+        # Per-pipeline fetchers (D255) — separate RAGs per pipeline, isolated
+        # stores. Non-fatal: a pipeline failure never breaks the general store.
+        if not project_only:
+            try:
+                import run_pipeline
+                run_pipeline.run_all()
+                lf.write("pipelines: ran run_all (see stdout)\n")
+            except Exception as e:
+                lf.write(f"pipelines FAILED (non-fatal): {e}\n")
+
         lf.write("done\n")
     print("daily RAG complete")
 

@@ -1961,6 +1961,18 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D255 — PER-PIPELINE RAGs: shared code, ISOLATED data (user 2026-11-19: "we will specifcally design separate RAGs for separate pipelines, thats way we dont confuse, we will get different set of folders also, for each project, those projects will grow in future, we have to think like an engineers here")
+
+- **Design:** shared CODE (fetchers, browser head, store) · isolated DATA. `rag\pipelines\registry.json` declares pipelines; each = own store dir + digest dir + source list. Consumers (topic picking) read ONLY their pipeline's digest — no cross-pipeline confusion.
+- **Built + LIVE-TESTED (2026-11-19):**
+  - `rag\run_pipeline.py` — runner (`run_pipeline.py <name|all>`), digest writer, non-fatal.
+  - `rag\fetch_kerala.py` (pradhana) — 3 sources PROBED & WORKING: manorama_ml (SOFT-404: HTTP 404 but serves ~226 KB real Malayalam → **content-based acceptance, not status-based**) · news18_ml (malayalam.news18.com, best) · kaumudi_ml (Kerala-local). **asianet_ml DROPPED** (redirect loop both paths). First live run: 11+20+20 = 51 headlines → digest verified.
+  - `rag\fetch_football.py` — understat ON-DEMAND (`--list/--league/--match`), best-effort JS-blob parsing (`tableData`/`shotList`), verified on first real match (3.1).
+  - `daily.py` hook: `run_pipeline.run_all()` non-fatal — a pipeline failure never breaks the general store.
+- **Stores:** pradhana = `rag\pipelines\pradhana_kerala\{store,digests}` · football = `rag\pipelines\football\{store,data}` · islamic_daily = the EXISTING `rag\news` general store (channel-1's feed by design).
+- **Embedding index stays SHARED for now** — pradhana's store is small; digest + grep suffices until a pipeline needs semantic search.
+- **HOW-WE-ANIMATE explainer doc** (user: "so that i can explain to others who dont use AI"): `docs\HOW_WE_ANIMATE.md` — plain-language: no video editor at all; Python+PIL draws every frame from motion FORMULAS (procedural/flipbook-with-code), numpy synthesizes sounds, ffmpeg stitches; AI = only narration (OmniVoice) + rare hero shots (ComfyUI, user-queued).
+
 ## D254 — Languages FINAL + items sheet + eng-degree without ComfyUI (user 2026-11-19: "football must be in english, not in malayalam · pradhaan prashnam should be in malayalam, that requires pulling details daily for malayalam/kerala specific news, interesting news we had, the social issues, simple yet effective humor … i will structure one script and then we will pick it up · so lets prepare the items properly · are u good to create animation of the engineering video i shared without comfyui?")
 
 - **Football Talkies = ENGLISH ONLY** (no Malayalam).

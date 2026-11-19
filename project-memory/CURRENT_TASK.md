@@ -1,5 +1,13 @@
 # Current Task
 
+**2026-11-19 (13:00) PER-PIPELINE RAGs LIVE (D255) + HOW-WE-ANIMATE DOC**
+
+- `rag/pipelines/registry.json` + `run_pipeline.py` — shared code, ISOLATED stores (user: "separate RAGs for separate pipelines … think like an engineer").
+- **pradhana_kerala pipeline LIVE**: `fetch_kerala.py` — 3 working Malayalam sources (manorama soft-404 content-acceptance · news18 · keralakaumudi; asianet dropped — redirect loop) · first run = 51 headlines, digest verified (`rag/pipelines/pradhana_kerala/digests/`).
+- `fetch_football.py` — understat on-demand builder (`--list/--league/--match`) ready for the first match pick.
+- `daily.py` runs `run_pipeline.run_all()` non-fatal — pipeline failures never break the general store.
+- `docs/HOW_WE_ANIMATE.md` — plain-language explainer (for the author to explain to non-AI people): Python+PIL draws every frame from motion formulas, numpy sounds, ffmpeg stitches; AI = narration + rare hero shots only.
+
 **2026-11-19 (12:35) LANGUAGES FINAL + ITEMS SHEET (D254)**
 
 - Football = **EN only** · pradhana = **ML** (Kerala/Malayalam daily news source needed in RAG — agent item 2.1; first script = author structures, we pick up).

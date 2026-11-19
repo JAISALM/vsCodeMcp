@@ -1,0 +1,36 @@
+{
+  "_comment": "Per-pipeline RAG registry (D255: 'separate RAGs for separate pipelines, different folders per project — think like an engineer'). Each pipeline = its own store dir + digest dir + source list. Shared CODE (fetchers, browser head, store), isolated DATA. Consumers (topic picking) read ONLY their own pipeline dir.",
+  "pipelines": [
+    {
+      "name": "islamic_daily",
+      "channel": "learnhadithAndQuranDaily",
+      "store_dir": "rag/news",
+      "digest_dir": "rag/news",
+      "sources": ["reddit", "hf", "x", "civitai"],
+      "fetcher": "daily.py (existing — channel-1's feed = the general news store; scenario beats come from here)",
+      "run_daily": false,
+      "notes": "General news = channel-1 scenario source. When Islamic-specific sources are added (fetch_islamic.py), they append into the SAME store — channel 1 is the general-news pipeline by design."
+    },
+    {
+      "name": "pradhana_kerala",
+      "channel": "pradhana_prashnam",
+      "store_dir": "rag/pipelines/pradhana_kerala/store",
+      "digest_dir": "rag/pipelines/pradhana_kerala/digests",
+      "sources": ["manorama_ml", "news18_ml", "kaumudi_ml"],
+      "fetcher": "fetch_kerala.py",
+      "run_daily": true,
+      "notes": "Kerala/Malayalam-specific news (D254). ISOLATED store — never mixed with the general store. Digest = what topic-picking reads."
+    },
+    {
+      "name": "football",
+      "channel": "Football Talkies",
+      "store_dir": "rag/pipelines/football/store",
+      "digest_dir": "rag/pipelines/football",
+      "data_dir": "rag/pipelines/football/data",
+      "sources": ["understat"],
+      "fetcher": "fetch_football.py",
+      "run_daily": false,
+      "notes": "Match-DRIVEN, not daily: on demand per picked match (OPEN_ITEMS 3.1). understat xG/shot JSON -> data/<match_id>.json. fbref = fallback if understat changes layout."
+    }
+  ]
+}

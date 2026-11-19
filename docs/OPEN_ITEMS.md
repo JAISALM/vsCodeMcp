@@ -21,7 +21,7 @@ Tone: interesting Kerala news + social issues + simple-yet-effective humor.
 
 | # | Item | Owner | Status |
 |---|---|---|---|
-| 2.1 | **Add Kerala/Malayalam daily news source to the RAG job** (current store = general news; scraping allowed — D228) | agent | open |
+| 2.1 | ~~Kerala/Malayalam daily news source~~ **BUILT + LIVE (2026-11-19, D255)**: `rag/fetch_kerala.py` (manorama/news18/keralakaumudi, 51 headlines verified) → `rag/pipelines/pradhana_kerala/` — wired into the daily job | agent | **done 11-19** |
 | 2.2 | First script — **you structure it, then we pick it up** (compose/narrate/cut) | author → agent | open (you) |
 | 2.3 | Platform name spelling: `pradhaana_prashnam` exactly? | author | open (you) |
 
@@ -32,8 +32,8 @@ Animation = Layer-1 PIL tactics board from understat/fbref data (D253).
 | # | Item | Owner | Status |
 |---|---|---|---|
 | 3.1 | First match pick (Madrid/Barça/CL) + 3-player narrative | author | open (you) |
-| 3.2 | XG/shot data fetch for the picked match (understat/fbref) | agent | blocked on 3.1 |
-| 3.3 | PIL tactics-board renderer (pitch + dots + arrows + XG callouts) | agent | open (build alongside 3.2) |
+| 3.2 | ~~XG/shot data fetch~~ **BUILDER BUILT (D255)**: `rag/fetch_football.py` (understat `--list/--league/--match` → `rag/pipelines/football/`); parsing verified on the first real match | agent | builder ready — run on 3.1 |
+| 3.3 | PIL tactics-board renderer (pitch + dots + arrows + XG callouts) | agent | open (build alongside 3.1) |
 
 ## Channel 4 — Jaisal Cut
 
