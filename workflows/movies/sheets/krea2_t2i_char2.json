@@ -1,0 +1,913 @@
+{
+  "id": "krea2_t2i_char2",
+  "revision": 0,
+  "last_node_id": 302,
+  "last_link_id": 13,
+  "nodes": [
+    {
+      "id": 55,
+      "type": "UNETLoader",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        320,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "unet_name",
+          "name": "unet_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "weight_dtype",
+          "name": "weight_dtype",
+          "type": "COMBO",
+          "widget": {
+            "name": "weight_dtype"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "krea2_turbo_fp8_scaled.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 56,
+      "type": "CLIPLoader",
+      "pos": [
+        40,
+        140
+      ],
+      "size": [
+        320,
+        100
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip_name",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "type",
+          "name": "type",
+          "type": "COMBO",
+          "widget": {
+            "name": "type"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2,
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_4b_fp8_scaled.safetensors",
+        "krea2",
+        "default"
+      ]
+    },
+    {
+      "id": 57,
+      "type": "VAELoader",
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        320,
+        50
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "vae_name",
+          "name": "vae_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "qwen_image_vae.safetensors"
+      ]
+    },
+    {
+      "id": 96,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        400,
+        40
+      ],
+      "size": [
+        320,
+        80
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "Krea2-realism-V2.safetensors",
+        1.0
+      ]
+    },
+    {
+      "id": 97,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        400,
+        140
+      ],
+      "size": [
+        320,
+        80
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 12
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "famegrid_spicy_3167060.safetensors",
+        0.7
+      ]
+    },
+    {
+      "id": 82,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        400,
+        350
+      ],
+      "size": [
+        320,
+        90
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "COMBO",
+          "widget": {
+            "name": "width"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "COMBO",
+          "widget": {
+            "name": "height"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "batch_size",
+          "name": "batch_size",
+          "type": "COMBO",
+          "widget": {
+            "name": "batch_size"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        896,
+        1120,
+        1
+      ]
+    },
+    {
+      "id": 200,
+      "type": "PixaromaPromptEach",
+      "pos": [
+        400,
+        470
+      ],
+      "size": [
+        420,
+        320
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            11
+          ]
+        },
+        {
+          "localized_name": "index",
+          "name": "index",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "localized_name": "total",
+          "name": "total",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PixaromaPromptEach",
+        "promptEachState": {
+          "version": 2,
+          "rows": [
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is walking alone along a narrow Kerala backwater path during the monsoon. The camera is behind him at a slight three-quarter angle as he naturally looks back over one shoulder, long hair gathered in the loose man-bun, the short dark beard clearly visible on the side of his jaw and chin. Lush tropical vegetation, soft mist, wet damp surfaces, subdued overcast daylight, humid monsoon atmosphere. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+              "enabled": true
+            },
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is sitting alone on a simple wooden Kerala houseboat, naturally relaxed, looking out toward the calm backwater. His face is visible in a natural three-quarter profile so the angular jawline and short dark beard are clearly visible. Wooden houseboat deck, calm water, tropical greenery, soft natural daylight. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+              "enabled": true
+            },
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is standing alone on a small ordinary Kerala street during a light monsoon rain, his man-bun and short dark beard slightly wet, the beard clearly visible as dark hair on his chin and jaw, rain streaks visible in the air, wet road and surrounding surfaces, tropical vegetation and ordinary residential details, natural cloudy monsoon daylight, neutral relaxed expression. Sharp focus on the man's face, his face is the main subject, in focus, crisp facial detail. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+              "enabled": true
+            },
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt walking through a quiet college campus pathway, green trees and students far in the background, soft natural daylight, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+              "enabled": true
+            },
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt standing beside an old whitewashed temple wall, a few flowers at its base, soft morning light, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+              "enabled": true
+            },
+            {
+              "text": "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt sitting in the back seat of an auto-rickshaw, street and market life blurred behind him, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+              "enabled": true
+            }
+          ],
+          "split": "line",
+          "expand": true,
+          "trim": true,
+          "skipEmpty": true,
+          "cap": 200,
+          "wiredAt": "after"
+        }
+      },
+      "widgets_values": [
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is walking alone along a narrow Kerala backwater path during the monsoon. The camera is behind him at a slight three-quarter angle as he naturally looks back over one shoulder, long hair gathered in the loose man-bun, the short dark beard clearly visible on the side of his jaw and chin. Lush tropical vegetation, soft mist, wet damp surfaces, subdued overcast daylight, humid monsoon atmosphere. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is sitting alone on a simple wooden Kerala houseboat, naturally relaxed, looking out toward the calm backwater. His face is visible in a natural three-quarter profile so the angular jawline and short dark beard are clearly visible. Wooden houseboat deck, calm water, tropical greenery, soft natural daylight. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only) with a masculine face and masculine features, angular face and a defined jawline, LONG dark hair tied up in a loose natural man-bun / topknot (a young man who grows his hair long, natural, not fashion-styled), a clearly visible short dark BEARD on his chin, jawline and upper lip (dark facial hair you can see on his face, about 5-7 days of growth, slightly dense, more than stubble, NOT just a shadow, NOT clean-shaven, NOT a full long beard, short and slightly uneven, not well groomed), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain white t-shirt. He is standing alone on a small ordinary Kerala street during a light monsoon rain, his man-bun and short dark beard slightly wet, the beard clearly visible as dark hair on his chin and jaw, rain streaks visible in the air, wet road and surrounding surfaces, tropical vegetation and ordinary residential details, natural cloudy monsoon daylight, neutral relaxed expression. Sharp focus on the man's face, his face is the main subject, in focus, crisp facial detail. Youthful 26-year-old appearance with masculine features, smooth young skin, no wrinkles, no aging, no grey hair, lean natural build, a real ordinary Malayali man. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo.",
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt walking through a quiet college campus pathway, green trees and students far in the background, soft natural daylight, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt standing beside an old whitewashed temple wall, a few flowers at its base, soft morning light, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text.",
+        "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with an angular face and a defined jawline, LONG dark hair tied up in a loose man-bun / topknot (a young man who grows his hair out, natural, not styled), a clearly visible short dark BEARD on the chin and jawline (about 5-7 days of growth, slightly dense, a little more than stubble, NOT clean-shaven, NOT a full long beard, short and a bit uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain white t-shirt sitting in the back seat of an auto-rickshaw, street and market life blurred behind him, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text."
+      ]
+    },
+    {
+      "id": 300,
+      "type": "CLIPTextEncode",
+      "pos": [
+        760,
+        220
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        },
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 301,
+      "type": "CLIPTextEncode",
+      "pos": [
+        760,
+        460
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        },
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "studio portrait, studio lighting, posed portrait, headshot, professional photoshoot, fashion photography, model, celebrity, stock photo, beauty campaign, perfect skin, airbrushed skin, plastic skin, waxy skin, artificial skin, generic AI face, western facial features, northern Indian appearance, older man, mature man, 30s, 40s, 50s, aged face, wrinkles, grey hair, bald, short haircut, bulky body, muscular body, bodybuilder, clean-shaven, no beard, missing beard, full long beard, perfectly groomed beard, duplicate character, multiple people, crowd, woman, women, girl, female, second person, extra person, person in background, text, words, letters, subtitles, captions, dialogue, speech bubble, readable sign, logo, watermark, label, social media overlay, screenshot, UI, deformed face, bad eyes, crossed eyes, extra fingers, malformed hands, distorted anatomy, oversaturated skin, over-processed image, excessive bokeh, artificial cinematic poster, professional camera look, fake environment, saree, sari, traditional dress, nose ring, feminine features, anime, cartoon, illustration, painting, drawing, sketch, stylized, 3d render, cgi, mixed art styles"
+      ]
+    },
+    {
+      "id": 53,
+      "type": "KSampler",
+      "pos": [
+        1120,
+        40
+      ],
+      "size": [
+        320,
+        160
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 5
+        },
+        {
+          "localized_name": "positive",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "localized_name": "negative",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 7
+        },
+        {
+          "localized_name": "latent_image",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 8
+        },
+        {
+          "localized_name": "seed",
+          "name": "seed",
+          "type": "COMBO",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "control_after_generate",
+          "name": "control_after_generate",
+          "type": "COMBO",
+          "widget": {
+            "name": "control_after_generate"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "steps",
+          "name": "steps",
+          "type": "COMBO",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "cfg",
+          "name": "cfg",
+          "type": "COMBO",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "sampler_name",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "scheduler",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "denoise",
+          "name": "denoise",
+          "type": "COMBO",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        42,
+        "randomize",
+        10,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 54,
+      "type": "VAEDecode",
+      "pos": [
+        1480,
+        40
+      ],
+      "size": [
+        200,
+        60
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "samples",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 9
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "type": "VAE",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 302,
+      "type": "FameGridColorFinish",
+      "pos": [
+        1480,
+        140
+      ],
+      "size": [
+        240,
+        90
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 10
+        },
+        {
+          "localized_name": "color_strength",
+          "name": "color_strength",
+          "type": "COMBO",
+          "widget": {
+            "name": "color_strength"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "sharpen_strength",
+          "name": "sharpen_strength",
+          "type": "COMBO",
+          "widget": {
+            "name": "sharpen_strength"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FameGridColorFinish"
+      },
+      "widgets_values": [
+        1.0,
+        0.6
+      ]
+    },
+    {
+      "id": 29,
+      "type": "SaveImage",
+      "pos": [
+        1700,
+        40
+      ],
+      "size": [
+        320,
+        90
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 13
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "COMBO",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "krea2_char2_face"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      55,
+      0,
+      96,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      56,
+      0,
+      300,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      56,
+      0,
+      301,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      57,
+      0,
+      54,
+      1,
+      "VAE"
+    ],
+    [
+      5,
+      97,
+      0,
+      53,
+      0,
+      "MODEL"
+    ],
+    [
+      6,
+      300,
+      0,
+      53,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      7,
+      301,
+      0,
+      53,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      8,
+      82,
+      0,
+      53,
+      3,
+      "LATENT"
+    ],
+    [
+      9,
+      53,
+      0,
+      54,
+      0,
+      "LATENT"
+    ],
+    [
+      10,
+      54,
+      0,
+      302,
+      0,
+      "IMAGE"
+    ],
+    [
+      11,
+      200,
+      0,
+      300,
+      1,
+      "STRING"
+    ],
+    [
+      12,
+      96,
+      0,
+      97,
+      0,
+      "MODEL"
+    ],
+    [
+      13,
+      302,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

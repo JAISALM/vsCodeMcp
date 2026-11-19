@@ -1,0 +1,634 @@
+{
+  "id": "11_sheet_composite",
+  "version": 0.4,
+  "last_node_id": 70,
+  "nodes": [
+    {
+      "id": 60,
+      "type": "EmptyImage",
+      "pos": [
+        40,
+        560
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            103
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyImage"
+      },
+      "widgets_values": [
+        2304,
+        1536,
+        1,
+        16777215
+      ]
+    },
+    {
+      "id": 61,
+      "type": "LoadImage",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        282.78,
+        322
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            100
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "zidane_portrait_front.png",
+        "image"
+      ]
+    },
+    {
+      "id": 62,
+      "type": "LoadImage",
+      "pos": [
+        40,
+        400
+      ],
+      "size": [
+        282.78,
+        322
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            101
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "zidane_crest_ref.png",
+        "image"
+      ]
+    },
+    {
+      "id": 63,
+      "type": "LoadImage",
+      "pos": [
+        40,
+        760
+      ],
+      "size": [
+        282.78,
+        322
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            102
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "zidane_kit_ref.png",
+        "image"
+      ]
+    },
+    {
+      "id": 64,
+      "type": "ImageScale",
+      "pos": [
+        360,
+        40
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 100
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            104
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        864,
+        1536,
+        "center"
+      ]
+    },
+    {
+      "id": 65,
+      "type": "ImageScale",
+      "pos": [
+        360,
+        400
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 101
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            106
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        760,
+        760,
+        "center"
+      ]
+    },
+    {
+      "id": 66,
+      "type": "ImageScale",
+      "pos": [
+        360,
+        760
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 102
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        760,
+        760,
+        "center"
+      ]
+    },
+    {
+      "id": 67,
+      "type": "ImageCompositeMasked",
+      "pos": [
+        700,
+        40
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "destination",
+          "name": "destination",
+          "type": "IMAGE",
+          "link": 103
+        },
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "IMAGE",
+          "link": 104
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            105
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageCompositeMasked"
+      },
+      "widgets_values": [
+        0,
+        0,
+        false
+      ]
+    },
+    {
+      "id": 68,
+      "type": "ImageCompositeMasked",
+      "pos": [
+        700,
+        400
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "destination",
+          "name": "destination",
+          "type": "IMAGE",
+          "link": 105
+        },
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "IMAGE",
+          "link": 106
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            107
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageCompositeMasked"
+      },
+      "widgets_values": [
+        1212,
+        0,
+        false
+      ]
+    },
+    {
+      "id": 69,
+      "type": "ImageCompositeMasked",
+      "pos": [
+        700,
+        760
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "destination",
+          "name": "destination",
+          "type": "IMAGE",
+          "link": 107
+        },
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "IMAGE",
+          "link": 108
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            109
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageCompositeMasked"
+      },
+      "widgets_values": [
+        1212,
+        776,
+        false
+      ]
+    },
+    {
+      "id": 70,
+      "type": "SaveImage",
+      "pos": [
+        1020,
+        400
+      ],
+      "size": [
+        270,
+        250
+      ],
+      "flags": {},
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 109
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "SHEET_COMPOSITE"
+      ]
+    }
+  ],
+  "links": [
+    [
+      100,
+      61,
+      0,
+      64,
+      0,
+      "IMAGE"
+    ],
+    [
+      101,
+      62,
+      0,
+      65,
+      0,
+      "IMAGE"
+    ],
+    [
+      102,
+      63,
+      0,
+      66,
+      0,
+      "IMAGE"
+    ],
+    [
+      103,
+      60,
+      0,
+      67,
+      0,
+      "IMAGE"
+    ],
+    [
+      104,
+      64,
+      0,
+      67,
+      1,
+      "IMAGE"
+    ],
+    [
+      105,
+      67,
+      0,
+      68,
+      0,
+      "IMAGE"
+    ],
+    [
+      106,
+      65,
+      0,
+      68,
+      1,
+      "IMAGE"
+    ],
+    [
+      107,
+      68,
+      0,
+      69,
+      0,
+      "IMAGE"
+    ],
+    [
+      108,
+      66,
+      0,
+      69,
+      1,
+      "IMAGE"
+    ],
+    [
+      109,
+      69,
+      0,
+      70,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "options": {
+    "nodeSnapSize": 10,
+    "canvasGridSize": 10,
+    "zoom": 0.7,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "status": {
+    "last_group_id": null,
+    "last_group_selected": false,
+    "last_node_id": 70,
+    "last_link_id": 109,
+    "version": 1
+  },
+  "extra": {
+    "ds": {
+      "scale": 0.7,
+      "offset": [
+        0,
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,2804 @@
+{
+ "id": "krea2_t2i_char1",
+ "revision": 0,
+ "last_node_id": 430,
+ "last_link_id": 557,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    320,
+    70
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      501
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    40,
+    140
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      503,
+      504,
+      513,
+      522,
+      531,
+      540,
+      549
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    260
+   ],
+   "size": [
+    320,
+    50
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      510,
+      519,
+      528,
+      537,
+      546,
+      555
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 96,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    40
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 501
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      502
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 97,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    140
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 502
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      505,
+      514,
+      523,
+      532,
+      541,
+      550
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "famegrid_spicy_3167060.safetensors",
+    0.7
+   ]
+  },
+  {
+   "id": 82,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    400,
+    350
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "COMBO",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "COMBO",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "COMBO",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      508,
+      517,
+      526,
+      535,
+      544,
+      553
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1152,
+    2048,
+    1
+   ]
+  },
+  {
+   "id": 301,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    460
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 503
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      507,
+      516,
+      525,
+      534,
+      543,
+      552
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, cartoon, illustration, duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers, bulky body, muscular, bodybuilder, clean-shaven, perfectly groomed beard"
+   ]
+  },
+  {
+   "id": 401,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    40
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 504
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      506
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a sparse short BEARD on his chin and jaw (sparse uneven dark patches you can see on his face, more than stubble, NOT clean-shaven, NOT a dense full beard), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is walking alone along a narrow Kerala backwater path during the monsoon. The camera is behind him at a slight three-quarter angle as he naturally looks back over one shoulder, his wavy hair down and loose, the sparse beard visible on the side of his jaw. He is wearing a plain dark t-shirt. Lush tropical vegetation, soft mist, wet damp surfaces, subdued overcast daylight, humid monsoon atmosphere. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo."
+   ]
+  },
+  {
+   "id": 407,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    40
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 505
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 506
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 507
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 508
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      509
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 413,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    40
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 509
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 510
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      511
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 419,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    180
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 511
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      512
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 425,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    40
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 512
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_1"
+   ]
+  },
+  {
+   "id": 402,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    230
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 513
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      515
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a sparse short BEARD on his chin and jaw (sparse uneven dark patches you can see on his face, more than stubble, NOT clean-shaven, NOT a dense full beard), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is sitting alone on a simple wooden Kerala houseboat, naturally relaxed, looking out toward the calm backwater, his wavy hair down and loose around his neck, face in a natural three-quarter profile. He is wearing a plain dark t-shirt. Wooden houseboat deck, calm water, tropical greenery, soft natural daylight. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo."
+   ]
+  },
+  {
+   "id": 408,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    230
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 514
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 515
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 516
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 517
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      518
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    43,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 414,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    230
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 518
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 519
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      520
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 420,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    370
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 520
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      521
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 426,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    230
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 521
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_2"
+   ]
+  },
+  {
+   "id": 403,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    420
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 522
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      524
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India, South Indian facial features, warm medium-brown natural skin, a young MAN (male only), with a ROUND youthful face, softer rounded features and a masculine jaw, MEDIUM-LENGTH WAVY dark hair worn DOWN and loose around his neck and ears (wavy, natural, slightly messy, hair is NOT tied up, NOT in a bun, NOT a topknot, NOT a short haircut), a sparse short BEARD on his chin and jaw (sparse uneven dark patches you can see on his face, more than stubble, NOT clean-shaven, NOT a dense full beard), a lean and fit young man, NOT bulky, NOT muscular, wearing a plain dark t-shirt, his face clearly different from a man-bun man. He is standing alone on a small ordinary Kerala street during a light monsoon rain, his wavy hair down and slightly wet, the sparse beard visible on his chin and jaw, rain streaks visible in the air, wet road and surrounding surfaces, tropical vegetation and ordinary residential details, natural cloudy monsoon daylight, neutral relaxed expression. He is wearing a plain dark t-shirt. Sharp focus on the man's face, his face is the main subject, in focus, crisp facial detail. He looks like a real young man in his mid-20s: youthful fresh face, natural young skin, no wrinkles, no aging, no grey hair. Candid unposed snapshot caught in a real moment, natural ambient light, real environmental background, looks like a real photo someone took on their phone, slight natural imperfections, a real ordinary person, NOT a studio portrait, NOT a headshot, NOT a stock photo, NOT a professional photo."
+   ]
+  },
+  {
+   "id": 409,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    420
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 523
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 524
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 525
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 526
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      527
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    44,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 415,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    420
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 527
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 528
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      529
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 421,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    560
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 529
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      530
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 427,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    420
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 530
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_3"
+   ]
+  },
+  {
+   "id": 404,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    610
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 531
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      533
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt walking through a quiet college campus pathway, green trees and students far in the background, soft natural daylight, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text."
+   ]
+  },
+  {
+   "id": 410,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    610
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 532
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 533
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 534
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 535
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      536
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    45,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 416,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    610
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 536
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 537
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      538
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 422,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    750
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 538
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      539
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 428,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    610
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 539
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_4"
+   ]
+  },
+  {
+   "id": 405,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    800
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 540
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      542
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt standing beside an old whitewashed temple wall, a few flowers at its base, soft morning light, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text."
+   ]
+  },
+  {
+   "id": 411,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    800
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 541
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 542
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 543
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 544
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      545
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    46,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 417,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    800
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 545
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 546
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      547
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 423,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    940
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 547
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      548
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 429,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    800
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 548
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_5"
+   ]
+  },
+  {
+   "id": 406,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    990
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 549
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      551
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "A candid phone snapshot of a 26-year-old young Malayali man from Kerala, India (South Indian features, warm medium-brown natural skin), a young MAN, male only (NOT a woman, NOT a girl), with a round soft face, MEDIUM-LENGTH WAVY dark hair (loose, natural, a bit messy, NOT a short haircut), a short PATCHY BEARD (clearly visible sparse uneven patches of dark hair on the chin and jawline, more than a clean-shaven face, NOT a full beard, short and uneven, not well groomed), lean and fit build (NOT bulky, NOT muscular), wearing a plain dark t-shirt sitting in the back seat of an auto-rickshaw, street and market life blurred behind him, candid phone-shot framing ONLY ONE man in focus, no other people in the foreground, no text, no subtitles, no captions, no watermark, no logo, no speech bubbles, no dialogue text."
+   ]
+  },
+  {
+   "id": 412,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    990
+   ],
+   "size": [
+    320,
+    160
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 550
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 551
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 552
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 553
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "COMBO",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "COMBO",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "COMBO",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "COMBO",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      554
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    47,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ]
+  },
+  {
+   "id": 418,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    990
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 554
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 555
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      556
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 424,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    1130
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 556
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "type": "COMBO",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      557
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1.0,
+    0.6
+   ]
+  },
+  {
+   "id": 430,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    990
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 557
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "COMBO",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "krea2_realism_2mp_6"
+   ]
+  }
+ ],
+ "links": [
+  [
+   501,
+   55,
+   0,
+   96,
+   0,
+   "MODEL"
+  ],
+  [
+   502,
+   96,
+   0,
+   97,
+   0,
+   "MODEL"
+  ],
+  [
+   503,
+   56,
+   0,
+   301,
+   0,
+   "CLIP"
+  ],
+  [
+   504,
+   56,
+   0,
+   401,
+   0,
+   "CLIP"
+  ],
+  [
+   505,
+   97,
+   0,
+   407,
+   0,
+   "MODEL"
+  ],
+  [
+   506,
+   401,
+   0,
+   407,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   507,
+   301,
+   0,
+   407,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   508,
+   82,
+   0,
+   407,
+   3,
+   "LATENT"
+  ],
+  [
+   509,
+   407,
+   0,
+   413,
+   0,
+   "LATENT"
+  ],
+  [
+   510,
+   57,
+   0,
+   413,
+   1,
+   "VAE"
+  ],
+  [
+   511,
+   413,
+   0,
+   419,
+   0,
+   "IMAGE"
+  ],
+  [
+   512,
+   419,
+   0,
+   425,
+   0,
+   "IMAGE"
+  ],
+  [
+   513,
+   56,
+   0,
+   402,
+   0,
+   "CLIP"
+  ],
+  [
+   514,
+   97,
+   0,
+   408,
+   0,
+   "MODEL"
+  ],
+  [
+   515,
+   402,
+   0,
+   408,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   516,
+   301,
+   0,
+   408,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   517,
+   82,
+   0,
+   408,
+   3,
+   "LATENT"
+  ],
+  [
+   518,
+   408,
+   0,
+   414,
+   0,
+   "LATENT"
+  ],
+  [
+   519,
+   57,
+   0,
+   414,
+   1,
+   "VAE"
+  ],
+  [
+   520,
+   414,
+   0,
+   420,
+   0,
+   "IMAGE"
+  ],
+  [
+   521,
+   420,
+   0,
+   426,
+   0,
+   "IMAGE"
+  ],
+  [
+   522,
+   56,
+   0,
+   403,
+   0,
+   "CLIP"
+  ],
+  [
+   523,
+   97,
+   0,
+   409,
+   0,
+   "MODEL"
+  ],
+  [
+   524,
+   403,
+   0,
+   409,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   525,
+   301,
+   0,
+   409,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   526,
+   82,
+   0,
+   409,
+   3,
+   "LATENT"
+  ],
+  [
+   527,
+   409,
+   0,
+   415,
+   0,
+   "LATENT"
+  ],
+  [
+   528,
+   57,
+   0,
+   415,
+   1,
+   "VAE"
+  ],
+  [
+   529,
+   415,
+   0,
+   421,
+   0,
+   "IMAGE"
+  ],
+  [
+   530,
+   421,
+   0,
+   427,
+   0,
+   "IMAGE"
+  ],
+  [
+   531,
+   56,
+   0,
+   404,
+   0,
+   "CLIP"
+  ],
+  [
+   532,
+   97,
+   0,
+   410,
+   0,
+   "MODEL"
+  ],
+  [
+   533,
+   404,
+   0,
+   410,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   534,
+   301,
+   0,
+   410,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   535,
+   82,
+   0,
+   410,
+   3,
+   "LATENT"
+  ],
+  [
+   536,
+   410,
+   0,
+   416,
+   0,
+   "LATENT"
+  ],
+  [
+   537,
+   57,
+   0,
+   416,
+   1,
+   "VAE"
+  ],
+  [
+   538,
+   416,
+   0,
+   422,
+   0,
+   "IMAGE"
+  ],
+  [
+   539,
+   422,
+   0,
+   428,
+   0,
+   "IMAGE"
+  ],
+  [
+   540,
+   56,
+   0,
+   405,
+   0,
+   "CLIP"
+  ],
+  [
+   541,
+   97,
+   0,
+   411,
+   0,
+   "MODEL"
+  ],
+  [
+   542,
+   405,
+   0,
+   411,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   543,
+   301,
+   0,
+   411,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   544,
+   82,
+   0,
+   411,
+   3,
+   "LATENT"
+  ],
+  [
+   545,
+   411,
+   0,
+   417,
+   0,
+   "LATENT"
+  ],
+  [
+   546,
+   57,
+   0,
+   417,
+   1,
+   "VAE"
+  ],
+  [
+   547,
+   417,
+   0,
+   423,
+   0,
+   "IMAGE"
+  ],
+  [
+   548,
+   423,
+   0,
+   429,
+   0,
+   "IMAGE"
+  ],
+  [
+   549,
+   56,
+   0,
+   406,
+   0,
+   "CLIP"
+  ],
+  [
+   550,
+   97,
+   0,
+   412,
+   0,
+   "MODEL"
+  ],
+  [
+   551,
+   406,
+   0,
+   412,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   552,
+   301,
+   0,
+   412,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   553,
+   82,
+   0,
+   412,
+   3,
+   "LATENT"
+  ],
+  [
+   554,
+   412,
+   0,
+   418,
+   0,
+   "LATENT"
+  ],
+  [
+   555,
+   57,
+   0,
+   418,
+   1,
+   "VAE"
+  ],
+  [
+   556,
+   418,
+   0,
+   424,
+   0,
+   "IMAGE"
+  ],
+  [
+   557,
+   424,
+   0,
+   430,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

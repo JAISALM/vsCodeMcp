@@ -1,0 +1,669 @@
+{
+ "id": "10a_frontal3_zidane_i2i",
+ "revision": 0,
+ "last_node_id": 301,
+ "last_link_id": 12,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    320,
+    70
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "Krea2Realism_V1.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    40,
+    140
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    260
+   ],
+   "size": [
+    320,
+    50
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      8,
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 96,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    40
+   ],
+   "size": [
+    320,
+    80
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "COMBO",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 300,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    220
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "kr2realism. The exact same man as the reference image — the SAME face, SAME facial structure, same skin — now completely frontal: dead center, head straight, both eyes fully open, looking straight into the camera with a relaxed easy half-smile. His hair is a short black halal cut with very short faded sides and a short neat crop on top, no waves. He has a full short dark beard, neatly trimmed and shaped, dense and clearly visible on his chin, jaw and upper lip. He wears a plain white t-shirt. Soft even natural daylight, a clean plain off-white wall behind him, sharp focus on his face, realistic skin with visible pores and a healthy flush, looks like a real unposed photo someone took on their phone, only one character, no other people."
+   ]
+  },
+  {
+   "id": 301,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    460
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "different person, different face, duplicate character, multiple people, watermark, logo, deformed face, bad eyes, extra fingers, profile view, three-quarter view, head turned to the side, head tilted, looking away from camera, long hair, wavy hair, man-bun, topknot, ponytail, clean-shaven, no beard, missing beard"
+   ]
+  },
+  {
+   "id": 85,
+   "type": "LoadImage",
+   "pos": [
+    -1400,
+    -100
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "choose file to upload",
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      7
+     ]
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "zidane_portrait_00001_.png",
+    "image"
+   ]
+  },
+  {
+   "id": 86,
+   "type": "VAEEncode",
+   "pos": [
+    -950,
+    -60
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "pixels",
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 7
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 323,
+   "type": "KSampler",
+   "pos": [
+    -450,
+    -60
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 4
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 5
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    77,
+    "fixed",
+    8,
+    1,
+    "euler",
+    "simple",
+    0.55
+   ]
+  },
+  {
+   "id": 324,
+   "type": "VAEDecode",
+   "pos": [
+    0,
+    -60
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 10
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 325,
+   "type": "SaveImage",
+   "pos": [
+    450,
+    -60
+   ],
+   "size": [
+    225,
+    54
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 12
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.26.0"
+   },
+   "widgets_values": [
+    "FACEFRONTAL3_ZIDANE"
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   55,
+   0,
+   96,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   56,
+   0,
+   300,
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   56,
+   0,
+   301,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   96,
+   0,
+   323,
+   0,
+   "MODEL"
+  ],
+  [
+   5,
+   300,
+   0,
+   323,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   6,
+   301,
+   0,
+   323,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   85,
+   0,
+   86,
+   0,
+   "IMAGE"
+  ],
+  [
+   8,
+   57,
+   0,
+   86,
+   1,
+   "VAE"
+  ],
+  [
+   9,
+   86,
+   0,
+   323,
+   3,
+   "LATENT"
+  ],
+  [
+   10,
+   323,
+   0,
+   324,
+   0,
+   "LATENT"
+  ],
+  [
+   11,
+   57,
+   0,
+   324,
+   1,
+   "VAE"
+  ],
+  [
+   12,
+   324,
+   0,
+   325,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

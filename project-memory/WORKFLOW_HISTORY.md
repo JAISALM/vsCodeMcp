@@ -4,6 +4,31 @@ Newest changes first.
 
 ---
 
+## 2026-11-19 — WORKFLOW TRIAGE: flat 207-file dir → `movies/<stage>/` (92 reusable, all models) + `special/` (110 one-offs)
+
+**Context:** user: "there are lots of other workflows which is reusable and production pipeline… dont limit only for krea2. check for other models, experiments… i dont want the workflows folder to pile up, lets check and keep the reusable ones, and the special ones, redundant once we can remove."
+
+**Method:** `session_tmp\workflow_inventory.py` scanned ALL 576 workflow files (canonical dir + `E:\minimax_workflow` staging) → per-file node-type signature + referenced model files (`session_tmp\workflow_triage_inventory.tsv`) → classified by **pipeline stage × model**. Executor: `session_tmp\workflow_triage_exec.py` (explicit lists, missing-file reporting, leftover check).
+
+**Result (canonical `E:\comfyUi_latest\...\user\default\workflows\`):**
+- `movies\sheets/` (30) — char sheets, ALL models: Krea2 (t2i/3-view/kit/frontal + batch PixaromaPromptEach + PE3 prompt-expansion), H3 (wide/fizgig/patreon/2-stage with Gemma4 TextGenerate), Qwen-Image-2.1 (PE-I2I GGUF composite, multi-angles QWEN_click, face i2i), VNCCS PoseStudio.
+- `movies\identity/` (5) — Krea2 identity-edit v1.2 + batch rig · H3 FaceRefine auto/manual (face_yolov8m) · Zuanfilm face detailer (H3FaceStitch).
+- `movies\motion/` (21) — H3 R2V + turbo · FastH3 omni · HyperFlow · seamless 15s/30s · BG-swap (fused refdelta + latent upscaler) · camera v20 · sam 2-char cinematic · recast · char-swap v1.1 FRO + v1.5 mask · pika H3 flex ×6 · viggle remake ×2.
+- `movies\image/` (17) — H3 image (t2i-cine/20MP/pose-ref ×2) · Krea2 duo 2-char ×4 · quad 4-char ×5 · raw-bf16 recipe · 2-pass i2i ×2.
+- `movies\grade/` (9) — **Zuanfilm Retrolab** (B&W emulsion + grain = 1950 grade; ektachrome = 2026 filmic) · seedVR2 ×4 (P6 2K master) · person-removal ×2 · RTX Post VFX · RIFE interpolation.
+- `movies\world/` (2) — `world_pano_angles` (LC 360 View geometry layer) + `h3image_world_shot`.
+- `movies\audio/` (3) — TTS_Suite ×3 (D041-clean: no music).
+- `movies\utility/` (5) — sheet composite · SDPose ×3 · birefnet logo-transparent.
+- `special/` (110) — char-specific (k2f S1–S6 oneclick ×2 sets, k2f scene sets, movie-shot 16x9 recipe variants, char-LoRA cine scenes, film tests, boar-grave, opencast, logo-fists) · test matrices (ABCD ×8, krea2_ab ×4, fair ×2, charlora ×2, mu/control/raw_qtest, face_lock ×7, v91 datasets ×4, lora-stack, vdn benchmark, sol_h3 ×2 [needs sol weights], viggle API-format ×2, 1-Click-Klein9b, H3-Contest base, Fizgig template, NativeAudio-MusicVideo [D041 — other content only]) · LoRA training (dataset ×3 + prograde + 1click, train_lora ×2, test_lora ×4) · intro-era (clussy_origin_story, ChatterBox voice).
+
+**Deleted (redundant):** 11 `.bak` files (every one a pre-change backup of a live file) + top-level `krea2_identity_edit.json` (SHA256-identical duplicate of the `movies\identity\` copy).
+
+**Mirror:** `workflows\movies\<stage>\` (92 files) — `resync_workflows.ps1` rewritten directory-based (`robocopy /MIR` on the `movies` subtree; old 52-file flat curated list retired). `special/` intentionally NOT mirrored (repo rule: one-shot tests never committed). Full record: `docs\WORKFLOW_TRIAGE_2026-11-19.md`.
+
+**Promotion rule:** a `special/` file that later proves reusable → move to `movies\<stage>\` → enters the mirror on next resync. **`E:\minimax_workflow` staging untouched** (user's download area; download-dependent items out of scope until 11-24).
+
+---
+
 ## 2026-11-19 — `movies/` folder: reusable movie-production workflows (1 NEW + 2 REUSE; user: "how many workflows… i dont want to spam… think like a senior engineer… reusable workflows for any movie production under one folder")
 
 **Context:** Episode 1 bible v2 (`episode1\00–07` + v4 script) is complete — `07` = assembled paste-ready prompts for EVERY character (K01–K12 kids, R01–R03 Rockstar + team shots, A01–A04 adults, X01–X02 extras, P01–P11 1950 players, S01–S13 1950 supporting). User ask: a reusable workflow where they just copy-paste prompts from the guide. Senior-engineer constraints: NO workflow spam (lesson from the intro-video era), organized under ONE folder, local-only until 11-24 (minimal network).
