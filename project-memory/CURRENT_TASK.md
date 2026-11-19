@@ -3,6 +3,7 @@
 **2026-11-19 (11:55) SCHEDULE SET — Thu+Fri = pipeline build, Sat onwards = prep (D252)**
 
 - **Thu 11-19 + Fri 11-20: content-pipeline build ONLY** (author: "build the pipeline for ourself", no Java in mind).
+- **Pipeline built (12:30):** `utilities\build_daily.py` = generic daily builder (spec JSON → render → optional natural-sound SFX → 2×20 s cuts → ffprobe verify, palette AUTO from weekday Mon=A…Sun=G). Day-1 spec JSON captured (`data\daily\2026-11-25\spec.json` — Ubu 40 s + sfx beats). 7-day calendar = `data\daily\CALENDAR.md` (launch Wed 25th = C_amber). Day-2 spec TEMPLATE ready (`data\daily\2026-11-26\spec.template.json`, D250 4-beat layout, placeholder handle pending author's handle spelling). Smoke test PASSED (preview t19.6 = C_amber verified). Full day-1 end-to-end run in background (pwsh-132).
 - **Sat 11-21 onwards: all job prep — NeetCode 1 problem/day MINIMUM** (the floor).
 - Pipeline scope (proposal, to confirm): ① generic daily builder (spec → 40 s + 2×20 s cuts, any palette — generalise `build_ubu_al_amal.py`) ② scenario→topic pairing (RAG store + hadith/verse) ③ 7-day upload calendar (25th launch).
 - Today's open items still queued: handle spelling, Gmail (author), Arabic font, football first match, eng-degree inputs, day-2 scenario topic.
