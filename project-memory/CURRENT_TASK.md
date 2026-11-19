@@ -1,5 +1,12 @@
 # Current Task
 
+**2026-11-19 (11:55) SCHEDULE SET — Thu+Fri = pipeline build, Sat onwards = prep (D252)**
+
+- **Thu 11-19 + Fri 11-20: content-pipeline build ONLY** (author: "build the pipeline for ourself", no Java in mind).
+- **Sat 11-21 onwards: all job prep — NeetCode 1 problem/day MINIMUM** (the floor).
+- Pipeline scope (proposal, to confirm): ① generic daily builder (spec → 40 s + 2×20 s cuts, any palette — generalise `build_ubu_al_amal.py`) ② scenario→topic pairing (RAG store + hadith/verse) ③ 7-day upload calendar (25th launch).
+- Today's open items still queued: handle spelling, Gmail (author), Arabic font, football first match, eng-degree inputs, day-2 scenario topic.
+
 **2026-11-19 (08:05) NAME REMOVED FROM REPO — user = "the author / narrator" (D251 update) + writer-chat handoff**
 
 - CAREER.md / AGENTS.md / LIFE_PLAN.md / JOB_PREP.md all updated: no real name in this repo — the film's character "Jaisal" is based on the author, and the collision would confuse future AI-film sessions. Film work = character; user = author/narrator.

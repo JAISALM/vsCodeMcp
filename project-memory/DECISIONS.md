@@ -1961,6 +1961,12 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D252 — SCHEDULE: Thu 19 + Fri 20 = pipeline build (NO Java), Sat 21 onwards = all job prep + NeetCode 1/day MIN (user 2026-11-19 11:55: "i will start neetcode on this weekend … untill then i want to build the pipeline for ourself … today and tomorrow, there is not java in my mind, from saturday onwards i will do 1 problem a day minimum")
+
+- **Thu 11-19 + Fri 11-20:** content-pipeline build only ("build the pipeline for ourself") — no Java, no prep.
+- **Sat 11-21 onwards:** all job prep. **NeetCode 1 problem a day = MINIMUM** (the floor, matches the FLOOR+SPRINTS design); spine per JOB_PREP.md.
+- **Pipeline scope (agent proposal — to confirm with author):** ① generic daily builder (day-spec → 40 s video + 2×20 s cuts + ffprobe verify, any of the 7 palettes — generalise `build_ubu_al_amal.py`) ② scenario→topic pairing tool (RAG news store + hadith/verse beats) ③ 7-day upload calendar (launch 25th, palette per weekday, pending handle/Gmail).
+
 ## D251 — Shared CAREER file: `project-memory\CAREER.md`, user = the author (user 2026-11-19: "check the md file where i said about java prep and job quit also … let me … have a common md file for my whole career plan so that at whichever state the current chat can understand whats the users level, and users intention behind the ask rather than driving each prompt as separate one …")
 
 - **The user is referred to as "the author" / "narrator" in this repo** — his real name is deliberately not recorded (see the 08:00 update below: name removed to prevent character/user confusion in AI-film sessions).

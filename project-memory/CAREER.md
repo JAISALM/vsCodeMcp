@@ -75,6 +75,10 @@ this lens before acting:
 
 ## CURRENT STATE — updated 2026-11-19 (08:00)
 
+- **Schedule set (author, 11:55, D252):** **Thu 11-19 + Fri 11-20 = pipeline
+  build only** ("build the pipeline for ourself" — no Java in mind).
+  **Sat 11-21 onwards = all job prep** — NeetCode **1 problem/day MINIMUM** (the
+  floor), rest of the spine per JOB_PREP.md.
 - **Today (author, 08:00):** heading to the WRITER chat to continue the film script
   (episode 1 — new beat: "dogs dig the past"; all details ready there; workflows
   built side-wise as items land). Then working the open items list.
@@ -83,9 +87,10 @@ this lens before acting:
   letting boredom force the return to prep/study mode ("its me vs me,
   psychological"). Same principle as the 10-30 relapse rule (environment design,
   not willpower). Floor unchanged: **1 NeetCode problem + the check-in**.
-- **Job:** jobless since 11-06. Execution Day 1 = 11-12. **Week 1 = pipeline +
-  NeetCode ONLY** (user simplified — do NOT re-add structure). Week 2+ (Angular /
-  Spring why-how pages / project scaffold) = conditional on week 1 being steady.
+- **Job:** jobless since 11-06. Execution Day 1 = 11-12. **REVISED (11-19,
+  D252):** Thu 19 + Fri 20 = pipeline build only (no Java); **Sat 21 onwards =
+  NeetCode 1 problem/day MINIMUM** + all job prep (Angular / Spring why-how /
+  scaffold fold in from then on).
 - **Content:** 4-channel plan live (docs/CHANNELS_PLAN.md, D246–D250). **Ubu
   al-Amal shipped** (40 s, palette C, 2×20 s cuts). Daily uploads from **11-25**
   (7 palettes = one per weekday). Eng-degree video = blocked on user's script text
