@@ -804,6 +804,15 @@ Do not write unnecessary historical information.
 
 When starting a new session, do not ask the user to explain everything again.
 
+**USER CONTEXT FIRST (2026-11-19, D251):** the user is **Jaisu** (real name
+Jaisal). Before interpreting ANY ask — especially in a fresh chat with no
+history — read **`project-memory/CAREER.md`** (the single shared career file:
+who he is, his actual levels, his INTENTION behind his asks, current state).
+Interpret every ask through that context — **never treat a prompt as an
+isolated one-off**. When a career state changes (application, interview,
+decision, pivot, milestone, new project), update the `CURRENT STATE` block of
+CAREER.md in the SAME turn.
+
 First inspect the project memory.
 
 Then provide a concise understanding of:

@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D251 — Shared CAREER file: `project-memory\CAREER.md`, user = Jaisu (user 2026-11-19: "check the md file where i said about java prep and job quit also … let me … have a common md file for my whole career plan so that at whichever state the current chat can understand whats the users level, and users intention behind the ask rather than driving each prompt as separate one … jaisal is my original name, lets call me as jaisu for that md file")
+
+- **The user's real name is Jaisal** (the film's "Jaisal" character is him). In the career file and for this plan he is **Jaisu**.
+- **`project-memory\CAREER.md`** = the single shared file: WHO · INTENTION (the four lives every ask maps to: film=soul+portfolio, content-operation=new engine, job=March-2027 >11 LPA, habits) · LEVELS (honest skill levels) · **CURRENT STATE** (always-current block) · RULES (incl. frustration protocol) · POINTERS (LIFE_PLAN / JOB_PREP / PENDING_ITEMS / CHANNELS_PLAN / GOAL_BRIEF).
+- **Mechanism:** AGENTS.md "USER CONTEXT FIRST" rule — every fresh chat reads CAREER.md BEFORE interpreting any ask; prompts are never treated as isolated one-offs.
+- **Maintenance:** on any career state change (application, interview, decision, pivot, milestone), update the CURRENT STATE block in the SAME turn. Cross-reference lines added to LIFE_PLAN.md + JOB_PREP.md.
+
 ## D250 — Channel-1 FORMAT PIVOT: explainers, no recitation (copyright), current-affairs-tied, always-warning (user 2026-11-19: "there is a copyright issue on the recitation … lets explain hadith and quran, lets pick small 40 second videos daily which cover important details with respect to current affairs and scenarios, and its always on warning because it is a word of God")
 
 - **NO recitation audio** — a reciter's recording is a copyrighted performance (the Quran/hadith TEXT is free; the AUDIO is not). Channel 1 = NARRATED EXPLAINERS (Voice Studio, EN + ML).

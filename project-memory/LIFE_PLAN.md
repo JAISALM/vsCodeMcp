@@ -1,5 +1,9 @@
 # Life Plan (2026-10-30 — user's own words, PERSONAL not the ComfyUI project)
 
+**User = Jaisu** (real name Jaisal — the film's "Jaisal" character is him).
+**Shared career file: `CAREER.md`** (levels + intention + current state — read
+that FIRST; this file = deep detail).
+
 **Who:** 27, BTech Computer Science (GPA 7.61), **5 yrs Java developer** (Capgemini 3.3 yrs + Infosys 1.1 yr), codes with AI agents. Knows the basics; "never really interested in programming" until the job. Quit work — **last working day 2026-11-06**. Wants: filmmaker + programmer, remote job paying > 11 LPA, no mediocrity ("mediocrity is not accepted in islam"). Decision day 2026-10-30: relapsed after ~1 month clean, hated it, "i dont want to relapse" — porn out of the equation.
 
 **Cash:** 1.5 L, expenses **15–20k/month** → **6–8 month runway (to ~April–June 2027)** — covers the March target AND the April–May peak; "guide"/freelance work = upside, NOT a survival lifeline. Job target **MARCH 2027** (user: "by MARCH is realistic") → **3–4 months of consistency from 2026-11-09**. Ramadan 2027 (~early Feb) = the wish, March = the realistic target.

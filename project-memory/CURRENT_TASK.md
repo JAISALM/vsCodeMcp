@@ -1,5 +1,12 @@
 # Current Task
 
+**2026-11-19 (08:30) SHARED CAREER FILE — Jaisu (D251)**
+
+- **`project-memory\CAREER.md`** created = single shared file (user = **Jaisu**, real name Jaisal): WHO · INTENTION (4 lives) · LEVELS · CURRENT STATE · RULES · POINTERS.
+- **AGENTS.md** "USER CONTEXT FIRST" rule: every fresh chat reads CAREER.md before interpreting any ask — no more isolated-prompt interpretation.
+- Cross-refs added to LIFE_PLAN.md + JOB_PREP.md. Committed.
+- Standing maintenance: career state change → update CAREER.md CURRENT STATE same turn.
+
 **2026-11-19 (07:50) CHANNEL-1 FORMAT PIVOT (D250: no recitation — copyright; daily 40 s explainers tied to current affairs; always-warning beat)**
 
 - Format spec locked in `docs\CHANNELS_PLAN.md` + `docs\GOAL_BRIEF_4CHANNELS.md` (for external LLM consultation).
