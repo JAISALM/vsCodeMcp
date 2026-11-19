@@ -1,0 +1,49 @@
+ANCHOR batch order (line = output order in PixaromaPromptEach):
+  1. K01 RAYYAN
+  2. K02 ALAN
+  3. K03 GOVIND
+  4. K04 BILAL
+  5. K05 RISHI
+  6. K06 SINAN
+  7. K07 VIHAAN
+  8. K08 KAILAS
+  9. K09 KIRAN
+ 10. K10 SREEHARI
+ 11. K11 MUHSIN
+ 12. K12 TOBIN
+ 13. R01 HASHIM
+ 14. R02 ABHIJITH
+ 15. R03 JERIN
+ 16. A01 GRANDPA ABU BAKAR
+ 17. A02 AKHIL
+ 18. A03 THE FATHER
+ 19. A04 SHAFIQ'S WIFE
+ 20. X01 THE REFEREE
+ 21. X02 THE TICKET BOY
+ 22. P01 ANTAPPAN (GK)
+ 23. P02 CHANDU (RB)
+ 24. P03 MOOSA (CB)
+ 25. P04 "ILLA" PAKRU (CB)
+ 26. P05 VELAYUDHAN (LB)
+ 27. P06 THOMAS (DM)
+ 28. P07 GOPALAN (CM)
+ 29. P08 BAPPU (AM)
+ 30. P09 KUTTAPPAN (RW)
+ 31. P10 KARUNAN (LW)
+ 32. P11 RAGHAVAN "KALLAN" (ST)
+ 33. S01 SULAIMAN
+ 34. S02 LITTLE ABU BAKAR
+ 35. S03 MUALLIM MOIDEEN
+ 36. S04 VAIDYAR MADHAVAN
+ 37. S05 MADRAS POSTMASTER
+ 38. S06 FEDERATION MESSENGER
+ 39. S08 THE CONSTABLE (friendly one)
+ 40. S09 THE TAILOR
+ 41. S13 THE FISHWIFE
+ 42. Optional: BOSE SILHOUETTE (one-second shot, no face)
+
+KIT batch order = same sequence.
+
+SPECIAL (16:9 team shots / silhouette — run separately at 16:9):
+__SPECIAL__ R-TEAM Team shot (16:9): Five boys aged 12 to 13 in Kerala lined up on a muddy paddy-field pitch in match
+__SPECIAL__ W-TEAM Winning Eleven team shot (16:9): Five boys aged 11 to 12 in Kerala standing in a ragged line on a muddy paddy-fie
