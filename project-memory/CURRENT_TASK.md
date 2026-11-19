@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-19 (13:40) CONTENT TIMELINE SET (D258)**
+
+- Author: keep pipelines READY · work starts **Tue 11-24** · first upload **Wed 11-25 or later** · **all 3 channels (1/2/3) by December** · **Jaisal Cut = cinema slow-burn** (art/film-festival if needed — own timeline, "give some time").
+- 11-21→23 = job prep only (D252). 11-24 = online day (S.4) + work start. RAG job keeps accumulating stores through the gap (more pradhana material by 11-24).
+- Recorded: DECISIONS D258 · OPEN_ITEMS TIMELINE block · CHANNELS_PLAN ch4 positioning · CAREER CURRENT STATE.
+
 **2026-11-19 (13:15) PRADHANA FORMULA DEFINED (D257)**
 
 - User: pradhana prashnam = **simple solution to a problem people might consider, that's NOT easy in practice** — domains: corruption / study / culture etc. Evergreen problems; news = optional seasoning (hot layer D256).

@@ -103,6 +103,11 @@ not in malayalam").**
 User's own art channel — no pipeline needed from the agent beyond the existing
 Krea2/ComfyUI character work (D137 char1/char2, face refs, identity-edit v1.2).
 
+**POSITIONING (D258, 11-19):** Jaisal Cut = **CINEMA channel** — aim = better
+growth, art + **film festival if needed** → **slow-burn, its own timeline**
+("lets give some time for that") — **NOT in the December 3-channel target**
+(D258). No daily/weekly cadence pressure; production + festival cycle.
+
 ## ANIMATION STRATEGY — two layers, NOT "ComfyUI only" (2026-11-19, user asked "hwo we are going to animate? using comfyui only right?")
 
 **Layer 1 — the workhorse: Template B + procedural 2D (PIL, no GPU, seconds per

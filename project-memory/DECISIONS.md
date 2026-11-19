@@ -1961,6 +1961,12 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D258 — CONTENT TIMELINE: pipelines ready now · work starts 11-24 · first upload 11-25+ · 3 channels by December · Jaisal Cut = slow-burn (author 2026-11-19: "lets keep these pieplines ready, we will start the work from nov 24th · aiming for first uploads from november 25th or later · by december we should be ready with 3 channels · jaisals cut is cinema and aim for better growth, art and film festival if needed, so lets give some time for that")
+
+- **Pipelines = READY state (as of 11-19):** daily builder + 7-day calendar + pradhana 3-layer feed (D255/D256) + football fetcher all built. The 08:00 RAG job KEEPS RUNNING through the job-prep window — stores accumulate = more pradhana material by 11-24.
+- **Schedule:** 11-19/20 = pipeline build (D252, done) · 11-21→23 = job prep only (NeetCode 1/day min) · **11-24 = CONTENT WORK STARTS** (also the online day per S.4 — Arabic font + ControlFoley TC-V2A available then) · **11-25 or later = FIRST UPLOAD** (Channel 1 launch — Ubu day already built, C_amber) · **by DECEMBER = all 3 channels (1 daily · 2 pradhana · 3 football) ready/uploading.**
+- **Jaisal Cut (channel 4) = CINEMA + SLOW-BURN:** aim = better growth, art + **film festival if needed** → its own production/festival cycle ("give some time") — **NOT in the December 3-channel target.**
+
 ## D257 — pradhana prashnam FORMULA (user 2026-11-19: "pradhaana prashnam should be a simple solution for a problem people might consider but its not that easy in practical — corruption related, study related, culture related etc")
 
 - **THE FORMULA:** `[problem people think about] + [assumed SIMPLE solution] + [why it is NOT that easy in practice]`. The punchline is the gap itself — "the simple answer everyone believes vs what actually happens."

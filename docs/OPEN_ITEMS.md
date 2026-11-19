@@ -4,6 +4,17 @@ One authoritative list — per channel + shared, each item with an owner
 (**author** = you, **agent** = us). Done items: strike through + date. This
 replaces the scattered open-questions sections (they now point here).
 
+## TIMELINE (D258 — author 11-19: "keep these pipelines ready … start the work from nov 24th … first uploads from november 25th or later … by december ready with 3 channels")
+
+| When | What |
+|---|---|
+| Thu 11-19 + Fri 11-20 | pipeline build only (D252) — **DONE** (daily builder · pradhana 3-layer feed · football fetcher) |
+| Sat 11-21 → Mon 11-23 | job prep only (NeetCode 1/day min — D252) · RAG job keeps running → stores ACCUMULATE (more pradhana material by 11-24) |
+| Tue **11-24** | **CONTENT WORK STARTS** (also the online day — S.4; Arabic font + ControlFoley TC-V2A available — S.3) |
+| Wed **11-25** or later | **FIRST UPLOAD** — Channel 1 launches (Ubu day built, C_amber) |
+| **by December** | **all 3 channels (1 daily · 2 pradhana · 3 football) ready/uploading** |
+| **Jaisal Cut** | **slow-burn, OWN timeline** — cinema + growth + art/film-festival if needed ("give some time") — NOT in the December 3-channel target |
+
 ## Channel 1 — learnhadithAndQuranDaily
 
 Handle = **@learnhadithAndQuranDaily** (FINAL, D253). Launch Wed 2026-11-25.

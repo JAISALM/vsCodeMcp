@@ -73,7 +73,15 @@ this lens before acting:
 - **Consistency:** the "1 month on, 6 months off" pattern is the disease; the
   one-line daily check-in is the cure (the floor).
 
-## CURRENT STATE — updated 2026-11-19 (08:00)
+## CURRENT STATE — updated 2026-11-19 (13:40)
+
+- **Content timeline (author, 13:35, D258):** pipelines READY (built 11-19) ·
+  **work starts Tue 11-24** (the online day — S.4) · **first upload Wed 11-25
+  or later** (Channel 1 launches) · **all 3 channels (1 daily · 2 pradhana · 3
+  football) ready/uploading by DECEMBER** · **Jaisal Cut = cinema slow-burn**
+  (growth + art/film-festival track, own timeline — NOT in the December
+  3-channel target). 11-21→23 = job prep only (D252); RAG job keeps running →
+  stores accumulate through the gap.
 
 - **Schedule set (author, 11:55, D252):** **Thu 11-19 + Fri 11-20 = pipeline
   build only** ("build the pipeline for ourself" — no Java in mind).
