@@ -8,8 +8,9 @@ D252: "build the pipeline for ourself"). One command per day:
   2. palette AUTO from the weekday (Mon=A_green … Sun=G_plum; launch day
      Wed 25th = C_amber = Ubu — verified against D244)
   3. renders 2400 frames @ 60 fps (2x supersample) -> encodes <slug>.mp4
-  4. optional SFX bed (spec["sfx"] = {whoosh:[t], door:[t], steps:[t],
-     seed, gain} -> synth_ambient; natural sounds only, D041)
+  4. optional SFX bed (spec["sfx"] = {whoosh:[t], door:t or [t], steps:[t],
+     seed, gain} -> synth_ambient; natural sounds only, D041 — synth() takes a
+     SINGLE door time, so a [t] list is unwrapped to its first value)
   5. distribution cuts when duration ~= 40 s: <slug>_part1.mp4 (0-20 s,
      stream copy) + <slug>_part2.mp4 (20 s+, re-encode) — the 2026-11-18
      standard (2x 20 s WhatsApp status + 40 s Instagram)
@@ -23,6 +24,8 @@ Flags:  --frames-only  (render frames, skip encode/cuts)
         --preview T    (single-frame preview at time T, skip the full render)
         --palette NAME (override the weekday palette)
         --no-cuts      (skip the 20 s distribution cuts)
+        --skip-frames  (reuse the existing <slug>_frames dir — post-fix re-runs
+                       skip the ~35 min render)
 """
 import json
 import os
@@ -60,6 +63,7 @@ def main():
     palette = None
     frames_only = "--frames-only" in sys.argv
     no_cuts = "--no-cuts" in sys.argv
+    skip_frames = "--skip-frames" in sys.argv
     preview_t = None
     for i, a in enumerate(sys.argv):
         if a == "--spec":
@@ -90,10 +94,19 @@ def main():
         print(f"[preview] {fn} (palette {pal})")
         return
 
-    # 1-3. render + encode
-    frames_dir = os.path.join(outdir, f"{slug}_frames")
-    frames_dir, n, fps = tb.render(spec, frames_dir, palette=pal)
-    print(f"[1-3] {n} frames @ {fps} fps")
+    # 1-3. render + encode (render() appends its own "frames" subdir to out_dir)
+    fps = spec["fps"]
+    n = int(round(spec["duration"] * fps))
+    frames_dir = os.path.join(outdir, f"{slug}_frames", "frames")
+    if skip_frames:
+        have = len([f for f in os.listdir(frames_dir)
+                    if f.startswith("frame_") and f.endswith(".png")]) if os.path.isdir(frames_dir) else 0
+        if have < n:
+            sys.exit(f"--skip-frames: expected {n} frames in {frames_dir}, found {have} — run without the flag")
+        print(f"[1-3] reusing {have} existing frames in {frames_dir}")
+    else:
+        frames_dir, n, fps = tb.render(spec, os.path.dirname(frames_dir), palette=pal)
+        print(f"[1-3] {n} frames @ {fps} fps")
     if frames_only:
         print("[frames-only] stopping before encode")
         return
@@ -108,9 +121,12 @@ def main():
         from synth_ambient import synth
         import wave
         dur = spec.get("duration", 40.0)
+        door = sfx_spec.get("door")
+        if isinstance(door, (list, tuple)):
+            door = door[0] if door else None   # synth() takes a single door time
         stereo = synth(dur, whoosh_times=sfx_spec.get("whoosh", []),
                        seed=sfx_spec.get("seed", 7), gain=sfx_spec.get("gain", 1.0),
-                       door=sfx_spec.get("door"), steps=sfx_spec.get("steps", []))
+                       door=door, steps=sfx_spec.get("steps", []))
         bed = os.path.join(outdir, f"{slug}_bed.wav")
         with wave.open(bed, "wb") as w:
             w.setnchannels(2)
