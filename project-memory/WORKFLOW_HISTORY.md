@@ -4,6 +4,21 @@ Newest changes first.
 
 ---
 
+## 2026-11-19 — `movies/` folder: reusable movie-production workflows (1 NEW + 2 REUSE; user: "how many workflows… i dont want to spam… think like a senior engineer… reusable workflows for any movie production under one folder")
+
+**Context:** Episode 1 bible v2 (`episode1\00–07` + v4 script) is complete — `07` = assembled paste-ready prompts for EVERY character (K01–K12 kids, R01–R03 Rockstar + team shots, A01–A04 adults, X01–X02 extras, P01–P11 1950 players, S01–S13 1950 supporting). User ask: a reusable workflow where they just copy-paste prompts from the guide. Senior-engineer constraints: NO workflow spam (lesson from the intro-video era), organized under ONE folder, local-only until 11-24 (minimal network).
+
+**Built:** `E:\comfyUi_latest\...\user\default\workflows\movies\` (repo mirror `D:\models\vsCodeMcp\workflows\movies\`):
+1. **`krea2_char_sheet_t2i.json` (NEW)** — the one character-sheet rig: UNET `krea2_turbo_bf16` · LoRA `krea2_turbo_3step_rank_64` @1.0 · CLIP `qwen3vl_4b_fp8_scaled`/"krea2" · VAE `qwen_image_vae` · KSampler `[0,"randomize",3,1,"euler","simple",1]` (t2i) · EmptyLatentImage **896×1152** default (3:4 anchor). ONE text node (CLIPTextEncode) = the paste point for `07` prompts (pre-filled = K01 RAYYAN face anchor). Per character: **FACE ANCHOR 896×1152 (3:4)** / **KIT SHEET 896×1344 (2:3)** / **TEAM 1344×768 (16:9)** — change the two size numbers + SaveImage prefix `e1_<id>_<name>_<anchor|kit>`; queue 2–3 seeds per shot; then face-lock with `krea2_identity_edit.json`. MarkdownNote node = the runbook (run order per 07, 1950-stay-colour rule). **Verified: validate 0/0, converted 10/10, version float 0.4, zero warnings.** All models local, no downloads.
+2. **`krea2_identity_edit.json`** — COPY of the proven v1.2 face-lock (ref_boost 4.0). Reuse, no new build.
+3. **`Zuanfilm_Retrolab.json`** — COPY of the user's 11-19 14:06 download (from `E:\minimax_workflow\production_experiments\`) = post-process node `ZuanfilmRetroLab` (colour/B&W emulsion, grain, halation, bloom, light leaks, solarization, white balance, anti-AI, noise, vignette, soft focus, exposure) → ImageCompare + SaveImageAdvanced. **GAP: the `ZuanfilmRetroLab` pack is NOT installed** (grep of all custom_nodes + live node search = 0) → one-time small pack clone + ComfyUI restart; USER DECIDES (minimal-network until 11-24; third-party code consent).
+
+**REUSE (not copied yet):** the MOTION stage = existing `video_minimax_h3_r2v+turbo.json` — copy into `movies/` when we reach it. **OUT OF SCOPE until 11-24 (download-dependent, per user):** `E:\minimax_workflow\consistent_environment`, `sol_h3_weights`, `NVlabs-Sana-sol-engine`, anything model-download-dependent.
+
+**Next:** user opens `movies\krea2_char_sheet_t2i.json` in a FRESH tab → queue 2–3 seeds for Rayyan's anchor → pick best → identity-edit lock → kit sheet → next character (Alan → Govind → …).
+
+---
+
 ## 2026-11-16 — `world_pano_angles.json` (3 nodes) — THE GEOMETRY LAYER: 360° angle sets without hallucinated geometry (user: "i dont see any panorama makers, or world makers" + the "We Open Sourced World Generation" video = Mickmumpitz's **Panorama Stickers**, the Higgsfield winner we already had installed from 11-11 as `custom_nodes\ComfyUI-Panorama-Stickers`)
 
 **Context:** the user challenged whether the H3 reference-anchor world rig is the ideal way to do location consistency. Answer: it is the **APPEARANCE layer** (character + same-angle world at max detail); the Panorama-Stickers chain (verified live: `PanoramaStudio`, `PanoramaSeamPrep`, `PanoramaPreview`, `PanoramaStickers`, `PanoramaCutout`, `MoGePanoramaInference`, `LC 360 View 🧭` — all 8 nodes loaded on :8188) is the **GEOMETRY layer**. They STACK: the H3 2:1 ERP panorama is the geometry layer's Sky input; the H3 shot rig is the Studio's "fix the shot, put it back where it was" model. For short-form content (kids' short app, D135) the Stickers chain alone is the complete world pipeline.

@@ -1,0 +1,784 @@
+{
+  "id": "0a9439ed-fa58-4f52-834b-e9d9ed542e18",
+  "revision": 0,
+  "last_node_id": 809,
+  "last_link_id": 1973,
+  "nodes": [
+    {
+      "id": 76,
+      "type": "LoadImage",
+      "pos": [
+        -1144.2289370462781,
+        3777.377160339361
+      ],
+      "size": [
+        665.5750239340504,
+        961.7315151726694
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1905,
+            1969
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.8.2",
+        "Node name for S&R": "LoadImage",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.7",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "Zuanfilm-A1213345.jpg",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "Zuanfilm-A1213345.jpg",
+        "upload": "image"
+      },
+      "color": "#1f1f48",
+      "bgcolor": "rgba(24,24,27,.9)",
+      "ndSuperSelectorEnabled": false,
+      "ndPowerEnabled": false,
+      "extensions": {
+        "ndSuperSelectorEnabled": false,
+        "ndPowerEnabled": false
+      }
+    },
+    {
+      "id": 776,
+      "type": "SaveImageAdvanced",
+      "pos": [
+        1384.6999154876855,
+        3777.418286579465
+      ],
+      "size": [
+        627.3958988448005,
+        961.700355450564
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 1971
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "format",
+          "name": "format",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "widget": {
+            "name": "format"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "bit_depth",
+          "name": "format.bit_depth",
+          "type": "COMBO",
+          "widget": {
+            "name": "format.bit_depth"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "input_color_space",
+          "name": "format.input_color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "format.input_color_space"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "SaveImageAdvanced",
+        "ue_properties": {
+          "version": "8.0.1",
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "title_regex": null,
+          "input_regex": null,
+          "group_regex": null,
+          "title_regex_invert": false,
+          "input_regex_invert": false,
+          "group_regex_invert": false,
+          "apply_to_unrepeated": 0,
+          "send_to_any": 0,
+          "string_to_combo": 0,
+          "repeated_type_rule": 0,
+          "group_restricted": 0,
+          "color_restricted": 0
+        }
+      },
+      "widgets_values": [
+        "Zuanfilm-Retrolab/retrolab",
+        "png",
+        "8-bit",
+        "sRGB"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "Zuanfilm-Retrolab/retrolab",
+        "format": "png",
+        "format.bit_depth": "8-bit",
+        "format.input_color_space": "sRGB"
+      }
+    },
+    {
+      "id": 778,
+      "type": "ImageCompare",
+      "pos": [
+        456.8722299516495,
+        3777.418438587462
+      ],
+      "size": [
+        621.6880388708446,
+        961.7003093372547
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image_a",
+          "name": "image_a",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 1905
+        },
+        {
+          "localized_name": "image_b",
+          "name": "image_b",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 1972
+        },
+        {
+          "localized_name": "compare_view",
+          "name": "compare_view",
+          "type": "IMAGECOMPARE",
+          "widget": {
+            "name": "compare_view"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "ImageCompare",
+        "ue_properties": {
+          "version": "8.0.1",
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "title_regex": null,
+          "input_regex": null,
+          "group_regex": null,
+          "title_regex_invert": false,
+          "input_regex_invert": false,
+          "group_regex_invert": false,
+          "apply_to_unrepeated": 0,
+          "send_to_any": 0,
+          "string_to_combo": 0,
+          "repeated_type_rule": 0,
+          "group_restricted": 0,
+          "color_restricted": 0
+        }
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 808,
+      "type": "ZuanfilmRetroLab",
+      "pos": [
+        -410.272540356371,
+        3777.377002361074
+      ],
+      "size": [
+        700.9458089193428,
+        1682.5838947829852
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1969
+        },
+        {
+          "localized_name": "grain_amount",
+          "name": "grain_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "grain_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "grain_size",
+          "name": "grain_size",
+          "type": "FLOAT",
+          "widget": {
+            "name": "grain_size"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "color_grain",
+          "name": "color_grain",
+          "type": "FLOAT",
+          "widget": {
+            "name": "color_grain"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "halation_amount",
+          "name": "halation_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "ring_radius",
+          "name": "ring_radius",
+          "type": "FLOAT",
+          "widget": {
+            "name": "ring_radius"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "bloom_amount",
+          "name": "bloom_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "bloom_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "bloom_threshold",
+          "name": "bloom_threshold",
+          "type": "FLOAT",
+          "widget": {
+            "name": "bloom_threshold"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "bloom_radius",
+          "name": "bloom_radius",
+          "type": "FLOAT",
+          "widget": {
+            "name": "bloom_radius"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "solarization",
+          "name": "solarization",
+          "type": "FLOAT",
+          "widget": {
+            "name": "solarization"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "highlight_confinement",
+          "name": "highlight_confinement",
+          "type": "FLOAT",
+          "widget": {
+            "name": "highlight_confinement"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "mackie_lines",
+          "name": "mackie_lines",
+          "type": "FLOAT",
+          "widget": {
+            "name": "mackie_lines"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_mode",
+          "name": "leak_mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "leak_mode"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_position",
+          "name": "leak_position",
+          "type": "COMBO",
+          "widget": {
+            "name": "leak_position"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_exposure",
+          "name": "leak_exposure",
+          "type": "FLOAT",
+          "widget": {
+            "name": "leak_exposure"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_seed",
+          "name": "leak_seed",
+          "type": "INT",
+          "widget": {
+            "name": "leak_seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_color",
+          "name": "leak_color",
+          "type": "STRING",
+          "widget": {
+            "name": "leak_color"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "leak_radius",
+          "name": "leak_radius",
+          "type": "FLOAT",
+          "widget": {
+            "name": "leak_radius"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "halation_color",
+          "name": "halation_color",
+          "type": "STRING",
+          "widget": {
+            "name": "halation_color"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "soft_focus_amount",
+          "name": "soft_focus_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "soft_focus_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "soft_focus_radius",
+          "name": "soft_focus_radius",
+          "type": "FLOAT",
+          "widget": {
+            "name": "soft_focus_radius"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "vignette_amount",
+          "name": "vignette_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "vignette_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "vignette_feather",
+          "name": "vignette_feather",
+          "type": "FLOAT",
+          "widget": {
+            "name": "vignette_feather"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "color_emulsion",
+          "name": "color_emulsion",
+          "type": "COMBO",
+          "widget": {
+            "name": "color_emulsion"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "white_balance_temperature",
+          "name": "white_balance_temperature",
+          "type": "FLOAT",
+          "widget": {
+            "name": "white_balance_temperature"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "white_balance_tint",
+          "name": "white_balance_tint",
+          "type": "FLOAT",
+          "widget": {
+            "name": "white_balance_tint"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "anti_ai",
+          "name": "anti_ai",
+          "type": "FLOAT",
+          "widget": {
+            "name": "anti_ai"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "noise_texture",
+          "name": "noise_texture",
+          "type": "COMBO",
+          "widget": {
+            "name": "noise_texture"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "noise_amount",
+          "name": "noise_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "noise_amount"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "noise_seed",
+          "name": "noise_seed",
+          "type": "INT",
+          "widget": {
+            "name": "noise_seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "noise_scale",
+          "name": "noise_scale",
+          "type": "FLOAT",
+          "widget": {
+            "name": "noise_scale"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "noise_blend_mode",
+          "name": "noise_blend_mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "noise_blend_mode"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "exposure",
+          "name": "exposure",
+          "type": "FLOAT",
+          "widget": {
+            "name": "exposure"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "grain_blend_mode",
+          "name": "grain_blend_mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "grain_blend_mode"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "emulsion_response",
+          "name": "emulsion_response",
+          "type": "FLOAT",
+          "widget": {
+            "name": "emulsion_response"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            1971,
+            1972
+          ]
+        },
+        {
+          "localized_name": "report",
+          "name": "report",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ZuanfilmRetroLab",
+        "ue_properties": {
+          "version": "8.0.1",
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "title_regex": null,
+          "input_regex": null,
+          "group_regex": null,
+          "title_regex_invert": false,
+          "input_regex_invert": false,
+          "group_regex_invert": false,
+          "apply_to_unrepeated": 0,
+          "send_to_any": 0,
+          "string_to_combo": 0,
+          "repeated_type_rule": 0,
+          "group_restricted": 0,
+          "color_restricted": 0
+        }
+      },
+      "widgets_values": [
+        "",
+        "",
+        1.92,
+        0.3,
+        0.09,
+        0.2,
+        8,
+        0.31,
+        0.1,
+        8,
+        "",
+        "",
+        "",
+        0,
+        0.09,
+        0,
+        "",
+        "",
+        "Soft Edge",
+        "Bottom",
+        1.21,
+        27,
+        "#C2AF8E",
+        2.34,
+        "#FF9959",
+        "",
+        "",
+        0.22,
+        24,
+        0.68,
+        0.8,
+        "ektachrome_e100",
+        -0.43,
+        0.205,
+        12,
+        "Gaussian",
+        0.69,
+        894,
+        "randomize",
+        1,
+        "Additive",
+        -9,
+        "Additive",
+        1.52,
+        ""
+      ],
+      "widgets_values_named": {
+        "zrl_composition_preview": "",
+        "zrl_emulsion_atlas": "",
+        "grain_amount": 1.92,
+        "grain_size": 0.3,
+        "color_grain": 0.09,
+        "halation_amount": 0.2,
+        "ring_radius": 8,
+        "bloom_amount": 0.31,
+        "bloom_threshold": 0.1,
+        "bloom_radius": 8,
+        "zrl_light_controls": "",
+        "zrl_divider_sabattier": "",
+        "zrl_tone_controls": "",
+        "solarization": 0,
+        "highlight_confinement": 0.09,
+        "mackie_lines": 0,
+        "zrl_divider_light_leak": "",
+        "zrl_light_leak_controls": "",
+        "leak_mode": "Soft Edge",
+        "leak_position": "Bottom",
+        "leak_exposure": 1.21,
+        "leak_seed": 27,
+        "leak_color": "#C2AF8E",
+        "leak_radius": 2.34,
+        "halation_color": "#FF9959",
+        "zrl_divider_optical_finish": "",
+        "zrl_optical_controls": "",
+        "soft_focus_amount": 0.22,
+        "soft_focus_radius": 24,
+        "vignette_amount": 0.68,
+        "vignette_feather": 0.8,
+        "color_emulsion": "ektachrome_e100",
+        "white_balance_temperature": -0.43,
+        "white_balance_tint": 0.205,
+        "anti_ai": 12,
+        "noise_texture": "Gaussian",
+        "noise_amount": 0.69,
+        "noise_seed": 894,
+        "control_after_generate": "randomize",
+        "noise_scale": 1,
+        "noise_blend_mode": "Additive",
+        "exposure": -9,
+        "grain_blend_mode": "Additive",
+        "emulsion_response": 1.52,
+        "zrl_bottom_controls": ""
+      }
+    }
+  ],
+  "links": [
+    [
+      1905,
+      76,
+      0,
+      778,
+      0,
+      "IMAGE"
+    ],
+    [
+      1969,
+      76,
+      0,
+      808,
+      0,
+      "IMAGE"
+    ],
+    [
+      1972,
+      808,
+      0,
+      778,
+      1,
+      "IMAGE"
+    ],
+    [
+      1971,
+      808,
+      0,
+      776,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7400249944258359,
+      "offset": [
+        1254.1627115158537,
+        -3691.7236619793566
+      ]
+    },
+    "frontendVersion": "1.59.1",
+    "workflowRendererVersion": "LG",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": false,
+    "ue_links": [],
+    "anomalous_hashes": {},
+    "links_added_by_ue": []
+  },
+  "extensions": {
+    "seed_widgets": {
+      "804": 39
+    },
+    "widget_idx_map": {
+      "804": {
+        "noise_seed": 39
+      }
+    }
+  },
+  "version": 0.4
+}

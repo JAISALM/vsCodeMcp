@@ -1,0 +1,209 @@
+{
+  "id": "00000000-0000-0000-0000-movies0000001",
+  "revision": 0,
+  "last_node_id": 11,
+  "last_link_id": 10,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [720, 60],
+      "size": [370, 90],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "UNETLoader", "cnr_id": "comfy-core" },
+      "widgets_values": ["krea2_turbo_bf16.safetensors", "default"]
+    },
+    {
+      "id": 2,
+      "type": "LoraLoaderModelOnly",
+      "pos": [720, 247],
+      "size": [370, 90],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        { "name": "model", "type": "MODEL", "link": 1 }
+      ],
+      "outputs": [
+        { "name": "MODEL", "type": "MODEL", "links": [2], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "LoraLoaderModelOnly", "cnr_id": "comfy-core" },
+      "widgets_values": ["krea2_turbo_3step_rank_64_lora_comfyui.safetensors", 1.0]
+    },
+    {
+      "id": 3,
+      "type": "CLIPLoader",
+      "pos": [720, 433],
+      "size": [370, 114],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "CLIP", "type": "CLIP", "links": [3], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "CLIPLoader", "cnr_id": "comfy-core" },
+      "widgets_values": ["qwen3vl_4b_fp8_scaled.safetensors", "krea2", "default"]
+    },
+    {
+      "id": 8,
+      "type": "VAELoader",
+      "pos": [720, 644],
+      "size": [370, 66],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "VAE", "type": "VAE", "links": [9], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "VAELoader", "cnr_id": "comfy-core" },
+      "widgets_values": ["qwen_image_vae.safetensors"]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [1130, 60],
+      "size": [430, 400],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        { "name": "clip", "type": "CLIP", "link": 3 }
+      ],
+      "outputs": [
+        { "name": "CONDITIONING", "type": "CONDITIONING", "links": [4, 5], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "CLIPTextEncode", "cnr_id": "comfy-core" },
+      "widgets_values": ["A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, thick black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A tall, lean boy, taller than his age, long neck, sharp angular features, high cheekbones, narrow chin, thick straight eyebrows, wide shy eyes, short black hair cut unevenly at home with a small cowlick at the crown. Portrait, head and shoulders, plain white round-neck T-shirt, a shy hopeful expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour"]
+    },
+    {
+      "id": 5,
+      "type": "ConditioningZeroOut",
+      "pos": [1130, 530],
+      "size": [430, 30],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        { "name": "conditioning", "type": "CONDITIONING", "link": 5 }
+      ],
+      "outputs": [
+        { "name": "CONDITIONING", "type": "CONDITIONING", "links": [6], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "ConditioningZeroOut", "cnr_id": "comfy-core" },
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "EmptyLatentImage",
+      "pos": [1130, 630],
+      "size": [430, 114],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        { "name": "LATENT", "type": "LATENT", "links": [7], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "EmptyLatentImage", "cnr_id": "comfy-core" },
+      "widgets_values": [896, 1152, 1]
+    },
+    {
+      "id": 7,
+      "type": "KSampler",
+      "pos": [1600, 60],
+      "size": [330, 314],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        { "name": "model", "type": "MODEL", "link": 2 },
+        { "name": "positive", "type": "CONDITIONING", "link": 4 },
+        { "name": "negative", "type": "CONDITIONING", "link": 6 },
+        { "name": "latent_image", "type": "LATENT", "link": 7 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [8], "slot_index": 0 },
+        { "name": "LATENT", "type": "LATENT", "links": null, "slot_index": 1 }
+      ],
+      "properties": { "Node name for S&R": "KSampler", "cnr_id": "comfy-core" },
+      "widgets_values": [0, "randomize", 3, 1, "euler", "simple", 1]
+    },
+    {
+      "id": 9,
+      "type": "VAEDecode",
+      "pos": [1970, 60],
+      "size": [210, 46],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        { "name": "samples", "type": "LATENT", "link": 8 },
+        { "name": "vae", "type": "VAE", "link": 9 }
+      ],
+      "outputs": [
+        { "name": "IMAGE", "type": "IMAGE", "links": [10], "slot_index": 0 }
+      ],
+      "properties": { "Node name for S&R": "VAEDecode", "cnr_id": "comfy-core" },
+      "widgets_values": []
+    },
+    {
+      "id": 10,
+      "type": "SaveImage",
+      "pos": [1970, 226],
+      "size": [370, 322],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        { "name": "images", "type": "IMAGE", "link": 10 }
+      ],
+      "outputs": [],
+      "properties": { "Node name for S&R": "SaveImage", "cnr_id": "comfy-core" },
+      "widgets_values": ["e1_k01_rayyan_anchor"]
+    },
+    {
+      "id": 11,
+      "type": "MarkdownNote",
+      "pos": [40, 60],
+      "size": [600, 760],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": { "text": "## MOVIE CHARACTER SHEET — Krea2 t2i (reusable for ANY movie)\n\n**One workflow for all character sheets.** Paste the prompt from `episode1\\07_ASSEMBLED_PROMPTS_ALL_CHARACTERS.md` into the text node (node 4). Pre-filled = K01 RAYYAN face anchor (the first in run order).\n\n**Per character = 2 shots (swap prompt + size + prefix):**\n- FACE ANCHOR: EmptyLatentImage = **896x1152** (3:4) · prefix `e1_<id>_<name>_anchor`\n- KIT SHEET: EmptyLatentImage = **896x1344** (2:3) · prefix `e1_<id>_<name>_kit`\n- TEAM SHOT 16:9: **1344x768** · prefix `e1_team_<name>`\n\n**Queue 2–3 seeds per shot** (seed = randomize). Pick the best anchor → lock the face with `movies\\krea2_identity_edit.json` (ref_boost 4.0) → then run the kit sheet.\n\n**RUN ORDER (07):** Rayyan → Alan → Govind → Bilal → Rishi → Rockstar (Hashim, Abhijith, Jerin + team shots) → adults (Grandpa, Akhil, Father, Shafiq's wife) → 1950 players → 1950 supporting → bench kids only if a shot needs them.\n\n**1950 sheets stay COLOR** — the B&W grade happens in post with `movies\\Zuanfilm_Retrolab.json` (B&W emulsion + grain + vignette). Colour survivors (teal/mustard tees, fire, watch) get re-added selectively in post.\n\n**Contract:** 3 steps · cfg 1.0 · euler/simple · denoise 1.0 · turbo LoRA @ 1.0 · fp8 CLIP (krea2) · qwen VAE. All models already local — no downloads.", "cnr_id": "comfy-core" },
+      "widgets_values": ["## MOVIE CHARACTER SHEET — Krea2 t2i (reusable for ANY movie)\n\n**One workflow for all character sheets.** Paste the prompt from `episode1\\07_ASSEMBLED_PROMPTS_ALL_CHARACTERS.md` into the text node (node 4). Pre-filled = K01 RAYYAN face anchor (the first in run order).\n\n**Per character = 2 shots (swap prompt + size + prefix):**\n- FACE ANCHOR: EmptyLatentImage = **896x1152** (3:4) · prefix `e1_<id>_<name>_anchor`\n- KIT SHEET: EmptyLatentImage = **896x1344** (2:3) · prefix `e1_<id>_<name>_kit`\n- TEAM SHOT 16:9: **1344x768** · prefix `e1_team_<name>`\n\n**Queue 2–3 seeds per shot** (seed = randomize). Pick the best anchor → lock the face with `movies\\krea2_identity_edit.json` (ref_boost 4.0) → then run the kit sheet.\n\n**RUN ORDER (07):** Rayyan → Alan → Govind → Bilal → Rishi → Rockstar (Hashim, Abhijith, Jerin + team shots) → adults (Grandpa, Akhil, Father, Shafiq's wife) → 1950 players → 1950 supporting → bench kids only if a shot needs them.\n\n**1950 sheets stay COLOR** — the B&W grade happens in post with `movies\\Zuanfilm_Retrolab.json` (B&W emulsion + grain + vignette). Colour survivors (teal/mustard tees, fire, watch) get re-added selectively in post.\n\n**Contract:** 3 steps · cfg 1.0 · euler/simple · denoise 1.0 · turbo LoRA @ 1.0 · fp8 CLIP (krea2) · qwen VAE. All models already local — no downloads."],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "MODEL"],
+    [2, 2, 0, 7, 0, "MODEL"],
+    [3, 3, 0, 4, 0, "CLIP"],
+    [4, 4, 0, 7, 1, "CONDITIONING"],
+    [5, 4, 0, 5, 0, "CONDITIONING"],
+    [6, 5, 0, 7, 2, "CONDITIONING"],
+    [7, 6, 0, 7, 3, "LATENT"],
+    [8, 7, 0, 9, 0, "LATENT"],
+    [9, 8, 0, 9, 1, "VAE"],
+    [10, 9, 0, 10, 0, "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7,
+      "offset": [0, 0]
+    }
+  },
+  "version": 0.4
+}
