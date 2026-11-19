@@ -55,6 +55,12 @@ word).
 **Format (user):** punchline FIRST — "pradhaana prashnam" (the main issue) as the
 cold open in one line → then explain the issue/idea. Topics: issue, society,
 politics, ideas.
+**THE FORMULA (user, D257):** a **simple solution** to a problem people might
+consider — **that is not that easy in practice**. The punchline IS the gap:
+`[problem people think about] + [assumed simple solution] + [why practice makes
+it hard]`. Domains: **corruption, study, culture, etc.** — evergreen problems,
+news is OPTIONAL seasoning (the hot layer from D256 adds the "people are already
+talking" spice when it fits).
 **Language: MALAYALAM (final, D254).** **Tone (user, D254):** interesting Kerala
 news + social issues + **simple yet effective humor**. **First script = user
 structures it, then we pick it up** (compose/narrate/cut — OPEN_ITEMS 2.2).

@@ -1961,6 +1961,12 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D257 — pradhana prashnam FORMULA (user 2026-11-19: "pradhaana prashnam should be a simple solution for a problem people might consider but its not that easy in practical — corruption related, study related, culture related etc")
+
+- **THE FORMULA:** `[problem people think about] + [assumed SIMPLE solution] + [why it is NOT that easy in practice]`. The punchline is the gap itself — "the simple answer everyone believes vs what actually happens."
+- **Domains:** corruption · study · culture · etc. (open list). **Evergreen problems** — news is OPTIONAL seasoning from the hot/niche layers (D256), not the topic itself.
+- **First script:** author structures it (D254) — agent supplies candidate problems per domain; author picks (D232) and writes; we compose/narrate/cut.
+
 ## D256 — Pradhana TOPIC LAYERS: hot + niche, X hot-tier, FB/IG reality (user 2026-11-19: "i dont want the bigger headlines, i want some hot topics, and niche ones, from kerala news … we should have scrapper, from facebook, instagram or twiotter, lets get these niche stories, which can be made into cinema and short form contents")
 
 - **Three layers for pradhana topic-picking:** top-line (existing homepages) · **NICHE/LOCAL** (kaumudi `/news/` + `/kerala/` section pages — probed 2026-11-19: real 200 content; Manorama/News18 SECTION urls serve the same soft-404 shell as homepages — no depth there) · **HOT** (`rag/fetch_kerala_x.py` — X SEARCH tier: `x.com/search?q=Kerala|കേരളം|Kochi OR Thrissur OR Kozhikode&f=top`, same cookie injection as `x_browser_fetch.py`).

@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-19 (13:15) PRADHANA FORMULA DEFINED (D257)**
+
+- User: pradhana prashnam = **simple solution to a problem people might consider, that's NOT easy in practice** — domains: corruption / study / culture etc. Evergreen problems; news = optional seasoning (hot layer D256).
+- Agent proposed 3 candidate problems (one per domain) — **author picks + structures the first script** (D232, D254) → we compose/narrate/cut.
+- Recorded: CHANNELS_PLAN.md (formula block) · DECISIONS D257 · OPEN_ITEMS 2.2.
+
 **2026-11-19 (13:20) PRADHANA 3-LAYER FEED LIVE + LATENT winreg BUG FIXED (D256)**
 
 - User: "not big headlines — HOT topics + NICHE ones, from kerala news, scraper from facebook/instagram/twitter … niche stories which can be made into cinema and short form contents."
