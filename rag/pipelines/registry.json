@@ -16,10 +16,10 @@
       "channel": "pradhana_prashnam",
       "store_dir": "rag/pipelines/pradhana_kerala/store",
       "digest_dir": "rag/pipelines/pradhana_kerala/digests",
-      "sources": ["manorama_ml", "news18_ml", "kaumudi_ml"],
+      "sources": ["manorama_ml", "news18_ml", "kaumudi_ml", "kaumudi_ml_news", "kaumudi_ml_kerala", "x_kerala_hot"],
       "fetcher": "fetch_kerala.py",
       "run_daily": true,
-      "notes": "Kerala/Malayalam-specific news (D254). ISOLATED store — never mixed with the general store. Digest = what topic-picking reads."
+      "notes": "Kerala/Malayalam-specific news (D254) — THREE LAYERS (D256, user: 'not big headlines — hot topics + niche stories'): top-line (manorama/news18/kaumudi homepages) · NICHE/LOCAL (kaumudi /news/ + /kerala/ section pages — cinema-worthy local stories) · HOT (x_kerala_hot = X search 'Kerala'/'കേരളം'/'Kochi OR Thrissur OR Kozhikode' top posts — what Keralites are arguing; cookie tier, expires 2026-11-27). ISOLATED store — never mixed with the general store. Digest = what topic-picking reads. FB/IG: anonymous = login-walled; only via user session cookies (2-min DevTools copy, same pattern as X) — OPEN_ITEMS 2.4."
     },
     {
       "name": "football",

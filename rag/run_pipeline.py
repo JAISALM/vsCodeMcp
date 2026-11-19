@@ -54,14 +54,32 @@ def run_pipeline(name, date=None):
     sd = _resolve(p["store_dir"])
     os.makedirs(os.path.join(sd, date), exist_ok=True)
 
+    import re
     results = {}
     if p["name"] == "pradhana_kerala":
+        import subprocess
         import fetch_kerala
+        # X/Twitter HOT layer (D256): cookie-injected browser head on
+        # x.com/search — the "talk", not the headlines. playwright is ONLY
+        # in the system Python310 (NOT in rag\.venv — verified 2026-11-19),
+        # so this tier runs as a subprocess under it.
+        PY310 = r"C:\Program Files\Python310\python.exe"
         for src in p["sources"]:
             try:
-                n = fetch_kerala.fetch_source(src, sd, date)
-                results[src] = (True, n, None)
-                print(f"[{p['name']}] {src}: {n} headlines")
+                if src == "x_kerala_hot":
+                    r = subprocess.run([PY310, os.path.join(ROOT, "fetch_kerala_x.py"), date],
+                                       capture_output=True, text=True, timeout=900,
+                                       encoding="utf-8", errors="replace")
+                    out = (r.stdout or "").strip().splitlines()
+                    tail = out[-1] if out else ""
+                    m = re.search(r"x_kerala_hot: (\d+) posts", tail)
+                    n = int(m.group(1)) if m else 0
+                    results[src] = (n > 0, n, None if n > 0 else (tail or (r.stderr or "")[-200:]))
+                else:
+                    n = fetch_kerala.fetch_source(src, sd, date)
+                    results[src] = (True, n, None)
+                print(f"[{p['name']}] {src}: {results[src][1]} items"
+                      + (f" ({results[src][2]})" if results[src][2] else ""))
             except Exception as e:
                 results[src] = (False, 0, str(e)[:200])
                 print(f"[{p['name']}] {src} FAILED: {str(e)[:200]}")

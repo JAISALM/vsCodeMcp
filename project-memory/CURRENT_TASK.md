@@ -1,5 +1,12 @@
 # Current Task
 
+**2026-11-19 (13:20) PRADHANA 3-LAYER FEED LIVE + LATENT winreg BUG FIXED (D256)**
+
+- User: "not big headlines — HOT topics + NICHE ones, from kerala news, scraper from facebook/instagram/twitter … niche stories which can be made into cinema and short form contents."
+- **Built + verified live:** ① top-line (manorama/news18/kaumudi) ② NICHE/LOCAL (kaumudi `/news/` + `/kerala/` sections) ③ **X HOT tier** (`fetch_kerala_x.py` — x.com/search, cookie tier) = **27 posts** ("Kerala CM has a linkedin profile" viral, "no pork in Kerala student meet?", Irinavu Theyyam local culture).
+- **Latent bug fixed (D256):** `x_browser_fetch._user_env` called `winreg.CloseHandle` (no such attribute → `CloseKey`) — AttributeError swallowed → registry fallback silently dead for every name. AGENTS.md updated.
+- FB/IG: anonymous = login-walled; X carries the talk layer. FB/IG tier = same 2-min cookie copy if the author wants (OPEN_ITEMS 2.4). X cookies expire **2026-11-27**.
+
 **2026-11-19 (13:00) PER-PIPELINE RAGs LIVE (D255) + HOW-WE-ANIMATE DOC**
 
 - `rag/pipelines/registry.json` + `run_pipeline.py` — shared code, ISOLATED stores (user: "separate RAGs for separate pipelines … think like an engineer").

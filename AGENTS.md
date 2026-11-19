@@ -325,8 +325,15 @@ skipped". Fall through to the BROWSER HEAD.**
   started BEFORE the cookies were set (2026-11-05) never inherit them, which
   silently degraded those runs to anonymous (login-walled) timelines. Verified
   2026-11-17: with both process env vars CLEARED, the fallback still injected
-  the session cookies and returned full tweet text. `fetch_news.py`'s
-  `fetch_x` also propagates the registry cookies into the child's env.
+  the session cookies and returned full tweet text. **LATENT BUG FIXED
+  2026-11-19 (D256):** the fallback called `winreg.CloseHandle` — no such
+  attribute (it is `winreg.CloseKey`); the AttributeError was swallowed by the
+  bare `except`, so the registry fallback silently returned `""` for EVERY
+  name (the X hot-tier reported "cookies not set" while both cookies were
+  verifiably in HKCU\Environment). Stayed latent because long-lived processes
+  carried X_CT0 in PROCESS env, so the registry path rarely had to fire.
+  `fetch_news.py`'s `fetch_x` also propagates the registry cookies into the
+  child's env.
 - Civitai: author resolution = browser head (one session for all unresolved).
 
 **Rule of thumb for any future "this source is walled" conclusion:** prove it

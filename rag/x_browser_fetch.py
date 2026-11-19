@@ -48,7 +48,9 @@ def _user_env(name):
         try:
             k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment")
             val, _t = winreg.QueryValueEx(k, name)
-            winreg.CloseHandle(k)
+            winreg.CloseKey(k)  # 2026-11-19 fix: was CloseHandle (no such
+            # winreg attribute -> AttributeError swallowed by except -> the
+            # whole registry fallback silently returned "" for every name)
             return val or ""
         except Exception:
             return ""

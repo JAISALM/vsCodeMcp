@@ -24,6 +24,7 @@ Tone: interesting Kerala news + social issues + simple-yet-effective humor.
 | 2.1 | ~~Kerala/Malayalam daily news source~~ **BUILT + LIVE (2026-11-19, D255)**: `rag/fetch_kerala.py` (manorama/news18/keralakaumudi, 51 headlines verified) → `rag/pipelines/pradhana_kerala/` — wired into the daily job | agent | **done 11-19** |
 | 2.2 | First script — **you structure it, then we pick it up** (compose/narrate/cut) | author → agent | open (you) |
 | 2.3 | Platform name spelling: `pradhaana_prashnam` exactly? | author | open (you) |
+| 2.4 | FB/IG session cookies for a FB/IG hot-tier (same 2-min DevTools copy as X: their `session`/auth cookies) — X hot-tier already live (D256, cookies expire **2026-11-27** — re-copy then) | author | open (you, optional — X carries the "talk" layer until then) |
 
 ## Channel 3 — Football Talkies (EN — final, D254)
 

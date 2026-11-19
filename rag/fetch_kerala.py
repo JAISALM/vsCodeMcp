@@ -30,9 +30,17 @@ UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 DSH-RAG/1.0"
 MAX_HEADLINES = 20
 
 SOURCES = {
+    # top-line
     "manorama_ml": "https://www.manoramaonline.com/malayalam/",
     "news18_ml": "https://malayalam.news18.com/",
+    # NICHE / LOCAL layer (D256 — user: "not big headlines, hot + niche stories"):
+    # Keralakaumudi section pages (probed 2026-11-19: real 200 content,
+    # different sizes = different pages). Manorama/News18 SECTION urls serve
+    # the same soft-404 shell as their homepages (identical byte sizes) —
+    # no section depth there.
     "kaumudi_ml": "https://www.keralakaumudi.com/",
+    "kaumudi_ml_news": "https://www.keralakaumudi.com/news/",
+    "kaumudi_ml_kerala": "https://www.keralakaumudi.com/kerala/",
 }
 
 ML_RE = re.compile(r"[\u0d00-\u0d7f]")  # Malayalam script range
