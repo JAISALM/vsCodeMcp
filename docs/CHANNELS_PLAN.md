@@ -4,7 +4,7 @@
 
 | # | Channel | Purpose (user) | Language | Cadence | Pipeline |
 |---|---|---|---|---|---|
-| 1 | **learnhadithAndQuranDaily** (handle spelling TBD — "Dialy"? ) | "for becoming better muslim" | **EN + ML** (separate pages) | Daily from **2026-11-25** | Islamic line-art (Ubu-style) + recitation/narration |
+| 1 | **learnhadithAndQuranDaily** (handle = **Daily** — user-confirmed 2026-11-19: "daily only, dialy is different meaning") | "for becoming better muslim" | **EN + ML** (separate pages) | Daily from **2026-11-25** | Islamic explainers (Ubu-style, D250) + narration |
 | 2 | **pradhaana_prashnam** ("main issue") | revenue | ML | weekly/daily (news-driven) | punchline-first issue explainers, news-scraper automated |
 | 3 | **Football Talkies** | revenue | EN (ML later?) | per major match | tactical-lite animation + XG/shot data |
 | 4 | **Jaisal Cut** | "where as artist i perform" | — | — | user's own art (Krea2/ComfyUI character lane already exists) |
@@ -46,8 +46,9 @@ only (header + text stack + clean background) — its recitation audio is OUT.
 - Compose: Template B engine (1080×1920 @60, v8, 7 palettes), 40 s + 2×20 s
   cuts (D241).
 **Platforms:** Instagram + YouTube + Facebook + X, EN page + ML page = **8 accounts**,
-fresh Gmail (USER action — agent cannot create the account). Handle spelling to
-confirm: `learnhadithAndQuranDialy` vs `…Daily`.
+fresh Gmail (USER action — agent cannot create the account). **Handle =
+`learnhadithAndQuranDaily`** (user-confirmed 2026-11-19 — "dialy" is a different
+word).
 
 ## Channel 2 — pradhaana_prashnam
 
@@ -90,6 +91,29 @@ explainers well) → 40–60 s short.
 User's own art channel — no pipeline needed from the agent beyond the existing
 Krea2/ComfyUI character work (D137 char1/char2, face refs, identity-edit v1.2).
 
+## ANIMATION STRATEGY — two layers, NOT "ComfyUI only" (2026-11-19, user asked "hwo we are going to animate? using comfyui only right?")
+
+**Layer 1 — the workhorse: Template B + procedural 2D (PIL, no GPU, seconds per
+video). This is what every daily/weekly video is made of.**
+- **Channel 1:** text cards + line-art (existing Ubu system) — done.
+- **Channel 2 (pradhana):** punchline-first text cards + a visual metaphor per
+  issue (Template B line-art or user graphics). Same engine, new palette
+  treatment. Fast enough for daily.
+- **Channel 3 (football):** **data-driven tactics board, auto-drawn in PIL** —
+  pitch (green rect + lines + boxes), player dots, movement arrows, shot
+  markers + XG callouts — generated FROM the understat/fbref JSON. This IS the
+  "Football Made Simple" aesthetic: clean flat 2D diagrams, NOT cinematic.
+  No GPU, no user per-beat art — the board is code from data.
+- Narration on both = Voice Studio / clone (D239); SFX synthesized (D041).
+
+**Layer 2 — the spice: ComfyUI (GPU, user queues — D192). HERO SHOTS ONLY.**
+- Krea2 ref → MiniMax H3 R2V (the film pipeline) for 1–2 cinematic beats per
+  video max: a player-story moment (Güler close-up), a goal moment, an issue's
+  hero visual when a text card can't carry it.
+- Why not ComfyUI-only: minutes per shot + shared GPU (D192 queue discipline) +
+  daily content doesn't need cinema. ComfyUI is the accent, Template B +
+  data-2D is the meal.
+
 ## Shared standards (all channels)
 
 - 1080×1920 @60 · Template B v8 engine · 7 palettes rotate by weekday (D244)
@@ -102,7 +126,7 @@ Krea2/ComfyUI character work (D137 char1/char2, face refs, identity-edit v1.2).
 
 ## Open questions (user)
 
-1. Handle spelling: `learnhadithAndQuranDialy` or `learnhadithAndQuranDaily`?
+1. ~~Handle spelling~~ **RESOLVED (2026-11-19): `learnhadithAndQuranDaily`** ("dialy is different meaning").
 2. Channel 2 name on platforms: `pradhaana_prashnam` exactly?
 3. Football language: EN first?
 4. First daily content (25th): Ubu in C (ready) — then what? (Takwir-style verse

@@ -46,5 +46,5 @@ python utilities\build_daily.py <YYYY-MM-DD> --spec data\daily\<YYYY-MM-DD>\spec
 2. Instagram: full 40 s
 3. (FB + X copies once the 8-account set exists — pending author's Gmail + handle spelling)
 
-**Open items:** handle spelling (`…Dialy` → `…Daily`?) · author's Gmail (8 accounts) ·
+**Open items:** ~~handle spelling~~ **RESOLVED: `learnhadithAndQuranDaily`** (author, 2026-11-19: "daily only, dialy is different meaning") · author's Gmail (8 accounts) ·
 Arabic calligraphy font (text-only cards until it lands — no Arabic script rendered yet)

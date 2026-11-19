@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-19 (12:25) HANDLE FINAL + ANIMATION STRATEGY (D253)**
+
+- **Handle = `@learnhadithAndQuranDaily`** (author: "daily only, dialy is different meaning"). Template/calendar/docs updated.
+- **Two-layer animation strategy** recorded in docs/CHANNELS_PLAN.md: Layer 1 = Template B + procedural 2D (PIL, no GPU — football tactics boards drawn from understat/fbref data); Layer 2 = ComfyUI hero shots only (user queues, D192). NOT ComfyUI-only.
+- Open items list now: author's Gmail (8 accounts) · Arabic font · football first match + EN/ML · eng-degree inputs · day-2 topic.
+
 **2026-11-19 (11:55) SCHEDULE SET — Thu+Fri = pipeline build, Sat onwards = prep (D252)**
 
 - **Thu 11-19 + Fri 11-20: content-pipeline build ONLY** (author: "build the pipeline for ourself", no Java in mind).

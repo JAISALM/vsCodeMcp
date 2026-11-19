@@ -1961,6 +1961,13 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D253 — Handle = `learnhadithAndQuranDaily` + two-layer animation strategy (user 2026-11-19: "daily only, dialy is different meaning right" · "whats the plan for the football and pradhnaa_prshnam videos? hwo we are going to animate? using comfyui only right?")
+
+- **Channel-1 handle FINAL: `@learnhadithAndQuranDaily`** ("dialy" = a different word). Template + calendar updated.
+- **Animation = TWO LAYERS, not ComfyUI-only** (docs/CHANNELS_PLAN.md "ANIMATION STRATEGY"):
+  - **Layer 1 (workhorse, no GPU):** Template B + procedural 2D — pradhana = punchline text cards + visual metaphor; football = **data-driven tactics board drawn in PIL from understat/fbref JSON** (pitch + dots + arrows + XG callouts = the "Football Made Simple" flat-2D aesthetic).
+  - **Layer 2 (spice, user queues — D192):** ComfyUI Krea2 → MiniMax H3 R2V for 1–2 HERO shots per video max (player-story/goal moments). Minutes per shot + shared GPU → accent, not default.
+
 ## D252 — SCHEDULE: Thu 19 + Fri 20 = pipeline build (NO Java), Sat 21 onwards = all job prep + NeetCode 1/day MIN (user 2026-11-19 11:55: "i will start neetcode on this weekend … untill then i want to build the pipeline for ourself … today and tomorrow, there is not java in my mind, from saturday onwards i will do 1 problem a day minimum")
 
 - **Thu 11-19 + Fri 11-20:** content-pipeline build only ("build the pipeline for ourself") — no Java, no prep.
