@@ -4,6 +4,15 @@ Newest experiments first.
 
 ---
 
+## 2026-11-19 — TAKWIR REF ANALYSIS (Channel-1 style standard, D246) — SUCCESS
+
+- `data\quran_ref\ref_original.mp4` (720×1280, 103.8 s) = Surah At-Takwir recitation: per-verse beat (~3.4 s) = cinematic background + Arabic calligraphy + EN translation + header; audio = recitation only (D041 ✓).
+- Whisper large-v3 on recitation = **clean Arabic (prob 1.00)** — verse boundaries at ~2.5-4 s; full verse→time map in `transcript.txt` (30 beats).
+- Beat economy observed: ref uses real backgrounds for v1-18, then text-only dark frames for v19-30 → only ~18 background assets needed per surah video.
+- Font probe: Malayalam `Nirmala.ttc` renders ✓ (PIL + libraqm). **No Arabic font on machine** (checked C:\Windows\Fonts — no Amiri/Sakkal/Maajam) → `fonts\amiri\` from user or download after 11-24 (D228).
+
+---
+
 ## 2026-11-18 — 7-palette registry + C for Ubu (D244) — grid verified, re-render running
 
 - Engine gained `PALETTES` (7 named) + `apply_palette()` + `render/preview(palette=)` + `spec["palette"]`. Grid `data\refanim\palette_week.png` (A green · B indigo · C amber · D slate · E teal · F clay · G plum) — all 7 verified distinct after fixing the fallback bug.

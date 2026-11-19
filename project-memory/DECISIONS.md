@@ -1961,6 +1961,33 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D249 — Channel handles + platforms + daily start 2026-11-25 (user 2026-11-19: "lets create handle, learnhadithAndQuranDialy one english and one malayalam page in both instagram and youtube, and facebook, twitter. new gmail account has to be created for those. and lets start uploading content daily starting from Nov 25th")
+
+- Handle spelling **TO CONFIRM** (user wrote `learnhadithAndQuranDialy` — typo for `…Daily`?): one **English** + one **Malayalam** page on **Instagram, YouTube, Facebook, X** = 8 accounts.
+- **Gmail account creation = USER action** (agent cannot create accounts / 2FA). Then agent preps bios/profile copy per platform (EN + ML).
+- Daily uploads from **2026-11-25** (in sha Allah) — 7 palettes rotate by weekday (D244). First daily = Ubu (palette C, ready).
+
+## D248 — Football Talkies scope + data sources (user 2026-11-19)
+
+- Shorts-first (longer later). Per major match (Madrid/Barça/CL): best player + fan-fave + goal scorer, simple tactical terms + engagement narratives ("why Arda güler is the modern no 10", "why mbappe is not the traditional 9", "why pedri is essential", "yamal is the new messi generation"). Reference: YouTube "Football Made Simple".
+- **Data exists publicly (user asked "do we have any such data?"):** understat.com (top-5 leagues XG + shot locations, JSON, ~3 seasons) + fbref.com (XG, shot maps) + FotMob/Who-style player stats. **Full tracking heatmaps = paid (Opta) — skip** ("we dont need to go in depth"). Scraping = web (OK; D228 blocks only model downloads until 11-24).
+- Pipeline: match pick → XG/shot fetch → 3-player script → Template B pitch-diagram animation → 40–60 s.
+
+## D247 — pradhaana_prashnam channel: punchline-first issue explainers (user 2026-11-19: "it will be named as pradhaana_prashnam - means main_issue. this will be the punchline in every video, we will explain one idea, and we will explain the issue after saying this punchline")
+
+- Topics: issue / society / political / idea. Format: **punchline cold open** (the main issue in one line) → explain the issue/idea. ML narration (Voice Studio D239 or clone).
+- **Automation: our RAG daily news** (`rag\daily.py`) = the issue source (weekly-top or daily pick). Script approval = USER (opinion content — their voice).
+- "This is another idea" — separate from the Islamic channel.
+
+## D246 — 4-CHANNEL VISION (user 2026-11-19, "im thinking out loud, thinking big")
+
+- **Channel 1 learnhadithAndQuranDaily** (EN + ML pages) — Islamic learning, daily, "for becoming better muslim" — Ubu is its first piece; Takwir-style verse video = style reference (`data\quran_ref\`, beat map saved).
+- **Channel 2 pradhaana_prashnam** — issue/society/politics/idea, punchline-first (D247).
+- **Channel 3 Football Talkies** — tactical-lite animation per major match (D248).
+- **Channel 4 Jaisal Cut** — "where as artist i perform" (user's own art; existing Krea2/ComfyUI lane).
+- "other two are for revenue, first one is for becoming better muslim."
+- Master plan: **`docs\CHANNELS_PLAN.md`** (pipelines, data sources, open questions).
+
 ## D245 — Capability boundary for the eng-degree (ANIMATION lane): we compose, the user supplies assets (2026-11-18, user: "are we good to make similar kind of items from our end?")
 
 - **We CAN (fully in-house, proven on Ubu):** the whole pipeline — timeline spec, text animation (locked fonts), narration placement (OmniVoice lines), ambience + action SFX (D041 no music), 40 s distribution cuts, all in our line-art style.

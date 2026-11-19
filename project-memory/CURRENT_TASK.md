@@ -1,5 +1,13 @@
 # Current Task
 
+**2026-11-19 (07:00) 4-CHANNEL VISION (user, overnight: "thinking out loud, thinking big" + attached Takwir ref video)**
+
+- **Vision (D246-D249):** ① learnhadithAndQuranDaily (EN+ML, 8 accounts, daily from 25th) ② pradhaana_prashnam (punchline-first issues, RAG-news automated) ③ Football Talkies (tactical-lite, XG/shot data) ④ Jaisal Cut (user's art). Master plan: **`docs\CHANNELS_PLAN.md`**.
+- **Takwir ref analyzed (Channel-1 style standard):** `data\quran_ref\` — per-verse = background + Arabic calligraphy + translation + recitation; 18 backgrounds + 12 text cards (proven economy); ar 1.00 transcript ✓.
+- **Font status:** Malayalam = `Nirmala.ttc` ✓ · Arabic = **font missing** (no Amiri/Sakkal locally; D228 until 11-24) · libraqm verify on first Arabic render.
+- **AWAITING USER:** ① handle spelling (`Dialy`→`Daily`?) ② Gmail account (their action) ③ football first match + EN/ML ④ first daily after Ubu (25th) ⑤ Takvir recitation WAV + 18 verse backgrounds (or MiniMax after 11-24) ⑥ eng-degree script + assets (D243/D245).
+- Ready when inputs land: pradhaana_prashnam spec (RAG pick → punchline script → Voice Studio → Template B), football data fetchers (understat/fbref).
+
 **2026-11-18 (19:05) PALETTE C LOCKED + 7 DAILY PALETTES (user: "palette i will pick c … keep 7 patterns for every day, daily upload from 25th insha allah")**
 
 - **C (Lantern Amber) = Ubu's palette** — 40 s deliverable set RE-RENDERING in C now (background; same timeline + SFX).
