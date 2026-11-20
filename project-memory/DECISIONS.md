@@ -1961,6 +1961,16 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D260 — LONG-SHOT RESOLUTION STRATEGY: generate 1MP 16:9 → SeedVR2 7B Sharp 4K; dedicated team workflow (2026-11-20, user: "the resolution part are we good with this? or should we increase… i feel if we are going to long shots, we have only few — the one in ship and the 5 aside team… lets not use the same workflow for 5 aside team picture")
+
+- **Verdict:** character sheets (4:5 / 2:3, one face ≈ 600–800 px at 1 MP) are FINE as-is. The two 16:9 LONG SHOTS (5-a-side team + ship) at 1 MP give each face only ≈ 130 px — NOT enough for festival-caliber (D230).
+- **Why not just raise the latent:** Krea2 is a 1 MP-native model — generating a bigger latent past its native size doesn't add detail, it softens. Correct path = generate at native 1 MP, then a dedicated diffusion upscaler.
+- **Decision:** dedicated workflow **`krea2_t2i_team5.json`** (NOT the char1 rig): same Krea2 stack (krea2_turbo UNET + qwen3vl CLIP + qwen_image VAE + Krea2-realism-V2 @ 1.0 + famegrid color @ 0.7), node 82 = **1344×768 (16:9 1 MP)**, KSampler turbo, FameGridColorFinish → **SeedVR2VideoUpscaler** (node 10) → SaveImage prefix `ep1_team5_`. SeedVR2 = `seedvr2_ema_7b_sharp_fp16.safetensors` (15.35 GB) + `ema_vae_fp16.safetensors` (0.47 GB) — both confirmed on disk in `models\SEEDVR2\` (pack `seedvr2_videoupscaler` installed; example workflows ship with the pack).
+- **Upscaler settings (from pack's own 4K example, adapted):** resolution = **2160** (shortest edge → 1344×768 in = **3840×2160 4K** out) · max_resolution 0 · batch_size 1 (4n+1) · color_correction lab · blocks_to_swap 36 + offload cpu (fits the 32 GB 5090) · attention sdpa · TorchCompileSettings node shipped in mode=4 (compile off — single images; pack note: compile is for long videos). Fallback if VRAM-tight: resolution 1440 (→ 2560×1440) or blocks_to_swap 48.
+- **Prompt:** placeholder = current `07` W-TEAM line (paste file `utilities\ep1_team5_prompt_paste.txt`). **USER to supply a 5-a-side tournament reference (internet or film)** — the current prompt treats it as muddy paddy-field football; the new prompt will be built around the reference (turf/pitch, bibs, goals, tournament atmosphere) and the paste file replaced. Ship shot reuses the SAME workflow with a different prompt.
+- **Validated:** `validate_workflow` = valid:true 0/0 (server :8188, converted_from_ui, 16/16 exec nodes). Open in a FRESH tab (D192 — user queues).
+- **Status:** active — long-shot standard for Episode 1 (team shot + ship shot); character sheets stay on the 1 MP batch rig.
+
 ## D259 — Zuanfilm RetroLab pack installed: grade stage complete (author 2026-11-19: "yeha lets clone it")
 
 - **Pack:** `zuanfilm/Zuanfilm-Retrolab` (GitHub, Apache-2.0, v1.0.0, repo created 2026-11-17 — 2 days old at install). Cloned to `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes\Zuanfilm-Retrolab\` (the minimal-network exception the author approved; the pack itself downloads nothing at runtime).
