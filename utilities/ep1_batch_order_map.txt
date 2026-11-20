@@ -1,4 +1,50 @@
-ANCHOR batch order (line = output order in PixaromaPromptEach):
+ANCHOR batch order (44 lines = 41 chars + Bose + 2 team shots, in file order; line = output order):
+  1. K01 RAYYAN
+  2. K02 ALAN
+  3. K03 GOVIND
+  4. K04 BILAL
+  5. K05 RISHI
+  6. K06 SINAN
+  7. K07 VIHAAN
+  8. K08 KAILAS
+  9. K09 KIRAN
+ 10. K10 SREEHARI
+ 11. K11 MUHSIN
+ 12. K12 TOBIN
+ 13. R01 HASHIM
+ 14. R02 ABHIJITH
+ 15. R03 JERIN
+ 16. R-TEAM Rockstar team shot (16:9)
+ 17. W-TEAM Winning Eleven team shot (16:9)
+ 18. A01 GRANDPA ABU BAKAR
+ 19. A02 AKHIL
+ 20. A03 THE FATHER
+ 21. A04 SHAFIQ'S WIFE
+ 22. X01 THE REFEREE
+ 23. X02 THE TICKET BOY
+ 24. P01 ANTAPPAN (GK)
+ 25. P02 CHANDU (RB)
+ 26. P03 MOOSA (CB)
+ 27. P04 "ILLA" PAKRU (CB)
+ 28. P05 VELAYUDHAN (LB)
+ 29. P06 THOMAS (DM)
+ 30. P07 GOPALAN (CM)
+ 31. P08 BAPPU (AM)
+ 32. P09 KUTTAPPAN (RW)
+ 33. P10 KARUNAN (LW)
+ 34. P11 RAGHAVAN "KALLAN" (ST)
+ 35. S01 SULAIMAN
+ 36. S03 MUALLIM MOIDEEN
+ 37. S04 VAIDYAR MADHAVAN
+ 38. S05 MADRAS POSTMASTER
+ 39. S06 FEDERATION MESSENGER
+ 40. S08 THE CONSTABLE
+ 41. S09 THE TAILOR
+ 42. S02 LITTLE ABU BAKAR
+ 43. S13 THE FISHWIFE
+ 44. Optional: BOSE SILHOUETTE (one-second shot, no face)
+
+KIT batch order (52 lines — each 1950 player has TWO rows: village costume then Brazil kit):
   1. K01 RAYYAN
   2. K02 ALAN
   3. K03 GOVIND
@@ -20,30 +66,38 @@ ANCHOR batch order (line = output order in PixaromaPromptEach):
  19. A04 SHAFIQ'S WIFE
  20. X01 THE REFEREE
  21. X02 THE TICKET BOY
- 22. P01 ANTAPPAN (GK)
- 23. P02 CHANDU (RB)
- 24. P03 MOOSA (CB)
- 25. P04 "ILLA" PAKRU (CB)
- 26. P05 VELAYUDHAN (LB)
- 27. P06 THOMAS (DM)
- 28. P07 GOPALAN (CM)
- 29. P08 BAPPU (AM)
- 30. P09 KUTTAPPAN (RW)
- 31. P10 KARUNAN (LW)
- 32. P11 RAGHAVAN "KALLAN" (ST)
- 33. S01 SULAIMAN
- 34. S03 MUALLIM MOIDEEN
- 35. S04 VAIDYAR MADHAVAN
- 36. S05 MADRAS POSTMASTER
- 37. S06 FEDERATION MESSENGER
- 38. S08 THE CONSTABLE
- 39. S09 THE TAILOR
- 40. S02 LITTLE ABU BAKAR
- 41. S13 THE FISHWIFE
- 42. Optional: BOSE SILHOUETTE (one-second shot, no face)
+ 22. P01 ANTAPPAN (GK) — block 2
+ 23. P01 ANTAPPAN (GK) — block 3
+ 24. P02 CHANDU (RB) — block 2
+ 25. P02 CHANDU (RB) — block 3
+ 26. P03 MOOSA (CB) — block 2
+ 27. P03 MOOSA (CB) — block 3
+ 28. P04 "ILLA" PAKRU (CB) — block 2
+ 29. P04 "ILLA" PAKRU (CB) — block 3
+ 30. P05 VELAYUDHAN (LB) — block 2
+ 31. P05 VELAYUDHAN (LB) — block 3
+ 32. P06 THOMAS (DM) — block 2
+ 33. P06 THOMAS (DM) — block 3
+ 34. P07 GOPALAN (CM) — block 2
+ 35. P07 GOPALAN (CM) — block 3
+ 36. P08 BAPPU (AM) — block 2
+ 37. P08 BAPPU (AM) — block 3
+ 38. P09 KUTTAPPAN (RW) — block 2
+ 39. P09 KUTTAPPAN (RW) — block 3
+ 40. P10 KARUNAN (LW) — block 2
+ 41. P10 KARUNAN (LW) — block 3
+ 42. P11 RAGHAVAN "KALLAN" (ST) — block 2
+ 43. P11 RAGHAVAN "KALLAN" (ST) — block 3
+ 44. S01 SULAIMAN
+ 45. S03 MUALLIM MOIDEEN
+ 46. S04 VAIDYAR MADHAVAN
+ 47. S05 MADRAS POSTMASTER
+ 48. S06 FEDERATION MESSENGER
+ 49. S08 THE CONSTABLE
+ 50. S09 THE TAILOR
+ 51. S02 LITTLE ABU BAKAR
+ 52. S13 THE FISHWIFE
 
-KIT batch order = same sequence.
-
-SPECIAL (16:9 team shots / silhouette — run separately at 16:9):
-__SPECIAL__ R-TEAM Rockstar team shot (16:9): Five boys aged 12 to 13 in Kerala lined up on a muddy paddy-field pitch in match
-__SPECIAL__ W-TEAM Winning Eleven team shot (16:9): Five boys aged 11 to 12 in Kerala standing in a ragged line on a muddy paddy-fie
+SPECIAL (16:9 team shots — run separately at 16:9):
+R-TEAM Rockstar team shot (16:9)
+W-TEAM Winning Eleven team shot (16:9)
