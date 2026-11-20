@@ -32,18 +32,18 @@ ANCHOR batch order (line = output order in PixaromaPromptEach):
  31. P10 KARUNAN (LW)
  32. P11 RAGHAVAN "KALLAN" (ST)
  33. S01 SULAIMAN
- 34. S02 LITTLE ABU BAKAR
- 35. S03 MUALLIM MOIDEEN
- 36. S04 VAIDYAR MADHAVAN
- 37. S05 MADRAS POSTMASTER
- 38. S06 FEDERATION MESSENGER
- 39. S08 THE CONSTABLE (friendly one)
- 40. S09 THE TAILOR
+ 34. S03 MUALLIM MOIDEEN
+ 35. S04 VAIDYAR MADHAVAN
+ 36. S05 MADRAS POSTMASTER
+ 37. S06 FEDERATION MESSENGER
+ 38. S08 THE CONSTABLE
+ 39. S09 THE TAILOR
+ 40. S02 LITTLE ABU BAKAR
  41. S13 THE FISHWIFE
  42. Optional: BOSE SILHOUETTE (one-second shot, no face)
 
 KIT batch order = same sequence.
 
 SPECIAL (16:9 team shots / silhouette — run separately at 16:9):
-__SPECIAL__ R-TEAM Team shot (16:9): Five boys aged 12 to 13 in Kerala lined up on a muddy paddy-field pitch in match
+__SPECIAL__ R-TEAM Rockstar team shot (16:9): Five boys aged 12 to 13 in Kerala lined up on a muddy paddy-field pitch in match
 __SPECIAL__ W-TEAM Winning Eleven team shot (16:9): Five boys aged 11 to 12 in Kerala standing in a ragged line on a muddy paddy-fie
