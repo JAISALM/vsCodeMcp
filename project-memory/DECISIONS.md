@@ -1961,6 +1961,16 @@
 - **NEXT:** user confirms audio buckets by ear → pick line #1 to batch (da'wah B = cheapest: zero ComfyUI) → topic list → LLM-drafted scripts → USER verifies all citations (content-integrity spec) → first Mode A TTS/dub pass → Mode B ControlFoley ambient on one rendered scene (user queues) → first end-to-end video.
 - **Status:** active.
 
+## D261 — TEAM IMAGE = FACE-LOCKED VIA H3 MULTI-REF (not t2i): 5 anchors as reference images → H3 image chain → SeedVR2 4K (2026-11-21, user: "now prepare the workflow for team image. how we are aiming that?")
+
+- **Problem (the 2026-11-21 pause, D260):** a standalone t2i team shot has no reference to the individually generated kid anchors → 5 random faces → drift.
+- **Solution:** MiniMax H3's **multi-reference image generation** — `MiniMaxH3ImageConditioning` carries **5 reference image slots** (`images.image_0`…`image_4`) + `positive` CONDITIONING + `LATENT` outputs (no negative input — the H3 LCM chain has none). Feed the 5 freshly-generated starter anchors as refs; the prompt maps "reference image N = Nth boy". Faces stay locked to the approved anchors.
+- **Ground truth:** the user's own proven workflows `movies\image\h3image_pose_ref_simple.json` / `h3image_world_shot.json` carry the exact chain: `UNETLoader(minimax_h3_image_pruned_int8_convrot) + CLIPLoader(qwen3vl_32b_minimax_h3_nvfp4_awq, type "minimax") + VAELoader(minimax_h3_image_vae_fp16) + LoadImage → MiniMaxH3ImageConditioning[prompt,width,height] → SamplerLCM[1.1,0.9,0] + BasicScheduler[simple,6,1] + RandomNoise + BasicGuider + SamplerCustomAdvanced → VAEDecode → SaveImageAdvanced`. All models on disk (19.5/14.6/1.1 GB).
+- **Workflow:** `movies\image\h3image_team5_ref.json` (21 nodes, validated 0/0, converted 20/21 = the same N−1 quirk the proven source file shows) — 5× LoadImage (`input\team5_ref_{1..5}_{rayyan,alan,govind,bilal,rishi}.png` = copies of clean-run anchors `krea2_char1_face_00052–00056_.png`, the 5 starters per D258) → conditioning 1344×768 16:9 → 6-step LCM → `ep1_team5_` → SeedVR2 7B Sharp 4K (D260 standard, resolution 2160) → `ep1_team5_4k_`. Paste file `utilities\ep1_team5_h3_prompt_paste.txt`.
+- **Prompt scene = PLACEHOLDER** (W-TEAM muddy paddy-field) — rebuild around the user's incoming 5-a-side TOURNAMENT reference when it arrives (same node, new prompt text).
+- **Run (user, D192):** fresh tab, single queue = 1 MP team shot + automatic 4K pass. VRAM-heavy (19.5 GB UNET + 15.35 GB SeedVR2 DiT + 14.6 GB CLIP) — close other GPU hogs; OOM fallback = drop SeedVR2 resolution to 1440.
+- **Status:** active — supersedes the D260 PAUSED state for the team shot; `krea2_t2i_team5.json` stays built as the no-reference fallback.
+
 ## D260 — LONG-SHOT RESOLUTION STRATEGY: generate 1MP 16:9 → SeedVR2 7B Sharp 4K; dedicated team workflow (2026-11-20, user: "the resolution part are we good with this? or should we increase… i feel if we are going to long shots, we have only few — the one in ship and the 5 aside team… lets not use the same workflow for 5 aside team picture")
 
 - **Verdict:** character sheets (4:5 / 2:3, one face ≈ 600–800 px at 1 MP) are FINE as-is. The two 16:9 LONG SHOTS (5-a-side team + ship) at 1 MP give each face only ≈ 130 px — NOT enough for festival-caliber (D230).
