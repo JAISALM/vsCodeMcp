@@ -73,8 +73,18 @@ this lens before acting:
 - **Consistency:** the "1 month on, 6 months off" pattern is the disease; the
   one-line daily check-in is the cure (the floor).
 
-## CURRENT STATE — updated 2026-11-19 (13:40)
+## CURRENT STATE — updated 2026-11-22 (14:30)
 
+- **SELF-REPORTED SLIP (author, 14:22):** "today 11/22/2026 and we passed our deadline
+  to create base structure of the movie project, we havent started leetcode either."
+  Two floors missed: ① film base structure (deadline 11-22 — episode1 asset/structure
+  pipeline) ② NeetCode 1-problem/day floor (was due from Sat 11-21). Protocol applies:
+  measure the streak not the outcome, shrink to half size, keep the floor.
+  **Re-baselined (proposed, author to confirm):** film base structure = ONE 2-h block
+  11-23 (not a multi-day scope — the structure = episode1 dirs + anchor/kit/shot
+  inventory + the asset-naming convention, ~2 h of organizing what already exists).
+  LeetCode = TODAY 30 min, ONE problem (two-pointer), then the 1/day floor resumes
+  11-23. Content work (D258) still starts 11-24 unchanged.
 - **Content timeline (author, 13:35, D258):** pipelines READY (built 11-19) ·
   **work starts Tue 11-24** (the online day — S.4) · **first upload Wed 11-25
   or later** (Channel 1 launches) · **all 3 channels (1 daily · 2 pradhana · 3
