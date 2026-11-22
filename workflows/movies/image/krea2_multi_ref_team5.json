@@ -1,12 +1,12 @@
 {
-  "id": "a5f0a548-22d7-4e46-aeba-0bb76fb9e4e6",
+  "id": "2ce8a99e-a50f-4b96-95e0-abf42e5fc219",
   "version": 0.4,
   "revision": 0,
   "config": {},
   "extra": {},
   "version_2": 0.4,
   "last_node_id": 16,
-  "last_link_id": 17,
+  "last_link_id": 13,
   "nodes": [
     {
       "id": 1,
@@ -61,8 +61,7 @@
           "type": "CLIP",
           "links": [
             2,
-            3,
-            12
+            8
           ]
         }
       ],
@@ -95,7 +94,7 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            16
+            12
           ]
         }
       ],
@@ -146,6 +145,64 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
+            3
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "team5_idref_1_rayyan.png",
+        "image"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "LoadImage",
+      "pos": [
+        80,
+        560
+      ],
+      "size": [
+        320,
+        360
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
             4
           ]
         },
@@ -160,16 +217,16 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_ref_1_rayyan.png",
+        "team5_idref_2_alan.png",
         "image"
       ]
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "LoadImage",
       "pos": [
         80,
-        460
+        920
       ],
       "size": [
         320,
@@ -218,16 +275,16 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_ref_2_alan.png",
+        "team5_idref_3_govind.png",
         "image"
       ]
     },
     {
-      "id": 6,
+      "id": 7,
       "type": "LoadImage",
       "pos": [
         80,
-        720
+        1280
       ],
       "size": [
         320,
@@ -276,123 +333,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_ref_3_govind.png",
-        "image"
-      ]
-    },
-    {
-      "id": 7,
-      "type": "LoadImage",
-      "pos": [
-        80,
-        980
-      ],
-      "size": [
-        320,
-        360
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [
-        {
-          "localized_name": "image",
-          "name": "image",
-          "type": "COMBO",
-          "widget": {
-            "name": "image"
-          },
-          "link": null
-        },
-        {
-          "localized_name": "choose file to upload",
-          "name": "upload",
-          "type": "IMAGEUPLOAD",
-          "widget": {
-            "name": "upload"
-          },
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "localized_name": "IMAGE",
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            7
-          ]
-        },
-        {
-          "localized_name": "MASK",
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "team5_ref_4_bilal.png",
-        "image"
-      ]
-    },
-    {
-      "id": 8,
-      "type": "LoadImage",
-      "pos": [
-        80,
-        1240
-      ],
-      "size": [
-        320,
-        360
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [
-        {
-          "localized_name": "image",
-          "name": "image",
-          "type": "COMBO",
-          "widget": {
-            "name": "image"
-          },
-          "link": null
-        },
-        {
-          "localized_name": "choose file to upload",
-          "name": "upload",
-          "type": "IMAGEUPLOAD",
-          "widget": {
-            "name": "upload"
-          },
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "localized_name": "IMAGE",
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            8
-          ]
-        },
-        {
-          "localized_name": "MASK",
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "team5_ref_5_rishi.png",
+        "team5_idref_4_bilal.png",
         "image"
       ]
     },
@@ -401,11 +342,11 @@
       "type": "Krea2MultiReferenceEncode",
       "pos": [
         520,
-        200
+        600
       ],
       "size": [
-        360,
-        220
+        380,
+        260
       ],
       "flags": {},
       "order": 0,
@@ -419,22 +360,62 @@
         {
           "name": "image1",
           "type": "IMAGE",
-          "link": 4
+          "link": 3
         },
         {
           "name": "image2",
           "type": "IMAGE",
-          "link": 5
+          "link": 4
         },
         {
           "name": "image3",
           "type": "IMAGE",
-          "link": 6
+          "link": 5
         },
         {
           "name": "image4",
           "type": "IMAGE",
-          "link": 7
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Krea2MultiReferenceEncode"
+      },
+      "widgets_values": [
+        "EXACTLY five boys aged 11 to 12 from Kerala standing in a ragged line on a muddy paddy-field pitch, no sixth person, no extra people, five people only. The first four boys' faces and identities EXACTLY like their reference images in order - reference image 1 = first boy, reference image 2 = second boy, reference image 3 = third boy, reference image 4 = fourth boy - all four faces clearly different, matching their references, four different heights. The fifth boy stands at the far right of the line, the tallest, with a round face, thick dark eyebrows and short cropped hair, wearing a faded orange football jersey. They wear mismatched faded football jerseys: red, green goalkeeper's with gloves, yellow, white, orange - none of the kits matching, no black, some in rubber sandals. A hand-painted bedsheet banner with a round open-hand emblem hanging from two bamboo poles behind them. Wet green paddy and coconut palms behind, low golden late-afternoon light, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+        "Photorealistic documentary still of a Kerala village football team. True-to-life skin texture, natural light, no smoothing, no stylization, no cartoon, no illustration.",
+        1.0,
+        "before prompt"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "CLIPTextEncode",
+      "pos": [
+        520,
+        950
+      ],
+      "size": [
+        380,
+        200
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 8
         }
       ],
       "outputs": [
@@ -447,157 +428,18 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "Krea2MultiReferenceEncode"
-      },
-      "widgets_values": [
-        "EXACTLY five boys aged 11 to 12 from Kerala standing in a ragged line on a muddy paddy-field pitch, no sixth person, no extra people, five people only. The first four boys' faces and identities EXACTLY like their reference images in order - reference image 1 = first boy, reference image 2 = second boy, reference image 3 = third boy, reference image 4 = fourth boy - all four faces clearly different, matching their references, four different heights. They wear mismatched faded football jerseys: red, green goalkeeper's with gloves, yellow, white - none of the kits matching, no black, some in rubber sandals. A hand-painted bedsheet banner with a round open-hand emblem hanging from two bamboo poles behind them. Wet green paddy and coconut palms behind, low golden late-afternoon light, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
-        "Photorealistic documentary still of a Kerala village football team. True-to-life skin texture, natural light, no smoothing, no stylization, no cartoon, no illustration.",
-        1.0,
-        "before prompt"
-      ]
-    },
-    {
-      "id": 10,
-      "type": "Krea2MultiReferenceEncode",
-      "pos": [
-        520,
-        700
-      ],
-      "size": [
-        360,
-        220
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 3
-        },
-        {
-          "name": "image1",
-          "type": "IMAGE",
-          "link": 8
-        },
-        {
-          "name": "image2",
-          "type": "IMAGE",
-          "link": null
-        },
-        {
-          "name": "image3",
-          "type": "IMAGE",
-          "link": null
-        },
-        {
-          "name": "image4",
-          "type": "IMAGE",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            10
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Krea2MultiReferenceEncode"
-      },
-      "widgets_values": [
-        "The fifth boy stands at the far right end of the line - his face and identity EXACTLY like reference image 1, the tallest boy, wearing a faded orange football jersey with blue shorts. He stands on the same muddy paddy-field pitch, same hand-painted banner behind, same low golden late-afternoon light, same documentary style, same natural skin texture. He is part of the same line of five boys.",
-        "Photorealistic documentary still of a Kerala village football team. True-to-life skin texture, natural light, no smoothing, no stylization, no cartoon, no illustration.",
-        1.0,
-        "before prompt"
-      ]
-    },
-    {
-      "id": 11,
-      "type": "ConditioningCombine",
-      "pos": [
-        960,
-        450
-      ],
-      "size": [
-        300,
-        100
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "conditioning_1",
-          "type": "CONDITIONING",
-          "link": 9
-        },
-        {
-          "name": "conditioning_2",
-          "type": "CONDITIONING",
-          "link": 10
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            11
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ConditioningCombine"
-      }
-    },
-    {
-      "id": 12,
-      "type": "CLIPTextEncode",
-      "pos": [
-        520,
-        950
-      ],
-      "size": [
-        360,
-        200
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 12
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            13
-          ]
-        }
-      ],
-      "properties": {
         "Node name for S&R": "CLIPTextEncode"
       },
       "widgets_values": [
-        "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, stick figure, duplicate person, sixth person, extra people, more than five people, deformed hands, extra fingers, missing fingers, distorted face, bad anatomy, bad hands, watermark, text, logo, blurry, low resolution, cartoon, illustration"
+        "plastic, waxy skin, airbrushed, smooth skin, AI look, rendered, CGI, 3d render, stick figure, duplicate person, sixth person, extra people, more than five people, ghost, double exposure, overlapping figures, transparent figure, deformed hands, extra fingers, missing fingers, distorted face, bad anatomy, bad hands, watermark, text, logo, blurry, low resolution, cartoon, illustration"
       ]
     },
     {
       "id": 13,
       "type": "EmptySD3LatentImage",
       "pos": [
-        960,
-        600
+        980,
+        950
       ],
       "size": [
         300,
@@ -612,7 +454,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            14
+            10
           ]
         }
       ],
@@ -629,8 +471,8 @@
       "id": 14,
       "type": "KSampler",
       "pos": [
-        1340,
-        300
+        1360,
+        600
       ],
       "size": [
         320,
@@ -648,17 +490,17 @@
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 11
+          "link": 7
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 13
+          "link": 9
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 14
+          "link": 10
         }
       ],
       "outputs": [
@@ -666,7 +508,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            15
+            11
           ]
         }
       ],
@@ -687,8 +529,8 @@
       "id": 15,
       "type": "VAEDecode",
       "pos": [
-        1740,
-        300
+        1760,
+        600
       ],
       "size": [
         240,
@@ -701,12 +543,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 15
+          "link": 11
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 16
+          "link": 12
         }
       ],
       "outputs": [
@@ -714,7 +556,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            17
+            13
           ]
         }
       ],
@@ -726,8 +568,8 @@
       "id": 16,
       "type": "SaveImage",
       "pos": [
-        2060,
-        300
+        2080,
+        600
       ],
       "size": [
         320,
@@ -740,7 +582,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 17
+          "link": 13
         }
       ],
       "outputs": [
@@ -777,14 +619,6 @@
     ],
     [
       3,
-      2,
-      0,
-      10,
-      0,
-      "CLIP"
-    ],
-    [
-      4,
       4,
       0,
       9,
@@ -792,7 +626,7 @@
       "IMAGE"
     ],
     [
-      5,
+      4,
       5,
       0,
       9,
@@ -800,7 +634,7 @@
       "IMAGE"
     ],
     [
-      6,
+      5,
       6,
       0,
       9,
@@ -808,7 +642,7 @@
       "IMAGE"
     ],
     [
-      7,
+      6,
       7,
       0,
       9,
@@ -816,39 +650,15 @@
       "IMAGE"
     ],
     [
-      8,
-      8,
-      0,
-      10,
-      1,
-      "IMAGE"
-    ],
-    [
+      7,
       9,
-      9,
-      0,
-      11,
-      0,
-      "CONDITIONING"
-    ],
-    [
-      10,
-      10,
-      0,
-      11,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      11,
-      11,
       0,
       14,
       1,
       "CONDITIONING"
     ],
     [
-      12,
+      8,
       2,
       0,
       12,
@@ -856,7 +666,7 @@
       "CLIP"
     ],
     [
-      13,
+      9,
       12,
       0,
       14,
@@ -864,7 +674,7 @@
       "CONDITIONING"
     ],
     [
-      14,
+      10,
       13,
       0,
       14,
@@ -872,7 +682,7 @@
       "LATENT"
     ],
     [
-      15,
+      11,
       14,
       0,
       15,
@@ -880,7 +690,7 @@
       "LATENT"
     ],
     [
-      16,
+      12,
       3,
       0,
       15,
@@ -888,7 +698,7 @@
       "VAE"
     ],
     [
-      17,
+      13,
       15,
       0,
       16,
