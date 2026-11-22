@@ -1,5 +1,5 @@
 {
-  "id": "2ce8a99e-a50f-4b96-95e0-abf42e5fc219",
+  "id": "f9835a09-be15-4fbb-a297-71354be758dd",
   "version": 0.4,
   "revision": 0,
   "config": {},
@@ -159,7 +159,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_idref_1_rayyan.png",
+        "team5_kit_1_rayyan.png",
         "image"
       ]
     },
@@ -217,7 +217,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_idref_2_alan.png",
+        "team5_kit_2_alan.png",
         "image"
       ]
     },
@@ -275,7 +275,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_idref_3_govind.png",
+        "team5_kit_3_govind.png",
         "image"
       ]
     },
@@ -333,7 +333,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "team5_idref_4_bilal.png",
+        "team5_kit_4_bilal.png",
         "image"
       ]
     },
@@ -391,7 +391,7 @@
         "Node name for S&R": "Krea2MultiReferenceEncode"
       },
       "widgets_values": [
-        "EXACTLY five boys aged 11 to 12 from Kerala standing in a ragged line on a muddy paddy-field pitch, no sixth person, no extra people, five people only. The first four boys' faces and identities EXACTLY like their reference images in order - reference image 1 = first boy, reference image 2 = second boy, reference image 3 = third boy, reference image 4 = fourth boy - all four faces clearly different, matching their references, four different heights. The fifth boy stands at the far right of the line, the tallest, with a round face, thick dark eyebrows and short cropped hair, wearing a faded orange football jersey. They wear mismatched faded football jerseys: red, green goalkeeper's with gloves, yellow, white, orange - none of the kits matching, no black, some in rubber sandals. A hand-painted bedsheet banner with a round open-hand emblem hanging from two bamboo poles behind them. Wet green paddy and coconut palms behind, low golden late-afternoon light, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+        "EXACTLY five boys aged 11 to 12 from Kerala standing in a ragged line on a muddy paddy-field pitch, no sixth person, no extra people, five people only. The first four boys are EXACTLY the boys in the reference images - same faces, same jerseys, same shorts, same sandals, nothing changed. The fifth boy stands at the far right, the tallest, with a round face and short cropped hair, wearing a faded orange football jersey and blue shorts. A hand-painted bedsheet banner with a round open-hand emblem hangs from two bamboo poles behind them. Wet green paddy and coconut palms behind, low golden late-afternoon light, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
         "Photorealistic documentary still of a Kerala village football team. True-to-life skin texture, natural light, no smoothing, no stylization, no cartoon, no illustration.",
         1.0,
         "before prompt"
