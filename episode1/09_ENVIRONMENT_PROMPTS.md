@@ -24,29 +24,29 @@ graded B&W in post — do NOT generate black-and-white 1950 plates.
 ## BATCH 1 — 2026 PRIORITY (shoot order, scenes 1→6)
 
 ### 1. L01 — Jaisal's bedroom (S1, 1A — dawn, blue→pale gold)
-`An empty Kerala village bedroom at dawn, blue light shifting to pale gold through one small window, a thin cot bed with rumpled cotton sheets, one plastic chair, a stopped wall clock, muddy football socks draped over the window bar, a football half-hidden under the cot, bare laterite walls, NO wall photographs, low wide frame, {ENV STYLE TAIL}`
+`An empty Kerala village bedroom at dawn, blue light shifting to pale gold through one small window, a thin cot bed with rumpled cotton sheets, one plastic chair, a stopped wall clock, muddy football socks draped over the window bar, a football half-hidden under the cot, bare laterite walls, NO wall photographs, low wide frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 2. L02 — Kitchen (S1 — dawn)
-`An empty small Kerala village kitchen at dawn, a steel kettle steaming on a wood stove, fresh mint in a glass, steel drinking glasses on a counter, a small fridge with mint on top, dim blue-gold dawn light, thin steam in the air, tight close frame, {ENV STYLE TAIL}`
+`An empty small Kerala village kitchen at dawn, a steel kettle steaming on a wood stove, fresh mint in a glass, steel drinking glasses on a counter, a small fridge with mint on top, dim blue-gold dawn light, thin steam in the air, tight close frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 3. L03 — Grandpa's room (S1, 4, 25 — dawn / late afternoon / night)
-`An empty old Kerala bedroom, a wooden chair facing a window, a small wooden table with a glass of tea and a small pocket watch, a ceiling fan, plain walls, still and quiet, early dawn light through the window, wide still frame, {ENV STYLE TAIL}`
+`An empty old Kerala bedroom, a wooden chair facing a window, a small wooden table with a glass of tea and a small pocket watch, a ceiling fan, plain walls, still and quiet, early dawn light through the window, wide still frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 *(re-render variants later: late-afternoon light, night with a lamp — same set)*
 
 ### 4. L04 — Backyard / parambu (S1→2, 4 — morning)
-`A cluttered Kerala village backyard in the morning, coconut palms, wet dark red earth, a freshly dug shallow grave pit with a shovel beside it, a washbasin, chicken-feed scraps, dogs far in the background, wide cluttered frame, soft morning light, {ENV STYLE TAIL}`
+`A cluttered Kerala village backyard in the morning, coconut palms, wet dark red earth, a freshly dug shallow grave pit with a shovel beside it, a washbasin, chicken-feed scraps, dogs far in the background, wide cluttered frame, soft morning light, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 5. L05 — Paddy training ground (S2, 2A, 3 — late morning, hard sun)
-`A muddy paddy-field football pitch under hard late-morning sun, a dead bandicoot in the centre circle as a no-go marker, six stones in a short drill line, farmers at the far edges, wet green paddy around the mud, coconut palms, high-contrast hard sun with short shadows, wide frame, {ENV STYLE TAIL}`
+`A muddy paddy-field football pitch under hard late-morning sun, a dead bandicoot in the centre circle as a no-go marker, six stones in a short drill line, farmers at the far edges, wet green paddy around the mud, coconut palms, high-contrast hard sun with short shadows, wide frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 6. L06 — Field edge / road (S3 — near noon)
-`The edge of a green paddy field near noon, a dented white Ambassador car parked on the dirt road at the field edge, hard noon glare, long dust, wide frame, {ENV STYLE TAIL}`
+`The edge of a green paddy field near noon, a dented white Ambassador car parked on the dirt road at the field edge, hard noon glare, long dust, wide frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 7. L07 — Shafiq's house + pathway (S5, 5A — afternoon)
-`The front of a Kerala village house in the afternoon, a clothes line with drying cotton clothes, a narrow dirt path, one coconut palm, a dropped coconut on the path, crows in the branches, warm slanting afternoon light, medium-wide frame, {ENV STYLE TAIL}`
+`The front of a Kerala village house in the afternoon, a clothes line with drying cotton clothes, a narrow dirt path, one coconut palm, a dropped coconut on the path, crows in the branches, warm slanting afternoon light, medium-wide frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 ### 8. L08 — The match ground, 5-a-side (S6, 23 — 6 PM, low golden light) ⭐ TEAM BACKDROP
-`A small 5-a-side football ground at 6 PM in low golden light, plank-and-bamboo gallery seating on one side, a boundary rope, a hand-painted bedsheet banner on two bamboo poles with a round open-hand emblem, an empty ticket-booth post, a portable speaker on a stool, a wooden scoreboard with sliding numbers, wet green paddy and coconut palms behind, the pitch mud glossy in the last light, wide frame, {ENV STYLE TAIL}`
+`A small 5-a-side football ground at 6 PM in low golden light, plank-and-bamboo gallery seating on one side, a boundary rope, a hand-painted bedsheet banner on two bamboo poles with a round open-hand emblem, an empty ticket-booth post, a portable speaker on a stool, a wooden scoreboard with sliding numbers, wet green paddy and coconut palms behind, the pitch mud glossy in the last light, wide frame, empty scene, no people, no humans, no faces, no hands, shot like a documentary still, natural textures with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour`
 
 **THIS ONE IS THE TEAM-SHOT BACKDROP** — the team lineup (kit refs or composite) gets placed on this plate.
 
