@@ -2160,6 +2160,14 @@
 - **Rule:** every future video's duration is derived from its beat count/content; a re-score of the 40 s cut confirms or tunes the rhythm.
 - **Status:** active.
 
+## D243 — comfy-ts = typed validation layer for new graphs (2026-11-23, eval completed)
+- **Decision:** adopt **comfy-ts v2.21.0** (rvion) as the project's typed validation + code-build layer for **new** machine-built graphs: codegen a typed SDK from the live install (`ComfyTS.create()` → `host.connect()` → `.comfy-ts/hosts/local/sdk.d.ts`), build graphs as typed TS (`host.defineWorkflow({ id, vars, build: (b) => b.UNETLoader({...}) ... })`), inspect via `build({ dry: true })` (D192-safe — nothing queued) + `toApiJson()`.
+- **Why:** the typed SDK types model names as **literal unions of the machine's actual files** — a typo'd model name = **compile error with "Did you mean"** (proven 2026-11-23: `krea2_turbo_fp8_SACLED` rejected with the correct suggestion). Wrong wiring = type error, not a silent wire-drop. The full env-cine Krea2 stack rebuilt as typed TS compiles under tsc strict and exports a value-correct API graph.
+- **Known v2.21.0 bugs (verified 2026-11-23):** (a) codegen escaping bug — a node description containing literal `*/` (ours: `fearnworksnodes.PixaromaText`) makes the generated `sdk.d.ts` unparseable; local 1-line escape fix in `session_tmp\patch_sdk.py` (re-apply after every codegen) — needs upstream fix. (b) `importApiJson` CRASHES on **UI-format** workflow files (`_convertPromptExtToPrompt: promptExt undefined` — crash persists with custom nodes removed, so it's the UI→API normalization path itself); **API-format round-trips fine** (12/12 re-import).
+- **Boundary:** NOT a replacement for the UI-format hand-paste pipeline — existing UI-format workflows (env-cine, kit, identity-edit, PromptEach rigs) CANNOT be imported (bug b), so they stay the source of truth for user-queued runs; comfy-ts is for NEW code-built graphs + compile-time validation of machine-built JSON.
+- **Scratch eval dir:** `session_tmp\comfy_ts_eval\` (gitignored; `eval_codegen.mjs`, `eval_build.mts`, `eval_negative.mts`, `patch_sdk.py`).
+- **Status:** active.
+
 
 
 
