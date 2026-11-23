@@ -1,5 +1,26 @@
 # Experiments
 
+## 2026-11-23 — Qwen model-landscape check (is 27B still best for the 5090?)
+- **Goal:** user asked whether `Qwen3.8-27B` is still the best for the RTX 5090, and whether "qwen 3.8 flash" / newer items exist.
+- **Method:** live HuggingFace API — `author=Qwen&sort=createdAt` + `search=qwen3.8` (all 2026-08-05 → 2026-11-23, i.e. current).
+- **Current running model:** `D:\models\qwen\Qwen3.8-27B-NVFP4-MTP-LOW.gguf` = dense 27.3B, Q8_0 ftype, 260K ctx, multimodal (text+image+video), 14.5 GB. Released 2026-08-05.
+- **New items found (all ~Aug 2026, none newer in the practical 20–40B dense class):**
+  - `Qwen/Qwen3.8-Flash-Next` (2026-08-24) — **experimental Qwen4 architecture**: 125B total / 6B active MoE + 51B n-gram-embedding + 4B MTP; hybrid Gated-DeltaNet + QSA sparse attention; vision-capable; 7.4k likes / 2.1M dl. **NOT a drop-in for our 5090/llama.cpp** — ~176B total needs heavy RAM offload; only ROCm/AMD quants exist (gfx1201, strix-halo, exlr); no NVFP4 GGUF for NVIDIA yet. vLLM/SGLang/Transformers story.
+  - `Qwen/Qwen3.8-2.4T-A95B` (2026-08-08) — 2.4T-param MoE flagship; not relevant to a single GPU.
+  - `Qwen/Qwen-Image-2.1` + `-Turbo` + `PE-T2I/I2I` — image-gen / prompt-rewrite (already in our stack).
+- **Conclusion:** 27B is still the best *practical* dense model for a single 5090 (fits with headroom, 260K ctx, multimodal, MTP). Flash-Next = genuinely new arch but not yet a usable llama.cpp GGUF for the 5090. **Decision: keep 27B as workhorse; do NOT chase Flash-Next now (priority = deliver the first project, don't get stuck).** Optional future: watch for a `Qwen3.8-Flash-Next` NVFP4 GGUF for NVIDIA; or A/B the non-LOW 27B for a quality bump.
+- **Next step:** none blocking — proceed to the world build (env batch + 5 kits).
+
+## 2026-11-23 — ChatterBox SRT Voice pack clone (diodiogod)
+
+- **Goal:** user: "lets just clone this one too — ComfyUI_ChatterBox_SRT_Voice (closed repo, no active dev)".
+- **Result:** clone at `custom_nodes\ComfyUI_ChatterBox_SRT_Voice` (v3.4.4). **ZERO pip installs needed** — all deps already present (transformers 5.9.0 vs pack's pin 4.46.3 = fine, bundled code imports clean; `resemble-perth` 1.0.1 + `cached_path` 1.8.10 + conformer + s3tokenizer 0.3.0 + librosa + soundfile already installed).
+- **Dry import test:** first run = `UnicodeEncodeError: 'charmap' codec can't encode '\u2705'` (pack prints `✅` at module import; cp1252 console = crash → pack would SILENTLY fail to load on every restart). With `PYTHONIOENCODING=utf-8` = clean import, 6 nodes, SRT support True, 9 character voices found.
+- **Permanent fix:** user-level env var `PYTHONIOENCODING=utf-8` (HKCU\Environment) — every future python process (incl. user's manual ComfyUI restarts) loads the pack. X cookie env vars verified intact.
+- **Landscape:** machine already has `ComfyUI_Fill-ChatterBox` (FL_ChatterboxTTS/TurboTTS/MultilingualTTS/DialogTTS) + `TTS-Audio-Suite` (43-class unified successor — its own load message flags the diodiodod clone as "OLD EXTENSION"). Clone KEPT (user's tab depends on `ChatterBoxSRTVoiceTTS`). One collision: `AudioAnalyzerNode`/`Options` registered by both clone and suite — suite wins (loads later alphabetically) → suite workflows safe.
+- **First-run note:** ChatterBox model downloads from HuggingFace (~1 GB) on first queue; F5-TTS nodes unavailable (optional, source install).
+- **Conclusion:** pack live and registered; no action needed until first SRT→voice run.
+
 Newest experiments first.
 
 ---
