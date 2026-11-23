@@ -85,6 +85,35 @@ def main():
             user_agent=UA,
             viewport={"width": 1366, "height": 900},
         )
+        # 2026-11-23: carry the logged-in session into the head (user directive:
+        # "session will work with our playwright browser"). Reddit's network-policy
+        # block page says "try logging in to get back to browsing" — the head was
+        # previously ANONYMOUS (challenge state only), so it gets the stricter
+        # anonymous block that a logged-in browser on the SAME IP does not.
+        # Cookie source: process env OR HKCU\Environment registry (D256 pattern,
+        # same as the X cookies — long-lived processes never inherit process env).
+        cookie = os.environ.get("REDDIT_SESSION_COOKIE", "")
+        if not cookie:
+            try:
+                import winreg
+                k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment")
+                cookie = winreg.QueryValueEx(k, "REDDIT_SESSION_COOKIE")[0]
+                winreg.CloseKey(k)
+            except Exception:
+                cookie = ""
+        if cookie:
+            added = 0
+            for dom in (".reddit.com", ".old.reddit.com", ".redditmedia.com"):
+                try:
+                    ctx.add_cookies([{"name": "reddit_session", "value": cookie,
+                                      "domain": dom, "path": "/"}])
+                    added += 1
+                except Exception as e:
+                    print(f"cookie add failed {dom}: {e}", file=sys.stderr)
+            print(f"session cookie injected into {added} domains", file=sys.stderr)
+        else:
+            print("WARNING: REDDIT_SESSION_COOKIE not found (env or registry) "
+                  "- head runs anonymous", file=sys.stderr)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(a.url, wait_until="domcontentloaded", timeout=60000)
 

@@ -277,6 +277,13 @@ skipped". Fall through to the BROWSER HEAD.**
    persistent profile `~\.dsh\fetch_creds\browser_profile` (challenge state
    persists). This is the tier that actually gets Reddit (D202) and renders X /
    Civitai / JS-gated pages a real browser can read.
+   **3b. Real-browser CDP (2026-11-23)** — `utilities\real_browser_fetch.py`
+    drives the user's REAL logged-in Brave via `--remote-debugging-port=9222`
+    (playwright `connect_over_cdp`) — the top tier for JS-gated / login-walled
+    pages when the automation head is IP-walled: zero cookies to copy, zero
+    automation fingerprint (this IS the "VS Code gets it easily" tier — the
+    user's genuine browser session does the work). Prereq: Brave restarted once
+    WITH the flag (a running instance ignores it).
 4. Session-cookie tier — when the wall is a LOGIN wall (not an IP wall), the
    one-time env cookie unlocks it exactly like a logged-in browser:
    - Reddit JSON → `REDDIT_SESSION_COOKIE` (already wired, tier 1).
@@ -318,6 +325,27 @@ skipped". Fall through to the BROWSER HEAD.**
   cooldown that persisted >40 min — do NOT probe `.json` endpoints in a loop;
   the depth tier is additive + best-effort and the list tier runs on its own
   schedule.
+  **2026-11-23 ESCALATION + TIER MAP (head now profile-independently walled):**
+  a multi-hour "network policy" block ("whoa there, pardner") appeared on
+  EVERY Reddit surface for the browser head — search pages, plain subreddit
+  list pages, headless AND headed, with AND without the session cookie.
+  Decisive test: a FRESH anonymous profile (zero cookies) gets the SAME block
+  → the wall is egress-IP-level for automation-flagged clients, NOT the
+  profile, NOT the cookie (cookie tier = for LOGIN walls only — NEVER ask the
+  user for cookies on an IP wall; user's standing complaint 2026-11-23: "it's
+  tiring to give cookies and session details often"). Same-day tier map
+  (measured): head (any profile, with/without session) = network-policy block
+  · engine (websearch MCP = the "VS Code" class) = only the solvable "Prove
+  your humanity" challenge tier · plain-HTTP old.reddit search = now a LOGIN
+  WALL (old.reddit redirects anonymous requests to the shreddit login page —
+  the 342KB "page" is a login shell, no results) · python urllib = 403
+  (fingerprint blocked; pwsh `Invoke-WebRequest` + Chrome UA gets the
+  unblocked login shell). **New top tier = `utilities\real_browser_fetch.py`**
+  (tier 3b above) — the user's real logged-in Brave via CDP. **PACING RULE
+  EXTENDED:** while the head is walled, do NOT probe Reddit from the head
+  (each probe may extend the flag) — route Reddit needs through the engine or
+  the CDP tier, and let the RAG's paced tiers auto-retry; the flag cools with
+  time (the 11-17 cooldown pattern).
 - X: tier 3 = `x_browser_fetch.py` (browser head; cookie-gated → full timeline).
   **USER-ENV FALLBACK (2026-11-17):** `x_browser_fetch.py` now reads
   `X_AUTH_TOKEN`/`X_CT0` from the process env **OR** the user-level registry
