@@ -2168,6 +2168,13 @@
 - **Scratch eval dir:** `session_tmp\comfy_ts_eval\` (gitignored; `eval_codegen.mjs`, `eval_build.mts`, `eval_negative.mts`, `patch_sdk.py`).
 - **Status:** active.
 
+## D262 — Author-conveyance model: rough words / screenshot → BLOCKOUT → visual correction → agent-written prompts; FaceFix = fallback stage (2026-11-23, user: "how i can explain the visual i have in my mind to you, it wil be via prompts only right… i need to learn cinematic language… for blender blockout i still need a good prompt right")
+- **Decision (conveyance):** the author NEVER writes the final "good prompt." The standing loop: author's **rough words** (the 5-question brief, or a screenshot + "like this but our village") → agent builds the **gray Blender blockout** (boxes + camera + light) → **thumbnail strip** → author **corrects visually** ("camera too low", "grave closer") → locked blockout → agent generates the H3 6-section R2V prompt + Krea2 ref set + measured-camera spec from it. **Correction beats description** — the blockout is the shared visual language. **Reference images are the strongest channel** (stronger than any prompt): Krea2/H3 consume them directly (identity-edit, R2V refs); for blockouts the agent builds to match.
+- **The 5-question shot brief:** who/what in frame · where (env card L01–L08) · what are they doing · how big/from where (wide/medium/close/ECU + low/eye/high/bird) · one feeling word. Optional 30-word vocabulary (shot sizes, heights, movements, light, lens feel) documented but NOT required. **Author's whole job = the 5 answers (or a screenshot) + env card + character + one pace word.**
+- **Decision (FaceFix):** `PixelAI_H3_FaceFix` = **FALLBACK stage only** — movie shots get the normal H3 pass first; the face fix (no re-render, audio kept) runs only when a shot's face is wrong (far-face melt, identity drift).
+- **Artifact:** `docs\SHOT_LANGUAGE_CHEATSHEET.md` (the loop + 5 questions + 30 words + FaceFix note) — the author keeps this next to him; agent-side, every shot brief arrives via this template.
+- **Status:** active.
+
 
 
 
