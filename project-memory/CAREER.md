@@ -73,8 +73,9 @@ this lens before acting:
 - **Consistency:** the "1 month on, 6 months off" pattern is the disease; the
   one-line daily check-in is the cure (the floor).
 
-## CURRENT STATE — updated 2026-11-22 (14:30)
+## CURRENT STATE — updated 2026-11-23 (12:00)
 
+- **GOAL RE-CONFIRMED + SEQUENCING MADE EXPLICIT (author, 11-23):** "i have to land a job by eid or ramzan 2027 … slow and steady. but before that i must upload atleast 50+ videos, complete 5 videos on jaisal cut". **The order is now: ① content deadline FIRST — 50+ total video uploads + 5 completed Jaisal-Cut videos → ② THEN Angular learning + interview-prep start "in upcoming days" → ③ job by Eid al-Fitr / Ramadan 2027** (Eid ≈ mid-March 2027, Ramadan starts ≈ 7 Feb — the Feb–March 2027 window; matches the existing "remote offer > 11 LPA by March 2027" target). Angular = the frontend track (confirmed again — his words: "i m going to learn angular"); he also notes a little TS exposure comes naturally from watching the agent's workflow-code (fine as a glimpse — NO TS study required for the workflows; see 11-23 answer: workflow understanding stays UI-level, TS comes WITH Angular later).
 - **SELF-REPORTED SLIP (author, 14:22):** "today 11/22/2026 and we passed our deadline
   to create base structure of the movie project, we havent started leetcode either."
   Two floors missed: ① film base structure (deadline 11-22 — episode1 asset/structure
