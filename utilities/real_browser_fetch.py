@@ -30,6 +30,7 @@ Run with:
 import os
 import sys
 import time
+import atexit
 import subprocess
 import argparse
 
@@ -104,6 +105,21 @@ def main():
         browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{PORT}")
         ctx = browser.contexts[0] if browser.contexts else browser.new_context()
         page = ctx.new_page()
+        # The fetch tab inherits the browser's default (light) color scheme —
+        # force dark to match the user's dark theme (no white flash, 2026-11-23).
+        try:
+            page.emulate_media(color_scheme="dark")
+        except Exception:
+            pass
+        # Robust close: even if this process is killed mid-run (e.g. a
+        # truncated output pipe), the atexit hook closes the fetch tab so no
+        # stray tabs are left in the user's real browser.
+        def _close_page():
+            try:
+                page.close()
+            except Exception:
+                pass
+        atexit.register(_close_page)
         try:
             page.goto(a.url, wait_until="domcontentloaded", timeout=60000)
             html = ""
@@ -149,7 +165,7 @@ def main():
             else:
                 print(html[:2000])
         finally:
-            page.close()
+            _close_page()
 
 
 if __name__ == "__main__":
