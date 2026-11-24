@@ -206,6 +206,37 @@ Event Control.json` example workflow** (EN+ES hints, lighter Pika LoRAs) +
   (11-21, Qwen Image 2.1 all-in-one: t2i / 16-ref edit / inpaint / detailing),
   NKD-Notes (11-17), NKD-Radial-Menu (11-20), Sigmas-Curve (10-30), LTXVideo (05-26).
 
+### 13. thezveroboy/ComfyUI-PanoramaZveroboy — ✅ INSTALLED (2026-11-24, user-shared Reddit link)
+- Source: r/comfyui "Location consistency" (t3_1y3gcqi, 80 up) — OP's node for series
+  location consistency: single ref = single angle; a 360° equirectangular panorama
+  = the whole environment but no viewpoint; the node crops it into flat perspective
+  shots.
+- Node `PanoramaRandomCropZveroboy` (verified live 11-24, object_info 5145 nodes,
+  ComfyUI restarted 14216→**18508**): inputs `panorama, output_width, output_height
+  (64-8192), min_fov/max_fov (10-120°), min_pitch/max_pitch (-90..90), seed` →
+  `IMAGE`. Backward mapping (per-pixel ray, pinhole `f = W/2·tan(FOV/2)`, random
+  yaw/pitch rotation matrices, `F.grid_sample` + modular wrap-around = no seam
+  artifacts, GPU tensor ops, batch-capable, seed-reproducible). Deps: torch+numpy
+  only (already present). MIT.
+- Movie use (world-building consistency layer): generate ONE equirectangular 2:1
+  panorama per location (Krea2 env rig @ 2048×1024) = the location's "env bible";
+  derive every plate/angle from it with controlled FOV/pitch/seed → geometrically
+  consistent shots (same mud/gallery/props, exact camera math). Top targets: L18
+  ship deck (6 shots S11/12/14/14A/15/20) · L15 arecanut X-spot (Sc 17/19/22 +
+  mast Sc 15) · L26 Maracanã + L08/L10 rhyme (one ground geometry, graded 2026/1950).
+  Seed-reproducible crops = re-derivable H3 R2V reference sets (geometric D021).
+  Caveat: the node CROPS — the panorama itself must be generated first
+  (equirectangular prompt, 2:1); existing `PanoramaSeamPrep` (seam repair) +
+  `MoGePanoramaInference` (image→geometry) already in other packs.
+- Comments of the Reddit post NOT fetched (all tiers walled 11-24: head IP-walled,
+  engine humanity-challenge, jina 403, redlib body-only→Anubis PoW) — the README
+  fully documents the node, so the decision stands without them.
+
+### Install log addendum (2026-11-24, second restart)
+- Cloned: ComfyUI-PanoramaZveroboy (depth 1, __init__.py + nodes.py, requirements
+  = torch/numpy only). ComfyUI restarted 14216→18508; `PanoramaRandomCropZveroboy`
+  verified in object_info (5145 nodes).
+
 ## Install log
 - 2026-10-05: cloned #2 (ComfyUI-H3-Project-Suite) + #9 (ComfyUI-NKD-VFX-Tools)
   into portable custom_nodes (git clone --depth 1). Both have __init__.py.
