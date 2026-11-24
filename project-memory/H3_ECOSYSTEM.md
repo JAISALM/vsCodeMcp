@@ -141,6 +141,71 @@ whenever a chaining/consistency/VFX issue comes up. All URLs verified 2026-10-05
   Gaussian splat rendering via Spark (MIT).
 - VERDICT: ⭐ keep in armoury. fSpy + Preview 3D are the camera/3D bridge.
 
+## 2026-11-24 — Nekodificador burst: Cupid3D + Event Control (user-directed installs)
+
+**His "action control" method (the thing we were waiting for):** tweets 11-12 ("mi propio
+método para controlar la acción dentro de un vídeo", inspired by the Adobe keynote) +
+11-13 status 2121219066618634306 ("El timing para los diálogos, también resuelto 🫡",
+26.7K views) = implemented as **NKD Event Curve** in `ComfyUI-NKD-Basic-Tools`
+(commits 11-12→11-15 burst, v1.26.1→v1.27.0: Event Curve node + docs + **`NKD H3
+Event Control.json` example workflow** (EN+ES hints, lighter Pika LoRAs) +
+`EventCurveWidget.vue` interactive editor + `nkd_event_curve.py`).
+
+### 10. Nekodificador/ComfyUI-NKD-Basic-Tools — ✅ INSTALLED (2026-11-24, depth 50)
+- **NKD Event Curve** (`NKDEventCurve` / `NKDEventCurveAudio`): "draw when things
+  happen in a MiniMax H3 video. Ask for a dog jumping, draw three peaks, get three
+  jumps." Guide types: **P** punch (bounces/steps/hits) · **F** flow (lights/wind/
+  water) · **M** motor (engines/acceleration) · **B** blast (explosions/thunder) ·
+  **U** uncanny (pulsing UFO/magic) · **W** words (dialogue timing — higher curve =
+  faster words; give it low `until` ~0.2 in MiniMax Guides so it only sets timing).
+  `shape` = custom draw or sine/square/triangle/sawtooth/pulses (`cycles`, `phase`) ·
+  `source` = copy timing from a song/sound/clip · `strength` · `preview` (moving
+  playhead). Wire `guide` into frame 0 of **NKD MiniMax Guides** (`NKDMiniMaxGuides`
+  or core "Add Guide for MiniMax H3"), match `length`/`fps`.
+- Also in the pack: NKDFaceRig (RGBA, crop factor 1.5) + FaceMask/FaceCrop/FaceStitch ·
+  MaskPainter (clone/heal) · MaskPicker · NKDLoader (presets w/ download links,
+  subgraph sharing) · Curves/Noise/FilmGrain/AlphaMatte/Frequency · AV Latent family ·
+  Temporal Crop/Stitch · MiniMax Guides page.
+- VERDICT: ⭐ the action/dialogue-timing layer for our movie shots (S10 five-shot set
+  = 5 curve sketches; S10/S11 dialogue = W guides). Example workflow:
+  `custom_nodes\ComfyUI-NKD-Basic-Tools\example_workflows\NKD H3 Event Control.json`
+  (note at top lists needed packs — check models before opening).
+
+### 11. Nekodificador/ComfyUI-Cupid3D — ✅ INSTALLED (2026-11-24)
+- One image in → **3D mesh + the camera that shot it** (CVPR'26 CUPID wrapper).
+  Node `Cupid3DReconstruct(image, mask?, seed, steps 25, cfg 5.0, crop_to_content,
+  place_on_ground)` → `mesh` + `camera_info` (camera aligns EXACTLY to the plate —
+  feeds Preview3D/Load3D/NKD Preview 3D, drives NKD camera nodes). Geometry = vertex
+  colours + normals (no baked texture — `UnwrapMesh` + `BakeTextureFromViews` for UVs).
+- Deps installed 11-24: `spconv-cu126 2.3.8` + `easydict` + `utils3d 0.0.2` (pinned
+  commit) into python_embeded ✓. First run auto-downloads ~7 GB weights `hbb1/Cupid`
+  + DINOv2 (torch.hub); ~11.5 GB VRAM peak (fits 32 GB). Verified by author on
+  Windows 11 + torch 2.10 cu130 + RTX 5090 (our exact box). GPL-3.0. Experimental/WIP.
+- Example workflows (Templates sidebar, search "Cupid"): image→mesh+camera (core
+  nodes only) · scene integration w/ Klein-3 removal · advanced (removal + blend) —
+  the latter needs NKD-Basic-Tools ✓ / NKD-Klein-Tools ✗ / NKD-VFX-Tools ✓ /
+  NKD-Notes ✗ / NKD-Preview-Tools ✓ / controlnet_aux / RES4LYF.
+- VERDICT: ⭐ the photo→3D bridge — env plates / character stills → Blender blockout
+  (D262 loop) with the plate's own camera.
+
+### 12. Nekodificador/ComfyUI-NKD-Preview-Tools — ✅ INSTALLED (2026-11-24, depth 50)
+- Popup Preview (auto-save, batch save, share copies, Video Viewer/Saver, wired
+  filename/prefix) · Timeline shortcuts (Settings→NKD) · clone/heal paint mode.
+  v3.15.0 (11-18).
+
+### #9 update (2026-11-24): NKD-VFX-Tools c30398f → 6b44ced (v1.17.0)
+- v1.17.0 = Preview3D viewer work (lineart pass, cut/slice depth captures, amber
+  box grips). NO action-control node here — the action method lives in Basic-Tools.
+- ComfyUI restarted (old PID 15912 → new PID 14216, same launch args incl.
+  `--disable-cuda-malloc`); object_info now **5144 nodes**; verified live:
+  `Cupid3DReconstruct` + `NKDEventCurveAudio` + `NKDMiniMaxGuides` + `NKDFaceRig`.
+- His profile is ACTIVE (not dormant — the April-dated store items were a partial
+  timeline view): 16 public repos, 7 pushed in 4 days — also NKD-Bridge (11-24,
+  Photoshop↔ComfyUI live layer binding), NKD-Reroutes (11-24, Blender-style wires +
+  shift-drag magnetism), NKD-Klein-Tools (11-21, Flux Klein pipeline), NKD-Qwen-Tools
+  (11-21, Qwen Image 2.1 all-in-one: t2i / 16-ref edit / inpaint / detailing),
+  NKD-Notes (11-17), NKD-Radial-Menu (11-20), Sigmas-Curve (10-30), LTXVideo (05-26).
+
 ## Install log
 - 2026-10-05: cloned #2 (ComfyUI-H3-Project-Suite) + #9 (ComfyUI-NKD-VFX-Tools)
   into portable custom_nodes (git clone --depth 1). Both have __init__.py.
