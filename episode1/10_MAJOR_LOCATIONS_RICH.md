@@ -1,3 +1,9 @@
+> **SUPERSEDED (2026-11-24 18:01):** this draft was merged and refined into
+> **`11_MAJOR_LOCATION_PLATES_RICH.md`** (34 plates, A0-F7) — now part of
+> **`QWEN_CORE_BIBLE.md`** (single source of truth). Decisions resolved: hopuse = the
+> house (section F) · 5-a-side confirmed · stadium rhyme confirmed. Use the bible;
+> keep this file as the 11-24 working draft only.
+
 # 10 — MAJOR LOCATION RICH PROMPTS (world-building day, 2026-11-24)
 
 **Author's 11-24 call:** the major factors are **the hopuse ⚠️ · the stadium · the 7s ground · the ship**,
