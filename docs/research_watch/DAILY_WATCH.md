@@ -1225,3 +1225,53 @@ log) → manual re-run clean (~45min; 3-day catch-up; store 2075) · Reddit JSON
 tier-1 noise — HTML tier carried 49 at 50+) · r/comfyui_workflows HTML tier GATED (day 13) · X — NO
 failures (all 7 accounts via browser-head tier — login wall down since 11-05) · Civitai newest/new
 LoRAs = 0 new (partial — NOT verified-zero) · HF top-downloads RESOLVED (3 rows).
+
+---
+
+## 2026-11-24 (D228 resume day — network back; store warmed by the 08:0x catch-up: 88 new items, 146 indexed, store 3998)
+
+**Sources:** Reddit ✅ 58 new via HTML top-page tier (JSON 403 all subs = known egress-IP wall; 96 at 50+ in the 2-day window) · HF ✅ 20 trending + 2 top-downloads + 13 datasets · X ✅ 99 tweets all 7 accounts (browser-head tier; cookies live-verified 08:05, expiry 11-27) · Civitai 0 new (partial — NOT verified-zero).
+
+**New relevant items:**
+
+*Brain tier (D207 = our :8100 Qwen3.8-27B):*
+- **t3_1xzyu96 (142u) — `nvidia/Qwen3.8-27B-NVFP4-QAD` community thread** (model 11-20) — NVIDIA's official NVFP4 QAD quant of OUR EXACT brain — back-burner A/B candidate (MTP-module check first — our speed = `draft-mtp`) <https://huggingface.co/nvidia/Qwen3.8-27B-NVFP4-QAD>
+- **t3_1xyi3aa (256u) — `nvidia/Qwen3.8-Flash-Next-NVFP4-QAD`** — NVIDIA QAD of the Flash-Next upgrade candidate too — both D225 back-burner options now have official quants <https://huggingface.co/nvidia/Qwen3.8-Flash-Next-NVFP4-QAD>
+- **t3_1xyuz45 (137u) — `harness-hub/Qwen3.8-27B-pi-adapted`** (HF trending, 995 likes) — **agent-tuned derivative of our exact brain** — the D225 quality-bump-without-architecture-change class (super-adapter/hermes-adapted family) <https://huggingface.co/harness-hub/Qwen3.8-27B-pi-adapted>
+- **t3_1y3hzp7 (163u) — `nari-labs/Qwen3.8-27B-NariQ-GGUF`** — another community 27B quant (pool) <https://huggingface.co/nari-labs/Qwen3.8-27B-NariQ-GGUF>
+- **Hy4-Flash cluster** (the 11-17 WATCHLIST brain-pool candidate): t3_1xz5tym (357u HF link) · t3_1y15w4a (347u official AMA "Shunyu Yao here, ask us anything") · t3_1y0ofce (266u "amazing coding" first impression) · t3_1xzopsy (256u `AtomicChat/Hy4-flash-GGUF` — **GGUF OUT = evaluable in our llama.cpp slot**) <https://huggingface.co/tencent/Hy4-flash>
+- **t3_1y3la3q (208u) — `inclusionAI/Ling-3.2-air`** — new brain pool <https://huggingface.co/inclusionAI/Ling-3.2-air>
+- **Inkling 2 Mini cluster** (11-23 T1 watch item): t3_1y1s8oe (345u "what qwen3.8 next flash") · t3_1y34mos (132u "another opinion on inkling 2 small") · t3_1y2cvvd (116u critical review) · t3_1y1vv9p (124u **"do NOT quantize your KV cache"** — our KV q8_0 class — read) · HF: 5066 likes · `unsloth/Inkling-2-Mini-GGUF` 806k dl · `AtomicChat/…-Uncensored-GGUF` 130k <https://huggingface.co/thinkingmachines/Inkling-2-Mini>
+- Qwen org drama: t3_1y33jwq (120u) "Qwen open source team threatens mutiny" — org-watch only <https://www.reddit.com/r/StableDiffusion/comments/1y33jwq/>
+
+*Our runtime (H3 / Krea2 / ComfyUI):*
+- **`Sentinel7/h3`** — HF trending (1221 likes, 0 dl) — new H3 derivative <https://huggingface.co/Sentinel7/h3>
+- **"im in love with minimax h3 — a little emotion study"** (94u, r/StableDiffusion) — community interest in the H3 micro-expression route we saved 11-23 <https://www.reddit.com/r/StableDiffusion/comments/xxv9qc/>
+- **t3_1y292a2 (79u) — `Lakonik/ComfyUI-piFlow` `piH3.md`** — **NEW ComfyUI pack for H3 (piH3)** — inspect <https://github.com/Lakonik/ComfyUI-piFlow/blob/main/docs/piH3.md>
+- t3_1y1we95 (250u) "OpenRouter prompts to MiniMax may have been read" — org privacy drama; **we run H3 LOCAL, unaffected** <https://www.reddit.com/r/MiniMax_AI/comments/1y1sbj0/>
+- **`chatrlabs/Qwen-Image-2.1-Uncensored-Omni-Quantized`** (813 likes / 382k dl) — our Krea2 base family <https://huggingface.co/chatrlabs/Qwen-Image-2.1-Uncensored-Omni-Quantized>
+- `facebook/sam-3d-body-dinov3` (HF trending 1732 likes) — SAM pool (our SAM 3.1 mask chain) <https://huggingface.co/facebook/sam-3d-body-dinov3>
+- `apple/FastFrames-L` (542 likes) + `apple/DepthPro2` (306u) — Apple video/depth pool <https://huggingface.co/apple/DepthPro2>
+- **`inworld/voice-isolator`** (647 likes, 0 dl) — **audio tier: vocal separation = the exact piece the LongCat-Video-Avatar dialogue route needs** (whisper + vocal-separator stack) <https://huggingface.co/inworld/voice-isolator>
+- t3_1y3jued (79u) "Jensen back as CEO of NVIDIA" — general <https://www.reddit.com/r/StableDiffusion/comments/1y3jued/>
+
+*Datasets:*
+- **`AJ-Gonzalez/qwen4-max-reasoning-250x`** — **Qwen4 SIGNAL (D225 + user's 47B watch)** <https://huggingface.co/datasets/AJ-Gonzalez/qwen4-max-reasoning-250x>
+- `ccore/ThreeJS-3D-Scenes-v2` — blockout/geometry-layer dataset (our community-validated Three.js→H3 route) <https://huggingface.co/datasets/ccore/ThreeJS-3D-Scenes-v2>
+- `nvidia/USDCraft-10K` (geometry layer — carried 11-17) · `google/multimodal-knowledge-agent` <https://huggingface.co/datasets/nvidia/USDCraft-10K>
+- Civitai: 1 item — quiet.
+
+*X:* 99 tweets, all 7 accounts via browser-head tier (BennyDaBall 12 · PixelAigc 11 · Alissonerdx 15 · MaxLiu09 13 · diodiogod 22 · akatz 10 · Nekodificador 11 · xieenze 5). Route-validation JP accounts (ai_hakase_/aichof21) absent from the 2-day window (stale timelines). No new relevant TEXT posts.
+
+**ACTION ITEMS (new):**
+1. nvidia QAD pair (27B + Flash-Next NVFP4-QAD) — MTP check before any swap (brain)
+2. Hy4-Flash `AtomicChat` GGUF — brain-pool eval candidate (WATCHLIST)
+3. `harness-hub/Qwen3.8-27B-pi-adapted` — agent-tuned derivative (quality-bump class)
+4. `Lakonik/ComfyUI-piFlow` piH3 — inspect the new H3 pack
+5. `inworld/voice-isolator` — audio tier for the LongCat-Avatar dialogue route
+6. `ccore/ThreeJS-3D-Scenes-v2` — geometry/blockout layer dataset
+7. `AJ-Gonzalez/qwen4-max-reasoning-250x` — Qwen4 signal (watch)
+8. t3_1y1vv9p Inkling 2 Mini KV-cache thread (124u) — read (our KV q8_0 class)
+*Carried:* LongCat-Video-Avatar Comfy port (landed 11-18 — first eval candidate, dialogue-shot route) · Qwen4 47B watch · FLUX3 gate · H3 emotion-study follow-up (micro-expression route) · Krea2 4-step retrained LoRA checkpoint · H3 tiny sliders A/B.
+
+**SOURCE FAILURES:** Reddit JSON 403 all subs (known egress-IP wall — HTML top-page tier carried it: r/StableDiffusion 7/23 · r/LocalLLaMA 12/47 · r/ComfyUI 7/25 · r/artificial 32/50 = 58 new) · r/comfyui_workflows HTML tier GATED this run (fresh-profile retry; defers to next run) · depth tier rc=1 no-JSON (rate-limit class — best-effort) · X — 0 failures (all accounts via browser head; cookies live-verified 08:05) · Civitai 0 new (partial — NOT verified-zero) · 08:00 auto-task ran to completion (pradhana + digest; 0xC000013A = post-completion control-C artifact, benign) — manual `--news-only` catch-up exit 0.
