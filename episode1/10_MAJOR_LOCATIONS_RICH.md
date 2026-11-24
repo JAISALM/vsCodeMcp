@@ -211,10 +211,11 @@ page · *feeling* the thesis of the scene.
 
 ---
 
-## F. THE HOPUSE ⚠️ — NEEDS YOUR DEFINITION (not in any project file)
+## F. THE HOPUSE ⚠️ — AUTHOR DETAILS DUE 16:00 IST (11-24)
 
-**One line from you = I finalise this section next turn.** Candidate sketches (delete the one that's
-not it):
+**Author 11-24 12:12:** "hopuse, is just house man" — full details from his Claude session by
+**4 PM IST today** → this section finalises then. Both candidate sketches below stay ON HOLD
+until the definition lands (delete the wrong one):
 
 **F1 — if the hopuse = the harbour/quay itself (where MARJAN anchors, where the team boards in S11):**
 `A small 1950s Kerala harbour at dusk, a low timber-and-coral-stone quay, the MARJAN at anchor with

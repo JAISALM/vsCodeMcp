@@ -1,5 +1,11 @@
 # Current Task
 
+**2026-11-24 (12:13) HOPUSE — author hint + 16:00 deadline:**
+Author 12:12: "hopuse, is just house man" + details from his Claude session by **16:00 IST today**
+→ section F of `10_MAJOR_LOCATIONS_RICH.md` marked details-due (F1 harbour / F2 coir hoober
+sketches ON HOLD). Reminder `schedule-42223df4` set for 16:00 IST: ask for the hopuse definition,
+finalise section F, re-check the 3 open decisions (7s ground / stadium rhyme / Day-2 pick).
+
 **2026-11-24 (12:00) LOCATION-CONSISTENCY TOOL — PanoramaZveroboy INSTALLED (user-shared Reddit t3_1y3gcqi "Location consistency", 80 up):**
 OP's node for series location consistency → **`PanoramaRandomCropZveroboy`** = feed a 360° equirectangular panorama (2:1) → outputs flat perspective shots at exact W/H with controlled `min/max_fov` (10-120°) + `min/max_pitch` + reproducible `seed`; backward-mapping math (pinhole rays + grid_sample + wrap-around = no seams); deps = torch/numpy only (MIT). CLONED + ComfyUI restarted (14216→**18508**) + node VERIFIED live (5145 nodes). **World-building use = the L08/L10/L26 rhyme solved geometrically:** one equirectangular panorama per location (Krea2 env rig @ 2048×1024) = location "env bible" → all plates/angles derived from the SAME geometry (same mud/gallery/props, exact camera math) → H3 R2V refs geometrically consistent (D021). Top targets: L18 deck (6 shots) · L15 X-spot (Sc 17/19/22 + mast) · L26 Maracanã + L08/L10. Caveat: node crops, doesn't generate — the 360° plate itself is a new Krea2 generation task (equirectangular prompt). Bonus already installed: `PanoramaSeamPrep` (seam repair) + `MoGePanoramaInference` (image→geometry). Reddit comments NOT fetched (all tiers walled — head IP-wall "whoa there pardner" still up; engine humanity-challenge; jina 403; redlib body-only→Anubis PoW) — README fully documents the node; user is viewing the page, paste any specific comment he wants checked. Full entry: `H3_ECOSYSTEM.md` §13.
 
