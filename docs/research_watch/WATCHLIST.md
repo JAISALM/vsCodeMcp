@@ -56,13 +56,34 @@ mentions (t3_1xuk5dd timeline editor = ready test rig carry).
   piece our H3 R2V reference route lacks; D041-safe). int8 base ≈ 40 GB =
   borderline on 32 GB VRAM → eval when a ComfyUI port lands (no Comfy-Org
   port yet) or via the int8 + CPU-offload diffusers route.
+  **UPDATE 2026-11-24 (D228 resume diff): THE COMFY-Org PORT LANDED 11-18 —
+  `Comfy-Org/LongCat-Video-Avatar` (16.5k dl, missed during the network
+  outage window). The ADOPT candidate is now locally evaluable — first eval
+  candidate for the dialogue-shot route.**
+- **`nvidia/Qwen3.8-27B-NVFP4-QAD`** (2026-11-20, 2.4k dl): NVIDIA's
+  official NVFP4 **QAD** (quantization-aware-distilled) quant of OUR EXACT
+  brain model (D207 = `Qwen3.8-27B-NVFP4-MTP-LOW`). **VERDICT: back-burner
+  A/B candidate for the :8100 brain** — check the file's MTP-module
+  presence (`--spec-type draft-mtp` needs it) before any swap; A/B =
+  quality on the same agent tasks + tok/s via the existing shift/rollback
+  infra. (Same QAT family as the QUASAR-DFlash2 speed recipes from the
+  11-23 Reddit digest.)
 - **`Comfy-Org/PAN2`** (11-15): T2V pool candidate (Wan2.2 VAE, qwen3.5_9b
   encoder, Apache-2.0) — pool note only.
 - **MOSS-Image** (11-17, 6.6M dl): image pool watch alongside H3-Image.
 - **Abiray H3-Image-GGUF** (rising: 288 likes / 155.5k dl): watch.
 - **Qwen4-27B dense** (D225): the correct brain upgrade — auto-covered by the
-  `Qwen` org row; flag on sight.
+  `Qwen` org row; flag on sight. **11-24 re-check: STILL NOT OUT** (Qwen org
+  fresh items = 3.5/3.6-family re-mods only; user's 47B expectation
+  Dec 2026/Jan 2027 — keep watching).
 - **FLUX3** (black-forest-labs): gated on the user (HF token + Agree).
+  **11-24 re-check: still not dropped** (org fresh items = FLUX.1 re-mods).
+- **Pool notes from the 11-24 resume diff:** `MiniMaxAI/MiniMax-M3` (new
+  brain, 237k dl) + `M2/M2.1/M2.5` family · `tencent/WeMM-Ecom-9B`
+  (multimodal ecom, GGUF/GPTQ/FP8 out the day of the diff) ·
+  `Comfy-Org/SenseNova-U1` (brand-new port, 60 dl) · `Comfy-Org/UltraTex`
+  (texture pool, 25.7k dl) · `Comfy-Org/marigold-v2-0` (depth pool) ·
+  `google/diffusiongemma-26B-A4B-it` (image pool, pre-outage).
 - **t3_1xvpmt8** (10-min wordless H3 film): read carry.
 - **civitai 2889463**: ADOPT side route carry.
 
