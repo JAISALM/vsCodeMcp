@@ -1,0 +1,32 @@
+# krea2_i2i_ref_plate.json — per-plate prompts. For each section: set that REF in the LoadImage node, paste that section's line(s) into the prompt node, queue.
+# denoise is 0.5 — if a result is not close enough to the still, lower to 0.35-0.45; if it does not change enough (time of day), raise to 0.6.
+
+# ref = ref_ground_main.png (C1 THE FINAL 6 PM, crowd in gallery)
+Exactly the same football ground as the reference image - the same wooden tiered gallery planks, the same wire mesh and wooden rail, the same blue tarpaulin barrier, the same sponsor boards, the same muddy pitch with white chalk lines, the same packed crowd in the gallery, the same light towers, the same surrounding village. Low golden evening sun raking across the pitch, long shadows, warm amber haze. Cinematic feature film still, 35mm anamorphic cinema lens, widescreen composition, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_ground_main.png (C1-EMPTY - same ground, completely empty for compositing)
+Exactly the same football ground as the reference image - the same wooden tiered gallery planks, the same wire mesh and wooden rail, the same blue tarpaulin barrier, the same sponsor boards, the same muddy pitch with white chalk lines, the same light towers, the same surrounding village, but completely empty, no people, no crowd, no hands in the frame. Low golden evening sun raking across the pitch, long shadows, warm amber haze. Cinematic feature film still, 35mm anamorphic cinema lens, widescreen composition, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_gallery.png (C2 - from the pitch looking back at the gallery)
+Exactly the same football ground as the reference image, viewed from the centre of the pitch looking back at the wooden tiered gallery - the same tiered wooden planks, the same wire mesh and wooden rail, the same blue tarpaulin barrier, the same sponsor boards, the same packed crowd, the muddy pitch with white chalk lines in the foreground. Low golden evening light, long shadows. Cinematic feature film still, 35mm anamorphic cinema lens, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_gallery_closeup.png (C4 - gallery close detail)
+Exactly the same wooden gallery as the reference image, close view of the tiered wooden planks, wire mesh and wooden rail, the packed crowd behind, the muddy pitch edge in the foreground, evening golden light raking across the wood. Cinematic feature film still, 35mm anamorphic cinema lens, shallow depth of field, strong contrast, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_ground_side.png (C5 - sideline view)
+Exactly the same football ground as the reference image, sideline view along the boundary - the same blue tarpaulin barrier and sponsor boards, the same wooden rail, the muddy pitch stretching into the distance, evening golden light. Cinematic feature film still, 35mm anamorphic cinema lens, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_dugout.png (dugout detail)
+Exactly the same dugout as the reference image, the tiered wooden dugout planks, the crowd, the pitch edge in the foreground, evening golden light. Cinematic feature film still, 35mm anamorphic cinema lens, shallow depth of field, strong contrast, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_areal_night.png (night aerial - floodlights)
+Exactly the same football ground as the reference image at night, the steel-truss floodlight towers glowing over the ground, the full ground layout under the lights, the wooden galleries and the muddy pitch in sharp detail, the dark village around it. Cinematic feature film still, 35mm anamorphic cinema lens, strong contrast, deep shadows, bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_areal_top.png (true top-down, consistency plate)
+Exactly the same top-down view of the football ground as the reference image, the rectangular muddy pitch with white chalk lines, the wooden galleries on both long sides, the light towers at both ends, evening light. Cinematic feature film still, strong contrast, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_training_ground.png (L05 training ground, day)
+Exactly the same training ground as the reference image - the same stone building, the same goal with torn green mesh, the same muddy paddy-field pitch, the same surroundings. Hard late-morning sun, crisp shadows. Cinematic feature film still, 35mm anamorphic cinema lens, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
+
+# ref = ref_training_ground.png (L05-EMPTY - same ground, no people)
+Exactly the same training ground as the reference image - the same stone building, the same goal with torn green mesh, the same muddy paddy-field pitch, the same surroundings, but completely empty, no people, no spectators. Hard late-morning sun, crisp shadows. Cinematic feature film still, 35mm anamorphic cinema lens, strong contrast, deep shadows and bright highlights, rich true-to-life cinematic colour grade, filmic grain
