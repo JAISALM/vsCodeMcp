@@ -1,0 +1,1122 @@
+{
+ "id": "571bef9f-f95f-4cf4-b796-88a71a211f2c",
+ "revision": 0,
+ "last_node_id": 302,
+ "last_link_id": 13,
+ "nodes": [
+  {
+   "id": 55,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    320,
+    82
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "krea2_turbo_fp8_scaled.safetensors",
+    "default"
+   ],
+   "widgets_values_named": {
+    "unet_name": "krea2_turbo_fp8_scaled.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  {
+   "id": 56,
+   "type": "CLIPLoader",
+   "pos": [
+    40,
+    140
+   ],
+   "size": [
+    320,
+    106
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "shape": 7,
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_4b_fp8_scaled.safetensors",
+    "krea2",
+    "default"
+   ],
+   "widgets_values_named": {
+    "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+    "type": "krea2",
+    "device": "default"
+   }
+  },
+  {
+   "id": 57,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    260
+   ],
+   "size": [
+    320,
+    58
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ],
+   "widgets_values_named": {
+    "vae_name": "qwen_image_vae.safetensors"
+   }
+  },
+  {
+   "id": 96,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    40
+   ],
+   "size": [
+    320,
+    82
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "Krea2-realism-V2.safetensors",
+    1
+   ],
+   "widgets_values_named": {
+    "lora_name": "Krea2-realism-V2.safetensors",
+    "strength_model": 1
+   }
+  },
+  {
+   "id": 97,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    140
+   ],
+   "size": [
+    320,
+    82
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 12
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "famegrid_spicy_3167060.safetensors",
+    0.7
+   ],
+   "widgets_values_named": {
+    "lora_name": "famegrid_spicy_3167060.safetensors",
+    "strength_model": 0.7
+   }
+  },
+  {
+   "id": 82,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    400,
+    350
+   ],
+   "size": [
+    320,
+    106
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "INT",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "batch_size",
+     "name": "batch_size",
+     "type": "INT",
+     "widget": {
+      "name": "batch_size"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    768,
+    1024,
+    1
+   ],
+   "widgets_values_named": {
+    "width": 896,
+    "height": 1120,
+    "batch_size": 1
+   }
+  },
+  {
+   "id": 200,
+   "type": "PixaromaPromptEach",
+   "pos": [
+    400,
+    470
+   ],
+   "size": [
+    420,
+    704
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "text",
+     "name": "text",
+     "shape": 7,
+     "type": "STRING",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "prompt",
+     "name": "prompt",
+     "shape": 6,
+     "type": "STRING",
+     "links": [
+      11
+     ]
+    },
+    {
+     "localized_name": "index",
+     "name": "index",
+     "shape": 6,
+     "type": "INT",
+     "links": null
+    },
+    {
+     "localized_name": "total",
+     "name": "total",
+     "shape": 6,
+     "type": "INT",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PixaromaPromptEach",
+    "promptEachState": {
+     "version": 2,
+     "rows": [
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a high, slightly uneven hairline, short black hair cut unevenly at home with a small cowlick at the crown, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow. Hairline and hair: a high, slightly uneven hairline, short black hair cut unevenly at home with a small cowlick at the crown. Eyebrows: thick, straight and set low over the eyes. Eyes: wide-set, large and almond-shaped, with a shy gaze. Nose: straight and narrow with a slightly pointed tip. Lips: small and full. Jaw and chin: narrow, with a soft jawline and a small chin. Ears: medium-sized and slightly protruding. He has a long neck and slightly oversized hands. Portrait, head and shoulders, plain white round-neck T-shirt, a shy hopeful expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low rounded hairline, close-cropped black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: round and full. Hairline and hair: a low rounded hairline, close-cropped black hair. Eyebrows: light and sparse. Eyes: small, round and deep-set. Nose: short, broad and flat with wide nostrils. Lips: thick and full. Jaw and chin: wide and soft, with a short thick neck. Ears: small and close to the head, with attached lobes. He has full cheeks. Portrait, head and shoulders, plain white round-neck T-shirt, a calm unbothered expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a straight low hairline with a slight widow's peak, short black hair neatly side-parted with a little oil sheen, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: square, with a broad forehead. Hairline and hair: a straight low hairline with a slight widow's peak, short black hair neatly side-parted with a little oil sheen. Eyebrows: dark, thick and strongly defined, level. Eyes: steady, direct and almond-shaped. Nose: medium in length with a straight bridge and a blunt squared tip. Lips: firm and medium. Jaw and chin: strong and square, with a faint dimple in the chin. Ears: medium-sized and lying flat against the head. He has a small mole beside the right eyebrow. Portrait, head and shoulders, plain white round-neck T-shirt, a calm confident expression with lips lightly pressed, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low hairline that dips at the centre between wavy black locks falling forward over the forehead, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: narrow across the forehead and slightly wider at the jaw. Hairline and hair: a low hairline that dips at the centre between wavy black locks falling forward over the forehead. Eyebrows: thin and softly arched. Eyes: deep-set and hooded, with slightly downturned outer corners, thoughtful. Nose: long and straight with a faintly hooked tip. Lips: thin. Jaw and chin: narrow with a pointed chin. Ears: large and clearly sticking out. He is lean and long-legged. Portrait, head and shoulders, plain white round-neck T-shirt, a quiet focused expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, an M-shaped hairline, black hair cropped close with a faint shaved line above the left ear, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: small and heart-shaped, broad across the forehead and narrow at the chin. Hairline and hair: an M-shaped hairline, black hair cropped close with a faint shaved line above the left ear. Eyebrows: thin and sharply angled upward. Eyes: large, bright and slightly upturned, always darting. Nose: small and upturned. Lips: thin, in a lopsided grin showing a chipped front tooth. Jaw and chin: a small sharp chin with prominent cheekbones. Ears: small and neat, slightly pointed at the top. He is small and wiry. Portrait, head and shoulders, plain white round-neck T-shirt, an alert expression with a hint of mischief, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a very low hairline, short tightly curled black hair growing close to the brows, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: wide and round with a flat top. Hairline and hair: a very low hairline, short tightly curled black hair growing close to the brows. Eyebrows: heavy, low and nearly meeting. Eyes: narrow and deep-set, with a stubborn glare. Nose: broad with a bulbous tip and a low bridge. Lips: pressed together, with a full lower lip. Jaw and chin: a set, square jaw. Ears: small and set tight against the head. He has a thick stubborn neck. Portrait, head and shoulders, plain white round-neck T-shirt, a stubborn unimpressed expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a high rounded hairline with shaggy black hair falling over the ears, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: small and round. Hairline and hair: a high rounded hairline with shaggy black hair falling over the ears. Eyebrows: light and high-arched, giving a permanently surprised look. Eyes: round, big and bright. Nose: a tiny button nose. Lips: wide, with a missing front baby tooth. Jaw and chin: a tiny soft chin. Ears: big and flaring. He is the smallest boy in the team. Portrait, head and shoulders, plain white round-neck T-shirt, a cheeky open-mouthed grin as if mid-shout, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a buzz cut with a rounded, receding-looking hairline, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a long oval with a high forehead. Hairline and hair: a buzz cut with a rounded, receding-looking hairline. Eyebrows: straight and medium-thick. Eyes: narrow, relaxed almond eyes. Nose: long with a high straight bridge and narrow nostrils. Lips: medium and relaxed. Jaw and chin: an angular, narrow jaw. Ears: small and set high on the head. He is lean and long-limbed. Portrait, head and shoulders, plain white round-neck T-shirt, an easy half-smile, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, tanned medium-brown skin from outdoor play, natural texture and tiny blemishes, a child's proportions, no adult face, a low, ragged hairline and unruly, tightly curling black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: wide, with prominent cheekbones. Hairline and hair: a low, ragged hairline and unruly, tightly curling black hair. Eyebrows: bushy and irregular. Eyes: big, round, bright and wide-set. Nose: wide, with the tip tilted slightly to the left. Lips: wide in a quick grin, with a thin upper lip. Jaw and chin: a small chin. Ears: medium-sized and low-set. He has thin arms, a thin neck and a healing scab on one elbow. Portrait, head and shoulders, plain white round-neck T-shirt, a grin as if he is about to jump, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, tanned medium-brown skin from outdoor play, natural texture and tiny blemishes, a child's proportions, no adult face, a low, level straight hairline, short black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: large, heavy and broad. Hairline and hair: a low, level straight hairline, short black hair. Eyebrows: thick and level. Eyes: small, soft and heavy-lidded. Nose: broad across the bridge with a soft rounded tip. Lips: full. Jaw and chin: wide, with a round chin and a slight double chin. Ears: large with long lobes, low-set. He has a thick neck and big hands. Portrait, head and shoulders, plain white round-neck T-shirt, a calm gentle expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a neat straight hairline with a sharp side parting, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: small and egg-shaped. Hairline and hair: a neat straight hairline with a sharp side parting. Eyebrows: thin, neat and slightly arched. Eyes: small, close-set and watchful. Nose: small and straight with narrow nostrils. Lips: thin and composed. Jaw and chin: a small delicate chin and a light jaw. Ears: small and close to the head. He keeps one hand half-raised, as if directing someone. Portrait, head and shoulders, plain white round-neck T-shirt, an attentive expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a smooth rounded hairline, neatly combed-back black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a smooth oval. Hairline and hair: a smooth rounded hairline, neatly combed-back black hair. Eyebrows: medium, one eyebrow sitting slightly higher than the other. Eyes: hooded, calm and almond-shaped. Nose: medium and slightly aquiline, with a narrow tip. Lips: medium, in a closed-mouth half-smile. Jaw and chin: a soft oval chin. Ears: medium, with slightly pointed tops. He is quiet and still. Portrait, head and shoulders, plain white round-neck T-shirt, a knowing quiet expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 12-year-old Malayali boy from Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, bigger and broader than the average boy his age but still clearly a child, a high clean hairline, faded short sides and a longer top swept up, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long. Hairline and hair: a high clean hairline, faded short sides and a longer top swept up. Eyebrows: thick and slanted, giving a confident look. Eyes: sharp, narrow and slightly upturned. Nose: straight with a high bridge and a sharp tip. Lips: thin, in a permanent smirk. Jaw and chin: a sharp, angular jaw. Ears: small and neat, lying flat. He is taller than the others and athletic. Portrait, head and shoulders, plain white round-neck T-shirt, a cocky half-smile, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 12-year-old Malayali boy from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, bigger and broader than the average boy his age but still clearly a child, a low hairline, short cropped black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: broad and heavy, block-shaped. Hairline and hair: a low hairline, short cropped black hair. Eyebrows: heavy and straight. Eyes: small and heavy-lidded. Nose: wide, with a slightly crooked bridge, as if once knocked. Lips: wide and flat. Jaw and chin: a very wide square jaw above a thick neck. Ears: thick and lobeless. He is the tallest and widest of the Rockstar boys. Portrait, head and shoulders, plain white round-neck T-shirt, a heavy neutral stare, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 12-year-old Malayali boy from Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, bigger and broader than the average boy his age but still clearly a child, a neat rounded hairline with perfectly gelled and combed black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a refined oval. Hairline and hair: a neat rounded hairline with perfectly gelled and combed black hair. Eyebrows: neatly shaped and arched. Eyes: large almond eyes with long lashes. Nose: slim and straight with a slightly upturned tip. Lips: thin and smug. Jaw and chin: a tapered chin. Ears: small. Portrait, head and shoulders, plain white round-neck T-shirt, a self-satisfied expression with the chin slightly raised, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 81-year-old Malayali man from Kerala, warm dark brown skin, natural texture, weathered by sun and work, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and thin. Hairline and hair: a high forehead, thin white hair under a prayer cap. Eyebrows: long, wispy and white. Eyes: deep-set, with drooping lids and a cloudy far-away gaze. Nose: long, prominent and beaked. Lips: thin, mostly hidden in the beard. Jaw and chin: gaunt, under a full white beard. Ears: large, with long drooping lobes. He has deep wrinkles, age spots and hollow cheeks. Deep wrinkles, age spots and loose skin. Portrait, head and shoulders, plain off-white cotton shirt, far-away stillness with eyes fixed on nothing, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, wearing a white prayer cap, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 19-year-old Malayali man from Kerala, tanned medium-brown skin from outdoor play, natural texture and tiny blemishes, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a long oval. Hairline and hair: a widow's peak, short thick wavy black hair. Eyebrows: thick, straight and dark. Eyes: warm almond-shaped, crinkling when he smiles. Nose: medium and straight with slightly wide nostrils. Lips: full, in a wide open smile. Jaw and chin: a defined jaw with light stubble. Ears: medium-sized and slightly protruding. He has thin sideburns. Visible pores and a few blemishes. Portrait, head and shoulders, plain white round-neck T-shirt, a friendly open smile, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 40-year-old Malayali man from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: broad and square. Hairline and hair: a receding M-shaped hairline, short black hair going grey at the temples. Eyebrows: thick and drawn together in worry. Eyes: tired and heavy-lidded, with bags and slightly downturned corners. Nose: broad and straight with a fleshy tip. Lips: thin and pressed. Jaw and chin: square, with slight jowls. Ears: large with fleshy lobes. He has a trimmed moustache and worry lines across the forehead. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain white round-neck T-shirt, a tense hurried expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 35-year-old Malayali woman from Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a soft oval face framed by the hijab. Hairline and hair: all hair, ears, neck and chest fully covered by a modern pastel hijab. Eyebrows: thick and arched. Eyes: large, dark and almond-shaped. Nose: small and straight. Lips: full. Jaw and chin: a soft jaw with a small dimple in the chin. Ears: covered by the hijab. Only her face is visible. Portrait, head and shoulders, a plain long-sleeved top under a modern soft pastel hijab that covers her head, ears, neck and chest, a skeptical, loving expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hair visible, no jewellery, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 40-year-old Malayali man from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow. Hairline and hair: a high receding hairline and a bald crown, short grey-black hair at the sides. Eyebrows: bushy and grey-flecked. Eyes: small, creased and tired. Nose: large and hooked, with a bump on the bridge. Lips: thin. Jaw and chin: lean, with hollow cheeks. Ears: large, with prominent cartilage. He has a grey-flecked moustache. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain white round-neck T-shirt, a stern tired expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 10-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a neat low hairline with a side parting, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: small and round. Hairline and hair: a neat low hairline with a side parting. Eyebrows: thin and straight. Eyes: small, sharp and watchful. Nose: small and straight. Lips: thin and businesslike. Jaw and chin: a small pointed chin. Ears: small. Portrait, head and shoulders, plain white round-neck T-shirt, a serious businesslike expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 38-year-old Malayali man of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, a hairline receding at the temples, short salt-bleached hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow, weathered. Hairline and hair: a hairline receding at the temples, short salt-bleached hair. Eyebrows: pale, bleached and sparse. Eyes: narrow, deep-set and half-closed, with deep crow's feet. Nose: long and aquiline with a bump on the bridge, the skin sunburnt and peeling. Lips: thin and cracked. Jaw and chin: a lean angular jaw with stubble. Ears: pointed and sun-darkened. He has net-rope scars on his forearms and sun-creased skin. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a calm half-closed gaze, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 26-year-old Malayali man of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, a low straight hairline, short cropped black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: big and square. Hairline and hair: a low straight hairline, short cropped black hair. Eyebrows: thick and level. Eyes: small and calm. Nose: broad and flat with wide nostrils. Lips: thick. Jaw and chin: a massive square jaw. Ears: thick and small, close to the head. He has a thick neck and rope-burned palms. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a steady patient expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 40-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, hair mostly hidden under a tilted white crochet cap, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow. Hairline and hair: hair mostly hidden under a tilted white crochet cap. Eyebrows: thin and high-arched, amused. Eyes: bright, large, wide-set and slightly upturned. Nose: very prominent and beaky. Lips: thin and wide, often smiling. Jaw and chin: a narrow, pointed chin. Ears: large and sticking out beside the cap. He has a thin moustache. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, an alert amused expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, wearing a tilted white crochet cap, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 34-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, a low hairline with short black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: wide and heavy-browed. Hairline and hair: a low hairline with short black hair. Eyebrows: heavy and overhanging. Eyes: deep-set and narrow. Nose: broad, with the bridge bent to one side as if once broken. Lips: tight and unimpressed. Jaw and chin: a jutting, underbitten jaw. Ears: one ear folded over. He is stern and unmoving. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, an unimpressed stubborn expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 28-year-old Malayali man of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, a shaved scalp, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: round, shaved and sunburnt. Hairline and hair: a shaved scalp. Eyebrows: short and thick. Eyes: small, bright and crinkled. Nose: short and wide, snub. Lips: wide and full, grinning with a gap between the front teeth. Jaw and chin: a round, wide jaw. Ears: small and flat. He has a barrel chest and a thick neck. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a broad gap-toothed grin, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 43-year-old Malayali man of the 1950s from Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, weathered by sun and work, a high hairline receding at the temples, neatly combed black hair greying at the sides, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a long oval. Hairline and hair: a high hairline receding at the temples, neatly combed black hair greying at the sides. Eyebrows: thin, one eyebrow higher than the other. Eyes: hooded and calm. Nose: thin and straight with a high bridge. Lips: thin, in a half-smile that gives nothing away. Jaw and chin: a soft jaw with a slight jowl. Ears: medium-sized. He is clean-shaven, with fine lines on his fair skin and an ink-stained thumb. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a half-smile that gives nothing away, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 45-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, thin oiled hair receding from a high forehead, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: narrow, with a high domed forehead. Hairline and hair: thin oiled hair receding from a high forehead. Eyebrows: faint and thin. Eyes: small and precise behind round wire-rimmed spectacles. Nose: long and pinched. Lips: thin and pursed, as if counting. Jaw and chin: a small receding chin. Ears: sticking out slightly at the top. He has a thin neck with a prominent Adam's apple. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, quietly calculating, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, wearing his round wire-rimmed spectacles, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 30-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, a low neat hairline, short wavy black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: oval. Hairline and hair: a low neat hairline, short wavy black hair. Eyebrows: thick and expressive. Eyes: warm almond-shaped, with laugh lines. Nose: medium and straight with a rounded tip. Lips: full, in an easy wide smile. Jaw and chin: a soft jaw with light stubble. Ears: medium-sized and lying flat. He has small burn marks on his forearms. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a relaxed easy smile, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 24-year-old Malayali man of the 1950s from Kerala, tanned medium-brown skin from outdoor play, natural texture and tiny blemishes, weathered by sun and work, a low hairline, short black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: narrow and sun-browned. Hairline and hair: a low hairline, short black hair. Eyebrows: thin and straight. Eyes: bright, alert and narrow. Nose: straight and narrow with a high bridge. Lips: medium. Jaw and chin: a lean angular jaw. Ears: small and flat. He has a wiry neck and calloused hands. Visible pores and a few blemishes. Portrait, head and shoulders, plain off-white collarless cotton shirt, bright and alert, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 22-year-old Malayali man of the 1950s from Kerala, tanned medium-brown skin from outdoor play, natural texture and tiny blemishes, weathered by sun and work, a low hairline, unruly wiry black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: small and angular. Hairline and hair: a low hairline, unruly wiry black hair. Eyebrows: thin and sharply slanted. Eyes: restless, bright and slightly upturned. Nose: small and upturned. Lips: thin, in a quick knife-thin grin. Jaw and chin: a pointed chin. Ears: small and pointed. He has bark-scarred forearms. Visible pores and a few blemishes. Portrait, head and shoulders, plain off-white collarless cotton shirt, a quick knife-thin grin, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 25-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, a sharp widow's peak, short black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: heart-shaped, with a broad forehead and a narrow chin. Hairline and hair: a sharp widow's peak, short black hair. Eyebrows: one eyebrow split by a scar. Eyes: quick, wary, close-set and narrow. Nose: straight and sharp, the tip bent slightly. Lips: thin, in a wary half-smile. Jaw and chin: a narrow jaw with sharp cheekbones and hollow cheeks. Ears: small and close. He has a scar running through the left eyebrow. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a wary half-smile, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 55-year-old Malayali man of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, a white cap over short grey-black hair, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: large and broad. Hairline and hair: a white cap over short grey-black hair. Eyebrows: thick, bushy and dark. Eyes: deep-set and steady. Nose: prominent, with a straight bridge and a broad base. Lips: thin, mostly hidden in the beard. Jaw and chin: a strong square jaw under the beard. Ears: large, like his son's. He has a white-streaked full beard. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a steady, unreadable calm, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, wearing a white cap, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 70-year-old Malayali man of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, a bald crown under a white skull-cap, white hair at the sides, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow. Hairline and hair: a bald crown under a white skull-cap, white hair at the sides. Eyebrows: bushy and white. Eyes: milky and clouded, calm. Nose: broad and flat. Lips: thin. Jaw and chin: a small chin under a short white beard. Ears: big. He has deep lines in his face. Deep wrinkles, age spots and loose skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a calm steady stare into the distance, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, wearing a white skull-cap, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 65-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, a high hairline with a short white crop, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: round and gentle. Hairline and hair: a high hairline with a short white crop. Eyebrows: soft and white. Eyes: kind and round. Nose: medium and rounded. Lips: soft. Jaw and chin: a soft round jaw with a small double chin. Ears: with long lobes. He has a faint sandal-paste mark on the forehead. Deep wrinkles, age spots and loose skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a gentle steady expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 50-year-old Malayali man of the 1950s from Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, weathered by sun and work, a balding top with a few combed strands, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: wide and round. Hairline and hair: a balding top with a few combed strands. Eyebrows: thick and black. Eyes: small, behind spectacles hanging on a string. Nose: bulbous with a red tip. Lips: thin. Jaw and chin: jowly. Ears: small. He has a handlebar moustache and a sweating forehead. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a bureaucratic frown, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 30-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, oiled hair with a sharp side parting, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a narrow oval. Hairline and hair: oiled hair with a sharp side parting. Eyebrows: thin and neat. Eyes: large and alert. Nose: straight. Lips: neat. Jaw and chin: narrow. Ears: slightly protruding. He has a thin neat moustache. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a hurried alert look, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 35-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, short hair under a khaki cap, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: round. Hairline and hair: short hair under a khaki cap. Eyebrows: thick. Eyes: kind, small and tired. Nose: broad. Lips: full. Jaw and chin: round. Ears: small. He has a thick moustache. Visible pores and lightly sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a friendly, tired look, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 50-year-old Malayali man of the 1950s from Kerala, light-brown wheatish skin, natural texture and tiny blemishes, weathered by sun and work, thin greying hair, a high hairline, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: long and narrow. Hairline and hair: thin greying hair, a high hairline. Eyebrows: sparse. Eyes: small and patient behind thin spectacles. Nose: thin and long. Lips: thin. Jaw and chin: narrow. Ears: large. He has a tape measure round his neck. Visible pores, fine lines and uneven sun-marked skin. Portrait, head and shoulders, plain off-white collarless cotton shirt, a mild curious expression, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 5-year-old Malayali boy from Kerala, warm dark brown skin, natural texture, a small child's proportions, a soft low hairline, short black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: round and small. Hairline and hair: a soft low hairline, short black hair. Eyebrows: faint and soft. Eyes: wide, round and curious. Nose: small, with the first hint of a beaked bridge. Lips: small, in a gap-toothed grin. Jaw and chin: a tiny round chin. Ears: big, just like his father's and his grandson's. Portrait, head and shoulders, plain off-white tiny cotton vest, a curious, proud look, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hat, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A real 45-year-old Malayali woman of the 1950s from Kerala, warm dark brown skin, natural texture, weathered by sun and work, period cotton clothing, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. Head shape: a square face with high cheekbones. Hairline and hair: all hair, ears and neck fully covered by a white thattam (head cloth). Eyebrows: thick. Eyes: sharp and bright. Nose: strong and straight. Lips: full. Jaw and chin: a strong jaw. Ears: covered by the head cloth. Only her face is visible. Portrait, head and shoulders, a plain long-sleeved cotton blouse and a white thattam (head cloth) that covers all her hair, ears and neck, a sharp, no-nonsense look, looking straight at the camera, plain light-grey seamless backdrop, flat even soft light, no hair visible, no props. shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "A tall figure standing on the bow of a wooden ship at night, seen only as a silhouette against a sky full of stars, wearing a long dark coat and a cap, round-rimmed spectacles catching a thin line of starlight, hands clasped behind the back, looking at the horizon, no facial detail, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour",
+       "enabled": true
+      },
+      {
+       "text": "",
+       "enabled": true
+      }
+     ],
+     "split": "line",
+     "expand": true,
+     "trim": true,
+     "skipEmpty": true,
+     "cap": 200,
+     "wiredAt": "after"
+    }
+   },
+   "widgets_values": [
+    "{\"version\": 2, \"prompts\": [\"A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a high, slightly uneven hairline, short black hair cut unevenly at home with a small cowlick at the crown, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A tall lean boy with a long narrow head, a high uneven hairline and wide-set shy eyes. Full body, head to feet, front view, standing straight with arms relaxed, wearing a faded red football jersey a size too big, grey cotton shorts, thin socks pulled up over shin guards made of folded newspaper, worn rubber sandals and no boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low rounded hairline, close-cropped black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A stocky boy with a round head, a low rounded hairline, a short broad flat nose and full cheeks. Full body, head to feet, front view, standing planted with feet apart, arms relaxed, wearing an oversized faded green goalkeeper's jersey, long grey shorts, plain socks, worn canvas shoes, no gloves, dusty bare palms. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a straight low hairline with a slight widow's peak, short black hair neatly side-parted with a little oil sheen, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A boy with a square head, a widow's-peak hairline, strong level brows and a dimpled square chin. Full body, head to feet, front view, standing upright with shoulders back, arms relaxed, wearing a faded yellow football jersey, navy shorts, plain socks, scuffed football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low hairline that dips at the centre between wavy black locks falling forward over the forehead, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A lean boy with a pear-shaped head, wavy locks over a low dipping hairline, a long faintly hooked nose and big ears. Full body, head to feet, front view, standing relaxed with his weight on one leg, wearing a white football jersey with a torn collar, faded blue shorts, socks of two different shades, worn football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, an M-shaped hairline, black hair cropped close with a faint shaved line above the left ear, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A small wiry boy with a heart-shaped head, an M-shaped hairline, a small upturned nose and a chipped-tooth grin. Full body, head to feet, front view, standing on the balls of his feet with knees slightly bent as if about to sprint, wearing a faded orange football jersey, short green shorts, thin socks, light worn football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\"], \"text\": \"\", \"split\": \"line\", \"expand\": true, \"trim\": true, \"skipEmpty\": true, \"cap\": 200, \"wiredAt\": \"after\"}"
+   ],
+   "widgets_values_named": {
+    "prompteach": "{\"version\": 2, \"prompts\": [\"A real 11-year-old Malayali boy from Malabar, Kerala, light-brown wheatish skin, natural texture and tiny blemishes, a child's proportions, no adult face, a high, slightly uneven hairline, short black hair cut unevenly at home with a small cowlick at the crown, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A tall lean boy with a long narrow head, a high uneven hairline and wide-set shy eyes. Full body, head to feet, front view, standing straight with arms relaxed, wearing a faded red football jersey a size too big, grey cotton shorts, thin socks pulled up over shin guards made of folded newspaper, worn rubber sandals and no boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low rounded hairline, close-cropped black hair, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A stocky boy with a round head, a low rounded hairline, a short broad flat nose and full cheeks. Full body, head to feet, front view, standing planted with feet apart, arms relaxed, wearing an oversized faded green goalkeeper's jersey, long grey shorts, plain socks, worn canvas shoes, no gloves, dusty bare palms. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a straight low hairline with a slight widow's peak, short black hair neatly side-parted with a little oil sheen, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A boy with a square head, a widow's-peak hairline, strong level brows and a dimpled square chin. Full body, head to feet, front view, standing upright with shoulders back, arms relaxed, wearing a faded yellow football jersey, navy shorts, plain socks, scuffed football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, a low hairline that dips at the centre between wavy black locks falling forward over the forehead, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A lean boy with a pear-shaped head, wavy locks over a low dipping hairline, a long faintly hooked nose and big ears. Full body, head to feet, front view, standing relaxed with his weight on one leg, wearing a white football jersey with a torn collar, faded blue shorts, socks of two different shades, worn football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\", \"A real 11-year-old Malayali boy from Malabar, Kerala, fair skin with a warm wheat undertone, natural texture and tiny blemishes, not pale, not pink, a child's proportions, no adult face, an M-shaped hairline, black hair cropped close with a faint shaved line above the left ear, dark brown eyes, ordinary village features, Malayali (Kerala, South India) face, no European features, no East-Asian features, no blond hair. A small wiry boy with a heart-shaped head, an M-shaped hairline, a small upturned nose and a chipped-tooth grin. Full body, head to feet, front view, standing on the balls of his feet with knees slightly bent as if about to sprint, wearing a faded orange football jersey, short green shorts, thin socks, light worn football boots. Plain light-grey seamless backdrop, flat even soft light. arms and wrists bare, no sacred thread, no mauli, no thread tied on the body, no bracelets, no jewellery, shot like a documentary still, natural skin texture with no smoothing, soft honest lighting, shallow depth of field, subtle film grain, true-to-life colour\"], \"text\": \"\", \"split\": \"line\", \"expand\": true, \"trim\": true, \"skipEmpty\": true, \"cap\": 200, \"wiredAt\": \"after\"}"
+   },
+   "color": "#1d1d1d",
+   "bgcolor": "#2a2a2a"
+  },
+  {
+   "id": 300,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    220
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 2
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      6
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    ""
+   ],
+   "widgets_values_named": {
+    "text": ""
+   }
+  },
+  {
+   "id": 301,
+   "type": "CLIPTextEncode",
+   "pos": [
+    760,
+    460
+   ],
+   "size": [
+    400,
+    200
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 3
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "blonde, European features, pale skin, pink skin, plastic smooth skin, beauty retouching, glamour lighting, text, watermark, extra fingers, distorted hands, adult proportions on children, heavy makeup, cartoon, 3d render, brand logos, legible printed text, visible hair on women, bare arms on women, low neckline on women, identical faces, same face repeated, symmetrical generic face, armband, sacred thread, mauli, mooli, thread tied on arm, bracelets, jewellery"
+   ],
+   "widgets_values_named": {
+    "text": "blonde, European features, pale skin, pink skin, plastic smooth skin, beauty retouching, glamour lighting, text, watermark, extra fingers, distorted hands, adult proportions on children, heavy makeup, cartoon, 3d render, brand logos, legible printed text, visible hair on women, bare arms on women, low neckline on women, identical faces, same face repeated, symmetrical generic face, armband, sacred thread, mauli, mooli, thread tied on arm, bracelets, jewellery"
+   }
+  },
+  {
+   "id": 53,
+   "type": "KSampler",
+   "pos": [
+    1120,
+    40
+   ],
+   "size": [
+    320,
+    262
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 6
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "control_after_generate",
+     "name": "control_after_generate",
+     "type": "COMBO",
+     "widget": {
+      "name": "control_after_generate"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    42,
+    "randomize",
+    10,
+    1,
+    "euler",
+    "simple",
+    1
+   ],
+   "widgets_values_named": {
+    "seed": 42,
+    "control_after_generate": "randomize",
+    "steps": 10,
+    "cfg": 1,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   }
+  },
+  {
+   "id": 54,
+   "type": "VAEDecode",
+   "pos": [
+    1480,
+    40
+   ],
+   "size": [
+    200,
+    60
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 9
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   }
+  },
+  {
+   "id": 302,
+   "type": "FameGridColorFinish",
+   "pos": [
+    1480,
+    140
+   ],
+   "size": [
+    240,
+    90
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 10
+    },
+    {
+     "localized_name": "color_strength",
+     "name": "color_strength",
+     "shape": 7,
+     "type": "FLOAT",
+     "widget": {
+      "name": "color_strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sharpen_strength",
+     "name": "sharpen_strength",
+     "shape": 7,
+     "type": "FLOAT",
+     "widget": {
+      "name": "sharpen_strength"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FameGridColorFinish"
+   },
+   "widgets_values": [
+    1,
+    0.6
+   ],
+   "widgets_values_named": {
+    "color_strength": 1,
+    "sharpen_strength": 0.6
+   }
+  },
+  {
+   "id": 29,
+   "type": "SaveImage",
+   "pos": [
+    1700,
+    40
+   ],
+   "size": [
+    320,
+    90
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 13
+    },
+    {
+     "localized_name": "filename_prefix",
+     "name": "filename_prefix",
+     "type": "STRING",
+     "widget": {
+      "name": "filename_prefix"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "ep1_face"
+   ],
+   "widgets_values_named": {
+    "filename_prefix": "krea2_char1_face"
+   }
+  }
+ ],
+ "links": [
+  [
+   1,
+   55,
+   0,
+   96,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   56,
+   0,
+   300,
+   0,
+   "CLIP"
+  ],
+  [
+   3,
+   56,
+   0,
+   301,
+   0,
+   "CLIP"
+  ],
+  [
+   4,
+   57,
+   0,
+   54,
+   1,
+   "VAE"
+  ],
+  [
+   5,
+   97,
+   0,
+   53,
+   0,
+   "MODEL"
+  ],
+  [
+   6,
+   300,
+   0,
+   53,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   7,
+   301,
+   0,
+   53,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   82,
+   0,
+   53,
+   3,
+   "LATENT"
+  ],
+  [
+   9,
+   53,
+   0,
+   54,
+   0,
+   "LATENT"
+  ],
+  [
+   10,
+   54,
+   0,
+   302,
+   0,
+   "IMAGE"
+  ],
+  [
+   11,
+   200,
+   0,
+   300,
+   1,
+   "STRING"
+  ],
+  [
+   12,
+   96,
+   0,
+   97,
+   0,
+   "MODEL"
+  ],
+  [
+   13,
+   302,
+   0,
+   29,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 1.0812131309509285,
+   "offset": [
+    540.664033864482,
+    4.61666128503083
+   ]
+  }
+ },
+ "version": 0.4
+}
