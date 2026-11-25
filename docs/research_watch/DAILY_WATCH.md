@@ -13,6 +13,43 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-25
+
+**Sources:** Reddit ✅ 25 posts at 50+ (top-week HTML tier) · HF ✅ 2 trending + 0 top-downloads + 3 datasets · Civitai ✅ 0 (all boards quiet in window) · X ✅ 83 IDs (all backfill — see below). **Pipeline:** the 08:00 RAG schtask did NOT run today (LastRun 11-24 08:00, result 0xC000013A = control-C; PC asleep at trigger) → manually started 09:31 IST; process live, today's daily log present, digest pending (block-buffered). Community watch ran independently and completed clean.
+
+**New relevant items (vs 11-24 baseline):**
+
+**Local-LLM tier (brain/writer/agent):**
+- **t3_1y3hzp7 (163u) — `nari-labs/Qwen3.8-27B-NariQ-GGUF`** — a NEW GGUF quant of OUR RUNNING model family (Qwen3.8-27B). **VERDICT: WATCH** — candidate for the Qwen A/B decision; current running choice = NVFP4-MTP-LOW on :8100, and no switch without an MTP check first. <https://huggingface.co/nari-labs/Qwen3.8-27B-NariQ-GGUF>
+- **t3_1y3la3q (208u) — InclusionAI `Ling-3.2-air`** — new air-class open LLM (HF trending also carries the `LingSante-3.1-flash` medical sibling, 117 likes). **VERDICT: WATCH** — brain-pool context, no action today. <https://huggingface.co/inclusionAI/Ling-3.2-air>
+- **t3_1y3l96z (136u) — Aleph Alpha `Kolibri-1.1`** — new open-model release. **VERDICT: WATCH** — brain-pool context. <https://huggingface.co/Aleph-Alpha/Kolibri-1.1>
+- **t3_1xz5tym (357u) — `tencent/Hy4-flash` HF page now trending on reddit** — continuation of the 11-17 Hy4-Flash item (324u thread): **the HF weights page is now live** — last week's brain-pool candidate has landed. **VERDICT: CHECK FOR GGUF QUANTS before considering; no action for the running rig.** <https://huggingface.co/tencent/Hy4-flash>
+- **t3_1y3eb0r (173u) — "Community standards: contributing to llama.cpp vs …"** (r/LocalLLaMA) + **t3_1y34mos (132u) — "Yet another opinion on Inkling 2 small"** — community/opinion threads. **VERDICT: skip** (no tooling impact). <https://www.reddit.com/r/LocalLLaMA/comments/1y3eb0r/>
+- **t3_1y33jwq (120u) — "Qwen open source team threatens mutiny …"** (r/StableDiffusion) + **t3_1y3jued (79u) — "Jensen back as CEO of NVIDIA"** — industry drama/news. **VERDICT: context only.** <https://www.reddit.com/r/StableDiffusion/comments/1y33jwq/>
+- **t3_1y11zlr (69u) — "Bank liable for AI agents' mistakes"** (businessinsider) + **t3_1xyljcr (67u) — "NYC's chatbot doom-loop fines"** (r/artificial) + **t3_1y3973d (59u) — "OpenRouter drops 3 inference providers"** — legal/regulatory/ecosystem. **VERDICT: context only.** <https://www.businessinsider.com/bank-liable-ai-agents-mistakes-2026-11>
+
+**3D / depth (movie-project relevant):**
+- **t3_1y3bi5m (306u) — Apple `DepthPro2`** — new depth-estimation model. **VERDICT: WATCH for the 3D blockout route** (stadium render / Cupid3D pipeline — depth quality feeds geometry). <https://huggingface.co/apple/DepthPro2>
+- **ccore/ThreeJS-3D-Scenes-v2** (HF trending dataset) — 3D scenes dataset. **VERDICT: low priority** (geometry-layer context only). <https://huggingface.co/datasets/ccore/ThreeJS-3D-Scenes-v2>
+
+**Movie industry:**
+- **t3_1y2765i (52u) — "David Fincher defends AI" (Cliff Booth criticism, Deadline)** — the AI-film industry angle. **VERDICT: skim for movie-project context.** <https://deadline.com/2026/11/david-fincher-defends-ai-cliff-booth-criticism-1237230711/>
+
+**X accounts: backfill day again — no new content.** 83 IDs; snowflake-verified: Alissonerdx newest = 2026-07-06 (plus 2014-01 backfill), diodiogod = 2015-05, rest older. All older than this window (11-23/11-24). Cookies healthy (expire 11-27 — 2 days left).
+
+**ACTION ITEMS:**
+1. **`nari-labs/Qwen3.8-27B-NariQ-GGUF`** — watch for the Qwen A/B decision (running = NVFP4-MTP-LOW on :8100; no switch without an MTP check).
+2. **Apple DepthPro2** — watch for the 3D blockout route (stadium render).
+3. **`tencent/Hy4-flash` HF page is live** — brain-pool candidate (carried from 11-17); check GGUF availability before considering.
+4. User-side (standing): re-copy the X cookies before 2026-11-27 (expiry in 2 days).
+5. Movie (standing): tomorrow AM run = 34 env plates + 41 face anchors + 6 brand (all three queues ready; author's manual tasks tonight).
+
+**Source failures (honest):**
+- Reddit: 10 store entries carry no titles (image/video/gallery-only, raw links) — the depth tier did not enrich them this run; skipped (no verdict possible). Top un-enriched: t3_1y0vaey (372u), t3_1y3fxfu (328u), t3_1y30tgf (164u).
+- X: 83 IDs but all snowflake-verified backfill (newest 2026-07-06) — no new content in window.
+- Civitai: 0 items in-window on all boards (quiet, healthy).
+- RAG 08:00 schtask: missed today (LastRun 11-24, 0xC000013A interrupted) → manually started 09:31, process live, digest pending at entry time.
+
 ## 2026-11-17
 
 **Sources:** Reddit ✅ 55 posts at 50+ (JSON 403 all subs as usual → HTML top-page tier) · HF ✅ 13 trending + 2 top-downloads + 6 datasets · Civitai ✅ 2 comfyworkflows (1 new) · X ✅ 146 IDs (all backfill — see below). **Pipeline:** the 08:00 RAG schtask caught up at **08:40** (PC boot ~08:40, `StartWhenAvailable` working) but was STILL RUNNING at watch time (result 267009 = 0x41301 executing; block-buffered log, 2 lines) — it continued in the background; the community watch ran independently with its own fetches (no re-run needed — the task is alive, not failed).
