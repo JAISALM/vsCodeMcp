@@ -2,7 +2,7 @@
  "id": "571bef9f-f95f-4cf4-b796-88a71a211f2c",
  "revision": 0,
  "last_node_id": 302,
- "last_link_id": 16,
+ "last_link_id": 18,
  "nodes": [
   {
    "id": 55,
@@ -52,7 +52,7 @@
     "Node name for S&R": "UNETLoader"
    },
    "widgets_values": [
-    "krea2_turbo_fp8_scaled.safetensors",
+    "krea2_raw_bf16.safetensors",
     "default"
    ],
    "widgets_values_named": {
@@ -168,7 +168,7 @@
     "Node name for S&R": "VAELoader"
    },
    "widgets_values": [
-    "qwen_image_vae.safetensors"
+    "wan_2.1_vae.pth"
    ],
    "widgets_values_named": {
     "vae_name": "qwen_image_vae.safetensors"
@@ -282,7 +282,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      5
+      17
      ]
     }
    ],
@@ -662,7 +662,7 @@
      "localized_name": "model",
      "name": "model",
      "type": "MODEL",
-     "link": 5
+     "link": 18
     },
     {
      "localized_name": "positive",
@@ -762,10 +762,10 @@
    "widgets_values": [
     42,
     "randomize",
-    10,
-    1,
+    16,
+    2.5,
     "euler",
-    "simple",
+    "bong_tangent",
     0.5
    ],
    "widgets_values_named": {
@@ -1033,6 +1033,68 @@
     "Node name for S&R": "VAEEncode"
    },
    "widgets_values": []
+  },
+  {
+   "id": 42,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    400,
+    300
+   ],
+   "size": [
+    320,
+    82
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 17
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      18
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "krea2_turbo_lora_rank_64_bf16.safetensors",
+    0.45
+   ],
+   "widgets_values_named": {
+    "lora_name": "Krea2_Cinematic_Artstyle.safetensors",
+    "strength_model": 0.7
+   }
   }
  ],
  "links": [
@@ -1067,14 +1129,6 @@
    54,
    1,
    "VAE"
-  ],
-  [
-   5,
-   97,
-   0,
-   53,
-   0,
-   "MODEL"
   ],
   [
    6,
@@ -1155,6 +1209,22 @@
    53,
    3,
    "LATENT"
+  ],
+  [
+   17,
+   97,
+   0,
+   42,
+   0,
+   "MODEL"
+  ],
+  [
+   18,
+   42,
+   0,
+   53,
+   0,
+   "MODEL"
   ]
  ],
  "groups": [],
