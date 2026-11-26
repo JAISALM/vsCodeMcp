@@ -13,6 +13,48 @@ the X tier, when it works, stores tweet URLs the same way). Angle-bracket
 form `<https://…>` so it survives markdown line-wrapping. Applies to all
 future blocks (10-29 and 10-30 were retro-fitted 2026-10-30).
 
+## 2026-11-26
+
+**Sources:** Reddit ✅ 106 posts at 50+ (window 11-25..11-26, HTML top-page tier) · HF ✅ 7 trending + 1 top-downloads + 5 datasets · Civitai ✅ 0 (all boards quiet in window) · X ✅ 99 IDs (all backfill — see below). **Pipeline:** the 08:00 RAG schtask MISSED (PC asleep; LastRun still 11-25 09:36) → manually started 08:11; it completed the Reddit tier (118 store items, incl. 24 from the NEW `aivideo` subreddit) then went quiet — the 08:14 `StartWhenAvailable` catch-up instance died with `0xC0000142` (DLL-init). Manual fallback `daily.py --news-only` running at entry time (15 X feeds / HF trending / Civitai / 8 X keyword searches / digest pending). Community watch skipped at 09:00 (PC asleep) → run manually ~10:05, completed clean.
+
+**New relevant items (vs 11-25 baseline):**
+
+**Local-LLM tier (brain/writer/agent):**
+- **t3_1y4va46 (262u) — "Inkling 2 mini ain't Qwen 3.8 27b"** (r/LocalLLaMA) — community debate pitting `strata-engine/Inkling-2-Mini` against OUR RUNNING model family. **VERDICT: context only** (brain-pool signal that Qwen3.8-27B is being compared at 27B-class; no tooling impact). <https://www.reddit.com/r/LocalLLaMA/comments/1y4va46/>
+- **t3_1y4mech (254u) — `prism-ml/Ternary-Bonsai-2.5-27B-GGUF`** — 27B ternary GGUF trending. **VERDICT: WATCH** (brain-pool GGUF candidate; carry-forward from 11-25 trending). <https://huggingface.co/prism-ml/Ternary-Bonsai-2.5-27B-GGUF>
+- **t3_1y42wm9 (178u) — Baidu `ERNIE-5.5-Flash-Preview`** (r/LocalLLaMA + HF page 155u). **VERDICT: WATCH** (brain pool; flash-class open LLM). <https://www.reddit.com/r/LocalLLaMA/comments/1y42wm9/>
+- **t3_1y48q6x (128u) — "Will llama.cpp adopt Strata's memory management?"** — llama.cpp is OUR LLM runtime. **VERDICT: WATCH** (memory-management change could affect the :8100 rig's VRAM behavior). <https://www.reddit.com/r/LocalLLaMA/comments/1y48q6x/>
+- **t3_1y3hzp7 (190u) — `nari-labs/Qwen3.8-27B-NariQ-GGUF`** — the 11-25 watch item now at 8,795 downloads (trending). **VERDICT: WATCH** (Qwen A/B candidate; standing rule — no switch without an MTP check first). <https://huggingface.co/nari-labs/Qwen3.8-27B-NariQ-GGUF>
+- **t3_1y3la3q (248u) — InclusionAI `Ling-3.2-air`** (HF 183 likes; `LingSante-3.1-flash` medical sibling 166) + **t3_1y3l96z (165u) — Aleph-Alpha `Kolibri-1.1`** + **t3_1y30xzl (116u) — `Aurora2-400M-A20M-QAT`**. **VERDICT: WATCH** (brain-pool context, carry-forward). <https://huggingface.co/inclusionAI/Ling-3.2-air>
+- **t3_1y33jwq (130u) — "Qwen open source team threatens mutiny"** (r/StableDiffusion) + **t3_1y3jued (97u) — "Jensen back as CEO of NVIDIA"** (r/StableDiffusion, +Variety 51u) + **t3_1y4ub37 (106u) — "Price drop: RTX 6000 MaxQ $135K / R9700…"** (r/LocalLLaMA). **VERDICT: context only** (industry drama + GPU market). <https://www.reddit.com/r/StableDiffusion/comments/1y3jued/>
+- **t3_1y050h6 (105u) — "Camoufox is gone"** (r/LocalLLaMA) — anti-detect browser project shut down. **VERDICT: skip** (no active dependency — our fetch ladder uses Playwright/Brave, not Camoufox). <https://www.reddit.com/r/LocalLLaMA/comments/1y050h6/>
+- **t3_1y465ey (339u) — LeCun post** (top of window; x.com/ylecun) + **t3_1y43859 (155u) — `baidu/ERNIE-5.5-Flash-Preview` HF** + **t3_1y59owv (55u) — "David Fincher defends AI" (Deadline, Cliff Booth criticism — carry-forward)**. **VERDICT: skim/context.** <https://x.com/ylecun/status/2124550037912920090>
+
+**3D / blockout route (movie-relevant — D269/D270):**
+- **`codepawl/cmu-mocap-glb`** (HF trending dataset) — **CMU mocap clips in GLB format** — lands exactly on the blockout route: Willie's 11-25 GLB post showed blockout imports GLB characters with motion; a public mocap-GLB set = ready-made motion references for the Jaisal/Zidhan mannequins. **VERDICT: CHECK** (candidate source for blockout character motion; small download). <https://huggingface.co/datasets/codepawl/cmu-mocap-glb>
+- **t3_1y3bi5m (323u) — Apple `DepthPro2`** (HF trending) — depth-estimation model. **VERDICT: WATCH** (depth → geometry for the blockout route; carry-forward from 11-25). <https://huggingface.co/apple/DepthPro2>
+- **`ccore/ThreeJS-3D-Scenes-v2`** (HF trending dataset) — 3D scene dataset. **VERDICT: low priority** (set-geometry context only; carry-forward). <https://huggingface.co/datasets/ccore/ThreeJS-3D-Scenes-v2>
+
+**H3 / image-model tier (movie pipeline — D270):**
+- **t3_1y3tdzk (120u) — "H3 image is a no-brainer for me nowadays"** (r/StableDiffusion) — community consensus forming around H3-Image. **VERDICT: context** (supporting signal for the D270 H3 video-stage decision). <https://www.reddit.com/r/StableDiffusion/comments/1y3tdzk/>
+- **t3_1y4xndx (90u) — `lovartai/H3-VAE-MT`** (HF) — an H3 VAE variant from Lovart. **VERDICT: WATCH** (VAE-swap candidate for the H3 rig — same thread as this morning's x_search hit @ostrisai "decoder-only finetune of the H3 Image VAE, drop-in replacement"). <https://huggingface.co/lovartai/H3-VAE-MT>
+
+**X accounts: BACKFILL DAY — no new content in window.** 99 IDs; snowflake-verified newest per account: PixelAigc ≈ 2026-10 (2121…), MaxLiu09 ≈ 2026-10 (2109…), Nekodificador ≈ 2026-04 (2042…), xieenze ≈ 2025-02 (1906…), akatz ≈ 2025-01 (1878…), Alissonerdx ≈ 2014 (429…), diodiogod ≈ 2015 (594…). All older than the 11-25..11-26 window — the watch's X tier re-surfaced old timelines (dedup will keep them out of the store). Cookies healthy but **expire TOMORROW (11-27)** — re-copy needed (see action items).
+
+**ACTION ITEMS:**
+1. **`codepawl/cmu-mocap-glb`** — check as blockout character-motion source (D269/D270 route; GLB import proven by Willie's 11-25 post).
+2. **`lovartai/H3-VAE-MT` + @ostrisai's decoder-only H3-Image VAE** — watch as H3 VAE-swap candidates (test against `wan_2.1_vae` in the i2i rig before adopting).
+3. **NariQ-GGUF** (8,795 dl) — standing watch for the Qwen A/B decision (MTP check first; running = NVFP4-MTP-LOW on :8100).
+4. **User-side (standing, URGENT):** re-copy X cookies (`auth_token` + `ct0` from Brave DevTools) — the current pair expires 2026-11-27 (TOMORROW); both X tiers (account feeds + the new keyword tier) go login-walled until then.
+5. **Movie (standing):** blockout first scene (5's ground) awaits author's green light · author's i2i rig re-queue pending (C1 first, one-by-one).
+
+**Source failures (honest):**
+- Reddit: 106 items; ~40 are raw image/video/gallery links with no title (depth tier did not enrich) — top un-enriched: t3_1y0vaey (372u), t3_1y4kxm6 (231u), t3_1y1tdvc (177u), t3_1y04s0x (174u).
+- X: 99 IDs, all snowflake-verified backfill (newest ≈ 2026-10) — no in-window content.
+- Civitai: 0 items in-window on all boards (quiet, healthy).
+- RAG 08:00 schtask: missed (PC asleep) AND the 08:14 catch-up died `0xC0000142` — manual `daily.py --news-only` fallback running; digest pending.
+- Watch Reddit CDP tier: Brave CDP :9222 DOWN (not restarted with the flag) — watch fell back to its HTML top-page tier (106 posts captured, so non-critical); CDP enrichment skipped.
+
 ## 2026-11-25
 
 **Sources:** Reddit ✅ 25 posts at 50+ (top-week HTML tier) · HF ✅ 2 trending + 0 top-downloads + 3 datasets · Civitai ✅ 0 (all boards quiet in window) · X ✅ 83 IDs (all backfill — see below). **Pipeline:** the 08:00 RAG schtask did NOT run today (LastRun 11-24 08:00, result 0xC000013A = control-C; PC asleep at trigger) → manually started 09:31 IST; process live, today's daily log present, digest pending (block-buffered). Community watch ran independently and completed clean.
