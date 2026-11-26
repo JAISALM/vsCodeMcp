@@ -1,12 +1,15 @@
-# watch_progress.ps1 — STANDING download/progress monitor (the reusable "fire")
-# Watches ANY folder + log: engine progress line (primary), folder GB (secondary), rate, stage.
-# Usage:  powershell -ExecutionPolicy Bypass -File utilities\watch_progress.ps1 [-Root D:\SomeFolder] [-Log D:\SomeFolder\log.txt] [-Pattern install_rgbmocap|Install_RGBMoCap]
+# watch_progress.ps1 - STANDING download/progress monitor (the reusable "fire")
+# PURE ASCII ONLY (Windows PowerShell 5.1 reads .ps1 as cp1252; any UTF-8 symbol breaks parsing)
+# MB/s = folder growth rate (works in EVERY stage). Engine line = % / package / ETA when the
+# engine emits a GB counter. 20 s poll; ends when the process exits.
+# Usage:  powershell -ExecutionPolicy Bypass -File utilities\watch_progress.ps1 [-Root D:\SomeFolder] [-Log D:\SomeFolder\console.log] [-Pattern install_rgbmocap|Install_RGBMoCap]
 param(
     [string]$Root = "D:\RGBMoCapInstaller",
-    [string]$Log = "D:\RGBMoCapInstaller\install_log.txt",
+    [string]$Log = "",
     [string]$Pattern = "install_rgbmocap|Install_RGBMoCap"
 )
-$prevPGB = $null; $prevTime = $null; $rate = 0.0
+if (-not $Log) { $Log = Join-Path $Root "console.log"; if (-not (Test-Path $Log)) { $Log = Join-Path $Root "install_log.txt" } }
+$prevSize = $null; $prevTime = $null; $rate = 0.0
 
 function Get-Alive {
     $procs = Get-CimInstance Win32_Process -Filter "Name='cmd.exe' OR Name='python.exe' OR Name='uv.exe' OR Name='curl.exe' OR Name='git.exe'" -ErrorAction SilentlyContinue
@@ -14,35 +17,44 @@ function Get-Alive {
 }
 
 Write-Host "=== progress: $Root ==="
-Write-Host "(engine progress line = primary; folder GB = secondary; 20 s poll; close anytime)"
+Write-Host "(MB/s = folder growth; engine line = % / package / ETA; 20 s poll; close anytime)"
 Write-Host ""
 
 while ($true) {
     $alive = [bool](Get-Alive)
-    $last = "no log yet"; $stage = ""; $prog = ""; $pGB = $null
+    $size = 0.0
+    $r = Get-ChildItem $Root -Recurse -File -ErrorAction SilentlyContinue
+    $sum = ($r | Measure-Object Length -Sum).Sum
+    if ($sum) { $size = [Math]::Round($sum / 1GB, 1) }
+    if ($prevSize -ne $null -and $prevTime -ne $null -and $size -gt 0) {
+        $dt = ((Get-Date) - $prevTime).TotalSeconds
+        if ($dt -gt 5) { $rate = [Math]::Round(($size - $prevSize) * 1024 / $dt, 1); if ($rate -lt 0) { $rate = 0.0 } }
+    }
+    $prevSize = $size
+    $prevTime = Get-Date
+    $last = "no log yet"
+    $stage = ""
+    $prog = ""
     if (Test-Path $Log) {
-        $content = Get-Content $Log
-        $last = ($content | Where-Object { $_.Trim() -ne "" } | Select-Object -Last 1).Trim()
-        $stage = (($content | Select-String "=== \d+/\d+") | Select-Object -Last 1).Line.Trim()
-        $progLine = ($content | Where-Object { $_ -match "\d{1,3}\.\d+%" } | Select-Object -Last 1).Trim()
-        if ($progLine) {
-            $prog = $progLine
-            if ($prog -match "(\d+\.\d+)\s*/\s*(\d+\.\d+)\s*GB") { $pGB = [double]$Matches[1] }
+        $tail = (Get-Content $Log -Tail 1 -ErrorAction SilentlyContinue)
+        if ($tail) {
+            $chunks = @($tail -split "`r" | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" })
+            $last = if ($chunks.Count) { $chunks[-1] } else { "" }
+            $progLine = @($chunks | Where-Object { $_ -match "\d{1,3}\.\d+%" } | Select-Object -Last 1)
+            if ($progLine.Count) { $prog = $progLine[0] }
+            $stageLine = @($tail -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ -match "=== \d+/\d+" } | Select-Object -Last 1)
+            $stage = if ($stageLine.Count) { $stageLine[0] } else { "" }
         }
     }
-    if ($pGB -ne $null -and $prevPGB -ne $null -and (Get-Date) -gt $prevTime) {
-        $dt = ((Get-Date) - $prevTime).TotalSeconds
-        if ($dt -gt 5) { $rate = [Math]::Round(($pGB - $prevPGB) * 1024 / $dt, 1) }
-    }
-    $prevPGB = $pGB; $prevTime = Get-Date
     if ($last.Length -gt 70) { $last = $last.Substring(0, 70) + "..." }
     if ($prog.Length -gt 90) { $prog = $prog.Substring(0, 90) + "..." }
     $status = if ($alive) { "RUN" } else { "END" }
-    Write-Host ("{0}  {1,-4}  {2,9} MB/s | {3}" -f (Get-Date -Format "HH:mm:ss"), $status, $rate, $(if ($prog) { $prog } else { $last }))
+    $main = if ($prog) { $prog } else { $last }
+    Write-Host ("{0}  {1,-4}  {2,8} MB/s  {3,6} GB | {4}" -f (Get-Date -Format "HH:mm:ss"), $status, $rate, $size, $main)
     if ($stage) { Write-Host ("      stage: {0}" -f $stage) }
     if (-not $alive) {
         Write-Host ""
-        Write-Host "=== process ENDED — check log tail ==="
+        Write-Host "=== process ENDED - check the log tail for the Result list ==="
         break
     }
     Start-Sleep 20
