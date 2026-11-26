@@ -12,7 +12,9 @@
     "LocalLLaMA",
     "ComfyUI",
     "comfyui_workflows",
-    "artificial"
+    "artificial",
+    "aivideo",
+    "AI_Art"
   ],
   "reddit_limit_per_sub": 30,
   "hf": {
@@ -28,7 +30,31 @@
     "MaxLiu09",
     "diodiogod",
     "akatz_ai",
-    "Nekodificador"
+    "Nekodificador",
+    "ReflctWillie",
+    "ComfyUI",
+    "keyframe_art",
+    "MiniMax_AI",
+    "runwayml",
+    "huggingface",
+    "GoogleDeepMind"
+  ],
+  "x_search_terms": [
+    "blockout 3d",
+    "gaussian splatting",
+    "MiniMax H3",
+    "Seedance",
+    "AI short film",
+    "character LoRA",
+    "Krea AI",
+    "previs AI"
+  ],
+  "hf_search_terms": [
+    "krea",
+    "minimax",
+    "gaussian splatting",
+    "comfyui",
+    "video generation"
   ],
   "reddit_mirrors": [
     "redlib.catsarch.com",

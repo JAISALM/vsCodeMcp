@@ -408,7 +408,14 @@ def fetch_x(date, log):
                                         _k = winreg.OpenKey(
                                             winreg.HKEY_CURRENT_USER, r"Environment")
                                         _v, _t = winreg.QueryValueEx(_k, _vk)
-                                        winreg.CloseHandle(_k)
+                                        # D256 gotcha (latent here since the
+                                        # 11-19 fix landed only in
+                                        # x_browser_fetch.py): CloseHandle does
+                                        # not exist — AttributeError was
+                                        # swallowed BEFORE the assignment below
+                                        # ever ran, so the registry fallback
+                                        # silently never set the cookie.
+                                        winreg.CloseKey(_k)
                                         if _v:
                                             child_env[_vk] = _v
                                     except Exception:
@@ -622,6 +629,114 @@ def fetch_civitai(date, log):
     return out
 
 
+def _x_child_env():
+    """Child env for the X browser tier: X session cookies (process env first,
+    then the user-level registry HKCU\\Environment — long-lived / scheduled
+    contexts started before the cookies were set never inherit them) plus
+    TEMP/TMP/TMPDIR pinned into the workspace (sandbox EPERM otherwise).
+    Pattern proven 2026-11-17; D271 keyword tier reuses it."""
+    child_env = dict(os.environ)
+    child_env["PYTHONIOENCODING"] = "utf-8"
+    if sys.platform == "win32":
+        import winreg
+        for _vk in ("X_AUTH_TOKEN", "X_CT0"):
+            if not child_env.get(_vk):
+                try:
+                    _k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment")
+                    _v, _t = winreg.QueryValueEx(_k, _vk)
+                    winreg.CloseKey(_k)
+                    if _v:
+                        child_env[_vk] = _v
+                except Exception:
+                    pass
+    _temp_pin = os.path.join(ROOT, "temp")
+    os.makedirs(_temp_pin, exist_ok=True)
+    for _tk in ("TEMP", "TMP", "TMPDIR"):
+        child_env[_tk] = _temp_pin
+    return child_env
+
+
+def fetch_x_search(date, log):
+    """KEYWORD TIER (2026-11-26, D271): X 'Latest' search per configured term.
+
+    The account tier (fetch_x) only reads TIMELINES of configured authors —
+    the author's complaint: he still lurks hours on X manually for good
+    content. This reads x.com/search?q=<term>&f=live (Latest tab) through the
+    SAME proven tier as the account timeline (browser head + X_AUTH_TOKEN /
+    X_CT0 cookies via x_search_fetch.py), so results land in the store and
+    the digest like everything else.
+    """
+    terms = CFG.get("x_search_terms") or []
+    out = []
+    import subprocess
+    for i, term in enumerate(terms):
+        if i:
+            time.sleep(10)  # X search is rate-sensitive — pace it
+        try:
+            child_env = _x_child_env()
+            res = subprocess.run(
+                [r"C:\Program Files\Python310\python.exe",
+                 os.path.join(ROOT, "x_search_fetch.py"), term, "--max", "15"],
+                capture_output=True, encoding="utf-8", errors="replace",
+                timeout=420, env=child_env)
+            data = json.loads(res.stdout) if res.stdout.strip().startswith("{") else None
+            if not data:
+                log.append(f"x_search {term!r}: no JSON ({(res.stderr or '')[:120]})")
+                continue
+            if data.get("gated"):
+                log.append(f"x_search {term!r}: {data.get('note')}")
+                continue
+            slug = re.sub(r"[^a-z0-9]+", "_", term.lower()).strip("_")
+            n = 0
+            for t in data["tweets"]:
+                fn = _save_item(date, f"x_search/{slug}", t["id"],
+                                t["text"][:120].replace("\n", " "),
+                                t["url"], t["text"],
+                                {"created_at": t.get("date", ""),
+                                 "links": t.get("links", [])})
+                if fn:
+                    out.append(fn)
+                    n += 1
+            log.append(f"x_search {term!r}: {len(data['tweets'])} rendered, {n} new")
+        except Exception as e:
+            log.append(f"x_search {term!r}: {e}")
+    return out
+
+
+def fetch_hf_search(date, log):
+    """KEYWORD TIER (2026-11-26, D271): Hugging Face model search per
+    configured term (plain-HTTP API — zero walls, no cookies). Complements
+    the trending/trending-datasets tiers with topical recall."""
+    terms = CFG.get("hf_search_terms") or []
+    out = []
+    for term in terms:
+        try:
+            r = requests.get("https://huggingface.co/api/models",
+                             params={"search": term, "limit": 15},
+                             headers={"User-Agent": UA}, timeout=30)
+            items = r.json() if r.status_code == 200 else []
+            n = 0
+            for m in items[:15]:
+                mid = m.get("id", "")
+                if not mid:
+                    continue
+                fn = _save_item(date, f"hf_search/{term[:24].lower()}", mid,
+                                mid[:120], f"https://huggingface.co/{mid}",
+                                json.dumps({"downloads": m.get("downloads"),
+                                            "likes": m.get("likes"),
+                                            "lastModified": m.get("lastModified")},
+                                           default=str),
+                                {"downloads": m.get("downloads"),
+                                 "likes": m.get("likes")})
+                if fn:
+                    out.append(fn)
+                    n += 1
+            log.append(f"hf_search {term!r}: {len(items)} results, {n} new")
+        except Exception as e:
+            log.append(f"hf_search {term!r}: {e}")
+    return out
+
+
 def run(date=None):
     date = date or datetime.now().strftime("%Y-%m-%d")
     os.makedirs(LOGS, exist_ok=True)
@@ -631,6 +746,8 @@ def run(date=None):
     new += fetch_hf(date, log)
     new += fetch_civitai(date, log)
     new += fetch_x(date, log)
+    new += fetch_x_search(date, log)
+    new += fetch_hf_search(date, log)
     _save_seen(_seen())
 
     # digest
