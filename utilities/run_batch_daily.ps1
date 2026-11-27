@@ -147,6 +147,41 @@ foreach ($job in $jobs) {
   }
 }
 
+# --- Watch jobs (D228): community watch (daily) + lab watch (Mondays) ---
+# Replaces the session reminders (which only fired while a session was active).
+# Appends the consolidated DAILY_WATCH.md entry (the 11-25/11-26 miss).
+$pyWatch = "E:\comfyUi_latest\ComfyUI_windows_portable\python_embeded\python.exe"
+$dw = "D:\models\vsCodeMcp\docs\research_watch\DAILY_WATCH.md"
+$today = Get-Date -Format "yyyy-MM-dd"
+$isMonday = (Get-Date).DayOfWeek -eq "Monday"
+if (Select-String -Path $dw -Pattern ("^## {0} " -f $today) -ErrorAction SilentlyContinue) {
+  Log "[watch] DAILY_WATCH.md already has today's entry - skip watches"
+} else {
+  Log "[watch] community watch (rag\weekly_watch.py)..."
+  $sw2 = [Diagnostics.Stopwatch]::StartNew()
+  $wout = (& $pyWatch "D:\models\vsCodeMcp\rag\weekly_watch.py" 2>&1 | Out-String)
+  $wcode = $LASTEXITCODE
+  $sw2.Stop()
+  $wsummary = (($wout -split "`n" | Where-Object { $_ -match "reddit \d" } | Select-Object -First 1) -as [string])
+  Log ("[watch] community exit={0} in {1:N0}s: {2}" -f $wcode, $sw2.Elapsed.TotalSeconds, $wsummary)
+  $lfresh = $null
+  if ($isMonday) {
+    Log "[labwatch] lab watch (utilities\weekly_lab_diff.py, Mondays only)..."
+    $sw3 = [Diagnostics.Stopwatch]::StartNew()
+    $lout = (& $pyWatch "D:\models\vsCodeMcp\utilities\weekly_lab_diff.py" 2>&1 | Out-String)
+    $lcode = $LASTEXITCODE
+    $sw3.Stop()
+    $lfresh = (($lout -split "`n" | Where-Object { $_ -match "fresh items:" } | Select-Object -First 1) -as [string])
+    Log ("[labwatch] exit={0} in {1:N0}s: {2}" -f $lcode, $sw3.Elapsed.TotalSeconds, $lfresh)
+  } else {
+    Log "[labwatch] not Monday - skip (runs Mondays only)"
+  }
+  $entry = "## $today (auto - VsCodeMcp-BatchDaily)`n- community watch: $wsummary (details: rag\news\weekly_watch_$today.md)"
+  if ($isMonday) { $entry += "`n- lab watch: $lfresh (details: rag\news\lab_watch_$today.md)" }
+  Add-Content -Path $dw -Value $entry -Encoding UTF8
+  Log "[watch] DAILY_WATCH.md entry appended for $today"
+}
+
 # --- Final status (CLI list is lock-free; wrap in try) ---
 try {
   $j = (& "D:\RGBMoCapInstaller\toyxyz_RGBMocap\RGBMoCapCLI.cmd" models list --json 2>&1 | Out-String | ConvertFrom-Json)

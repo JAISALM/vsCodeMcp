@@ -1,7 +1,13 @@
 # Daily RAG watch — rolling file (D201/D202)
 
-One `## <date>` block appended per daily 09:00 IST run (reminder
-`schedule-6479d179`). Format per block: **new relevant items** (what it is +
+One `## <date>` block appended per daily run. **Mechanism change 2026-11-27:** the
+watch runs headless via the Windows task `VsCodeMcp-BatchDaily` (08:00, one by
+one after the model-download jobs) — session reminders `schedule-e309d98d` (daily
+09:00) and `schedule-7bbb5029` (Monday 10:00) are REPLACED and deleted; the
+script writes `rag/news/weekly_watch_<date>.md` and the batch appends the
+consolidated block below (the 11-25/11-26 blocks were catch-ups from store
+files — the watches ran, the consolidated append was the miss).
+Format per block: **new relevant items** (what it is +
 how it helps us) → **action items** → **source failures** (honest, one line
 each). Mondays also get the full extended weekly report
 (`docs/research_watch/<date>_weekly.md`).
@@ -1354,3 +1360,9 @@ LoRAs = 0 new (partial — NOT verified-zero) · HF top-downloads RESOLVED (3 ro
 *Carried:* LongCat-Video-Avatar Comfy port (landed 11-18 — first eval candidate, dialogue-shot route) · Qwen4 47B watch · FLUX3 gate · H3 emotion-study follow-up (micro-expression route) · Krea2 4-step retrained LoRA checkpoint · H3 tiny sliders A/B.
 
 **SOURCE FAILURES:** Reddit JSON 403 all subs (known egress-IP wall — HTML top-page tier carried it: r/StableDiffusion 7/23 · r/LocalLLaMA 12/47 · r/ComfyUI 7/25 · r/artificial 32/50 = 58 new) · r/comfyui_workflows HTML tier GATED this run (fresh-profile retry; defers to next run) · depth tier rc=1 no-JSON (rate-limit class — best-effort) · X — 0 failures (all accounts via browser head; cookies live-verified 08:05) · Civitai 0 new (partial — NOT verified-zero) · 08:00 auto-task ran to completion (pradhana + digest; 0xC000013A = post-completion control-C artifact, benign) — manual `--news-only` catch-up exit 0.
+## 2026-11-25 (catch-up — consolidated from the store file; the watch DID run, only this file was missed)
+- community watch (from `rag\news\weekly_watch_2026-11-25.md`, window 11-24): reddit 50+ = 25 posts (top: tencent/Hy4-flash 357u · apple/DepthPro2 306u · inclusionAI/Ling-3.2-air 208u · **nari-labs/Qwen3.8-27B-NariQ-GGUF 163u** (our D207 watch) · Aleph-Alpha/Kolibri-1.1 136u · qwen-opensource-team "threatens mutiny" 120u) + HF/X/Civitai sections in the store file.
+## 2026-11-26 (catch-up — consolidated from the store file; the watch DID run, only this file was missed)
+- community watch (from `rag\news\weekly_watch_2026-11-26.md`, window 11-25..11-26): reddit 50+ = 106 posts (top: ylecun X post 339u · inkling_2_mini "aint qwen 3.8 27b" 262u · **prism-ml/Ternary-Bonsai-2.5-27B-GGUF 254u** (ternary 27B — D207 class) · inclusionAI/Ling-3.2-air 248u · aivideo featured titles 254u) + HF/X/Civitai sections in the store file.
+## 2026-11-27 (auto - VsCodeMcp-BatchDaily)
+- community watch: reddit 50+: 147; hf trending: 24; hf downloads: 3; datasets: 11; civitai: 0; x: 401 (details: rag\news\weekly_watch_2026-11-27.md)
