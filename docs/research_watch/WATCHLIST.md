@@ -34,7 +34,7 @@ mentions, is added here IN THE SAME TURN (D131 commit).**
 ## Community tiers (daily watch — `fetch_news.py` + agent tiers)
 
 - **Reddit:** r/LocalLLaMA (top week), r/ComfyUI (top week — GATED 4+ days as of 11-17 → manual Brave tier), r/artificial (top week)
-- **X:** `PixelAigc`, `BennyDaBall_OG` (cookie tier — user-level env, expiry 2026-11-27 → re-copy from Brave DevTools)
+- **X:** `PixelAigc`, `BennyDaBall_OG` (cookie tier — user-level env, **cookies re-copied 2026-11-26**, verified live 11-27; X sessions last ~30 days → next refresh ~late Dec)
   - **2026-11-17 added:** `ai_hakase_` (JP ComfyUI/GenAI aggregator — posts blockout→H3 route content), `aichof21` (JP — "image-gen only" practitioner who ran the blockout→H3 route end-to-end; self-described no-Blender user)
 - **Civitai:** boards (H3/Krea2 image + workflow boards; author via browser tier)
 - **HF trending/datasets:** brain + world/dataset signals (USDCraft-10K class = geometry layer)

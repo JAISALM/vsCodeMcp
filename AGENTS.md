@@ -295,7 +295,7 @@ skipped". Fall through to the BROWSER HEAD.**
      Google blocks sign-ins in automation-flagged browsers; desktop profiles had
      no X session to copy, so the values came from DevTools: Brave on an x.com
      page, F12, Application, Cookies, `https://x.com`, copy `auth_token` +
-     `ct0`). Session expires **2026-11-27** — if X goes gated again, repeat
+     `ct0`). Session **re-copied by the author 2026-11-26** (env re-set — auth_token 40 chars / ct0 160 chars; verified live 2026-11-27: full timeline, no wall). X sessions last ~30 days, so next refresh ~late December 2026 — if X goes gated again, repeat
      that 2-minute copy and set the two user-scope env vars. (Anonymous X is
      login-walled: syndication 429, mcp engine 429, nitter mirrors dead,
      threadreader 404, browser head renders article shells without text.

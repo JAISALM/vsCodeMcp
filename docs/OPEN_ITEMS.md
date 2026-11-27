@@ -35,7 +35,7 @@ Tone: interesting Kerala news + social issues + simple-yet-effective humor.
 | 2.1 | ~~Kerala/Malayalam daily news source~~ **BUILT + LIVE (2026-11-19, D255)**: `rag/fetch_kerala.py` (manorama/news18/keralakaumudi, 51 headlines verified) → `rag/pipelines/pradhana_kerala/` — wired into the daily job | agent | **done 11-19** |
 | 2.2 | First script — **FORMULA NOW KNOWN (D257): simple solution to a problem people think about, that's NOT easy in practice** (domains: corruption/study/culture; evergreen, news = optional seasoning). Agent proposed 3 candidates (11-19) — **pick one + structure it**, we pick it up (compose/narrate/cut) | author → agent | open (you — pick from the 11-19 candidates) |
 | 2.3 | Platform name spelling: `pradhaana_prashnam` exactly? | author | open (you) |
-| 2.4 | FB/IG session cookies for a FB/IG hot-tier (same 2-min DevTools copy as X: their `session`/auth cookies) — X hot-tier already live (D256, cookies expire **2026-11-27** — re-copy then) | author | open (you, optional — X carries the "talk" layer until then) |
+| 2.4 | FB/IG session cookies for a FB/IG hot-tier (same 2-min DevTools copy as X: their `session`/auth cookies) — X hot-tier already live (D256, cookies **re-copied by author 2026-11-26** — verified live 11-27, X sessions last ~30 days → next refresh ~late Dec) | author | open (you, optional — X carries the "talk" layer until then) |
 
 ## Channel 3 — Football Talkies (EN — final, D254)
 
@@ -73,6 +73,6 @@ work (char1/char2, identity-edit v1.2). —
 | # | Item | Owner | Status |
 |---|---|---|---|
 | S.1 | Job prep from Sat 11-21 — NeetCode 1 problem/day MINIMUM (D252) | author | scheduled |
-| S.2 | X session-cookie refresh (Brave DevTools 2-min copy) — current cookies expire **2026-11-27** | author | 11-27 |
+| S.2 | X session-cookie refresh (Brave DevTools 2-min copy) — **DONE 2026-11-26** (author re-copied; verified live 11-27 full timeline). Next refresh ~late Dec (X sessions last ~30 days) | author | ~12-26 |
 | S.3 | ControlFoley TC-V2A install (after 11-24 — D228) | agent | 11-24+ |
 | S.4 | 11-24 online day: model/font downloads unblock (Arabic font if 1.2 still open) | agent | 11-24 |
