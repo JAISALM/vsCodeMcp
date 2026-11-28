@@ -2358,6 +2358,14 @@
 - **Restart (EXECUTED 11-28 13:45, author-approved):** killed + relaunched with the original cmdline (hidden window, log `session_tmp\comfy_restart_261128.log`). object_info 5145 → **5665 classes (+520)**: `RIFEInterpolation` / `Anything Everywhere` / `AnimeCadence` all LIVE, plus `MarkdownNote` came live as a bonus (one of the new packs provides it). Only the 2 core-gap classes remain missing.
 - **Status:** active.
 
+## D282 — Video/image WYSIWYG crop nodes + Krea2-vs-H3-IMAGE A/B architecture (2026-11-28, author: "there is a crop and cut node inside comfyui, lets install that" + "A/B testing with krea 2 and h3 image")
+- **Crop/cut node = `domg73/ComfyUI-LoadVideoCrop` + `domg73/ComfyUI-LoadImageCrop`** (found via the author's Reddit post 1w5qvc6, fetched with the stealth head — D279 re-proven). Installed both into the live tree 11-28 16:55 + restart (5667 classes): `LoadVideoCrop` (WYSIWYG drag/zoom crop rectangle on the Load Video preview, 8 fixed ratios 1:1→21:9, audio preserved) + `LoadImageCrop` (image sibling). Both LIVE-verified.
+- **A/B architecture (env plates, Krea2 vs H3-IMAGE):** the ONLY H3-IMAGE t2i generator available = `MinimaxH3ImageNode` in `comfy_api_nodes\nodes_minimax.py` = **PARTNER-API node** (cloud-run, spends credits, hidden `auth_token_comfy_org`/`api_key_comfy_org` inputs). The 20GB local `minimax_h3_image_pruned_int8_convrot.safetensors` + `minimax_h3_image_vae_fp16.safetensors` have NO local t2i node in the installed set (IAMCCS = video suite, Toobusy = image→latent encoder). → H3 side = partner calls; Krea2 side = local/free. **AUTH BLOCKER (11-28 17:00):** `auth_status` = `signed_in: false` + `registration_env_key_present: false` → H3 side cannot run until the author authenticates (Comfy UI login / `COMFY_API_KEY` user-env / agent-run OAuth).
+- **Pilot-first rule:** 5 representative envs (batch lines 1/5/13/26/28: stadium-rain, village-golden, fishing-dusk, coir-beach, Malabar-house) run on BOTH engines before any full 34-plate H3 batch. `enhance_prompt` OFF in round 1 (fair A/B — both engines see the identical prompt); round 2 = ON (tests the community's "cinematic support" claim). Full 34-plate H3 batch requires explicit spend re-confirm from the author.
+- **Files:** `h3image_t2i_env_pilot.json` (2 nodes, 2K 16:9, prefix `abtest/h3image/pilot`, spends_credits=true) · `krea2_t2i_env_pilot5.json` (env-cine copy, 5-row blob, prefix `abtest/krea2/pilot`, free) · `utilities\h3image_pilot5_prompts_paste.txt`. Both validated 0/0.
+- **Workflow gotcha (11-28):** native UI-format `links` are ARRAY form `[id, from_node, from_slot, to_node, to_slot, type]` — object-form links are silently dropped by the UI→API converter (node reported `required_input_missing` + `node_not_reachable_from_output` while `converted_node_count` still looked right).
+- **Status:** active (pilot awaiting author's Comfy auth + queue).
+
 
 
 
