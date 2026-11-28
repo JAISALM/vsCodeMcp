@@ -387,9 +387,12 @@ def _enrich_reddit_posts(date, log, queue):
     for _k in ("TEMP", "TMP", "TMPDIR"):
         env[_k] = _pin
     try:
-        res = subprocess.run(
+        # 2026-11-28 (D279): depth head = STEALTH head (real browser binary, own
+    # profile, own port, no automation fingerprint) — the old bundled-Chromium
+    # head (reddit_post_fetch.py) is what Reddit's 11-23 wall keys on.
+    res = subprocess.run(
             [r"C:\Program Files\Python310\python.exe",
-             os.path.join(ROOT, "reddit_post_fetch.py"),
+             os.path.join(ROOT, "stealth_post_fetch.py"),
              *[u for u in by_url], "--top", "5"],
             capture_output=True, text=True, timeout=900, encoding="utf-8",
             errors="replace", env=env)

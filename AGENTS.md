@@ -388,6 +388,19 @@ skipped". Fall through to the BROWSER HEAD.**
   `--remote-debugging-port=9222` (a running unflagged instance cannot be
   flagged in place). The shreddit post page renders top comments inline, so
   the CDP text output carries body + comments.
+  **2026-11-28 D279 (supersedes the head tier for depth): the depth head is now
+  SELF-CONTAINED** — `rag/stealth_post_fetch.py` launches the real Brave binary
+  into its OWN anonymous profile (`~\.dsh\fetch_creds\stealth_profile`) on its
+  OWN port :9223 (headed + `--start-minimized`, raw CDP, no headless mode, no
+  Playwright-launched context). Root cause of the old head's wall:
+  bundled-Chromium + old-headless fingerprint (the wall is IP × fingerprint,
+  not IP alone — the engine class gets only the softer challenge tier from the
+  same IP). `fetch_news.py` routes the depth tier through it; extraction is
+  DOM-based (shreddit lazy-loads comment bodies — raw-HTML regex is dead).
+  PROVEN 11-28: post 1y4lp35 fetched end-to-end (title + 15 comments, no
+  wall). The user's-Brave CDP tier (:9222) is now ONLY the last-resort
+  fallback for LOGIN-walled surfaces — the daily RAG never depends on the
+  user's browser state.
 - X: tier 3 = `x_browser_fetch.py` (browser head; cookie-gated → full timeline).
   **USER-ENV FALLBACK (2026-11-17):** `x_browser_fetch.py` now reads
   `X_AUTH_TOKEN`/`X_CT0` from the process env **OR** the user-level registry

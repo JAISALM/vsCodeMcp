@@ -58,9 +58,35 @@ Model root = `E:\ComfyUI_windows_portable\ComfyUI\models` (the :8188 install rea
 
 1. **Reddit LongTakeNoCuts post** → workflow saved by author (`H3-LongTakeNoCuts\` v01/v02),
    node audit done above, models present. IN ARSENAL (this doc). Only gap = the
-   `MiniMaxH3HybridLoader` swap. The post body itself: Reddit IP-walled today (engine =
-   "Prove your humanity" challenge; CDP tier down — Brave not running with the 9222 flag);
-   the workflow details came from the saved JSON instead — same content.
+   `MiniMaxH3HybridLoader` swap. **POST REACHED 11-28 13:1x via the self-contained
+   stealth head (D279 — no CDP, no user Brave, no wall):** r/StableDiffusion
+   "2 minute long 'selfie style' continuous shot w/ constant location changes &
+   dialogue", u/foxdit, 4d ago. Full thread saved
+   (`session_tmp\stealth_fetch_1y4lp35.json`). **The vlog mechanism (author's
+   future channel foundation):**
+   - **"Minimax H3 Seed Hunter v3.0"** workflow — Civitai
+     `https://civitai.com/models/2881362/minimax-h3-seed-hunter-latent-upscaler-seamless-video-continuation-dialogue-gen-tool-speedups-ref-mods`
+     · 15+ min "Making Of" tutorial
+     `https://www.youtube.com/watch?v=lKmv63AKBhY` (genning + editing + quality-loss
+     prevention).
+   - **Shot structure:** 10–15 s original shots, continuations overlapping ~5
+     frames, ~9 gens for a 2-min short.
+   - **Quality-loss mitigation (the core of the post):** (a) **camera turn-away /
+     turn-back** — end a shot turning the camera AWAY from the subject, next
+     segment turns it BACK → forces a complete character redraw at reference-sheet
+     quality (Birdman-style cut; best when camera movement is acceptable) ·
+     (b) **pinned end frame** — `<Picture 2>` = Last Frame option pins a
+     high-quality keyframe to the END of the video → the video returns to full
+     quality; for holding shots with the subject in frame long ("maintains quality
+     indefinitely") — **same mechanism family as LongTakeNoCuts v02's
+     MotionContext pinning** (prior clip frames as never-denoised rows).
+   - **Voice/dialogue (maps to our D277 dub route):** built-in voice-cloning /
+     dialogue-gen tool on the H3 model → produces audio files → load into the
+     `<Audio 1>` slot → prompt pattern
+     `<Subject 1> says the line of dialogue in <Audio 1>: <d>[English] spoken line</d>`.
+   - **Gotcha from comments:** unmarked locations mutate ("Floor S" — mark the
+     image `fully_preserved` in `retention_analysis`) · open issue: voice volume /
+     muffling when the face is not camera-facing (no spatial audio model).
 2. **Lip-sync workflow (shared 11-26, "one paid node")** → **NOT integrated** (verdict only:
    "let's integrate"). On-disk 11-28: no LatentSync repo, no `mediapipe_face_fp32`, no
    wiring. New plan (D277): the H3 mouth-mask route from the saved VFX-library workflow +
