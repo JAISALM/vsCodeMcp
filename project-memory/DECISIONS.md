@@ -2355,7 +2355,8 @@
 - **Known gap (2 classes):** `MiniMaxH3MediaLoader` + `MiniMaxH3ReferenceSplitter` — proven absent from every local pack, our core (`comfy_extras\nodes_minimax_h3.py`), and the author's `Luisacaotica/ComfyUI-MiniMaxH3Mod` repo HEAD → they ship in the AUTHOR'S NEWER ComfyUI core. Resolution options: (a) deliberate core update (separate task, needs its own verification pass), (b) rewire the 2 nodes at run-time to installed `MiniMaxH3EasyMediaLoader_SatoDive` / `MiniMaxH3EasyMediaSplitter_SatoDive` (`Minimax-H3-Latent-Continuation` pack). Default = (b) at run-time, (a) if the author wants the full author-version node set.
 - **Untouched:** the local `ComfyUI-MiniMaxH3Mod` dir is a LOOSE COPY (all files untracked, no git upstream — author dev workspace) — never overwrite it.
 - **Also verified 11-28:** the 3 mickmumpitz suite model downloads are COMPLETE (591.6 MB lora turbo v4 · 1,827.9 MB sdpose wholebody · 1,274.8 MB depth-anything-3-mono-large; no .part/.incomplete leftovers) — mickmumpitz suite fully armed.
-- **Status:** active (restart pending author's go-ahead).
+- **Restart (EXECUTED 11-28 13:45, author-approved):** killed + relaunched with the original cmdline (hidden window, log `session_tmp\comfy_restart_261128.log`). object_info 5145 → **5665 classes (+520)**: `RIFEInterpolation` / `Anything Everywhere` / `AnimeCadence` all LIVE, plus `MarkdownNote` came live as a bonus (one of the new packs provides it). Only the 2 core-gap classes remain missing.
+- **Status:** active.
 
 
 
