@@ -269,6 +269,92 @@ def fetch_reddit(date, log):
     return out
 
 
+def _depth_wall_active():
+    """True if the post-page IP wall was seen within the backoff window.
+    2026-11-28 (author: "why are we blocked and you haven't reported anything"):
+    while walled, STOP probing post pages — each probe may extend the flag
+    (the 11-23 pacing rule)."""
+    try:
+        m = json.load(open(os.path.join(ROOT, "state", "reddit_depth_walled.json")))
+        return (time.time() - m.get("at", 0)) < m.get("hours", 12) * 3600
+    except Exception:
+        return False
+
+
+def _set_depth_wall(hours=12):
+    d = os.path.join(ROOT, "state")
+    os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, "reddit_depth_walled.json"), "w") as f:
+        json.dump({"at": time.time(), "hours": hours}, f)
+
+
+def _cdp_live():
+    """Is the user's real Brave running with --remote-debugging-port=9222?
+    (the top tier — real_browser_fetch.py auto-launches Brave with the flag
+    only when NO Brave instance is running; a running unflagged instance
+    cannot be flagged in place.)"""
+    import socket
+    s = socket.socket()
+    s.settimeout(1.5)
+    try:
+        s.connect(("127.0.0.1", 9222))
+        return True
+    except Exception:
+        return False
+    finally:
+        s.close()
+
+
+def _depth_wall_markers(text):
+    low = (text or "").lower()
+    return ("whoa there" in low or "network policy" in low
+            or "prove your humanity" in low)
+
+
+def _depth_via_cdp(log, by_url, date):
+    """CDP fallback (top tier): route the depth pass through the user's real
+    logged-in Brave via :9222 (utilities\\real_browser_fetch.py). Paced 10 s
+    apart. The shreddit post page renders the top comments inline, so the
+    plain-text output carries body + comments."""
+    import subprocess
+    env = dict(os.environ)
+    env["PYTHONIOENCODING"] = "utf-8"
+    _pin = os.path.join(ROOT, "temp")
+    os.makedirs(_pin, exist_ok=True)
+    for _k in ("TEMP", "TMP", "TMPDIR"):
+        env[_k] = _pin
+    script = os.path.join(ROOT, "..", "utilities", "real_browser_fetch.py")
+    got = 0
+    for i, u in enumerate(by_url):
+        if i:
+            time.sleep(10)
+        try:
+            res = subprocess.run(
+                [r"C:\Program Files\Python310\python.exe", script, u, "--text"],
+                capture_output=True, text=True, timeout=240,
+                encoding="utf-8", errors="replace", env=env)
+        except Exception as e:
+            log.append(f"reddit CDP tier failed for {u}: {e}")
+            return
+        body = (res.stdout or "").strip()
+        if res.returncode != 0 or _depth_wall_markers(body) or len(body) < 400:
+            log.append(f"reddit CDP tier blocked/empty for {u} (rc={res.returncode}) — "
+                       f"Brave must run with --remote-debugging-port=9222 "
+                       f"(close ALL Brave windows once so the flag can attach)")
+            return
+        _sub, _pid, _sc = by_url[u]
+        safe = re.sub(r"[^A-Za-z0-9_-]", "_", _pid)[:60]
+        safe_src = re.sub(r"[^A-Za-z0-9_-]", "_", f"reddit/{_sub}")[:24]
+        fn = os.path.join(NEWS_DIR, date, f"{safe_src}_{safe}.md")
+        hdr = (f"source: reddit/{_sub}\nid: {_pid}\nurl: {u}\nfetched: {date}\n"
+               f"score: {_sc}\nenriched: true\n"
+               f"note: full text via real-browser CDP tier (post-page head tier walled 2026-11-28)")
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(f"---\n{hdr}\n---\n\n# reddit/{_sub} post {_pid}\n\n{body[:8000]}\n")
+        got += 1
+    log.append(f"reddit CDP tier (real browser): {got}/{len(by_url)} post pages fetched")
+
+
 def _enrich_reddit_posts(date, log, queue):
     """Depth tier: full body + top comments for the top-scoring new posts
     (one browser session, paced 10 s apart, stops on the first whole-IP
@@ -280,6 +366,20 @@ def _enrich_reddit_posts(date, log, queue):
     by_url = {}
     for _sub, _pid, u, _sc in queue:
         by_url[u] = (_sub, _pid, _sc)
+    walled = _depth_wall_active()
+    cdp = _cdp_live()
+    if walled and not cdp:
+        # 2026-11-28: do NOT re-probe a walled post-page surface (each probe
+        # may extend the IP flag). The list tier keeps running on its own.
+        log.append("reddit depth tier SKIPPED — post pages IP-walled (network-policy "
+                   "flag; backoff to stop re-extending the flag). next tier: real-browser "
+                   "CDP — close ALL Brave windows once (relaunches with "
+                   "--remote-debugging-port=9222) and the next run routes through it")
+        return
+    if walled and cdp:
+        # head is walled but the real browser is live — route straight through it
+        _depth_via_cdp(log, by_url, date)
+        return
     env = dict(os.environ)
     env["PYTHONIOENCODING"] = "utf-8"
     _pin = os.path.join(ROOT, "temp")
@@ -298,8 +398,17 @@ def _enrich_reddit_posts(date, log, queue):
         return
     data = json.loads(res.stdout) if res.stdout.strip().startswith("{") else None
     if not data:
-        log.append(f"reddit depth tier: no JSON (rc={res.returncode} "
-                   f"{(res.stderr or '').strip()[-200:]})")
+        if _depth_wall_markers((res.stderr or "") + (res.stdout or "")):
+            _set_depth_wall()
+            log.append(f"reddit depth tier WALLED (network-policy block on post pages) — "
+                       f"12 h backoff set. failed tier: browser head. next tier: "
+                       f"real-browser CDP (Brave --remote-debugging-port=9222). "
+                       f"raw: {(res.stderr or '').strip()[-160:]}")
+        else:
+            log.append(f"reddit depth tier: no JSON (rc={res.returncode} "
+                       f"{(res.stderr or '').strip()[-200:]})")
+        if cdp:
+            _depth_via_cdp(log, by_url, date)
         return
     enriched = 0
     for r in data.get("results") or []:
@@ -330,6 +439,17 @@ def _enrich_reddit_posts(date, log, queue):
             f.write(f"---\n{hdr}\n---\n\n# {r.get('title') or _pid}\n\n"
                     + "\n".join(lines) + "\n")
         enriched += 1
+    if enriched == 0:
+        probe = json.dumps(data.get("note", "")) + "".join(
+            (r.get("body") or "")[:300] for r in data.get("results") or [])
+        if _depth_wall_markers(probe):
+            _set_depth_wall()
+            log.append("reddit depth tier WALLED (all post pages returned the block page) — "
+                       "12 h backoff set. next tier: real-browser CDP "
+                       "(Brave --remote-debugging-port=9222)")
+            if cdp:
+                _depth_via_cdp(log, by_url, date)
+                return
     log.append(f"reddit depth tier: {enriched}/{len(queue)} top-scoring new "
                f"posts enriched with full body+comments"
                + (f" — {data['note']}" if data.get("note") else ""))

@@ -2328,6 +2328,12 @@
 - **One hard blocker:** download `mediapipe_face_fp32.safetensors` → `E:\ComfyUI_windows_portable\ComfyUI\models\detection\` (currently absent).
 - **Status:** active — integration happens when P1 dubs start (post-Dec-6 floor); the mouth-mask chain is validated (read-only) on first use.
 
+## D278 — Reddit depth tier: explicit digest reporting + 12 h backoff + auto-CDP fallback (2026-11-28, author: "why we are blocked this in the daily RAG and you haven't reported anything? i feel like the whole setup is kind of messy")
+- **The failure to report was real:** since the 11-23 escalation, the daily digest silently degraded to title/score/author (the depth-tier failures lived only in `scheduled.log`). The 11-28 partial-flag measurement: LIST pages pass (108 posts pulled this morning via the head tier) while individual POST pages stay walled ("whoa there, pardner / network policy", verified twice 11-28).
+- **Decision (implemented in `rag/fetch_news.py` `_enrich_reddit_posts`, verified 11-28):** ① wall detection (block markers in the post-fetch JSON note/stderr) → ② **12 h backoff marker** `rag/state/reddit_depth_walled.json` — while active the depth tier SKIPS (each probe may extend the IP flag — the pacing rule enforced in code, not just prose) and the digest carries the D202-compliant line (failed tier + next tier named) → ③ if the user's Brave is live on :9222 (walled marker + CDP open), the depth pass routes through **`real_browser_fetch.py` automatically** — full post bodies + comments (shreddit renders top comments inline) with no further user action.
+- **One-time user action:** close ALL Brave windows once — `real_browser_fetch.py` auto-relaunches Brave with `--remote-debugging-port=9222` (a running unflagged instance cannot be flagged in place). Until then the digest line tells the truth; nothing is probed.
+- **Status:** active. AGENTS.md tier section carries the 11-28 update.
+
 
 
 

@@ -357,6 +357,26 @@ skipped". Fall through to the BROWSER HEAD.**
   (each probe may extend the flag) — route Reddit needs through the engine or
   the CDP tier, and let the RAG's paced tiers auto-retry; the flag cools with
   time (the 11-17 cooldown pattern).
+  **2026-11-28 UPDATE (partial flag + auto-recovery, D278):** the 11-23 flag
+  PERSISTED but PARTIALLY: LIST pages pass (11-28 morning run pulled 108
+  posts via the head tier: r/StableDiffusion 15, r/artificial 45, r/aivideo
+  25, r/AI_Art 23) while individual POST pages (the depth tier) stay walled —
+  verified twice 11-28 (morning depth pass rc=21 + manual head probe = "whoa
+  there, pardner / network policy"). The daily RAG depth tier
+  (`_enrich_reddit_posts`, `rag/fetch_news.py`) now: (1) detects the wall
+  (block markers in the post-fetch JSON note / stderr), (2) sets a **12 h
+  backoff marker** (`rag/state/reddit_depth_walled.json`) — while active the
+  depth tier SKIPS (no probe → no flag re-extension) and writes the D202-
+  compliant digest line (failed tier + next tier named — the "why didn't you
+  report it" fix, author 11-28), (3) if the user's Brave is live on :9222
+  (walled marker + CDP open) it routes the depth pass through
+  **`real_browser_fetch.py` (the real browser) automatically** — the digest
+  recovers full post bodies + comments with NO further user action. One-time
+  user action to enable: **close ALL Brave windows once** —
+  `real_browser_fetch.py` auto-relaunches Brave with
+  `--remote-debugging-port=9222` (a running unflagged instance cannot be
+  flagged in place). The shreddit post page renders top comments inline, so
+  the CDP text output carries body + comments.
 - X: tier 3 = `x_browser_fetch.py` (browser head; cookie-gated → full timeline).
   **USER-ENV FALLBACK (2026-11-17):** `x_browser_fetch.py` now reads
   `X_AUTH_TOKEN`/`X_CT0` from the process env **OR** the user-level registry
