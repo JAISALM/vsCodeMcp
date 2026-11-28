@@ -2343,6 +2343,12 @@
 - **Backoff marker (`rag/state/reddit_depth_walled.json`) cleared 11-28** — depth tier probes normally again; wall detection re-sets it if a block is seen.
 - **Status:** active.
 
+## D280 — Depth tier now HARVESTS links/assets — no more "human has to dig them out" (2026-11-28, author: "lack of investigation skills from our RAG and the fetcher jobs... it always needs a human help, we need to improve from that")
+- **Gap proven 11-28:** the Seed Hunter post's Civitai link (2881362), tutorial video, and author identity (foxdit/FoxFurEssence) sat in comment text; the author had to read the thread, find the link, and download the workflow himself (`E:\minimax_workflow\production_experiments\FoxFurEssence H3 Seed Hunter v3.json`, saved 13:11). The fetcher captured prose but not the ASSETS.
+- **Decision:** `rag/link_harvest.py` — a link/asset pass wired into the depth tier (`_enrich_reddit_posts`, runs on every enriched post, zero network on the default path): (1) extract every URL from body + comments, (2) classify (civitai-model / youtube / github / huggingface / discord / other; mirror domains civitai.red/.gg handled), (3) pull model id + slug from Civitai URLs, (4) harvest @handle/u/handle mentions (author identity), (5) **cross-reference local folders** (`E:\minimax_workflow\production_experiments` + ComfyUI models root, filename-token overlap ≥2 with a ≥4-char token) → the "you already have this on disk" signal, (6) append a structured `## Assets (auto-harvested, D280)` block to the store file + digest lines naming civitai links and local matches. Optional `--resolve` for Civitai-page identity via the browser head.
+- **PROOF (11-28):** run on post 1y4lp35 → extracted the civitai model link (id 2881362 + full slug), the tutorial video, handle `foxdit`, and MATCHED the author's already-saved `FoxFurEssence H3 Seed Hunter v3.json` + 2 needed model files already on disk (latent upscaler bf16, video VAE fp16/int8-convrot).
+- **Status:** active.
+
 
 
 

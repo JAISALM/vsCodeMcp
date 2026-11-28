@@ -441,6 +441,30 @@ def _enrich_reddit_posts(date, log, queue):
         with open(fn, "w", encoding="utf-8") as f:
             f.write(f"---\n{hdr}\n---\n\n# {r.get('title') or _pid}\n\n"
                     + "\n".join(lines) + "\n")
+        # D280 (2026-11-28): link/asset harvest — the thread's actual assets
+        # (workflow/model links, author handles, already-on-disk files) are
+        # surfaced STRUCTURALLY instead of left in prose for a human to dig
+        # out (author directive: "it always needs a human help").
+        try:
+            from link_harvest import harvest_text, render_assets_md
+            _harvest_src = (r.get("body") or "") + "\n" + "\n".join(
+                (c.get("text") if isinstance(c, dict) else str(c))
+                for c in (r.get("comments") or []))
+            assets = harvest_text(_harvest_src)
+            _am = render_assets_md(assets)
+            if _am:
+                with open(fn, "a", encoding="utf-8") as f:
+                    f.write(_am)
+            if assets.get("local_matches"):
+                log.append(f"reddit depth tier: post {_pid} — thread link "
+                           f"MATCHES A FILE ALREADY ON DISK: "
+                           + ", ".join(m["file"] for m in assets["local_matches"]))
+            if assets.get("civitai_models"):
+                log.append(f"reddit depth tier: post {_pid} — civitai "
+                           f"model(s) linked: "
+                           + ", ".join(c.get("url", "?") for c in assets["civitai_models"]))
+        except Exception as _e:
+            log.append(f"reddit depth tier: link harvest failed for {_pid}: {_e}")
         enriched += 1
     if enriched == 0:
         probe = json.dumps(data.get("note", "")) + "".join(

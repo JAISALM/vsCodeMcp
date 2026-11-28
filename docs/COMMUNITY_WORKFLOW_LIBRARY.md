@@ -87,6 +87,33 @@ Model root = `E:\ComfyUI_windows_portable\ComfyUI\models` (the :8188 install rea
    - **Gotcha from comments:** unmarked locations mutate ("Floor S" — mark the
      image `fully_preserved` in `retention_analysis`) · open issue: voice volume /
      muffling when the face is not camera-facing (no spatial audio model).
+   - **AUTHOR-SAVED 11-28 13:11** (author download, name as saved):
+     `E:\minimax_workflow\production_experiments\FoxFurEssence H3 Seed Hunter v3.json`
+     (446 KB, 168 top-level + 28 subgraph nodes, 6 subgraph instances) +
+     companion screenshot `YVZDWHW5ZESDS1ZRT0K118D0R0.png`. Author identity
+     cross-confirmed: workflow embeds `skool.com/ai-filmmaking-w-foxfuressence` +
+     `youtube.com/@foxfuressence` (= u/foxdit) + the Civitai model page (the
+     embedded link uses the `civitai.red` mirror of civitai.com).
+   - **D276 AUDIT (11-28, live object_info):** most nodes live ✓ (H3 core,
+     Pixaroma, rgthree, VHS, KJ, audio chain). **GAPS:** `AnimeCadence` (pack
+     `tazmannner/ComfyUI-H3-AnimeCadence` — repo linked in the workflow) ·
+     `RIFEInterpolation` (installed `RIFE VFI` is a DIFFERENT class) ·
+     `MiniMaxH3MediaLoader` + `MiniMaxH3ReferenceSplitter` (author's H3-pack
+     version names; installed close = `MiniMaxH3EasyMediaLoader_SatoDive` /
+     `MiniMaxH3EasyMediaSplitter_SatoDive` → version mismatch, update the H3
+     pack or rewire) · `MarkdownNote` ×5 + `Note` ×1 (note/UI nodes —
+     cosmetic, `Note` is frontend-native) · `Anything Everywhere` (unknown
+     pack). **VERDICT: NOT runnable as-is** — install the AnimeCadence pack +
+     resolve the H3 media-loader version gap first. Workflow-embedded asset
+     links (harvested, 24 unique): HuggingFace `Comfy-Org/MiniMax-H3` (fl2va
+     pruned int8 convrot, ref2va pruned int8 convrot, qwen3vl nvfp4 awq,
+     audio+video VAE), `Kijai/MiniMax-H3-TAE` (taeh3),
+     `LBH-123-AI/Minimax_h3_latent_Upscaler` (3d_conv_v1),
+     `TenStrip/10Eros-Max`, `WarmBloodAban/Minimax-h3_Singularity`,
+     `silveroxides/MiniMax-H3_tests` (official releases), refmods install
+     guide (`malcolmrey/various/h3-center`). **LOCAL MATCHES (already on
+     disk):** the saved workflow itself · `latent_upscale_models\minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors`
+     · `vae\minimax_h3_video_vae_fp16.safetensors` + `vae\minimax_h3_video_vae_int8_convrot.safetensors`.
 2. **Lip-sync workflow (shared 11-26, "one paid node")** → **NOT integrated** (verdict only:
    "let's integrate"). On-disk 11-28: no LatentSync repo, no `mediapipe_face_fp32`, no
    wiring. New plan (D277): the H3 mouth-mask route from the saved VFX-library workflow +
