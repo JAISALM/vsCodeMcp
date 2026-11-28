@@ -18,6 +18,7 @@ Your job is to help the user reason about workflows, create workflows, debug the
 ## Key Paths
 
 - **Models (main path)**: `E:\ComfyUI_windows_portable\ComfyUI\models` — this is where ALL models live (checkpoints, UNET, CLIP, VAE, LoRA, MiniMax H3, Krea2, etc.). Use this path to check for model availability, NOT `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\models`.
+- **TWO-TREE GOTCHA (2026-11-28, D281):** the RUNNING ComfyUI (the `:8188` server) is the `E:\comfyUi_latest\ComfyUI_windows_portable` tree — ALL custom-node installs/updates go to ITS `custom_nodes` (123 packs). `E:\ComfyUI_windows_portable\ComfyUI\custom_nodes` (39 packs) is NOT loaded by the live server — installing there does nothing until a restart from the right tree. Find the live process via `Win32_Process` commandline match on `ComfyUI\main.py` (the PID changes across reboots — never trust a remembered PID).
 - ComfyUI (portable install, outputs/workflows): `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI`
 - Saved workflows: `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\user\default\workflows`
 - Outputs: `E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\output`

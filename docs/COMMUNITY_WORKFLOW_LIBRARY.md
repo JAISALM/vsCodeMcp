@@ -94,17 +94,32 @@ Model root = `E:\ComfyUI_windows_portable\ComfyUI\models` (the :8188 install rea
      cross-confirmed: workflow embeds `skool.com/ai-filmmaking-w-foxfuressence` +
      `youtube.com/@foxfuressence` (= u/foxdit) + the Civitai model page (the
      embedded link uses the `civitai.red` mirror of civitai.com).
-   - **D276 AUDIT (11-28, live object_info):** most nodes live ✓ (H3 core,
-     Pixaroma, rgthree, VHS, KJ, audio chain). **GAPS:** `AnimeCadence` (pack
-     `tazmannner/ComfyUI-H3-AnimeCadence` — repo linked in the workflow) ·
-     `RIFEInterpolation` (installed `RIFE VFI` is a DIFFERENT class) ·
-     `MiniMaxH3MediaLoader` + `MiniMaxH3ReferenceSplitter` (author's H3-pack
-     version names; installed close = `MiniMaxH3EasyMediaLoader_SatoDive` /
-     `MiniMaxH3EasyMediaSplitter_SatoDive` → version mismatch, update the H3
-     pack or rewire) · `MarkdownNote` ×5 + `Note` ×1 (note/UI nodes —
-     cosmetic, `Note` is frontend-native) · `Anything Everywhere` (unknown
-     pack). **VERDICT: NOT runnable as-is** — install the AnimeCadence pack +
-     resolve the H3 media-loader version gap first. Workflow-embedded asset
+    - **D276 AUDIT (11-28, live object_info):** most nodes live OK (H3 core,
+      Pixaroma, rgthree, VHS, KJ, audio chain). **INSTALL STATUS (11-28 13:50):**
+      6 packs cloned into the LIVE tree's `custom_nodes`
+      (`E:\comfyUi_latest\ComfyUI_windows_portable\ComfyUI\custom_nodes` - NOTE:
+      the running ComfyUI is THIS tree, PID 36648; `E:\ComfyUI_windows_portable`
+      is the models-only root) + deps installed + compile-verified:
+      `GACLove/ComfyUI-VFI` (-> `RIFEInterpolation`) + `chrisgoringe/cg-use-everywhere`
+      (-> `Anything Everywhere`) + `tazmannner/ComfyUI-H3-AnimeCadence` (->
+      `AnimeCadence`) + `IAMCCS/IAMCCS-nodes` + `xm6018924/BSAI-Qwen-Prompt-Enhancer`
+      + `jomakaze/ComfyUI_JomaNodes` (last three = subgraph-internal nodes per
+      `workflow_deps`). **RESTART PENDING** to register them (relaunch
+      `python_embeded\python.exe -s ComfyUI\main.py --windows-standalone-build
+      --reserve-vram 4 --disable-cuda-malloc --enable-manager` from
+      `E:\comfyUi_latest\ComfyUI_windows_portable`). **REMAINING GAP (2 classes):**
+      `MiniMaxH3MediaLoader` + `MiniMaxH3ReferenceSplitter` exist in NO local pack,
+      NOT in our core (`comfy_extras\nodes_minimax_h3.py` has
+      `MiniMaxH3ReferenceToVideo` but not these two) and NOT in the author's H3 mod
+      repo HEAD (Luisacaotica/ComfyUI-MiniMaxH3Mod, 16 py files checked) -> they
+      come from the AUTHOR'S NEWER ComfyUI core. Options: (a) deliberate ComfyUI
+      core update later, (b) rewire the 2 nodes at run-time to installed
+      `MiniMaxH3EasyMediaLoader_SatoDive` / `MiniMaxH3EasyMediaSplitter_SatoDive`
+      (`Minimax-H3-Latent-Continuation` pack). `MarkdownNote` x5 + `Note` x1 =
+      cosmetic note nodes (no pack). The installed local `ComfyUI-MiniMaxH3Mod` dir
+      is a LOOSE COPY (all files untracked, no git upstream - author dev
+      workspace, left untouched). **VERDICT after restart: runnable modulo the 2
+      core-gap classes** (rewire per option b, or defer to core update).
      links (harvested, 24 unique): HuggingFace `Comfy-Org/MiniMax-H3` (fl2va
      pruned int8 convrot, ref2va pruned int8 convrot, qwen3vl nvfp4 awq,
      audio+video VAE), `Kijai/MiniMax-H3-TAE` (taeh3),

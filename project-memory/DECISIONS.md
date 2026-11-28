@@ -2349,6 +2349,14 @@
 - **PROOF (11-28):** run on post 1y4lp35 → extracted the civitai model link (id 2881362 + full slug), the tutorial video, handle `foxdit`, and MATCHED the author's already-saved `FoxFurEssence H3 Seed Hunter v3.json` + 2 needed model files already on disk (latent upscaler bf16, video VAE fp16/int8-convrot).
 - **Status:** active.
 
+## D281 — Seed Hunter pack installs + the two-tree discovery + core-version gap (2026-11-28, author: "lets install those nodes")
+- **Two-tree discovery (CORRECTION to AGENTS.md paths):** the RUNNING ComfyUI (PID 36648, `:8188`) is `E:\comfyUi_latest\ComfyUI_windows_portable` (123 packs, python_embeded there). `E:\ComfyUI_windows_portable` is the MODELS-only root (39 packs, never the live server). All node installs go to the live tree's `custom_nodes`.
+- **Decision:** install the 6 missing packs from `workflow_deps` on the author-saved Seed Hunter file (author-approved): `GACLove/ComfyUI-VFI` (→ `RIFEInterpolation`) · `chrisgoringe/cg-use-everywhere` (→ `Anything Everywhere`) · `tazmannner/ComfyUI-H3-AnimeCadence` (→ `AnimeCadence`) · `IAMCCS/IAMCCS-nodes` · `xm6018924/BSAI-Qwen-Prompt-Enhancer` · `jomakaze/ComfyUI_JomaNodes` (last three = subgraph-internal nodes). Cloned + deps + compile-verified 11-28. **Registration requires a ComfyUI restart** (kill 36648 + relaunch `python_embeded\python.exe -s ComfyUI\main.py --windows-standalone-build --reserve-vram 4 --disable-cuda-malloc --enable-manager` from the portable root) — author's call on timing.
+- **Known gap (2 classes):** `MiniMaxH3MediaLoader` + `MiniMaxH3ReferenceSplitter` — proven absent from every local pack, our core (`comfy_extras\nodes_minimax_h3.py`), and the author's `Luisacaotica/ComfyUI-MiniMaxH3Mod` repo HEAD → they ship in the AUTHOR'S NEWER ComfyUI core. Resolution options: (a) deliberate core update (separate task, needs its own verification pass), (b) rewire the 2 nodes at run-time to installed `MiniMaxH3EasyMediaLoader_SatoDive` / `MiniMaxH3EasyMediaSplitter_SatoDive` (`Minimax-H3-Latent-Continuation` pack). Default = (b) at run-time, (a) if the author wants the full author-version node set.
+- **Untouched:** the local `ComfyUI-MiniMaxH3Mod` dir is a LOOSE COPY (all files untracked, no git upstream — author dev workspace) — never overwrite it.
+- **Also verified 11-28:** the 3 mickmumpitz suite model downloads are COMPLETE (591.6 MB lora turbo v4 · 1,827.9 MB sdpose wholebody · 1,274.8 MB depth-anything-3-mono-large; no .part/.incomplete leftovers) — mickmumpitz suite fully armed.
+- **Status:** active (restart pending author's go-ahead).
+
 
 
 
