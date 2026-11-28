@@ -1366,3 +1366,5 @@ LoRAs = 0 new (partial — NOT verified-zero) · HF top-downloads RESOLVED (3 ro
 - community watch (from `rag\news\weekly_watch_2026-11-26.md`, window 11-25..11-26): reddit 50+ = 106 posts (top: ylecun X post 339u · inkling_2_mini "aint qwen 3.8 27b" 262u · **prism-ml/Ternary-Bonsai-2.5-27B-GGUF 254u** (ternary 27B — D207 class) · inclusionAI/Ling-3.2-air 248u · aivideo featured titles 254u) + HF/X/Civitai sections in the store file.
 ## 2026-11-27 (auto - VsCodeMcp-BatchDaily)
 - community watch: reddit 50+: 147; hf trending: 24; hf downloads: 3; datasets: 11; civitai: 0; x: 401 (details: rag\news\weekly_watch_2026-11-27.md)
+## 2026-11-28 (auto - VsCodeMcp-BatchDaily)
+- community watch: reddit 50+: 74; hf trending: 13; hf downloads: 2; datasets: 5; civitai: 0; x: 179 (details: rag\news\weekly_watch_2026-11-28.md)
