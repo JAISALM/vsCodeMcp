@@ -49,6 +49,17 @@ morning session — BEFORE anything else:
 4. `StartWhenAvailable=True` is set (persisted 2026-11-15) — the task now
    auto-catches-up on next boot after a missed 08:00; the manual check above
    is still the verification tier.
+   **2026-11-28 UPDATE:** both morning tasks (`VsCodeMcp-RagDaily` +
+   `VsCodeMcp-BatchDaily`) now also carry **WakeToRun=true** (verified via
+   `schtasks /query /xml` output — NOTE: the CIM `Principal.WakeToRun`
+   property does NOT exist, the flag lives under `Settings`, so never
+   "verify" it through the CIM object; a 11-27 check that reported it true
+   was wrong). 11-28's missed 08:00 (PC asleep, no wake) was caught up by
+   manual `Start-ScheduledTask` at 09:12. Check BOTH tasks every morning
+   (lastRun + store freshness), not just RAG. Optional hardening (S4U — runs
+   even when locked / no session): run
+   `utilities\rebuild_vscode_mcp_tasks_admin.ps1` ONCE from an elevated
+   prompt (non-elevated S4U registration is refused with 0x80070005).
 5. If the task run is dead (nonzero result, no process tree): fall back to the
    proven manual pattern — `D:\models\vsCodeMcp\rag\.venv\Scripts\python.exe
    D:\models\vsCodeMcp\rag\daily.py --news-only` from an interactive session
