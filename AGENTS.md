@@ -295,6 +295,17 @@ skipped". Fall through to the BROWSER HEAD.**
     automation fingerprint (this IS the "VS Code gets it easily" tier — the
     user's genuine browser session does the work). Prereq: Brave restarted once
     WITH the flag (a running instance ignores it).
+   **PERMANENT CDP SETUP (2026-11-28, D278 permanence fix — the flag lives only
+   with a Brave process, so a one-time relaunch is NOT enough):** desktop
+   shortcut `C:\Users\user\Desktop\Work - Brave.lnk` carries
+   `--remote-debugging-port=9222 --remote-allow-origins=*` (verified) + startup
+   item `C:\Users\user\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\BraveCDP.bat`
+   (logon: if :9222 not listening, launches Brave with the flag — later
+   launches, incl. the DSH GUI's `--single-argument` ones, join the flagged
+   instance). Start-menu `C:\ProgramData\...\Start Menu\Programs\Brave.lnk`
+   needs elevation to patch (one-liner in D278). If :9222 is down anyway,
+   `real_browser_fetch.py` auto-launches a flagged instance (only when NO
+   Brave process is running).
 4. Session-cookie tier — when the wall is a LOGIN wall (not an IP wall), the
    one-time env cookie unlocks it exactly like a logged-in browser:
    - Reddit JSON → `REDDIT_SESSION_COOKIE` (already wired, tier 1).
