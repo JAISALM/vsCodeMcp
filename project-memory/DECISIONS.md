@@ -2315,6 +2315,19 @@
 - **Artifact:** `docs\SHOT_LANGUAGE_CHEATSHEET.md` (the loop + 5 questions + 30 words + FaceFix note) — the author keeps this next to him; agent-side, every shot brief arrives via this template.
 - **Status:** active.
 
+## D276 — The author-saved `E:\minimax_workflow` library = standing ARSENAL, indexed in `docs\COMMUNITY_WORKFLOW_LIBRARY.md` (2026-11-28, author: "i have kept the downloadable files / workflow json files inside the E:\minimax_workflow\production_experiments folder here" + "lets have this workflow in our armour")
+- **Decision:** every community workflow/pack under `E:\minimax_workflow\` is triaged ONCE into the arsenal index (`docs\COMMUNITY_WORKFLOW_LIBRARY.md`) — what it does, what it needs (models/packs, verified live on :8188), which Dec-6 need it maps to, and its paid-node audit. Before ANY first run: `validate_workflow` + paid-node audit (D192 — author queues).
+- **Key verified facts (11-28):** H3 models present for everything (fl2va ✓, ref2va int8 ✓ 19.5 GB, taeh3 ✓) · MotionContext family + `H3BlendLatentsByFrames` + `MiniMaxChunkFeedForward`/`MiniMaxLowVRAMAttention` + `VAEDecodeAudio` + SyncTile H3 nodes + MediaPipe face nodes + LBH latent upscaler nodes ALL LIVE on :8188 · `MiniMaxH3HybridLoader` (the LongTakeNoCuts loader) NOT live (closest = `H3RelayInternalHybridLoader`) → swap before running · `mediapipe_face_fp32.safetensors` MISSING in `models\detection` (the one hard blocker for the lip-sync route).
+- **Dec-6 asset-plan upgrades from the library:** character-image layer = H3-native sheet workflows (`character_sheet\minimaxH3CharacterSheet_v10` / `2BZ 2stage` / Qwen-image sheets) as PRIMARY (Krea2 identity-edit = face-lock fallback) · environment = 35 Krea2 plates + `consistent_environment` Refmod + `LocationOrbitSheetH3` · three-character gate = adapt `minimax_h3_sam_r2v_2char_cinematic` → 3 refs · teaser assembly = LongTakeNoCuts continuous-take mechanism · 1950 grade = `Zuanfilm_Retrolab` · period shift = `Magic Time Period Shift` · future speed = `sol_h3_weights\fasth3_4step` SANA SOL adapter.
+- **Status:** active.
+
+## D277 — P1 dub/lip-sync route = H3 MOUTH-MASK chain + our own audio; LatentSync local build SUPERSEDED (2026-11-28, author: "the lipsync workflow i shared 2 days before, have we integrated that?... you also said the verdict and said lets integrate, did we do that?")
+- **Honest status: NOT integrated** (11-26 = verdict only; on-disk proof 11-28: no LatentSync repo, no mediapipe model, no wiring).
+- **Decision:** the lip-sync mechanism = the LOCAL core of the saved `production_experiments\Library_VFX_Lip Sync and Localization_MiniMax H3 - Translate and Lip Sync.json` (VFX-library "Translate and Lip Sync"): **MediaPipe mouth mask (`mediapipe_face_fp32`) → `SetLatentNoiseMask` → H3 regenerates the MOUTH ONLY to fit a given dub → composite onto untouched frames** (all nodes verified live). The PAID block of that workflow (ElevenLabs ×4 + OpenRouterLLM claude-opus-5 — nodes live, keys absent) is DROPPED: our dub audio = author's headset dubs → RVC (D050), our translation = local Qwen :8100.
+- **The LatentSync local build (WLSL2 route, P1's original plan) is SUPERSEDED** by this H3-native mouth-mask route — the H3 model is already our video backbone (D050-compatible, keeps native ambience D041). NOT cloning LatentSync.
+- **One hard blocker:** download `mediapipe_face_fp32.safetensors` → `E:\ComfyUI_windows_portable\ComfyUI\models\detection\` (currently absent).
+- **Status:** active — integration happens when P1 dubs start (post-Dec-6 floor); the mouth-mask chain is validated (read-only) on first use.
+
 
 
 
